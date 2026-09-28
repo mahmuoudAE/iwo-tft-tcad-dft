@@ -1,0 +1,16 @@
+# HTCondor submission file: small Quantum ESPRESSO test (bcc W). PREPARED, NOT SUBMITTED.
+# Submit later from this directory on lxplus with:  condor_submit qe_test.sub
+universe                = vanilla
+executable              = run_qe_test.sh
+transfer_input_files    = w_bcc.in, W.pbe-spn-kjpaw_psl.1.0.0.UPF
+should_transfer_files   = YES
+when_to_transfer_output = ON_EXIT
+transfer_output_files   = w_bcc.out
+output                  = logs/qe_test.$(ClusterId).$(ProcId).out
+error                   = logs/qe_test.$(ClusterId).$(ProcId).err
+log                     = logs/qe_test.$(ClusterId).log
+request_cpus            = 4
+request_memory          = 8000
+request_disk            = 5000000
++JobFlavour             = "espresso"
+queue 1

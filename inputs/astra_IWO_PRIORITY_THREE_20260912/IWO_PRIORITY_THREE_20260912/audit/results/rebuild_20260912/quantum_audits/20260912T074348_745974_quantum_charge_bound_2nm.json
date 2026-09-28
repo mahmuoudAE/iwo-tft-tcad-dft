@@ -1,0 +1,463 @@
+{
+  "run_directory": "results\\local_session_20260910\\runs\\20260912T074348_745974_quantum_charge_bound_2nm",
+  "created_utc": "2026-09-12T07:49:17.589697+00:00",
+  "status": "ACTUAL_HARD_WALL_CHARGE_BOUND_WITH_QUALIFICATIONS",
+  "errors": [],
+  "warnings": [
+    "Some last S rows satisfy the configured SP potential scale but do not mark the ordinary displayed Poisson RHS tolerance as met. This is a configured-SP-criterion diagnostic, not proof of tighter Poisson residual convergence."
+  ],
+  "hashes": {
+    "device.in": {
+      "sha256": "5cb160383317f742b702229482d1abf0781f5725b16a7f062c94d1b6f172bea7",
+      "matches_execution_manifest": true
+    },
+    "input_config.json": {
+      "sha256": "5408ae5244aac8c3e055435b99bdb8bca06bd44be2fd5bc2f323f14d1ae867d6",
+      "matches_execution_manifest": true
+    },
+    "deckbuild.out": {
+      "sha256": "8bc6ae456225c8aaabd5a495a2724ae0e062d217142b23d034b19cf572e4cdea",
+      "matches_execution_manifest": true
+    },
+    "qbound_geometry.str": {
+      "sha256": "aea20fd518f56ed2f0f4d2c28e7fd9e524995d54301823e6bfe8c5d89f1fb2cf",
+      "matches_execution_manifest": true
+    },
+    "qbound_classical.log": {
+      "sha256": "10702093cba37174b8ba14a5d6cc37a68041ea2dc68eedfb20a389763515a4eb",
+      "matches_execution_manifest": true
+    },
+    "qbound_classical_n_avg.dat": {
+      "sha256": "a5d725436d28f6d236aca7e7020305113271e166207d4aac0b6783a9309bec9e",
+      "matches_execution_manifest": true
+    },
+    "qbound_classical_n_mid.dat": {
+      "sha256": "bdca96f171ab7907b1ace7d0ca396824e3c17f23f909a76b3b9bacf6b4de1e2b",
+      "matches_execution_manifest": true
+    },
+    "qbound_classical_vd.dat": {
+      "sha256": "f642ce52bf41e09bf5de1214e60b072bcfd038f13f7aa698ddb575d4f2af0fa7",
+      "matches_execution_manifest": true
+    },
+    "qbound_classical_vs.dat": {
+      "sha256": "963e4e98815155f1371c58b9a0aa1c5680c817debdce8867b314aff1a29db797",
+      "matches_execution_manifest": true
+    },
+    "qbound_classical_vg0.str": {
+      "sha256": "68ea02bbf15ba41cf782632545e17ca2ae3606d13694bbd7d5c053a4b1791d35",
+      "matches_execution_manifest": true
+    },
+    "qbound_classical_n_y_vg0.dat": {
+      "sha256": "dcc33b22deca8948cc82222e0c746714a09b4e40d91b2d88d308e51d32a9f687",
+      "matches_execution_manifest": true
+    },
+    "qbound_classical_vg0p5.str": {
+      "sha256": "96c2aa18f52578a5696d13c4290b3d2301f5168f70e9e295243c02ce8942a2cc",
+      "matches_execution_manifest": true
+    },
+    "qbound_classical_n_y_vg0p5.dat": {
+      "sha256": "3a8d4fea0b7293a35be50b091da30c53e43a9616d1d0787cdb399e0758e1440e",
+      "matches_execution_manifest": true
+    },
+    "qbound_classical_vg1.str": {
+      "sha256": "ebc8a83b1a2f35fb75bcc038894978a78b462a086e909dc1c85e3695910460cd",
+      "matches_execution_manifest": true
+    },
+    "qbound_classical_n_y_vg1.dat": {
+      "sha256": "793496acc35c8fa2185e684127ba1d0bc37c0ecd77edf3840505a39bce1bc216",
+      "matches_execution_manifest": true
+    },
+    "qbound_classical_vg2.str": {
+      "sha256": "dbf3427702263c0debf8745aa8dd94afd64ce9d0754522f8845428c25b03eb84",
+      "matches_execution_manifest": true
+    },
+    "qbound_classical_n_y_vg2.dat": {
+      "sha256": "d4578dde8c6623bd3b80b63c05c6200afbcb248527ac44771313edd5c89c99ae",
+      "matches_execution_manifest": true
+    },
+    "qbound_classical_vg3.str": {
+      "sha256": "f331d92abb28a002b509964802c9411e8870d3aab5228abc0e19b8a8dc1a43e3",
+      "matches_execution_manifest": true
+    },
+    "qbound_classical_n_y_vg3.dat": {
+      "sha256": "da3772e0f797551bdbfb475528a738d5215a0dd029fc1ce27b2ed9c500b74ed6",
+      "matches_execution_manifest": true
+    },
+    "qbound_schrodinger.log": {
+      "sha256": "e0a3159e9df7ee0491aba100999088c5b5a22f360c60ef0b3e71c4413fdc1ea9",
+      "matches_execution_manifest": true
+    },
+    "qbound_schrodinger_n_avg.dat": {
+      "sha256": "0945e926fb789286a2301acfcca8d62b9c45f70d5872947be753fac81b9cb0fc",
+      "matches_execution_manifest": true
+    },
+    "qbound_schrodinger_n_mid.dat": {
+      "sha256": "cb8095ba36b137ac58cbedc4daa943fdc907869046d7c109766bbe38d4202f58",
+      "matches_execution_manifest": true
+    },
+    "qbound_schrodinger_vd.dat": {
+      "sha256": "f642ce52bf41e09bf5de1214e60b072bcfd038f13f7aa698ddb575d4f2af0fa7",
+      "matches_execution_manifest": true
+    },
+    "qbound_schrodinger_vs.dat": {
+      "sha256": "963e4e98815155f1371c58b9a0aa1c5680c817debdce8867b314aff1a29db797",
+      "matches_execution_manifest": true
+    },
+    "qbound_schrodinger_vg0.str": {
+      "sha256": "aa7026e681269484683de90a3b90e4a24cea02e5f6c9e056e0a7ce989fb36384",
+      "matches_execution_manifest": true
+    },
+    "qbound_schrodinger_n_y_vg0.dat": {
+      "sha256": "a2e38dcd9f777e3dbcf77a99942f6451b496ca17ad847b541c9cddf355bc12b3",
+      "matches_execution_manifest": true
+    },
+    "qbound_schrodinger_vg0p5.str": {
+      "sha256": "eb18e710411f095aa84bc03f7024a7fba23c8360a7c104087ccc810dfd4476d2",
+      "matches_execution_manifest": true
+    },
+    "qbound_schrodinger_n_y_vg0p5.dat": {
+      "sha256": "db4fd964ca2b260146f6891861ae76cb7c77a42e3fa85fed600a2aa588e2ee85",
+      "matches_execution_manifest": true
+    },
+    "qbound_schrodinger_vg1.str": {
+      "sha256": "bbe8c2601e84a9a1afe0980f46d41fd1882064396d8718e51ccc5be34d75307d",
+      "matches_execution_manifest": true
+    },
+    "qbound_schrodinger_n_y_vg1.dat": {
+      "sha256": "ce8dd66e4826e9502f1eecd91a730c2137c47690d2adc4028a39469c95623e49",
+      "matches_execution_manifest": true
+    },
+    "qbound_schrodinger_vg2.str": {
+      "sha256": "25fc35e688d4e3ead1cd1d885554d813dcfe4717960ebf86fd44ff2368226c01",
+      "matches_execution_manifest": true
+    },
+    "qbound_schrodinger_n_y_vg2.dat": {
+      "sha256": "79d1b1525ad875ab694f9eb1ac308055e7d8b15b00b62b98c5890a949818d184",
+      "matches_execution_manifest": true
+    },
+    "qbound_schrodinger_vg3.str": {
+      "sha256": "09192dca6208a5f3b1c6a8a67181aabe349d8e52f2058de64ea9166c9d91f20b",
+      "matches_execution_manifest": true
+    },
+    "qbound_schrodinger_n_y_vg3.dat": {
+      "sha256": "373985edf4a9434bc2978f12d0580a82540edadd62f8daabeed9ee87d0c36e02",
+      "matches_execution_manifest": true
+    }
+  },
+  "phases": {
+    "classical": [
+      {
+        "vg_V": 0.0,
+        "n_avg_cm3": 16280539910000.0,
+        "n_mid_cm3": 1285002072000.0,
+        "IWO_cutline": {
+          "sheet_electrons_cm2": 256604.2787000001,
+          "centroid_y_um": -0.001005007251446024,
+          "centroid_distance_from_Al2O3_nm": 1.005007251446024,
+          "original_points": 171,
+          "selected_points": 67,
+          "interface_duplicate_points": 2,
+          "density_min_cm3": 0.0,
+          "density_max_cm3": 1295920000000.0,
+          "integration": "Piecewise-linear native n(y), exact first moment; dy_um*1e-4 converts to cm. Ordered zero-length boundary jumps retained."
+        },
+        "native_named_quantum_energy_fields": []
+      },
+      {
+        "vg_V": 0.5,
+        "n_avg_cm3": 3.009095589e+18,
+        "n_mid_cm3": 2.948548795e+18,
+        "IWO_cutline": {
+          "sheet_electrons_cm2": 603230952850.0001,
+          "centroid_y_um": -0.0009447984643541098,
+          "centroid_distance_from_Al2O3_nm": 0.9447984643541097,
+          "original_points": 171,
+          "selected_points": 67,
+          "interface_duplicate_points": 2,
+          "density_min_cm3": 0.0,
+          "density_max_cm3": 3.73652e+18,
+          "integration": "Piecewise-linear native n(y), exact first moment; dy_um*1e-4 converts to cm. Ordered zero-length boundary jumps retained."
+        },
+        "native_named_quantum_energy_fields": []
+      },
+      {
+        "vg_V": 1.0,
+        "n_avg_cm3": 1.456394702e+19,
+        "n_mid_cm3": 1.346714851e+19,
+        "IWO_cutline": {
+          "sheet_electrons_cm2": 2918909823999.9956,
+          "centroid_y_um": -0.0008461874413668481,
+          "centroid_distance_from_Al2O3_nm": 0.8461874413668481,
+          "original_points": 171,
+          "selected_points": 67,
+          "interface_duplicate_points": 2,
+          "density_min_cm3": 0.0,
+          "density_max_cm3": 2.51484e+19,
+          "integration": "Piecewise-linear native n(y), exact first moment; dy_um*1e-4 converts to cm. Ordered zero-length boundary jumps retained."
+        },
+        "native_named_quantum_energy_fields": []
+      },
+      {
+        "vg_V": 2.0,
+        "n_avg_cm3": 3.928412732e+19,
+        "n_mid_cm3": 3.457819097e+19,
+        "IWO_cutline": {
+          "sheet_electrons_cm2": 7869946074499.982,
+          "centroid_y_um": -0.0007783078811989521,
+          "centroid_distance_from_Al2O3_nm": 0.7783078811989521,
+          "original_points": 171,
+          "selected_points": 67,
+          "interface_duplicate_points": 2,
+          "density_min_cm3": 0.0,
+          "density_max_cm3": 8.20748e+19,
+          "integration": "Piecewise-linear native n(y), exact first moment; dy_um*1e-4 converts to cm. Ordered zero-length boundary jumps retained."
+        },
+        "native_named_quantum_energy_fields": []
+      },
+      {
+        "vg_V": 3.0,
+        "n_avg_cm3": 6.449627904e+19,
+        "n_mid_cm3": 5.518030618e+19,
+        "IWO_cutline": {
+          "sheet_electrons_cm2": 12916764713499.967,
+          "centroid_y_um": -0.0007454371458040487,
+          "centroid_distance_from_Al2O3_nm": 0.7454371458040486,
+          "original_points": 171,
+          "selected_points": 67,
+          "interface_duplicate_points": 2,
+          "density_min_cm3": 0.0,
+          "density_max_cm3": 1.47157e+20,
+          "integration": "Piecewise-linear native n(y), exact first moment; dy_um*1e-4 converts to cm. Ordered zero-length boundary jumps retained."
+        },
+        "native_named_quantum_energy_fields": []
+      }
+    ],
+    "schrodinger": [
+      {
+        "vg_V": 0.0,
+        "n_avg_cm3": 7336882525.0,
+        "n_mid_cm3": 1281481403.0,
+        "IWO_cutline": {
+          "sheet_electrons_cm2": 129.34593351250004,
+          "centroid_y_um": -0.0010001299450339218,
+          "centroid_distance_from_Al2O3_nm": 1.0001299450339218,
+          "original_points": 171,
+          "selected_points": 67,
+          "interface_duplicate_points": 2,
+          "density_min_cm3": 1e-10,
+          "density_max_cm3": 1293490000.0,
+          "integration": "Piecewise-linear native n(y), exact first moment; dy_um*1e-4 converts to cm. Ordered zero-length boundary jumps retained."
+        },
+        "native_named_quantum_energy_fields": [
+          "E 1000 \"Conduction band energy #1\" \"eV\""
+        ]
+      },
+      {
+        "vg_V": 0.5,
+        "n_avg_cm3": 1.322915437e+17,
+        "n_mid_cm3": 2.632298889e+17,
+        "IWO_cutline": {
+          "sheet_electrons_cm2": 26548360113.442192,
+          "centroid_y_um": -0.0010002132865129926,
+          "centroid_distance_from_Al2O3_nm": 1.0002132865129927,
+          "original_points": 171,
+          "selected_points": 67,
+          "interface_duplicate_points": 2,
+          "density_min_cm3": 1e-10,
+          "density_max_cm3": 2.65686e+17,
+          "integration": "Piecewise-linear native n(y), exact first moment; dy_um*1e-4 converts to cm. Ordered zero-length boundary jumps retained."
+        },
+        "native_named_quantum_energy_fields": [
+          "E 1000 \"Conduction band energy #1\" \"eV\""
+        ]
+      },
+      {
+        "vg_V": 1.0,
+        "n_avg_cm3": 1.006691648e+19,
+        "n_mid_cm3": 2.001144579e+19,
+        "IWO_cutline": {
+          "sheet_electrons_cm2": 2016484158489.85,
+          "centroid_y_um": -0.0009941918314835165,
+          "centroid_distance_from_Al2O3_nm": 0.9941918314835165,
+          "original_points": 171,
+          "selected_points": 67,
+          "interface_duplicate_points": 2,
+          "density_min_cm3": 1e-10,
+          "density_max_cm3": 2.01348e+19,
+          "integration": "Piecewise-linear native n(y), exact first moment; dy_um*1e-4 converts to cm. Ordered zero-length boundary jumps retained."
+        },
+        "native_named_quantum_energy_fields": [
+          "E 1000 \"Conduction band energy #1\" \"eV\""
+        ]
+      },
+      {
+        "vg_V": 2.0,
+        "n_avg_cm3": 3.48894215e+19,
+        "n_mid_cm3": 6.940098267e+19,
+        "IWO_cutline": {
+          "sheet_electrons_cm2": 6987168862557.845,
+          "centroid_y_um": -0.0009793634422768033,
+          "centroid_distance_from_Al2O3_nm": 0.9793634422768033,
+          "original_points": 171,
+          "selected_points": 67,
+          "interface_duplicate_points": 2,
+          "density_min_cm3": 1e-10,
+          "density_max_cm3": 6.94053e+19,
+          "integration": "Piecewise-linear native n(y), exact first moment; dy_um*1e-4 converts to cm. Ordered zero-length boundary jumps retained."
+        },
+        "native_named_quantum_energy_fields": [
+          "E 1000 \"Conduction band energy #1\" \"eV\""
+        ]
+      },
+      {
+        "vg_V": 3.0,
+        "n_avg_cm3": 6.022746108e+19,
+        "n_mid_cm3": 1.19693691e+20,
+        "IWO_cutline": {
+          "sheet_electrons_cm2": 12060682250060.193,
+          "centroid_y_um": -0.000964627328733975,
+          "centroid_distance_from_Al2O3_nm": 0.9646273287339749,
+          "original_points": 171,
+          "selected_points": 67,
+          "interface_duplicate_points": 2,
+          "density_min_cm3": 1e-10,
+          "density_max_cm3": 1.19739e+20,
+          "integration": "Piecewise-linear native n(y), exact first moment; dy_um*1e-4 converts to cm. Ordered zero-length boundary jumps retained."
+        },
+        "native_named_quantum_energy_fields": [
+          "E 1000 \"Conduction band energy #1\" \"eV\""
+        ]
+      }
+    ]
+  },
+  "comparisons": [
+    {
+      "vg_V": 0.0,
+      "classical_sheet_cm2": 256604.2787000001,
+      "quantum_sheet_cm2": 129.34593351250004,
+      "quantum_sheet_change_percent": -99.94959322807563,
+      "classical_centroid_from_interface_nm": 1.005007251446024,
+      "quantum_centroid_from_interface_nm": 1.0001299450339218,
+      "classical_region_n_avg_cm3": 16280539910000.0,
+      "quantum_region_n_avg_cm3": 7336882525.0
+    },
+    {
+      "vg_V": 0.5,
+      "classical_sheet_cm2": 603230952850.0001,
+      "quantum_sheet_cm2": 26548360113.442192,
+      "quantum_sheet_change_percent": -95.59897250165747,
+      "classical_centroid_from_interface_nm": 0.9447984643541097,
+      "quantum_centroid_from_interface_nm": 1.0002132865129927,
+      "classical_region_n_avg_cm3": 3.009095589e+18,
+      "quantum_region_n_avg_cm3": 1.322915437e+17
+    },
+    {
+      "vg_V": 1.0,
+      "classical_sheet_cm2": 2918909823999.9956,
+      "quantum_sheet_cm2": 2016484158489.85,
+      "quantum_sheet_change_percent": -30.916531168252593,
+      "classical_centroid_from_interface_nm": 0.8461874413668481,
+      "quantum_centroid_from_interface_nm": 0.9941918314835165,
+      "classical_region_n_avg_cm3": 1.456394702e+19,
+      "quantum_region_n_avg_cm3": 1.006691648e+19
+    },
+    {
+      "vg_V": 2.0,
+      "classical_sheet_cm2": 7869946074499.982,
+      "quantum_sheet_cm2": 6987168862557.845,
+      "quantum_sheet_change_percent": -11.217068116927663,
+      "classical_centroid_from_interface_nm": 0.7783078811989521,
+      "quantum_centroid_from_interface_nm": 0.9793634422768033,
+      "classical_region_n_avg_cm3": 3.928412732e+19,
+      "quantum_region_n_avg_cm3": 3.48894215e+19
+    },
+    {
+      "vg_V": 3.0,
+      "classical_sheet_cm2": 12916764713499.967,
+      "quantum_sheet_cm2": 12060682250060.193,
+      "quantum_sheet_change_percent": -6.627684891906704,
+      "classical_centroid_from_interface_nm": 0.7454371458040486,
+      "quantum_centroid_from_interface_nm": 0.9646273287339749,
+      "classical_region_n_avg_cm3": 6.449627904e+19,
+      "quantum_region_n_avg_cm3": 6.022746108e+19
+    }
+  ],
+  "calibration_eligible": false,
+  "mesh_and_eigenstate_convergence_verified": false,
+  "interpretation": "Actual hard-wall charge-confinement diagnostic; not a transfer-current simulation or finite-barrier calibration.",
+  "engine_start_count": 1,
+  "engine_finished_count": 1,
+  "cutline_coordinates": {
+    "native_axis": "Depth from top of MATERIAL=All",
+    "depth_origin_absolute_y_um": -0.072,
+    "absolute_IWO_y_um": [
+      -0.002,
+      0.0
+    ],
+    "native_IWO_depth_um": [
+      0.06999999999999999,
+      0.072
+    ],
+    "manual_reference": "DeckBuild 5.0.10.R Users Manual printed p137: depth starts at top of selected material/occurrence"
+  },
+  "fatal_or_unresolved_solver_lines": [],
+  "SP_iteration_evidence": [
+    {
+      "vg_V": 0.0,
+      "final_outer_iteration": 1,
+      "last_S_log10_potential_update": -12.5,
+      "last_S_log10_rhs": -28.0,
+      "last_S_raw": "1 1 S -12.5* -28.0*",
+      "below_configured_SP_potential_scale": true,
+      "below_iteration_limit": true,
+      "ordinary_poisson_rhs_marked_converged": true,
+      "has_terminal_result_table": true
+    },
+    {
+      "vg_V": 0.5,
+      "final_outer_iteration": 2,
+      "last_S_log10_potential_update": -4.818,
+      "last_S_log10_rhs": -20.42,
+      "last_S_raw": "2 1 S -4.818 -20.42",
+      "below_configured_SP_potential_scale": true,
+      "below_iteration_limit": true,
+      "ordinary_poisson_rhs_marked_converged": false,
+      "has_terminal_result_table": true
+    },
+    {
+      "vg_V": 1.0,
+      "final_outer_iteration": 5,
+      "last_S_log10_potential_update": -4.847,
+      "last_S_log10_rhs": -19.39,
+      "last_S_raw": "5 1 S -4.847 -19.39",
+      "below_configured_SP_potential_scale": true,
+      "below_iteration_limit": true,
+      "ordinary_poisson_rhs_marked_converged": false,
+      "has_terminal_result_table": true
+    },
+    {
+      "vg_V": 2.0,
+      "final_outer_iteration": 6,
+      "last_S_log10_potential_update": -4.344,
+      "last_S_log10_rhs": -18.77,
+      "last_S_raw": "6 1 S -4.344 -18.77",
+      "below_configured_SP_potential_scale": true,
+      "below_iteration_limit": true,
+      "ordinary_poisson_rhs_marked_converged": false,
+      "has_terminal_result_table": true
+    },
+    {
+      "vg_V": 3.0,
+      "final_outer_iteration": 5,
+      "last_S_log10_potential_update": -4.201,
+      "last_S_log10_rhs": -18.52,
+      "last_S_raw": "5 1 S -4.201 -18.52",
+      "below_configured_SP_potential_scale": true,
+      "below_iteration_limit": true,
+      "ordinary_poisson_rhs_marked_converged": false,
+      "has_terminal_result_table": true
+    }
+  ],
+  "SP_potential_scale_pass": true,
+  "evidence_pass": true
+}

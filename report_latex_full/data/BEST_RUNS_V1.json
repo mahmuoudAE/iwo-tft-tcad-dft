@@ -1,0 +1,14 @@
+{
+  "_comment": "Final V1 runs. All use the physical structure (Air / Pd S/D / Al2O3 / HfO2 / Conductor gate) and the stepped SOLVE VSTEP/VFINAL sweep. shared_overrides apply to every thickness on top of config/iwo_material_model.yaml. per_thickness_overrides: the fitted band mobilities (declared FITTED) and, for 6.3 nm only, the DEVICE-SPECIFIC flat-band offset (Qf 8.7e10 instead of the shared 1.73e12, i.e. +0.29 V) required by that film (user request 2026-09-21: tune 6.3 nm too). The untuned 6.3 nm validation run is kept as the entry 6p3_validation. 31.8 nm excluded by the user.",
+  "shared_overrides": ["traps.fixed_interface_charge_Qf_cm2.value=1.73e12"],
+  "per_thickness_overrides": {
+    "2p0": ["thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=18.13"],
+    "6p3": ["traps.fixed_interface_charge_Qf_cm2.value=8.7e10", "thickness_laws.mu0_cm2Vs.mu_band_fitted[6.3]=11.69"],
+    "13p2": ["thickness_laws.mu0_cm2Vs.mu_band_fitted[13.2]=61.9"]
+  },
+  "2p0": {"run_id": "run_0012", "directory": "results/runs/run_0012_2p0_v2_full_stepped_final", "note": "calibrated: shared Qf + fitted mu_band 18.13; physical structure, stepped sweep (rescored under the median-floor KCL rule, see NUMERICAL_CONVERGENCE G')"},
+  "13p2": {"run_id": "run_0013", "directory": "results/runs/run_0013_13p2_v2_full_stepped_final", "note": "calibrated: shared Qf + fitted mu_band 61.9; physical structure, stepped sweep"},
+  "6p3": {"run_id": "run_0015", "directory": "results/runs/run_0015_6p3_v2_full_stepped_tuned_qf8p7e10_mu11p69", "note": "TUNED: device-specific Qf 8.7e10 (+0.29 V vs the shared value; cause NOT DETERMINED) + fitted mu_band 11.69; physical structure, stepped sweep"},
+  "6p3_validation": {"run_id": "run_0014", "thickness_nm": 6.3, "directory": "results/runs/run_0014_6p3_v2_full_stepped_validation_shared_params", "note": "VALIDATION with the shared parameters only (Qf 1.73e12, mu_band 12.4): shape reproduced, threshold -0.29 V"},
+  "31p8_excluded": {"run_ids": ["run_0006", "run_0010"], "dir_note": "excluded by the user; run_0006 (laws + shared Qf + series R): Ion -6 % but always-on baseline not reproduced; run_0010 (back-surface hypothesis) aborted in SOLVE INIT without error text."}
+}

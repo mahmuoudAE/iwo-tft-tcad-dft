@@ -1,0 +1,32 @@
+# regenerable DFT scratch (wavefunctions, charge densities)
+**/tmp/
+*.save/
+*.wfc*
+*.hdf5
+*.mix*
+*.igk*
+# large ATLAS structure/solution files
+*.str
+# archives, containers, environments
+*.tar.gz
+*.tgz
+*.zip
+*.sif
+.venv/
+__pycache__/
+# copyrighted literature (text extracts and PDFs of papers)
+inputs/papers_text/
+inputs/**/*.pdf
+references/**/*.pdf
+# bulky per-atom PDOS files and local job copies
+**/pdos/
+results_local/
+qe_workflow/cern_htcondor/jobs/gen_*/pseudo/
+# LaTeX build by-products
+*.aux
+*.log
+*.toc
+*.out.bak
+*.synctex.gz
+*.fdb_latexmk
+*.fls

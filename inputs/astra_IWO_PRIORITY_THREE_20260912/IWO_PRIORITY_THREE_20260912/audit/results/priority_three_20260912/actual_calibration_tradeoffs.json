@@ -1,0 +1,642 @@
+{
+  "status": "ACTUAL_NATIVE_CALIBRATION_TRADEOFF_AWAITING_NUMERICAL_CONTROLS",
+  "no_new_simulator_launches": true,
+  "no_rescaled_or_interpolated_simulation_data": true,
+  "fixed_original_active_mask_preserved": true,
+  "pairs": [
+    {
+      "key": "6p3",
+      "runs": [
+        {
+          "run_id": "20260912T091742_999942_extension02_charge_6p3nm",
+          "strict_native_checks_pass": true,
+          "regions": {
+            "all": {
+              "target_count": 121,
+              "linear_denominator": 121,
+              "rmse_linear_A_per_um": 1.94475389745871e-08,
+              "mean_signed_linear_residual_A_per_um": 9.208127047211687e-09,
+              "max_absolute_linear_residual_A_per_um": 5.028479780000005e-08,
+              "positive_log_denominator": 67,
+              "excluded_nonpositive_log_count": 54,
+              "positive_log_complete": false,
+              "rmse_positive_log10_decades": 1.8050965372652128,
+              "mean_positive_log10_residual": -0.5486346018411004,
+              "max_absolute_positive_log10_residual": 7.900364929836202,
+              "native_positive_count": 67,
+              "native_zero_count": 54,
+              "native_negative_count": 0
+            },
+            "active": {
+              "target_count": 56,
+              "linear_denominator": 56,
+              "rmse_linear_A_per_um": 2.858665380120972e-08,
+              "mean_signed_linear_residual_A_per_um": 1.989630096857922e-08,
+              "max_absolute_linear_residual_A_per_um": 5.028479780000005e-08,
+              "positive_log_denominator": 56,
+              "excluded_nonpositive_log_count": 0,
+              "positive_log_complete": true,
+              "rmse_positive_log10_decades": 0.06398749492403696,
+              "mean_positive_log10_residual": 0.041462939718047216,
+              "max_absolute_positive_log10_residual": 0.10032872560514239,
+              "native_positive_count": 56,
+              "native_zero_count": 0,
+              "native_negative_count": 0
+            },
+            "low_current": {
+              "target_count": 65,
+              "linear_denominator": 65,
+              "rmse_linear_A_per_um": 1.53221365575511e-13,
+              "mean_signed_linear_residual_A_per_um": -1.4586965879723392e-13,
+              "max_absolute_linear_residual_A_per_um": 2.2034490192962928e-13,
+              "positive_log_denominator": 11,
+              "excluded_nonpositive_log_count": 54,
+              "positive_log_complete": false,
+              "rmse_positive_log10_decades": 4.45259616526611,
+              "mean_positive_log10_residual": -3.5527675406876695,
+              "max_absolute_positive_log10_residual": 7.900364929836202,
+              "native_positive_count": 11,
+              "native_zero_count": 54,
+              "native_negative_count": 0
+            },
+            "subthreshold": {
+              "target_count": 12,
+              "linear_denominator": 12,
+              "rmse_linear_A_per_um": 1.2282489375322115e-10,
+              "mean_signed_linear_residual_A_per_um": -6.552412479700002e-11,
+              "max_absolute_linear_residual_A_per_um": 3.149246630000001e-10,
+              "positive_log_denominator": 12,
+              "excluded_nonpositive_log_count": 0,
+              "positive_log_complete": true,
+              "rmse_positive_log10_decades": 0.03923046562013359,
+              "mean_positive_log10_residual": -0.004127534532929911,
+              "max_absolute_positive_log10_residual": 0.09886348381554022,
+              "native_positive_count": 12,
+              "native_zero_count": 0,
+              "native_negative_count": 0
+            },
+            "on": {
+              "target_count": 44,
+              "linear_denominator": 44,
+              "rmse_linear_A_per_um": 3.225003114845498e-08,
+              "mean_signed_linear_residual_A_per_um": 2.5340435084954546e-08,
+              "max_absolute_linear_residual_A_per_um": 5.028479780000005e-08,
+              "positive_log_denominator": 44,
+              "excluded_nonpositive_log_count": 0,
+              "positive_log_complete": true,
+              "rmse_positive_log10_decades": 0.06921935146844528,
+              "mean_positive_log10_residual": 0.05389670542285916,
+              "max_absolute_positive_log10_residual": 0.10032872560514239,
+              "native_positive_count": 44,
+              "native_zero_count": 0,
+              "native_negative_count": 0
+            }
+          },
+          "endpoint": {
+            "vg_V": 3.0,
+            "measured_A_per_um": 4.03448e-07,
+            "native_signed_A_per_um": 4.45626456e-07,
+            "signed_relative_error": 0.1045449624239061,
+            "signed_error_percent": 10.45449624239061
+          },
+          "gm_secants": {
+            "middle": {
+              "gate_interval_V": [
+                1.5,
+                2.0
+              ],
+              "definition": "Secant dID/dVG from two native original gate targets, no interpolation.",
+              "native_A_per_um_per_V": 2.0429798822e-07,
+              "measured_A_per_um_per_V": 1.533106e-07,
+              "signed_error_percent": 33.25757528833624
+            },
+            "late": {
+              "gate_interval_V": [
+                2.5,
+                3.0
+              ],
+              "definition": "Secant dID/dVG from two native original gate targets, no interpolation.",
+              "native_A_per_um_per_V": 3.053083974e-07,
+              "measured_A_per_um_per_V": 3.2130999999999996e-07,
+              "signed_error_percent": -4.980113472970016
+            }
+          },
+          "first_active": {
+            "vg_V": 0.25,
+            "log10_residual_decades": -0.011727816153731752
+          },
+          "raw_evidence_sha256": {
+            "execution.json": "435cb655cb70939050a339b5946034c4f47226a9f12d89ecafe4bf2ff11e0fe3",
+            "device.in": "6527eb8f7edb58b4f4e17332aece12e8499de473020247470868724959193485",
+            "input_config.json": "2a48d6a640928b60b7cecedbd3b06a7d16e291d835fcba00e3eb6d94eea168cd",
+            "comparison_all_measurements.csv": "bad398a54471dee7728c21f2eb4f4c255875fd24bf3e96321b6c75d596aa1b65"
+          },
+          "raw_output_sha256": {
+            "bulk_acceptor.dat": "832e5feefb52b456bca98591c69fc25d566ec7d6a5784f315691dc5d5680d417",
+            "bulk_back_electrons_vg.dat": "b1d77342ec193e96391ce5fe46eab0894b2df4e05f3647fd96d1146c6463d099",
+            "bulk_donor.dat": "b389c0df4e7e0d5da09bdaae613b7a45c380164173bbe636fce1cd59d1bb9b4e",
+            "bulk_free_electrons_vg.dat": "b63881276fc3baab4a63c7e80d7c642a587c3e741543de24a01984896697ce36",
+            "bulk_front_electrons_vg.dat": "5885bc6f9a79582c5cc42b838ec4b7eda9abc67604c43aa90290f07226fb3259",
+            "bulk_ionized_acceptors_vg.dat": "2e933b2fa6bc81487270414e221cf15246c02fa762a9fa7a50ba706f5a0d825b",
+            "bulk_ionized_donors_vg.dat": "3b4a24a4b8fdfde7dc10dcfeda87a99089b07d5eded94f40ba33aa1e41d43c16",
+            "deckbuild.out": "5e09cf76f06672a2180e270c716a1895cf60ae6260e643860facc5c1f8e6bbdc",
+            "device.in": "6527eb8f7edb58b4f4e17332aece12e8499de473020247470868724959193485",
+            "electrons_vg.dat": "491c3d7aa403f3b221a8696a2d3cb7e094c4fce3de11764e5fe53437a5c21726",
+            "equilibrium.str": "0fe4d28baea026a71a88ea26973909fa8e1c9b01401faa403558c5140461813f",
+            "final.str": "09307eb931ccb552988a998461f4d09e9cdbb8ad9d3302f310ae12384dab72ec",
+            "geometry.str": "ec635380b99e53596870142eb8e152008144ba4a92d7c0704abfda4d1989dec6",
+            "idvg.dat": "61035d440da73566c0bdc871f4832512cb0c8e1ad7ee3dfb6de79663020ff057",
+            "igvg.dat": "dca84bc52603c934e49e5ba0823d798f185df04d9fb77941cf54661ae6ccc434",
+            "input_config.json": "2a48d6a640928b60b7cecedbd3b06a7d16e291d835fcba00e3eb6d94eea168cd",
+            "isvg.dat": "6cab3cc915b0ebef59e0e599e5e480923ef3e2c99da1404c33e86e417437cec6",
+            "launcher_stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "launcher_stdout.txt": "ea2ff3527865d7a9ba5028f1c6a22d61ed2c62ffa426aa2967ebea42a3d4a1cf",
+            "mobility_vg.dat": "f9bbd566da0fca5b1874df7007797b7fe4f2878733e20b71f163945bb2ed84ca",
+            "off.str": "1fc214ed9b775bdff326921c2fb47b896163fea7b5ea768702e07a4661e35284",
+            "transfer.log": "83e455aa360fce068b5459b6f410621d17ef44f40827e5391dd832538dd437e1",
+            "vdvg.dat": "154231266cde0ce3ded5060e04529f88867057ee588a6a99c5a7ea0839809830",
+            "vsvg.dat": "247fec9ef4aaccfbfd549f3172050e08e759ca861c9d93db54ede7fac2325402"
+          }
+        },
+        {
+          "run_id": "20260912T124657_803129_priority3_fit6_mu12_retry2",
+          "strict_native_checks_pass": true,
+          "regions": {
+            "all": {
+              "target_count": 121,
+              "linear_denominator": 121,
+              "rmse_linear_A_per_um": 9.953956219371693e-09,
+              "mean_signed_linear_residual_A_per_um": 4.482283659457381e-09,
+              "max_absolute_linear_residual_A_per_um": 2.7895083099999978e-08,
+              "positive_log_denominator": 67,
+              "excluded_nonpositive_log_count": 54,
+              "positive_log_complete": false,
+              "rmse_positive_log10_decades": 1.8134768110787032,
+              "mean_positive_log10_residual": -0.5828058498922205,
+              "max_absolute_positive_log10_residual": 7.900364929836202,
+              "native_positive_count": 67,
+              "native_zero_count": 54,
+              "native_negative_count": 0
+            },
+            "active": {
+              "target_count": 56,
+              "linear_denominator": 56,
+              "rmse_linear_A_per_um": 1.4631686855281039e-08,
+              "mean_signed_linear_residual_A_per_um": 9.685104357008339e-09,
+              "max_absolute_linear_residual_A_per_um": 2.7895083099999978e-08,
+              "positive_log_denominator": 56,
+              "excluded_nonpositive_log_count": 0,
+              "positive_log_complete": true,
+              "rmse_positive_log10_decades": 0.04920549217946042,
+              "mean_positive_log10_residual": 0.006716369700793764,
+              "max_absolute_positive_log10_residual": 0.08318758999894449,
+              "native_positive_count": 56,
+              "native_zero_count": 0,
+              "native_negative_count": 0
+            },
+            "low_current": {
+              "target_count": 65,
+              "linear_denominator": 65,
+              "rmse_linear_A_per_um": 1.539808726697766e-13,
+              "mean_signed_linear_residual_A_per_um": -1.4647997113831936e-13,
+              "max_absolute_linear_residual_A_per_um": 2.456843632e-13,
+              "positive_log_denominator": 11,
+              "excluded_nonpositive_log_count": 54,
+              "positive_log_complete": false,
+              "rmse_positive_log10_decades": 4.474241322825351,
+              "mean_positive_log10_residual": -3.5840098769112028,
+              "max_absolute_positive_log10_residual": 7.900364929836202,
+              "native_positive_count": 11,
+              "native_zero_count": 54,
+              "native_negative_count": 0
+            },
+            "subthreshold": {
+              "target_count": 12,
+              "linear_denominator": 12,
+              "rmse_linear_A_per_um": 2.095498804630465e-10,
+              "mean_signed_linear_residual_A_per_um": -1.2169948804441667e-10,
+              "max_absolute_linear_residual_A_per_um": 5.29467892e-10,
+              "positive_log_denominator": 12,
+              "excluded_nonpositive_log_count": 0,
+              "positive_log_complete": true,
+              "rmse_positive_log10_decades": 0.05508456042786908,
+              "mean_positive_log10_residual": -0.038888981057849215,
+              "max_absolute_positive_log10_residual": 0.08318758999894449,
+              "native_positive_count": 12,
+              "native_zero_count": 0,
+              "native_negative_count": 0
+            },
+            "on": {
+              "target_count": 44,
+              "linear_denominator": 44,
+              "rmse_linear_A_per_um": 1.6506406221323584e-08,
+              "mean_signed_linear_residual_A_per_um": 1.2359687223840913e-08,
+              "max_absolute_linear_residual_A_per_um": 2.7895083099999978e-08,
+              "positive_log_denominator": 44,
+              "excluded_nonpositive_log_count": 0,
+              "positive_log_complete": true,
+              "rmse_positive_log10_decades": 0.04747592696794918,
+              "mean_positive_log10_residual": 0.019154192634969123,
+              "max_absolute_positive_log10_residual": 0.07183184628323502,
+              "native_positive_count": 44,
+              "native_zero_count": 0,
+              "native_negative_count": 0
+            }
+          },
+          "endpoint": {
+            "vg_V": 3.0,
+            "measured_A_per_um": 4.03448e-07,
+            "native_signed_A_per_um": 4.113825418e-07,
+            "signed_relative_error": 0.01966682645594986,
+            "signed_error_percent": 1.966682645594986
+          },
+          "gm_secants": {
+            "middle": {
+              "gate_interval_V": [
+                1.5,
+                2.0
+              ],
+              "definition": "Secant dID/dVG from two native original gate targets, no interpolation.",
+              "native_A_per_um_per_V": 1.8859430814000002e-07,
+              "measured_A_per_um_per_V": 1.533106e-07,
+              "signed_error_percent": 23.014526158008653
+            },
+            "late": {
+              "gate_interval_V": [
+                2.5,
+                3.0
+              ],
+              "definition": "Secant dID/dVG from two native original gate targets, no interpolation.",
+              "native_A_per_um_per_V": 2.818559156e-07,
+              "measured_A_per_um_per_V": 3.2130999999999996e-07,
+              "signed_error_percent": -12.279133671532161
+            }
+          },
+          "first_active": {
+            "vg_V": 0.25,
+            "log10_residual_decades": -0.046489913132909066
+          },
+          "raw_evidence_sha256": {
+            "execution.json": "713a0f63b141f88b00faed82c5bd0932560e6d2e25c13065de1bf03166e96696",
+            "device.in": "af274661c5dc74d3ec57000997ab821e466fdca2872b6912e423679336b2c3a1",
+            "input_config.json": "7411cf29426cd8048dd88586359c8f6b7f22ae995cf521ca7a2ec13d71cf73d4",
+            "comparison_all_measurements.csv": "147f53922af56e484f3fb39f66adf043125437f64154de16e29c7d6eccb37b5c"
+          },
+          "raw_output_sha256": {
+            "bulk_acceptor.dat": "7b722c194d70a0d57ee21fbd024aefe97aeb7e5b8bb18da543e0c722ea1be645",
+            "bulk_back_electrons_vg.dat": "d3e22417e48b5eee22e5361d22b351204a896c71ddb6da124b9f46dbac678f4c",
+            "bulk_donor.dat": "f8cf1cf8057766d4f5d9bc72f7ad5f44ccc8784e1e53b2a140cbe9131f004521",
+            "bulk_free_electrons_vg.dat": "2b3ef3f995f8824f24673d52b3d7acdb362a6896cd2277720a83e40110a45c83",
+            "bulk_front_electrons_vg.dat": "2cb736ce1157901cd029dcc077f9fa9eda6af2e994eda59f63de497840190733",
+            "bulk_ionized_acceptors_vg.dat": "7140082113cb4cdd1c71adaa6127424a75e0082f761daf9d7ecda2d3a40b9a99",
+            "bulk_ionized_donors_vg.dat": "3b4a24a4b8fdfde7dc10dcfeda87a99089b07d5eded94f40ba33aa1e41d43c16",
+            "deckbuild.out": "25fbff98b6fe9d6054dbf3749650cbcefe5ed39ea046a7e0cca5b31bcdb9d741",
+            "device.in": "af274661c5dc74d3ec57000997ab821e466fdca2872b6912e423679336b2c3a1",
+            "electrons_vg.dat": "6d1dcd82e23c8361eb0e15e191b59491bb3797e8163c1d631b19528c124da39a",
+            "equilibrium.str": "51bbcdb89f3443cf5eec0805d5176f2207713d37088a44f1a4c22c3616b14c2d",
+            "final.str": "f34a8e0c7bafe0ea55f3b975ecd409f99b46eeeb80246e2cee106947e58e89ad",
+            "geometry.str": "93008b6efc57be79b12057ffb01b1dfb82f1d8d51835d741e1e2e9d1a878914d",
+            "idvg.dat": "58aa8132462c2b800ebe38d2c40e4b435e4ca1daf143a960bb6e32df6d0f8234",
+            "igvg.dat": "dca84bc52603c934e49e5ba0823d798f185df04d9fb77941cf54661ae6ccc434",
+            "input_config.json": "7411cf29426cd8048dd88586359c8f6b7f22ae995cf521ca7a2ec13d71cf73d4",
+            "isvg.dat": "4f81ae4b4f59f45b61576acd39b86be977a3c79d899bdc7791476d2860480383",
+            "launcher_stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "launcher_stdout.txt": "ea2ff3527865d7a9ba5028f1c6a22d61ed2c62ffa426aa2967ebea42a3d4a1cf",
+            "mobility_vg.dat": "e11603890397711dd4cc003ca6e010f571edceab77d9a60e65e335bbfdaf6347",
+            "off.str": "24709ef6602505361a423a47aa4ad3536ecdc018a3aed76c66cb9a59aba41bb0",
+            "transfer.log": "e4b3184b74004aaf222bc43afb77a2c4ff44f9b4fa9aec5b1650ff96f60d84b3",
+            "vdvg.dat": "154231266cde0ce3ded5060e04529f88867057ee588a6a99c5a7ea0839809830",
+            "vsvg.dat": "247fec9ef4aaccfbfd549f3172050e08e759ca861c9d93db54ede7fac2325402"
+          }
+        }
+      ],
+      "configuration_changes": {
+        "curves.6p3.mu_band_cm2Vs": {
+          "before": 13,
+          "after": 12.0
+        },
+        "provenance.priority_three_trial": {
+          "before": null,
+          "after": "Isolated band mobility13->12, not a rescaled simulated export. Actual native trial required; tailcapacity/width/ND and all shared/contact parameters fixed. Native-response scalar sensitivity was planning only and worsens late-gm tradeoff."
+        }
+      }
+    },
+    {
+      "key": "13p2",
+      "runs": [
+        {
+          "run_id": "20260912T090754_224585_extension02_charge_13p2nm",
+          "strict_native_checks_pass": true,
+          "regions": {
+            "all": {
+              "target_count": 121,
+              "linear_denominator": 121,
+              "rmse_linear_A_per_um": 4.209230346049207e-08,
+              "mean_signed_linear_residual_A_per_um": 2.4148861810654363e-08,
+              "max_absolute_linear_residual_A_per_um": 9.029156899999981e-08,
+              "positive_log_denominator": 75,
+              "excluded_nonpositive_log_count": 46,
+              "positive_log_complete": false,
+              "rmse_positive_log10_decades": 2.4604178126153773,
+              "mean_positive_log10_residual": -0.8700458509054861,
+              "max_absolute_positive_log10_residual": 9.816265450410581,
+              "native_positive_count": 75,
+              "native_zero_count": 46,
+              "native_negative_count": 0
+            },
+            "active": {
+              "target_count": 62,
+              "linear_denominator": 62,
+              "rmse_linear_A_per_um": 5.8803006319269325e-08,
+              "mean_signed_linear_residual_A_per_um": 4.713585330971485e-08,
+              "max_absolute_linear_residual_A_per_um": 9.029156899999981e-08,
+              "positive_log_denominator": 62,
+              "excluded_nonpositive_log_count": 0,
+              "positive_log_complete": true,
+              "rmse_positive_log10_decades": 0.053832508782790806,
+              "mean_positive_log10_residual": 0.015523025388827697,
+              "max_absolute_positive_log10_residual": 0.3358412811429261,
+              "native_positive_count": 62,
+              "native_zero_count": 0,
+              "native_negative_count": 0
+            },
+            "low_current": {
+              "target_count": 59,
+              "linear_denominator": 59,
+              "rmse_linear_A_per_um": 7.1880535949848346e-12,
+              "mean_signed_linear_residual_A_per_um": -6.959764629530676e-12,
+              "max_absolute_linear_residual_A_per_um": 1.9672970169999998e-11,
+              "positive_log_denominator": 13,
+              "excluded_nonpositive_log_count": 46,
+              "positive_log_complete": false,
+              "rmse_positive_log10_decades": 5.908562975947009,
+              "mean_positive_log10_residual": -5.0935281840014435,
+              "max_absolute_positive_log10_residual": 9.816265450410581,
+              "native_positive_count": 13,
+              "native_zero_count": 46,
+              "native_negative_count": 0
+            },
+            "subthreshold": {
+              "target_count": 10,
+              "linear_denominator": 10,
+              "rmse_linear_A_per_um": 1.2068411626193629e-09,
+              "mean_signed_linear_residual_A_per_um": 8.182972382319997e-10,
+              "max_absolute_linear_residual_A_per_um": 2.4435514699999984e-09,
+              "positive_log_denominator": 10,
+              "excluded_nonpositive_log_count": 0,
+              "positive_log_complete": true,
+              "rmse_positive_log10_decades": 0.12373402935589858,
+              "mean_positive_log10_residual": -0.01719490904002772,
+              "max_absolute_positive_log10_residual": 0.3358412811429261,
+              "native_positive_count": 10,
+              "native_zero_count": 0,
+              "native_negative_count": 0
+            },
+            "on": {
+              "target_count": 52,
+              "linear_denominator": 52,
+              "rmse_linear_A_per_um": 6.420649313849864e-08,
+              "mean_signed_linear_residual_A_per_um": 5.604307563115385e-08,
+              "max_absolute_linear_residual_A_per_um": 9.029156899999981e-08,
+              "positive_log_denominator": 52,
+              "excluded_nonpositive_log_count": 0,
+              "positive_log_complete": true,
+              "rmse_positive_log10_decades": 0.022604933901605558,
+              "mean_positive_log10_residual": 0.021814935855915277,
+              "max_absolute_positive_log10_residual": 0.031743742805759645,
+              "native_positive_count": 52,
+              "native_zero_count": 0,
+              "native_negative_count": 0
+            }
+          },
+          "endpoint": {
+            "vg_V": 3.0,
+            "measured_A_per_um": 3.07069e-06,
+            "native_signed_A_per_um": 3.136781747e-06,
+            "signed_relative_error": 0.021523418840716735,
+            "signed_error_percent": 2.1523418840716735
+          },
+          "gm_secants": {
+            "middle": {
+              "gate_interval_V": [
+                1.5,
+                2.0
+              ],
+              "definition": "Secant dID/dVG from two native original gate targets, no interpolation.",
+              "native_A_per_um_per_V": 1.4137823746000002e-06,
+              "measured_A_per_um_per_V": 1.355868e-06,
+              "signed_error_percent": 4.271387376942304
+            },
+            "late": {
+              "gate_interval_V": [
+                2.5,
+                3.0
+              ],
+              "definition": "Secant dID/dVG from two native original gate targets, no interpolation.",
+              "native_A_per_um_per_V": 1.495154932e-06,
+              "measured_A_per_um_per_V": 1.5351799999999996e-06,
+              "signed_error_percent": -2.607190557459027
+            }
+          },
+          "first_active": {
+            "vg_V": -0.05,
+            "log10_residual_decades": -0.3358412811429261
+          },
+          "raw_evidence_sha256": {
+            "execution.json": "de7e209f092f6ab26def4b1b1ed167e977d26b76c6ec1be393d8f01c7e010ceb",
+            "device.in": "f2522934aa0432f66c460cdcabf7f70a9dc2a3c637d8be2d5b93595b5399a85d",
+            "input_config.json": "27789d0147b6d30201277029edc597440f587b508733ab8626c19065215ccd58",
+            "comparison_all_measurements.csv": "9d6d0cad34994458fc19f56dcca498342406ad973f3833d1c61033ed45111f54"
+          },
+          "raw_output_sha256": {
+            "bulk_acceptor.dat": "8eecf0df894e7ab724aede8329e26f21ea0f396c8b44cf22183e861146cf995c",
+            "bulk_back_electrons_vg.dat": "07436122365f046d11985d038883b7e6ccf8578b6a915208962992bd6a8a7ae3",
+            "bulk_donor.dat": "848027ebbc721d91890ed0ea7f101c95e53b3247990711a95071e3a4269d087a",
+            "bulk_free_electrons_vg.dat": "0c567c162899532103635353b8b89f591d9feab905ddb8487fd67e61eb171bff",
+            "bulk_front_electrons_vg.dat": "a90900bd9199bbfe84301eb7753d926a8bfde200509ea0afc89161daf2794a77",
+            "bulk_ionized_acceptors_vg.dat": "197dba9474667b048ce7b078e7fb2178f7308b7a0954d31629ee37b1d0068c1c",
+            "bulk_ionized_donors_vg.dat": "3b4a24a4b8fdfde7dc10dcfeda87a99089b07d5eded94f40ba33aa1e41d43c16",
+            "deckbuild.out": "743f5b0279d1661a8afb0f643817c5b33d8b4178067a8ab0b0d39a924bee1b6f",
+            "device.in": "f2522934aa0432f66c460cdcabf7f70a9dc2a3c637d8be2d5b93595b5399a85d",
+            "electrons_vg.dat": "6e914ed51bebfc7d1ba4f8414738efa60a2c489fb691cb4bc615c076e196957d",
+            "equilibrium.str": "028d40420cc733a9df7df0f1f42c2ea89472a78c37ad7f64ed747ddf1f20f6d5",
+            "final.str": "42dd8aa0090a8da35b528986a53e31f14df4b9d9a72b7b5558a39e326c3601d5",
+            "geometry.str": "8548eb26f8ea79f3cee1cfc71dfdf36385de926d9854559743bd4cefb5b0fec5",
+            "idvg.dat": "38fc6bcca1b54cebc9bc705b3691b428194ffd90e242bc2ec74f87a0b8ad947b",
+            "igvg.dat": "dca84bc52603c934e49e5ba0823d798f185df04d9fb77941cf54661ae6ccc434",
+            "input_config.json": "27789d0147b6d30201277029edc597440f587b508733ab8626c19065215ccd58",
+            "isvg.dat": "323398392713dc0610756a88acbde613bffe376df87175d1fb56d70032c7f945",
+            "launcher_stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "launcher_stdout.txt": "ea2ff3527865d7a9ba5028f1c6a22d61ed2c62ffa426aa2967ebea42a3d4a1cf",
+            "mobility_vg.dat": "647aa865a16d1ab1b5e63f3586000e7d21628b48c21449377195ddc6442be89d",
+            "off.str": "b8a4e5b0432c533702a8c31473d2ef6e30e386980749b7cfc7523edd853abdd4",
+            "transfer.log": "14c9c6f1b6ba8007fa79c707530b6e45b91eaaf7b449a3471f998492ffedcb08",
+            "vdvg.dat": "154231266cde0ce3ded5060e04529f88867057ee588a6a99c5a7ea0839809830",
+            "vsvg.dat": "247fec9ef4aaccfbfd549f3172050e08e759ca861c9d93db54ede7fac2325402"
+          }
+        },
+        {
+          "run_id": "20260912T122359_458630_priority3_fit13_nd89",
+          "strict_native_checks_pass": true,
+          "regions": {
+            "all": {
+              "target_count": 121,
+              "linear_denominator": 121,
+              "rmse_linear_A_per_um": 4.709141579298899e-08,
+              "mean_signed_linear_residual_A_per_um": 2.7540080105477833e-08,
+              "max_absolute_linear_residual_A_per_um": 9.918340899999989e-08,
+              "positive_log_denominator": 75,
+              "excluded_nonpositive_log_count": 46,
+              "positive_log_complete": false,
+              "rmse_positive_log10_decades": 2.4022092468197966,
+              "mean_positive_log10_residual": -0.8250470173437204,
+              "max_absolute_positive_log10_residual": 9.816265450410581,
+              "native_positive_count": 75,
+              "native_zero_count": 46,
+              "native_negative_count": 0
+            },
+            "active": {
+              "target_count": 62,
+              "linear_denominator": 62,
+              "rmse_linear_A_per_um": 6.578677329228673e-08,
+              "mean_signed_linear_residual_A_per_um": 5.375413482489968e-08,
+              "max_absolute_linear_residual_A_per_um": 9.918340899999989e-08,
+              "positive_log_denominator": 62,
+              "excluded_nonpositive_log_count": 0,
+              "positive_log_complete": true,
+              "rmse_positive_log10_decades": 0.049028038946734916,
+              "mean_positive_log10_residual": 0.03254470718137122,
+              "max_absolute_positive_log10_residual": 0.16927789639411017,
+              "native_positive_count": 62,
+              "native_zero_count": 0,
+              "native_negative_count": 0
+            },
+            "low_current": {
+              "target_count": 59,
+              "linear_denominator": 59,
+              "rmse_linear_A_per_um": 7.028879392043608e-12,
+              "mean_signed_linear_residual_A_per_um": -6.892650524788717e-12,
+              "max_absolute_linear_residual_A_per_um": 1.6338251793999998e-11,
+              "positive_log_denominator": 13,
+              "excluded_nonpositive_log_count": 46,
+              "positive_log_complete": false,
+              "rmse_positive_log10_decades": 5.768926459920401,
+              "mean_positive_log10_residual": -4.915099857386465,
+              "max_absolute_positive_log10_residual": 9.816265450410581,
+              "native_positive_count": 13,
+              "native_zero_count": 46,
+              "native_negative_count": 0
+            },
+            "subthreshold": {
+              "target_count": 10,
+              "linear_denominator": 10,
+              "rmse_linear_A_per_um": 2.1793236052456546e-09,
+              "mean_signed_linear_residual_A_per_um": 1.5594158113780001e-09,
+              "max_absolute_linear_residual_A_per_um": 4.384000359999999e-09,
+              "positive_log_denominator": 10,
+              "excluded_nonpositive_log_count": 0,
+              "positive_log_complete": true,
+              "rmse_positive_log10_decades": 0.10185866303848293,
+              "mean_positive_log10_residual": 0.057973640955747106,
+              "max_absolute_positive_log10_residual": 0.16927789639411017,
+              "native_positive_count": 10,
+              "native_zero_count": 0,
+              "native_negative_count": 0
+            },
+            "on": {
+              "target_count": 52,
+              "linear_denominator": 52,
+              "rmse_linear_A_per_um": 7.18280903080004e-08,
+              "mean_signed_linear_residual_A_per_um": 6.379158078903847e-08,
+              "max_absolute_linear_residual_A_per_um": 9.918340899999989e-08,
+              "positive_log_denominator": 52,
+              "excluded_nonpositive_log_count": 0,
+              "positive_log_complete": true,
+              "rmse_positive_log10_decades": 0.029508975500230433,
+              "mean_positive_log10_residual": 0.027654527609375864,
+              "max_absolute_positive_log10_residual": 0.057127128964372886,
+              "native_positive_count": 52,
+              "native_zero_count": 0,
+              "native_negative_count": 0
+            }
+          },
+          "endpoint": {
+            "vg_V": 3.0,
+            "measured_A_per_um": 3.07069e-06,
+            "native_signed_A_per_um": 3.145992483e-06,
+            "signed_relative_error": 0.024522984410670023,
+            "signed_error_percent": 2.4522984410670023
+          },
+          "gm_secants": {
+            "middle": {
+              "gate_interval_V": [
+                1.5,
+                2.0
+              ],
+              "definition": "Secant dID/dVG from two native original gate targets, no interpolation.",
+              "native_A_per_um_per_V": 1.4146730424000003e-06,
+              "measured_A_per_um_per_V": 1.355868e-06,
+              "signed_error_percent": 4.337077237607234
+            },
+            "late": {
+              "gate_interval_V": [
+                2.5,
+                3.0
+              ],
+              "definition": "Secant dID/dVG from two native original gate targets, no interpolation.",
+              "native_A_per_um_per_V": 1.495456804e-06,
+              "measured_A_per_um_per_V": 1.5351799999999996e-06,
+              "signed_error_percent": -2.5875269349522334
+            }
+          },
+          "first_active": {
+            "vg_V": -0.05,
+            "log10_residual_decades": -0.16927789639411017
+          },
+          "raw_evidence_sha256": {
+            "execution.json": "5db789dceecaa376ac3dc9fec1b6eeffeec9971305303220f589344f7e59be8a",
+            "device.in": "a93ea5dc24a21ea3c6651f5598c5adb928aebcb79a5bf1025546ab83c51cab4d",
+            "input_config.json": "b0a9c76c0969de035ae75baa89c42622f3b685c8b5d7a08bb54248cba634b3ec",
+            "comparison_all_measurements.csv": "8408e6d5938b0f4dedc753d03430c2f6043ddc2b6d56eb9cf3984222921e5cf0"
+          },
+          "raw_output_sha256": {
+            "bulk_acceptor.dat": "8cee0398ad25c66caacd6f96f5501fd67bcff4a4bd47bb257c41e440b1a6ccef",
+            "bulk_back_electrons_vg.dat": "c338a0df7baa748f79468d4b58bc3caa29e76cc85c7f2c50f750dca5aeba79c5",
+            "bulk_donor.dat": "2ef769d565e1d2ac1404ae0c8c84a44b4b5fa930e177d433ca582dce9052fde6",
+            "bulk_free_electrons_vg.dat": "7276da7eab8f53fee0898e30860a1225d94dd7d930b608e20cb95eb433e71c54",
+            "bulk_front_electrons_vg.dat": "529443ec3589ec7666678758a0d696ff67ac3834c0c6e09831d6f1f22323aca9",
+            "bulk_ionized_acceptors_vg.dat": "e471b433137a65765277921a94ab7781e60bd6a5eedda6c7806c62cb42533300",
+            "bulk_ionized_donors_vg.dat": "3b4a24a4b8fdfde7dc10dcfeda87a99089b07d5eded94f40ba33aa1e41d43c16",
+            "deckbuild.out": "327c8d97fb5852bf5277066d72310503adb7c51cdb4d367ff87ff576e6d61780",
+            "device.in": "a93ea5dc24a21ea3c6651f5598c5adb928aebcb79a5bf1025546ab83c51cab4d",
+            "electrons_vg.dat": "adc4e8e44216fd573bfa374be3844ae8d2b18c5bc27e5f224aca9991859dc14b",
+            "equilibrium.str": "9be1f444d29f24c386b89e57a2f147c027f75c3a84e82f9016bb463bf80b66d1",
+            "final.str": "e73ab49d1d279fbe432b7820b56d2b3c9ecf2a2ab6cd2be4cc588d14368377e3",
+            "geometry.str": "d9ad630dadf8ea7d868b409e584be6ed9be7c363fe61ed40dbcfdbfc1783db29",
+            "idvg.dat": "118fbdf3100c2a06c8cc3727b2dd7be064b0ab9dc55556155454385deffcb087",
+            "igvg.dat": "dca84bc52603c934e49e5ba0823d798f185df04d9fb77941cf54661ae6ccc434",
+            "input_config.json": "b0a9c76c0969de035ae75baa89c42622f3b685c8b5d7a08bb54248cba634b3ec",
+            "isvg.dat": "d1544c746fd860dc70c3f396f025e4ff8d9aed7a113de65a0ba5aa75ff56b3d1",
+            "launcher_stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "launcher_stdout.txt": "ea2ff3527865d7a9ba5028f1c6a22d61ed2c62ffa426aa2967ebea42a3d4a1cf",
+            "mobility_vg.dat": "647aa865a16d1ab1b5e63f3586000e7d21628b48c21449377195ddc6442be89d",
+            "off.str": "0900423cad8c96204f95b1065342dc60b3b800605ca3e9190d170850199c3a97",
+            "transfer.log": "ac763b0e619924fcc945624df9a42078a9912d0ff6e9185c0abc10ef1063e1b5",
+            "vdvg.dat": "154231266cde0ce3ded5060e04529f88867057ee588a6a99c5a7ea0839809830",
+            "vsvg.dat": "247fec9ef4aaccfbfd549f3172050e08e759ca861c9d93db54ede7fac2325402"
+          }
+        }
+      ],
+      "configuration_changes": {
+        "curves.13p2.nd_cm3": {
+          "before": 8.6e+17,
+          "after": 8.9e+17
+        },
+        "provenance.priority_three_trial": {
+          "before": null,
+          "after": "Isolated shallow donor8.6e17->8.9e17. Nominal addedsheet3.96e10/cm2 gives7.085mV full-charge scale; actual response unknown. Hold tail/mobility/shared/contact inputs fixed. No measured-voltage shift is applied."
+        }
+      }
+    }
+  ]
+}

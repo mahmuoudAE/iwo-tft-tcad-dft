@@ -1,0 +1,67 @@
+{
+  "status": "INCOMPLETE",
+  "root": "C:\\Users\\moham\\Downloads\\IWO_Local_Codex_Handoff (1)\\IWO_ATLAS_Model\\deliveries\\priority_three_delivery_20260912\\audit",
+  "output_directory": "C:\\Users\\moham\\Downloads\\IWO_Local_Codex_Handoff (1)\\IWO_ATLAS_Model\\deliveries\\priority_three_delivery_20260912\\audit\\verification\\20260912T135828_674097Z",
+  "input_mapping_sha256": "19059306b22aafc8faad3812816fc18985a3a5e3abc7e30ee5439180e4c03ad2",
+  "module_origins": {
+    "rebuild_model": {
+      "path": "C:\\Users\\moham\\Downloads\\IWO_Local_Codex_Handoff (1)\\IWO_ATLAS_Model\\deliveries\\priority_three_delivery_20260912\\audit\\scripts\\rebuild_model.py",
+      "sha256": "151bb0c0f3d458d2b082e34d2ecb91e5a617b17558c0d6ce873626403738c2e9"
+    },
+    "rebuild_check": {
+      "path": "C:\\Users\\moham\\Downloads\\IWO_Local_Codex_Handoff (1)\\IWO_ATLAS_Model\\deliveries\\priority_three_delivery_20260912\\audit\\scripts\\rebuild_check.py",
+      "sha256": "306fef9ef6924db19d8af3a7e05990dfe5a3fee9983ffb49b7627a3deaae2174"
+    },
+    "rebuild_extension_check": {
+      "path": "C:\\Users\\moham\\Downloads\\IWO_Local_Codex_Handoff (1)\\IWO_ATLAS_Model\\deliveries\\priority_three_delivery_20260912\\audit\\scripts\\rebuild_extension_check.py",
+      "sha256": "1a2e94971229213b615d06de5daa68b1f6bda21f95a21667210ee9c9cc121e42"
+    }
+  },
+  "thresholds": {
+    "active_max_log10_decades": 0.01,
+    "ion_relative": 0.01,
+    "low_absolute_A_per_um": 1e-18,
+    "low_relative": 0.01,
+    "kcl_absolute_A_per_um": 1e-18,
+    "kcl_relative": 0.01,
+    "export_relative": 5.1e-06,
+    "export_absolute": 1e-30
+  },
+  "simulator_launched": false,
+  "original_certificates_edited": false,
+  "results": {
+    "2p0": {
+      "status": "PASS",
+      "native_checker_status": "PASS",
+      "validated_scope": "DEVICE_WIDTH_X_Y_DOS",
+      "missing_controls": [],
+      "reference_run_id": "20260912T074527_865393_fit_bulk_width04_2nm",
+      "per_device_width_test_performed": true,
+      "measurement_fit_validated": false,
+      "predictive_validity_established": false
+    },
+    "6p3": {
+      "status": "PASS",
+      "native_checker_status": "PASS_SCOPED_EXTENSION_NUMERICS",
+      "validated_scope": "DEVICE_X_Y_DOS_WITH_TRANSFERRED_WIDTH_UNIT_CONVENTION",
+      "missing_controls": [],
+      "reference_run_id": "20260912T124657_803129_priority3_fit6_mu12_retry2",
+      "per_device_width_test_performed": false,
+      "measurement_fit_validated": false,
+      "predictive_validity_established": false
+    },
+    "13p2": {
+      "status": "INCOMPLETE",
+      "native_checker_status": "INCOMPLETE",
+      "validated_scope": "NONE",
+      "missing_controls": [
+        "dos"
+      ],
+      "reference_run_id": "20260912T122359_458630_priority3_fit13_nd89",
+      "per_device_width_test_performed": false,
+      "measurement_fit_validated": false,
+      "predictive_validity_established": false
+    }
+  },
+  "lifecycle_scope": "Numerical evidence only. Separate lifecycle reconciliation sidecars are not retrospective proof of missed helper lineage."
+}

@@ -1,0 +1,294 @@
+% ===================================================================
+% 03_device_data.tex -- Device, measured data and inputs (writer C1). ASCII only.
+% ===================================================================
+\chapter{Device, measured data and inputs}\label{ch:device}
+
+A TCAD model cannot be more specific than the information on which it is built. This chapter therefore states, item by
+item, what is known about the measured transistors, where each item comes from, and what is not known. It addresses four
+questions: (i) which device and process are modelled (\cref{sec:inp-device}); (ii) how the physical stack is translated
+into the two-dimensional simulation domain (\cref{sec:inp-geometry}); (iii) what the measured data consist of
+(\cref{sec:inp-data}) and which figures of merit they yield when the extractor used for the simulations is applied to
+them (\cref{sec:inp-metrics-measured}); and (iv) which gaps in the data limit every later conclusion
+(\cref{sec:inp-limitations}). No quantity in this chapter is fitted. Every number is either measured on the target
+devices, read from the user's schematic, or explicitly labelled as assumed.
+
+% -------------------------------------------------------------------
+\section{Device and process}\label{sec:inp-device}
+
+The devices are the bottom-gate IWO thin-film transistors of the thickness series of \citet{Januar2026}. The primary
+source for the stack is Sec.~2.1 of that paper \citep[pp.~2--3]{Januar2026} together with the user's device schematic
+\citep{DeviceSchematic}; the measured transfer curves are taken from the experimental workbook
+\citep{ExperimentalWorkbook}.
+
+From the substrate upwards, the stack consists of an n$^+$ Si support carrying a \SI{50}{nm} TiN bottom gate deposited
+by physical vapour deposition. On the gate lie a \HfO{} gate dielectric (nominal \SI{15}{nm}) and an \AlO{} interlayer
+(nominal \SI{2}{nm}), both grown by ALD at \SI{250}{\celsius}. The paper reports growth rates of about 0.92 and
+\SI{1.04}{\angstrom} per cycle for the two oxides \citep[p.~2]{Januar2026}, while the nominal thicknesses of 15 and
+\SI{2}{nm} are taken from the schematic; the \AlO{} layer is in contact with the channel. The channel is a sputtered IWO
+film (about 2\,\% W; the definition of the composition cannot be determined from the available data) of nominal
+thickness 2.0, 6.3, 13.2 or \SI{31.8}{nm}. \SI{70}{nm} Pd source and drain electrodes are placed on top of the channel
+and patterned with contact holes and metallization. There is no passivation or capping layer, so the channel between
+source and drain is exposed to the ambient.
+
+A rapid thermal anneal at \SI{150}{\celsius} for \SI{600}{s} completes the process (process record of the package,
+\protect\file{docs/DEVICE_STRUCTURE.md}); it serves as process context only and does not enter any model parameter
+directly. The channel length and width, $L = \SI{20}{\micro\metre}$ and $W = \SI{290}{\micro\metre}$, and the drain bias
+of the transfer measurement, $\Vd = \SI{0.7}{V}$, are read from the schematic, because the workbook columns carry no
+units.
+
+\Cref{tab:inp-stack} lists every structural item with its provenance label. The \HfO{} permittivity 19.57 and the IWO
+permittivity 9.30 are C-V results reported in the SI of \citet{Januar2026} (Fig.~S1; the SI is not bundled, and the
+values were recorded by the Astra audit; the main text gives only ``approximately 9'' for IWO,
+\citealp[p.~2]{Januar2026}). The \AlO{} permittivity 9.0 is assumed. The consequences of each label for the gate
+capacitance are derived in \cref{sec:par-stack}.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Structural items of the modelled device and their provenance (\protect\file{config/geometry.yaml},
+\protect\file{docs/DEVICE_STRUCTURE.md}).}
+\label{tab:inp-stack}
+\begin{tabularx}{\linewidth}{@{}lXl@{}}
+\toprule
+Item & Value & Provenance \\
+\midrule
+Gate & TiN \SI{50}{nm} on n$^+$ Si (Si screened by the continuous TiN, omitted) & \prov{MEASURED\_TARGET\_DEVICE} \\
+Gate dielectric & \HfO{} \SI{15.0}{nm}, $\varepsilon_r = 19.57$ (SI Fig.~S1) & \prov{MEASURED\_TARGET\_DEVICE} \\
+Interlayer & \AlO{} \SI{2.0}{nm}, $\varepsilon_r = 9.0$ & thickness \prov{MEASURED\_TARGET\_DEVICE}; $\varepsilon_r$ \prov{ASSUMED} \\
+Channel & IWO, $t = 2.0/6.3/13.2/31.8$\,nm, $\epsIWO = 9.3$ & \prov{MEASURED\_TARGET\_DEVICE} \\
+Source/drain & Pd \SI{70}{nm}, top contacts & \prov{MEASURED\_TARGET\_DEVICE} \\
+S/D overlap & \SI{2}{\micro\metre} per side & \prov{ASSUMED} (not reported) \\
+Top of channel & air, no cap & as reported (no fictitious cap added) \\
+$W/L$ & \SI{290}{\micro\metre} / \SI{20}{\micro\metre} & \prov{MEASURED\_TARGET\_DEVICE} (schematic) \\
+$\Vd$ (transfer) & \SI{0.7}{V} & \prov{MEASURED\_TARGET\_DEVICE} (schematic) \\
+Temperature & \SI{300}{K} & \prov{ASSUMED} (not recorded) \\
+Current unit & A/$\mu$m & interpretation of the schematic axis \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{stack_schematic}
+\caption{Cross-section of the modelled device (not to scale): TiN gate \SI{50}{nm}, \HfO{} \SI{15}{nm}, \AlO{}
+\SI{2}{nm}, IWO channel of thickness $t$, Pd source/drain \SI{70}{nm} overlapping the channel by \SI{2}{\micro\metre}
+on each side, air above the channel; $L = \SI{20}{\micro\metre}$, $W = \SI{290}{\micro\metre}$. The ATLAS region
+numbers of the physical-structure deck are indicated (1: IWO bulk; 2: \SI{0.25}{nm} IWO interface layer; 3: \AlO{};
+4: \HfO{}; 6: Conductor gate volume; 7: Air). Drawn from \protect\file{config/geometry.yaml} and
+\protect\file{docs/DEVICE_STRUCTURE.md}.}
+\label{fig:stack_schematic}
+\end{figure}
+
+% -------------------------------------------------------------------
+\section{Geometry and the simulated structure}\label{sec:inp-geometry}
+
+\paragraph{Coordinates.} The simulation domain is a two-dimensional cross-section along the channel. In micrometres,
+$x$ runs from 0 to 24: the source contact occupies $0 \le x \le 2$, the channel $2 < x < 22$ and the drain
+$22 \le x \le 24$. The vertical coordinate $y$ increases downward from the IWO/\AlO{} interface at $y = 0$. The IWO film
+occupies $-t \le y \le 0$, the \AlO{} $0 \le y \le 0.002$, the \HfO{} $0.002 \le y \le 0.017$ and the TiN gate volume
+$0.017 \le y \le 0.067$; the Pd electrodes and the air region occupy $-t-0.07 \le y \le -t$. The \SI{2}{\micro\metre}
+overlap of the contacts is not reported. With contacts on the top surface of a \SI{20}{\micro\metre} long channel, the
+drain current is expected to be insensitive to it. However, the one launch intended to test this (\run{0027}, overlap
+\SI{4}{\micro\metre}) is malformed, and its result is retracted (\cref{sec:cal-param-control}).
+
+\paragraph{Width convention.} The mesh is given the width \SI{1}{\micro\metre} (\texttt{mesh width=1.0}), so that every
+logged current is numerically in A/$\mu$m and can be compared directly with the workbook. The current of the physical
+device is $290 \times$ the logged value; a division by 290 is never applied. This convention was verified in the V0
+package (V0 run\_0007 with \texttt{WIDTH=2} against V0 run\_0005: raw currents exactly $\times 2.000000$, currents per
+micrometre identical; check J of \cref{tab:num-convergence}).
+
+\paragraph{Two electrically equivalent representations.} The deck generator \protect\file{scripts/build_iwo_decks.py}
+writes the stack in one of two forms (\cref{sec:num-deck}):
+\begin{enumerate}
+  \item \emph{Reduced structure} (runs \run{0001}--\run{0009}): IWO regions, \AlO{} ($\varepsilon_r = 9.0$) and \HfO{}
+        ($\varepsilon_r = 19.57$). The gate is a Dirichlet boundary at the bottom of the \HfO{} with the TiN work
+        function, and source and drain are Dirichlet boundaries on the IWO top surface over $0$--$2$ and
+        $22$--$24$\,$\mu$m. In DC a continuous metal is an equipotential, so replacing its volume by a boundary with the
+        same work function changes neither the field in the dielectrics nor the contact boundary condition.
+  \item \emph{Physical structure} (\texttt{structure: full}, every run from \run{0012} on): the same IWO regions;
+        explicit \AlO{} and \HfO{} regions whose permittivities are set on \texttt{material region=} statements
+        (the ATLAS defaults for these material names are not the measured values); a \SI{50}{nm}
+        \texttt{Conductor} volume carrying the gate electrode (TiN is not in the ATLAS metal table; work function
+        \SI{4.70}{eV} set on \texttt{contact}, \prov{ASSUMED}); a \SI{70}{nm} Air region above the channel; and
+        \SI{70}{nm} $\times$ \SI{2}{\micro\metre} Palladium source/drain electrode volumes without a work function
+        (Ohmic, \prov{ASSUMED}; no TLM data).
+\end{enumerate}
+The equivalence of the two forms was verified in the real solver. \run{0012} (physical structure, stepped sweep) and
+\run{0008} (reduced structure, pointwise sweep), with identical parameters, differ by $+0.08$, $+0.05$, $+0.01$,
+$-0.003$ and $-0.002$\,\% in $\Id$ at $\Vg = 0.5$, 0.7, 1, 2 and \SI{3}{V} (check M in \cref{tab:num-convergence}).
+
+\paragraph{Gate capacitance.} With $\varepsilon_0 = \SI{8.854e-14}{\farad\per\centi\metre}$, the series capacitance of
+the two oxides is
+\begin{equation}
+  \Cox = \frac{\varepsilon_0}{t_{\mathrm{HfO_2}}/\varepsilon_{\mathrm{HfO_2}} + t_{\mathrm{Al_2O_3}}/\varepsilon_{\mathrm{Al_2O_3}}}
+       = \frac{8.854\times10^{-14}}{(1.5\times10^{-6}/19.57) + (2\times10^{-7}/9.0)}\ \mathrm{F\,cm^{-2}}
+       = 8.955\times10^{-7}\ \mathrm{F\,cm^{-2}},
+  \label{eq:inp-cox}
+\end{equation}
+which is equivalent to $\EOT = 3.9\,\varepsilon_0/\Cox = \SI{3.86}{nm}$. A sheet charge of $10^{12}\cmsq$ corresponds to
+$q\times10^{12}/\Cox = \SI{0.179}{V}$. These three numbers are used throughout the report; their derivation and error
+budget are given in \cref{sec:par-stack}.
+
+% -------------------------------------------------------------------
+\section{The measured data}\label{sec:inp-data}
+
+The measurement consists of a single transfer curve per thickness, stored in the package as
+\protect\file{data/experimental_clean.csv} with the columns \texttt{thickness\_nm}, \texttt{source\_row}, \texttt{vg\_V}
+and \texttt{id\_A\_per\_um}. Each curve spans $-3 \le \Vg \le 3$\,V in steps of \SI{0.05}{V} at $\Vd = \SI{0.7}{V}$.
+No other electrical data exist for these devices (\cref{sec:inp-limitations}).
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{measured_transfer}
+\caption{Measured transfer curves of the 2.0, 6.3, 13.2 and \SI{31.8}{nm} devices at $\Vd = \SI{0.7}{V}$
+(\protect\file{data/experimental_clean.csv}). (a) Logarithmic scale; the dotted lines mark the off-band medians
+($-2 \le \Vg \le -0.5$\,V): $4.61\times10^{-15}$ (2.0 nm), $1.53\times10^{-13}$ (6.3 nm) and
+$6.60\times10^{-12}\Aum$ (13.2 nm). (b) Linear scale. The 2.0 and \SI{6.3}{nm} curves are close to each other, the
+\SI{13.2}{nm} curve is shifted to lower gate voltage and carries about six times more on-current, and the
+\SI{31.8}{nm} device does not turn off within the sweep.}
+\label{fig:measured_transfer}
+\end{figure}
+
+Four features of \cref{fig:measured_transfer} determine the course of the whole study.
+\begin{enumerate}
+  \item \emph{Non-monotonic thickness dependence.} The \SI{2.0}{nm} and \SI{6.3}{nm} curves nearly coincide in
+        threshold and on-current, whereas the \SI{13.2}{nm} curve differs strongly; the \SI{6.3}{nm} film even has
+        the lower field-effect mobility of the two thin films (\cref{sec:inp-metrics-measured}). A smooth thickness
+        law cannot describe this behaviour without a device-specific parameter (\cref{ch:6p3}).
+  \item \emph{Off-state floors.} Each curve saturates at a flat plateau in the off-band. The plateaus increase steeply
+        with thickness: the \SI{13.2}{nm} floor is 1432 times the \SI{2}{nm} floor, which corresponds to a log-log
+        slope of 3.78 over the three thin films (the S4 report quotes 3.85; \cref{fig:off_floors}). Drift-diffusion
+        with thermal generation does not produce such floors; the Astra audit bounded the thermal-generation current
+        at 13 to 17 decades below them. Gate leakage is disfavoured as the dominant floor at 6.3 and \SI{13.2}{nm},
+        because the floors do not follow the drain--gate bias (\cref{sec:mech-traps}). Their origin (a measurement
+        floor or an ungated channel path) cannot be determined from the available data, because $\Ig$ and $\Is$ were
+        not recorded.
+  \item \emph{An isolated low point.} The minimum of the \SI{2}{nm} curve, about $1.1\times10^{-16}\Aum$ at
+        $-3$\,V, is a single point about 40 times below the floor of that curve. It is treated as an outlier, and the
+        KCL acceptance limit of the runner was redefined on the median off-band current instead of the minimum
+        (\cref{sec:num-validation}).
+  \item \emph{The \SI{31.8}{nm} device is always on} ($\Id \ge 2.6\times10^{-7}\Aum$ at $\Vg = -3$\,V). It lies
+        outside the \mbox{2--13\,nm} series published by \citet[p.~2]{Januar2026}, was excluded by the user from the
+        final calibration set, and appears only in the early runs \run{0006} and \run{0010}. The V0 package required
+        an additional back-surface donor sheet and a series resistance of about $9\times10^{4}\,\Omega\,\mu$m to
+        describe it.
+\end{enumerate}
+
+% -------------------------------------------------------------------
+\section{Measured metrics}\label{sec:inp-metrics-measured}
+
+\Cref{tab:measured-metrics} lists the figures of merit of the measured curves. They are extracted by
+\protect\file{scripts/extract_metrics.py}, the same code that scores every ATLAS run, so that measured and simulated
+numbers are directly comparable; the definitions and their derivations are given in \cref{sec:der-metrics}. The swing is
+reported over fixed current windows, because the minimum local swing $\SSmin$ depends on the voltage grid and on the
+floor window and is therefore not a reliable metric (\cref{sec:der-metrics}); it is listed only for comparison with
+earlier documents.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Measured metrics at $\Vd = \SI{0.7}{V}$ (\evDATA; \protect\file{data/experimental_clean.csv}, extractor
+\protect\file{scripts/extract_metrics.py}; numbers from \protect\file{figures/MANIFEST.md} and the evidence brief of 2026-09-25).
+Currents in A/$\mu$m, swings in mV/dec, mobilities in \si{cm^2/(V.s)}.}
+\label{tab:measured-metrics}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Metric & 2.0 nm & 6.3 nm & 13.2 nm & 31.8 nm \\
+\midrule
+$\Vthcc$ at $10^{-9}\Aum$ (V) & 0.662 & 0.644 & 0.083 & always on \\
+$\Vthlin$ (V) & 1.663 & 1.820 & 1.044 & -- \\
+$\Vthlin - \Vthcc$ (V) & 1.001 & 1.176 & 0.962 & -- \\
+$\SSfix{10^{-11}}{10^{-10}}$ & 121.2 & 124.5 & 136.1 & -- \\
+$\SSfix{10^{-10}}{10^{-9}}$ & 194.8 & 210.0 & 121.6 & -- \\
+$\SScc = \SSfix{10^{-10}}{10^{-8}}$ & 269.9 & 295.4 & 160.0 & -- \\
+$\SSmin$ (not robust) & 84.5 & 114.7 & 130.8 & -- \\
+$\gmmax$ (A/(V\,$\mu$m)) & $3.807\times10^{-7}$ & $3.431\times10^{-7}$ & $1.572\times10^{-6}$ & -- \\
+$\muFE$ (linear, $\gm$-based) & 12.15 & 10.95 & 50.17 & -- \\
+$\musat$ (saturation formula) & 5.09 & 3.86 & 27.40 & -- \\
+$\Ion = \Id(\Vg = \SI{3}{V})$ & $5.09\times10^{-7}$ & $4.03\times10^{-7}$ & $3.07\times10^{-6}$ & $3.59\times10^{-6}$ \\
+Off-floor (median, $-2$ to $-0.5$\,V) & $4.61\times10^{-15}$ & $1.53\times10^{-13}$ & $6.60\times10^{-12}$ & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{measured_metrics}
+\caption{Measured metrics versus channel thickness (2.0, 6.3, \SI{13.2}{nm}; \SI{31.8}{nm} as a hollow symbol where
+defined): $\Vthcc$ and $\Vthlin$, fixed-current swings $\SSfix{10^{-11}}{10^{-10}}$ and $\SSfix{10^{-10}}{10^{-8}}$,
+linear $\muFE$ and saturation-formula mobility, $\Ion$ and the off-floor. Same numbers as
+\cref{tab:measured-metrics}. The step between 6.3 and \SI{13.2}{nm} in threshold, mobility and on-current, and the
+relation $\muFE(6.3) < \muFE(2.0)$, are visible.}
+\label{fig:measured_metrics}
+\end{figure}
+
+\paragraph{Interpretation of the table.} Three observations are essential for the later chapters. (i) $\Vthcc$, $\muFE$
+and $\Ion$ are non-monotonic or step-like: the two thinnest films are similar, whereas the \SI{13.2}{nm} film differs by
+about \SI{0.58}{V} in threshold and by a factor of about four in mobility. (ii) The \SI{6.3}{nm} film has the largest gap
+$\Vthlin - \Vthcc$ (\SI{1.176}{V}); this on-state shape is the quantity that no parameter set of the model reproduces
+(\cref{ch:6p3}). (iii) The swing in the window $10^{-10}$--$10^{-8}\Aum$ is 270--\SI{295}{mV/dec} for the two thin films
+and \SI{160}{mV/dec} for the \SI{13.2}{nm} film. These values are far above the thermal limit of about \SI{60}{mV/dec}
+at \SI{300}{K}, which indicates a large density of states in the gap.
+
+\paragraph{Mobility definitions and the values of the paper.} \citet{Januar2026} quote peak mobilities of about 5.1 and
+\SI{27.4}{cm^2/(V.s)} for the thinnest and thickest films of the series \citep[p.~3]{Januar2026} and relate the
+decrease from about 27.4 to about 5.1 to a roughly fourfold increase of the trap density \citep[p.~7]{Januar2026}. The
+linear, transconductance-based $\muFE$ of the workbook curves is 12.15 and \SI{50.17}{cm^2/(V.s)}, i.e.\ a factor of
+2.4 and 1.8 higher. Specialist S5 showed that applying the saturation formula to the same curves at
+$\Vd = \SI{0.7}{V}$ gives 5.09 and \SI{27.40}{cm^2/(V.s)}, which reproduces the numbers of the paper. The workbook
+curves are therefore the thickness series of the paper, and the mobility of the paper is a saturation-formula peak
+taken near threshold rather than a linear-regime field-effect mobility (\evCORR; \cref{sec:der-mufe},
+\cref{fig:mufe_extraction}). The model is calibrated against the curves themselves and never against a mobility number,
+so the choice of definition affects the comparison with the literature but not the calibration.
+
+% -------------------------------------------------------------------
+\section{Data limitations and their consequences}\label{sec:inp-limitations}
+
+The following items are not available. Each limitation is stated together with the conclusion that it prevents.
+
+\begin{enumerate}
+  \item One device per thickness. The number of devices per thickness and their spread are unknown. As a consequence,
+        a difference between two films that is smaller than the (unknown) device-to-device spread cannot be
+        attributed to thickness; in particular, the \SI{6.3}{nm} anomaly may be a property of the device rather than
+        of the thickness.
+  \item No gate or source current. The off-state floors therefore cannot be assigned directly to an instrument floor
+        or to channel conduction (gate leakage is only disfavoured indirectly, from the bias independence of the
+        floors), and the KCL check cannot be compared with the measurement.
+  \item No sweep direction, hysteresis or dwell time. Slow traps and bias-stress shifts therefore cannot be separated
+        from the static DOS, and the fitted $\Qf$ may absorb an offset caused by the sweep history.
+  \item No output ($\Id$--$\Vd$) curves. Series resistance and contact behaviour are therefore under-constrained, and
+        the $\Id$--$\Vd$ curves of \cref{ch:predictions} are predictions, not fits.
+  \item No C-V on these devices and no TLM. $\Cox$ therefore relies on the SI permittivity of \HfO{} and an assumed
+        \AlO{} permittivity, and the Ohmic contact assumption cannot be tested directly (\cref{sec:par-contacts}).
+  \item No temperature record. The measurement temperature is assumed to be \SI{300}{K}, so the thermal voltage in all
+        swing and occupancy arguments carries this assumption. Temperature-dependent data exist in the SI of
+        \citet[SI Fig.~S12, caption on p.~11]{Januar2026} (2 nm at 338 and \SI{358}{K}) but are not available to the
+        project, which is why the temperature runs of \cref{ch:predictions} are registered as predictions.
+  \item No thickness uncertainty. The method used to measure the film thickness and its uncertainty are not reported.
+        A thickness error of the order of a nanometre at \SI{6.3}{nm} is therefore an open hypothesis (tested as A1,
+        \run{0031}, in \cref{ch:6p3}).
+  \item No ambient record. The channel is uncapped, and adsorbates on the exposed back surface can carry charge. A
+        back-surface charge $\Qb$ therefore cannot be excluded and is tested as a hypothesis (A3, \run{0030}).
+  \item Units inferred from the schematic. The workbook headers carry no units; A/$\mu$m and $\Vd = \SI{0.7}{V}$ are
+        taken from the schematic. The consistency of the saturation-formula mobility with the paper
+        (\cref{sec:inp-metrics-measured}) supports this reading.
+  \item Composition. ``About 2\,\% W'' is not defined as an atomic or a weight fraction in the available sources. No
+        parameter depends on it directly, and $\Ndeff$ is an electrically active donor density, not the W
+        concentration (\cref{sec:par-nd}).
+  \item The \SI{31.8}{nm} column. It lies outside the published series and cannot be turned off within the sweep; it is
+        excluded from the final calibration set by the user's decision.
+\end{enumerate}
+
+\begin{keyresult}
+The model rests on one measured transfer curve per thickness (\evDATA), on a gate stack whose capacitance
+$\Cox = \SI{8.955e-7}{\farad\per\centi\metre\squared}$ ($\EOT = \SI{3.86}{nm}$) follows from a measured \HfO{} and an
+assumed \AlO{} permittivity, and on an assumed Ohmic top-contact geometry. The measured metrics are non-monotonic in
+thickness: the 2.0 and \SI{6.3}{nm} films are similar ($\Vthcc$ 0.662 and \SI{0.644}{V}, $\muFE$ 12.15 and
+\SI{10.95}{cm^2/(V.s)}), whereas the \SI{13.2}{nm} film is very different ($\Vthcc = \SI{0.083}{V}$,
+$\muFE = \SI{50.17}{cm^2/(V.s)}$). The mobilities of the paper are saturation-formula values (5.09 and 27.40 are
+reproduced). The absence of $\Ig$/$\Is$, hysteresis, $\Id$--$\Vd$, C-V, TLM, temperature and device statistics limits
+every later conclusion.
+\end{keyresult}
+
+The next two chapters derive, one input at a time, how this device and these data are translated into the parameters of
+the ATLAS model, beginning with the electrostatic inputs.

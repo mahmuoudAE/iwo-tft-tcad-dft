@@ -1,0 +1,772 @@
+{
+  "created_utc": "2026-09-12T12:55:56.652062+00:00",
+  "script_sha256": "9e0743f46b1437428f72c6d05bd102c7504c3379f1d66ddb9b59aa383b7286eb",
+  "status": "NATIVE_DEPTH_DIAGNOSTICS_NOT_A_CALIBRATION_CERTIFICATE",
+  "runs": [
+    {
+      "status": "VERIFIED_NATIVE_DEPTH_AND_AVERAGE_CHARGE_DIAGNOSTIC_NOT_FIT_ACCEPTANCE",
+      "run_id": "20260912T124657_803129_priority3_fit6_mu12_retry2",
+      "key": "6p3",
+      "thickness_nm": 6.3,
+      "native_gate_points": 121,
+      "native_raw_rows": 121,
+      "source": "C:\\Users\\moham\\Downloads\\IWO_Local_Codex_Handoff (1)\\IWO_ATLAS_Model\\results\\local_session_20260910\\runs\\20260912T124657_803129_priority3_fit6_mu12_retry2",
+      "measurement_source": "C:\\Users\\moham\\Downloads\\IWO_Local_Codex_Handoff (1)\\IWO_ATLAS_Model\\data\\iwo_6p3nm.csv",
+      "measurement_sha256": "1d1414542f7ee53ff34116bcbcd1c358f07b4b5ad1f5e8e302e00c62c0415042",
+      "strict_native_evidence": {
+        "run_id": "20260912T124657_803129_priority3_fit6_mu12_retry2",
+        "directory": "C:\\Users\\moham\\Downloads\\IWO_Local_Codex_Handoff (1)\\IWO_ATLAS_Model\\results\\local_session_20260910\\runs\\20260912T124657_803129_priority3_fit6_mu12_retry2",
+        "key": "6p3",
+        "width_um": 1.0,
+        "gate_points": 121,
+        "native_rows": 121,
+        "active_points": 56,
+        "realized_mesh": {
+          "grid_points": 5880,
+          "triangles": 11440
+        },
+        "raw_warning_lines": [
+          " Warning: Statement out of order. Structure ",
+          " Warning: Projection cannot be done with"
+        ],
+        "recovered_bias_reductions": 0,
+        "recovered_step_policy": "Allowed only with completion, all 121 targets, correct native biases and all-row signed KCL; exhausted retry/errors rejected.",
+        "kcl_recomputed_pass": true,
+        "kcl_failed_native_points": 0,
+        "max_kcl_A_per_um": 2.064699999992131e-21,
+        "terminal_voltages_recomputed_pass": true,
+        "native_probes": {
+          "channel_mobility": {
+            "positive_at_all_active_points": true,
+            "nonpositive_active_points": 0,
+            "minimum": 12.0,
+            "maximum": 12.0
+          },
+          "channel_electrons": {
+            "positive_at_all_active_points": true,
+            "nonpositive_active_points": 0,
+            "minimum": 1.396781039e-32,
+            "maximum": 1.177378501e+18
+          }
+        },
+        "native_probes_pass": true,
+        "active_signed_drain_positive": true,
+        "native_extra_probes": {
+          "bulk_free_electrons": {
+            "minimum": 784929947700.0,
+            "maximum": 9.956712484e+18
+          },
+          "bulk_ionized_acceptors": {
+            "minimum": 17350450940000.0,
+            "maximum": 7.896430439e+18
+          },
+          "bulk_ionized_donors": {
+            "minimum": 0.0,
+            "maximum": 0.0
+          },
+          "bulk_front_electrons": {
+            "minimum": 3.671779545e-33,
+            "maximum": 2.605930567e+19
+          },
+          "bulk_back_electrons": {
+            "minimum": 2.429130767e-32,
+            "maximum": 2.497920573e+17
+          }
+        },
+        "drain_signs": {
+          "positive": 67,
+          "zero": 54,
+          "negative": 0
+        },
+        "measurement_sha256": "1d1414542f7ee53ff34116bcbcd1c358f07b4b5ad1f5e8e302e00c62c0415042",
+        "evidence_sha256": {
+          "execution.json": "713a0f63b141f88b00faed82c5bd0932560e6d2e25c13065de1bf03166e96696",
+          "device.in": "af274661c5dc74d3ec57000997ab821e466fdca2872b6912e423679336b2c3a1",
+          "input_config.json": "7411cf29426cd8048dd88586359c8f6b7f22ae995cf521ca7a2ec13d71cf73d4",
+          "comparison_all_measurements.csv": "147f53922af56e484f3fb39f66adf043125437f64154de16e29c7d6eccb37b5c"
+        },
+        "raw_output_sha256": {
+          "bulk_acceptor.dat": "7b722c194d70a0d57ee21fbd024aefe97aeb7e5b8bb18da543e0c722ea1be645",
+          "bulk_back_electrons_vg.dat": "d3e22417e48b5eee22e5361d22b351204a896c71ddb6da124b9f46dbac678f4c",
+          "bulk_donor.dat": "f8cf1cf8057766d4f5d9bc72f7ad5f44ccc8784e1e53b2a140cbe9131f004521",
+          "bulk_free_electrons_vg.dat": "2b3ef3f995f8824f24673d52b3d7acdb362a6896cd2277720a83e40110a45c83",
+          "bulk_front_electrons_vg.dat": "2cb736ce1157901cd029dcc077f9fa9eda6af2e994eda59f63de497840190733",
+          "bulk_ionized_acceptors_vg.dat": "7140082113cb4cdd1c71adaa6127424a75e0082f761daf9d7ecda2d3a40b9a99",
+          "bulk_ionized_donors_vg.dat": "3b4a24a4b8fdfde7dc10dcfeda87a99089b07d5eded94f40ba33aa1e41d43c16",
+          "deckbuild.out": "25fbff98b6fe9d6054dbf3749650cbcefe5ed39ea046a7e0cca5b31bcdb9d741",
+          "device.in": "af274661c5dc74d3ec57000997ab821e466fdca2872b6912e423679336b2c3a1",
+          "electrons_vg.dat": "6d1dcd82e23c8361eb0e15e191b59491bb3797e8163c1d631b19528c124da39a",
+          "equilibrium.str": "51bbcdb89f3443cf5eec0805d5176f2207713d37088a44f1a4c22c3616b14c2d",
+          "final.str": "f34a8e0c7bafe0ea55f3b975ecd409f99b46eeeb80246e2cee106947e58e89ad",
+          "geometry.str": "93008b6efc57be79b12057ffb01b1dfb82f1d8d51835d741e1e2e9d1a878914d",
+          "idvg.dat": "58aa8132462c2b800ebe38d2c40e4b435e4ca1daf143a960bb6e32df6d0f8234",
+          "igvg.dat": "dca84bc52603c934e49e5ba0823d798f185df04d9fb77941cf54661ae6ccc434",
+          "input_config.json": "7411cf29426cd8048dd88586359c8f6b7f22ae995cf521ca7a2ec13d71cf73d4",
+          "isvg.dat": "4f81ae4b4f59f45b61576acd39b86be977a3c79d899bdc7791476d2860480383",
+          "launcher_stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "launcher_stdout.txt": "ea2ff3527865d7a9ba5028f1c6a22d61ed2c62ffa426aa2967ebea42a3d4a1cf",
+          "mobility_vg.dat": "e11603890397711dd4cc003ca6e010f571edceab77d9a60e65e335bbfdaf6347",
+          "off.str": "24709ef6602505361a423a47aa4ad3536ecdc018a3aed76c66cb9a59aba41bb0",
+          "transfer.log": "e4b3184b74004aaf222bc43afb77a2c4ff44f9b4fa9aec5b1650ff96f60d84b3",
+          "vdvg.dat": "154231266cde0ce3ded5060e04529f88867057ee588a6a99c5a7ea0839809830",
+          "vsvg.dat": "247fec9ef4aaccfbfd549f3172050e08e759ca861c9d93db54ede7fac2325402"
+        },
+        "run_acceptable": true
+      },
+      "probe_definitions": {
+        "channel_mobility": {
+          "parameters": {
+            "name": "channel_mobility",
+            "x": "12.037",
+            "y": "-0.002961",
+            "dir": "0"
+          },
+          "selectors": [
+            "n.mob"
+          ]
+        },
+        "channel_electrons": {
+          "parameters": {
+            "name": "channel_electrons",
+            "x": "12.037",
+            "y": "-0.002961"
+          },
+          "selectors": [
+            "n.conc"
+          ]
+        },
+        "bulk_free_electrons": {
+          "parameters": {
+            "name": "bulk_free_electrons",
+            "region": "2",
+            "x.min": "2",
+            "x.max": "22",
+            "y.min": "-0.0063",
+            "y.max": "0"
+          },
+          "selectors": [
+            "average",
+            "n.conc"
+          ]
+        },
+        "bulk_ionized_acceptors": {
+          "parameters": {
+            "name": "bulk_ionized_acceptors",
+            "region": "2",
+            "x.min": "2",
+            "x.max": "22",
+            "y.min": "-0.0063",
+            "y.max": "0"
+          },
+          "selectors": [
+            "average",
+            "concacc.ctrap"
+          ]
+        },
+        "bulk_ionized_donors": {
+          "parameters": {
+            "name": "bulk_ionized_donors",
+            "region": "2",
+            "x.min": "2",
+            "x.max": "22",
+            "y.min": "-0.0063",
+            "y.max": "0"
+          },
+          "selectors": [
+            "average",
+            "concdon.ctrap"
+          ]
+        },
+        "bulk_front_electrons": {
+          "parameters": {
+            "name": "bulk_front_electrons",
+            "x": "12.037",
+            "y": "-0.000819"
+          },
+          "selectors": [
+            "n.conc"
+          ]
+        },
+        "bulk_back_electrons": {
+          "parameters": {
+            "name": "bulk_back_electrons",
+            "x": "12.037",
+            "y": "-0.005481"
+          },
+          "selectors": [
+            "n.conc"
+          ]
+        }
+      },
+      "native_DOS_audit": {
+        "schema_version": 1,
+        "audit_kind": "NATIVE_DOS_PARAMETER_AND_CAPACITY_ONLY",
+        "created_utc": "2026-09-12T12:55:54.714169+00:00",
+        "run_directory": "results\\local_session_20260910\\runs\\20260912T124657_803129_priority3_fit6_mu12_retry2",
+        "configuration": "results\\local_session_20260910\\runs\\20260912T124657_803129_priority3_fit6_mu12_retry2\\input_config.json",
+        "config_sha256": "7411cf29426cd8048dd88586359c8f6b7f22ae995cf521ca7a2ec13d71cf73d4",
+        "deck_sha256": "af274661c5dc74d3ec57000997ab821e466fdca2872b6912e423679336b2c3a1",
+        "key": "6p3",
+        "bandgap_eV": 3.05,
+        "thickness_cm": 6.3e-07,
+        "simulator_completed": true,
+        "sample_peak_normalized_tolerance": 5e-05,
+        "export_integral_relative_tolerance": 0.05,
+        "groups": {
+          "bulk": {
+            "enabled": true,
+            "expected_parameters": {
+              "enabled": true,
+              "numa": 192,
+              "numd": 96,
+              "nta": 3.7142857142857145e+20,
+              "wta": 0.04,
+              "ntd": 0,
+              "wtd": 0.1,
+              "nga": 0,
+              "ega": 0.3,
+              "wga": 0.15,
+              "ngd": 0,
+              "egd": 2.8499999999999996,
+              "wgd": 0.1
+            },
+            "exports": {
+              "afile": {
+                "path": "results\\local_session_20260910\\runs\\20260912T124657_803129_priority3_fit6_mu12_retry2\\bulk_acceptor.dat",
+                "sha256": "7b722c194d70a0d57ee21fbd024aefe97aeb7e5b8bb18da543e0c722ea1be645",
+                "parameter_values_pass": true,
+                "energy_axis": "below_Ec",
+                "density_units": "cm^-3 eV^-1",
+                "capacity_units": "cm^-3",
+                "grid": {
+                  "raw_rows": 192,
+                  "unique_rows": 192,
+                  "duplicate_rows": 0,
+                  "energy_min_eV": 0.0,
+                  "energy_max_eV": 3.05,
+                  "spacing_min_eV": 0.015967999999999982,
+                  "spacing_max_eV": 0.015969000000000122,
+                  "approximately_uniform": true,
+                  "expected_plot_rows_from_NUMA_NUMD": 192,
+                  "matches_requested_plot_row_count": true
+                },
+                "components": {
+                  "acceptor_tail": {
+                    "sample_formula_pass": true,
+                    "max_error_normalized_to_input_peak": 8.243274414867692e-08,
+                    "sampled_maximum": 3.714286e+20,
+                    "sampled_maximum_energy_eV": 0.0,
+                    "expected_value_at_sampled_maximum": 3.7142857142857145e+20,
+                    "analytic_band_truncated_capacity": 1.4857142857142858e+19,
+                    "sampled_trapezoid_capacity": 1.5053939651492284e+19,
+                    "sampled_integral_relative_error": 0.013245938081211411,
+                    "export_sampling_integral_pass": true,
+                    "analytic_sheet_capacity_cm2": 9360000000000.0,
+                    "sampled_sheet_capacity_cm2": 9483981980440.139
+                  },
+                  "acceptor_gaussian": {
+                    "sample_formula_pass": true,
+                    "max_error_normalized_to_input_peak": 0,
+                    "sampled_maximum": 0.0,
+                    "sampled_maximum_energy_eV": 0.0,
+                    "expected_value_at_sampled_maximum": 0.0,
+                    "analytic_band_truncated_capacity": 0.0,
+                    "sampled_trapezoid_capacity": 0.0,
+                    "sampled_integral_relative_error": 0,
+                    "export_sampling_integral_pass": true,
+                    "analytic_sheet_capacity_cm2": 0.0,
+                    "sampled_sheet_capacity_cm2": 0.0
+                  },
+                  "acceptor_total": {
+                    "sample_formula_pass": true,
+                    "max_error_normalized_to_input_peak": 8.243274414867692e-08,
+                    "sampled_maximum": 3.714286e+20,
+                    "sampled_maximum_energy_eV": 0.0,
+                    "expected_value_at_sampled_maximum": 3.7142857142857145e+20,
+                    "analytic_band_truncated_capacity": 1.4857142857142858e+19,
+                    "sampled_trapezoid_capacity": 1.5053939651492284e+19,
+                    "sampled_integral_relative_error": 0.013245938081211411,
+                    "export_sampling_integral_pass": true,
+                    "analytic_sheet_capacity_cm2": 9360000000000.0,
+                    "sampled_sheet_capacity_cm2": 9483981980440.139
+                  }
+                },
+                "export_sampling_integral_pass": true,
+                "matches_execution_hash": true
+              },
+              "dfile": {
+                "path": "results\\local_session_20260910\\runs\\20260912T124657_803129_priority3_fit6_mu12_retry2\\bulk_donor.dat",
+                "sha256": "f8cf1cf8057766d4f5d9bc72f7ad5f44ccc8784e1e53b2a140cbe9131f004521",
+                "parameter_values_pass": true,
+                "energy_axis": "above_Ev",
+                "density_units": "cm^-3 eV^-1",
+                "capacity_units": "cm^-3",
+                "grid": {
+                  "raw_rows": 96,
+                  "unique_rows": 96,
+                  "duplicate_rows": 0,
+                  "energy_min_eV": 0.0,
+                  "energy_max_eV": 3.05,
+                  "spacing_min_eV": 0.032104800000000044,
+                  "spacing_max_eV": 0.03210600000000019,
+                  "approximately_uniform": true,
+                  "expected_plot_rows_from_NUMA_NUMD": 96,
+                  "matches_requested_plot_row_count": true
+                },
+                "components": {
+                  "donor_tail": {
+                    "sample_formula_pass": true,
+                    "max_error_normalized_to_input_peak": 0,
+                    "sampled_maximum": 0.0,
+                    "sampled_maximum_energy_eV": 0.0,
+                    "expected_value_at_sampled_maximum": 0.0,
+                    "analytic_band_truncated_capacity": 0.0,
+                    "sampled_trapezoid_capacity": 0.0,
+                    "sampled_integral_relative_error": 0,
+                    "export_sampling_integral_pass": true,
+                    "analytic_sheet_capacity_cm2": 0.0,
+                    "sampled_sheet_capacity_cm2": 0.0
+                  },
+                  "donor_gaussian": {
+                    "sample_formula_pass": true,
+                    "max_error_normalized_to_input_peak": 0,
+                    "sampled_maximum": 0.0,
+                    "sampled_maximum_energy_eV": 0.0,
+                    "expected_value_at_sampled_maximum": 0.0,
+                    "analytic_band_truncated_capacity": 0.0,
+                    "sampled_trapezoid_capacity": 0.0,
+                    "sampled_integral_relative_error": 0,
+                    "export_sampling_integral_pass": true,
+                    "analytic_sheet_capacity_cm2": 0.0,
+                    "sampled_sheet_capacity_cm2": 0.0
+                  },
+                  "donor_total": {
+                    "sample_formula_pass": true,
+                    "max_error_normalized_to_input_peak": 0,
+                    "sampled_maximum": 0.0,
+                    "sampled_maximum_energy_eV": 0.0,
+                    "expected_value_at_sampled_maximum": 0.0,
+                    "analytic_band_truncated_capacity": 0.0,
+                    "sampled_trapezoid_capacity": 0.0,
+                    "sampled_integral_relative_error": 0,
+                    "export_sampling_integral_pass": true,
+                    "analytic_sheet_capacity_cm2": 0.0,
+                    "sampled_sheet_capacity_cm2": 0.0
+                  }
+                },
+                "export_sampling_integral_pass": true,
+                "matches_execution_hash": true
+              },
+              "tfile": {
+                "requested": false,
+                "available": false
+              }
+            },
+            "native_region_or_interface_selector": "2"
+          },
+          "interface": {
+            "enabled": false,
+            "expected_parameters": {
+              "enabled": false,
+              "numa": 160,
+              "numd": 80,
+              "nta": 0,
+              "wta": 0.025,
+              "ntd": 0,
+              "wtd": 0.05,
+              "nga": 0,
+              "ega": 0.3,
+              "wga": 0.12,
+              "ngd": 0,
+              "egd": 0.4,
+              "wgd": 0.1
+            },
+            "exports": {}
+          }
+        },
+        "errors": [],
+        "warnings": [],
+        "occupancy_available": false,
+        "interpretation": "Exports describe available DOS capacity, not occupied/ionized trap charge. A parameter pass does not establish electrical application at the correct interface, solver quadrature convergence, unique defects, or an accepted transfer fit.",
+        "degeneracy": "No extra spin/charge/chemical degeneracy multiplier is applied. Continuous-DOS amplitudes are read in their native stated units; microscopic defect degeneracy and charge-state identity are not independently established by these exports.",
+        "parameter_audit_pass": true,
+        "enabled_distribution_groups": 1,
+        "native_dos_exports_verified": true,
+        "status": "NATIVE_DOS_PARAMETERS_VERIFIED_CAPACITY_ONLY"
+      },
+      "available_bulk_acceptor_capacity_cm3": 1.4857142857142858e+19,
+      "available_bulk_donor_capacity_cm3": 0.0,
+      "warnings": [],
+      "current_metrics": {
+        "all": {
+          "target_count": 121,
+          "positive_log_denominator": 67,
+          "nonpositive_log_excluded": 54,
+          "complete_positive_log": false,
+          "rmse_linear_A_per_um": 9.953956219371693e-09,
+          "mean_signed_linear_A_per_um": 4.482283659457381e-09,
+          "rmse_positive_log10_decades": 1.8134768110787032,
+          "native_zero_points": 54,
+          "native_negative_points": 0
+        },
+        "active": {
+          "target_count": 56,
+          "positive_log_denominator": 56,
+          "nonpositive_log_excluded": 0,
+          "complete_positive_log": true,
+          "rmse_linear_A_per_um": 1.4631686855281039e-08,
+          "mean_signed_linear_A_per_um": 9.685104357008339e-09,
+          "rmse_positive_log10_decades": 0.04920549217946042,
+          "native_zero_points": 0,
+          "native_negative_points": 0
+        },
+        "low_current": {
+          "target_count": 65,
+          "positive_log_denominator": 11,
+          "nonpositive_log_excluded": 54,
+          "complete_positive_log": false,
+          "rmse_linear_A_per_um": 1.539808726697766e-13,
+          "mean_signed_linear_A_per_um": -1.4647997113831936e-13,
+          "rmse_positive_log10_decades": 4.474241322825351,
+          "native_zero_points": 54,
+          "native_negative_points": 0
+        },
+        "subthreshold": {
+          "target_count": 12,
+          "positive_log_denominator": 12,
+          "nonpositive_log_excluded": 0,
+          "complete_positive_log": true,
+          "rmse_linear_A_per_um": 2.095498804630465e-10,
+          "mean_signed_linear_A_per_um": -1.2169948804441667e-10,
+          "rmse_positive_log10_decades": 0.05508456042786908,
+          "native_zero_points": 0,
+          "native_negative_points": 0
+        },
+        "on": {
+          "target_count": 44,
+          "positive_log_denominator": 44,
+          "nonpositive_log_excluded": 0,
+          "complete_positive_log": true,
+          "rmse_linear_A_per_um": 1.6506406221323584e-08,
+          "mean_signed_linear_A_per_um": 1.2359687223840913e-08,
+          "rmse_positive_log10_decades": 0.04747592696794918,
+          "native_zero_points": 0,
+          "native_negative_points": 0
+        }
+      },
+      "original_endpoint_gm_secants": [
+        {
+          "vg_start_V": -0.5,
+          "vg_end_V": 0,
+          "source_indices": [
+            50,
+            60
+          ],
+          "measured_gm_A_per_um_V": 2.620600000000001e-14,
+          "native_gm_A_per_um_V": 4.15718237e-16
+        },
+        {
+          "vg_start_V": 0,
+          "vg_end_V": 0.3,
+          "source_indices": [
+            60,
+            66
+          ],
+          "measured_gm_A_per_um_V": 2.7387356666666668e-11,
+          "native_gm_A_per_um_V": 2.6935392286271667e-11
+        },
+        {
+          "vg_start_V": 0.5,
+          "vg_end_V": 1,
+          "source_indices": [
+            70,
+            80
+          ],
+          "measured_gm_A_per_um_V": 1.7562348e-08,
+          "native_gm_A_per_um_V": 1.4981325512e-08
+        },
+        {
+          "vg_start_V": 1,
+          "vg_end_V": 1.5,
+          "source_indices": [
+            80,
+            90
+          ],
+          "measured_gm_A_per_um_V": 7.733112e-08,
+          "native_gm_A_per_um_V": 8.439675851e-08
+        },
+        {
+          "vg_start_V": 2.5,
+          "vg_end_V": 3,
+          "source_indices": [
+            110,
+            120
+          ],
+          "measured_gm_A_per_um_V": 3.2130999999999996e-07,
+          "native_gm_A_per_um_V": 2.818559156e-07
+        }
+      ],
+      "endpoint_error_percent": 1.966682645594986,
+      "depth_point_signatures": {
+        "bulk_free_electrons": {
+          "minimum_cm3": 784929947700.0,
+          "maximum_cm3": 9.956712484e+18,
+          "zero_points": 0
+        },
+        "bulk_ionized_acceptors": {
+          "minimum_cm3": 17350450940000.0,
+          "maximum_cm3": 7.896430439e+18,
+          "zero_points": 0
+        },
+        "bulk_ionized_donors": {
+          "minimum_cm3": 0.0,
+          "maximum_cm3": 0.0,
+          "zero_points": 121
+        },
+        "bulk_front_electrons": {
+          "minimum_cm3": 3.671779545e-33,
+          "maximum_cm3": 2.605930567e+19,
+          "zero_points": 0
+        },
+        "bulk_back_electrons": {
+          "minimum_cm3": 2.429130767e-32,
+          "maximum_cm3": 2.497920573e+17,
+          "zero_points": 0
+        }
+      },
+      "selected_native_states": [
+        {
+          "measurement_index": 0,
+          "vg_V": -3.0,
+          "measured_A_per_um": 1.86207e-13,
+          "native_id_A_per_um": 0.0,
+          "native_is_A_per_um": 0.0,
+          "native_ig_A_per_um": 0.0,
+          "native_source_external_V": 0.0,
+          "native_source_internal_V": 0.0,
+          "native_drain_external_V": 0.7,
+          "native_drain_internal_V": 0.7,
+          "channel_electrons_cm3": 1.396781039e-32,
+          "channel_mobility_cm2_Vs": 12.0,
+          "free_sheet_equivalent_cm2": 494505.867051,
+          "acceptor_sheet_equivalent_cm2": 10930784.0922,
+          "donor_sheet_equivalent_cm2": 0.0,
+          "free_charge_equivalent_C_cm2": -7.922857455650225e-14,
+          "acceptor_charge_equivalent_C_cm2": -1.751304686382174e-12,
+          "donor_charge_equivalent_C_cm2": 0.0,
+          "front_to_back_electron_ratio": 0.15115610879749727,
+          "acceptor_capacity_occupied_percent": 0.00011678188132692307,
+          "trapped_share_of_free_plus_acceptors_percent": 95.67183092232507,
+          "signed_linear_residual_A_per_um": -1.86207e-13,
+          "positive_log10_residual": null,
+          "original_measurement_active_mask": false,
+          "bulk_free_electrons_cm3": 784929947700.0,
+          "bulk_ionized_acceptors_cm3": 17350450940000.0,
+          "bulk_ionized_donors_cm3": 0.0,
+          "bulk_front_electrons_cm3": 3.671779545e-33,
+          "bulk_back_electrons_cm3": 2.429130767e-32
+        },
+        {
+          "measurement_index": 30,
+          "vg_V": -1.5,
+          "measured_A_per_um": 1.42759e-13,
+          "native_id_A_per_um": 0.0,
+          "native_is_A_per_um": 0.0,
+          "native_ig_A_per_um": 0.0,
+          "native_source_external_V": 0.0,
+          "native_source_internal_V": 0.0,
+          "native_drain_external_V": 0.7,
+          "native_drain_internal_V": 0.7,
+          "channel_electrons_cm3": 7.003590729e-15,
+          "channel_mobility_cm2_Vs": 12.0,
+          "free_sheet_equivalent_cm2": 685308.28779,
+          "acceptor_sheet_equivalent_cm2": 28427355.3501,
+          "donor_sheet_equivalent_cm2": 0.0,
+          "free_charge_equivalent_C_cm2": -1.0979849257836855e-13,
+          "acceptor_charge_equivalent_C_cm2": -4.554564450834511e-12,
+          "donor_charge_equivalent_C_cm2": 0.0,
+          "front_to_back_electron_ratio": 0.8953733113632485,
+          "acceptor_capacity_occupied_percent": 0.0003037110614326923,
+          "trapped_share_of_free_plus_acceptors_percent": 97.64601310167279,
+          "signed_linear_residual_A_per_um": -1.42759e-13,
+          "positive_log10_residual": null,
+          "original_measurement_active_mask": false,
+          "bulk_free_electrons_cm3": 1087790933000.0,
+          "bulk_ionized_acceptors_cm3": 45122786270000.0,
+          "bulk_ionized_donors_cm3": 0.0,
+          "bulk_front_electrons_cm3": 6.52485726e-15,
+          "bulk_back_electrons_cm3": 7.287303717e-15
+        },
+        {
+          "measurement_index": 60,
+          "vg_V": 0.0,
+          "measured_A_per_um": 1.83793e-13,
+          "native_id_A_per_um": 2.078591185e-16,
+          "native_is_A_per_um": -2.078570538e-16,
+          "native_ig_A_per_um": 0.0,
+          "native_source_external_V": 0.0,
+          "native_source_internal_V": 0.0,
+          "native_drain_external_V": 0.7,
+          "native_drain_internal_V": 0.7,
+          "channel_electrons_cm3": 65894675430.0,
+          "channel_mobility_cm2_Vs": 12.0,
+          "free_sheet_equivalent_cm2": 2607685.46262,
+          "acceptor_sheet_equivalent_cm2": 330705643.779,
+          "donor_sheet_equivalent_cm2": 0.0,
+          "free_charge_equivalent_C_cm2": -4.177972717031244e-13,
+          "acceptor_charge_equivalent_C_cm2": -5.298488551946413e-11,
+          "donor_charge_equivalent_C_cm2": 0.0,
+          "front_to_back_electron_ratio": 0.8956339725498809,
+          "acceptor_capacity_occupied_percent": 0.003533179954903846,
+          "trapped_share_of_free_plus_acceptors_percent": 99.21764741045513,
+          "signed_linear_residual_A_per_um": -1.835851408815e-13,
+          "positive_log10_residual": -2.946559885509105,
+          "original_measurement_active_mask": false,
+          "bulk_free_electrons_cm3": 4139183274000.0,
+          "bulk_ionized_acceptors_cm3": 524929593300000.0,
+          "bulk_ionized_donors_cm3": 0.0,
+          "bulk_front_electrons_cm3": 61405021280.0,
+          "bulk_back_electrons_cm3": 68560397620.0
+        },
+        {
+          "measurement_index": 70,
+          "vg_V": 0.5,
+          "measured_A_per_um": 2.42966e-10,
+          "native_id_A_per_um": 2.23312019e-10,
+          "native_is_A_per_um": -2.23312019e-10,
+          "native_ig_A_per_um": 0.0,
+          "native_source_external_V": 0.0,
+          "native_source_internal_V": 0.0,
+          "native_drain_external_V": 0.7,
+          "native_drain_internal_V": 0.7,
+          "channel_electrons_cm3": 2.176853684e+16,
+          "channel_mobility_cm2_Vs": 12.0,
+          "free_sheet_equivalent_cm2": 14915896543.8,
+          "acceptor_sheet_equivalent_cm2": 552528828180.0,
+          "donor_sheet_equivalent_cm2": 0.0,
+          "free_charge_equivalent_C_cm2": -2.3897900917637716e-09,
+          "acceptor_charge_equivalent_C_cm2": -8.852487781213967e-08,
+          "donor_charge_equivalent_C_cm2": 0.0,
+          "front_to_back_electron_ratio": 2.2259218807960934,
+          "acceptor_capacity_occupied_percent": 5.903085771153846,
+          "trapped_share_of_free_plus_acceptors_percent": 97.37139215611525,
+          "signed_linear_residual_A_per_um": -1.9653980999999996e-11,
+          "positive_log10_residual": -0.036633405759157966,
+          "original_measurement_active_mask": true,
+          "bulk_free_electrons_cm3": 2.367602626e+16,
+          "bulk_ionized_acceptors_cm3": 8.77029886e+17,
+          "bulk_ionized_donors_cm3": 0.0,
+          "bulk_front_electrons_cm3": 3.694844471e+16,
+          "bulk_back_electrons_cm3": 1.659916506e+16
+        },
+        {
+          "measurement_index": 80,
+          "vg_V": 1.0,
+          "measured_A_per_um": 9.02414e-09,
+          "native_id_A_per_um": 7.713974775e-09,
+          "native_is_A_per_um": -7.713974775e-09,
+          "native_ig_A_per_um": 0.0,
+          "native_source_external_V": 0.0,
+          "native_source_internal_V": 0.0,
+          "native_drain_external_V": 0.7,
+          "native_drain_internal_V": 0.7,
+          "channel_electrons_cm3": 1.537911592e+17,
+          "channel_mobility_cm2_Vs": 12.0,
+          "free_sheet_equivalent_cm2": 220088304954.0,
+          "acceptor_sheet_equivalent_cm2": 2029686982470.0,
+          "donor_sheet_equivalent_cm2": 0.0,
+          "free_charge_equivalent_C_cm2": -3.526203396139652e-08,
+          "acceptor_charge_equivalent_C_cm2": -3.2519170576474016e-07,
+          "donor_charge_equivalent_C_cm2": 0.0,
+          "front_to_back_electron_ratio": 10.895338324781918,
+          "acceptor_capacity_occupied_percent": 21.684689983653847,
+          "trapped_share_of_free_plus_acceptors_percent": 90.21732053933253,
+          "signed_linear_residual_A_per_um": -1.310165225e-09,
+          "positive_log10_residual": -0.06812760993931732,
+          "original_measurement_active_mask": true,
+          "bulk_free_electrons_cm3": 3.493465158e+17,
+          "bulk_ionized_acceptors_cm3": 3.221725369e+18,
+          "bulk_ionized_donors_cm3": 0.0,
+          "bulk_front_electrons_cm3": 7.995780769e+17,
+          "bulk_back_electrons_cm3": 7.338717285e+16
+        },
+        {
+          "measurement_index": 100,
+          "vg_V": 2.0,
+          "measured_A_per_um": 1.24345e-07,
+          "native_id_A_per_um": 1.442095081e-07,
+          "native_is_A_per_um": -1.442095081e-07,
+          "native_ig_A_per_um": 0.0,
+          "native_source_external_V": 0.0,
+          "native_source_internal_V": 0.0,
+          "native_drain_external_V": 0.7,
+          "native_drain_internal_V": 0.7,
+          "channel_electrons_cm3": 5.875344164e+17,
+          "channel_mobility_cm2_Vs": 12.0,
+          "free_sheet_equivalent_cm2": 2373788441430.0,
+          "acceptor_sheet_equivalent_cm2": 4074237813869.9995,
+          "donor_sheet_equivalent_cm2": 0.0,
+          "free_charge_equivalent_C_cm2": -3.8032283749184236e-07,
+          "acceptor_charge_equivalent_C_cm2": -6.527648626741754e-07,
+          "donor_charge_equivalent_C_cm2": 0.0,
+          "front_to_back_electron_ratio": 56.09267554767029,
+          "acceptor_capacity_occupied_percent": 43.52818177211538,
+          "trapped_share_of_free_plus_acceptors_percent": 63.185813031098505,
+          "signed_linear_residual_A_per_um": 1.986450810000001e-08,
+          "positive_log10_residual": 0.0643655687980873,
+          "original_measurement_active_mask": true,
+          "bulk_free_electrons_cm3": 3.767918161e+18,
+          "bulk_ionized_acceptors_cm3": 6.467044149e+18,
+          "bulk_ionized_donors_cm3": 0.0,
+          "bulk_front_electrons_cm3": 9.509476266e+18,
+          "bulk_back_electrons_cm3": 1.69531515e+17
+        },
+        {
+          "measurement_index": 120,
+          "vg_V": 3.0,
+          "measured_A_per_um": 4.03448e-07,
+          "native_id_A_per_um": 4.113825418e-07,
+          "native_is_A_per_um": -4.113825418e-07,
+          "native_ig_A_per_um": 0.0,
+          "native_source_external_V": 0.0,
+          "native_source_internal_V": 0.0,
+          "native_drain_external_V": 0.7,
+          "native_drain_internal_V": 0.7,
+          "channel_electrons_cm3": 1.177378501e+18,
+          "channel_mobility_cm2_Vs": 12.0,
+          "free_sheet_equivalent_cm2": 6272728864920.0,
+          "acceptor_sheet_equivalent_cm2": 4974751176570.0,
+          "donor_sheet_equivalent_cm2": 0.0,
+          "free_charge_equivalent_C_cm2": -1.0050019618792165e-06,
+          "acceptor_charge_equivalent_C_cm2": -7.970430095064463e-07,
+          "donor_charge_equivalent_C_cm2": 0.0,
+          "front_to_back_electron_ratio": 104.32399633388984,
+          "acceptor_capacity_occupied_percent": 53.149051031730764,
+          "trapped_share_of_free_plus_acceptors_percent": 44.229917796866566,
+          "signed_linear_residual_A_per_um": 7.934541800000014e-09,
+          "positive_log10_residual": 0.008458290322157502,
+          "original_measurement_active_mask": true,
+          "bulk_free_electrons_cm3": 9.956712484e+18,
+          "bulk_ionized_acceptors_cm3": 7.896430439e+18,
+          "bulk_ionized_donors_cm3": 0.0,
+          "bulk_front_electrons_cm3": 2.605930567e+19,
+          "bulk_back_electrons_cm3": 2.497920573e+17
+        }
+      ],
+      "front_back_ionized_trap_density_available": false,
+      "interpretation": "Front/back values are local free-electron densities. Ionized acceptor/donor values are exposed-channel box averages, excluding under-contact film. Ionized acceptors are electron-filled and negative; ionized donors are empty and positive. Density nonuniformity does not establish a nonuniform ND/material profile or a conducting path. Equivalent sheet charge is the native full-thickness box average times thickness, not an independent spatial integral; it excludes other Poisson/electrode contributions.",
+      "probe_unit_reference": "ATLAS 5.28.1.R manual: AVERAGE p1530, box integration p1535, REGION p1537, point X/Y p1539.",
+      "interpolation_performed": false,
+      "artificial_current_or_density_floor": false,
+      "current_log_policy": "Signed positive native current only; nonpositive logarithms are null and counted. All121 linear residuals retained.",
+      "mesh_or_DOS_convergence_granted": false,
+      "measurement_fit_validated": false,
+      "report_directory": "C:\\Users\\moham\\Downloads\\IWO_Local_Codex_Handoff (1)\\IWO_ATLAS_Model\\results\\priority_three_20260912\\depth_fit6_mu12\\01_6p3nm"
+    }
+  ],
+  "limitations": [
+    "No front/back ionized-trap probes exist in this schema; ionized charge is an exposed-channel box average.",
+    "Spatially varying electrons do not by themselves establish a spatial donor/material profile.",
+    "Per-run strict checks do not replace independent mesh, width or DOS convergence checks."
+  ]
+}

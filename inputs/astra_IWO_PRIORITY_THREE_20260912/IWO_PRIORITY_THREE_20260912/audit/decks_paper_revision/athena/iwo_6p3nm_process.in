@@ -1,0 +1,53 @@
+go athena
+# Thickness variant generated from verified 2 nm geometry; THIS VARIANT IS UNRUN.
+
+# IWO TFT: measured-thickness process geometry, NOT predictive DC sputtering.
+# Units: micrometres. n+Si / TiN50nm / HfO2 15nm / Al2O3 2nm /
+# IWO6.3nm / patterned Pd70nm. Channel length20um; width assigned in ATLAS.
+# Overlap2um per side and substrate slice200nm are modeling assumptions.
+# Installed ATHENA5.22.3.R manual: printed pp288-289,303-305,312,315-316.
+# No deposition rate, oxygen vacancy density, or thermal diffusion is invented.
+
+# 1. Silicon support, x0..24um; surface initially y=0.
+line x loc=0 spac=0.5
+line x loc=2 spac=0.1
+line x loc=12 spac=1
+line x loc=22 spac=0.1
+line x loc=24 spac=0.5
+line y loc=0 spac=0.002
+line y loc=0.02 spac=0.005
+line y loc=0.2 spac=0.03
+init silicon c.phosphor=1e19 orientation=100 two.d
+
+# 2. Blanket stack; conformal DEPOSIT reproduces measured thicknesses.
+# Conductor is an explicit ideal TiN surrogate for electrode recognition.
+# Tin is elemental tin, not TiN. An arbitrary TiN_gate label is not a
+# documented ATHENA ELECTRODE-compatible material.
+deposit material=Conductor thick=0.05 divisions=5 min.dy=0.001
+deposit material=HfO2 thick=0.015 divisions=10 min.dy=0.00025
+deposit material=Al2O3 thick=0.002 divisions=8 min.dy=0.00025
+
+# User-defined IWO geometry. No dopant or generic silicon vacancy profile
+# is assigned here; ATLAS must assign and validate electronic IWO properties.
+deposit material=IWO thick=0.0063 divisions=13 min.dy=0.00025
+structure outfile=iwo_6p3nm_athena_channel.str
+
+# 3. Pd contacts. Geometrical removal represents the final lift-off opening;
+# it does not claim a physical selective-Pd etchant or predict process damage.
+deposit material=Palladium thick=0.07 divisions=7 min.dy=0.001
+etch material=Palladium start x=2 y=-0.1443
+etch continue x=2 y=-0.0733
+etch continue x=22 y=-0.0733
+etch done x=22 y=-0.1443
+
+# 4. Contacts located inside recognized conductor regions.
+electrode name=gate x=12 y=-0.025
+electrode name=source x=1 y=-0.1083
+electrode name=drain x=23 y=-0.1083
+structure outfile=iwo_6p3nm_athena_device.str
+
+# Batch deck deliberately avoids opening plot windows.
+# For interactive inspection use:
+# tonyplot iwo_6p3nm_athena_channel.str
+# tonyplot iwo_6p3nm_athena_device.str
+quit

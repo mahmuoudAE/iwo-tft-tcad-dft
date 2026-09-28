@@ -1,0 +1,195 @@
+=== 0. measured metrics (extract_metrics.py unchanged)
+2.0 {'Vth_cc_1e-9_V': 0.66182, 'Vth_lin_V': 1.6631, 'SS_mV_dec': 84.454, 'SS_cc_1e-10_1e-8_mV_dec': 269.9, 'gm_max_A_V_um': 3.807e-07, 'mu_FE_cm2Vs': 12.146, 'Ion_A_per_um': 5.0897e-07, 'off_band_median_A_per_um': 4.6055e-15}
+   gm argmax at Vg = 3.0  gm(3V)/gm_max = 1.0
+6.3 {'Vth_cc_1e-9_V': 0.644, 'Vth_lin_V': 1.82, 'SS_mV_dec': 114.67, 'SS_cc_1e-10_1e-8_mV_dec': 295.37, 'gm_max_A_V_um': 3.4311e-07, 'mu_FE_cm2Vs': 10.947, 'Ion_A_per_um': 4.0345e-07, 'off_band_median_A_per_um': 1.5276e-13}
+   gm argmax at Vg = 2.85  gm(3V)/gm_max = 0.9809
+13.2 {'Vth_cc_1e-9_V': 0.082522, 'Vth_lin_V': 1.0441, 'SS_mV_dec': 130.77, 'SS_cc_1e-10_1e-8_mV_dec': 160.02, 'gm_max_A_V_um': 1.5724e-06, 'mu_FE_cm2Vs': 50.166, 'Ion_A_per_um': 3.0707e-06, 'off_band_median_A_per_um': 6.5965e-12}
+   gm argmax at Vg = 2.8  gm(3V)/gm_max = 0.9781
+31.8 {'Vth_cc_1e-9_V': None, 'Vth_lin_V': -0.90873, 'SS_mV_dec': None, 'SS_cc_1e-10_1e-8_mV_dec': None, 'gm_max_A_V_um': 1.5414e-06, 'mu_FE_cm2Vs': 49.176, 'Ion_A_per_um': 3.5903e-06, 'off_band_median_A_per_um': 2.7493e-07}
+   gm argmax at Vg = -0.3  gm(3V)/gm_max = 0.0671
+
+=== 1. simulated metrics recomputed from comparison.csv (atlas column, already np.interp onto the 0.05 V grid)
+run_0001 2.0 Vcc 0.9949 Vlin 1.8375 SSmin 80.8 SScc 294.2 gm 3.1934e-07 muFE 10.188 Ion 3.7123e-07 RMSE 3.9278 IonErr -27.06% | matches execution.json: True
+run_0002 13.2 Vcc 0.3691 Vlin 1.2854 SSmin 146.2 SScc 195.4 gm 1.4096e-06 muFE 44.972 Ion 2.4170e-06 RMSE 1.0301 IonErr -21.29% | matches execution.json: True
+run_0003 2.0 Vcc 0.6856 Vlin 1.5609 SSmin 83.1 SScc 294.2 gm 3.2778e-07 muFE 10.458 Ion 4.7170e-07 RMSE 0.0558 IonErr -7.32% | matches execution.json: True
+run_0004 13.2 Vcc 0.0593 Vlin 1.0010 SSmin 151.2 SScc 195.4 gm 1.4292e-06 muFE 45.598 Ion 2.8569e-06 RMSE 0.0856 IonErr -6.96% | matches execution.json: True
+run_0005 6.3 Vcc 0.3499 Vlin 1.2149 SSmin 108.2 SScc 284.9 gm 2.8648e-07 muFE 9.140 Ion 5.1141e-07 RMSE 0.6780 IonErr +26.76% | matches execution.json: True
+run_0007 6.3 Vcc 0.6442 Vlin 1.4744 SSmin 110.8 SScc 284.7 gm 2.8048e-07 muFE 8.949 Ion 4.2789e-07 RMSE 0.0816 IonErr +6.06% | matches execution.json: True
+run_0012 2.0 Vcc 0.6763 Vlin 1.5586 SSmin 73.2 SScc 289.1 gm 3.5314e-07 muFE 11.267 Ion 5.0903e-07 RMSE 0.0373 IonErr +0.01% | matches execution.json: True
+run_0013 13.2 Vcc 0.0530 Vlin 0.9991 SSmin 151.3 SScc 192.5 gm 1.5344e-06 muFE 48.954 Ion 3.0702e-06 RMSE 0.0814 IonErr -0.02% | matches execution.json: True
+run_0014 6.3 Vcc 0.3499 Vlin 1.2120 SSmin 108.2 SScc 284.9 gm 2.8602e-07 muFE 9.125 Ion 5.1141e-07 RMSE 0.6781 IonErr +26.76% | matches execution.json: True
+run_0015 6.3 Vcc 0.6510 Vlin 1.4712 SSmin 110.8 SScc 288.8 gm 2.6386e-07 muFE 8.418 Ion 4.0339e-07 RMSE 0.0626 IonErr -0.01% | matches execution.json: True
+run_0016 2.0 Vcc 0.3608 Vlin 1.2598 SSmin 83.9 SScc 303.7 gm 3.5508e-07 muFE 11.329 Ion 6.1792e-07 RMSE 0.8457 IonErr +21.41% | matches execution.json: True
+run_0017 13.2 Vcc 0.0296 Vlin 0.9789 SSmin 138.6 SScc 193.3 gm 1.5332e-06 muFE 48.916 Ion 3.0987e-06 RMSE 0.1145 IonErr +0.91% | matches execution.json: True
+run_0019 2.0 Vcc 0.6772 Vlin 1.5409 SSmin 73.2 SScc 289.3 gm 3.5578e-07 muFE 11.351 Ion 5.1912e-07 RMSE 0.0401 IonErr +2.00% | matches execution.json: True
+run_0029 2.0 Vcc 0.6774 Vlin 1.5365 SSmin 73.2 SScc 289.3 gm 3.5644e-07 muFE 11.372 Ion 5.2164e-07 RMSE 0.0410 IonErr +2.49% | matches execution.json: True
+run_0030 6.3 Vcc 0.6274 Vlin 1.3517 SSmin 97.7 SScc 231.3 gm 2.7994e-07 muFE 8.931 Ion 4.6142e-07 RMSE 0.2372 IonErr +14.37% | matches execution.json: True
+run_0031 6.3 Vcc 0.3862 Vlin 1.2653 SSmin 117.3 SScc 290.5 gm 2.8097e-07 muFE 8.964 Ion 4.8740e-07 RMSE 0.6126 IonErr +20.81% | matches execution.json: True
+run_0032 6.3 Vcc 0.3798 Vlin 1.2269 SSmin 114.7 SScc 280.7 gm 2.8314e-07 muFE 9.033 Ion 5.0203e-07 RMSE 0.6341 IonErr +24.43% | matches execution.json: True
+run_0033 6.3 Vcc 0.4008 Vlin 1.2579 SSmin 116.5 SScc 286.3 gm 2.8505e-07 muFE 9.094 Ion 4.9659e-07 RMSE 0.5955 IonErr +23.09% | matches execution.json: True
+run_0034 6.3 Vcc 0.5867 Vlin 1.4259 SSmin 117.7 SScc 287.7 gm 2.7983e-07 muFE 8.928 Ion 4.4047e-07 RMSE 0.2109 IonErr +9.18% | matches execution.json: True
+run_0035 6.3 Vcc 0.5646 Vlin 1.3356 SSmin 97.3 SScc 249.5 gm 2.7603e-07 muFE 8.807 Ion 4.5941e-07 RMSE 0.2464 IonErr +13.87% | matches execution.json: True
+run_0036 6.3 Vcc 0.6507 Vlin 1.4710 SSmin 110.9 SScc 288.9 gm 2.6380e-07 muFE 8.416 Ion 4.0334e-07 RMSE 0.0625 IonErr -0.03% | matches execution.json: True
+run_0037 6.3 Vcc 0.6543 Vlin 1.8563 SSmin 141.6 SScc 410.9 gm 3.2584e-07 muFE 10.396 Ion 3.7267e-07 RMSE 0.2699 IonErr -7.63% | matches execution.json: True
+run_0038 2.0 Vcc 0.6804 Vlin 1.5365 SSmin 83.1 SScc 290.9 gm 3.4779e-07 muFE 11.096 Ion 5.0897e-07 RMSE 0.0429 IonErr +0.00% | matches execution.json: True
+run_0039 6.3 Vcc 0.6548 Vlin 1.4664 SSmin 110.9 SScc 290.7 gm 2.5917e-07 muFE 8.269 Ion 3.9746e-07 RMSE 0.0592 IonErr -1.48% | matches execution.json: True
+run_0040 13.2 Vcc 0.0553 Vlin 0.9946 SSmin 151.4 SScc 193.8 gm 1.5010e-06 muFE 47.888 Ion 3.0101e-06 RMSE 0.0814 IonErr -1.97% | matches execution.json: True
+run_0048 2.0 Vcc 0.7804 Vlin 1.6283 SSmin 83.1 SScc 290.9 gm 3.4570e-07 muFE 11.029 Ion 4.7420e-07 RMSE 0.4695 IonErr -6.83% | matches execution.json: True
+run_0049 13.2 Vcc 0.1553 Vlin 1.0868 SSmin 151.4 SScc 193.8 gm 1.4949e-06 muFE 47.694 Ion 2.8600e-06 RMSE 0.2209 IonErr -6.86% | matches execution.json: True
+run_0050 2.0 Vcc 0.6369 Vlin 1.4938 SSmin 73.3 SScc 273.2 gm 3.5189e-07 muFE 11.227 Ion 5.3001e-07 RMSE 0.0866 IonErr +4.14% | matches execution.json: True
+run_0051 13.2 Vcc 0.0267 Vlin 0.9339 SSmin 126.1 SScc 180.5 gm 1.5413e-06 muFE 49.174 Ion 3.1845e-06 RMSE 0.1223 IonErr +3.71% | matches execution.json: True
+run_0052 6.3 Vcc 0.6483 Vlin 1.5870 SSmin 116.5 SScc 304.4 gm 3.3113e-07 muFE 10.564 Ion 4.6789e-07 RMSE 0.0812 IonErr +15.97% | matches execution.json: True
+
+--- V1: A6 (run_0034) vs run_0014 Vth_cc miss
+run_0014 miss -0.2941 V ; run_0034 (A6) miss -0.0573 V ; run_0015 miss +0.0070 V
+gap (Vth_lin - Vth_cc): meas 6.3 1.1760 ; run_0014 0.8621 ; run_0015 0.8202 ; run_0034 0.8393 ; B0 1.2019 ; C1 0.9387
+
+--- V2: B0 run_0037
+B0 Vcc 0.6543 Vlin 1.8563 SS_cc 410.95 SS_min 141.60 muFE 10.396 Ion err -7.63%; meas SS_cc 295.37 SS_min 114.67
+B0 SS_cc - run_0015 SS_cc = +122.1 ; B0 SS_min - run_0015 SS_min = +30.8
+
+=== V3: saturation-formula mobility mu_sat = 2L/(W Cox) (d sqrt(Id)/dVg)^2 with several derivative schemes
+2.0 [central np.gradient(sqrt Id): 5.09 @ 1.75 V] [forward diff: 5.09 @ 1.70 V] [backward diff: 5.09 @ 1.75 V] [gm/(2 sqrt Id), central gm: 5.09 @ 1.75 V] [Savitzky-Golay w5 o2: 5.08 @ 1.70 V] [Savitzky-Golay w7 o2: 5.04 @ 1.65 V] [Savitzky-Golay w9 o2: 4.99 @ 1.65 V]
+   central-scheme peak at 1.75 V: Vov vs Vth_cc = 1.09 V, vs Vth_lin = 0.09 V (Vd 0.7 V); mu_sat/mu_FE(lin) = 0.419
+6.3 [central np.gradient(sqrt Id): 3.86 @ 2.55 V] [forward diff: 3.90 @ 2.55 V] [backward diff: 3.90 @ 2.60 V] [gm/(2 sqrt Id), central gm: 3.86 @ 2.55 V] [Savitzky-Golay w5 o2: 3.79 @ 2.75 V] [Savitzky-Golay w7 o2: 3.78 @ 2.65 V] [Savitzky-Golay w9 o2: 3.77 @ 2.70 V]
+   central-scheme peak at 2.55 V: Vov vs Vth_cc = 1.91 V, vs Vth_lin = 0.73 V (Vd 0.7 V); mu_sat/mu_FE(lin) = 0.352
+13.2 [central np.gradient(sqrt Id): 27.40 @ 0.95 V] [forward diff: 27.49 @ 0.90 V] [backward diff: 27.49 @ 0.95 V] [gm/(2 sqrt Id), central gm: 27.40 @ 0.95 V] [Savitzky-Golay w5 o2: 26.41 @ 1.00 V] [Savitzky-Golay w7 o2: 25.92 @ 1.05 V] [Savitzky-Golay w9 o2: 25.72 @ 1.05 V]
+   central-scheme peak at 0.95 V: Vov vs Vth_cc = 0.87 V, vs Vth_lin = -0.09 V (Vd 0.7 V); mu_sat/mu_FE(lin) = 0.546
+ratio 13.2/2 (central) = 5.387 ; paper 27.4/5.1 = 5.373
+
+=== V4: off-state floors
+2.0 [-2,-0.5] n=31 median 4.606e-15 min 2.414e-15 max 5.514e-15 max/min 2.28 p10/p90 of I/median 0.818/1.104 slope +0.0761 dec/V; total current (x290 um) 1.34e-12 A
+2.0 [-3,-0.5] n=51 median 3.915e-15 min 1.079e-16 max 5.514e-15 max/min 51.09 p10/p90 of I/median 0.416/1.284 slope +0.3508 dec/V; total current (x290 um) 1.14e-12 A
+2.0 [-3,-2] n=21 median 2.393e-15 min 1.079e-16 max 3.635e-15 max/min 33.68 p10/p90 of I/median 0.172/1.425 slope +1.2091 dec/V; total current (x290 um) 6.94e-13 A
+   median(-3..-1.75)/median(-1.75..-0.5) = 0.580
+6.3 [-2,-0.5] n=31 median 1.528e-13 min 7.103e-14 max 2.128e-13 max/min 3.00 p10/p90 of I/median 0.553/1.246 slope -0.0129 dec/V; total current (x290 um) 4.43e-11 A
+6.3 [-3,-0.5] n=51 median 1.528e-13 min 6.103e-14 max 2.128e-13 max/min 3.49 p10/p90 of I/median 0.564/1.246 slope -0.0110 dec/V; total current (x290 um) 4.43e-11 A
+6.3 [-3,-2] n=21 median 1.534e-13 min 6.103e-14 max 2.003e-13 max/min 3.28 p10/p90 of I/median 0.712/1.213 slope -0.0206 dec/V; total current (x290 um) 4.45e-11 A
+   median(-3..-1.75)/median(-1.75..-0.5) = 0.980
+13.2 [-2,-0.5] n=31 median 6.597e-12 min 6.421e-12 max 6.803e-12 max/min 1.06 p10/p90 of I/median 0.976/1.025 slope -0.0013 dec/V; total current (x290 um) 1.91e-09 A
+13.2 [-3,-0.5] n=51 median 6.576e-12 min 6.421e-12 max 6.841e-12 max/min 1.07 p10/p90 of I/median 0.982/1.034 slope -0.0017 dec/V; total current (x290 um) 1.91e-09 A
+13.2 [-3,-2] n=21 median 6.559e-12 min 6.462e-12 max 6.841e-12 max/min 1.06 p10/p90 of I/median 0.991/1.037 slope -0.0022 dec/V; total current (x290 um) 1.90e-09 A
+   median(-3..-1.75)/median(-1.75..-0.5) = 0.978
+floor ratio 13.2/2 = 1432.3 (exponent 3.851); 6.3/2 = 33.2 (exp 3.052); 13.2/6.3 = 43.2 (exp 5.091)
+  floor/Ion 2.0: 9.05e-09
+  floor/Ion 6.3: 3.79e-07
+  floor/Ion 13.2: 2.15e-06
+
+=== V5: q/Cox rigid shifts
+q/Cox = 0.17891 V per 1e12 cm^-2 ; dQf 1.73e12-8.7e10 -> 0.2939 V ; 1.73e12 -> 0.3095 V ; 1.73e12-4.76e10 -> 0.3010 V
+dEc law: 2 nm 0.3533, 6.3 nm 0.0724, 13.2 nm 0.0261 eV; dEc(2) as charge 1.975e+12 cm^-2
+2 nm QC on - off 1e-14:0.3446 1e-13:0.3443 1e-12:0.3429 1e-11:0.3405 1e-10:0.3309 1e-09:0.3156 1e-08:0.3017 1e-07:0.3056 3e-07:0.3109
+13.2 nm QC on - off 1e-14:0.0255 1e-13:0.0254 1e-12:0.025 1e-11:0.0258 1e-10:0.0246 1e-09:0.0234 1e-08:0.0229 1e-07:0.0227 3e-07:0.0222
+2 nm Qf 1.73e12 - 0 1e-14:-0.3095 1e-13:-0.3095 1e-12:-0.3097 1e-11:-0.3092 1e-10:-0.3096 1e-09:-0.3092 1e-08:-0.3097 1e-07:-0.3093 3e-07:-0.3096
+13.2 nm Qf 1.73e12 - 0 1e-14:-0.3095 1e-13:-0.3094 1e-12:-0.3098 1e-11:-0.3094 1e-10:-0.3098 1e-09:-0.3098 1e-08:-0.3097 1e-07:-0.3097 3e-07:-0.3097
+6.3 nm Qf 8.7e10 - 1.73e12 1e-14:0.294 1e-13:0.2939 1e-12:0.2941 1e-11:0.2936 1e-10:0.2942 1e-09:0.2942 1e-08:0.2938 1e-07:0.2938 3e-07:0.294
+6.3 nm A6 - run_0014 1e-14:0.2306 1e-13:0.2304 1e-12:0.2308 1e-11:0.2307 1e-10:0.2335 1e-09:0.2368 1e-08:0.239 1e-07:0.244 3e-07:0.2466
+Vth_cc realised confinement: 2 nm (0012-0016) 0.3156 ; 13.2 nm (0013-0017) 0.0234 ; 6.3 nm (0014 - (0034 - Qf shift)) 0.0642
+SS_cc 0012 / 0016 / meas2: 289.1 / 303.7 / 269.9
+
+=== V6: DOS 96/48 -> 384/192 Ion offset at equal mu
+run_0012 (mu 18.13) Ion 5.09029e-07 ; run_0029 (mu 18.13) Ion 5.21635e-07 ; offset at equal mu = +2.476 %
+run_0012 (mu 18.13) Ion 5.09029e-07 ; run_0038 (mu 17.69) Ion 5.08975e-07 ; offset at equal mu = +2.476 %
+run_0015 (mu 11.69) Ion 4.03392e-07 ; run_0039 (mu 11.41) Ion 3.97457e-07 ; offset at equal mu = +0.947 %
+run_0013 (mu 61.9) Ion 3.07020e-06 ; run_0040 (mu 60.39) Ion 3.01015e-06 ; offset at equal mu = +0.496 %
+mu 0012/0019/0029: 18.13 18.13 18.13
+refinement 96->192 +1.983 %, 192->384 +0.484 %, observed order p = 2.03, Richardson residual beyond 384 = +0.156 %
+mu recal: 2 nm 17.6897 6.3 nm 11.5820 13.2 nm 61.6046
+linearity run_0029/run_0038 over 43 pts: mean 1.024879 min 1.024817 max 1.025135 ; mu ratio 1.024873
+
+=== V7: tmu factor
+T 338.15: (T/300)^-1.5 = 0.83564 ; (T/300)^+1.5 = 1.19669
+T 358.15: (T/300)^-1.5 = 0.76663 ; (T/300)^+1.5 = 1.30441
+2 nm mun at 300 K = mu_band 17.6897 x (1-0.287/2)^2 = 12.9770 (deckbuild prints "mu = 12.977 @ 358 K, tmu 1.5")
+run_0045 (358.15 K) Ion_native 3.9403e-07 / run_0038 5.0897e-07 = 0.7742 ; x(T/300)^1.5 = 1.0098 ; mu_band run/ref 17.6897/17.69
+run_0044 (338.15 K) Ion_native 4.2801e-07 / run_0038 5.0897e-07 = 0.8409 ; x(T/300)^1.5 = 1.0063 ; mu_band run/ref 17.6897/17.69
+run_0046 (358.15 K) Ion_native 3.1617e-07 / run_0039 3.9746e-07 = 0.7955 ; x(T/300)^1.5 = 1.0376 ; mu_band run/ref 11.582/11.41
+run_0047 (358.15 K) Ion_native 2.3899e-06 / run_0040 3.0101e-06 = 0.7939 ; x(T/300)^1.5 = 1.0356 ; mu_band run/ref 61.6046/60.39
+
+=== V8: S1 "86 % of the 2->6.3 drop is confinement"
+ATLAS 2->6.3 model drop (0012-0014) 0.3265 V ; bare dEc difference 0.2809 eV -> 86.0 % ; realised (counterfactual) confinement difference 0.2514 V -> 77.0 %
+measured 2->13.2 Vth_cc step 0.5793 V ; model step (0012-0013) 0.6233 ; realised confinement share 0.2921 V = 50.4 % of the measured step
+runs 0001/0002 offsets vs measured: 2 nm +0.3331, 13.2 nm +0.2866 (diff 0.0465 V)
+runs 0003/0004 offsets vs measured: 2 nm +0.0238, 13.2 nm -0.0232
+   run_0001: Qf 0.0 mu_band 16.8 full_structure False
+   run_0002: Qf 0.0 mu_band 57.6 full_structure False
+   run_0003: Qf 1730000000000.0 mu_band 16.8 full_structure False
+   run_0004: Qf 1730000000000.0 mu_band 57.6 full_structure False
+
+=== V9: SS_min window phase (2 nm)
+run_0012: Id(0.15 V) 2.3383e-14 vs 5xfloor 2.3028e-14 -> window starts 0.15 ; SS_min 73.21
+run_0038: Id(0.15 V) 2.2813e-14 vs 5xfloor 2.3028e-14 -> window starts >=0.20 ; SS_min 83.14
+run_0029: Id(0.15 V) 2.3386e-14 vs 5xfloor 2.3028e-14 -> window starts 0.15 ; SS_min 73.23
+run_0013 / run_0017 SS_min 151.3 / 138.6
+
+=== V10: fixed-current SS (measured), with and without subtracting the off-band median
+2.0 SS 1e-11..1e-10: raw 121.2 sub 121.2 ; 1e-10..1e-9: raw 194.8 sub 194.8
+6.3 SS 1e-11..1e-10: raw 124.5 sub 123.7 ; 1e-10..1e-9: raw 210.0 sub 209.9
+13.2 SS 1e-11..1e-10: raw 136.1 sub 91.8 ; 1e-10..1e-9: raw 121.6 sub 118.8
+run_0038 sim SS 1e-11..1e-10 123.5 ; 1e-10..1e-9 215.0
+run_0039 sim SS 1e-11..1e-10 124.8 ; 1e-10..1e-9 216.5
+run_0040 sim SS 1e-11..1e-10 91.2 ; 1e-10..1e-9 144.1
+
+=== V11: one-offset Vth_cc stories, QC vs no-QC (rigid Qf shift exact)
+QC raw residuals at Qf 1.73e12: {2.0: 0.0145, 6.3: -0.2941, 13.2: -0.0295}
+   Qf fitted on 2.0 nm only -> held-out misses {6.3: -0.3086, 13.2: -0.044}  rms 0.2205 V ; Qf = 1.811e12 cm^-2
+   Qf fitted on 6.3 nm only -> held-out misses {2.0: 0.3086, 13.2: 0.2646}  rms 0.2875 V ; Qf = 0.086e12 cm^-2
+   Qf fitted on 13.2 nm only -> held-out misses {2.0: 0.044, 6.3: -0.2646}  rms 0.1897 V ; Qf = 1.565e12 cm^-2
+   LSQ offset over all 3 -> residuals {2.0: np.float64(0.1176), 6.3: np.float64(-0.1911), 13.2: np.float64(0.0735)} rms 0.1363 V
+   LOO (offset from the other two) held-out misses {2.0: np.float64(0.1763), 6.3: np.float64(-0.2866), 13.2: np.float64(0.1103)} rms 0.2045
+noQC raw residuals at Qf 1.73e12: {2.0: -0.3011, 6.3: -0.3583, 13.2: -0.053}
+   Qf fitted on 2.0 nm only -> held-out misses {6.3: -0.0573, 13.2: 0.2481}  rms 0.1800 V ; Qf = 0.047e12 cm^-2
+   Qf fitted on 6.3 nm only -> held-out misses {2.0: 0.0573, 13.2: 0.3054}  rms 0.2197 V ; Qf = -0.273e12 cm^-2
+   Qf fitted on 13.2 nm only -> held-out misses {2.0: -0.2481, 6.3: -0.3054}  rms 0.2782 V ; Qf = 1.434e12 cm^-2
+   LSQ offset over all 3 -> residuals {2.0: np.float64(-0.0636), 6.3: np.float64(-0.1209), 13.2: np.float64(0.1845)} rms 0.1325 V
+   LOO (offset from the other two) held-out misses {2.0: np.float64(-0.0954), 6.3: np.float64(-0.1813), 13.2: np.float64(0.2767)} rms 0.1988
+
+=== V12: LOO on mu_FE (fit 2 & 13.2, predict 6.3)
+power-law exponent 0.7516; predicted mu(6.3) 28.77 vs 10.95 -> x2.63
+step with t_c in (6.3,13.2): predicted mu(6.3) = mu(2) = 12.15 -> x1.110; step with t_c in (2,6.3): predicted 50.17 -> x4.58
+Nt exponent ln4/ln6.6 = 0.7346 ; Nt law check 2e19 (2/6.3)^0.75 = 8.459e+18, (2/13.2)^0.75 = 4.857e+18
+
+=== V13: CC-definition effect on measured 13.2 nm (S1: +0.108 / +0.115 V)
+mu_FE ratio 4.130  Vg(1e-9 x ratio) - Vg(1e-9) = +0.1084 V
+mu0 4.45 ratio 4.450  Vg(1e-9 x ratio) - Vg(1e-9) = +0.1154 V
+
+=== V14: 31.8 nm
+31.8 nm gm_max 1.5414e-06 at Vg -0.30 V -> mu_FE 49.18 ; Id(-3 V) 2.998e-07 ; local gm maxima at Vg: [-0.3, 0.85, 1.15, 1.7]
+
+=== V15: isolation runs Ion vs same-mu baselines
+run_0048 (mu 17.69) vs run_0038 (mu 17.69): dIon -6.83 % ; vs measured -6.83 % ; dVth_cc +0.1000 V ; dSS_cc -0.0
+run_0049 (mu 60.39) vs run_0040 (mu 60.39): dIon -4.99 % ; vs measured -6.86 % ; dVth_cc +0.1000 V ; dSS_cc +0.0
+run_0050 (mu 17.69) vs run_0038 (mu 17.69): dIon +4.13 % ; vs measured +4.14 % ; dVth_cc -0.0435 V ; dSS_cc -17.7
+run_0051 (mu 60.39) vs run_0040 (mu 60.39): dIon +5.79 % ; vs measured +3.71 % ; dVth_cc -0.0287 V ; dSS_cc -13.2
+
+=== V16: A7 mesh check and active-region spans
+run_0036 RMSE 0.06247 Ion err -0.027% ; run_0015 RMSE 0.06261 ; dVth_cc -0.00032 V
+run_0012: active region Vg 0.20..3.00 V, n=57 (execution.json count 57), Id 1.37e-13..5.09e-07 (6.57 dec)
+run_0015: active region Vg 0.25..3.00 V, n=56 (execution.json count 56), Id 2.28e-12..4.03e-07 (5.25 dec)
+run_0013: active region Vg -0.05..3.00 V, n=62 (execution.json count 62), Id 7.88e-11..3.07e-06 (4.59 dec)
+run_0038: active region Vg 0.20..3.00 V, n=57 (execution.json count 57), Id 1.37e-13..5.09e-07 (6.57 dec)
+run_0039: active region Vg 0.25..3.00 V, n=56 (execution.json count 56), Id 2.28e-12..4.03e-07 (5.25 dec)
+run_0040: active region Vg -0.05..3.00 V, n=62 (execution.json count 62), Id 7.88e-11..3.07e-06 (4.59 dec)
+
+=== V17: smallest point-to-point SS on the measured curves (paper claims 60-70 mV/dec)
+2.0: min 2-point SS 58.6 mV/dec between Vg 0.15 and 0.20 (Id 1.92e-14 -> 1.37e-13); SS_min(5-pt, floor-gated) 84.5
+     5-pt SS without floor gate: 70.6 at Vg 0.20
+6.3: min 2-point SS 33.4 mV/dec between Vg -0.05 and 0.00 (Id 5.86e-15 -> 1.84e-13); SS_min(5-pt, floor-gated) 114.7
+     5-pt SS without floor gate: 73.8 at Vg 0.25
+13.2: min 2-point SS 103.4 mV/dec between Vg -0.10 and -0.05 (Id 2.59e-11 -> 7.88e-11); SS_min(5-pt, floor-gated) 130.8
+     5-pt SS without floor gate: 116.8 at Vg 0.00
+
+=== V18: share of run_0014 Ion error due to mobility choice
+run_0014 Ion 5.1141e-07 (mu 12.4); run_0015 4.0339e-07 (mu 11.69); run_0015 rescaled to mu 12.4: 4.2789e-07 -> +6.06 % ; log share of mobility in the +26.8 %: 24.9 %
+run_0015 gap 0.8202 vs meas 1.1760 ; gm 2.6386e-07 vs 3.4311e-07 (-23.1 %) ; Vth_lin miss -0.3488
+
+=== V19: small analytic checks quoted in REVIEW.md
+dEc law vs infinite-well bound (m* 0.208): 6.3 nm 0.0724 vs 0.0455 eV (x1.59); 13.2 nm 0.0261 vs 0.0104 (x2.51); crossover t = 2.978 nm
+WF +/-0.2 eV as Qf-equivalent: 1.118e+12 cm^-2
+2.0 nm: S2 heuristic Vd/(2Vov-Vd) with Vov vs Vth_cc = 0.474 ; actual mu_sat/mu_FE = 0.419
+13.2 nm: S2 heuristic Vd/(2Vov-Vd) with Vov vs Vth_cc = 0.676 ; actual mu_sat/mu_FE = 0.546
+no-QC Qf difference 13.2 vs 2 nm: -1.387e+12 cm^-2 (-0.2481 V)
+B1 / B3 (as run) Vth_cc misses: +0.0186 / -0.0272 V
+B1 on-state: gap 0.8561 vs meas 1.0013 (-0.1451 V) ; gm -8.64 %
+C1 share of run_0015 gap miss: 33.3 %
+mu_band values in metadata: run_0012:18.13, run_0013:61.9, run_0014:12.4, run_0015:11.69, run_0034:12.4, run_0037:19.6, run_0052:15.4

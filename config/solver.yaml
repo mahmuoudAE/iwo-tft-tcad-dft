@@ -1,0 +1,25 @@
+# Solver / models (NUMERICAL category). Every enabled model has a stated reason (docs/PHYSICS_MODEL.md).
+models: "fermi srh temp=300 print"          # Fermi statistics (degenerate accumulation, low Nc); SRH background only
+carriers: "carriers=1 electrons"            # holes numerically zero in the 3.05 eV n-type oxide (Jp 1e-38..1e-55 A in every Claude/Astra run); no hole conduction modelled
+method_base: "newton trap maxtraps=10 itlimit=80 climit=1e-6 ir.tol=1e-19"
+strict_acceptance:
+  cr_toler_A: 1.0e-17                       # XANDRNORM + tightened continuity tolerance in depletion (prevents 1e-15 A glitches: Claude run_0006)
+  cr_tol_rel_active_min: 1.0e-5             # strict CR.TOLER = max(cr_toler_A, 1e-5 x smallest measured active current) (thick films: run_0018)
+  until_measured_current_A_per_um: 1.0e-9   # above this measured current the default acceptance (^xandrnorm, cr.toler 5e-18) is used (on-state RHS floor scales with current: run_0011)
+dos_levels: {numa: 96, numd: 48}            # x2 check changes Id by 0.006 dec (Claude run_0016)
+continuation_gate_step_V: 0.1                # ramp step (stepped SOLVE VSTEP block to the sweep start)
+sweep:
+  mode: stepped                              # ATLAS SOLVE VSTEP=.. VFINAL=.. NAME=gate blocks (user directive 2026-09-21); 'pointwise' = one SOLVE per 0.05 V point (runs 0001-0009)
+  segments: [[-1.0, 0.2], [1.5, 0.05], [3.0, 0.1]]   # [end V, step V] from the -3 V start: coarse in deep depletion, 0.05 V around turn-on (Vth/SS extraction), 0.1 V in the on-state
+output: "con.band val.band e.mobility"
+runner:
+  argv: ["C:/sedatools/exe/deckbuild.exe", "-run", "{deck}", "-outfile", "{stdout}"]   # verified batch recipe (cwd = run dir, relative names)
+  timeout_seconds: {default: 900, thick: 1500}
+  max_launches: 57                          # +2 on 2026-09-28 for the parallel pilot (user-approved); raised to 54 on 2026-09-27 (overlap redo + explicit tmun check, user-approved); earlier raised from 30 on 2026-09-25 at the user's explicit request (6.3 nm hypothesis study, DOS 384/192 recalibration, mesh, sensitivity, predictions: ~20 launches)
+  kcl_absolute_limit_A: 1.0e-17
+  kcl_floor_fraction: 0.1                   # applied absolute limit = max(1e-17 A, 0.1 x smallest measured current of the device)
+  kcl_relative_limit: 0.01
+  expected_drain_sign: 1
+scoring:
+  active_multiplier: 5.0                    # active = measured Id > 5 x median(measured Id, -2..-0.5 V); all points for t >= 20 nm
+  logging_epsilon_A_per_um: 1.0e-40         # native zeros are reported, never replaced by a floor

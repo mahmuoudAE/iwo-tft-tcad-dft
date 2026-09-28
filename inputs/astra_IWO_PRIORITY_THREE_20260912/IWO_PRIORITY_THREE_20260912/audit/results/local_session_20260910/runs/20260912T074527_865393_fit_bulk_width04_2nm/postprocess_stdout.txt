@@ -1,0 +1,53 @@
+{
+  "run_directory": "C:\\Users\\moham\\Downloads\\IWO_Local_Codex_Handoff (1)\\IWO_ATLAS_Model\\results\\local_session_20260910\\runs\\20260912T074527_865393_fit_bulk_width04_2nm",
+  "status": "REAL_ATLAS_DIAGNOSTIC_NOT_CALIBRATED",
+  "validation": {
+    "status": "REAL_ATLAS_DIAGNOSTIC_NOT_CALIBRATED",
+    "gate_points": 121,
+    "kcl_pass": true,
+    "kcl_absolute_limit_A_per_um": 1e-18,
+    "kcl_relative_limit": 0.01,
+    "kcl_failed_points": 0,
+    "max_kcl_absolute_A": 1.500000000001109e-21,
+    "terminal_count": 3,
+    "terminal_voltages_pass": true,
+    "nonpositive_drain_points": 54,
+    "structures_present": true,
+    "native_interface_DOS_export_present": false,
+    "mesh_width_DOS_sensitivity_complete": false,
+    "recovered_step_warnings_allowed": true,
+    "bias_cutback_warning_count": 0,
+    "cutback_acceptance_basis": "All original gate targets and terminal voltages exported, no unrecovered Cannot trap/fatal error; successful intermediate points may be present"
+  },
+  "log_treatment": "magnitude of signed current, guarded at 1e-40 A/um; negative points counted; no additive leakage",
+  "negative_points": 0,
+  "log_guard_points": 54,
+  "on_error_percent": 0.690419399331188,
+  "regions": {
+    "all": {
+      "count": 121,
+      "rmse_linear_A_per_um": 4.6028048173112166e-09,
+      "rmse_log10_decades": 17.059917253896106
+    },
+    "active": {
+      "count": 57,
+      "rmse_linear_A_per_um": 6.706220305160564e-09,
+      "rmse_log10_decades": 0.033393759784858805
+    },
+    "low_current": {
+      "count": 64,
+      "rmse_linear_A_per_um": 4.024817646885103e-15,
+      "rmse_log10_decades": 23.45736505433903
+    },
+    "subthreshold": {
+      "count": 14,
+      "rmse_linear_A_per_um": 5.395230176937491e-11,
+      "rmse_log10_decades": 0.06032098627691857
+    },
+    "on": {
+      "count": 43,
+      "rmse_linear_A_per_um": 7.721071323762068e-09,
+      "rmse_log10_decades": 0.01713317371090219
+    }
+  }
+}

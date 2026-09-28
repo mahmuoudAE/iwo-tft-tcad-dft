@@ -1,0 +1,246 @@
+% ===================================================================
+% chapters/02c_literature_methods.tex -- writer L3
+% Sections of the literature chapter (no \chapter): methods, mass and
+% permittivity data, compact/TCAD modelling literature, DFT, secondary
+% sources and the Silvaco ATLAS 5.28.1.R manual.
+% ASCII only. Page numbers follow CONVENTIONS section 5.
+% ===================================================================
+
+\section{Stokey et al.\ (2021): dielectric constants and effective mass of cubic \InO}
+\label{sec:lit-stokey2021}
+
+\paragraph{Summary.}
+\citet{Stokey2021} determine the infrared dielectric function of bulk single-crystal \InO{} by
+ellipsometry combined with density-functional perturbation theory, and measure the conduction-band
+effective mass by the optical Hall effect. They review earlier work, including the strongly
+nonparabolic conduction band and the zero-density mass parameter $\mstar(0) = (0.18 \pm 0.02)\,m_e$
+of Feneberg et al.\ \citep[p.~225102-2]{Stokey2021}, and the static dielectric constant of Hamberg and
+Granqvist \citep[p.~225102-3]{Stokey2021}. From the phonon-mode parameters (Table~II) and the
+Lyddane--Sachs--Teller relation they obtain $\varepsilon_\infty = 4.05 \pm 0.05$ and
+$\varepsilon_{\mathrm{DC}} = 10.55 \pm 0.07$ \citep[p.~225102-12, Table~II]{Stokey2021}, and from the
+optical Hall data an effective mass $\mstar = (0.208 \pm 0.006)\,m_e$ at a free-electron density of
+$2.81\times10^{17}\cmcu$ \citep[pp.~225102-12--13]{Stokey2021}.
+
+\begin{usedbox}
+\textbf{Items used from \citet{Stokey2021}.}\par\smallskip
+\footnotesize
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{1.8cm}>{\raggedright\arraybackslash}p{1.7cm}>{\raggedright\arraybackslash}p{1.6cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{1.35cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Quantity & Value & Page & How it enters the model & Section & Caveat \\
+\midrule
+Bulk $\mstar$ & $0.208\,m_0$ & pp.~225102-12--13 & constant term of $\mstar(t) = 0.208 + 0.1311\,t^{-1.4121}$ ($m_0$); sets $\Nc(t) = 2.509\times10^{19}(\mstar/m_0)^{3/2}\cmcu$ = 3.27, 2.55, 2.44, $2.40\times10^{18}$ for 2.0, 6.3, 13.2, 31.8\,nm & \cref{sec:par-mstar,sec:par-nc} & pure crystalline \InO{} at low density; W and disorder may raise $\mstar$; tested by $\mstar \times1.3$ (\run{0050}, \run{0051}) \\
+$\varepsilon_{\mathrm{DC}}$ & 10.55 & p.~225102-12, Table~II & upper sensitivity bound of the channel permittivity (\run{0026}) & \cref{sec:par-eps-iwo} & bulk crystal; the model value is the C--V 9.30 \\
+\bottomrule
+\end{tabularx}
+\end{usedbox}
+
+\paragraph{Considered but not used.}
+The zero-density extrapolation $0.18\,m_0$ and the nonparabolicity of the conduction band
+\citep[p.~225102-2]{Stokey2021} were not used, because the model employs a parabolic band (ATLAS
+continuum DOS). The effect of nonparabolicity is absorbed in the exponent of the confinement law,
+which is smaller than 2, and is discussed in \cref{sec:der-confinement}. The high-frequency constant
+$\varepsilon_\infty = 4.05$ (p.~225102-12) has no role in a static device simulation. The bulk
+mobilities of the crystals (p.~225102-13) are not transferable to nanometre-thick
+amorphous/nanocrystalline \IWO.
+
+\paragraph{Contradictions.}
+Three values of the bulk mass are available: $0.208$ (optical Hall, $n = 2.8\times10^{17}\cmcu$),
+$0.18$ (zero-density extrapolation, Feneberg) and 0.17 (PBE, \citealp[p.~21540]{Lin2022}). Their
+spread of $\sim$20\% is smaller than the $\times1.3$ sensitivity test, which shifted $\Vthcc$ by
+$-44$\,mV at \SI{2}{nm} (\run{0050}: 0.637 versus 0.680\,V in \run{0038}) and by $-29$\,mV at
+\SI{13.2}{nm} (\run{0051}: 0.027 versus 0.055\,V in \run{0040}).
+
+\section{Pandey et al.\ (2025): analytical short-channel model of BEOL oxide TFTs}
+\label{sec:lit-pandey2025}
+
+\paragraph{Summary.}
+\citet{Pandey2025} derive a two-dimensional analytical potential model for oxide-semiconductor
+thin-film transistors with a Green's-function approach, motivated by the high carrier densities
+($10^{19}$--$10^{20}\cmcu$) of \InO-type channels \citep[p.~1]{Pandey2025}. They compare the Green's
+function and scale-length approaches and approximate a Gaussian trap distribution by an integrable
+function \citep[p.~2]{Pandey2025}, then build the potential from Green's identity
+\citep[p.~3]{Pandey2025}. The model is checked against Sentaurus simulations calibrated to \InO{}
+data, in which the channel trap concentration is $10^{20}\cmcu$ at \SI{0.4}{eV} above the conduction-band
+edge, with a Gaussian trap distribution and an intrinsic density of $5\times10^{19}\cmcu$
+\citep[p.~5]{Pandey2025}; the trap density in the source/drain regions is set to $4\times10^{20}\cmcu$, and it stays fixed there in the later channel-trap tests
+\citep[pp.~5, 7]{Pandey2025}.
+
+\begin{usedbox}
+\textbf{Items used from \citet{Pandey2025}.}\par\smallskip
+\footnotesize
+No number from this paper enters the model. It is used as a method reference: (i) a calibrated TCAD
+treatment of \InO{} places a large trap density at the charge-neutrality-like level
+$\approx$\SI{0.4}{eV} above $\Ec$ (p.~5), which is the same physical picture as the CNL argument used
+as a consistency check in \cref{sec:par-chi}; (ii) Gaussian trap distributions are standard in
+oxide-TFT modelling (p.~2), as used for the deep acceptor Gaussian and the interface sheet
+(\cref{sec:par-deep,sec:par-dit}).
+\end{usedbox}
+
+\paragraph{Considered but not used.}
+The short-channel analysis itself was not used. The target devices have $L = \SI{20}{\micro\metre}$,
+so that two-dimensional short-channel effects are negligible and the ATLAS model is in effect a
+long-channel simulation (\cref{sec:inp-geometry}). The trap magnitudes $10^{20}$--$4\times10^{20}\cmcu$ (pp.~5, 7)
+describe undoped \InO{} and are not transferred.
+
+\paragraph{Contradictions.}
+The \HfO{} relative permittivity used in their example is 15 \citep[p.~2]{Pandey2025}, lower than the
+19.57 measured on the target process (SI Fig.~S1b, via the Astra audit); the model uses 19.57
+(\cref{sec:par-stack}).
+
+\section{Wang X.\ et al.\ (2025): physics-based compact model of IGZO FETs}
+\label{sec:lit-wangx2025}
+
+\paragraph{Summary.}
+\citet{WangX2025} propose a compact model for IGZO-channel FETs in which the shallow donors are
+described by a Gaussian density of states that acts as positive charge in depletion
+\citep[pp.~2390--2391]{WangX2025}. The charge of the Gaussian distribution requires a Gauss--Fermi
+integral; they take over a published error-function approximation of it and replace the error
+function by a tanh function so that the model can be written in Verilog-A
+\citep[pp.~2391--2392]{WangX2025}; the electrostatics apply Gauss's law across the gate oxide
+\citep[p.~2393]{WangX2025}, and device-to-device variability is analysed with Gaussian-distributed
+oxide thickness, channel thickness and donor density \citep[p.~2396]{WangX2025}.
+
+\begin{usedbox}
+\textbf{Items used from \citet{WangX2025}.}\par\smallskip
+\footnotesize
+No number is used. The paper supports the modelling choice recorded in
+\file{config/iwo_material_model.yaml}: a donor Gaussian at a fixed absolute energy (ATLAS NGD/EGD)
+is the natural V2 replacement for the empirical $\Ndeff(t)$ law, because confinement would then
+ionise or neutralise the donors automatically as $\Ec$ moves (\cref{sec:par-nd}). In V1 the donor
+Gaussian is set to zero (NGD $= 0$, \prov{ASSUMED}).
+\end{usedbox}
+
+\paragraph{Considered but not used.}
+The closed-form Gauss--Fermi approximation (pp.~2391--2392) was not used, because ATLAS integrates
+the discretised DOS numerically and no analytical approximation is needed. The IGZO parameter values
+are not transferable to \IWO.
+
+\paragraph{Contradictions.} No contradiction relevant to the model was found.
+
+\section{Anusha and Dwivedi (2024): review of TCAD and compact modelling of IGZO TFTs}
+\label{sec:lit-anusha2024}
+
+\paragraph{Summary.}
+\citet{Anusha2024} review the simulation and compact modelling of amorphous IGZO transistors,
+including the commercial structure editors of Sentaurus and Silvaco \citep[p.~2]{Anusha2024}. They
+summarise work on W-doped InZnO (WIZO) transistors in which the field-effect mobility declines as the
+W content increases \citep[p.~4, Fig.~2a]{Anusha2024}, and quote the standard relation between the
+subthreshold swing and the bulk and interface trap densities,
+$\mathit{SS} \propto (\kB T/q)\,(N_{ss}t_{ch} + \Dit)$ (full form with $\Cox$ in the source),
+used to separate $N_{ss}$ and $\Dit$ by fixing one of them \citep[p.~5]{Anusha2024}. Typical IGZO
+swings of about \SI{120}{mV/dec} are mentioned in the outlook \citep[p.~14]{Anusha2024}.
+
+\begin{usedbox}
+\textbf{Items used from \citet{Anusha2024}.}\par\smallskip
+\footnotesize
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{2.2cm}>{\raggedright\arraybackslash}p{1.8cm}>{\raggedright\arraybackslash}p{1.0cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{1.35cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Quantity & Value & Page & How it enters the model & Section & Caveat \\
+\midrule
+SS--trap relation & $N_{ss}t_{ch} + \Dit$ form & p.~5 & theory used to interpret the fixed-current SS and the trap-DOS inversion; not a deck input & \cref{sec:der-ss} & valid only where the traps are in equilibrium and uniformly distributed; bulk and interface terms are degenerate from one curve \\
+W doping lowers mobility (WIZO) & qualitative & p.~4 & context for the low $\muband$ of \IWO{} vs \InO & \cref{sec:par-mu} & different host (InZnO) \\
+\bottomrule
+\end{tabularx}
+\end{usedbox}
+
+\paragraph{Considered but not used.} The IGZO parameter sets of the review were not used, because
+they do not describe \IWO.
+
+\paragraph{Contradictions.} No contradiction was found.
+
+\section{Giannozzi et al.\ (2009): Quantum ESPRESSO and the unexecuted DFT workflow}
+\label{sec:lit-giannozzi2009}
+
+\paragraph{Summary.}
+\citet{Giannozzi2009} describe Quantum ESPRESSO, an open-source suite for electronic-structure
+calculations \citep[p.~1]{Giannozzi2009} based on density-functional theory, plane-wave basis sets and
+norm-conserving, ultrasoft or projector-augmented-wave pseudopotentials, distributed under the GNU
+General Public License \citep[p.~2]{Giannozzi2009}.
+
+\begin{usedbox}
+\textbf{Items used from \citet{Giannozzi2009}.}\par\smallskip
+\footnotesize
+The paper serves as a software reference only. The package contains a prepared QE slab workflow
+(\file{qe_workflow/}) for computing the vacuum-aligned band edges and slab masses of \IWO{} directly;
+its results would replace the pure-\InO{} proxies of Lin2022 and Si2021 and fix the absolute electron
+affinity. The workflow was not executed, because \texttt{pw.x} is absent on this host (Windows and
+WSL) and its installation required an interactive password (\file{docs/INPUT_INVENTORY.md}). No DFT
+number in this report was computed by the project; all DFT numbers are literature PBE values
+(\prov{DFT\_PURE\_IN2O3\_PROXY}).
+\end{usedbox}
+
+\section{Secondary sources that are not bundled locally}
+\label{sec:lit-secondary}
+
+The works in \cref{tab:lit-secondary} were not available as text, and none of them was read for this
+report. Each appears only through the bundled record that cites it (with the printed page of that
+record) or through the Astra audit notes (\file{audit/docs/paper_revision_20260911/defect_papers.md} and
+\file{ald_paper.md} in the Astra package), and is labelled accordingly. Values that exist only in the
+Astra audit are marked ``via Astra'' and could not be verified locally.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Secondary (not bundled) sources: what is attributed to them, the citing record, and their use.}
+\label{tab:lit-secondary}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{3.2cm}@{}}
+\toprule
+Key & Attributed content & Citing record & Use in the model \\
+\midrule
+\citet{JanuarSI2026} & MIM/MISM C--V permittivities: \IWO{} 9.30$\pm$0.04, \InO{} 9.03, \HfO{} 19.57 (Fig.~S1b); grain sizes (Fig.~S4); annealing series (Figs.~S7, S8); 2\,nm transfer curves at 338/358\,K (Fig.~S12) & captions printed in the main text, \citet[p.~11]{Januar2026}; values recorded by the Astra audit & $\epsIWO = 9.30$ and $\varepsilon_{\mathrm{HfO_2}} = 19.57$ (\prov{MEASURED\_TARGET\_DEVICE}, \cref{sec:par-eps-iwo,sec:par-stack}); Fig.~S12 is the first test of \run{0044}--\run{0047} \\
+\citet{Fan2021} & bulk $\Eg = 3.05$\,eV and $\chi = 4.30$\,eV of a sputtered a-\IWO{} (Sec.~3; $\chi$ a composition-mixing estimate); deep-acceptor range 2.5--3.7$\times10^{16}$ (p.~9); $\Nc$ used as a fit knob; printed inconsistencies noted by Astra & via Astra (\file{defect_papers.md}) & $\Eg$, $\chi$ bulk priors (\prov{LITERATURE\_IWO}, \cref{sec:par-eg,sec:par-chi}); $\NGA = 5\times10^{16}$ (\prov{ASSUMED}, \cref{sec:par-deep}) \\
+\citet{Hamberg1986} & static permittivity $\approx$8.9 of evaporated (Sn-doped) \InO{} films & \citet[p.~501]{Si2021}; \citet[p.~4]{Wang2022}; \citet[p.~168]{Si2022}; \citet[p.~225102-3]{Stokey2021} & lower bound of the permittivity range only \\
+Feneberg et al.\ (no key) & zero-density mass $\mstar(0) = 0.18\pm0.02\,m_e$, nonparabolicity & \citet[p.~225102-2]{Stokey2021} & considered; 0.208 used \\
+\citet{King2008} & charge-neutrality level above $\Ec$, surface electron accumulation in \InO & cited for TNL $\approx$0.4\,eV in \citet[p.~504]{Si2021} (ref.~26, listed p.~506) & consistency check only (\cref{sec:par-chi}) \\
+\citet{Robertson2011} & limits to doping in oxides; CNL alignment & \citet[p.~504]{Si2021} (ref.~24); \citet[p.~5]{Wang2022} & consistency check only \\
+\citet{Hinuma2019} & band alignment at surfaces and interfaces & listed as ref.~27 in \citet[p.~506]{Si2021} & none numeric \\
+\citet{Ando1982} & surface-roughness scattering and the mobility roll-off $\mu_0/(1+\theta_r V_{\mathrm{ov}})$ & \citet[p.~7]{Januar2026} (ref.~39, listed p.~11) & form of the roughness factor; roll-off not inserted (\cref{sec:par-rough,sec:par-mu}) \\
+\citet{Yoo2024} & ALD \IWO{} channel & ref.~14 of \citet[p.~10]{Januar2026}; reviewed in the Astra \file{ald_paper.md} & none numeric (process context) \\
+\citet{Lee2018} & gate-current effects in oxide TFTs (title only; content not read here) & no bundled record cites it; listed via the Astra package bibliography & none numeric; attribution to be confirmed \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{The Silvaco ATLAS 5.28.1.R user manual: every statement used by the decks}
+\label{sec:lit-atlas-manual}
+
+The decks (\cref{sec:num-deck}, full listings in \cref{ch:app-decks}) use a small set of native
+ATLAS statements. \Cref{tab:lit-atlas} gives, for each statement group, the printed manual page(s)
+where its syntax and parameters are defined, and what the decks set with it. Page numbers are the
+printed page numbers of \file{atlas_users1.pdf} (ATLAS 5.28.1.R); the PDF page is equal to the
+printed page at p.~179, 4 higher at p.~513 and 6 higher throughout the statement chapter
+(pp.~1117--1647) (\file{digest/atlas_manual_pages.md}).
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{ATLAS statements used by the decks, with the printed manual pages and the model content.}
+\label{tab:lit-atlas}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{2.0cm}@{}}
+\toprule
+Statement (parameters) & Manual pages & What the decks set & Section \\
+\midrule
+MESH, X.MESH, Y.MESH & \citep[pp.~1117--1118, 1373--1377]{AtlasManual} & structured 2-D mesh; fine vertical spacing in the film; spacing factor 1.0 (0.7 in the checks \run{0028}, \run{0036}) & \cref{sec:num-mesh} \\
+REGION & \citep[pp.~1548--1560]{AtlasManual} & TiN gate, \HfO{} \SI{15}{nm}, \AlO{} \SI{2}{nm}, \IWO{} film, 0.25\,nm interface layer, back-surface layer, air & \cref{sec:par-stack,sec:inp-geometry} \\
+ELECTRODE & \citep[pp.~1207--1211]{AtlasManual} & gate, source, drain (Pd, 2\,$\mu$m overlap) & \cref{sec:par-contacts} \\
+DOPING UNIFORM & \citep[pp.~1183--1193]{AtlasManual} & $\Ndeff(t)$ as uniform n-type background & \cref{sec:par-nd} \\
+MATERIAL (EG300, AFFINITY, PERMITTIVITY, NC300, NV300, MUN, MUP, TAUN0, EGALPHA, TMUN) & \citep[pp.~1307--1355]{AtlasManual} & $\Eg(t)$, $\chi(t)$, $\epsIWO$, $\Nc(t)$, $\Nv$, $\mu_0(t) = \muband(t)(1-\Dsr/t)^2$, hole mobility 0.01, SRH lifetime & \cref{sec:par-eg,sec:par-chi,sec:par-nc,sec:par-mu} \\
+Constant mobility temperature dependence (TMUN) & \citep[p.~179]{AtlasManual}; \citep[p.~513]{AtlasManual} & $\mu \propto (T/300)^{-\mathrm{tmu}}$ with tmu $= 1.5$ in the elevated-temperature runs \run{0044}--\run{0047} & \cref{sec:par-temperature} \\
+CONTACT (WORKFUNCTION, RESISTANCE) & \citep[pp.~1145--1156]{AtlasManual} & gate work function \SI{4.70}{eV}; Ohmic S/D (no work function); lumped series resistance for \SI{31.8}{nm} only & \cref{sec:par-gatewf,sec:par-contacts} \\
+MODELS (FERMI, SRH, TEMPERATURE, PRINT) & \citep[pp.~1426, 1433, 1444--1448, 1453, 1462, 1477--1478]{AtlasManual} & Fermi--Dirac statistics, SRH, lattice temperature (300\,K; 338.15/358.15\,K in predictions) & \cref{sec:num-solver,sec:par-temperature} \\
+DEFECTS (CONTINUOUS, NUMA, NUMD, NTA, WTA, NGA, EGA, WGA, NGD, EGD, SIGTAE) & \citep[pp.~1167--1174]{AtlasManual} & acceptor tail $\NTA(t)$, $\WTA = 0.040$\,eV; deep Gaussian; interface Gaussian in the 0.25\,nm layer; back-surface donor Gaussian (31.8\,nm hypothesis); NUMA/NUMD = 96/48, 192/96, 384/192 & \cref{sec:par-tail,sec:par-deep,sec:par-dit,sec:der-dos-discretization} \\
+INTERFACE (QF) & \citep[pp.~1252--1264]{AtlasManual} & fixed charge $\Qf$ at the \AlO/\IWO{} interface & \cref{sec:par-qf} \\
+METHOD (NEWTON, TRAP, MAXTRAPS, ITLIMIT, CLIMIT, IR.TOL, CR.TOLER, XANDRNORM, CARRIERS) & \citep[pp.~1378--1390, 1395]{AtlasManual} & Newton solver, electrons only, bias-step reduction on failure & \cref{sec:num-solver} \\
+SOLVE (INIT, VSTEP, VFINAL, NAME) & \citep[pp.~1587--1611]{AtlasManual} & stepped gate sweeps $-3 \rightarrow +3$\,V (steps 0.2 / 0.05 / 0.1\,V) at $\Vd = 0.7$\,V; ID--VD sweeps & \cref{sec:num-sweep} \\
+LOG, SAVE, PROBE, OUTPUT, EXTRACT & \citep[pp.~1216, 1299--1305, 1504--1515, 1524--1540, 1566--1579]{AtlasManual} & terminal currents, structure files, band diagrams (EXTRACT is only listed in the ATLAS manual, p.~1216, and documented in the DeckBuild manual) & \cref{sec:num-deck} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Two facts about the simulator are relevant to the physics; both were established by runs rather than
+taken from the manual. First, ATLAS 5.28.1.R ignores MOBILITY updates between SOLVE statements (V0
+Claude run~0008, recorded in \file{config/iwo_material_model.yaml}); for this reason the
+gate-dependent roll-off of \citet[p.~7]{Januar2026} could not be inserted. Second, the
+constant-mobility temperature exponent tmu $= 1.5$ is active in the elevated-temperature runs
+(SYNTHESIS correction), so that the registered temperature predictions exist in a phonon-like and an
+MTR-like variant (\cref{sec:pred-temperature}).

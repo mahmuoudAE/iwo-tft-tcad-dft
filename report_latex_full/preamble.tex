@@ -1,0 +1,153 @@
+% ===================================================================
+% preamble.tex -- packages, layout, colours, environments and macros.
+% Compile with pdflatex + bibtex (Overleaf default): pdflatex, bibtex, pdflatex, pdflatex.
+% All chapter files are ASCII-only; symbols come from the macros below.
+% ===================================================================
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,top=2.5cm,bottom=2.5cm,inner=3.0cm,outer=2.5cm,headheight=14pt]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage[expansion=false]{microtype}
+\usepackage{amsmath,amsthm}
+\usepackage{newtxtext,newtxmath}   % Times text and math, as in IEEE books
+\usepackage{bm}
+\usepackage{mathtools}
+\usepackage{siunitx}
+\sisetup{separate-uncertainty=true, range-phrase={--}, range-units=single}
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+\usepackage{booktabs,longtable,array,tabularx,multirow,makecell}
+\usepackage{float}
+\usepackage{caption}
+\captionsetup{font=small,labelfont=bf,labelsep=period,format=plain}
+\usepackage{subcaption}
+\usepackage{enumitem}
+\setlist{itemsep=2pt,topsep=4pt}
+\usepackage[dvipsnames,table]{xcolor}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage[most]{tcolorbox}
+\usepackage{pdflscape}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,fit,calc,backgrounds}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[hidelinks]{hyperref}
+\usepackage[capitalise,noabbrev]{cleveref}
+
+% ---------------- colours (consistent with figures/src/style.py) ----------------
+\definecolor{accent}{HTML}{1F4E79}
+\definecolor{accent2}{HTML}{B5462E}
+\definecolor{okgreen}{HTML}{2E7D32}
+\definecolor{warnamber}{HTML}{B7791F}
+\definecolor{failred}{HTML}{B3261E}
+\definecolor{lightbg}{HTML}{F4F6F9}
+\definecolor{codebg}{HTML}{F7F7F5}
+
+% ---------------- page style ----------------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\nouppercase{\leftmark}}
+\fancyhead[R]{}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ---------------- summary / note environments (plain text, no boxes or colour) ----------------
+\newenvironment{keyresult}[1][]{\par\medskip\noindent\textit{Summary.}\ }{\par\medskip}
+\newenvironment{statusbox}[1]{\par\medskip\noindent\textit{#1.}\ }{\par\medskip}
+\newenvironment{derivation}[1][]{\par\medskip\noindent\textit{Derivation.}\ }{\par\medskip}
+\newenvironment{caveat}[1][]{\par\medskip\noindent\textit{Limitation.}\ }{\par\medskip}
+\newenvironment{usedbox}[1][]{\par\medskip\noindent\textit{Items used in the TCAD model.}\par}{\par\medskip}
+
+\newtheorem{proposition}{Proposition}[chapter]
+
+% ---------------- code listings ----------------
+\lstdefinelanguage{atlas}{
+  morekeywords={go,atlas,mesh,x.mesh,y.mesh,region,electrode,doping,material,contact,models,defects,interface,
+    method,solve,log,save,extract,output,probe,quit,tonyplot,uniform,init},
+  sensitive=false, morecomment=[l]{\#}, morestring=[b]"}
+\lstset{basicstyle=\ttfamily\scriptsize, frame=lines,
+  breaklines=true, breakatwhitespace=false, columns=fullflexible, keepspaces=true, showstringspaces=false,
+  numbers=left, numberstyle=\tiny, keywordstyle=\bfseries,
+  commentstyle=\itshape, stringstyle=\ttfamily, tabsize=4, upquote=true,
+  extendedchars=false}
+
+% ---------------- notation macros (use these; do not redefine in chapters) ----------------
+\newcommand{\run}[1]{\texttt{run\_#1}}                 % \run{0014} -> run_0014
+\DeclareRobustCommand{\file}[1]{\texttt{\detokenize{#1}}}        % file paths with underscores
+\newcommand{\prov}[1]{\textsc{\MakeLowercase{#1}}}     % provenance label, e.g. \prov{FITTED}
+\newcommand{\IWO}{IWO}
+\newcommand{\InO}{In$_2$O$_3$}
+\newcommand{\HfO}{HfO$_2$}
+\newcommand{\AlO}{Al$_2$O$_3$}
+\newcommand{\WO}{WO$_3$}
+\newcommand{\Vth}{V_{\mathrm{th}}}
+\newcommand{\Vthcc}{V_{\mathrm{th,cc}}}
+\newcommand{\Vthlin}{V_{\mathrm{th,lin}}}
+\newcommand{\Vg}{V_{\mathrm{G}}}
+\newcommand{\Vd}{V_{\mathrm{D}}}
+\newcommand{\Id}{I_{\mathrm{D}}}
+\newcommand{\Ig}{I_{\mathrm{G}}}
+\newcommand{\Is}{I_{\mathrm{S}}}
+\newcommand{\Ion}{I_{\mathrm{on}}}
+\newcommand{\Ioff}{I_{\mathrm{off}}}
+\newcommand{\gm}{g_{\mathrm{m}}}
+\newcommand{\gmmax}{g_{\mathrm{m,max}}}
+\newcommand{\SSmin}{\mathit{SS}_{\min}}
+\newcommand{\SScc}{\mathit{SS}_{\mathrm{cc}}}
+\newcommand{\SSfix}[2]{\mathit{SS}_{[#1,\,#2]}}          % fixed-current SS between two currents
+\newcommand{\muFE}{\mu_{\mathrm{FE}}}
+\newcommand{\musat}{\mu_{\mathrm{sat}}}
+\newcommand{\muband}{\mu_{\mathrm{band}}}
+\newcommand{\mun}{\mu_{n}}
+\newcommand{\Cox}{C_{\mathrm{ox}}}
+\newcommand{\EOT}{\mathrm{EOT}}
+\newcommand{\Ec}{E_{\mathrm{c}}}
+\newcommand{\Ev}{E_{\mathrm{v}}}
+\newcommand{\EF}{E_{\mathrm{F}}}
+\newcommand{\Eg}{E_{\mathrm{g}}}
+\newcommand{\dEc}{\Delta E_{\mathrm{c}}}
+\newcommand{\dEg}{\Delta E_{\mathrm{g}}^{\mathrm{QC}}}
+\newcommand{\chiIWO}{\chi}
+\newcommand{\mstar}{m^{*}}
+\newcommand{\Nc}{N_{\mathrm{c}}}
+\newcommand{\Nv}{N_{\mathrm{v}}}
+\newcommand{\Nt}{N_{\mathrm{t}}}
+\newcommand{\NTA}{N_{\mathrm{TA}}}
+\newcommand{\WTA}{W_{\mathrm{TA}}}
+\newcommand{\NGA}{N_{\mathrm{GA}}}
+\newcommand{\EGA}{E_{\mathrm{GA}}}
+\newcommand{\WGA}{W_{\mathrm{GA}}}
+\newcommand{\Dit}{D_{\mathrm{it}}}
+\newcommand{\Qf}{Q_{\mathrm{f}}}
+\newcommand{\Qb}{Q_{\mathrm{b}}}
+\newcommand{\Nd}{N_{\mathrm{d}}}
+\newcommand{\Ndeff}{N_{\mathrm{d,eff}}}
+\newcommand{\Dsr}{\Delta_{\mathrm{sr}}}
+\newcommand{\Rsd}{R_{\mathrm{sd}}}
+\newcommand{\Ea}{E_{\mathrm{a}}}
+\newcommand{\kB}{k_{\mathrm{B}}}
+\newcommand{\kT}{k_{\mathrm{B}}T}
+\newcommand{\epsIWO}{\varepsilon_{\mathrm{IWO}}}
+\newcommand{\tIWO}{t_{\mathrm{IWO}}}
+\newcommand{\dec}{\ensuremath{\,\mathrm{dec}}}
+\newcommand{\mVdec}{\ensuremath{\,\mathrm{mV/dec}}}
+\newcommand{\Aum}{\ensuremath{\,\mathrm{A}/\mu\mathrm{m}}}
+\newcommand{\cmsq}{\ensuremath{\,\mathrm{cm}^{-2}}}
+\newcommand{\cmcu}{\ensuremath{\,\mathrm{cm}^{-3}}}
+\newcommand{\cmVs}{\ensuremath{\,\mathrm{cm}^{2}/\mathrm{V\,s}}}
+% evidence classes (used in status tables)
+\newcommand{\evDATA}{\textsf{DATA}}
+\newcommand{\evNUM}{\textsf{NUM}}
+\newcommand{\evCAL}{\textsf{CAL}}
+\newcommand{\evOOS}{\textsf{OOS}}
+\newcommand{\evPOST}{\textsf{POST}}
+\newcommand{\evPRED}{\textsf{PRED}}
+\newcommand{\evSURR}{\textsf{SURR}}
+\newcommand{\evTHEORY}{\textsf{THEORY}}
+\newcommand{\evLIT}{\textsf{LIT}}
+\newcommand{\evCORR}{\textsf{CORR}}
+\newcommand{\verdict}[1]{\textbf{#1}}
+\newcommand{\pass}{\textbf{passed}}
+\newcommand{\partialpass}{\textbf{partial}}
+\newcommand{\fail}{\textbf{failed}}

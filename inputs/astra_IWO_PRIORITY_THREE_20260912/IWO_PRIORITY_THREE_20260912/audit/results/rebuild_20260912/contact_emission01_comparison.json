@@ -1,0 +1,284 @@
+{
+  "status": "NATIVE_CONTACT_SENSITIVITY_NOT_NEW_PARAMETER_IDENTIFICATION",
+  "reference_run_id": "20260912T074527_865393_fit_bulk_width04_2nm",
+  "candidate_run_id": "20260912T103227_998562_contact_emission01_2nm",
+  "only_physical_change": "IWO ARICHN110 inherited ->40.9958341 explicit A/cm2/K2; ARICHP30 unchanged",
+  "canonical_only_arichn_change": true,
+  "input_configs_only_arichn_and_provenance_change": true,
+  "reference_native": {
+    "run_id": "20260912T074527_865393_fit_bulk_width04_2nm",
+    "directory": "C:\\Users\\moham\\Downloads\\IWO_Local_Codex_Handoff (1)\\IWO_ATLAS_Model\\results\\local_session_20260910\\runs\\20260912T074527_865393_fit_bulk_width04_2nm",
+    "key": "2p0",
+    "width_um": 1.0,
+    "gate_points": 121,
+    "native_rows": 121,
+    "active_points": 57,
+    "realized_mesh": {
+      "grid_points": 5460,
+      "triangles": 10608
+    },
+    "raw_warning_lines": [
+      " Warning: Statement out of order. Structure ",
+      " Warning: Projection cannot be done with"
+    ],
+    "recovered_bias_reductions": 0,
+    "recovered_step_policy": "Allowed only with completion, all 121 targets, correct native biases and all-row signed KCL; exhausted retry/errors rejected.",
+    "kcl_recomputed_pass": true,
+    "kcl_failed_native_points": 0,
+    "max_kcl_A_per_um": 2.580999999850858e-21,
+    "terminal_voltages_recomputed_pass": true,
+    "native_probes": {
+      "channel_mobility": {
+        "positive_at_all_active_points": true,
+        "nonpositive_active_points": 0,
+        "minimum": 13.3,
+        "maximum": 13.3
+      },
+      "channel_electrons": {
+        "positive_at_all_active_points": true,
+        "nonpositive_active_points": 0,
+        "minimum": 3.054815852e-33,
+        "maximum": 2.820046319e+19
+      }
+    },
+    "native_probes_pass": true,
+    "active_signed_drain_positive": true,
+    "native_extra_probes": {
+      "bulk_free_electrons": {
+        "minimum": 2150422358000.0,
+        "maximum": 3.533584809e+19
+      },
+      "bulk_ionized_acceptors": {
+        "minimum": 42236927180000.0,
+        "maximum": 2.051412899e+19
+      },
+      "bulk_ionized_donors": {
+        "minimum": 0.0,
+        "maximum": 0.0
+      }
+    },
+    "drain_signs": {
+      "positive": 67,
+      "zero": 54,
+      "negative": 0
+    },
+    "measurement_sha256": "cd24cd4519d64cb010c45c9cba1e6025b2d97176a8dbdcd81b33c8a6134f708b",
+    "evidence_sha256": {
+      "execution.json": "bec0638149ae2ce3deb3efbc32f3d40345a7b9c2892176dbb1e2f6aa4c734551",
+      "device.in": "109da74397107c5a716b67d139d44d3e27c6f391ea71a55185c56821f6c8aa22",
+      "input_config.json": "e2068f83f2f207eb28a442848c0aa37e75cf6abdaea9728743628144e1982b6b",
+      "comparison_all_measurements.csv": "9b265e2731d79a69cfa9b8eea355da25d6b51ce42af44d302d0ce063a79bf250"
+    },
+    "raw_output_sha256": {
+      "bulk_acceptor.dat": "610ff9581e804ab04293c5179bddbb0aa213a45cb70cb215a96859f27d7742b7",
+      "bulk_donor.dat": "c4f38dc6c28b828a0b73531001f9921aa2d812a344d8f016694908cb314fa8de",
+      "bulk_free_electrons_vg.dat": "a3f9ec575b9e0d3c243baee96dbf0a8cb2c38c123682d9356eb18f18ca6c2a20",
+      "bulk_ionized_acceptors_vg.dat": "fc08728b7552f4d40ba1bce1a16709f17444b84b31d229e972e379633a4226f7",
+      "bulk_ionized_donors_vg.dat": "3b4a24a4b8fdfde7dc10dcfeda87a99089b07d5eded94f40ba33aa1e41d43c16",
+      "deckbuild.out": "3107e88958de861119aa0a28d5b97811f71518d47325efcc3ba00e3ff0a079a1",
+      "device.in": "109da74397107c5a716b67d139d44d3e27c6f391ea71a55185c56821f6c8aa22",
+      "electrons_vg.dat": "90ba7d6a494406eb6ee0caed3a05fe78d569751e82293b14dc3e1f28f5fd3917",
+      "equilibrium.str": "26a1cffc7f5883d8577f7a8a4ccfdec98dc5608a4dfeb788a840dcd2888741a5",
+      "final.str": "9af337dde4eda836d10496686936452bb720bb68bfb9ad05c42edf041f6f556d",
+      "geometry.str": "af9cd21033f2404a2cd726e68f10679fd4b7a5b80c99c62fa1a7eacfe9ff2f99",
+      "idvg.dat": "f0145ccb73279fcb22b33599489dfcd27e3e1bc152b3420471e4ec3ae8b4333e",
+      "igvg.dat": "dca84bc52603c934e49e5ba0823d798f185df04d9fb77941cf54661ae6ccc434",
+      "input_config.json": "e2068f83f2f207eb28a442848c0aa37e75cf6abdaea9728743628144e1982b6b",
+      "isvg.dat": "a34350eca7a669f9576f156ffdd9fda64955dd864e1603ff7e4ceaa00ad6bdca",
+      "launcher_stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "launcher_stdout.txt": "ea2ff3527865d7a9ba5028f1c6a22d61ed2c62ffa426aa2967ebea42a3d4a1cf",
+      "mobility_vg.dat": "5e0fa0547b3aa103c12908ba8f4ef60cbf89e25820fbeddc598530b1d3dbfed1",
+      "off.str": "c9929cee6e71c72a61ddfa5f976f27f7c73439c8cc5b6fb697d5b2a021017bf7",
+      "transfer.log": "61aa4fe3ad6aca4fe5b50ff54be2eb298a28c3a39491700e35b2f965168d3eda",
+      "vdvg.dat": "154231266cde0ce3ded5060e04529f88867057ee588a6a99c5a7ea0839809830",
+      "vsvg.dat": "247fec9ef4aaccfbfd549f3172050e08e759ca861c9d93db54ede7fac2325402"
+    },
+    "run_acceptable": true
+  },
+  "candidate_native": {
+    "run_id": "20260912T103227_998562_contact_emission01_2nm",
+    "directory": "C:\\Users\\moham\\Downloads\\IWO_Local_Codex_Handoff (1)\\IWO_ATLAS_Model\\results\\local_session_20260910\\runs\\20260912T103227_998562_contact_emission01_2nm",
+    "key": "2p0",
+    "width_um": 1.0,
+    "gate_points": 121,
+    "native_rows": 121,
+    "active_points": 57,
+    "realized_mesh": {
+      "grid_points": 5460,
+      "triangles": 10608
+    },
+    "raw_warning_lines": [
+      " Warning: Statement out of order. Structure ",
+      " Warning: Projection cannot be done with"
+    ],
+    "recovered_bias_reductions": 0,
+    "recovered_step_policy": "Allowed only with completion, all 121 targets, correct native biases and all-row signed KCL; exhausted retry/errors rejected.",
+    "kcl_recomputed_pass": true,
+    "kcl_failed_native_points": 0,
+    "max_kcl_A_per_um": 1.0000006145003761e-20,
+    "terminal_voltages_recomputed_pass": true,
+    "native_probes": {
+      "channel_mobility": {
+        "positive_at_all_active_points": true,
+        "nonpositive_active_points": 0,
+        "minimum": 13.3,
+        "maximum": 13.3
+      },
+      "channel_electrons": {
+        "positive_at_all_active_points": true,
+        "nonpositive_active_points": 0,
+        "minimum": 3.054815852e-33,
+        "maximum": 2.819712852e+19
+      }
+    },
+    "native_probes_pass": true,
+    "active_signed_drain_positive": true,
+    "native_extra_probes": {
+      "bulk_free_electrons": {
+        "minimum": 2150422358000.0,
+        "maximum": 3.53337654e+19
+      },
+      "bulk_ionized_acceptors": {
+        "minimum": 42236927180000.0,
+        "maximum": 2.051425861e+19
+      },
+      "bulk_ionized_donors": {
+        "minimum": 0.0,
+        "maximum": 0.0
+      }
+    },
+    "drain_signs": {
+      "positive": 67,
+      "zero": 54,
+      "negative": 0
+    },
+    "measurement_sha256": "cd24cd4519d64cb010c45c9cba1e6025b2d97176a8dbdcd81b33c8a6134f708b",
+    "evidence_sha256": {
+      "execution.json": "e8e24230ad43f380393c683ec1945df8ba97d72c7550ed8c2c3d296188044d2f",
+      "device.in": "81f6d903e5d8e055a95b167b9afede0165ce87b4e398bdcc449aa877ec8742e5",
+      "input_config.json": "1f9b1dfe2e0b77fb929d1a1776ddf1cef74acc293746b9561b699fb11b135f69",
+      "comparison_all_measurements.csv": "7288a466e42d21245120ccfac6b60ef1ef76e5224dc427ae93dfa1d2567a174a"
+    },
+    "raw_output_sha256": {
+      "bulk_acceptor.dat": "b378cece17f970a9ad7fb59d4f8b6ecb8e57614f99811d8ba470a4789e27ab32",
+      "bulk_donor.dat": "a80c7c63e3f56d0d93b4f6b19da9567257a18d038449ac6994bde7c23931bce2",
+      "bulk_free_electrons_vg.dat": "421fd5bccd2e983218d7fae6eb2acc493a11bdac2adccd406eb5e289288d3b8c",
+      "bulk_ionized_acceptors_vg.dat": "323c558ddb9d91297f1d5dc18a33dd05f56e1a092dd905101dab66afcd45ebcf",
+      "bulk_ionized_donors_vg.dat": "3b4a24a4b8fdfde7dc10dcfeda87a99089b07d5eded94f40ba33aa1e41d43c16",
+      "deckbuild.out": "6052bee38f63dd7b7d921a155881f89094150fa5daf138a431f6dc82b895b535",
+      "device.in": "81f6d903e5d8e055a95b167b9afede0165ce87b4e398bdcc449aa877ec8742e5",
+      "electrons_vg.dat": "8052e5d800235b035088209b367200ce532fb1ebe44e2d973ea871d60284d190",
+      "equilibrium.str": "c3db7cd7ef617349c260ca898f4a4654483fca4d3b5aedf5001fd8922562c073",
+      "final.str": "dd249dafba5b83b2c2f035995c6de831e394a34bb6daf8fa98e7c5a2ed83fd3e",
+      "geometry.str": "389419f9f5dfb9d9a09c9796a6017e86236a96643a1a5438e314c0d575c15086",
+      "idvg.dat": "b69a0c26cefa7b156c1fc4f78d66588d42ca4f15b7a6671f3b84370921e4a025",
+      "igvg.dat": "dca84bc52603c934e49e5ba0823d798f185df04d9fb77941cf54661ae6ccc434",
+      "input_config.json": "1f9b1dfe2e0b77fb929d1a1776ddf1cef74acc293746b9561b699fb11b135f69",
+      "isvg.dat": "1db5d56ef1c7d6386c17f17264b4947a151b6ea6e38d258042c45f537c0dc566",
+      "launcher_stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "launcher_stdout.txt": "ea2ff3527865d7a9ba5028f1c6a22d61ed2c62ffa426aa2967ebea42a3d4a1cf",
+      "mobility_vg.dat": "5e0fa0547b3aa103c12908ba8f4ef60cbf89e25820fbeddc598530b1d3dbfed1",
+      "off.str": "c480676f7e9da535ad37c0a3c29427b2ccee7553ba08682ca1050b754cf5eb1f",
+      "transfer.log": "008f9f55dfc51fbcfaa24db9bf523b60a0562bbd2b218a34fe5b5c3270d52607",
+      "vdvg.dat": "154231266cde0ce3ded5060e04529f88867057ee588a6a99c5a7ea0839809830",
+      "vsvg.dat": "247fec9ef4aaccfbfd549f3172050e08e759ca861c9d93db54ede7fac2325402"
+    },
+    "run_acceptable": true
+  },
+  "maximum_active_relative_current_change": 0.003809675144288982,
+  "maximum_active_log10_change": 0.0016576805138751316,
+  "endpoint_relative_current_change": -0.003809675144288982,
+  "maximum_low_absolute_signed_current_change_A_per_um": 1.3766029999989178e-21,
+  "candidate_fit_regions": {
+    "all": {
+      "target_count": 121,
+      "linear_denominator": 121,
+      "rmse_linear_A_per_um": 4.195164218442467e-09,
+      "mean_signed_linear_residual_A_per_um": 1.8776459755239593e-09,
+      "max_absolute_linear_residual_A_per_um": 1.2016739600000024e-08,
+      "positive_log_denominator": 67,
+      "excluded_nonpositive_log_count": 54,
+      "positive_log_complete": false,
+      "rmse_positive_log10_decades": 1.5632677880323165,
+      "mean_positive_log10_residual": -0.4786137083416397,
+      "max_absolute_positive_log10_residual": 7.127807318482967,
+      "native_positive_count": 67,
+      "native_zero_count": 54,
+      "native_negative_count": 0
+    },
+    "active": {
+      "target_count": 57,
+      "linear_denominator": 57,
+      "rmse_linear_A_per_um": 6.112293825579899e-09,
+      "mean_signed_linear_residual_A_per_um": 3.985884249945396e-09,
+      "max_absolute_linear_residual_A_per_um": 1.2016739600000024e-08,
+      "positive_log_denominator": 57,
+      "excluded_nonpositive_log_count": 0,
+      "positive_log_complete": true,
+      "rmse_positive_log10_decades": 0.03313072248926714,
+      "mean_positive_log10_residual": 0.014223256936292039,
+      "max_absolute_positive_log10_residual": 0.1066935883179525,
+      "native_positive_count": 57,
+      "native_zero_count": 0,
+      "native_negative_count": 0
+    },
+    "low_current": {
+      "target_count": 64,
+      "linear_denominator": 64,
+      "rmse_linear_A_per_um": 4.0248177452868505e-15,
+      "mean_signed_linear_residual_A_per_um": -3.737632633205669e-15,
+      "max_absolute_linear_residual_A_per_um": 5.51414e-15,
+      "positive_log_denominator": 10,
+      "excluded_nonpositive_log_count": 54,
+      "positive_log_complete": false,
+      "rmse_positive_log10_decades": 4.045645166269796,
+      "mean_positive_log10_residual": -3.287784410425851,
+      "max_absolute_positive_log10_residual": 7.127807318482967,
+      "native_positive_count": 10,
+      "native_zero_count": 54,
+      "native_negative_count": 0
+    },
+    "subthreshold": {
+      "target_count": 14,
+      "linear_denominator": 14,
+      "rmse_linear_A_per_um": 5.4123327714643134e-11,
+      "mean_signed_linear_residual_A_per_um": 1.4784063482136304e-13,
+      "max_absolute_linear_residual_A_per_um": 1.5272536600000065e-10,
+      "positive_log_denominator": 14,
+      "excluded_nonpositive_log_count": 0,
+      "positive_log_complete": true,
+      "rmse_positive_log10_decades": 0.060318744762204606,
+      "mean_positive_log10_residual": 0.037621999027345865,
+      "max_absolute_positive_log10_residual": 0.1066935883179525,
+      "native_positive_count": 14,
+      "native_zero_count": 0,
+      "native_negative_count": 0
+    },
+    "on": {
+      "target_count": 43,
+      "linear_denominator": 43,
+      "rmse_linear_A_per_um": 7.037254238755972e-09,
+      "mean_signed_linear_residual_A_per_um": 5.283565871581398e-09,
+      "max_absolute_linear_residual_A_per_um": 1.2016739600000024e-08,
+      "positive_log_denominator": 43,
+      "excluded_nonpositive_log_count": 0,
+      "positive_log_complete": true,
+      "rmse_positive_log10_decades": 0.01644500239772842,
+      "mean_positive_log10_residual": 0.0066050618368791655,
+      "max_absolute_positive_log10_residual": 0.02552879988768808,
+      "native_positive_count": 43,
+      "native_zero_count": 0,
+      "native_negative_count": 0
+    }
+  },
+  "candidate_endpoint": {
+    "vg_V": 3.0,
+    "measured_A_per_um": 5.08966e-07,
+    "native_signed_A_per_um": 5.105273515e-07,
+    "signed_relative_error": 0.0030676931268491803,
+    "signed_error_percent": 0.306769312684918
+  },
+  "retained_reference_parameters_changed": false,
+  "numerical_certification_transferred": false,
+  "limitation": "One300K contact-prior sensitivity cannot determine the true effective mass or Pd/IWO contact emission. No independent x/y/DOS controls for changedARICHN are claimed."
+}

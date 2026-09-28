@@ -1,0 +1,29 @@
+{
+  "version": "2.0.0",
+  "inputs": [
+    { "id": "gen", "type": "promptString", "description": "Job set name (jobs/gen_<name>)", "default": "next" },
+    { "id": "jobs", "type": "promptString", "description": "Comma-separated job names (empty = all)", "default": "" },
+    { "id": "job", "type": "promptString", "description": "Job name", "default": "slab1_v15" },
+    { "id": "ncpu", "type": "promptString", "description": "Local MPI processes", "default": "8" }
+  ],
+  "tasks": [
+    { "label": "DFT: AUTO (real-time: status, resources, fetch, analyze, watchdog every 10 min)", "type": "shell", "command": "wsl",
+      "args": ["-d", "Ubuntu", "--cd", "${workspaceFolder}", "-e", "bash", "./dft_flow.sh", "auto", "10"], "isBackground": true, "problemMatcher": [] },
+    { "label": "DFT: dashboard (http://localhost:8767)", "type": "shell", "command": "${workspaceFolder}/../../IWO_ATLAS_Model_claude/.venv/Scripts/python.exe",
+      "args": ["${workspaceFolder}/dashboard_cern.py", "8767"], "isBackground": true, "problemMatcher": [] },
+    { "label": "DFT: status", "type": "shell", "command": "wsl", "args": ["-d", "Ubuntu", "--cd", "${workspaceFolder}", "-e", "bash", "./dft_flow.sh", "status"], "problemMatcher": [] },
+    { "label": "DFT: hardware of running jobs", "type": "shell", "command": "wsl", "args": ["-d", "Ubuntu", "--cd", "${workspaceFolder}", "-e", "bash", "./dft_flow.sh", "hw"], "problemMatcher": [] },
+    { "label": "DFT: free CERN resources", "type": "shell", "command": "wsl", "args": ["-d", "Ubuntu", "--cd", "${workspaceFolder}", "-e", "bash", "./dft_flow.sh", "resources"], "problemMatcher": [] },
+    { "label": "DFT: plan allocation (dry run)", "type": "shell", "command": "wsl", "args": ["-d", "Ubuntu", "--cd", "${workspaceFolder}", "-e", "bash", "./dft_flow.sh", "plan", "${input:gen}", "${input:jobs}"], "problemMatcher": [] },
+    { "label": "DFT: generate jobs", "type": "shell", "command": "wsl", "args": ["-d", "Ubuntu-22.04", "--cd", "${workspaceFolder}", "-e", "bash", "./dft_flow.sh", "generate", "${input:gen}", "${input:jobs}"], "problemMatcher": [] },
+    { "label": "DFT: submit (auto-allocated)", "type": "shell", "command": "wsl", "args": ["-d", "Ubuntu", "--cd", "${workspaceFolder}", "-e", "bash", "./dft_flow.sh", "submit", "${input:gen}", "${input:jobs}"], "problemMatcher": [] },
+    { "label": "DFT: fetch results", "type": "shell", "command": "wsl", "args": ["-d", "Ubuntu", "--cd", "${workspaceFolder}", "-e", "bash", "./dft_flow.sh", "fetch"], "problemMatcher": [] },
+    { "label": "DFT: analyze results", "type": "shell", "command": "wsl", "args": ["-d", "Ubuntu", "--cd", "${workspaceFolder}", "-e", "bash", "./dft_flow.sh", "analyze"], "problemMatcher": [] },
+    { "label": "DFT: missing jobs", "type": "shell", "command": "wsl", "args": ["-d", "Ubuntu", "--cd", "${workspaceFolder}", "-e", "bash", "./dft_flow.sh", "missing"], "problemMatcher": [] },
+    { "label": "DFT: resubmit missing jobs", "type": "shell", "command": "wsl", "args": ["-d", "Ubuntu", "--cd", "${workspaceFolder}", "-e", "bash", "./dft_flow.sh", "resubmit-missing", "${input:gen}"], "problemMatcher": [] },
+    { "label": "DFT: CERN login command", "type": "shell", "command": "wsl", "args": ["-d", "Ubuntu", "--cd", "${workspaceFolder}", "-e", "bash", "./dft_flow.sh", "login"], "problemMatcher": [] },
+    { "label": "DFT: keepalive (96 h)", "type": "shell", "command": "wsl", "args": ["-d", "Ubuntu", "--cd", "${workspaceFolder}", "-e", "bash", "./dft_flow.sh", "keepalive", "96"], "isBackground": true, "problemMatcher": [] },
+    { "label": "DFT: build structures", "type": "shell", "command": "wsl", "args": ["-d", "Ubuntu-22.04", "--cd", "${workspaceFolder}", "-e", "bash", "./dft_flow.sh", "build"], "problemMatcher": [] },
+    { "label": "DFT: run one job locally", "type": "shell", "command": "wsl", "args": ["-d", "Ubuntu-22.04", "--cd", "${workspaceFolder}", "-e", "bash", "./dft_flow.sh", "local", "${input:gen}", "${input:job}", "${input:ncpu}"], "problemMatcher": [] }
+  ]
+}

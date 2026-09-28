@@ -1,0 +1,68 @@
+% chapters/01_introduction.tex -- writer R3 (W6).
+\chapter{Introduction}\label{ch:intro}
+
+When the channel of an oxide-semiconductor transistor is thinned to a few nanometres, almost every quantity that determines its current changes. Quantum confinement moves the band edges, the growing weight of the surfaces changes the trap density, roughness, microstructure and scattering change the mobility, and the contacts and the electrostatics of any fixed charge are modified as well. A measured thickness series can therefore be explained in many ways at the same time. This report examines which of these explanations a physics-constrained TCAD model, calibrated on one transfer curve per thickness, is able to distinguish. It documents every input, derivation, simulation run and test that is relevant to this question.
+
+\section{Ultrathin oxide-semiconductor channels and the IWO system}\label{sec:intro-context}
+
+The target devices are the bottom-gate tungsten-doped \InO{} (IWO) TFTs of \citet[pp.~2--3]{Januar2026}, which have a TiN gate, a \HfO/\AlO{} gate stack and Pd source/drain contacts. The IWO series of that paper spans 2--13~nm \citep[p.~2]{Januar2026}. The measured curves modelled here have nominal channel thicknesses of 2, 6.3, 13.2 and 31.8~nm and an air-exposed back channel, as recorded in the device schematic and in the experimental workbook (\cref{ch:device}). The ultrathin films do not have long-range crystallinity and show nanoscale grains \citep[p.~2]{Januar2026}, and the AFM roughness is higher at 2~nm than at 10~nm \citep[p.~8]{Januar2026}. The same work reports positive-bias-stress trap densities that differ strongly between the 2 and 10~nm devices \citep[p.~9]{Januar2026}, as well as supplementary transfer curves of a 2~nm device at 65 and 85~$^{\circ}$C \citep[SI Fig.~S12, caption on p.~11]{Januar2026}. The literature basis of every model input, including first-principles slab calculations on pure \InO{} and measured properties of related materials, is reviewed page by page in \cref{ch:literature}.
+
+\section{The measured thickness dependence}\label{sec:intro-observation}
+
+In the measured single devices at $\Vd = 0.7$~V (\cref{sec:inp-metrics-measured}), the 2 and 6.3~nm TFTs are electrically similar, whereas the 13.2~nm TFT differs strongly. The constant-current thresholds $\Vthcc$ are 0.662, 0.644 and 0.083~V, the linear mobilities $\muFE$ are 12.15, 10.95 and 50.17~\cmVs, the slopes $\SScc$ are 269.9, 295.4 and 160.0~\mVdec, the on-currents $\Ion$ are \SI{5.09e-7}{}, \SI{4.03e-7}{} and \SI{3.07e-6}{}~\Aum, and the off-state floors are \SI{4.6e-15}{}, \SI{1.5e-13}{} and \SI{6.6e-12}{}~\Aum. Since $\muFE(6.3) < \muFE(2)$, no monotonic law in $t$ can pass through the three points. The published mobilities (5.1 and 27.4~\cmVs) are reproduced exactly when the saturation formula is applied to these curves (\cref{sec:der-mufe}). The 31.8~nm curve is not described by the model and is reported only as a documented failure.
+
+\section{Research question}\label{sec:intro-question}
+
+\begin{quote}
+Which physical mechanisms can explain the thickness dependence of the measured IWO TFTs, which of them are required, identified or excluded by the available data when represented in a physics-constrained ATLAS model, and what additional measurement would decide the rest?
+\end{quote}
+Three subsidiary questions structure the work. The first is whether the quantum-confinement shift expected at 2~nm is necessary or identifiable. The second concerns the cause of the failure of the shared-parameter model at 6.3~nm. The third concerns what the calibrated model predicts for quantities that were not used in its calibration.
+
+\section{Competing explanations}\label{sec:intro-mechanisms}
+
+Five families of mechanisms are examined in \cref{ch:mechanisms}. The first family covers electrostatics and band alignment, namely confinement of the conduction band, work function, electron affinity, fixed and back-surface charge and donors (\cref{sec:mech-electrostatics}). The second covers transport, including band mobility, roughness, trap-limited conduction and microstructure (\cref{sec:mech-transport}). The third is quantum confinement itself (\cref{sec:mech-confinement}), the fourth comprises tail, deep and interface traps together with the off-state floors (\cref{sec:mech-traps}), and the fifth comprises contacts and series resistance (\cref{sec:mech-contacts}). The couplings between these mechanisms and the identifiability of their parameters are treated in \cref{sec:mech-couplings,sec:mech-identifiability}.
+
+\section{Integrity rules of the study}\label{sec:intro-integrity}
+
+The study follows a fixed set of integrity rules. Every simulated number names the run from which it comes, and every analysis number names its report or script; no value is invented, and where evidence is missing the result is stated as ``not determined''. Every statement taken from the literature carries the exact printed page. Evidence is classified into the classes \evDATA, \evNUM, \evCAL, \evOOS, \evPOST, \evPRED, \evSURR, \evTHEORY, \evLIT{} and \evCORR, and conclusions are graded as demonstrated, strongly supported, plausible, rejected or not determined. Calibration is never described as validation, and tests that were designed after the outcome was known are labelled post hoc. Superseded claims are corrected rather than repeated: \run{0027} is retracted, $\SSmin$ is replaced by the fixed-current SS, and tmu = 1.5 is stated for the elevated-temperature runs. Finally, predictions are registered with a timestamp and SHA-256 hashes before comparison data are obtained (\cref{ch:predictions,ch:app-register}).
+
+\section{Methodology}\label{sec:intro-method}
+
+\begin{figure}[tbp]
+  \centering
+  \begin{tikzpicture}[node distance=5mm and 6mm, every node/.style={font=\footnotesize},
+      box/.style={draw, rounded corners=2pt, align=center, minimum height=9mm, text width=27mm, fill=white},
+      arr/.style={-{Stealth[length=2mm]}}]
+    \node[box] (q) {Measured ID-VG\\2/6.3/13.2~nm\\(\evDATA)};
+    \node[box, right=of q] (lit) {Literature and\\derivations\\(\evLIT, \evTHEORY)};
+    \node[box, right=of lit] (model) {V1 ATLAS model\\thickness laws};
+    \node[box, below=of model] (cal) {Calibration\\2 and 13.2~nm\\(\evCAL)};
+    \node[box, left=of cal] (oos) {6.3~nm test and\\hypotheses A--C\\(\evOOS/\evPOST)};
+    \node[box, left=of oos] (mech) {Mechanism\\verdicts and\\identifiability};
+    \node[box, below=of mech] (pred) {Registered\\predictions\\(\evPRED)};
+    \node[box, right=of pred] (val) {Validation status\\and checklist};
+    \node[box, right=of val] (concl) {Conclusions};
+    \draw[arr] (q) -- (lit); \draw[arr] (lit) -- (model); \draw[arr] (model) -- (cal);
+    \draw[arr] (cal) -- (oos); \draw[arr] (oos) -- (mech); \draw[arr] (mech) -- (pred);
+    \draw[arr] (pred) -- (val); \draw[arr] (val) -- (concl);
+    \draw[arr, dashed] (q.south) to[bend right=20] (cal.west |- cal.north);
+  \end{tikzpicture}
+  \caption{Workflow of the study: from the measured curves and the literature to the V1 ATLAS model, its calibration, the out-of-sample and post hoc tests, the mechanism verdicts, the registered predictions and the validation status. Evidence classes as in \cref{ch:nomenclature}.}
+  \label{fig:intro-workflow}
+\end{figure}
+
+The workflow of the study is shown in \cref{fig:intro-workflow}. It proceeds from the research question to the evidence, the model, the derivations and the implementation, and then to the calibration, the falsification tests, the mechanism verdicts, the predictions, the validation status and finally the conclusions. The model is a classical drift-diffusion description for electrons only, with Fermi statistics, in the physical device structure (\cref{ch:numerics}). All 52 recorded ATLAS launches (\run{0001}--\run{0052}), of which 49 produced scored currents, are catalogued in \cref{ch:app-runs}. This catalogue includes the runs that do not fit the data; they are used to show how each parameter controls the curves (\cref{sec:cal-param-control}).
+
+\section{What is new relative to the earlier reports}\label{sec:intro-new}
+
+Earlier documents of the package described the model as a thickness-resolved parameter extraction in which confinement accounted for the threshold step between 2 and 13.2~nm and the 6.3~nm run validated the shared laws. This report replaces those statements with the evidence-graded results of the analysis of 2026-09-25. According to these results, the thresholds are neutral with respect to confinement, the 6.3~nm test failed and its miss can be decomposed into a rigid part and a shape part, and the mobility step is located in the fitted band mobility. In addition, the numerics are converged where this was checked for 300~K transfer after a recalibration at DOS 384/192, and the predictions are registered before any comparison. The corrections are listed in \cref{sec:concl-corrections}.
+
+\section{Structure of the report}\label{sec:intro-roadmap}
+
+\Cref{ch:nomenclature} defines the symbols and evidence classes, and \cref{ch:literature} reviews the literature basis. \Cref{ch:device} describes the device and the data, \cref{ch:derivations-es,ch:derivations-tr} derive every electrostatic and transport input, and \cref{ch:numerics} documents the ATLAS implementation and its convergence. \Cref{ch:calibration} presents the calibration and the parameter-control runs, \cref{ch:6p3} discusses the 6.3~nm problem, and \cref{ch:mechanisms} gives the mechanism verdicts. \Cref{ch:predictions} contains the registered predictions, \cref{ch:validation} describes the validation status and the work still required, and \cref{ch:conclusions} states the conclusions. The appendices list all runs (\cref{ch:app-runs}), the code (\cref{ch:app-code}), the input decks (\cref{ch:app-decks}), the hashes of the prediction register (\cref{ch:app-register}) and the instructions for reproduction (\cref{ch:app-repro}).
+
+\begin{keyresult}[title={Key point: scope}]
+The study is based on three single devices with one transfer curve each and on an ATLAS study of 52 recorded launches, of which 49 produced scored currents. The report establishes what these data identify, what they exclude and what must be measured next; it does not claim a validated model.
+\end{keyresult}
+
+The next chapter reviews, page by page, the literature on which every model input is based, beginning with the target devices themselves.

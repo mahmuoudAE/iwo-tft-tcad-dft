@@ -1,0 +1,118 @@
+{
+  "run_id": "run_0027",
+  "thickness_nm": 2.0,
+  "label": "sens_overlap_4um",
+  "elapsed_s": 233.16443320000053,
+  "returncode": 0,
+  "timed_out": false,
+  "scan": {
+    "warnings": [
+      "Warning:  Electrode shortened in X-direction.",
+      "Warning:  Electrode shortened in X-direction.",
+      "Warning:  Electrode shortened in X-direction.",
+      "Warning: Projection cannot be done with"
+    ],
+    "convergence_flags": [],
+    "errors": [],
+    "banner": true,
+    "finished": true,
+    "static_solutions": 114,
+    "banner_present": true
+  },
+  "requested_points": 76,
+  "overrides": [
+    "traps.fixed_interface_charge_Qf_cm2.value=1.73e12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=18.13",
+    "geometry.contact_overlap_um.value=4.0"
+  ],
+  "validation": {
+    "kcl_abs_limit_applied_A": 4.60552e-16,
+    "kcl_floor_basis": "max(1e-17 A, 0.1 x median measured Id over Vg in [-2,-0.5] V)",
+    "measured_floor_A_per_um": 4.60552e-15,
+    "max_kcl_abs_A": 8.3997346e-17,
+    "kcl_fail_count": 0,
+    "kcl_fail_vg": [],
+    "wrong_sign_count": 0,
+    "nonpositive_count": 12
+  },
+  "fit_metrics": {
+    "regions": {
+      "all": {
+        "count": 121,
+        "rmse_log10": 13.530802113320169,
+        "max_abs_log10": 25.714387605929794,
+        "mean_log10": -8.046409932386899,
+        "rmse_linear_A_per_um": 2.129146463339841e-09,
+        "median_abs_relative": 0.9833675766747669
+      },
+      "active": {
+        "count": 57,
+        "rmse_log10": 0.037748911330518345,
+        "max_abs_log10": 0.07870623126557064,
+        "mean_log10": -0.014104344030405738,
+        "rmse_linear_A_per_um": 3.102135721983668e-09,
+        "median_abs_relative": 0.02287571808204758
+      },
+      "subthreshold": {
+        "count": 14,
+        "rmse_log10": 0.05087301792830613,
+        "max_abs_log10": 0.07767294177189044,
+        "mean_log10": -0.007145423712044645,
+        "rmse_linear_A_per_um": 2.4346885584177984e-10,
+        "median_abs_relative": 0.11222064197902387
+      },
+      "on": {
+        "count": 43,
+        "rmse_log10": 0.03234659039383084,
+        "max_abs_log10": 0.07870623126557064,
+        "mean_log10": -0.016370039017779118,
+        "rmse_linear_A_per_um": 3.568906890726073e-09,
+        "median_abs_relative": 0.016817297306473744
+      },
+      "low_current": {
+        "count": 64,
+        "rmse_log10": 18.60481879847089,
+        "max_abs_log10": 25.714387605929794,
+        "mean_log10": -15.2001820970169,
+        "rmse_linear_A_per_um": 4.054911559143223e-15,
+        "median_abs_relative": 1.0
+      }
+    },
+    "on_error_3V_percent": -2.153189014590373,
+    "nonpositive_pred_count": 31,
+    "off_band_median_A_per_um": 4.60552e-15,
+    "max_abs_log10_active": 0.07870623126557064,
+    "log_treatment": "log10(max(pred,1e-40)) - log10(meas)"
+  },
+  "device_metrics_sim": {
+    "Vth_cc_1e-9_V": 0.6753834670425243,
+    "Vth_lin_V": 1.564448992534086,
+    "SS_mV_dec": 73.23155518726468,
+    "SS_min_window_mV_dec": 73.23155518726468,
+    "SS_cc_1e-10_1e-8_mV_dec": 289.9593569637115,
+    "gm_max_A_V_um": 3.4690999999999987e-07,
+    "mu_FE_cm2Vs": 11.067900590601392,
+    "Ion_A_per_um": 4.98007e-07,
+    "Ioff_A_per_um": 1.10114e-53,
+    "Ioff_definition": "min Id over sweep (min POSITIVE; native zeros counted)",
+    "native_zero_count": 31,
+    "Ion_over_Ioff": 4.522649254409067e+46,
+    "off_band_median_A_per_um": null
+  },
+  "device_metrics_exp": {
+    "Vth_cc_1e-9_V": 0.6618205007741922,
+    "Vth_lin_V": 1.6630785395324494,
+    "SS_mV_dec": 84.45385574424456,
+    "SS_min_window_mV_dec": 84.45385574424456,
+    "SS_cc_1e-10_1e-8_mV_dec": 269.89862041948567,
+    "gm_max_A_V_um": 3.8070000000000266e-07,
+    "mu_FE_cm2Vs": 12.145944927623823,
+    "Ion_A_per_um": 5.08966e-07,
+    "Ioff_A_per_um": 1.07931e-16,
+    "Ioff_definition": "min Id over sweep",
+    "native_zero_count": 0,
+    "Ion_over_Ioff": 4715660931.521065,
+    "off_band_median_A_per_um": 4.60552e-15
+  },
+  "status": "REAL_ATLAS_SCORED"
+}

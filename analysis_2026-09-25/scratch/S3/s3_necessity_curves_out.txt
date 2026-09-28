@@ -1,0 +1,63 @@
+
+=== run_0012_2p0_v2_full_stepped_final (confinement ON) vs run_0016_2p0_sens_no_confinement (OFF), t = 2.0 nm; dEc = 0.3533 eV; rigid expectation 0.3451 V ===
+ log10 Id   Vg_on    Vg_off   shift (V)
+   -14.0    0.127   -0.218    0.345
+   -13.5    0.158   -0.186    0.344
+   -13.0    0.191   -0.154    0.344
+   -12.5    0.224   -0.120    0.344
+   -12.0    0.259   -0.084    0.343
+   -11.5    0.297   -0.045    0.342
+   -11.0    0.341    0.000    0.340
+   -10.5    0.394    0.058    0.336
+   -10.0    0.463    0.133    0.331
+    -9.5    0.554    0.231    0.323
+    -9.0    0.676    0.361    0.316
+    -8.5    0.836    0.529    0.307
+    -8.0    1.042    0.740    0.302
+    -7.5    1.312    1.012    0.301
+    -7.0    1.708    1.402    0.306
+    -6.5    2.444    2.132    0.311
+    -6.0      nan      nan      nan
+ extractor: SS_min on 73.2  off 83.9 ; SS_cc on 289.1 off 303.7
+ local SS (5-pt) vs log10 Id near the minimum [on | off]:
+  on: -12.86:67; -12.12:73; -11.45:83; -10.90:98; -10.45:119; -10.08:145; -9.78:173; -9.52:203; -9.29:232; -9.09:261; -8.92:289; -8.75:316; -8.60:342; -8.46:367; -8.33:392; -8.21:417; -8.09:442; -7.98:469; -7.88:496; -7.78:526; -7.69:557; -7.60:590; -7.52:625; -7.44:662; -7.37:701; -7.30:764; -7.23:832; -7.11:906; -7.01:986
+  off: -12.94:68; -12.21:74; -11.55:84; -11.00:99; -10.56:121; -10.20:146; -9.89:175; -9.64:204; -9.41:233; -9.21:261; -9.04:288; -8.87:314; -8.72:339; -8.58:362; -8.44:385; -8.32:407; -8.20:429; -8.09:452; -7.98:476; -7.88:502; -7.78:529; -7.69:558; -7.60:589; -7.52:622; -7.44:658; -7.37:696; -7.30:736; -7.23:780; -7.17:826; -7.11:875; -7.05:928; -7.00:985
+ ON curve shifted by 0.316 V and resampled on the OFF grid: SS_min 76.0, SS_cc 289.2
+ ON curve shifted by 0.345 V and resampled on the OFF grid: SS_min 82.0, SS_cc 288.8
+ DOS discretisation (numa=96 over Eg): spacing ON 35.5 meV, OFF 31.8 meV (WTA 40 meV, kT 25.9 meV)
+
+=== run_0013_13p2_v2_full_stepped_final (confinement ON) vs run_0017_13p2_sens_no_confinement (OFF), t = 13.2 nm; dEc = 0.0261 eV; rigid expectation 0.0254 V ===
+ log10 Id   Vg_on    Vg_off   shift (V)
+   -14.0   -0.378   -0.404    0.025
+   -13.5   -0.348   -0.373    0.025
+   -13.0   -0.316   -0.342    0.025
+   -12.5   -0.285   -0.310    0.025
+   -12.0   -0.252   -0.277    0.025
+   -11.5   -0.218   -0.243    0.026
+   -11.0   -0.181   -0.207    0.026
+   -10.5   -0.140   -0.164    0.025
+   -10.0   -0.090   -0.115    0.025
+    -9.5   -0.027   -0.053    0.025
+    -9.0    0.053    0.030    0.023
+    -8.5    0.160    0.136    0.023
+    -8.0    0.295    0.272    0.023
+    -7.5    0.463    0.441    0.023
+    -7.0    0.682    0.659    0.023
+    -6.5    1.002    0.980    0.022
+    -6.0    1.589    1.569    0.020
+ extractor: SS_min on 151.3  off 138.6 ; SS_cc on 192.5 off 193.3
+ local SS (5-pt) vs log10 Id near the minimum [on | off]:
+  on: -12.74:64; -11.96:68; -11.24:75; -10.61:87; -10.08:103; -9.66:125; -9.31:151; -9.02:179; -8.76:206; -8.54:232; -8.34:257; -8.15:280; -7.98:302; -7.82:324; -7.67:346; -7.54:370; -7.40:395; -7.28:423; -7.17:455; -7.06:489
+  off: -13.13:63; -12.34:66; -11.59:72; -10.91:81; -10.33:95; -9.86:114; -9.48:139; -9.16:165; -8.89:193; -8.65:220; -8.44:245; -8.25:269; -8.07:291; -7.91:313; -7.75:334; -7.61:357; -7.47:382; -7.35:408; -7.23:438; -7.12:470; -7.02:506
+ ON curve shifted by 0.023 V and resampled on the OFF grid: SS_min 136.4, SS_cc 192.1
+ ON curve shifted by 0.025 V and resampled on the OFF grid: SS_min 137.4, SS_cc 192.1
+ DOS discretisation (numa=96 over Eg): spacing ON 32.0 meV, OFF 31.8 meV (WTA 40 meV, kT 25.9 meV)
+
+=== needed extra Vth_cc beyond the no-confinement model with the shared Qf 1.73e12 ===
+ t=  2.0: meas 0.662  noQC 0.361  needed +0.301 V (= 1.68e+12 cm^-2 of negative charge)  ATLAS-QC gives +0.315  residual after QC -0.014
+ t=  6.3: meas 0.644  noQC 0.286  needed +0.358 V (= 2.00e+12 cm^-2 of negative charge)  ATLAS-QC gives +0.064  residual after QC +0.294
+ t= 13.2: meas 0.083  noQC 0.030  needed +0.053 V (= 2.96e+11 cm^-2 of negative charge)  ATLAS-QC gives +0.023  residual after QC +0.030
+ one-offset stories: (A) QC + Qf 1.73e12: residuals above; (B) no QC + Qf 4.76e10 (fit on 2 nm):
+   t=  2.0: predicted Vth_cc 0.662 vs meas 0.662 -> miss -0.000 V
+   t=  6.3: predicted Vth_cc 0.587 vs meas 0.644 -> miss -0.057 V
+   t= 13.2: predicted Vth_cc 0.331 vs meas 0.083 -> miss +0.248 V

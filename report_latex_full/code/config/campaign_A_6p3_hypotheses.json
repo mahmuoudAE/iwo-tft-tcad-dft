@@ -1,0 +1,27 @@
+{
+ "campaign": "A_6p3_hypotheses",
+ "purpose": "Controlled one-mechanism-at-a-time study of the 6.3 nm validation miss (run_0014: shared Qf 1.73e12, mu_band 12.4, DOS 96/48, physical structure, stepped sweep; Vth_cc 0.35 vs measured 0.64 V). Every entry changes only the named mechanism relative to run_0014 (A7 is relative to the tuned run_0015). Parameter values are chosen from physical reasoning BEFORE the run, not fitted. 2026-09-25, user request.",
+ "runs": [
+  {"id": "A3_back_charge", "thickness": 6.3, "label": "hyp_H3_backQ_m1p64e12",
+   "purpose": "Back-surface (IWO/Air, exposed channel only) fixed NEGATIVE sheet charge equal to the front-charge deficit of the tuned run (1.73e12 - 8.7e10 = 1.64e12 cm^-2), e.g. chemisorbed O2-/OH-. Tests whether the same charge placed at the air-side surface reproduces the curve (location identifiability).",
+   "overrides": ["traps.fixed_interface_charge_Qf_cm2.value=1.73e12", "traps.back_surface_fixed_charge_cm2=-1.64e12"]},
+  {"id": "A1_thickness", "thickness": 6.3, "label": "hyp_H1_tphys_5p3",
+   "purpose": "Thickness error: physical film 5.3 nm (-1.0 nm, -16 %, larger than a typical XRR/ellipsometry error) with ALL thickness laws (dEc, m*, Nt, Nd, roughness) evaluated at 5.3 nm; mu_band held at the 6.3 nm validation value 12.4.",
+   "overrides": ["traps.fixed_interface_charge_Qf_cm2.value=1.73e12", "geometry.film_thickness_override_nm=5.3", "thickness_laws.mu0_cm2Vs.mu_band_fitted[5.3]=12.4"]},
+  {"id": "A2_donor", "thickness": 6.3, "label": "hyp_H2_Nd0_1e16",
+   "purpose": "Reduced donor density: effective background donors removed (Nd0 2.5e17 -> 1e16). Analytic bound: q*Nd*t/Cox = 0.028 V at 2.5e17, so this mechanism alone cannot exceed ~+0.03 V.",
+   "overrides": ["traps.fixed_interface_charge_Qf_cm2.value=1.73e12", "thickness_laws.Nd_eff_cm3.Nd0=1e16"]},
+  {"id": "A4_front_dit", "thickness": 6.3, "label": "hyp_H4_front_Dit_x5",
+   "purpose": "Energy-distributed front-interface acceptor traps instead of a fixed charge: Dit peak 3e11 -> 1.5e12 cm^-2 eV^-1 (x5). Discriminating prediction: traps shift Vth AND degrade SS; a fixed charge shifts Vth only. Measured SS 115 mV/dec bounds it.",
+   "overrides": ["traps.fixed_interface_charge_Qf_cm2.value=1.73e12", "traps.interface_acceptor_sheet.peak_cm2_eV=1.5e12"]},
+  {"id": "A6_no_confinement_storyB", "thickness": 6.3, "label": "hyp_H6_noQC_Qf_from_2nm",
+   "purpose": "Confinement-necessity test (held-out prediction, symmetric to run_0014): NO confinement (dEg a=0, m* b=0) and the single Qf that makes the no-confinement 2 nm run (run_0016) match the measured 2 nm Vth_cc exactly (Qf shift is an exact rigid shift: 1.73e12 - (0.6618-0.3608) V x Cox/q = 4.76e10). Tests whether classical physics calibrated on 2 nm alone predicts 6.3 nm.",
+   "overrides": ["traps.fixed_interface_charge_Qf_cm2.value=4.76e10", "thickness_laws.dEg_QC_eV.a=0", "thickness_laws.mstar_m0.b=0"]},
+  {"id": "A5_combination", "thickness": 6.3, "label": "hyp_H5_combo_t5p8_Nd1e16_backQ_m1e12",
+   "purpose": "Combination at individually plausible values: film 5.8 nm (-0.5 nm), donors removed (Nd0 1e16), back-surface charge -1.0e12 cm^-2 (typical adsorbate scale). Tests whether plausible magnitudes add up to the +0.29 V miss without any single implausible value.",
+   "overrides": ["traps.fixed_interface_charge_Qf_cm2.value=1.73e12", "geometry.film_thickness_override_nm=5.8", "thickness_laws.mu0_cm2Vs.mu_band_fitted[5.8]=12.4", "thickness_laws.Nd_eff_cm3.Nd0=1e16", "traps.back_surface_fixed_charge_cm2=-1.0e12"]},
+  {"id": "A7_mesh", "thickness": 6.3, "label": "check_L_mesh0p7_tuned", "timeout": 1500,
+   "purpose": "Numerical check L (open): 6.3 nm tuned configuration (run_0015) with all mesh spacings x0.7 (x0.5 would exceed the 32-bit node limit, as at 13.2 nm).",
+   "overrides": ["traps.fixed_interface_charge_Qf_cm2.value=8.7e10", "thickness_laws.mu0_cm2Vs.mu_band_fitted[6.3]=11.69", "geometry.mesh.spacing_factor=0.7"]}
+ ]
+}

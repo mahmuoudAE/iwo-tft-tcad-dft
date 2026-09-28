@@ -1,0 +1,210 @@
+=== A. tail-density thickness law ===
+  V1 law t=  2.0 nm  Nt=2.000e+19 cm^-3  sheet=4.000e+12 cm^-2
+  V1 law t=  6.3 nm  Nt=8.459e+18 cm^-3  sheet=5.329e+12 cm^-2
+  V1 law t= 13.2 nm  Nt=4.857e+18 cm^-3  sheet=6.411e+12 cm^-2
+  surface+bulk through V1 anchors: Ns=3.569e+12 cm^-2, Nb=2.153e+18 cm^-3
+  -> Nt(6.3) = 7.819e+18 (law 8.459e+18; ratio 0.924)
+  S2 curve-shape partition Nt(6.3)=2.66e19 (B0) is x3.14 law, x3.40 surf+bulk
+  Januar PBS devices: sheet(2nm)=1.060e+13, sheet(10nm)=3.390e+12 -> Nb=-9.012e+18 (NEGATIVE => no non-negative surf+bulk)
+  Januar PBS ratio Nt2/Nt10 = 15.6; implied exponent ln(ratio)/ln(5) = 1.71
+  Januar Fig5a 'x4 from 13.2 to 2': exponent ln4/ln6.6 = 0.735; sheet ratio 13.2/2 = 1.650
+  Kim2024 SS-Nt linear fit: Ds=1.060e+12 cm^-2eV^-1, gb=1.855e+18 cm^-3eV^-1; residual 20nm -8.10e+11
+  Kim2024 step slopes: 10->20 6.40e+17, 20->30 3.07e+18 cm^-3eV^-1 (accelerating)
+
+=== B. trap-DOS spectroscopy: validation on ATLAS runs (known DOS) ===
+  run_0012_2p0_v2_full_stepped_final t=2.0 mu=13.30  u-range -0.248..0.171 eV
+     u=-0.30  recovered        nan  model(thermal)  3.820e+11  ratio    nan
+     u=-0.25  recovered        nan  model(thermal)  6.453e+11  ratio    nan
+     u=-0.20  recovered  1.959e+12  model(thermal)  1.555e+12  ratio   1.26
+     u=-0.15  recovered  4.529e+12  model(thermal)  4.555e+12  ratio   0.99
+     u=-0.10  recovered  1.228e+13  model(thermal)  1.278e+13  ratio   0.96
+     u=-0.07  recovered  2.056e+13  model(thermal)  2.115e+13  ratio   0.97
+     u=-0.05  recovered  2.523e+13  model(thermal)  2.680e+13  ratio   0.94
+  run_0015_6p3_v2_full_stepped_tuned t=6.3 mu=10.65  u-range -0.240..0.088 eV
+     u=-0.30  recovered        nan  model(thermal)  4.235e+11  ratio    nan
+     u=-0.25  recovered        nan  model(thermal)  7.849e+11  ratio    nan
+     u=-0.20  recovered  2.597e+12  model(thermal)  2.021e+12  ratio   1.28
+     u=-0.15  recovered  6.470e+12  model(thermal)  6.042e+12  ratio   1.07
+     u=-0.10  recovered  1.732e+13  model(thermal)  1.702e+13  ratio   1.02
+     u=-0.07  recovered  2.418e+13  model(thermal)  2.817e+13  ratio   0.86
+     u=-0.05  recovered  2.614e+13  model(thermal)  3.570e+13  ratio   0.73
+  run_0014_6p3_v2_full_stepped_valid t=6.3 mu=11.30  u-range -0.245..0.098 eV
+     u=-0.30  recovered        nan  model(thermal)  4.235e+11  ratio    nan
+     u=-0.25  recovered        nan  model(thermal)  7.849e+11  ratio    nan
+     u=-0.20  recovered  2.650e+12  model(thermal)  2.021e+12  ratio   1.31
+     u=-0.15  recovered  6.400e+12  model(thermal)  6.042e+12  ratio   1.06
+     u=-0.10  recovered  1.732e+13  model(thermal)  1.702e+13  ratio   1.02
+     u=-0.07  recovered  2.417e+13  model(thermal)  2.817e+13  ratio   0.86
+     u=-0.05  recovered  2.615e+13  model(thermal)  3.570e+13  ratio   0.73
+  run_0013_13p2_v2_full_stepped_fina t=13.2 mu=59.24  u-range -0.319..0.061 eV
+     u=-0.30  recovered  1.547e+12  model(thermal)  4.578e+11  ratio   3.38
+     u=-0.25  recovered  1.696e+12  model(thermal)  8.988e+11  ratio   1.89
+     u=-0.20  recovered  3.630e+12  model(thermal)  2.401e+12  ratio   1.51
+     u=-0.15  recovered  9.665e+12  model(thermal)  7.253e+12  ratio   1.33
+     u=-0.10  recovered  2.043e+13  model(thermal)  2.047e+13  ratio   1.00
+     u=-0.07  recovered  2.271e+13  model(thermal)  3.389e+13  ratio   0.67
+     u=-0.05  recovered  2.248e+13  model(thermal)  4.294e+13  ratio   0.52
+  run_0033_6p3_hyp_H4_front_Dit_x5   t=6.3 mu=11.30  u-range -0.271..0.096 eV
+     u=-0.30  recovered        nan  model(thermal)  1.488e+12  ratio    nan
+     u=-0.25  recovered  2.325e+12  model(thermal)  1.713e+12  ratio   1.36
+     u=-0.20  recovered  3.533e+12  model(thermal)  2.646e+12  ratio   1.34
+     u=-0.15  recovered  7.049e+12  model(thermal)  6.369e+12  ratio   1.11
+     u=-0.10  recovered  1.740e+13  model(thermal)  1.715e+13  ratio   1.01
+     u=-0.07  recovered  2.418e+13  model(thermal)  2.824e+13  ratio   0.86
+     u=-0.05  recovered  2.614e+13  model(thermal)  3.574e+13  ratio   0.73
+  run_0030_6p3_hyp_H3_backQ_m1p64e12 t=6.3 mu=11.30  u-range -0.245..0.092 eV
+     u=-0.30  recovered        nan  model(thermal)  4.235e+11  ratio    nan
+     u=-0.25  recovered        nan  model(thermal)  7.849e+11  ratio    nan
+     u=-0.20  recovered  1.791e+12  model(thermal)  2.021e+12  ratio   0.89
+     u=-0.15  recovered  4.095e+12  model(thermal)  6.042e+12  ratio   0.68
+     u=-0.10  recovered  9.936e+12  model(thermal)  1.702e+13  ratio   0.58
+     u=-0.07  recovered  1.516e+13  model(thermal)  2.817e+13  ratio   0.54
+     u=-0.05  recovered  1.816e+13  model(thermal)  3.570e+13  ratio   0.51
+
+=== B. measured films ===
+  mobility set: V1 mun {2.0: 13.3, 6.3: 10.65, 13.2: 59.24}
+   t=  2.0  u-range -0.207..0.173
+     u=-0.30  D_meas        nan cm^-2eV^-1  per-volume        nan cm^-3eV^-1  V1-model(thermal)  3.820e+11
+     u=-0.25  D_meas        nan cm^-2eV^-1  per-volume        nan cm^-3eV^-1  V1-model(thermal)  6.453e+11
+     u=-0.20  D_meas  5.565e+12 cm^-2eV^-1  per-volume  2.783e+19 cm^-3eV^-1  V1-model(thermal)  1.555e+12
+     u=-0.15  D_meas  5.341e+12 cm^-2eV^-1  per-volume  2.671e+19 cm^-3eV^-1  V1-model(thermal)  4.555e+12
+     u=-0.10  D_meas  1.051e+13 cm^-2eV^-1  per-volume  5.253e+19 cm^-3eV^-1  V1-model(thermal)  1.278e+13
+     u=-0.07  D_meas  1.673e+13 cm^-2eV^-1  per-volume  8.366e+19 cm^-3eV^-1  V1-model(thermal)  2.115e+13
+     u=-0.05  D_meas  2.156e+13 cm^-2eV^-1  per-volume  1.078e+20 cm^-3eV^-1  V1-model(thermal)  2.680e+13
+   t=  6.3  u-range -0.169..0.090
+     u=-0.30  D_meas        nan cm^-2eV^-1  per-volume        nan cm^-3eV^-1  V1-model(thermal)  4.235e+11
+     u=-0.25  D_meas        nan cm^-2eV^-1  per-volume        nan cm^-3eV^-1  V1-model(thermal)  7.849e+11
+     u=-0.20  D_meas        nan cm^-2eV^-1  per-volume        nan cm^-3eV^-1  V1-model(thermal)  2.021e+12
+     u=-0.15  D_meas  1.684e+13 cm^-2eV^-1  per-volume  2.672e+19 cm^-3eV^-1  V1-model(thermal)  6.042e+12
+     u=-0.10  D_meas  1.667e+13 cm^-2eV^-1  per-volume  2.646e+19 cm^-3eV^-1  V1-model(thermal)  1.702e+13
+     u=-0.07  D_meas  2.420e+13 cm^-2eV^-1  per-volume  3.841e+19 cm^-3eV^-1  V1-model(thermal)  2.817e+13
+     u=-0.05  D_meas  3.269e+13 cm^-2eV^-1  per-volume  5.188e+19 cm^-3eV^-1  V1-model(thermal)  3.570e+13
+   t= 13.2  u-range -0.129..0.061
+     u=-0.30  D_meas        nan cm^-2eV^-1  per-volume        nan cm^-3eV^-1  V1-model(thermal)  4.578e+11
+     u=-0.25  D_meas        nan cm^-2eV^-1  per-volume        nan cm^-3eV^-1  V1-model(thermal)  8.988e+11
+     u=-0.20  D_meas        nan cm^-2eV^-1  per-volume        nan cm^-3eV^-1  V1-model(thermal)  2.401e+12
+     u=-0.15  D_meas        nan cm^-2eV^-1  per-volume        nan cm^-3eV^-1  V1-model(thermal)  7.253e+12
+     u=-0.10  D_meas  2.155e+13 cm^-2eV^-1  per-volume  1.633e+19 cm^-3eV^-1  V1-model(thermal)  2.047e+13
+     u=-0.07  D_meas  2.030e+13 cm^-2eV^-1  per-volume  1.538e+19 cm^-3eV^-1  V1-model(thermal)  3.389e+13
+     u=-0.05  D_meas  2.636e+13 cm^-2eV^-1  per-volume  1.997e+19 cm^-3eV^-1  V1-model(thermal)  4.294e+13
+  mobility set: S2 partition {2.0: 14.1662, 6.3: 17.855600000000003, 13.2: 60.0039}
+   t=  2.0  u-range -0.208..0.165
+     u=-0.30  D_meas        nan cm^-2eV^-1  per-volume        nan cm^-3eV^-1  V1-model(thermal)  3.820e+11
+     u=-0.25  D_meas        nan cm^-2eV^-1  per-volume        nan cm^-3eV^-1  V1-model(thermal)  6.453e+11
+     u=-0.20  D_meas  5.618e+12 cm^-2eV^-1  per-volume  2.809e+19 cm^-3eV^-1  V1-model(thermal)  1.555e+12
+     u=-0.15  D_meas  5.274e+12 cm^-2eV^-1  per-volume  2.637e+19 cm^-3eV^-1  V1-model(thermal)  4.555e+12
+     u=-0.10  D_meas  1.084e+13 cm^-2eV^-1  per-volume  5.422e+19 cm^-3eV^-1  V1-model(thermal)  1.278e+13
+     u=-0.07  D_meas  1.730e+13 cm^-2eV^-1  per-volume  8.648e+19 cm^-3eV^-1  V1-model(thermal)  2.115e+13
+     u=-0.05  D_meas  2.222e+13 cm^-2eV^-1  per-volume  1.111e+20 cm^-3eV^-1  V1-model(thermal)  2.680e+13
+   t=  6.3  u-range -0.183..0.059
+     u=-0.30  D_meas        nan cm^-2eV^-1  per-volume        nan cm^-3eV^-1  V1-model(thermal)  4.235e+11
+     u=-0.25  D_meas        nan cm^-2eV^-1  per-volume        nan cm^-3eV^-1  V1-model(thermal)  7.849e+11
+     u=-0.20  D_meas        nan cm^-2eV^-1  per-volume        nan cm^-3eV^-1  V1-model(thermal)  2.021e+12
+     u=-0.15  D_meas  1.294e+13 cm^-2eV^-1  per-volume  2.054e+19 cm^-3eV^-1  V1-model(thermal)  6.042e+12
+     u=-0.10  D_meas  2.133e+13 cm^-2eV^-1  per-volume  3.385e+19 cm^-3eV^-1  V1-model(thermal)  1.702e+13
+     u=-0.07  D_meas  3.420e+13 cm^-2eV^-1  per-volume  5.429e+19 cm^-3eV^-1  V1-model(thermal)  2.817e+13
+     u=-0.05  D_meas  3.965e+13 cm^-2eV^-1  per-volume  6.293e+19 cm^-3eV^-1  V1-model(thermal)  3.570e+13
+   t= 13.2  u-range -0.129..0.061
+     u=-0.30  D_meas        nan cm^-2eV^-1  per-volume        nan cm^-3eV^-1  V1-model(thermal)  4.578e+11
+     u=-0.25  D_meas        nan cm^-2eV^-1  per-volume        nan cm^-3eV^-1  V1-model(thermal)  8.988e+11
+     u=-0.20  D_meas        nan cm^-2eV^-1  per-volume        nan cm^-3eV^-1  V1-model(thermal)  2.401e+12
+     u=-0.15  D_meas        nan cm^-2eV^-1  per-volume        nan cm^-3eV^-1  V1-model(thermal)  7.253e+12
+     u=-0.10  D_meas  2.019e+13 cm^-2eV^-1  per-volume  1.529e+19 cm^-3eV^-1  V1-model(thermal)  2.047e+13
+     u=-0.07  D_meas  2.045e+13 cm^-2eV^-1  per-volume  1.549e+19 cm^-3eV^-1  V1-model(thermal)  3.389e+13
+     u=-0.05  D_meas  2.667e+13 cm^-2eV^-1  per-volume  2.020e+19 cm^-3eV^-1  V1-model(thermal)  4.294e+13
+  surface+bulk decomposition of D_meas(u) using 2 and 13.2 nm, predict 6.3 nm:
+     u=-0.10: Ds= 8.533e+12 gb= 9.863e+18  pred6.3= 1.475e+13  meas6.3= 1.667e+13
+     u=-0.07: Ds= 1.610e+13 gb= 3.184e+18  pred6.3= 1.810e+13  meas6.3= 2.420e+13
+     u=-0.05: Ds= 2.070e+13 gb= 4.287e+18  pred6.3= 2.340e+13  meas6.3= 3.269e+13
+  naive SS inversion (Cox/q)(SS/59.5-1):
+     t=2.0: SS_min 84.5 -> D=2.345e+12 (1.17e+19 /cm3eV); SS_cc 269.9 -> D=1.975e+13
+     t=6.3: SS_min 114.7 -> D=5.181e+12 (8.22e+18 /cm3eV); SS_cc 295.4 -> D=2.215e+13
+     t=13.2: SS_min 130.8 -> D=6.692e+12 (5.07e+18 /cm3eV); SS_cc 160.0 -> D=9.434e+12
+     free-carrier crossover current (C_free=Cox) for mu=10.65: 3.19e-10 A/um
+     free-carrier crossover current (C_free=Cox) for mu=13.3: 3.98e-10 A/um
+     free-carrier crossover current (C_free=Cox) for mu=59.24: 1.77e-09 A/um
+  6.3 nm gap: extra trapped charge needed = CoxQ*(1.820-1.471 - (0.644-0.651)) = 1.990e+12 cm^-2
+
+=== C. 0-D film forward surrogate (SS metrics) ===
+  trap-free t=2 nm mu=10.65: SS_cc=131.8 SS_min=62.5
+  trap-free t=2 nm mu=13.3: SS_cc=122.3 SS_min=62.5
+  trap-free t=2 nm mu=59.24: SS_cc=75.3 SS_min=62.5
+  V1 DOS t=2.0: surrogate SS_cc=293.6 SS_min=93.4   ATLAS SS_cc=289.1 SS_min=73.2
+          same mu, NO traps: SS_cc=122.3 SS_min=62.4
+  V1 DOS t=6.3: surrogate SS_cc=303.4 SS_min=100.0   ATLAS SS_cc=288.8 SS_min=110.8
+          same mu, NO traps: SS_cc=129.9 SS_min=66.0
+  V1 DOS t=13.2: surrogate SS_cc=164.8 SS_min=104.3   ATLAS SS_cc=192.5 SS_min=151.3
+          same mu, NO traps: SS_cc=52.4 SS_min=71.8
+
+=== D. off-state floors ===
+  t=  2.0 Vg[-3.0,-2.0] median 2.393e-15 min 1.079e-16 max 3.635e-15 slope +1.209 dec/V
+  t=  2.0 Vg[-2.0,-0.5] median 4.606e-15 min 2.414e-15 max 5.514e-15 slope +0.076 dec/V
+  t=  2.0 Vg[-3.0,-0.5] median 3.915e-15 min 1.079e-16 max 5.514e-15 slope +0.351 dec/V
+     sheet conductance of a parallel path G = 1.316e-13 S/sq ; n*mu*t = 8.213e+05 cm^-2 cm^2/Vs ; total device current 1.34e-12 A
+  t=  6.3 Vg[-3.0,-2.0] median 1.534e-13 min 6.103e-14 max 2.003e-13 slope -0.021 dec/V
+  t=  6.3 Vg[-2.0,-0.5] median 1.528e-13 min 7.103e-14 max 2.128e-13 slope -0.013 dec/V
+  t=  6.3 Vg[-3.0,-0.5] median 1.528e-13 min 6.103e-14 max 2.128e-13 slope -0.011 dec/V
+     sheet conductance of a parallel path G = 4.365e-12 S/sq ; n*mu*t = 2.724e+07 cm^-2 cm^2/Vs ; total device current 4.43e-11 A
+  t= 13.2 Vg[-3.0,-2.0] median 6.559e-12 min 6.462e-12 max 6.841e-12 slope -0.002 dec/V
+  t= 13.2 Vg[-2.0,-0.5] median 6.597e-12 min 6.421e-12 max 6.803e-12 slope -0.001 dec/V
+  t= 13.2 Vg[-3.0,-0.5] median 6.576e-12 min 6.421e-12 max 6.841e-12 slope -0.002 dec/V
+     sheet conductance of a parallel path G = 1.885e-10 S/sq ; n*mu*t = 1.176e+09 cm^-2 cm^2/Vs ; total device current 1.91e-09 A
+  t= 31.8 Vg[-3.0,-2.0] median 2.865e-07 min 2.729e-07 max 2.998e-07 slope -0.041 dec/V
+  t= 31.8 Vg[-2.0,-0.5] median 2.749e-07 min 2.649e-07 max 6.507e-07 slope +0.216 dec/V
+  t= 31.8 Vg[-3.0,-0.5] median 2.852e-07 min 2.649e-07 max 6.507e-07 slope +0.074 dec/V
+     sheet conductance of a parallel path G = 7.855e-06 S/sq ; n*mu*t = 4.903e+13 cm^-2 cm^2/Vs ; total device current 7.97e-05 A
+  floor exponent 2.0->6.3: 3.05  (ratio 33.2)
+  floor exponent 6.3->13.2: 5.09  (ratio 43.2)
+  floor exponent 2.0->13.2: 3.85  (ratio 1432.3)
+  31.8 nm Id(-3V) = 2.998e-07 A/um -> G = 8.566e-06 S/sq
+  HfO2 field at |Vg|=1,2,3 V: [0.51682554 1.03365109 1.55047663] MV/cm ; Al2O3 field x2.17
+   FN phi=1.0 m*=0.2: J(1,2,3 V) = [4.42714279e-20 1.20701061e-06 5.14915694e-02] A/cm^2
+   FN phi=1.0 m*=0.4: J(1,2,3 V) = [5.16953156e-31 2.91648617e-12 7.35911097e-06] A/cm^2
+   FN phi=1.5 m*=0.2: J(1,2,3 V) = [9.63155026e-42 1.45362302e-17 2.36337613e-09] A/cm^2
+   FN phi=1.5 m*=0.4: J(1,2,3 V) = [1.41609389e-61 1.24633480e-27 3.64735581e-16] A/cm^2
+   FN phi=2.0 m*=0.2: J(1,2,3 V) = [2.59868544e-67 2.06781262e-30 5.85139648e-18] A/cm^2
+   FN phi=2.0 m*=0.4: J(1,2,3 V) = [1.10381968e-97 9.52946227e-46 2.77090096e-28] A/cm^2
+  gate-leakage J needed for the floors if the leaking area were 290x100 um^2 (ASSUMED pad, not measured):
+     t=2.0: J = 4.61e-09 A/cm^2
+     t=6.3: J = 1.53e-07 A/cm^2
+     t=13.2: J = 6.60e-06 A/cm^2
+
+=== E. donor electrostatics ===
+  per 1e18 cm^-3: t=  2.0: -dVth=0.040 V (sheet term 0.036)
+  per 1e18 cm^-3: t=  6.3: -dVth=0.151 V (sheet term 0.113)
+  per 1e18 cm^-3: t= 13.2: -dVth=0.406 V (sheet term 0.236)
+  per 1e18 cm^-3: t= 31.8: -dVth=1.553 V (sheet term 0.569)
+  Nd needed for dVth_cc(6.3->13.2) = -0.56 V : 2.20e+18 cm^-3 ; it predicts dVth(2->6.3) = -0.246 V (meas -0.018)
+  Qf=1.73e12 as volumetric donors in t=2.0: Nd=8.65e+18 cm^-3
+  Qf=1.73e12 as volumetric donors in t=6.3: Nd=2.75e+18 cm^-3
+  Qf=1.73e12 as volumetric donors in t=13.2: Nd=1.31e+18 cm^-3
+  Kim2024 Von 10->20 nm shift -2.0 V -> Nd = 4.48e+17 cm^-3 (CoxK=3.84e-08)
+  Kim2024 Von 20->30 nm shift -2.0 V -> Nd = 4.29e+17 cm^-3 (CoxK=3.84e-08)
+  gate charge swing Cox*3V/q = 1.68e+13 cm^-2
+
+=== F. PBS extrapolation to a sweep ===
+  2 nm IWO: dV(1200s,6V)=1.2 beta=0.3 t=10s gamma=1 (3V/6V)^g -> 0.143 V
+  2 nm IWO: dV(1200s,6V)=1.2 beta=0.3 t=10s gamma=2 (3V/6V)^g -> 0.071 V
+  2 nm IWO: dV(1200s,6V)=1.2 beta=0.3 t=60s gamma=1 (3V/6V)^g -> 0.244 V
+  2 nm IWO: dV(1200s,6V)=1.2 beta=0.3 t=60s gamma=2 (3V/6V)^g -> 0.122 V
+  2 nm IWO: dV(1200s,6V)=1.2 beta=0.5 t=10s gamma=1 (3V/6V)^g -> 0.055 V
+  2 nm IWO: dV(1200s,6V)=1.2 beta=0.5 t=10s gamma=2 (3V/6V)^g -> 0.027 V
+  2 nm IWO: dV(1200s,6V)=1.2 beta=0.5 t=60s gamma=1 (3V/6V)^g -> 0.134 V
+  2 nm IWO: dV(1200s,6V)=1.2 beta=0.5 t=60s gamma=2 (3V/6V)^g -> 0.067 V
+  2 nm IWO: dV(1200s,6V)=1.2 beta=1.0 t=10s gamma=1 (3V/6V)^g -> 0.005 V
+  2 nm IWO: dV(1200s,6V)=1.2 beta=1.0 t=10s gamma=2 (3V/6V)^g -> 0.003 V
+  2 nm IWO: dV(1200s,6V)=1.2 beta=1.0 t=60s gamma=1 (3V/6V)^g -> 0.030 V
+  2 nm IWO: dV(1200s,6V)=1.2 beta=1.0 t=60s gamma=2 (3V/6V)^g -> 0.015 V
+  10 nm IWO: dV(1200s,6V)=0.72 beta=0.3 t=10s gamma=1 (3V/6V)^g -> 0.086 V
+  10 nm IWO: dV(1200s,6V)=0.72 beta=0.3 t=10s gamma=2 (3V/6V)^g -> 0.043 V
+  10 nm IWO: dV(1200s,6V)=0.72 beta=0.3 t=60s gamma=1 (3V/6V)^g -> 0.147 V
+  10 nm IWO: dV(1200s,6V)=0.72 beta=0.3 t=60s gamma=2 (3V/6V)^g -> 0.073 V
+  10 nm IWO: dV(1200s,6V)=0.72 beta=0.5 t=10s gamma=1 (3V/6V)^g -> 0.033 V
+  10 nm IWO: dV(1200s,6V)=0.72 beta=0.5 t=10s gamma=2 (3V/6V)^g -> 0.016 V
+  10 nm IWO: dV(1200s,6V)=0.72 beta=0.5 t=60s gamma=1 (3V/6V)^g -> 0.080 V
+  10 nm IWO: dV(1200s,6V)=0.72 beta=0.5 t=60s gamma=2 (3V/6V)^g -> 0.040 V
+  10 nm IWO: dV(1200s,6V)=0.72 beta=1.0 t=10s gamma=1 (3V/6V)^g -> 0.003 V
+  10 nm IWO: dV(1200s,6V)=0.72 beta=1.0 t=10s gamma=2 (3V/6V)^g -> 0.002 V
+  10 nm IWO: dV(1200s,6V)=0.72 beta=1.0 t=60s gamma=1 (3V/6V)^g -> 0.018 V
+  10 nm IWO: dV(1200s,6V)=0.72 beta=1.0 t=60s gamma=2 (3V/6V)^g -> 0.009 V
+saved plot

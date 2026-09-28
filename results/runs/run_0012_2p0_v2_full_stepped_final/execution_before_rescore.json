@@ -1,0 +1,35 @@
+{
+  "run_id": "run_0012",
+  "thickness_nm": 2.0,
+  "label": "v2_full_stepped_final",
+  "elapsed_s": 125.26801299996441,
+  "returncode": 0,
+  "timed_out": false,
+  "scan": {
+    "warnings": [
+      "Warning: Projection cannot be done with"
+    ],
+    "convergence_flags": [],
+    "errors": [],
+    "banner": true,
+    "finished": true,
+    "static_solutions": 114,
+    "banner_present": true
+  },
+  "requested_points": 76,
+  "overrides": [
+    "traps.fixed_interface_charge_Qf_cm2.value=1.73e12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=18.13"
+  ],
+  "validation": {
+    "kcl_abs_limit_applied_A": 1.0793100000000002e-17,
+    "max_kcl_abs_A": 9.999999999310304e-17,
+    "kcl_fail_count": 1,
+    "kcl_fail_vg": [
+      -1.2
+    ],
+    "wrong_sign_count": 0,
+    "nonpositive_count": 12
+  },
+  "status": "KCL_FAILED"
+}

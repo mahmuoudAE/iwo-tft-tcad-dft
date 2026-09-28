@@ -1,0 +1,105 @@
+{
+  "run_id": "run_0002",
+  "thickness_nm": 13.2,
+  "label": "v1_baseline_laws",
+  "elapsed_s": 332.0696819999721,
+  "returncode": 0,
+  "timed_out": false,
+  "scan": {
+    "warnings": [
+      "Warning: Projection cannot be done with"
+    ],
+    "convergence_flags": [],
+    "errors": [],
+    "banner": true,
+    "finished": true,
+    "static_solutions": 159,
+    "banner_present": true
+  },
+  "requested_points": 121,
+  "overrides": [],
+  "validation": {
+    "kcl_abs_limit_applied_A": 6.42069e-13,
+    "max_kcl_abs_A": 3.4248197400000004e-17,
+    "kcl_fail_count": 0,
+    "kcl_fail_vg": [],
+    "wrong_sign_count": 0,
+    "nonpositive_count": 19
+  },
+  "fit_metrics": {
+    "regions": {
+      "all": {
+        "count": 121,
+        "rmse_log10": 12.22677637100758,
+        "max_abs_log10": 28.834267433637223,
+        "mean_log10": -7.306139833424084,
+        "rmse_linear_A_per_um": 2.950145925704837e-07,
+        "median_abs_relative": 0.9994847633363511
+      },
+      "active": {
+        "count": 62,
+        "rmse_log10": 1.0300736838176516,
+        "max_abs_log10": 3.6210178895315224,
+        "mean_log10": -0.6486209996316833,
+        "rmse_linear_A_per_um": 4.121357978912941e-07,
+        "median_abs_relative": 0.4799766366267954
+      },
+      "subthreshold": {
+        "count": 10,
+        "rmse_log10": 2.3500852427582832,
+        "max_abs_log10": 3.6210178895315224,
+        "mean_log10": -2.209633070029004,
+        "rmse_linear_A_per_um": 1.0298551556063125e-08,
+        "median_abs_relative": 0.9898848101066635
+      },
+      "on": {
+        "count": 52,
+        "rmse_log10": 0.45055958266242463,
+        "max_abs_log10": 1.1537781250831465,
+        "mean_log10": -0.34842637070912164,
+        "rmse_linear_A_per_um": 4.500001321447472e-07,
+        "median_abs_relative": 0.3902900153285894
+      },
+      "low_current": {
+        "count": 59,
+        "rmse_log10": 17.477829103640804,
+        "max_abs_log10": 28.834267433637223,
+        "mean_log10": -14.302176574019487,
+        "rmse_linear_A_per_um": 7.54235672068538e-12,
+        "median_abs_relative": 0.999999989332391
+      }
+    },
+    "on_error_3V_percent": -21.28935190462078,
+    "nonpositive_pred_count": 19,
+    "off_band_median_A_per_um": 6.59655e-12,
+    "max_abs_log10_active": 3.6210178895315224,
+    "log_treatment": "log10(max(pred,1e-40)) - log10(meas)"
+  },
+  "device_metrics_sim": {
+    "Vth_cc_1e-9_V": 0.36910972579372575,
+    "Vth_lin_V": 1.2853575482406387,
+    "SS_mV_dec": 48.310327335162626,
+    "gm_max_A_V_um": 1.4096000000000026e-06,
+    "mu_FE_cm2Vs": 44.972219516623205,
+    "Ion_A_per_um": 2.41696e-06,
+    "Ioff_A_per_um": 1.91352e-21,
+    "Ioff_definition": "min Id over sweep (min POSITIVE; native zeros counted)",
+    "native_zero_count": 19,
+    "Ion_over_Ioff": 1263096283289435.2,
+    "off_band_median_A_per_um": null
+  },
+  "device_metrics_exp": {
+    "Vth_cc_1e-9_V": 0.08252222827718106,
+    "Vth_lin_V": 1.0440663953192557,
+    "SS_mV_dec": 130.77458466120197,
+    "gm_max_A_V_um": 1.5723999999999987e-06,
+    "mu_FE_cm2Vs": 50.16623011346349,
+    "Ion_A_per_um": 3.07069e-06,
+    "Ioff_A_per_um": 6.42069e-12,
+    "Ioff_definition": "min Id over sweep",
+    "native_zero_count": 0,
+    "Ion_over_Ioff": 478249.22243559494,
+    "off_band_median_A_per_um": 6.59655e-12
+  },
+  "status": "REAL_ATLAS_SCORED"
+}

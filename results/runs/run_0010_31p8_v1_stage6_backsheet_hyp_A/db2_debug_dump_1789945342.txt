@@ -1,0 +1,133 @@
+DB2 Dump Info Mon Sep 21 07:02:22 2026
+
+
+*** History of GUI state machine : ***
+
+state machine DB2 MainWindow State Machine (0x2aa7b3248f0) registered state initialState (0x2aa7b513c60)
+state machine DB2 MainWindow State Machine (0x2aa7b3248f0) registered state normalState (0x2aa7b5137e0)
+
+onEntry State initialState (0x2aa7b513c60) !
+state entered: initialState (0x2aa7b513c60)
+state properties assigned: initialState (0x2aa7b513c60)
+state exited: initialState (0x2aa7b513c60)
+
+onEntry State normalState (0x2aa7b5137e0) !
+state entered: normalState (0x2aa7b5137e0)
+
+onEntry State readyState (0x2aa7b513c90) !
+state entered: readyState (0x2aa7b513c90)
+state properties assigned: normalState (0x2aa7b5137e0)
+state properties assigned: readyState (0x2aa7b513c90)
+state exited: readyState (0x2aa7b513c90)
+
+onEntry State runningState (0x2aa7b513450) !
+state entered: runningState (0x2aa7b513450)
+
+onEntry State startcontState (0x2aa7b514980) !
+state entered: startcontState (0x2aa7b514980)
+state properties assigned: runningState (0x2aa7b513450)
+state properties assigned: startcontState (0x2aa7b514980)
+
+
+*** List of GUI current machine's states : ***
+
+Name : runningState,			 @:0x2aa7b513450
+Name : normalState,			 @:0x2aa7b5137e0
+Name : startcontState,			 @:0x2aa7b514980
+
+
+*** Executor info : ***
+
+state-name:SimReady
+itsWantExit:0
+itsInsertedDeckCmds:
+itsNextCmdIdx:1
+itsDeckCmds:
+  DeckLine:"solve init", number:113,line-id:113,generated:0,isExtract:0
+itsPendingEvents.size():0
+itsHandleEventsOnly:0
+itsDeckFinishedIssued:0
+itsNoPromptsReceived:0
+itsBatchMode:0
+itsNice:0
+itsNrCPUs:1
+itsSystemEnabled:1
+itsAIEnabled:1
+itsAIPreferencesEnabled:1
+itsDeckWasQuit:0
+itsMonitorStrings:
+  itsString:ERROR #,itsDisplayString:ERROR #
+  itsString:errors detected in,itsDisplayString:errors detected in
+  itsString:\*\*\*Stop now\*\*\*,itsDisplayString:***Stop now***
+  itsString:syntax error,itsDisplayString:syntax error
+  itsString:System Error,itsDisplayString:System Error
+  itsString:Command Error,itsDisplayString:Command Error
+itsSimSetting:
+  athena:path:"C:/sedatools\",version:"",args:""
+  atlas:path:"C:/sedatools\",version:"",args:""
+  clever:path:"C:/sedatools\",version:"",args:""
+  devedit:path:"",version:"",args:""
+  maskviews:path:"",version:"",args:""
+  sedit:path:"",version:"",args:""
+  tonyplot:path:"",version:"",args:""
+  tonyplot3d:path:"",version:"",args:""
+  utmost4:path:"C:/sedatools\",version:"",args:""
+  victorya:path:"C:/sedatools\",version:"",args:""
+  victoryd:path:"C:/sedatools\",version:"",args:""
+  victorymesh:path:"C:/sedatools\",version:"",args:""
+  victoryp:path:"C:/sedatools\",version:"",args:""
+  victorystress:path:"C:/sedatools\",version:"",args:""
+callbackHistory:  
+  timestamp:540620816,vwf::editor::DeckExecutorCallbackTracer::deckLineExecuting:dli:DeckLine:"probe name=chan_n x=12 y=-0.0159 n.conc
+", number:111,line-id:111,generated:0,isExtract:0
+  timestamp:540635816,vwf::editor::DeckExecutorCallbackTracer::simStdout:rto:RTO:sim:atlas,txt:probe name=chan_n x=12 y=-0.0159 n.conc
+,timestamp:1789945341,deckLine:DeckLine:"probe name=chan_n x=12 y=-0.0159 n.conc
+", number:111,line-id:111,generated:0,isExtract:0
+  timestamp:540635816,vwf::editor::DeckExecutorCallbackTracer::simStdout:rto:RTO:sim:atlas,txt:ATLAS> ,timestamp:1789945341,deckLine:NULL
+  timestamp:540635816,vwf::editor::DeckExecutorCallbackTracer::simPrompt:sim:atlas,0:0
+  timestamp:540635816,vwf::editor::DeckExecutorCallbackTracer::deckFinished:deckWasQuit:0
+  timestamp:540643816,vwf::editor::DeckExecutorCallbackTracer::deckLineExecuting:dli:DeckLine:"probe name=avg_n region=1 average n.conc x.min=2 x.max=22 y.min=-0.03155 y.max=-0.00025
+", number:112,line-id:112,generated:0,isExtract:0
+  timestamp:540656816,vwf::editor::DeckExecutorCallbackTracer::simStdout:rto:RTO:sim:atlas,txt:probe name=avg_n region=1 average n.conc x.min=2 x.max=22 y.min=-0.03155 y.max=-0.00025
+,timestamp:1789945341,deckLine:DeckLine:"probe name=avg_n region=1 average n.conc x.min=2 x.max=22 y.min=-0.03155 y.max=-0.00025
+", number:112,line-id:112,generated:0,isExtract:0
+  timestamp:540656816,vwf::editor::DeckExecutorCallbackTracer::simStdout:rto:RTO:sim:atlas,txt:ATLAS> ,timestamp:1789945341,deckLine:NULL
+  timestamp:540656816,vwf::editor::DeckExecutorCallbackTracer::simPrompt:sim:atlas,0:0
+  timestamp:540656816,vwf::editor::DeckExecutorCallbackTracer::deckFinished:deckWasQuit:0
+  timestamp:540666816,vwf::editor::DeckExecutorCallbackTracer::deckLineExecuting:dli:DeckLine:"solve init
+", number:113,line-id:113,generated:0,isExtract:0
+  timestamp:540685816,vwf::editor::DeckExecutorCallbackTracer::simStdout:rto:RTO:sim:atlas,txt:solve init
+,timestamp:1789945341,deckLine:DeckLine:"solve init
+", number:113,line-id:113,generated:0,isExtract:0
+  timestamp:540740816,vwf::editor::DeckExecutorCallbackTracer::simStdout:rto:RTO:sim:atlas,txt:
+Starting module:   BLAZE                          
+
+,timestamp:1789945341,deckLine:NULL
+  timestamp:540802816,vwf::editor::DeckExecutorCallbackTracer::simStdout:rto:RTO:sim:atlas,txt:
+Starting module:   TFT                            
+
+,timestamp:1789945341,deckLine:NULL
+  timestamp:540849816,vwf::editor::DeckExecutorCallbackTracer::reportResourceUsage:ru:act_vm_rss:678400,max_vm_rss:678636,cpu_user_sec:0,cpu_user_usec:31250,cpu_sys_sec:0,cpu_sys_usec:31250,io_read_bytes:0,io_write_bytes:0
+  timestamp:540865816,vwf::editor::DeckExecutorCallbackTracer::simStdout:rto:RTO:sim:atlas,txt:
+Obtaining static solution:
+
+
+init           psi    psi 
+direct          x     rhs 
+   i    j  m  -5.00* -26.0*
+---------------------------
+,timestamp:1789945341,deckLine:NULL
+  timestamp:541305816,vwf::editor::DeckExecutorCallbackTracer::simStdout:rto:RTO:sim:atlas,txt:   1    1  G   0.000 -11.09
+,timestamp:1789945341,deckLine:NULL
+  timestamp:541739816,vwf::editor::DeckExecutorCallbackTracer::simStdout:rto:RTO:sim:atlas,txt:   1    2  G  -0.301 -11.11
+,timestamp:1789945342,deckLine:NULL
+  timestamp:541848816,vwf::editor::DeckExecutorCallbackTracer::reportResourceUsage:ru:act_vm_rss:699112,max_vm_rss:699348,cpu_user_sec:0,cpu_user_usec:31250,cpu_sys_sec:0,cpu_sys_usec:31250,io_read_bytes:0,io_write_bytes:0
+  timestamp:542173816,vwf::editor::DeckExecutorCallbackTracer::simStdout:rto:RTO:sim:atlas,txt:   1    3  G  -0.477 -11.13
+,timestamp:1789945342,deckLine:NULL
+
+
+
+*** Last line in execution was line 112: ***
+
+solve init
+

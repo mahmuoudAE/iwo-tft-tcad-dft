@@ -1,0 +1,1333 @@
+# Key-number lines (file:line) from the 2026-09-25 analysis. Quote numbers from here with their source.
+
+
+## SYNTHESIS.md
+
+- SYNTHESIS.md:7: - Inputs: `EVIDENCE_BRIEF.md` (§1-5b); S1-S6; `PREDICTIONS_REGISTER.md`; `REVIEW.md`; campaigns A, B and C; run_0001 to run_0052; `data/experimental_clean.csv`.
+- SYNTHESIS.md:35: In these single devices, the 2 and 6.3 nm TFTs are electrically similar (Vth_cc 0.662 / 0.644 V; mu_FE 12.2 / 11.0 cm²/Vs). The 13.2 nm device differs sharply (0.083 V; 50.2 cm²/Vs). No thickness power law describes this.
+- SYNTHESIS.md:42: - On one ID-VG curve it is exactly equivalent to about 1.7e12 cm⁻² of fixed charge.
+- SYNTHESIS.md:43: - One shared offset fits equally well with or without it (rms 0.136 vs 0.133 V).
+- SYNTHESIS.md:46: - a rigid part (0.29 V with confinement, 0.06 V without), which cannot be assigned with N = 1;
+- SYNTHESIS.md:47: - an on-state shape part: the turn-on delay is 0.31-0.36 V too small and gm is 17-23 % low. No tested V1 change reproduces it without breaking the subthreshold slope, which points to the constant-mobility model form.
+- SYNTHESIS.md:59: | D1 | **Measured pattern: 2 ≈ 6.3 nm ≠ 13.2 nm in every metric.** Vth_cc 0.662 / 0.644 / 0.083 V; mu_FE 12.15 / 10.95 / 50.17 cm²/Vs; SS_cc 269.9 / 295.4 / 160.0 mV/dec; Ion 5.09e-7 / 4.03e-7 / 3.07e-6 A/µm; floor 4.6e-15 / 1.5e-13 / 6.6e-12 A/µm. mu_FE(6.3) < mu_FE(2), so no monotonic law passes through all three | DATA | brief §2 |
+- SYNTHESIS.md:60: | D2 | **WF, χ, Qf and the pure dEc shift are one number per curve.** WF +0.1 eV gives +0.1000 V rigid with SS unchanged (runs 0048, 0049). Qf is rigid within 0.6 mV over 1e-14..3e-7 A/µm (0001→0003, 0002→0004, 0005→0007). dEc(2 nm) = 0.353 eV ≡ 1.97e12 cm⁻². The V1 confinement *package* (dEc plus m*→Nc) is only near-rigid: the shift is 0.345 V at 1e-14, 0.302 V at 1e-8 and 0.311 V at 3e-7 A/µm, and SS_cc is 289.1 vs 303.7 mV/dec (0012 vs 0016). Its non-rigid part (+38.8 mV between 1e-11 and 1e-8 A/µm; SS_cc +14.6 mV/dec) is nearly reproduced by m* ×0.8 (SS_cc +14.6, +37.5 mV) or by Nt ×1.09 (+14.6, +34 mV), from log-linear scaling of runs 0050 and 0023 | NUM | REVIEW V5; S6 §2; [SYN-d] |
+- SYNTHESIS.md:61: | D3 | **The thresholds do not discriminate confinement.** One-offset rms 0.1363 V (with) vs 0.1325 V (without); leave-one-out 0.2045 vs 0.1988 V. The winner flips with the anchor: 2 nm anchor 0.2205 vs 0.1800 V; 13.2 nm anchor 0.1897 vs 0.2782 V. Each reading needs one film-specific charge. With confinement, 6.3 nm needs Qf 0.086e12 against the shared 1.73e12 (1.64e12 cm⁻² less positive, 0.294 V). Without it, 13.2 nm needs 1.434e12 against 0.047e12 fitted on 2 nm (1.39e12 more positive, 0.248 V) | NUM on DATA | [SYN-b]; REVIEW V11 |
+- SYNTHESIS.md:62: | D4 | **The shared-parameter model misses the 6.3 nm threshold by −0.294 V** (run_0014). mu_band 12.4 is the V0 fit of the same curve (`config/iwo_material_model.yaml` l.105), so this is a failed OOS test of the **threshold only** | OOS, failed | REVIEW §1(b) |
+- SYNTHESIS.md:63: | D5 | **No tested V1 variant reproduces the 6.3 nm on-state without breaking the subthreshold.** Eight charge/electrostatic variants (runs 0014, 0015, 0030-0035) give gap 0.72-0.88 V against 1.176 V measured. C1 (run_0052) gives 0.939 V. B0 (run_0037) gives 1.202 V but with SS_cc 410.9 against 295.4 mV/dec. Smaller same-signed misses exist at 2 nm (gap −0.145 V, gm −8.6 %) and 13.2 nm (−0.021 V, −2.6 %) | NUM | S6 §1.6, §3.1 |
+- SYNTHESIS.md:64: | D6 | **The constant-current threshold is mobility-confounded.** Giving the 13.2 nm curve the 2 nm mobility moves Vth_cc by +0.108 to +0.115 V, i.e. 19-20 % of the measured 0.579 V step. The model's confinement term realises 0.292 V (0.3156 − 0.0234), i.e. 50.4 % of that step | DATA / NUM | REVIEW V8, V13 |
+- SYNTHESIS.md:65: | D7 | **SS_min is invalid.** run_0012 and B1 (Ion equal within 0.01 %) give 73.2 vs 83.1 mV/dec, from a 2.5 % current difference at Vg = 0.15 V. The claim "removing confinement moves SS toward the data" is an artefact: SS_min 151.3 / 138.6 (runs 0013 / 0017), but fixed-current SS 90.8 / 92.0 | NUM | S6 §1.4; REVIEW V9 |
+- SYNTHESIS.md:66: | D8 | **Calibrated state at DOS 384/192** (B1, B2 ×1.015074, B3 ×1.020113) | CAL | S6 §1.6 |
+- SYNTHESIS.md:67: | D9 | **300 K transfer numerics converge where checked.** At 2 nm, DOS refinement changes Ion by +1.98 % then +0.48 %: order 2.03, Richardson residual +0.16 %. The offset at equal mu is +2.48 / +0.95 / +0.50 %. Mesh ×0.7 passes at 6.3 nm (run_0036: 0.0625 vs 0.0626 dec, ΔVth_cc −0.3 mV) and at 13.2 nm (run_0028). Id is linear in mu to 6e-6; KCL ≤ 2.5e-16 A. The open items are listed in §F | NUM | S6 §1 |
+- SYNTHESIS.md:68: | D10 | **The T ≠ 300 K runs (0044-0047) used the silicon default tmu = 1.5.** Ion(0045)/Ion(0038) = 0.7742, and × (358.15/300)^1.5 = 1.0098. Both registered variants are exact, because Id is linear in a uniform constant mobility | NUM | brief §5b; REVIEW V7 |
+- SYNTHESIS.md:69: | D11 | **run_0027 is not an overlap test.** x.mesh ends at 24 µm, the drain collapsed to a line, and deckbuild.out reports "Electrode shortened" ×3 | audit | S5 §2 |
+- SYNTHESIS.md:70: | D12 | **The paper's mobilities are the saturation formula applied to these curves.** It gives 5.09 / 27.40 cm²/Vs (paper: 5.1 / 27.4). The peaks sit at Vg 1.75 V (2 nm, 0.09 V above Vth_lin) and 0.95 V (13.2 nm, below Vth_lin), with Vd = 0.7 V. It predicts 3.86 cm²/Vs at 6.3 nm. This is provenance evidence: it fixes L/(W·Cox) × A/µm jointly, not Vd | DATA | REVIEW V3 |
+- SYNTHESIS.md:73: - Vth_cc: 0.662/0.680, 0.644/0.653, 0.083/0.054 V.
+- SYNTHESIS.md:74: - SS 1e-11..1e-10: 121.2/123.5, 124.5/124.5, 91.8/90.9 mV/dec. The 13.2 nm measured value is floor-subtracted; the raw value is 136.1.
+- SYNTHESIS.md:75: - SS 1e-10..1e-9: the model is too soft by +20 / +6 / +25 mV/dec.
+- SYNTHESIS.md:76: - Ion: 0.00 % by construction.
+- SYNTHESIS.md:77: - mu_band: 17.69 / 11.58 / 61.60 cm²/Vs.
+- SYNTHESIS.md:83: | run | 1e-11 | 1e-10 | 1e-9 | 1e-8 | 3e-8 | 1e-7 | 2e-7 | 3e-7 A/µm |
+- SYNTHESIS.md:85: | 6.3 nm run_0014 (shared) | +0.293 | +0.296 | +0.294 | +0.316 | +0.358 | +0.455 | +0.484 | +0.449 |
+- SYNTHESIS.md:86: | 6.3 nm run_0015 (tuned Qf) | −0.003 | −0.003 | −0.007 | +0.011 | +0.047 | +0.132 | +0.141 | +0.087 |
+- SYNTHESIS.md:87: | 6.3 nm A6 run_0034 (no confinement) | +0.063 | +0.062 | +0.057 | +0.077 | +0.117 | +0.213 | +0.239 | +0.201 |
+- SYNTHESIS.md:88: | 6.3 nm C1 run_0052 | +0.010 | +0.009 | −0.004 | −0.009 | +0.024 | +0.134 | +0.201 | +0.212 |
+- SYNTHESIS.md:89: | 6.3 nm B0 run_0037 | +0.142 | +0.094 | −0.010 | −0.138 | −0.167 | −0.125 | −0.088 | −0.084 |
+- SYNTHESIS.md:90: | 2 nm B1 run_0038 | +0.004 | +0.002 | −0.019 | −0.040 | −0.029 | +0.008 | +0.034 | +0.037 |
+- SYNTHESIS.md:91: | 13.2 nm B3 run_0040 | +0.006 | +0.051 | +0.029 | −0.015 | −0.029 | −0.029 | −0.026 | −0.020 |
+- SYNTHESIS.md:93: - **Rigid part.** 0.294 V ≡ 1.64e12 cm⁻² with the confinement law (constant within 3 mV from 1e-11 to 1e-9 A/µm in run_0014). Without the law (A6) it is 0.057 V ≡ 0.32e12 cm⁻².
+- SYNTHESIS.md:95: - run_0014: +0.161 / +0.190 V;
+- SYNTHESIS.md:96: - run_0015: +0.139 / +0.148 V;
+- SYNTHESIS.md:97: - A6: +0.156 / +0.182 V.
+- SYNTHESIS.md:100: - **Comparison with the other films.** The residual swing is 0.07-0.08 V at 2 and 13.2 nm, against about 0.15 V at 6.3 nm, where it has a "late, then steep" form. B0 overshoots in the middle and misses the subthreshold.
+- SYNTHESIS.md:106: | Do the Vth data favour confinement (FINAL_STATUS), favour no confinement (S1), or "mildly disfavour" it (S3)? | **Neutral** (D3; Vth_cc from `execution.json` plus the exact Qf identity). All three positions are overstated |
+- SYNTHESIS.md:107: | Rigid 6.3 nm part: 0.10-0.16 V (S2) or 0.29 V (S1, S6)? | **0.294 V** (with confinement) in every run that keeps the fixed-current SS within ~15 mV/dec. C1 keeps Qf 8.7e10 and gives Vth_cc 0.648 V. S2's value needs B0's Qf of 9.8e11, i.e. a trap model that fails SS_cc by +116 |
+- SYNTHESIS.md:108: | S2's re-partition "strongly supported" (written before B0) vs FAIL (S6) | **Rejected**: run_0037 gives SS_cc 410.9 against 295.4, and SS 1e-11..1e-10 +48.8 |
+- SYNTHESIS.md:109: | SS_min change: physics (S4) or artefact (S3, S6)? | **Artefact**. Id(0.15 V) is 2.34e-14 / 2.28e-14 / 2.34e-14 A/µm (runs 0012 / 0038 / 0029) against a gate of 2.30e-14 |
+- SYNTHESIS.md:110: | μ_sat peaks: "linear regime" (S2) or "Vov ≈ 1.1 V" (S5)? | **Neither**. Relative to Vth_lin the peaks sit at +0.09 / +0.73 / −0.09 V. The reproduction is provenance evidence |
+- SYNTHESIS.md:111: | Near-Ec agreement: "reproduces all films" (S4) vs "too soft" (S6) | The model agrees in 1e-11..1e-10 only; it is too soft by +20 / +6 / +25 mV/dec in 1e-10..1e-9. S4's ratios hold through a mu-dependent inversion |
+- SYNTHESIS.md:112: | Floors "flat to ±3 %" (S4) | 6.3 nm scatter is **±45 %** (max/min 3.0-3.5), with no trend (−0.011 dec/V). The trend-based rejection of gate leakage stands |
+- SYNTHESIS.md:113: | 13.2 nm no-confinement Qf: ~1.86e12 (brief) vs 1.43e12 | **1.434e12** [SYN-b] |
+- SYNTHESIS.md:114: | 13.2 nm isolation ΔIon: −6.8 / +3.7 % (brief) vs −5.0 / +5.8 % | Relative to B3: **−4.99 / +5.79 %**. The brief used the measurement as reference |
+- SYNTHESIS.md:115: | S1's B0 SS_cc 418 "blind" (S6 P2); A6 "pre-registered" (S3, S6) | Both **POST**. The S1 code was saved at 19:18:00Z, during run_0037 (19:16-19:21Z). Config A was written days after the run_0014 miss was known |
+- SYNTHESIS.md:116: | 31.8 nm "mu_FE 49.2" as support (S1, S2, S4) | **Not a mobility**: gm has maxima at −0.30, 0.85, 1.15 and 1.70 V, and gm(3 V)/gm_max = 0.067. It is reported only as a documented model failure |
+- SYNTHESIS.md:117: | Referee: the confinement package's signature is "below the leverage of the fitted WTA" | The conclusion (not identifiable) holds, but the comparison mixed SS_cc with SS_min. On SS_cc, WTA +5 meV gives +0.8 and Dit ×3 gives +0.5 mV/dec, against +14.6 for the package. The signature is reproduced instead by m* ×0.8 or Nt ×1.09 [SYN-d] |
+- SYNTHESIS.md:118: | "Numerics closed" (S6); "86 % is confinement" (S1) | Closed for 300 K transfer metrics only (§F). The confinement share is 77-86 % depending on the decomposition |
+- SYNTHESIS.md:127: - **Contacts:** θ_net < 0 in all films, gm still rising at 3 V at 2 nm, and a thickness-independent Rsd would need ρc ≈ 0.26 Ω·cm² (S5).
+- SYNTHESIS.md:128: - **Electrostatics:** campaign A changes gm by ≤ 2 %.
+- SYNTHESIS.md:129: - **Quantum capacitance:** C_eff/Cox changes by ≤ 1 % at 2 nm and 3-5 % at 6.3/13.2 nm (S3, SURR).
+- SYNTHESIS.md:132: - 109 % of ln(×4.58) sits in the fitted mu_band.
+- SYNTHESIS.md:136: - One shared WTA (40 meV) reproduces the 1e-11..1e-10 slope within 2.3 mV/dec (13.2 nm after floor subtraction).
+- SYNTHESIS.md:142: - The required Rsd would drop 83 % of Vd.
+- SYNTHESIS.md:148: - The 13.2 nm floor is flat within ×1.06 while V_gd changes from 1.2 to 3.7 V.
+- SYNTHESIS.md:159: - **It is not identifiable.** The pure dEc term is exactly rigid. The package's only same-curve signature (+38.8 mV of non-rigidity; +14.6 mV/dec of SS_cc) is nearly reproduced by the assumed m* (×0.8) or by the fitted Nt anchor (×1.09) (D2, [SYN-d]).
+- SYNTHESIS.md:160: - **Correction to the referee's reasoning (same conclusion).** REVIEW §1(f) compared this SS_cc signature with WTA's SS_min leverage (+12.4 mV/dec). On the same metric, WTA +5 meV moves SS_cc by only +0.8 and Dit ×3 by +0.5 mV/dec. The degeneracy is with m* and Nt, not with WTA.
+- SYNTHESIS.md:161: - **It is physically expected (THEORY, not measured on these films).** Effective-mass Schrödinger-Poisson anchored on PBE slabs gives 0.26-0.30 V at 2 nm, bracket 0.14-0.38 V (S3 §2).
+- SYNTHESIS.md:162: - **If it is present,** then 2 nm must carry 0.8-2.1e12 cm⁻² more positive charge than 6.3 nm, or the 6.3 nm device carries a coincident offset of that size.
+- SYNTHESIS.md:163: - **Deciders:** the optical gap (+0.2 to 0.45 eV at 2 nm vs < 0.02 eV) or Vth(T) (the confinement offset changes by only −6 mV over 300→358 K).
+- SYNTHESIS.md:166: - **Rigid part.** Its size is set by the choice of confinement law. Every tested physical charge fails in magnitude or in its SS signature (§D). Device spread, sweep history (0.003-0.24 V extrapolated from Januar PBS; S4 §6) and thickness error are NOT DETERMINED.
+- SYNTHESIS.md:167: - **Shape part.** It is independent of confinement and reproduced by no tested V1 change. The most plausible cause is the constant, density-independent mobility. This is inferred from the trade-off line of 3.2-8.5 mV of gap per mV/dec of SS_cc (S6 §3.3) and is untested.
+- SYNTHESIS.md:168: - Alternatives: above-threshold trapping or sweep history; field quantization with local tails (S3: +0.15-0.19 V in Vg(n_s = 1e12), but this should also appear at 13.2 nm, where the model already fits).
+- SYNTHESIS.md:175: | dEc = 0.9205 t^-1.38 | physical at the 2 nm anchor (PBE slabs behave like an effective-mass well, α 0.59 vs a measured 0.5 eV⁻¹); the exponent is a local 3-point slope | above 2.98 nm it exceeds the infinite-well bound: ×1.59 at 6.3 nm, ×2.51 at 13.2 nm. The physical slope tends to −2. Vth impact ≤ 35 mV |
+- SYNTHESIS.md:176: | m* = 0.208 + 0.131 t^-1.41 | plausibly non-parabolicity | 4 PBE points; enters only Nc; +14.9 mV on the 2→13.2 step (S6 §2) |
+- SYNTHESIS.md:177: | Nt = 2e19 (2/t)^0.75 | **none** | two-point interpolation. The exponent comes from one qualitative ratio; the same paper's PBS devices imply 1.71; a surface + bulk form differs by 8 % at 6.3 nm |
+- SYNTHESIS.md:178: | Nd_eff law | **none** | three constants from one V0 shoulder; effect ≤ 0.070 V |
+- SYNTHESIS.md:179: | power laws in mu_FE, Ion, Vth | **none** | non-monotonic data; LOO miss ×2.63 (mu_FE, exponent 0.7516) |
+- SYNTHESIS.md:189: | mu_band vs Nt (Nt ×1.5 ≡ mu ×1.33) | Ion | gap + gm (partial); split C-V n_total(Vg); gated Hall |
+- SYNTHESIS.md:191: | Rsd, tail exponent α, θr (r = +1.00) | gm roll-off | TLM or L-series; low-Vd ID-VD |
+- SYNTHESIS.md:192: | mu_band lumping Rsd, C_eff/Cox (~0.87), the m* Drude term (−18 % at 2 nm) and roughness | gm | Hall; TLM; C-V |
+- SYNTHESIS.md:193: | 6.3 nm offset: film property vs device spread vs sweep history | Vth(6.3) | 3-5 replicates (n ≈ 15.7σ²/Δ²); dual sweeps with dwell recorded |
+- SYNTHESIS.md:195: | tail energy reference under confinement (0.26 vs 0.91 V at 2 nm) | 2 nm onset | split C-V + Hall at 2 nm; T series |
+- SYNTHESIS.md:196: | band vs percolation vs phonon transport | mu_FE(T) | T series (register §6) |
+- SYNTHESIS.md:199: 1. **Mobility → threshold.** The CC definition converts mobility into threshold: +0.108 to 0.115 V (D6).
+- SYNTHESIS.md:200: 2. **Mobility → SS_cc.** The free-carrier capacitance puts ~60 mV/dec of mobility into the thin-film SS_cc (S4, SURR). SS_cc(t) read as a trap trend is biased.
+- SYNTHESIS.md:201: 3. **Confinement ↔ tail filling.** The tail energy reference changes the 2 nm onset by 0.65 V (S3, SURR). This is the dominant model-form uncertainty at 2 nm.
+- SYNTHESIS.md:202: 4. **Confinement ↔ Nc(m\*) ↔ SS.** m* ×1.3 gives −44 mV and −17.7 mV/dec at 2 nm (run_0050). Confinement also raises the Pd/IWO barrier at 2 nm (S5 M2).
+- SYNTHESIS.md:207: 9. **Floor ↔ SS extraction.** Both the SS_min window and the 13.2 nm fixed-current SS (raw 136.1 vs subtracted 91.8 mV/dec) depend on the floor.
+- SYNTHESIS.md:217: | C2 | Donor or positive-charge step at 13.2 nm (~2.5e17 → ~1e18 cm⁻³) | the no-confinement reading needs +1.39e12 cm⁻² (D3); the floor rises with t | degenerate with confinement on Vth(t) | C-V V_FB(t) flat within 50 mV across the three films |
+- SYNTHESIS.md:218: | C3 | Confinement of 0.26-0.30 V (0.14-0.38) at 2 nm | THEORY (S3 SP + PBE) | not identifiable (D2); W may raise m* | optical-gap shift between 2 and 13.2 nm < 0.1 eV |
+- SYNTHESIS.md:219: | C4 | The 6.3 nm rigid offset is device-specific (spread, sweep history, stress) | the PBS-extrapolated sweep shift (0.003-0.24 V) reaches the order of the 0.29 V offset at its top end | spread and sweep records NOT DETERMINED | replicates give σ(Vth) < 0.1 V with a mean ≥ 0.2 V off the shared law |
+- SYNTHESIS.md:220: | C5 | The on-state shape needs a carrier-density-dependent (percolation-type) mobility | trade-off line (S6 §3.3); D5 at 2 nm | untested; this ATLAS version ignores MOBILITY updates between SOLVEs | a density-dependent mobility calibrated on 2 and 13.2 nm leaves the 6.3 nm gap miss > 0.1 V at SS_cc ≤ 330 mV/dec; or dual sweeps show the feature is hysteretic |
+- SYNTHESIS.md:221: | C6 | Surface + bulk trap DOS (Ds ≈ 8.5e12 cm⁻²eV⁻¹ + g_b ≈ 1e19 cm⁻³eV⁻¹ near Ec − 0.1 eV) | inversion validated on ATLAS (S4) | the energy axis moves by kT·ln(mu ratio); 13.2 nm is valid only near −0.1 eV | multi-frequency C-V per thickness |
+- SYNTHESIS.md:222: | C7 | Near-Ec states (C1) as a partial contributor | run_0052 recovers 33 % of the gap at SS_cc +15.6 | Ion +16 %; DOS resolution of the 20 meV band unchecked | C1 at 768 levels loses the gap gain |
+- SYNTHESIS.md:223: | C8 | The floors are an ungated IWO path ∝ t^3.85 | order of magnitude fits (S4) | instrument floor or unpatterned film possible | IG ≈ ID, or no 1/L scaling on an L-series |
+- SYNTHESIS.md:224: | C9 | Qf is an interfacial ionized-V_O layer | electrostatically possible | Qf is an alignment absorber (±0.2 eV of WF ≡ ±1.12e12 cm⁻²) | no C-V dispersion and no NBS response |
+- SYNTHESIS.md:225: | C10 | MTR temperature behaviour (T-independent band mobility) | registered P-MTR variant | untested | ΔIon(2 nm, 358 K) > +5 % or < −15 % |
+- SYNTHESIS.md:235: | **6.3 nm thickness error** (A1, run_0031) | −1 nm (to 5.3 nm) gives **+0.036 V of the required +0.294 V** (12 %). Closing the gap through dEc needs t ≈ 2.1 nm, a 67 % error. The gap stays at −0.297 V and gm at −18 %. With a physical dEc(t) the gain would be even smaller | NUM, model-conditional |
+- SYNTHESIS.md:236: | **Fewer donors** (A2, run_0032) | **+0.030 V** (analytic bound 0.028), ×10 short | NUM |
+- SYNTHESIS.md:237: | **Front Dit** (A4, run_0033) | ×5 gives **+0.051 V** with the gap unchanged (0.857 vs 0.862 V). It would need ×23-24 (≈7e12 cm⁻²eV⁻¹) at 6.3 nm only, on a shared gate stack | NUM |
+- SYNTHESIS.md:238: | **Back-surface charge as the sole cause** (A3, run_0030) | matches Vth_cc (−0.017 V) but **SS_cc is off by −64.1 mV/dec**; the gap closes to 0.724 V; the offset at 1e-7 A/µm worsens to +0.285 V | NUM, model-conditional |
+- SYNTHESIS.md:239: | **Combination** A5 (run_0035) | covers 0.215 of 0.294 V (73 %) with SS_cc −45.9 mV/dec | NUM |
+- SYNTHESIS.md:240: | **S2 re-partition** (B0, run_0037) | on-state met, but **SS_cc 410.9 vs 295.4** and SS 1e-11..1e-10 +48.8 mV/dec | OOS (registered 18:59Z), failed |
+- SYNTHESIS.md:241: | **S4 near-Ec band as the full explanation** (C1, run_0052) | **gap +0.119 V vs +0.28 predicted** (33 % of the 0.356 V miss); Ion +16.0 % vs ±3 %; gm −16.8 % at matched Ion | OOS (registered 19:21Z), partly failed |
+- SYNTHESIS.md:242: | **Any rigid charge as the whole 6.3 nm miss** | the offset varies from −0.007 to +0.141 V between 1e-9 and 2e-7 A/µm (run_0015) | NUM on DATA |
+- SYNTHESIS.md:243: | **Thickness-independent Rsd as the cause of the trend** | needs Rsd·W ≈ 1.15e6 Ω·µm at 2 nm (ρc ≈ 0.26 Ω·cm², L_T ≈ 45 µm): 83 % of Vd and 5700× the Rc of related metal/In2O3 contacts. θ_net is −0.10 / −0.12 / −0.046 V⁻¹, the wrong sign | CORR + LIT |
+- SYNTHESIS.md:244: | **Confinement-raised Pd/IWO barrier as the step** | needs Δφ ≥ 0.20 eV; dEc(6.3) = 0.07 eV cannot give Ion(6.3) = 0.79·Ion(2) | CORR |
+- SYNTHESIS.md:245: | **Roughness factor as the mobility step** | ×1.051 against ×4.58 needed (3 % of ln) | CAL |
+- SYNTHESIS.md:246: | **Thickness-fluctuation scattering (∝ t⁶)** | mu(6.3) = 17 implies mu(2) = 0.017 cm²/Vs, against ~12-19 extracted (×700) | SURR |
+- SYNTHESIS.md:247: | **Back-surface Coulomb scattering** | monotonic in t; ×2700 short at 6.3 nm | SURR |
+- SYNTHESIS.md:248: | **Tail partition as the mobility step** | P changes by +4 %; ×4.6 would need Nt ×6.7e3 | SURR |
+- SYNTHESIS.md:249: | **Uniform donors / neutral layer as the 6.3→13.2 Vth step** | the steepest possible slope ratio is 2.35 vs ~9-20 measured. Nd fitted to 6.3→13.2 (2.2e18 cm⁻³) predicts −0.25 V for 2→6.3 against −0.018 V measured. The floor bounds an ungated sheet at 13.2 nm to ≤ 2e7 cm⁻² | SURR + DATA |
+- SYNTHESIS.md:250: | **Gate leakage as the dominant floor (6.3, 13.2 nm)** | ≤ ×1.06 change (13.2 nm; 6.3 nm ±45 % with no trend) while V_gd rises 1.2 → 3.7 V; ×1432 rise on an identical stack | DATA |
+- SYNTHESIS.md:251: | **Thermal generation as the floor** | 13-17 decades short | calculation |
+- SYNTHESIS.md:252: | **Power laws in t for mu_FE, Ion, Vth** | non-monotonic data; LOO miss ×2.63 (mu_FE), ×3.76 (Ion) | DATA |
+- SYNTHESIS.md:253: | **dEc ∝ t^-1.38 beyond ~3 nm as physics** | exceeds the effective-mass upper bound above 2.98 nm | THEORY |
+- SYNTHESIS.md:254: | **"Removing confinement improves SS"** | window artefact; fixed-current SS unchanged within 1-2 mV/dec | NUM |
+- SYNTHESIS.md:255: | **"The Vth data require / refute confinement"** | one-offset rms 0.136 vs 0.133 V | NUM on DATA |
+- SYNTHESIS.md:256: | **"Contact geometry irrelevant"** | never tested (D11) | audit |
+- SYNTHESIS.md:266: | 2 and 13.2 nm fits (Vth_cc +19 / −29 mV; Ion 0.00 %) | CAL | B1, B3 |
+- SYNTHESIS.md:267: | 6.3 nm tuned fit | CAL (device-specific Qf and mu) | run_0015 / B2 |
+- SYNTHESIS.md:268: | Shared laws predict the 6.3 nm threshold | **OOS, failed** (−0.294 V; mu from the V0 fit of the same curve) | run_0014 |
+- SYNTHESIS.md:269: | 6.3 nm "reproduced in shape" | subthreshold slope yes; **on-state no** (gap −0.314 V, gm −16.6 %) | S6 §3.1 |
+- SYNTHESIS.md:270: | Confinement accounts for the 2 vs 13.2 nm step; "it was tested" | **not supported**: realises 50.4 %; the data are neutral | D3, D6 |
+- SYNTHESIS.md:271: | No confinement + Qf from 2 nm predicts 6.3 nm | **POST**, threshold only (−0.057 V) | A6 |
+- SYNTHESIS.md:272: | Subthreshold follows Nt(t), WTA, Dit "without tuning" | CAL (Nt2 and WTA fitted) | brief §3 |
+- SYNTHESIS.md:274: | Qf rigid; WF/χ/Qf are one number; Id linear in mu; m* second-order | NUM | D2; S6 §2 |
+- SYNTHESIS.md:275: | 300 K transfer convergence | NUM | D9 |
+- SYNTHESIS.md:276: | V1 2 nm mesh; DOS order at 6.3 and 13.2 nm; T and ID-VD convergence | **not demonstrated** | §F |
+- SYNTHESIS.md:277: | Physical deck ≡ reduced deck; donors and ε irrelevant at 2 nm | NUM | runs 0008/0012, 0009/0013, 0022, 0026 |
+- SYNTHESIS.md:278: | Contact geometry irrelevant | **RETRACT** | D11 |
+- SYNTHESIS.md:279: | A1-A5 rejected as the sole cause | NUM, model-conditional | §D |
+- SYNTHESIS.md:280: | B0 re-partition | **OOS, failed** | SS_cc +115.6 |
+- SYNTHESIS.md:281: | S1's B0 SS_cc 418 | POST | REVIEW 2.15 |
+- SYNTHESIS.md:282: | C1 near-Ec band | OOS: passed on gm and SS, **failed** on gap and Ion | run_0052 |
+- SYNTHESIS.md:283: | Rsd cannot create the trend | CORR + LIT; the bounds are CAL | S5 |
+- SYNTHESIS.md:284: | Paper mu = saturation formula | DATA (provenance, not device validation) | D12 |
+- SYNTHESIS.md:285: | Structural step | CORR | C1 |
+- SYNTHESIS.md:286: | Confinement 0.26-0.30 V at 2 nm | THEORY | S3 |
+- SYNTHESIS.md:287: | MTR surrogate vs ATLAS P-MTR (P7) | numerical cross-check | register §5.4 |
+- SYNTHESIS.md:288: | ID-VD and 338/358 K predictions | **PRED** | register |
+- SYNTHESIS.md:289: | Ideal Ohmic contacts, constant mobility, T-independent tails | assumed | register §6 |
+- SYNTHESIS.md:299: | 6.3 nm hypothesis study | done; no tested mechanism explains the miss | A1-A6: 0030-0035; B0: 0037; C1: 0052 |
+- SYNTHESIS.md:300: | DOS 384/192 recalibration | done | 0038-0040; refinement series 0019, 0029; B2 and B3 rescaled exactly |
+- SYNTHESIS.md:301: | 6.3 nm mesh check | done, PASS | A7: 0036 |
+- SYNTHESIS.md:302: | WF / m* isolation | done | 0048-0051 |
+- SYNTHESIS.md:303: | ID-VD predictions | done, registered | 0041-0043 |
+- SYNTHESIS.md:304: | Temperature predictions | done, registered in two variants (tmu caveat) | 0044-0047 |
+- SYNTHESIS.md:315: - Retract run_0027.
+- SYNTHESIS.md:321: - **0.3 [ANALYSIS] Audit ATLAS defaults.** Use the parameter dumps in one 300 K and one 358 K `deckbuild.out`: tmu 1.5, vsat 9.78e6 cm/s, SRH/Auger, lattice constant.
+- SYNTHESIS.md:329: - *"Drain bias (0.7 V), current normalisation and geometry were taken from the device schematic; sweep direction, hysteresis, temperature and gate current were not recorded; one device per thickness was measured."*
+- SYNTHESIS.md:335: - **2.1** Explicit TMUN: re-run B12 (2 nm, 358.15 K) with the constant-mobility temperature exponent set to 0. Expected: P-MTR within ±0.2 % in current. One launch.
+- SYNTHESIS.md:337: - **2.3** ID-VD mesh ×0.7 near the drain (B8), to bound Vd_sat and gd(3 V)/gd0. One launch.
+- SYNTHESIS.md:355: - **5.1 [LAB]** XRR or ellipsometry, cross-sectional TEM, and XPS/RBS for W (with "2 % W" defined).
+- SYNTHESIS.md:356: - *"Channel thicknesses are nominal, without measured uncertainty; '~2 % W' is undefined; all thickness laws are evaluated at nominal t."*
+- SYNTHESIS.md:360: - **6.1 [LAB]** TLM or L-series; low-Vd output (0-0.2 V) and transfer at Vd = 0.05-0.1 V; IG and IS recorded simultaneously; mesa vs unpatterned devices. This tests the registered ID-VD shape and the floor path.
+- SYNTHESIS.md:371: - **8.1 [ATLAS]** SP/BQP with the V1 DOS at 2, 6.3 and 13.2 nm. It tests S3's P8 (+0.15-0.19 V in Vg(n_s = 1e12)) and the 2 nm tail reference. Register it before 8.2. Two to three launches.
+- SYNTHESIS.md:373: - If not done: *"The confinement shift is an assumed input taken from PBE calculations on pure In2O3 slabs of 0.95-1.98 nm (0.14-0.38 V at 2 nm in effective-mass Schrödinger-Poisson estimates); it was not measured on IWO and cannot be distinguished from a fixed-charge offset of ~1.7e12 cm⁻² with the present data."*
+- SYNTHESIS.md:401: | quantity | 2 nm 338 K | 2 nm 358 K | 6.3 nm 358 K | 13.2 nm 358 K |
+- SYNTHESIS.md:403: | ΔVth_cc P-MTR / P-phonon (mV) | −49.3 / −27.9 | −73.1 / −40.5 | −78.9 / −46.7 | −76.3 / −56.6 |
+- SYNTHESIS.md:404: | ΔVth_lin, both variants (mV) | −17.2 | −26.5 | −34.5 | −30.1 |
+- SYNTHESIS.md:405: | ΔIon P-MTR / P-phonon | +0.63 % / −15.91 % | +0.99 % / −22.58 % | +2.22 % / −21.63 % | +1.52 % / −22.17 % |
+- SYNTHESIS.md:406: | mu_FE ratio P-MTR / P-phonon | ×0.9947 / ×0.8312 | ×0.9919 / ×0.7604 | ×0.9997 / ×0.7664 | ×1.0002 / ×0.7668 |
+- SYNTHESIS.md:407: | ΔSS 1e-10..1e-9 P-MTR / P-phonon (mV/dec) | −8.6 / +1.0 | −12.1 / +2.0 | −12.5 / +2.4 | −10.6 / −3.3 |
+- SYNTHESIS.md:409: **Activation energies (P-MTR),** Ea at Vg 0.5 / 1 / 1.5 / 2 / 3 V, in meV:
+- SYNTHESIS.md:414: P-phonon is exactly 42.3 meV lower at every Vg. mu_FE(13.2)/mu_FE(2) goes from 4.40 to 4.44 in both variants.
+- SYNTHESIS.md:417: - Id(0.1)/Id(0.05) is 1.80-1.98 in all films at Vg 1-3 V, with no S-shape.
+- SYNTHESIS.md:418: - Id(0.1)/Id(0.7) at Vg 3 V is 0.172 / 0.171 / 0.164.
+- SYNTHESIS.md:419: - Vd_sat (10 % of gd0) is 0.43-1.80 / 0.44-1.90 / 0.68-2.30 V.
+- SYNTHESIS.md:420: - gd(3 V)/gd0 is 0.01-0.19 % (2 and 6.3 nm) and 0.03-0.68 % (13.2 nm).
+- SYNTHESIS.md:421: - Id(13.2)/Id(2) at Vd 0.1 V is 26.5 / 10.8 / 7.44 / 6.29 / 5.75 at Vg 1-3 V.
+- SYNTHESIS.md:429: | ΔIon(2 nm, 358 K) | ≥ +5 %: activated band mobility or percolation (both variants and V1's constant mobility falsified). Between −5 and +5 %: P-MTR consistent. ≤ −15 %: phonon-like, P-MTR falsified. In between: report g = −ln(R_meas/R_MTR)/ln(T/300); neither variant confirmed |
+- SYNTHESIS.md:430: | ΔVth_lin at 338 / 358 K (−17.2 / −26.5 mV; the same in both variants; the sharpest test) | pass if \|meas − pred\| ≤ max(15 mV, 2σ_rep). The 15 mV exceeds the −5 to −12 mV grid bias (S6 §1.5). A fail falsifies the equilibrium tail-filling electrostatics |
+- SYNTHESIS.md:431: | ΔVth_cc(358 K) | inside −35 to −85 mV: tail filling is sufficient. Outside: additional T-dependent charge |
+- SYNTHESIS.md:432: | ΔSS 1e-10..1e-9 at 358 K | an increase > 20 mV/dec means a T-dependent tail/Dit or non-equilibrium trapping |
+- SYNTHESIS.md:433: | mu_FE(13.2)/mu_FE(2) vs T | constant within ±5 %: common mechanism. Falling toward ~3.3: supports C1 |
+- SYNTHESIS.md:434: | Low-Vd output | Id(0.1)/Id(0.05) > 2.0 or an S-shape (especially at 2 nm only): non-Ohmic injection |
+- SYNTHESIS.md:435: | Id(0.1)/Id(0.7) at Vg 3 V | lower than predicted by more than σ_rep and growing with Id: Rsd is present; the film ordering of the deficit locates it |
+- SYNTHESIS.md:436: | mu_sat(6.3 nm) in Januar Fig. 5a | 3.86 cm²/Vs within the digitisation error confirms the provenance chain |
+- SYNTHESIS.md:438: **Conceded (REVIEW U7).** The ID-VD items test auxiliary assumptions. Only the mu_FE-ratio-vs-T and Ea(3 V)-ordering tests bear on the thickness mechanism.
+- SYNTHESIS.md:457: | (a) Are the parameters unique? | **Conceded.** WF, χ, Qf and dEc are one number (D2); mu_band trades with Nt, and Rsd with α. We call it a "calibrated, non-unique parameter set"; item 0.4 identifies the combinations; C-V, split C-V/Hall and TLM pin three of them |
+- SYNTHESIS.md:458: | (b) Validated or calibrated? | **Conceded: calibrated.** run_0014 is a failed OOS threshold test; A6 is POST; B0 failed and C1 partly failed; mu_sat is provenance evidence. The first validation is the register against S12 (§G) |
+- SYNTHESIS.md:459: | (c) Could the power law be accidental? | **Conceded.** All laws are two-point laws or extrapolations (Q3). The step form is equally unsupported. No functional form is claimed |
+- SYNTHESIS.md:460: | (d) Is the 6.3 nm miss understood? | **Partly.** The *decomposition* is demonstrated: rigid 0.294 V, plus a shape part of +0.16-0.19 V that is independent of confinement (§A.2). Eight electrostatic variants, B0 and C1 are excluded quantitatively. The *cause* is not assigned |
+- SYNTHESIS.md:461: | (e) Converged? | **Agreed: partially.** Converged for 300 K transfer (D9). Tiers 2-3 list the rest, including the solver-grid Vth_lin bias |
+- SYNTHESIS.md:462: | (f) Is confinement demonstrated? | **Conceded: assumed** and theoretically expected, not identifiable (Q1). The residual signature is degenerate with m* and Nt, not with WTA as REVIEW argued [SYN-d]. "It was tested" is deleted |
+- SYNTHESIS.md:463: | (g) Are contacts and interfaces separated? | **Agreed: partially.** The trend argument stands (B3). Rsd magnitude, charge location and interface vs bulk traps are not separated (Tiers 6-7) |
+- SYNTHESIS.md:464: | (h) Is the preferred mechanism falsifiable? | **Answered.** The working hypothesis C1 has pre-declared falsifiers, and so do the auxiliaries C3, C4, C5 and C10 (§C). The register's ID-VD items are acknowledged to test auxiliary assumptions only |
+- SYNTHESIS.md:470: | 2.1 Vd and units come from the schematic | Accepted. mu_sat fixes L/(W·Cox) × A/µm, not Vd. Item 1.1 |
+- SYNTHESIS.md:471: | 2.2 N = 1 | Accepted. No film-specific mechanism is claimed (§J). Item 4.1 |
+- SYNTHESIS.md:472: | 2.3 Sweep history | Accepted. An open confounder of both offset and shape |
+- SYNTHESIS.md:473: | 2.4 Mobility definition | Accepted. The regime claims of S2 and S5 are withdrawn. The paper's 60-70 mV/dec is reachable only next to the floor (the 6.3 nm 2-point minimum is 33.4 mV/dec, i.e. noise) |
+- SYNTHESIS.md:474: | 2.5 31.8 nm | Accepted. It is a documented model failure (Id(−3 V) = 3.0e-7 A/µm), never used as support |
+- SYNTHESIS.md:475: | 2.6 Floors | Accepted. Origin NOT DETERMINED. The 13.2 nm SS is given raw (136.1) and subtracted (91.8; model 91.2), and the subtraction is flagged as an assumption |
+- SYNTHESIS.md:476: | 2.7 tmu | Accepted as a configuration-control failure. Both variants are exact (D10). Items 0.3 and 2.1 |
+- SYNTHESIS.md:477: | 2.8-2.10 | run_0027 retracted, SS_min retired, overclaims corrected (§K) |
+- SYNTHESIS.md:478: | 2.11 RMSE not comparable | Accepted. Active spans are 6.57 / 5.25 / 4.59 decades; robust metrics are given alongside |
+- SYNTHESIS.md:479: | 2.12 CC Vth confounded | Accepted (D6). Report both; the charge-referenced threshold needs item 7.1 |
+- SYNTHESIS.md:480: | 2.13 Extraction at Vd = 0.7 V | Accepted. mu_FE(2 nm) is a lower bound (gm_max at the last point), and Vth_lin(2 nm) depends on where the sweep ends |
+- SYNTHESIS.md:481: | 2.14 T and Cox | Accepted. 300 K is assumed. ε(Al2O3) 7-9 moves the EOT by ~3 %, and every q/Cox charge with it |
+- SYNTHESIS.md:482: | 2.15 Pre-registration hygiene | Accepted. A6, S1's B0 value and the KCL rule change are POST. B0 (S2) and C1 (S4) were genuinely pre-registered, and both failed or partly failed |
+- SYNTHESIS.md:483: | 2.16 Qf read as a charge | Accepted (C9) |
+- SYNTHESIS.md:484: | O1-O9 overstatements | All conceded (§A.3, §K) |
+- SYNTHESIS.md:485: | U1-U7 understatements | All accepted: U1 → D5; U2 → 2.11; U3 → D4; U4 → B5; U5 → item 3.4; U6 → 2.15; U7 → §G.2 |
+- SYNTHESIS.md:491: | "Three curves and ~10 fitted numbers: what is learned?" | The degeneracy map (D2-D3, Q4), the anomaly decomposition (§A.2), the quantitative exclusions (§D) and the registered predictions. Not the parameter values |
+- SYNTHESIS.md:492: | "Is a 2 nm film continuous?" | NOT DETERMINED; Januar's AFM roughness is higher at 2 nm. Stated as a limitation |
+- SYNTHESIS.md:493: | "Is drift-diffusion valid at 2 nm?" | For trap-free electrostatics, SP agrees within 11 mV and C_eff within 1 % (S3, SURR). With traps, the tail energy reference is a stated model-form uncertainty (0.26 vs 0.91 V) |
+- SYNTHESIS.md:494: | "If constant mobility is the problem, why not implement a density-dependent one?" | This ATLAS version ignores MOBILITY updates between SOLVEs, and no IWO-calibrated model exists locally. So C5 stays "plausible" and is deferred (§I) |
+- SYNTHESIS.md:495: | "The temperature data come from another device" | Identity NOT DETERMINED. Only changes relative to that device's own 300 K curve are compared |
+- SYNTHESIS.md:496: | "The air-exposed back channel may drift" | The ambient was not recorded. Item 7.2 |
+- SYNTHESIS.md:504: | QE/DFT for W:In2O3 (W substitution, air/OH surfaces, tail localization length vs t) | no QE installation. Even a correct dEc is not identifiable from these data (D2); it has value only together with an optical gap vs t |
+- SYNTHESIS.md:505: | 31.8 nm and thicker films | needs a different mechanism (Nd ≥ 3e18 cm⁻³ or a back donor sheet); the V0 fit is non-identifiable. Report it here only as a failure |
+- SYNTHESIS.md:506: | SP/BQP with traps | changes the model form. The single check (8.1) belongs here; a trap-coupled quantum model does not |
+- SYNTHESIS.md:507: | Density-dependent / percolation mobility | the leading candidate for the shape miss (C5). It needs T and split C-V/Hall data to be identifiable, and it cannot be emulated within a sweep in this ATLAS version |
+- SYNTHESIS.md:510: | Denser thickness series and a functional form in t | needs Tiers 4-5; a step and a steep sigmoid cannot be separated with three points |
+- SYNTHESIS.md:511: | Contact physics with measured ρc | needs TLM (6.1) |
+- SYNTHESIS.md:518: > "On a single transfer curve per thickness, the confinement-induced conduction-band shift, the gate work function, the channel electron affinity and a fixed interface charge enter as one rigid threshold offset (reproduced to within 1 mV in drift-diffusion simulations). A confinement shift of ~0.3 eV at 2 nm, expected from effective-mass estimates anchored on first-principles slab calculations, is therefore an assumed input, not a result, and the measured thresholds are described equally well with or without it (single-offset rms 0.136 vs 0.133 V)."
+- SYNTHESIS.md:521: > "The 2 and 6.3 nm devices have similar thresholds and field-effect mobilities, whereas the 13.2 nm device shows a 0.56-0.58 V lower threshold and a 4.1-4.6-fold higher apparent mobility. With the calibrated tail-state and donor laws and a thickness-independent fixed charge, a single offset does not reproduce all three thresholds within 0.1 V, with or without the confinement term (largest residuals 0.19 and 0.18 V); at least one further thickness-dependent quantity is required, which the present data do not identify. About 0.11 V of the threshold difference follows from the constant-current threshold definition combined with the mobility difference."
+- SYNTHESIS.md:527: > "The 6.3 nm device departs from the shared calibration in two separable ways: a rigid threshold offset (0.29 V, equivalent to 1.6 × 10¹² cm⁻² of fixed charge) and a gate-voltage-dependent on-state shape (turn-on delay 0.31-0.36 V too small, transconductance 17-23 % too low). No tested change of fixed charge, donor density, interface, tail-state or near-band-edge acceptor density, film thickness or back-surface charge reproduces the shape without degrading the subthreshold slope. With one device per thickness, the offset cannot be distinguished from device-to-device variation, and the shape points to a limitation of the constant-mobility model."
+- SYNTHESIS.md:539: | "15 real ATLAS launches" | "52 launches (run_0001-0052, RUN_INDEX.csv); run_0010 aborted, run_0011 was stopped and run_0018 timed out without currents; run_0027 is malformed and retracted." |
+- SYNTHESIS.md:540: | "The final set is four runs" | "The final calibrated set is runs 0038-0040 (DOS 384/192; mu_band 17.69 / 11.58 / 61.60 after exact rescaling); run_0014 is the shared-parameter threshold test; runs 0012-0015 (DOS 96/48) are superseded." |
+- SYNTHESIS.md:541: | Table SS_min column; row 0014 "VALIDATION (shared parameters, nothing tuned)" | Use fixed-current SS, SS_cc, gap and gm (S6 §1.6), and state the 13.2 nm floor subtraction. Row 0014: "shared-parameter out-of-sample threshold test (mu_band 12.4 = V0 fit of the same curve): failed, −0.294 V." |
+- SYNTHESIS.md:542: | "ONE fitted electrostatic value … Everything else is a law or a literature/measured value" | "Fitted: shared Qf; the 6.3 nm Qf; mu_band ×3; the Nt anchor and WTA; the Nd-law constants (V0). Assumed: WF, χ, Dit, deep Gaussian, ε(Al2O3)." |
+- SYNTHESIS.md:543: | "reproduced in SHAPE (SS_min 108 vs 115 …)" | "Subthreshold slope at fixed current reproduced (−2.2 mV/dec); on-state shape not (gap −0.314 V, gm −16.6 %)." |
+- SYNTHESIS.md:544: | "+27 % on-current is the consequence of that overdrive error, not of the mobility" | "About three quarters (log share) of the +26.8 % follows from the threshold miss, one quarter from the mobility choice (12.4 vs 11.69)." |
+- SYNTHESIS.md:545: | "fits to 0.063 dec … as well as the other two"; "one electrostatic number is all it misses" | "One offset removes the threshold miss (+7 mV); Vth_lin still misses by −0.349 V and gm by −23 %. log-RMSE is not comparable across films (spans 6.57 / 5.25 / 4.59 dec)." |
+- SYNTHESIS.md:546: | Conclusion 1 (confinement "accounts for" the 0.58 V; offsets "agreeing to 40 mV") | "With the DFT-proxy confinement law, one shared offset brings 2 and 13.2 nm within 30 mV and misses 6.3 nm by 0.29 V; without it, one offset fitted on 2 nm brings 6.3 nm within 60 mV and misses 13.2 nm by 0.25 V. The thresholds do not discriminate the readings (one-offset rms 0.136 vs 0.133 V). The realised confinement term is 0.29 V (50 % of the measured step). The law-only offsets were +0.333 and +0.287 V (47 mV apart). Confinement is an assumed input, not a result." |
+- SYNTHESIS.md:547: | Conclusion 2 "without tuning" | "with a fitted tail anchor and width; the 1e-11..1e-10 A/µm slope is reproduced within 2.3 mV/dec (13.2 nm floor-subtracted); the 1e-10..1e-9 slope is too soft by +20 / +6 / +25 mV/dec." |
+- SYNTHESIS.md:548: | "Not run: work-function and m*-only cases, any sensitivity at 6.3 nm" | "Run 2026-09-25: 0030-0036 (6.3 nm), 0048-0051 (WF, m*); ID-VD and 338/358 K predictions 0041-0047 (registered; tmu = 1.5 caveat)." |
+- SYNTHESIS.md:549: | "publication-ready as a calibrated, thickness-resolved TCAD parameter extraction" | "A calibrated, explicitly non-unique TCAD description of three single devices; not a parameter extraction; not validated; submission requires SYNTHESIS §F Tiers 0-3." |
+- SYNTHESIS.md:555: | overlap_4um (run_0027) "MEASURED IN ATLAS" | "RETRACTED: malformed deck (x.mesh ends at 24 µm; drain collapsed; 'Electrode shortened' ×3)." |
+- SYNTHESIS.md:556: | NOT RUN: WF, m*, 6.3 nm | "Superseded. WF +0.1 eV: +0.100 V rigid, SS unchanged, ΔIon −6.8 % / −5.0 % at 2 / 13.2 nm vs the same-mu baselines (runs 0048/0049). m* ×1.3: −0.044 / −0.029 V, SS_cc −17.7 / −13.2 mV/dec, ΔIon +4.1 / +5.8 % (0050/0051). 6.3 nm: 0030-0036." |
+- SYNTHESIS.md:557: | dSS_min column (e.g. mu_band "−9.89"; no_confinement "+10.7 / −12.7") | Add a note: "SS_min is window-phase sensitive (±10 mV/dec; S6 §1.4); these values are extraction artefacts; fixed-current SS changes are ≤ 2 mV/dec." |
+- SYNTHESIS.md:563: | V0 checks "apply to the V1 decks" (A, B at 2 nm) | "Carried over by lineage; not re-demonstrated on the V1 2 nm physical deck (open)." |
+- SYNTHESIS.md:564: | C' "FAIL"; C "DOS x4 not run" | "Resolved by recalibration at 384/192 (0038-0040). At 2 nm: order 2.03, residual +0.16 % Ion. Offsets at equal mu +2.48 / +0.95 / +0.50 %; Vth_lin −22 mV at 2 nm. The order is not established at 6.3 and 13.2 nm." |
+- SYNTHESIS.md:565: | L "OPEN" | "PASS (run_0036: 0.0625 vs 0.0626 dec; ΔVth_cc −0.3 mV; Ion −0.03 %)." |
+- SYNTHESIS.md:567: | (missing) | Add rows: no DOS/mesh checks for T ≠ 300 K or for ID-VD; C1 band resolution unchecked; the 0.1 V solver grid above 1.5 V biases Vth_lin by −5 to −12 mV; SS_min invalid; the runner does not gate on geometry warnings. |
+- SYNTHESIS.md:573: | #1 | add: "The t^-1.38 extrapolation exceeds the effective-mass bound beyond ~3 nm (×1.59 at 6.3 nm; Vth impact ≤ 35 mV)." |
+- SYNTHESIS.md:574: | #4 | add: "Gate leakage is rejected as the dominant floor at 6.3 and 13.2 nm on trend grounds; the origin is still NOT DETERMINED." |
+- SYNTHESIS.md:575: | #5 "~12 → ~57" | "11.58 → 61.60 cm²/Vs (DOS 384/192). The constant, density-independent mobility is the most plausible cause of the unreproduced on-state shape." |
+- SYNTHESIS.md:576: | #6 "reproduces the subthreshold shape (SS_min 108 vs 115) … removes the miss" | "Reproduces the fixed-current subthreshold slope but not the on-state (gap −0.314 V, gm −16.6 %); the tuned run removes the threshold miss only." |
+- SYNTHESIS.md:577: | #10 "the only form of partial validation" | "The 6.3 nm test is out-of-sample for the threshold only (mu_band = V0 fit of the same curve) and failed by −0.294 V; the registered predictions are untested." |
+- SYNTHESIS.md:578: | #11 "2 um overlap … insensitive" | "Contact geometry and resistance are untested (run_0027 malformed; ideal Ohmic boundaries cannot represent ρc); Rsd is bounded only within the calibrated trap model." |
+- SYNTHESIS.md:579: | #13 "DOS-level doubling … 1.1 %" | "+2.0 % (192/96) and +2.5 % (384/192) at 2 nm on the V1 deck; resolved by recalibration." |
+- SYNTHESIS.md:580: | #14 | add: "The mu_sat reproduction confirms L/(W·Cox) and A/µm jointly, not Vd." |
+- SYNTHESIS.md:581: | #15 (misnumbered): "differing by 1.6e12"; "4 um overlap change nothing"; "Not run: …" | "1.39e12 cm⁻², while with the law 6.3 nm needs 1.64e12 (symmetric)"; retract the overlap statement; the "not run" items are superseded. |
+- SYNTHESIS.md:582: | (new) | "One device per thickness; elevated-T runs used the ATLAS default tmu = 1.5 (two variants reported); SS_min retired; 31.8 nm is a documented model failure." |
+- SYNTHESIS.md:588: | SS column (SS_min); 6.3 nm row "validation: shape right, threshold 0.29 V off" | Fixed-current SS. "Shared-parameter threshold test failed (−0.29 V); on-state shape also missed (gap −0.31 V, gm −17 %)." Tuned row: add "Vth_lin −0.35 V, gm −23 %." |
+- SYNTHESIS.md:590: | #1 "The confinement story holds … it was tested … 1.6e12 … contact geometry [is] irrelevant" | the FINAL_STATUS Conclusion 1 wording, plus "donors and permittivity change the 2 nm result by < 2 % (runs 0022, 0026); contact geometry was not tested." |
+- SYNTHESIS.md:591: | #2 "a real discrepancy, not a fitting failure … same quality as the other two" | "One number removes the threshold part but not the on-state shape. With one device per thickness the offset cannot be separated from device variation or sweep history, and without the confinement law it would be 13.2 nm that needs its own charge." |
+- SYNTHESIS.md:592: | "all 14 launches" | "52 launches" |
+- SYNTHESIS.md:593: | "What would make it predictive" | add: instrument records, 3-5 replicates per thickness, and comparison of Januar SI Fig. S12 with the frozen register |
+- SYNTHESIS.md:598: - **EVIDENCE_BRIEF.** §4: 1.434e12, not ~1.86e12. §5b: 13.2 nm ΔIon is −4.99 / +5.79 % relative to B3.
+- SYNTHESIS.md:602: - **S4.** 6.3 nm floor ±45 %, not ±3 %. The Qf magnitude is not a donor measurement. The SS_min reading is an artefact.
+
+## S1_electrostatics_6p3nm.md
+
+- S1_electrostatics_6p3nm.md:18: | Vth_cc | ≤ 3 mV |
+- S1_electrostatics_6p3nm.md:19: | Vth_lin | ≤ 25 mV |
+- S1_electrostatics_6p3nm.md:20: | SS_cc | ≤ 10 mV/dec |
+- S1_electrostatics_6p3nm.md:21: | gm_max and Ion | ≤ 2.5 % |
+- S1_electrostatics_6p3nm.md:25: | run | Vth_cc 1-D / ATLAS (V) | SS_cc 1-D / ATLAS (mV/dec) |
+- S1_electrostatics_6p3nm.md:27: | run_0015 | 0.652 / 0.651 | 293.7 / 288.8 |
+- S1_electrostatics_6p3nm.md:28: | run_0030 | 0.629 / 0.627 | 235.4 / 231.3 |
+- S1_electrostatics_6p3nm.md:29: | run_0013 | 0.052 / 0.053 | — |
+- S1_electrostatics_6p3nm.md:39: Its closure is exact to 1e-6 V.
+- S1_electrostatics_6p3nm.md:47: Values in V, from `s1_poisson1d.out.txt` (B1). The model Vth_cc agrees with ATLAS in every column.
+- S1_electrostatics_6p3nm.md:49: | term | 2.0 nm (run_0012) | 6.3 nm validation (0014) | 6.3 nm tuned (0015) | 13.2 nm (0013) | status |
+- S1_electrostatics_6p3nm.md:51: | WF − χ_bulk | +0.400 | +0.400 | +0.400 | +0.400 | assumed, degenerate with Qf |
+- S1_electrostatics_6p3nm.md:52: | confinement dEc | +0.353 | +0.072 | +0.072 | +0.026 | DFT proxy, extrapolated |
+- S1_electrostatics_6p3nm.md:53: | (E_Fn − E_c) front (sets n_s; includes kT·ln Nc, dilution over t, CC definition) | −0.038 | −0.039 | −0.037 | −0.111 | model |
+- S1_electrostatics_6p3nm.md:54: | front Qf | −0.310 | −0.310 | −0.016 | −0.310 | fitted |
+- S1_electrostatics_6p3nm.md:55: | q·Nd·t/Cox | −0.009 | −0.028 | −0.028 | −0.070 | fitted law |
+- S1_electrostatics_6p3nm.md:56: | tail charge filled (n_t, cm⁻²) | +0.256 (1.43e12) | +0.226 (1.27e12) | +0.231 (1.29e12) | +0.098 (5.5e11) | fitted Nt, WTA |
+- S1_electrostatics_6p3nm.md:57: | interface traps | +0.012 | +0.012 | +0.012 | +0.012 | assumed Dit |
+- S1_electrostatics_6p3nm.md:58: | free electrons (n_s at source) | +0.014 (7.6e10) | +0.016 (9.1e10) | +0.017 | +0.005 (2.6e10) | model |
+- S1_electrostatics_6p3nm.md:59: | deep Gaussian | 0.000 | +0.001 | +0.001 | +0.003 | assumed |
+- S1_electrostatics_6p3nm.md:60: | **Vth_cc (1-D / ATLAS / measured)** | 0.679 / 0.676 / 0.662 | 0.351 / 0.350 / 0.644 | 0.652 / 0.651 / 0.644 | 0.052 / 0.053 / 0.083 | |
+- S1_electrostatics_6p3nm.md:64: Values in V (1-D, B2).
+- S1_electrostatics_6p3nm.md:66: | term removed | 2.0 nm | 6.3 nm tuned | 13.2 nm |
+- S1_electrostatics_6p3nm.md:68: | confinement (dEc and m*) | 0.315 | 0.064 | 0.023 |
+- S1_electrostatics_6p3nm.md:69: | tail | 0.221 | 0.215 | 0.112 |
+- S1_electrostatics_6p3nm.md:70: | m* through Nc only | −0.039 | −0.008 | −0.002 |
+- S1_electrostatics_6p3nm.md:71: | Nd | −0.009 | −0.031 | −0.094 |
+- S1_electrostatics_6p3nm.md:72: | Dit | 0.012 | 0.012 | 0.011 |
+- S1_electrostatics_6p3nm.md:78: | confinement | 0012 − 0016 | 0.315 V |
+- S1_electrostatics_6p3nm.md:79: | confinement | 0013 − 0017 | 0.023 V |
+- S1_electrostatics_6p3nm.md:80: | confinement | 0034 − 0014 minus the exact Qf shift | 0.237 − 0.301 = −0.064, i.e. +0.064 V at 6.3 nm |
+- S1_electrostatics_6p3nm.md:81: | Nd | A2 (removing donors) | +0.030 V |
+- S1_electrostatics_6p3nm.md:82: | Nd | run_0022 (Nd × 2) | −0.009 V |
+- S1_electrostatics_6p3nm.md:83: | Dit | run_0025 (× 3) | +0.025 V, i.e. about 0.012 per 1× |
+- S1_electrostatics_6p3nm.md:84: | Dit | A4 (× 5) | +0.051 V, i.e. about 0.013 per 1× |
+- S1_electrostatics_6p3nm.md:88: | film | mobility basis | Vth_cc shift if the film had the 2 nm mobility |
+- S1_electrostatics_6p3nm.md:90: | 13.2 nm | mu_FE (ratio 4.13) | +0.108 V |
+- S1_electrostatics_6p3nm.md:91: | 13.2 nm | mu0 (ratio 4.45) | +0.115 V |
+- S1_electrostatics_6p3nm.md:92: | 6.3 nm | — | −0.012 to −0.026 V |
+- S1_electrostatics_6p3nm.md:94: In the 1-D model the same effect is +0.144 V at 13.2 nm and +0.026 V at 6.3 nm. The naive estimate SS_cc × log10(ratio) gives 0.10 V at SS 160.
+- S1_electrostatics_6p3nm.md:96: About 0.11–0.14 V of the measured 2→13.2 nm Vth_cc step (−0.579 V) is therefore a consequence of the Vth definition, not a charge.
+- S1_electrostatics_6p3nm.md:102: | 2 → 13.2 nm | −0.627 V | −0.327 (52 %) | −0.158 (25 %) | −0.073 (12 %) | −0.061 (10 %) | −0.579 V |
+- S1_electrostatics_6p3nm.md:103: | 2 → 6.3 nm | −0.328 V | −0.281 (86 %) | −0.030 | −0.001 | −0.019 | −0.018 V |
+- S1_electrostatics_6p3nm.md:105: - **2 → 13.2 nm.** The remaining terms are free electrons −0.009 V and deep Gaussian +0.003 V.
+- S1_electrostatics_6p3nm.md:106: - **2 → 6.3 nm.** The V1 6.3 nm miss is essentially the confinement difference. The analytic kT·ln Nc term alone is only 8 mV (2 nm).
+- S1_electrostatics_6p3nm.md:108: **Which terms are fitted.** Of the analytic terms, only q·Nd·t/Cox (0.009 / 0.028 / 0.070 V) and dEc (0.353 / 0.072 / 0.026 eV) are fixed by laws. The tail term is set by the fitted Nt law and is the largest non-confinement term.
+- S1_electrostatics_6p3nm.md:116: - **Debye length.** L_D = 7.3 / 6.7 / 3.7 / 2.1 nm at n = 2.5e17 / 3e17 / 1e18 / 3e18 cm⁻³.
+- S1_electrostatics_6p3nm.md:117: - **Trap-screening length.** L_t = √(ε·WTA/q·n_t) is 1.7 / 3.2 / 7 nm at the threshold trapped densities of 2 / 6.3 / 13.2 nm (7.2e18 / 2.0e18 / 4.2e17 cm⁻³).
+- S1_electrostatics_6p3nm.md:118: - **Band bending across the film at threshold.** It is only 0.026 / 0.057 / 0.020 eV (1-D), and 0.022 / 0.045 / 0.016 eV in the ATLAS profiles (run_0012 / run_0015 / run_0013).
+- S1_electrostatics_6p3nm.md:119: - **Carrier location.** Subthreshold conduction is volumetric (electron centroid 0.8 / 2.1 / 5.7 nm from the front). In the on-state at 3 V all films carry a ~0.7–1.1 nm front accumulation layer (ATLAS profiles), which couples to S3.
+- S1_electrostatics_6p3nm.md:120: - **Depletion width W = Qs/Nd.** At the V1 Nd (2.5–3e17), a surface charge of 1e12 cm⁻² depletes 40 nm. Every film ≤ 31.8 nm is therefore fully depleted.
+- S1_electrostatics_6p3nm.md:121: - **Condition for a neutral layer between 6.3 and 13.2 nm.** With Qs ≈ 1e12, it would need 7.6e17 < Nd < 1.6e18.
+- S1_electrostatics_6p3nm.md:125: Values in V per 1e12 cm⁻².
+- S1_electrostatics_6p3nm.md:127: | t (nm) | front, analytic 1/Cox | back, analytic (1/Cox + t/ε_s) | back, 1-D full DOS, on Vth_cc | back, 1-D without tail, on Vth_cc | back, 1-D, on Vth_lin | back, 1-D, ΔSS_cc (mV/dec) |
+- S1_electrostatics_6p3nm.md:129: | 2.0 | 0.179 | 0.218 | 0.185 | 0.195 | 0.168 | −11 |
+- S1_electrostatics_6p3nm.md:130: | 6.3 | 0.179 | 0.301 | 0.172 | 0.220 | 0.077 | −38 |
+- S1_electrostatics_6p3nm.md:131: | 13.2 | 0.179 | 0.436 | 0.215 | 0.261 | 0.064 | −47 |
+- S1_electrostatics_6p3nm.md:133: **ATLAS cross-check.** A3 (run_0030): −1.64e12 at the back gives +0.278 V, against +0.293 V for the same charge at the front, a ratio of 0.95.
+- S1_electrostatics_6p3nm.md:141: ### 2.3 Neutral layer versus a step (uniform-Nd scan, 1-D B5, Qf 1.73e12, confinement on)
+- S1_electrostatics_6p3nm.md:145: | t (nm) | Nd = 2.5e17 | Nd = 1e18 | Nd = 2e18 | Nd = 3e18 |
+- S1_electrostatics_6p3nm.md:147: | 13.2 | +0.069 V | −0.211 V | −0.619 V | −1.03 V |
+- S1_electrostatics_6p3nm.md:148: | 31.8 | −0.22 V | −1.39 V | −2.95 V | always on, Id(−3 V) 2.5e-7 A/um |
+- S1_electrostatics_6p3nm.md:150: - **31.8 nm with the V1 law** (Nd 1.85e18): Vth −2.71 V and Id(−3 V) 1.2e-12 A/um, so not always on. This is consistent with V0 needing a back donor sheet plus series R.
+- S1_electrostatics_6p3nm.md:152: - −0.004 vs −0.081 V/nm, about 20×;
+- S1_electrostatics_6p3nm.md:155: With confinement the model ratio is < 1: the model drops 0.33 V from 2 to 6.3 nm and 0.30 V from 6.3 to 13.2 nm.
+- S1_electrostatics_6p3nm.md:156: - **No ungated neutral layer in 13.2 nm.** Its off-band current of 6.6e-12 A/um bounds any ungated free sheet to ≤ 2e7 cm⁻² (n_s = I·L/(q·mu·Vd), mu 59). A neutral sheet of only 1e10 cm⁻² would carry 3.3e-9 A/um.
+- S1_electrostatics_6p3nm.md:157: - **What 31.8 nm needs.** Its always-on state needs at least 5.6e11 to 9.2e11 cm⁻² ungated, i.e. uniform Nd ≥ 3e18 (1-D). That value would put 13.2 nm at −1.0 V. The 13.2 → 31.8 transition therefore requires a ≥ 10× change in effective donor density (or a surface donor layer), which is a material step rather than dimensional electrostatics.
+- S1_electrostatics_6p3nm.md:160: - ×1.66 is electrostatic: Cox·(3 − Vth_lin) ratio, about 25 % in log terms;
+- S1_electrostatics_6p3nm.md:161: - ×4.58 is mu_FE, about 75 %.
+- S1_electrostatics_6p3nm.md:163: **Verdict.** A neutral bulk layer does not explain the 6.3→13.2 step in Vth or Ion. A single-material law, whether a power law or t/t², cannot produce it either. A step requires a change of material between 6.3 and 13.2 nm, in charge (about +1.4e12 cm⁻² in the no-confinement reading) and in mobility. This couples to S2's two-regime reading.
+- S1_electrostatics_6p3nm.md:169: Deltas are relative to run_0014 (Vth_cc 0.350, Vth_lin 1.212, SS_min 108.2, SS_cc 284.9, gm 2.860e-7, Ion 5.11e-7, RMSE 0.678 dec) and to the measurement (0.644 / 1.820 / 114.7 / 295.4 / 3.431e-7 / 4.03e-7).
+- S1_electrostatics_6p3nm.md:173: | 0015 | tuned front Qf 8.7e10, mu 11.69 (calibration) | +0.301 | +2.6 | +3.9 | +0.259 | −7.7 % | −21 % | +0.007 | −6.5 | **−0.349** | **−23 %** | 0 % | 0.063 |
+- S1_electrostatics_6p3nm.md:174: | 0030 | A3 back −1.64e12 | +0.278 | −10.5 | −53.6 | +0.140 | −2.1 % | −9.8 % | −0.017 | **−64.1** | −0.468 | −18 % | +14 % | 0.237 |
+- S1_electrostatics_6p3nm.md:175: | 0031 | A1 t = 5.3 nm | +0.036 | +9.1 | +5.5 | +0.053 | −1.8 % | −4.7 % | −0.258 | −4.9 | −0.555 | −18 % | +21 % | 0.613 |
+- S1_electrostatics_6p3nm.md:176: | 0032 | A2 Nd0 1e16 | +0.030 | +6.5 | −4.2 | +0.015 | −1.0 % | −1.8 % | −0.264 | −14.7 | −0.593 | −18 % | +24 % | 0.634 |
+- S1_electrostatics_6p3nm.md:177: | 0033 | A4 Dit × 5 | +0.051 | +8.3 | +1.3 | +0.046 | −0.3 % | −2.9 % | −0.243 | −9.1 | −0.562 | −17 % | +23 % | 0.595 |
+- S1_electrostatics_6p3nm.md:178: | 0034 | A6 no confinement, Qf from 2 nm (held-out) | +0.237 | +9.4 | +2.8 | +0.214 | −2.2 % | −14 % | **−0.057** | −7.7 | −0.394 | −18 % | +9 % | **0.211** |
+- S1_electrostatics_6p3nm.md:179: | 0035 | A5 5.8 nm + Nd 1e16 + back −1e12 | +0.215 | −11.0 | −35.5 | +0.124 | −3.5 % | −10 % | −0.079 | −45.9 | −0.484 | −20 % | +14 % | 0.246 |
+- S1_electrostatics_6p3nm.md:181: A7 (run_0036, mesh × 0.7) has no `execution.json` (STARTED only in RUN_INDEX): NOT DETERMINED.
+- S1_electrostatics_6p3nm.md:186: - A −1 nm error (−16 %) gives only 12 % of the miss.
+- S1_electrostatics_6p3nm.md:187: - Closing 0.29 V through the confinement law needs dEc ≈ 0.33 eV, i.e. t ≈ 2.1 nm, a 67 % thickness error.
+- S1_electrostatics_6p3nm.md:189: - **A2 (donors): rejected.** It is bounded at +0.030 V (analytic 0.028), i.e. ×10 short.
+- S1_electrostatics_6p3nm.md:191: - At ≈ 0.013 V per 1× (3e11 cm⁻²/eV), closing the miss needs a peak of ≈ 7e12 cm⁻² eV⁻¹. That is 23× the assumed value and about 12× the HfO2/In2O3 proxy of 6e11 (yaml, Wang2022).
+- S1_electrostatics_6p3nm.md:194: - **A3 (back-surface negative charge): reproduces Vth_cc (−0.017 V) but is rejected as the sole cause (model-conditional).**
+- S1_electrostatics_6p3nm.md:195: - It moves SS_cc 64 mV/dec and SS_min 17 mV/dec away from the measurement.
+- S1_electrostatics_6p3nm.md:196: - It worsens the on-state lag (Vth_lin −0.47 V).
+- S1_electrostatics_6p3nm.md:197: - The −1.64e12 magnitude has no local source ("adsorbate scale" is an assumption).
+- S1_electrostatics_6p3nm.md:198: - All films were air-exposed. The same charge at 2 nm or 13.2 nm would shift them by 0.30 or 0.35 V (lever 0.185 / 0.215 per 1e12), so it cannot be specific to 6.3 nm without a sample-specific cause.
+- S1_electrostatics_6p3nm.md:200: - Individually "plausible" values deliver 0.215 of the 0.294 V (73 %).
+- S1_electrostatics_6p3nm.md:202: - **Tuned front charge (0015): fits by construction (calibration).** It is a charge 1.64e12 cm⁻² less positive than at 2 and 13.2 nm, with no independent observable.
+- S1_electrostatics_6p3nm.md:204: - Vth_cc −0.057 V and SS_cc −8, with the same on-state shape error as 0015.
+- S1_electrostatics_6p3nm.md:205: - Its 6.3 nm Qf would be −2.7e11, i.e. 3.2e11 cm⁻² (0.057 V) from the 2 nm value. That is a difference that N = 1 device-to-device spread could produce (spread NOT DETERMINED).
+- S1_electrostatics_6p3nm.md:209: Every hypothesis leaves gm within −0.3 to −3.5 % of run_0014 and the gap Vth_lin − Vth_cc at 0.72–0.88 V. The measured gap is 1.176 V, against 1.001 V (2 nm) and 0.962 V (13.2 nm).
+- S1_electrostatics_6p3nm.md:211: The horizontal offset Vg_meas(I) − Vg_sim(I) for the tuned run_0015 is:
+- S1_electrostatics_6p3nm.md:213: | I (A/um) | 1e-10 | 1e-9 | 1e-8 | 3e-8 | 1e-7 | 2e-7 | 3e-7 |
+- S1_electrostatics_6p3nm.md:215: | offset (V) | −0.003 | −0.007 | +0.011 | +0.047 | +0.132 | +0.141 | +0.087 |
+- S1_electrostatics_6p3nm.md:217: For the 2 and 13.2 nm fits the offset stays within ±0.035 V at all levels.
+- S1_electrostatics_6p3nm.md:219: The measured 6.3 nm curve therefore turns on late (about +0.14 V, ≈ 8e11 cm⁻² equivalent near 1–2e-7 A/um) and then rises more steeply. This is a gate-voltage-dependent quantity. A rigid charge at any location cannot produce it: a back charge makes it worse, because it shifts Vth_lin only 0.4× as much as Vth_cc.
+- S1_electrostatics_6p3nm.md:221: **Test of electrostatic alternatives** (1-D, `s1_shape_test.out.txt`, calibration). An acceptor band of 1.5–3e12 cm⁻² at Ec − 0 to 0.15 eV (W 0.05) was added, and Qf and mu were refit to Vth_cc and Ion.
+- S1_electrostatics_6p3nm.md:225: | best acceptor band | 0.97 | 344 (measured 295) |
+- S1_electrostatics_6p3nm.md:226: | no band | 0.83 | — |
+- S1_electrostatics_6p3nm.md:228: S2's pre-registered B0 partition (Nt 2.66e19, mu_band 19.6, Qf 9.8e11) gives in 1-D:
+- S1_electrostatics_6p3nm.md:230: - gm 3.31e-7 (mu_FE ≈ 10.6), Ion −8.8 %;
+- S1_electrostatics_6p3nm.md:231: - **but SS_cc 418 mV/dec** (+123 mV/dec against the measurement).
+- S1_electrostatics_6p3nm.md:233: This is registered here as an S1 prediction for the ATLAS B0 run. It is expected to be within about 10 mV/dec of that value, given the surrogate's bias.
+- S1_electrostatics_6p3nm.md:238: - trapping that grows only above threshold during the forward sweep (PBS-like). Januar reports ΔVth 0.72 V (10 nm IWO) and ~1.2 V (2 nm IWO) after 6 V / 1200 s (Januar2026 lines 612–616), so the scale is plausible, but sweep rate, dwell and hysteresis are NOT DETERMINED.
+- S1_electrostatics_6p3nm.md:240: Contact resistance (S5) is excluded as the cause: it would lower gm at high Vg, whereas the measured gm is 23–29 % higher.
+- S1_electrostatics_6p3nm.md:244: **Degenerate rigid-shift parameters.** On one ID-VG curve, these all enter Vth_cc as rigid shifts at first order, and only their weighted sum is identified (≈ 1.64e12 cm⁻² ≡ 0.29 V at 6.3 nm):
+- S1_electrostatics_6p3nm.md:269: - 86 % of the model's 2→6.3 drop is dEc(2) − dEc(6.3);
+- S1_electrostatics_6p3nm.md:270: - removing confinement and calibrating on 2 nm alone predicts 6.3 nm to −0.057 V (held-out).
+- S1_electrostatics_6p3nm.md:272: No single physical charge hypothesis at plausible magnitude closes the miss (A1/A2/A4 give 10–17 %; A3/A5 give the wrong SS). The on-state shape miss (gap +0.35 V, gm −23 %) is separate, common to all runs, and Vg-dependent.
+- S1_electrostatics_6p3nm.md:282: | 2 nm | +0.014 | 1.81e12 | +0.003 (fit) | 4.8e10 |
+- S1_electrostatics_6p3nm.md:283: | 6.3 nm | −0.294 | 0.09e12 | −0.057 (A6) | −2.7e11 |
+- S1_electrostatics_6p3nm.md:284: | 13.2 nm | −0.030 | 1.56e12 | +0.247 | 1.43e12 |
+- S1_electrostatics_6p3nm.md:286: Sources: with confinement, the calibration Qf of 1.73e12 (runs 0012/0014/0013). Without confinement, Qf = 4.76e10 (1-D B4: 0.665 / 0.588 / 0.330; the rigid shift of run_0017 gives 0.331).
+- S1_electrostatics_6p3nm.md:288: The brief quotes ~1.86e12 for the 13.2 nm no-confinement Qf. My rigid-shift value from run_0017 is 1.43e12. This does not change the conclusion.
+- S1_electrostatics_6p3nm.md:290: **Both readings need one film-specific charge of about 1.4–1.6e12 cm⁻².** The no-confinement assignment, with (2, 6.3) clustered and 13.2 as the outlier, is more natural:
+- S1_electrostatics_6p3nm.md:293: 3. A single uniform extra Nd (8.3e17 cm⁻³, i.e. total ≈ 1.1e18) plus one offset fits all three films to within +0.056 / −0.077 / +0.020 V (linearised LSQ, 1 d.o.f.). With confinement, no non-negative Nd can lift 6.3 nm: A2 caps it at +0.03 V, so the 6.3 nm residual stays ≥ 0.2 V.
+- S1_electrostatics_6p3nm.md:304: - **S2.** mu_FE sets Vth_cc through the CC definition: 0.11–0.14 V of the 2→13.2 step. The on-state shape is a trap/mobility partition problem. B0 1-D predicts SS_cc 418 (risk), which favours a density-dependent mobility.
+- S1_electrostatics_6p3nm.md:305: - **S3.** dEc carries 0.281 V of the model's 2→6.3 difference, and Vth responds to dEc at ≈ 1 V/eV. The on-state front-accumulation centroid is about 1 nm, where quantum dark space lowers the effective Cox.
+- S1_electrostatics_6p3nm.md:306: - **S4.** The tail term is 0.10–0.26 V, 25 % of the 2→13.2 step. Nt, WTA and Qf trade off, and the location signatures depend on the DOS.
+- S1_electrostatics_6p3nm.md:308: - **S6.** Register B0 (SS_cc 418) and a 13.2 nm no-confinement run with Qf 4.76e10 (predicted Vth_cc 0.33).
+- S1_electrostatics_6p3nm.md:314: | V1 6.3 nm miss = confinement difference dEc(2) − dEc(6.3) | demonstrated (within model) | prediction (1-D checked vs 12 ATLAS runs) | 0.281 of 0.328 V (86 %) |
+- S1_electrostatics_6p3nm.md:315: | No confinement, one Qf (2 nm) predicts 6.3 nm | plausible-unverified (favoured) | prediction (A6 held-out) | Vth_cc −0.057 V, RMSE 0.21 vs 0.68 dec |
+- S1_electrostatics_6p3nm.md:316: | Tuned 6.3 nm-specific front charge | plausible-unverified | calibration | 1.64e12 cm⁻² (0.294 V) |
+- S1_electrostatics_6p3nm.md:317: | Back-surface negative charge (sole cause) | rejected (model-conditional) | prediction (A3) | SS_cc −64 mV/dec, Vth_lin −0.47 V |
+- S1_electrostatics_6p3nm.md:318: | Thickness error | rejected | prediction (A1) + analytic | −1 nm → +0.036 V; needs t ≈ 2.1 nm |
+- S1_electrostatics_6p3nm.md:319: | Reduced donors | rejected | prediction (A2) | ≤ +0.030 V |
+- S1_electrostatics_6p3nm.md:320: | Front Dit | rejected at plausible Dit | prediction (A4) | needs ≈ 7e12 cm⁻²eV⁻¹ (23×) |
+- S1_electrostatics_6p3nm.md:321: | Plausible combination A5 | rejected | prediction | 73 % of miss, SS_cc −46 |
+- S1_electrostatics_6p3nm.md:322: | 6.3 nm on-state shape is a rigid offset | rejected | prediction (all campaign-A runs) | gap 0.72–0.88 vs 1.18 V |
+- S1_electrostatics_6p3nm.md:323: | Gap-state trap band / B0 fixes shape at constant SS | rejected (1-D) | calibration | best SS_cc 344; B0 418 vs 295 |
+- S1_electrostatics_6p3nm.md:324: | Sweep-induced trapping / sample variation | not determined | none | Januar PBS 0.7–1.2 V (6 V, 1200 s) |
+- S1_electrostatics_6p3nm.md:325: | Back-referenced lever arm (Q·t/ε_s) at threshold | rejected | prediction (1-D + A3) | 0.96–1.2× front, not 1.7–2.4× |
+- S1_electrostatics_6p3nm.md:326: | Neutral bulk layer / homogeneous t, t² law as the 6.3→13.2 step | rejected | prediction (1-D) + data bound | slope ratio ≤ 2.35 vs ~9–20; ungated n_s(13.2) ≤ 2e7 cm⁻² |
+- S1_electrostatics_6p3nm.md:327: | 31.8 nm always-on from a neutral layer | plausible-unverified | prediction (1-D) | needs Nd ≥ 3e18 (≥ 10× the 13.2 nm-compatible value) |
+- S1_electrostatics_6p3nm.md:328: | CC-definition (mobility) share of the Vth_cc step | strongly supported | prediction (analytic on data) | +0.11–0.14 V of −0.58 V |
+- S1_electrostatics_6p3nm.md:329: | q·Nd·t/Cox | demonstrated small (≤ 6.3 nm) | prediction (A2, run_0022) | 0.009 / 0.028 / 0.070 V |
+- S1_electrostatics_6p3nm.md:330: | Tail charge at threshold | plausible-unverified | calibration | 0.256 / 0.226 / 0.098 V |
+- S1_electrostatics_6p3nm.md:331: | Interface-trap charge | demonstrated small | prediction (run_0025, A4) | 0.012 V, thickness-independent |
+
+## S2_transport_mobility_powerlaw.md
+
+- S2_transport_mobility_powerlaw.md:18: - the gradual-channel approximation at Vd = 0.7 V, which is exact in 1-D for a floating body because n(Vg, V) = n(Vg - V, 0).
+- S2_transport_mobility_powerlaw.md:22: | run | mu_FE, 1-D vs ATLAS | Vth, 1-D vs ATLAS |
+- S2_transport_mobility_powerlaw.md:24: | 0012 | 11.56 vs 11.27 | 10 to 15 mV difference |
+- S2_transport_mobility_powerlaw.md:25: | 0015 | 8.48 vs 8.42 | 10 to 15 mV difference |
+- S2_transport_mobility_powerlaw.md:26: | 0013 | 49.44 vs 48.95 | 10 to 15 mV difference |
+- S2_transport_mobility_powerlaw.md:27: | 0023 (Nt x1.5) | 11.00 vs 10.50 | Vth_lin +41 mV |
+- S2_transport_mobility_powerlaw.md:29: It is not valid for SS, because the interface and deep Gaussians are omitted: SS_min is 64 vs 73 mV/dec at 2 nm and 67 vs 111 at 6.3 nm.
+- S2_transport_mobility_powerlaw.md:36: - 109 % of ln(50.17/10.95) is carried by the fitted mu_band. The roughness factor contributes 3 %, the free/trapped partition 3 %, and the model residual −16 %.
+- S2_transport_mobility_powerlaw.md:43: - The tuned 6.3 nm run misses the gap by −0.36 V and gm_max by −23 %.
+- S2_transport_mobility_powerlaw.md:44: - Five electrostatic hypotheses (campaign A, runs 0030 to 0034) leave gm_max unchanged within ±2 %.
+- S2_transport_mobility_powerlaw.md:45: - A partition consistent with the curve shape gives mu_band = 19.3 / 19.6 / 62.7 and Nt = 2.4e19 / 2.7e19 / 4.8e18 cm^-3. Ion, which was not fitted, lands within −2.6 / −7.9 / +0.1 %.
+- S2_transport_mobility_powerlaw.md:55: 6. **The paper's 5.1 and 27.4 are reproduced exactly (5.09 and 27.40).** They come from the saturation formula, 2L/(W·Cox)·(∂√Id/∂Vg)², applied to these same Vd = 0.7 V workbook curves. The discrepancy is therefore explained; it does not need to be resolved with the lab.
+- S2_transport_mobility_powerlaw.md:63: | t (nm) | mu_FE measured | mu_band (fit) | R=(1-0.287/t)^2 | P = mu_FE,sim/mun | mu_FE,sim | measured/sim |
+- S2_transport_mobility_powerlaw.md:65: | 2.0 | 12.15 | 18.13 | 0.734 | 0.847 | 11.27 | 1.078 |
+- S2_transport_mobility_powerlaw.md:66: | 6.3 | 10.95 | 11.69 | 0.911 | 0.791 | 8.42 | 1.300 |
+- S2_transport_mobility_powerlaw.md:67: | 13.2 | 50.17 | 61.9 | 0.957 | 0.826 | 48.95 | 1.025 |
+- S2_transport_mobility_powerlaw.md:73: | 6.3→13.2 nm | ×4.58 | +109 % | +3 % | +3 % | −16 % |
+- S2_transport_mobility_powerlaw.md:74: | 2→13.2 nm | ×4.13 | +87 % | +19 % | −2 % | −4 % |
+- S2_transport_mobility_powerlaw.md:76: The free fraction at Vg = 3 V is 0.68 / 0.67 / 0.76 in the 1-D surrogate, with n_trap ≈ 4.0 / 4.2 / 3.4e12 cm^-2 (part 2 §1). Because the trapped sheet charge is nearly the same in every film, the partition cannot carry a thickness step.
+- S2_transport_mobility_powerlaw.md:79: - The measured gm peaks at the end of the sweep for 2 nm (Vg = 3.00 V). The 2 nm "peak" mu_FE of 12.15 is therefore a lower bound.
+- S2_transport_mobility_powerlaw.md:80: - The gm roll-off gm(3 V)/gm_max is 1.000 / 0.981 / 0.978. That is at most 2.2 % from series resistance or theta_r degradation.
+- S2_transport_mobility_powerlaw.md:83: The Jacobian at 2 nm (run_0012 → run_0023, per unit ln Nt; part 1 §C) is:
+- S2_transport_mobility_powerlaw.md:84: - dVth_cc = +0.202 V
+- S2_transport_mobility_powerlaw.md:85: - dgap = +0.495 V
+- S2_transport_mobility_powerlaw.md:89: Ion is dominated by the threshold. It responds four times more strongly to Nt than gm does, and mu enters Ion linearly. So on Ion alone, Nt ×1.5 is exactly compensated by mu ×1.33; this is the degeneracy seen in run_0023.
+- S2_transport_mobility_powerlaw.md:107: The tuned run_0015 matches Vth_cc and Ion but has:
+- S2_transport_mobility_powerlaw.md:108: - a gap of 0.820 V vs 1.176 V measured;
+- S2_transport_mobility_powerlaw.md:109: - gm_max −23 % (Ion/gm_max = 1.53 V vs 1.18 V).
+- S2_transport_mobility_powerlaw.md:113: Campaign A tested five electrostatic mechanisms at mu_band 12.4, one at a time relative to run_0014 (gm 2.860e-7, gap 0.862):
+- S2_transport_mobility_powerlaw.md:117: | back charge −1.64e12 | 0030 | 2.799e-7 | 0.724 |
+- S2_transport_mobility_powerlaw.md:118: | t = 5.3 nm | 0031 | 2.810e-7 | 0.879 |
+- S2_transport_mobility_powerlaw.md:119: | Nd0 1e16 | 0032 | 2.831e-7 | 0.847 |
+- S2_transport_mobility_powerlaw.md:120: | Dit ×5 | 0033 | 2.850e-7 | 0.857 |
+- S2_transport_mobility_powerlaw.md:121: | no confinement | 0034 | 2.798e-7 | 0.839 |
+- S2_transport_mobility_powerlaw.md:123: None moves gm by more than 2 %, and none opens the gap toward 1.176 V. A fixed back charge actually *closes* the gap. The on-state shape is therefore a transport and trapping feature, not an electrostatic one.
+- S2_transport_mobility_powerlaw.md:127: | t | Nt factor vs V1 law | Nt (cm^-3) | mu_band | Qf (cm^-2) | Vth_lin sim/meas | Ion (not fitted) |
+- S2_transport_mobility_powerlaw.md:129: | 2.0 | 1.19 | 2.38e19 | 19.3 | 1.89e12 | 1.665/1.663 | −2.6 % |
+- S2_transport_mobility_powerlaw.md:130: | 6.3 | 3.15 | 2.66e19 | 19.6 | 9.8e11 | 1.881/1.820 | −7.9 % |
+- S2_transport_mobility_powerlaw.md:131: | 13.2 | 0.98 | 4.76e18 | 62.7 | 1.46e12 | 1.041/1.044 | +0.1 % |
+- S2_transport_mobility_powerlaw.md:136: - NTA = 6.66e20 cm^-3 eV^-1 (Nt 2.66e19), WTA 0.040;
+- S2_transport_mobility_powerlaw.md:138: - Qf 9.8e11.
+- S2_transport_mobility_powerlaw.md:140: It should give Vth_cc 0.64 ± 0.03 V, Vth_lin 1.82 to 1.90 V, mu_FE 10.5 to 11.0 and Ion −5 to −10 %. SS_min should rise a few to about 15 mV/dec above the value in run_0015; this is a risk to the hypothesis if the measured 114.7 is exceeded by a large margin.
+- S2_transport_mobility_powerlaw.md:142: If the prediction holds, the device-specific 6.3 nm Qf offset shrinks from 0.29 V to about 0.10 to 0.16 V (this couples to S1).
+- S2_transport_mobility_powerlaw.md:149: Requirement: at 300 K, ln 4.6 = 1.52. With Matthiessen's rule and a 13.2 nm mobility of about 62, an extra scattering channel present only in the thinner films would need mu_x(6.3) ≈ 17 cm²/Vs, while leaving mu(2) ≈ mu(6.3).
+- S2_transport_mobility_powerlaw.md:151: | mechanism | expected t-dependence | magnitude for 6.3→13.2 | result |
+- S2_transport_mobility_powerlaw.md:153: | Trap-limited partition (Januar Eq. 5) | through Nt(t) and EF pinning | P changes 0.791→0.826 (+4 %). Linearised, ×4.6 needs Nt ×6.7e3 | **rejected** as primary; falls short by ×30 in ln |
+- S2_transport_mobility_powerlaw.md:154: | Roughness factor (1−Dsr/t)^2, Dsr 0.287 nm | about 1 − 2Dsr/t | ×1.051 (13.2/6.3); ×1.305 (13.2/2) | **rejected**; 3 % of the needed ln |
+- S2_transport_mobility_powerlaw.md:155: | Thickness-fluctuation roughness (Sakaki/Uchida, mu_SR ∝ t^6) | dE1 = 2E1·Δ/t: 105 / 3.96 / 0.44 meV | if mu_SR(6.3) = 17 then mu_SR(2) = 0.017 cm²/Vs, vs about 12 to 19 extracted | **rejected**; contradicted ×700 at 2 nm |
+- S2_transport_mobility_powerlaw.md:156: | Coulomb, front fixed charge Qf 1.73e12 at d = 0 (screened 2DEG, zero-thickness upper bound on scattering) | none; same interface for every film | mu_C = 283 (n_s 3e12) to 515 (1e13) cm²/Vs | **rejected** as the step. At most a 10 to 20 % contribution at 13.2 nm, equal in all films |
+- S2_transport_mobility_powerlaw.md:157: | Coulomb, back-surface sheet 1.64e12 (A3 value), eps_bar 5.15 | ∝ (2k_F·d)^3 | mu_C = 1.4e3 / 4.7e4 / 4.5e5 at 2 / 6.3 / 13.2 nm | **rejected**; ×2700 short at 6.3 nm and monotonic |
+- S2_transport_mobility_powerlaw.md:158: | Coulomb from trapped tail electrons (about 4e12 cm^-2 in the channel) | same n_trap in all films (§1.1) | about 120 cm²/Vs (scales as 1/N from the Qf case) | not a step |
+- S2_transport_mobility_powerlaw.md:159: | Remote HfO2 phonons through 2 nm Al2O3 | carriers sit at the same interface in accumulation in every film | first order independent of t | **rejected** as the step; magnitude NOT DETERMINED (no local data) |
+- S2_transport_mobility_powerlaw.md:160: | Series R / contacts (S5) | would cut gm more in the high-current 13.2 nm film | measured roll-off ≤ 2.2 % | cannot create ×4.6; if present, it *understates* mu(13.2) |
+- S2_transport_mobility_powerlaw.md:161: | Fringing current from an unpatterned channel | grows with film conductance | W/L = 14.5 gives about a 10 % order effect | cannot give ×4.6; channel patterning NOT DETERMINED |
+- S2_transport_mobility_powerlaw.md:162: | Structural transition: amorphous or nanocrystalline to polycrystalline, grain-boundary (Seto) barriers, or percolation (Kamiya/Nomura) | step at a critical thickness t_c, then a plateau | a barrier difference of kT·ln 4.6 = 39 meV is enough | **plausible, unverified** |
+- S2_transport_mobility_powerlaw.md:170: - Vth drops by 0.58 V and the off-state floor rises ×44 at the same thickness interval, consistent with Januar's link between crystallinity and higher carrier concentration (couples to S1 and S4);
+- S2_transport_mobility_powerlaw.md:171: - the always-on 31.8 nm film has apparent mu_FE 49.2 (gm_max at Vg = −0.3 V; part 1 §A), a plateau rather than a continued rise.
+- S2_transport_mobility_powerlaw.md:186: | mu_FE | 0.56 / ×2.63 | 1.03 / ×3.90 | 0.34 / ×1.91 | 0.63 / ×2.44 | 0.043 / ×1.11 |
+- S2_transport_mobility_powerlaw.md:187: | Ion | 0.85 / ×3.76 | 1.87 / ×6.37 | 0.53 / ×2.52 | 1.14 / ×3.70 | 0.096 / ×1.26 |
+- S2_transport_mobility_powerlaw.md:188: | Vth_cc | 0.54 / ×0.29 | 1.52 / ×0.30 | 0.34 / ×0.46 | 0.39 / ×0.68 | 0.011 / ×1.03 |
+- S2_transport_mobility_powerlaw.md:189: | Vth_lin | 0.17 / ×0.69 | 0.21 / ×0.64 | 0.12 / ×0.76 | 0.11 / ×0.78 | 0.037 / ×0.91 |
+- S2_transport_mobility_powerlaw.md:190: | mu_band (V1 fit) | 0.73 / ×3.27 | 1.24 / ×4.56 | 0.52 / ×2.49 | 0.81 / ×2.99 | 0.19 / ×1.55 (×1.02 after the §1.3 partition) |
+- S2_transport_mobility_powerlaw.md:192: A held-out check with the 31.8 nm film (context only): an Ion power law through 6.3 and 13.2 nm (exponent 2.74) predicts 3.4e-5 A/um at 31.8 nm. The measured value is 3.59e-6 (×9.6 lower), and the prediction also exceeds the series-resistance ceiling of 0.7 V / 9e4 Ω·um = 7.8e-6.
+- S2_transport_mobility_powerlaw.md:201: - The law exceeds that bound for t > 2.98 nm: 72 vs 45 meV at 6.3 nm (×1.59) and 26 vs 10 meV at 13.2 nm (×2.51). Its exponent should tend to −2.
+- S2_transport_mobility_powerlaw.md:202: - The extrapolation to 6.3 to 13.2 nm is non-physical. The effect on Vth is small (27 and 16 mV), so this is S3's lane.
+- S2_transport_mobility_powerlaw.md:203: - Confinement barely touches transport: run_0016 vs 0012 changes gm by +0.6 % and the gap by +17 mV.
+- S2_transport_mobility_powerlaw.md:206: - This exponent matches the dEc exponent, as expected from conduction-band non-parabolicity, where m* rises with electron energy. Stokey2021 (§I) reports m* from 0.18 at low density to about 0.44 at 1e21 cm^-3 (Feneberg, cited there).
+- S2_transport_mobility_powerlaw.md:208: - V1 does not carry m*(t) into mobility (Drude mu = eτ/m*). At fixed τ this would be −18 % at 2 nm, and that effect is hidden inside the fitted mu_band.
+- S2_transport_mobility_powerlaw.md:211: - A surface + bulk form through the same two anchors, Nt = 2.15e18 cm^-3 + 3.57e12 cm^-2/t, gives 7.8e18 at 6.3 nm vs 8.5e18 from the power law. The data cannot tell them apart.
+- S2_transport_mobility_powerlaw.md:212: - The source is internally inconsistent: Januar Sec. 2.8 ("×4, 13.2 → 2 nm") implies an exponent of 0.73, while its PBS devices (5.3e19 at 2 nm, 3.39e18 at 10 nm; p.9) imply 1.71.
+- S2_transport_mobility_powerlaw.md:222: Assumptions: V1 tail (WTA 40 meV, Tt = 464 K), T-independent mu_band, Nc ∝ T^1.5, Eg independent of T. These are the same assumptions as campaign B.
+- S2_transport_mobility_powerlaw.md:226: | quantity at 350 K | 2 nm | 13.2 nm |
+- S2_transport_mobility_powerlaw.md:228: | mu_FE | ×0.993 | ×0.999 |
+- S2_transport_mobility_powerlaw.md:229: | Ion | ×1.004 | ×1.011 |
+- S2_transport_mobility_powerlaw.md:230: | ΔVth_cc | −64 mV | −66 mV |
+- S2_transport_mobility_powerlaw.md:231: | ΔVth_lin | −15 mV | −24 mV |
+- S2_transport_mobility_powerlaw.md:235: | Vg | 2 nm | 13.2 nm |
+- S2_transport_mobility_powerlaw.md:237: | 0 V | 504 meV | 156 meV |
+- S2_transport_mobility_powerlaw.md:238: | 0.5 V | 120 meV | 61 meV |
+- S2_transport_mobility_powerlaw.md:239: | 1.0 V | 56 meV | 20 meV |
+- S2_transport_mobility_powerlaw.md:240: | 1.5 V | 23 meV | 8 meV |
+- S2_transport_mobility_powerlaw.md:241: | 2.0 V | 7 meV | 4 meV |
+- S2_transport_mobility_powerlaw.md:242: | 3.0 V | 1 meV | 2 meV |
+- S2_transport_mobility_powerlaw.md:244: Ea follows (Ec − EF) at the surface in subthreshold and falls to about 0 once EF enters the band. At equal Vg the 2 nm film shows the larger activation. At equal overdrive the two films are similar (about 20 meV at Vth_lin).
+- S2_transport_mobility_powerlaw.md:250: mu ∝ exp[−(φ_m − σ²/2kT)/kT]. Over φ_m = 20 to 60 meV and σ = 0 to 20 meV, mu(350)/mu(300) = 1.03 to 1.39 (Ea 6 to 60 meV). The activation persists above threshold and decreases slowly with n. An Arrhenius plot is curved (ln mu is linear in 1/T²).
+- S2_transport_mobility_powerlaw.md:252: If the ×4.6 step is a 39 meV grain-boundary barrier difference, the disordered films gain ×1.24 more than 13.2 nm. The ratio mu_FE(13.2)/mu_FE(2) would then fall from 4.13 to about 3.3.
+- S2_transport_mobility_powerlaw.md:262: Measure mu_FE at Vg = 3 V at 350 K:
+- S2_transport_mobility_powerlaw.md:263: - about 0 % change → MTR only (V1 and campaign B);
+- S2_transport_mobility_powerlaw.md:264: - +3 to +40 % → percolation or barriers;
+- S2_transport_mobility_powerlaw.md:278: Applying the saturation formula mu_sat = 2L/(W·Cox)·(∂√Id/∂Vg)² to the workbook Vd = 0.7 V curves, with the same Cox (8.955e-7), L/W and units, gives (part 1 §A, part 4):
+- S2_transport_mobility_powerlaw.md:282: | 2 nm | 5.09 | 1.75 V | 5.1 |
+- S2_transport_mobility_powerlaw.md:283: | 13.2 nm | 27.40 | 0.95 V | 27.4 |
+- S2_transport_mobility_powerlaw.md:284: | 6.3 nm | 3.86 | — | not quoted |
+- S2_transport_mobility_powerlaw.md:292: 2. The paper's values are a saturation formula applied where Vg − Vth (about 1.1 V at the 2 nm peak) is larger than Vd = 0.7 V. The device is in the linear regime there, so the formula gives about Vd/(2Vov − Vd) × mu, roughly 0.45 to 0.55 of the true value. This explains the thickness-dependent ratio of 2.4× vs 1.8×.
+- S2_transport_mobility_powerlaw.md:302: | Nt ↔ WTA ↔ interface Dit ↔ deep states ↔ energy-distributed back-surface acceptors (S4, S1) | gap, SS | T-dependence (Tt enters as T/Tt); C-V frequency dispersion; passivated vs bare back-surface splits |
+- S2_transport_mobility_powerlaw.md:303: | Qf ↔ gate work function ↔ chi ↔ dEc (S1, S3) | Vth_cc | C-V flat-band; IPE/UPS |
+- S2_transport_mobility_powerlaw.md:304: | mu_band ↔ R(t) ↔ Rc ↔ W_eff (S5) | gm_max | TLM (Rc); channel-isolation check; Hall mobility |
+- S2_transport_mobility_powerlaw.md:305: | band vs barrier-limited mu | not separable at one T | T sweep (§4) |
+- S2_transport_mobility_powerlaw.md:309: - a rigid part (Qf about 1e12 vs 1.5 to 1.9e12, roughly 0.10 to 0.16 V) that stays S1's;
+- S2_transport_mobility_powerlaw.md:310: - a shape part (gap +0.36 V, gm −23 %) that is a trap/mobility partition issue. It is not electrostatic, since campaign A leaves gm unchanged.
+- S2_transport_mobility_powerlaw.md:311: - **S3.** Confinement is not a transport mechanism in V1: gm changes < 1 % in runs 0016 and 0017. The dEc extrapolation above 3 nm is non-physical.
+- S2_transport_mobility_powerlaw.md:312: - **S4.** The §1.3 partition needs Nt(6.3) ≈ Nt(2) ≈ 2.5e19 with WTA fixed. A wider tail at 6.3 nm is the competing reading, and SS must decide between them (the surrogate is not valid for SS).
+- S2_transport_mobility_powerlaw.md:313: - **S5.** The measured roll-off limits Rc effects to a few %. If Rc is present, mu_band(13.2) is underestimated and the step is larger.
+- S2_transport_mobility_powerlaw.md:316: - campaign B at 350 K, which should reproduce §4(a): ΔVth_cc ≈ −65 mV and |Δmu_FE| < 1 %. A mismatch would indicate a surrogate or ATLAS numerical issue, not physics.
+- S2_transport_mobility_powerlaw.md:323: 3. **Hall effect (van der Pauw, ideally gated) on each film.** This gives mu_Hall and n_Hall vs mu_FE, which separates band mobility from the trap partition. Lin2022 did this on 2.5 nm In2O3, getting 48.2 cm²/Vs.
+- S2_transport_mobility_powerlaw.md:326: 6. **Low-Vd curves and ID-VD, plus TLM.** Transfer curves at Vd = 0.05 to 0.1 V give a proper linear mu_FE, and ID-VD with TLM gives Rc (S5).
+- S2_transport_mobility_powerlaw.md:333: | Paper 5.1/27.4 = saturation formula on the same curves | demonstrated | validation | 5.09 / 27.40 reproduced |
+- S2_transport_mobility_powerlaw.md:334: | mu_FE thickness dependence carried by the fitted mu_band | demonstrated (model-internal) | calibration | 109 % of ln(×4.58), 6.3→13.2 |
+- S2_transport_mobility_powerlaw.md:335: | Trap partition (Januar Eq. 5) as primary cause of the step | rejected | calibration | needs Nt ×6.7e3; P changes by 4 % |
+- S2_transport_mobility_powerlaw.md:336: | Roughness factor (1−Dsr/t)^2 | rejected (as the step) | calibration | ×1.05 (6.3→13.2) |
+- S2_transport_mobility_powerlaw.md:337: | Thickness-fluctuation roughness (∝ t^6) | rejected | correlation | ×700 contradiction at 2 nm |
+- S2_transport_mobility_powerlaw.md:338: | Coulomb (front Qf, back surface, trapped charge) | rejected (as the step) | calibration | mu_C 283 to 515 (front), 4.7e4 (back, 6.3 nm) |
+- S2_transport_mobility_powerlaw.md:340: | Non-monotonic mu_band is an Nt-law partition artifact | strongly supported | calibration | 6.3 nm gap −0.36 V, gm −23 %; campaign A gm ±2 % |
+- S2_transport_mobility_powerlaw.md:341: | Flat mu_band ≤ 6.3 nm then ×3.2 step (19.3/19.6/62.7) | plausible, unverified (ATLAS prediction registered) | calibration | Ion check −2.6/−7.9/+0.1 % |
+- S2_transport_mobility_powerlaw.md:342: | Structural transition (crystallinity / grain boundaries / percolation) between 6.3 and 13.2 nm | plausible, unverified | correlation | 39 meV barrier suffices; mu_FE(31.8) 49 ≈ 50 |
+- S2_transport_mobility_powerlaw.md:343: | Metric power laws (mu_FE, Ion, Vth) | rejected | correlation | LOO misses ×2.6 to ×3.8; Ion(31.8) over by ×9.6 |
+- S2_transport_mobility_powerlaw.md:344: | dEc ∝ t^-1.38 beyond 3 nm | rejected (as physics) | none | 1.59× / 2.51× above the effective-mass bound |
+- S2_transport_mobility_powerlaw.md:345: | Nt ∝ t^-0.75 | not determined (empirical interpolation) | calibration | source exponents 0.73 vs 1.71 |
+- S2_transport_mobility_powerlaw.md:346: | m* ∝ t^-1.41 (non-parabolicity) | plausible, unverified | calibration | exponent matches dEc (−1.41 vs −1.38) |
+- S2_transport_mobility_powerlaw.md:347: | MTR temperature signature (V1) | not determined (prediction registered) | prediction | Δmu_FE < 1 %, ΔVth_cc −65 mV at 350 K |
+- S2_transport_mobility_powerlaw.md:348: | Phonon-limited 13.2 nm transport | not determined | none | expect −14 to −27 % × phonon fraction |
+
+## S3_quantum_confinement.md
+
+- S3_quantum_confinement.md:13: - Its expected size is 0.14 to 0.38 V as a subthreshold-equivalent shift, with a central value of 0.26 to 0.30 V for m* = 0.18 m0.
+- S3_quantum_confinement.md:14: - On one ID-VG curve per thickness it is exactly degenerate with about 1.7e12 cm^-2 of fixed charge, because q/Cox = 0.179 V per 1e12 cm^-2.
+- S3_quantum_confinement.md:17: - The pre-registered held-out test A6 (run_0034: no confinement, Qf fitted on 2 nm only) predicts Vth_cc at 6.3 nm to within -0.057 V. The confinement model with a shared Qf (run_0014) misses by -0.294 V.
+- S3_quantum_confinement.md:18: - The story without confinement then misses 13.2 nm by +0.25 V. This value is derived from run_0017 using the exact rigid-Qf property; it was not run directly.
+- S3_quantum_confinement.md:19: - The extra Vth needed beyond a classical, confinement-free model is +0.30 / +0.36 / +0.05 V at 2 / 6.3 / 13.2 nm. This pattern is non-monotonic, and no confinement term can produce it, since confinement is ≤ 0.05 V at 6.3 nm.
+- S3_quantum_confinement.md:21: - Removing confinement changes the curve by a nearly rigid shift. The local SS versus log Id profiles of runs 0012/0016 and 0013/0017 agree within 1 to 2 mV/dec.
+- S3_quantum_confinement.md:22: - SS_min changes (73 → 84 and 151 → 139 mV/dec) only because the first 5-point window above the 5×-floor threshold lands at a different place on the 0.05 V grid.
+- S3_quantum_confinement.md:23: - Resampling the confinement-on curve onto the no-confinement grid alone gives 76 to 82 mV/dec (2 nm) and 136 to 137 mV/dec (13.2 nm).
+- S3_quantum_confinement.md:25: - ATLAS realises 0.345 V without traps and 0.315 to 0.326 V with traps.
+- S3_quantum_confinement.md:26: - SP gives 0.256 V (finite barriers), about 0.30 V (effective width anchored on the DFT slabs) and 0.384 V (hard wall), all for m* = 0.18 with non-parabolicity.
+- S3_quantum_confinement.md:27: - If W raises m* to 0.26 to 0.35, SP gives only 0.14 to 0.20 V.
+- S3_quantum_confinement.md:28: - Beyond 2 nm, the t^-1.38 law overestimates confinement by about 2× (6.3 nm: 0.070 vs 0.036 V) and 1.6× (13.2 nm: 0.026 vs 0.016 V).
+- S3_quantum_confinement.md:30: - Trap-free at 2 nm, C_eff agrees within 1 % and the onset shift is rigid.
+- S3_quantum_confinement.md:31: - With the V1 tail, the result depends strongly on which energy the localized tail states are referenced to. If the tail follows the confined edge, the shift at 2 nm is 0.26 V. If it stays at the bulk edge, the shift is 0.91 V.
+- S3_quantum_confinement.md:32: - At 6.3 and 13.2 nm, gate-field quantization combined with local tail states raises Vg(n_s = 1e12) by 0.15 to 0.19 V relative to classical, while Vg(1e10) moves by ≤ 0.04 V. That is a change in curve shape which the rigid dEc law cannot represent.
+- S3_quantum_confinement.md:40: | t (nm) | infinite well, m* 0.18 / 0.208 / 0.257 / 0.35 (eV) | infinite well + NP, same m* (eV) | finite barriers, BDD, m* 0.18 + NP (eV) | ATLAS dEc (eV) | kT (eV) |
+- S3_quantum_confinement.md:42: | 2.0 | 0.522 / 0.452 / 0.366 / 0.269 | 0.430 / 0.380 / 0.316 / 0.240 | 0.231-0.252 (heavy barrier mass); 0.305 (equal mass) | 0.353 | 0.0259 |
+- S3_quantum_confinement.md:43: | 6.3 | 0.053 / 0.046 / 0.037 / 0.027 | 0.051 / 0.045 / 0.036 / 0.027 | 0.039-0.040 | 0.072 | |
+- S3_quantum_confinement.md:44: | 13.2 | 0.012 / 0.010 / 0.008 / 0.006 | 0.012 / 0.010 / 0.008 / 0.006 | 0.010-0.011 | 0.026 | |
+- S3_quantum_confinement.md:64: | t (nm) | 2 | 3 | 4 | 5 | 6.3 | 13.2 |
+- S3_quantum_confinement.md:66: | E1 (eV) | 0.357 | 0.187 | 0.114 | 0.076 | 0.050 | 0.012 |
+- S3_quantum_confinement.md:67: | ATLAS law (eV) | 0.353 | 0.202 | 0.136 | 0.100 | 0.072 | 0.026 |
+- S3_quantum_confinement.md:68: | ratio law / EM | 0.99 | 1.08 | 1.19 | 1.30 | 1.45 | 2.15 |
+- S3_quantum_confinement.md:72: **E1 is not the quantity a classical model should use.** A 2-D subband carries more states than Nc·t does over the same energy. The "subthreshold-equivalent rigid shift" is dEc_eq = -kT ln[Σ_i g_2D,i kT e^(-E_i/kT) / (Nc t)] (section f of the output). At 2 nm, with m* = 0.18, NP and a finite barrier, dEc_eq = 0.207 to 0.215 eV while E1 = 0.248 eV. The 2-D density of states subtracts about 0.04 V at 2 nm and about 0.01 V at 6.3 nm.
+- S3_quantum_confinement.md:75: - n_s = 1e12 cm^-2: F = 1.95e5 V/cm, E1_tri = 0.10 eV and ⟨z⟩ = 3.45 nm (m* = 0.18).
+- S3_quantum_confinement.md:76: - n_s = 1.3e13 cm^-2 (Vg = 3 V; the bound Cox(3 - Vth_cc)/q is 1.31 / 1.32 / 1.63e13): E1_tri = 0.56 eV and ⟨z⟩ = 1.47 nm.
+- S3_quantum_confinement.md:79: - **2 nm:** never. The centroid stays at 0.94 to 0.98 nm, about t/2, up to 1.3e13 cm^-2.
+- S3_quantum_confinement.md:80: - **6.3 nm:** set by the film at threshold (2.97 nm at 1e12, t/2 = 3.15 nm) and by the field above about 2-3e12. At 3 V the centroid is 1.89 nm.
+- S3_quantum_confinement.md:81: - **13.2 nm:** set by the field from about 1e11-3e11 upward. At 3 V the centroid is 2.31 nm.
+- S3_quantum_confinement.md:83: So at Vg = 3 V every film is strongly quantized, with E1 about 0.5 eV. For the 6.3 and 13.2 nm films this is inversion-layer-like field quantization, which V1 does not represent at all.
+- S3_quantum_confinement.md:85: **Image (dielectric) confinement.** The air side has ε 1 against ε 9.3 for IWO. This adds about +31 meV at 1 nm from the air surface (single-interface estimate), so roughly +0.02 to 0.03 eV at 2 nm. It is not included in PBE, the SP model or ATLAS. This term is plausible-unverified.
+- S3_quantum_confinement.md:91: - Fixed charge Qf = +1.73e12 cm^-2 and Nd_eff(t) from the V1 laws. EF = 0; the channel centre is at Vd = 0.
+- S3_quantum_confinement.md:98: - Gauss-law error is ≤ 2e-18 C/cm².
+- S3_quantum_confinement.md:100: **Trap-free results** (shift relative to C0 at n_s = 1e10 cm^-2, in V; the shift at 1e11 agrees within 3 mV):
+- S3_quantum_confinement.md:102: | t (nm) | C1 (ATLAS law) | Q1 central | Q2 hard wall | Q3 BDD heavy | Q4 m*0.257 | Q5 m*0.35 |
+- S3_quantum_confinement.md:104: | 2.0 | 0.345 | 0.256 | 0.384 | 0.202 | 0.205 | 0.139 |
+- S3_quantum_confinement.md:105: | 3.0 | 0.197 | 0.131 | 0.179 | 0.105 | 0.090 | 0.052 |
+- S3_quantum_confinement.md:106: | 4.0 | 0.133 | 0.078 | 0.102 | 0.065 | 0.047 | 0.021 |
+- S3_quantum_confinement.md:107: | 5.0 | 0.097 | 0.052 | 0.065 | 0.045 | 0.028 | 0.007 |
+- S3_quantum_confinement.md:108: | 6.3 | 0.070 | 0.036 | 0.043 | 0.031 | 0.016 | -0.002 |
+- S3_quantum_confinement.md:109: | 13.2 | 0.026 | 0.016 | 0.018 | 0.015 | 0.001 | -0.012 |
+- S3_quantum_confinement.md:112: - 0.326 V at 1e10 and 0.300 V at 1e11 for 2 nm. ATLAS 0012 - 0016 gives ΔVth_cc = 0.315 V and ΔVth_lin = 0.299 V.
+- S3_quantum_confinement.md:113: - 0.023 V for 13.2 nm, equal to ATLAS 0013 - 0017.
+- S3_quantum_confinement.md:115: The 1-D model therefore reproduces the ATLAS relative shifts to within 11 mV. Absolute onsets are not compared, because Vth_cc is a 2-D current criterion at Vd = 0.7 V.
+- S3_quantum_confinement.md:118: - Relative to effective-mass SP with m* = 0.18, ATLAS **overestimates** the realised shift. The overestimate is 0.09 V against Q1 and about 0.05 V against the DFT-anchored width. The DFT-anchored value is E1 = 0.35 eV minus the 2-D DOS term of 0.045 eV observed in Q2, which gives about 0.30 V.
+- S3_quantum_confinement.md:119: - It overestimates by 0.14 to 0.21 V if W raises m* to 0.26 to 0.35. Januar2026 (l.238-241) reports a flatter CBM with W, but only qualitatively.
+- S3_quantum_confinement.md:120: - The value still lies inside the SP bracket of 0.14 to 0.38 V and within the stated ±50 %.
+- S3_quantum_confinement.md:122: - the gap shift is applied as a rigid Ec shift, which ignores the 2-D DOS gain (+0.04 V too high);
+- S3_quantum_confinement.md:123: - the m*(t)-driven increase of Nc works in the opposite direction (-8 mV).
+- S3_quantum_confinement.md:125: **Dark space and capacitance** (trap-free; C_eff = q Δn_s/ΔVg over 2 to 3 V):
+- S3_quantum_confinement.md:127: | t (nm) | C_eff/Cox, C0 / C1 / Q1 / Q2 | centroid at 3 V, C0 / Q1 / Q2 (nm) | centroid at 1e12, C0 / Q1 (nm) |
+- S3_quantum_confinement.md:129: | 2.0 | 0.874 / 0.885 / 0.884 / 0.880 | 0.82 / 0.94 / 0.98 | 0.94 / 0.99 |
+- S3_quantum_confinement.md:130: | 6.3 | 0.878 / 0.880 / 0.853 / 0.832 | 1.43 / 1.89 / 2.10 | 2.51 / 2.97 |
+- S3_quantum_confinement.md:131: | 13.2 | 0.878 / 0.878 / 0.853 / 0.832 | 1.74 / 2.31 / 2.56 | 4.93 / 5.60 |
+- S3_quantum_confinement.md:134: - Even the classical model has C_eff/Cox of only about 0.87, because of its own centroid and degenerate DOS. μ_FE extracted with Cox therefore understates the band mobility by about 13 % before any trapping. ATLAS includes this effect, so the fitted mu_band already absorbs it.
+- S3_quantum_confinement.md:135: - The extra quantum bias is < 1 % at 2 nm and 3 to 5 % at 6.3 and 13.2 nm. A quantum model would need mu_band about 3 to 5 % higher at those thicknesses, which is negligible against the 4 to 5× mobility step (S2).
+- S3_quantum_confinement.md:138: **With the tail as a fixed classical DOS** (`s3_sp1d_traps_out.txt`; shift relative to C0 at n_s = 1e10 / 1e11 / 1e12, in V):
+- S3_quantum_confinement.md:140: | t (nm) | C1 (ATLAS) | Q1, tail follows the confined edge | Q1, tail at the bulk Ec | Q2 (confined-edge tail) |
+- S3_quantum_confinement.md:142: | 2.0 | 0.326 / 0.300 / 0.301 | 0.259 / 0.267 / 0.231 | **0.911 / 0.673 / 0.339** | 0.387 / 0.399 / 0.366 |
+- S3_quantum_confinement.md:143: | 6.3 | 0.067 / 0.062 / 0.059 | 0.040 / **0.103 / 0.190** | 0.158 / 0.346 / 0.327 | 0.047 / 0.117 / 0.224 |
+- S3_quantum_confinement.md:144: | 13.2 | 0.023 / 0.023 / 0.022 | 0.014 / **0.071 / 0.175** | 0.053 / 0.179 / 0.233 | 0.015 / 0.081 / 0.207 |
+- S3_quantum_confinement.md:146: - **Bulk reference at 2 nm.** If localized tail states do not follow the confined edge (localization length shorter than t), the whole 4e12 cm^-2 tail must fill before the subband populates. The onset then moves by +0.91 V, and the 1-D slope from 1e10 to 1e11 falls from 326 to 80 mV/dec. Both results are inconsistent with the measured curve unless everything is refitted.
+- S3_quantum_confinement.md:147: - **Confined-edge reference at 6.3 and 13.2 nm.** Here the gate field lifts the subband 0.1 to 0.15 eV above the band edge at the interface. This forces EF higher at the interface for the same free n_s, and so fills more of the steep tail (WTA = 40 meV).
+- S3_quantum_confinement.md:148: - Vg(1e12) - Vg(1e10) grows by +0.15 V (6.3 nm) and +0.16 V (13.2 nm), and falls by 0.03 V at 2 nm.
+- S3_quantum_confinement.md:149: - This is a change in curve shape in the threshold region. It points the same way as the unexplained 6.3 nm Vth_lin-Vth_cc gap (measured 1.176 V; run_0015 gives 0.820 V).
+- S3_quantum_confinement.md:150: - The same effect appears at 13.2 nm, where the classical model already fits that gap (0.946 vs 0.961 V). It is therefore a **model-form uncertainty of about 0.15 V in Vth_lin at t ≥ 6.3 nm, not an explanation**.
+- S3_quantum_confinement.md:153: - **Trap-free electrostatics: yes**, once a correct dEc_eq is inserted. The onset shift is rigid within 11 mV across 1e10 to 1e12, and C_eff agrees within 1 %.
+- S3_quantum_confinement.md:160: - Wavefunction weight in Al2O3 is dropped from Poisson (≤ 2 %).
+- S3_quantum_confinement.md:161: - Deep Gaussian omitted (< 1 mV).
+- S3_quantum_confinement.md:164: **Cross-check with Astra's hard-wall ATLAS SP** (Astra QUANTUM_CHARGE_VERIFICATION.md; 2 nm, m* = 0.34, trap-free, different seed stack): at 3 V the centroid is 0.965 nm (quantum) against 0.745 nm (classical). My values are 0.98 and 0.82 nm, so the two are qualitatively consistent. Their n_s deficits are not comparable to mine, because the stack parameters differ.
+- S3_quantum_confinement.md:168: **Extra Vth_cc needed beyond the confinement-free classical model with Qf 1.73e12** (`s3_necessity_curves_out.txt`):
+- S3_quantum_confinement.md:170: | t (nm) | measured Vth_cc (V) | no-QC model (V) | needed (V) | as negative charge (cm^-2) | ATLAS-QC supplies (V) | residual (V) |
+- S3_quantum_confinement.md:172: | 2.0 | 0.662 | 0.361 (run_0016) | +0.301 | 1.68e12 | +0.315 | -0.014 |
+- S3_quantum_confinement.md:173: | 6.3 | 0.644 | 0.286 (run_0034 rigidly shifted) | +0.358 | 2.00e12 | +0.064 | +0.294 |
+- S3_quantum_confinement.md:174: | 13.2 | 0.083 | 0.030 (run_0017) | +0.053 | 2.96e11 | +0.023 | +0.030 |
+- S3_quantum_confinement.md:178: | story | fit | 2 nm miss (V) | 6.3 nm miss (V) | 13.2 nm miss (V) |
+- S3_quantum_confinement.md:180: | A: QC + Qf fitted on 2 and 13.2 nm | calibration | -0.014 | -0.294 (run_0014, active RMSE 0.678 dec) | -0.030 |
+- S3_quantum_confinement.md:181: | B: no QC + Qf 4.76e10 fitted on 2 nm only | 6.3 nm is a held-out prediction | 0 | -0.057 (A6/run_0034, RMSE 0.211 dec) | +0.248 (derived) |
+- S3_quantum_confinement.md:186: - The needed offset is non-monotonic in t. Every confinement estimate is monotonic and ≤ 0.05 V at 6.3 nm.
+- S3_quantum_confinement.md:187: - The shape of the 6.3 nm curve does not depend on confinement: gm_max is 2.80e-7 A/V/µm in A6 and 2.86e-7 in run_0014. Vth_lin still misses by -0.39 V in A6.
+- S3_quantum_confinement.md:191: - If confinement at 2 nm is real, then about 0.14 to 0.38 V of it must be compensated at 2 nm relative to 6.3 nm. That is 0.8 to 2.1e12 cm^-2 of extra positive charge or equivalent, or the 6.3 nm device has an offset of the same size by coincidence.
+- S3_quantum_confinement.md:195: - On one curve, dEc_eff(2 nm) = 0.301 to 0.315 V is equivalent to ΔQ = 1.68 to 1.76e12 cm^-2 of fixed negative charge. Equivalently, Qf 1.73e12 → 4.76e10, which removes 97 % of the fitted Qf.
+- S3_quantum_confinement.md:198: - The Nc(m*) change makes the shift non-rigid above 1e-10 A/µm (0.345 → 0.302 V at 1e-8) and moves SS_cc from 289 to 304 mV/dec (measured 270).
+- S3_quantum_confinement.md:199: - The quantum C_eff differs by < 1 % at 2 nm.
+- S3_quantum_confinement.md:200: - Both effects are smaller than the leverage of the fitted parameters: WTA +5 meV gives +12 mV/dec, and Dit ×3 gives +9 mV/dec (brief §4).
+- S3_quantum_confinement.md:204: - The horizontal shift is constant at 0.345 V from 1e-14 to 1e-11 A/µm, which is exactly dEc - kT ln(Nc ratio) = 0.3451.
+- S3_quantum_confinement.md:205: - The local SS versus log Id profiles coincide. At log Id of -12.9 / -12.2 / -11.5 the on and off curves give 67/68, 73/74 and 83/84 mV/dec.
+- S3_quantum_confinement.md:206: - The simulated SS rises steeply with current (about 10 to 25 mV/dec per 0.5 dec). SS_min is therefore just the SS of the first window above 5× the measured floor, and it depends on where that window falls on the grid.
+- S3_quantum_confinement.md:213: - **Against it: the extrapolation.** The 3-point log-log fit has a local slope and should steepen toward -2. Its extrapolation to 6.3 and 13.2 nm overestimates by 1.45× and 2.15×. The Vth impact is ≤ 0.035 V, so this is harmless for the 6.3 nm question.
+- S3_quantum_confinement.md:214: - **W.** Januar2026 (l.238-241) reports a flatter CBM and heavier m* with W, but only qualitatively. The effect is NOT DETERMINED numerically. m* = 0.257 or 0.35 lowers the 2 nm SP shift to 0.205 or 0.139 V.
+- S3_quantum_confinement.md:218: - §2 shows that this distinction changes the 2 nm onset by 0.65 V with the V1 tail. Localization lengths are NOT DETERMINED FROM AVAILABLE DATA.
+- S3_quantum_confinement.md:220: - **Thickness definition.** Slab thickness is set by atomic planes, while device thickness is nominal (method unknown). ±0.3 nm at 2 nm moves E1 by about ±25 % (S5).
+- S3_quantum_confinement.md:227: | Optical/SE/REELS gap, Eg(t) - Eg(13.2) | 2 nm: +0.2 to 0.45 eV (electron E1 0.17 to 0.43 eV, central about 0.35, plus hole ≤ 0.05; Si2021 l.290-292 says Ev is almost unchanged); 6.3 nm: +0.02 to 0.05; 3 / 4 / 5 nm: about +0.19 / 0.11 / 0.08 (DFT-anchored) | < 0.02 eV at all t | §1 |
+- S3_quantum_confinement.md:228: | CBM from IPES, or from UPS/XPS (EF - Ev) plus the optical gap | Ec rises about 0.3 eV at 2 nm relative to 6.3 nm | Ec fixed; EF moves instead | §1 |
+- S3_quantum_confinement.md:229: | Denser series, ΔVth_cc with all else equal (1-D shift at 1e10) | 2→3 nm: +0.125 to 0.205 V; 3→4: +0.05 to 0.08; 4→5: +0.026 to 0.037; 5→6.3: +0.016 to 0.022 (Q1 to Q2). Onset approximately t^-1.5 to t^-2 below 4 nm | flat for 2 ≤ t ≤ 6.3 nm (step picture) or monotonic in 1/t (interface-charge dilution) | `s3_sp1d_series_out.txt` |
+- S3_quantum_confinement.md:230: | Temperature, 300 → 358 K | confinement offset changes by -6 mV (2-D DOS term, -1.0e-4 eV/K); dVth/dT independent of thickness within about 0.1 mV/K | a thermally activated trap or donor offset gives a thickness-dependent dVth/dT; magnitude NOT DETERMINED without a specific model | analytic, §1(f) |
+- S3_quantum_confinement.md:231: | Replicates | resolving ΔVth = 0.13 V (2 vs 3 nm) at 95 %/80 % needs n ≈ 15.7 σ²/Δ²: n = 3 per thickness if σ = 0.05 V, n = 10 if σ = 0.10 V | the same n decides whether the 6.3 nm offset of 0.29 V is device-specific | device spread NOT DETERMINED |
+- S3_quantum_confinement.md:232: | Split C-V plus Hall n_s(Vg) | free/trapped partition near threshold: the observable most sensitive to the tail reference (§2) | – | |
+- S3_quantum_confinement.md:236: - **S1.** dEc(t) trades off against Qf, φ_M and χ, and against t-dependent fixed or back charge: 1 V ↔ 5.6e12 cm^-2.
+- S3_quantum_confinement.md:239: - My 1-D model reproduces ATLAS relative shifts to within 11 mV, so S1 can use it as a fast surrogate.
+- S3_quantum_confinement.md:240: - **S2.** C_eff/Cox is 0.86 to 0.88 classically (trap-free). The quantum correction is ≤ 1 % at 2 nm and -3 to -5 % at 6.3 and 13.2 nm. The m*(t) Drude effect (-18 % at 2 nm, S2) is hidden in mu_band. Roughness scattering cannot rest on a "pushed to the interface" argument at 2 nm.
+- S3_quantum_confinement.md:242: - The energy reference of the tail under confinement is the dominant model-form uncertainty: 0.26 vs 0.91 V at 2 nm.
+- S3_quantum_confinement.md:243: - Field quantization with local tails changes the free/trapped partition by 0.15 to 0.19 V in Vg(1e12) at t ≥ 6.3 nm.
+- S3_quantum_confinement.md:248: - Run ATLAS's own Schrodinger-Poisson or BQP with the DOS enabled at 6.3 and 13.2 nm to test the +0.15 to 0.19 V Vg(1e12) prediction. It was made here before any such run and should be registered as a prediction.
+- S3_quantum_confinement.md:256: | Film (geometric) confinement exists at 2 nm | strongly supported | prediction (theory: effective mass + PBE slabs; not measured on IWO) | SP subthreshold-equivalent shift 0.26 to 0.30 V (m* 0.18); bracket 0.14 to 0.38 V |
+- S3_quantum_confinement.md:257: | Transfer data require confinement | rejected | prediction (A6/run_0034, held-out 6.3 nm) | no-QC miss -0.057 V vs -0.294 V with QC |
+- S3_quantum_confinement.md:258: | Confinement explains the Vth(t) pattern (2 ≈ 6.3 ≫ 13.2) | rejected | correlation + calibration | needed offset +0.30 / +0.36 / +0.05 V; QC at 6.3 nm ≤ 0.05 V |
+- S3_quantum_confinement.md:259: | ATLAS dEc = 0.353 eV at 2 nm (realised 0.315 to 0.345 V) | plausible-unverified; high relative to SP | prediction (DFT) vs SP | overestimates Q1 by 0.09 V and the DFT-anchored width by about 0.05 V; by 0.14 to 0.21 V if m* ≥ 0.26 |
+- S3_quantum_confinement.md:260: | t^-1.38 law beyond 3 nm | rejected (as physics) | none (extrapolation) | ×1.45 at 6.3 nm, ×2.15 at 13.2 nm; SP 0.036 vs 0.070 V at 6.3 nm |
+- S3_quantum_confinement.md:261: | SS_min change without confinement as evidence | rejected (extraction artefact) | numerical audit of runs 0012/0016/0013/0017 | resampling alone gives 76 to 82 and 136 to 137 mV/dec; local SS agrees within 2 mV/dec |
+- S3_quantum_confinement.md:262: | Classical DD adequate at 2 nm (trap-free n_s, C_eff) | strongly supported | prediction (1-D SP) | rigid within 11 mV; C_eff within 1 % |
+- S3_quantum_confinement.md:263: | Tail-state energy reference under confinement | not determined | none | 2 nm onset shift 0.26 (confined edge) vs 0.91 V (bulk edge) |
+- S3_quantum_confinement.md:264: | Gate-field quantization at 6.3 and 13.2 nm (on-state) | strongly supported (existence); plausible-unverified (device impact) | prediction (SP) | E1_tri about 0.5 eV at 3 V; C_eff -3 to -5 %; with local tails Vg(1e12) +0.15 to 0.19 V |
+- S3_quantum_confinement.md:265: | Image-charge (dielectric) confinement | plausible-unverified | none (estimate) | about +0.02 to 0.03 eV at 2 nm |
+- S3_quantum_confinement.md:266: | dEc identifiable from one ID-VG per thickness | rejected | calibration (degeneracy) | 0.301 to 0.315 V ≡ 1.68 to 1.76e12 cm^-2 |
+- S3_quantum_confinement.md:270: > "A confinement shift of about 0.3 eV at 2 nm is expected from effective-mass Schrodinger-Poisson calculations anchored on PBE slab calculations (0.14–0.38 V depending on effective mass and barrier treatment). It is included as an assumed, independently predicted term. The transfer characteristics alone cannot distinguish it from a fixed-charge offset of about 1.7 × 10^12 cm^-2, and it does not explain the similar thresholds of the 2 and 6.3 nm devices."
+
+## S4_defects_traps.md
+
+- S4_defects_traps.md:12: 1. **Trap-DOS inversion, validated before use.** I use an exact charge-sheet identity: n_s0(Vg) = (L/qμW)·Σ_k gm(Vg − k·Vd). It removes both the Vd = 0.7 V drain term and the free-carrier capacitance from the SS. The trap DOS then follows as D_trap(u) = (Cox/q)(dVg/du − 1) − dn_f/du, with u = EF − Ec at the source. V_FB cancels.
+- S4_defects_traps.md:17: - Near Ec the sheet DOS grows sub-linearly with t: D(Ec − 0.1 eV) = 1.05 / 1.67 / 2.16e13 cm⁻²eV⁻¹, i.e. ∝ t^0.38±0.15. This is a **surface + bulk** signature: Ds ≈ 8.5e12 cm⁻²eV⁻¹ plus g_b ≈ 1e19 cm⁻³eV⁻¹. It is not a pure-bulk power law.
+- S4_defects_traps.md:19: - **SS_cc is confounded by mobility.** The free-carrier crossover (C_free = Cox) sits at 3.2e-10 / 4.0e-10 / 1.8e-9 A/µm for μ = 10.7 / 13.3 / 59 cm²/Vs, so the 1e-10…1e-8 window straddles it. A trap-free 2 nm film already gives SS_cc = 122 mV/dec at μ 13.3, against 75 at μ 59.
+- S4_defects_traps.md:20: - **The naive formula reverses the trend.** It ranks 13.2 nm lowest (9.4e12 vs 2.0e13), while the proper inversion ranks it highest.
+- S4_defects_traps.md:23: - A thickness-independent donor density cannot produce the Vth pattern. Fitting the 6.3 → 13.2 nm drop needs Nd = 2.2e18 cm⁻³. That value then predicts −0.25 V from 2 → 6.3 nm; the measured shift is −0.02 V.
+- S4_defects_traps.md:24: - The low Nd_eff of V1 is credible. Kim2024 IWO gives 4.3-4.5e17 cm⁻³ from its linear Von(t). It is also **unidentifiable** at 2 nm (0.036 V per 1e18 cm⁻³).
+- S4_defects_traps.md:25: - Qf (1.73e12 cm⁻²) acts as a sheet, not a volume. It is electrostatically identical to ionized V_O donors within ~1 nm of the Al2O3.
+- S4_defects_traps.md:26: 5. **The 6.3 nm on-state shape** needs ≈2e12 cm⁻² of extra trapped charge between Vth_cc and Vth_lin.
+- S4_defects_traps.md:27: - Front Dit is rejected: A4/run_0033 leaves the gap unchanged (0.857 vs 0.862 V).
+- S4_defects_traps.md:28: - The back acceptor sheet is rejected: A3/run_0030 closes the gap (0.72 V).
+- S4_defects_traps.md:29: - Two readings remain; ATLAS can test them. One is states piled within ~1-2 kT of Ec plus ~30 % higher μ (my surrogate). The other is a scaled tail plus μ ≈ 19.6 (S2's B0, run pending).
+- S4_defects_traps.md:31: - They are flat to ±3 % over Vg −3…−0.5 V, where any tunnelling or ohmic Igd would change ≥×3. They also rise ×1432 (∝ t^3.85) across an identical gate stack.
+- S4_defects_traps.md:35: 7. **Bias stress.** Januar's PBS in the same family gives 0.72-1.2 V after 1200 s at 6 V. Extrapolating that to a −3…+3 V sweep gives 0.003-0.24 V, and Nt can change ×2 (2 nm, Januar). Hysteresis is therefore a live but **not determined** confounder of the 0.29 V offset at 6.3 nm.
+- S4_defects_traps.md:39: **(a) Thickness form.** V1 uses Nt = 2e19·(2/t)^0.75, giving sheets of 4.0 / 5.3 / 6.4e12 cm⁻².
+- S4_defects_traps.md:40: - **Surface + bulk alternative.** Nt·t = Ns + Nb·t through the same anchors gives Ns = 3.57e12 cm⁻² and Nb = 2.15e18 cm⁻³. It predicts Nt(6.3) = 7.8e18, 8 % below the power law (8.5e18).
+- S4_defects_traps.md:41: - **Beyond the fitted range the two forms diverge.** Surface + bulk tends to Nb for thick films, where the power law tends to 0. At 31.8 nm surface + bulk is 30 % higher (3.3e18 vs 2.5e18).
+- S4_defects_traps.md:46: - the two forms differ at 6.3 nm by less than the ±20-30 % accuracy of any single-curve extraction. Both are interpolations.
+- S4_defects_traps.md:55: - The fitted 2/13.2 decomposition at Ec − 0.10 eV predicts 6.3 nm within +13 %. At Ec − 0.05 eV the miss is +40 %, and the 6.3 nm film is the one above the interpolation.
+- S4_defects_traps.md:56: - S2's curve-shape partition gives Nt(6.3) = 2.66e19, ×3.1 the law (B0 pending). It is therefore contradicted by both smooth forms, unless μ is re-partitioned.
+- S4_defects_traps.md:60: - *Against using Januar's absolute numbers:* the PBS devices give Nt = 5.3e19 (2 nm) and 3.39e18 (10 nm). That is a ratio of 15.6 (exponent 1.71), and the sheet *decreases* with t (1.06e13 → 3.4e12). It forces Nb = −9e18, which is unphysical. These are not the Fig. 5a devices (S5 agrees).
+- S4_defects_traps.md:62: - Its 2.37/3.12/14.6e18 cm⁻³eV⁻¹ are **gate-oxide border traps** from the 1/f carrier-number-fluctuation model (λ = 0.1 nm in SiO2), not IWO tail states. `config/iwo_material_model.yaml` ("support") conflates the two.
+- S4_defects_traps.md:63: - Its SS-derived Nt (3.32/3.96/7.03e12 cm⁻²eV⁻¹ on 90 nm SiO2) uses the naive formula that I show is confounded (§2), and it accelerates with t.
+- S4_defects_traps.md:70: - SS_min: 2.35 / 5.18 / 6.69e12 cm⁻²eV⁻¹, i.e. 1.2e19 / 8.2e18 / 5.1e18 cm⁻³eV⁻¹;
+- S4_defects_traps.md:71: - SS_cc: 1.98 / 2.22 / 0.94e13.
+- S4_defects_traps.md:75: - The 0-D charge-sheet surrogate reproduces ATLAS SS_cc: 294/303/165 vs 289/289/193 mV/dec (part C).
+- S4_defects_traps.md:76: - Without traps it still gives 122 mV/dec (μ 13.3) and 75 (μ 59) at 2 nm.
+- S4_defects_traps.md:77: - So about 60 mV/dec of the thin films' SS_cc, versus about 15 at 13.2 nm, is mobility, not traps.
+- S4_defects_traps.md:78: - The low SS_cc at 13.2 nm (160) mainly reflects that its window sits ~kT ln 4.5 ≈ 39 meV deeper in energy. It does not reflect fewer traps: the inversion gives 2.2e13 at Ec − 0.1 eV, the highest of the three.
+- S4_defects_traps.md:79: 2. **Floor-dependent window.** SS_min is evaluated only for Id > 5× the measured floor (`scripts/extract_metrics.py` l.9-12). That window reaches u ≈ −0.21 eV at 2 nm, −0.17 at 6.3 nm and only −0.13 at 13.2 nm. The rise of SS_min from 84 to 131 mV/dec is partly an artifact of the floors rising ×1432.
+- S4_defects_traps.md:82: - **SS_min regime.** SS_min is set at u ≈ −0.15…−0.25 eV. There the DOS is the low-energy end of the tail plus the Dit and deep states: 2-6e12 cm⁻²eV⁻¹.
+- S4_defects_traps.md:83: - **SS_cc regime.** Within ~3 kT of Ec the exponential tail (1-3e13 cm⁻²eV⁻¹, ×2.26 thermal enhancement for WTA 40 meV) and the free-carrier term take over. Hence 160-300 mV/dec.
+- S4_defects_traps.md:84: - **Where the V1 model falls short.** It underestimates the deeper states: measured/ATLAS ratio 2.84 at −0.20 eV and 2.20 at −0.175 eV (2 nm), and 2.60 at −0.15 eV (6.3 nm). This is why run_0012 gives SS_min 73 against 84.5 measured. It is consistent with brief §4: removing confinement moves SS_min toward the data, which is another way of shifting the tail-to-deep-state balance.
+- S4_defects_traps.md:90: - the absolute energy axis, which shifts by kT·ln(μ ratio): ±10-15 meV between the V1 and S2 mobilities;
+- S4_defects_traps.md:96: - Vd = 0.05 V transfer curves remove the drain term;
+- S4_defects_traps.md:101: **(a) Electrostatic weight.** Uniform donors in a fully depleted film shift Vth by −qNd·t/Cox − qNd·t²/2ε_s. Per 1e18 cm⁻³ (ε_s = 9.3, part E) this is:
+- S4_defects_traps.md:103: | t (nm) | 2 | 6.3 | 13.2 | 31.8 |
+- S4_defects_traps.md:105: | ΔVth per 1e18 cm⁻³ (V) | −0.040 | −0.151 | −0.406 | −1.55 |
+- S4_defects_traps.md:108: - *A2 (run_0032, Nd0 1e16):* +0.030 V (0.350 → 0.380 V), SS_min +6.5 mV/dec, Ion −1.8 %. This confirms the analytic bound: V1's donors are electrostatically irrelevant at 6.3 nm.
+- S4_defects_traps.md:109: - *A4 (run_0033, front Dit ×5):* +0.051 V and SS_min +8.3 mV/dec, with the gap unchanged. Reaching +0.29 V needs Dit ≈ ×24, i.e. ≈1.6e12 cm⁻² of charged acceptors. Extrapolating A4's slope, SS_min would then be ≈155 mV/dec against 114.7 measured. **Rejected.**
+- S4_defects_traps.md:111: **(c) Is Nd_eff ≈ 2.5-3e17 credible?** Yes.
+- S4_defects_traps.md:113: - Kim2024's IWO (different sputter process, 90 nm SiO2) shows Von shifting −2 V per 10 nm and linearly in t. That implies Nd = 4.5e17 (10 → 20 nm) and 4.3e17 (20 → 30 nm), within a factor 2 of V1.
+- S4_defects_traps.md:114: - Januar attributes n > 1e19 cm⁻³ to undoped In2O3 and V_O suppression to W (l.81-89). Wang2022 measures ~1e20 cm⁻³ in ALD In2O3.
+- S4_defects_traps.md:116: - A back-surface adsorbate acceptor sheet of 1e12 cm⁻² compensates up to 5e18 / 1.6e18 / 7.6e17 cm⁻³, which is strongest in the thinnest film.
+- S4_defects_traps.md:119: **(d) Does the fitted Qf represent donors?** Its magnitude does. 1.73e12 cm⁻² corresponds to 8.7e18 / 2.7e18 / 1.3e18 cm⁻³ if spread through the film. But a *volumetric* donor at 8.7e18 would add −2.0 V at 13.2 nm. The shared fit therefore requires the charge to be **sheet-like at the front**.
+- S4_defects_traps.md:120: - An interfacial layer of ionized V_O (≈1.7e19 cm⁻³ over ~1 nm, e.g. oxygen scavenging by the first IWO layers) and fixed charge in Al2O3/HfO2 are **indistinguishable on ID-VG**.
+- S4_defects_traps.md:131: | needed charge (cm⁻²) | +4.8e10 | −2.7e11 | +1.43e12 |
+- S4_defects_traps.md:133: My 13.2 nm value, from run_0017's Vth_cc of 0.030 V, differs from the brief's ~1.86e12; the brief's derivation is NOT DETERMINED.
+- S4_defects_traps.md:134: - **Monotonic donors cannot fit these three points.** A single uniform Nd fitted to 6.3 → 13.2 nm (2.2e18) misses 2 → 6.3 nm by 0.23 V. With confinement, the miss grows to ~0.5 V.
+- S4_defects_traps.md:137: - a **donor step**, meaning the no-confinement fit plus Nd ≈ 2.5e17 for t ≤ 6.3 nm, rising by ≈7e17 at 13.2 nm (0.248 V) and to ≳2e18 cm⁻³ at 31.8 nm. The 31.8 nm always-on state at −3 V needs ΔVth > 3.3 V, i.e. Nd ≳ 2.1e18 or a back donor sheet ≳4e12 cm⁻² (0.80 V per 1e12 cm⁻² at 31.8 nm).
+- S4_defects_traps.md:148: **Requirement.** The measured gap (Vth_lin − Vth_cc) is 1.176 V; run_0015 gives 0.820 V. That means ΔQ ≈ Cox·0.356/q = **1.99e12 cm⁻²** of extra charge filled between Vth_cc and Vth_lin, with gm_max ×1.30 and Ion unchanged.
+- S4_defects_traps.md:150: **Energy location (inversion, measured minus run_0015).** The answer depends on the assumed mobility:
+- S4_defects_traps.md:152: | mobility | u = −0.17…−0.10 eV | u = −0.10…0 eV | u > 0 | total |
+- S4_defects_traps.md:154: | V1 μ (10.65) | +3.3e11 | +6.5e11 | −9.8e11 | ≈0 |
+- S4_defects_traps.md:155: | S2 μ (17.9) | +5.5e11 | +1.9e12 | +1.6e12 | +4.1e12 |
+- S4_defects_traps.md:157: - With the V1 μ, the 6.3 nm film has **more states in the last ~50 meV below Ec** (ratios 1.25/1.46/1.72 at −0.05/−0.025/0 eV) and fewer "apparent" states above Ec (ratio 0.25 at +0.05 eV).
+- S4_defects_traps.md:158: - In other words, the traps fill by Vth_lin and then saturate. That gives a later but steeper turn-on, which is exactly the measured shape. The measured gm(3 V)/gm_max = 0.981 at 6.3 nm and 1.000 at 2 nm (S2) is consistent with saturation.
+- S4_defects_traps.md:160: **Candidates (0-D surrogate scan, part 3).** Each variant is rigidly aligned to Vth_cc. The surrogate's own error on run_0015 is +0.22 V in the gap and +15 % in gm, so only the *differences* are used.
+- S4_defects_traps.md:161: - **Front Dit at Ec − 0.3 eV** (×5; also run_0033): gap +0.02 V. **Rejected.**
+- S4_defects_traps.md:162: - **Back fixed acceptor sheet** (run_0030): gap 0.724 V (it closes), SS_min 97.7. **Rejected as the sole cause.**
+- S4_defects_traps.md:163: - **Exponential tail ×1-4 at the same WTA.** The 0-D model over-fills a 6.3 nm film at high Vg because it has no front-accumulation layer. So the gap/gm/Ion triplet cannot be satisfied here (tail ×3.14, μ 17.9: Ion −72 %). S2's 1-D surrogate predicts only −5 to −10 %, so **run B0 decides**.
+- S4_defects_traps.md:164: - **Broader tail** (WTA 60 meV, Nt ×2, μ 17.9): gap and gm fit, Ion −15 %, but SS_cc +126 mV/dec. Disfavoured.
+- S4_defects_traps.md:165: - **Narrow acceptor band.** Ns 2-3e12 cm⁻² at E0 = Ec − 0.03…−0.10 eV (σ 0.02-0.04), with μ ≈ 14 (band μ ≈ 15.4): gap +0.23…+0.28 V, gm +23-25 %, Ion ±3 %. SS_cc rises only +23 mV/dec when E0 = −0.03 eV, but +70…+150 mV/dec for deeper bands. **Only states within ~1-2 kT of Ec survive the SS_cc = 295 constraint.** Physically these are localized states just below the mobility edge, 2e12 cm⁻² ≈ 3e18 cm⁻³ in 6.3 nm.
+- S4_defects_traps.md:167: **Interface or bulk?** At a single thickness this cannot be decided. The 6.3 nm excess sits +13…+40 % above the 2/13.2 surface + bulk interpolation, so it is film-specific, not a smooth law.
+- S4_defects_traps.md:170: - *Deck change:* add an acceptor Gaussian to run_0015 with NGA = 2e12/(6.3e-7·0.02·√π) = 9.0e19 cm⁻³eV⁻¹, EGA = 0.03 eV, WGA = 0.02 eV; set μ_band 15.4 and refit Qf rigidly.
+- S4_defects_traps.md:171: - *DOS 384/192 is required.* If the 96 acceptor levels are spread over the ~3.4 eV gap, they are ~35 meV apart and cannot resolve a 20 meV band. The actual level placement is NOT DETERMINED; check it in the manual.
+- S4_defects_traps.md:172: - *Expected:* Vth_lin +0.2-0.3 V, gm_max +20-30 %, SS_cc +20-30 mV/dec, SS_min unchanged.
+- S4_defects_traps.md:173: - *Falsified if:* gm does not rise, or SS_cc exceeds ~330 mV/dec.
+- S4_defects_traps.md:178: **Measured behaviour** (part D). Floors are medians over −2…−0.5 V; slopes are over −3…−0.5 V.
+- S4_defects_traps.md:182: | 2 | 4.6e-15 | 1.3 pA | +0.08 over −2…−0.5; +1.2 below −2 V, falling to 1e-16 | 1.3e-13 |
+- S4_defects_traps.md:183: | 6.3 | 1.5e-13 | 44 pA | −0.011 | 4.4e-12 |
+- S4_defects_traps.md:184: | 13.2 | 6.6e-12 | 1.9 nA | −0.002, ±3 % | 1.9e-10 |
+- S4_defects_traps.md:189: - The stack is 15 nm HfO2 + 2 nm Al2O3. At |Vg| = 1/2/3 V the field is 0.52/1.03/1.55 MV/cm in HfO2 (×2.17 in Al2O3).
+- S4_defects_traps.md:190: - A Fowler-Nordheim estimate (TiN/HfO2 barrier 1-2 eV, m* 0.2-0.4; not locally sourced) spans 3e-28 to 5e-2 A/cm² at 3 V, so the magnitude is **not determinable**.
+- S4_defects_traps.md:192: 1. **Vg dependence.** Over Vg −0.5 → −3 V, V_gd rises from 1.2 to 3.7 V. Tunnelling or Poole-Frenkel current would change by orders of magnitude, and even an ohmic leak by ×3.1. The measured 6.3 and 13.2 nm floors change by ≤×1.06.
+- S4_defects_traps.md:195: Gate leakage is therefore **rejected** as the dominant floor at 6.3 and 13.2 nm. For scale only: with an assumed (not measured) 290 × 100 µm² leaking area, the floors would need J = 4.6e-9 / 1.5e-7 / 6.6e-6 A/cm².
+- S4_defects_traps.md:201: - *At 2 nm,* 1.3 pA with a non-flat below-−2 V segment is at probe-station floor level: **not interpretable**.
+- S4_defects_traps.md:205: **Settling measurement.** Record IG and IS simultaneously with ID over −3…0 V:
+- S4_defects_traps.md:213: - *Januar PBS* (6 V, 0-1200 s): ΔVth ≈ 0.72 V (10 nm IWO), up to 1.2 V (2 nm IWO, roughly linear in time), 0.93 V (10 nm In2O3). Nt at 2 nm rose 5.3e19 → 1.05e20.
+- S4_defects_traps.md:217: **Scaling to one measured sweep.** Assume cumulative time at Vg ≥ 1 V of 10-60 s, ΔV ∝ t^β with β = 0.3-1, and field scaling (3/6)^1-2. The result is **0.003-0.24 V**.
+- S4_defects_traps.md:218: - The upper end is comparable to the 0.29 V offset at 6.3 nm.
+- S4_defects_traps.md:228: | NTA ↔ WTA ↔ near-Ec band ↔ μ_band (gap, gm, Ion; S2) | temperature series (activation vs u), QS C-V free/trapped partition, Hall on unpatterned films |
+- S4_defects_traps.md:230: | SS_cc ↔ μ (free-carrier and drain terms) | the charge-sheet inversion (needs μ) or Vd = 0.05 V curves |
+- S4_defects_traps.md:232: | confinement dEc ↔ donor step ↔ EF0(t) (S3, S1) | optical gap vs t, V_FB(t), T-activation of the floor once its path is identified |
+- S4_defects_traps.md:235: - **S1:** the no-confinement donor-step reading has a smaller 6.3 nm miss at the Vth_cc level (A6: −0.057 V) than V1 (−0.29 V). But it needs donors to step between 6.3 and 13.2 nm, co-located with S2's mobility step.
+- S4_defects_traps.md:237: - **S5:** the inversion assumes negligible Rsd in subthreshold, which is safe (Rsd ≲ 4 % of R_on); the floor path needs IG/IS.
+- S4_defects_traps.md:243: 2. Transfer curves at Vd = 0.05 V, plus dual sweeps with recorded dwell and sweep order (inversion without the drain term; hysteresis magnitude).
+- S4_defects_traps.md:254: | Exponential acceptor tail near Ec controls threshold and SS_cc in all films | strongly supported | calibration (+ inversion validated on ATLAS) | measured/ATLAS D ratio 0.81-1.17 for u −0.125…−0.025 eV (2, 13.2 nm) |
+- S4_defects_traps.md:255: | Nt ∝ t^-0.75 as a physical law | rejected as physics (keep as interpolation) | calibration | surface + bulk differs by only 8 % at 6.3 nm; exponent from one ratio |
+- S4_defects_traps.md:256: | Surface + bulk trap DOS (Ds + g_b·t) | plausible, unverified (preferred form) | correlation | Ds ≈ 8.5e12 cm⁻²eV⁻¹, g_b ≈ 1e19 cm⁻³eV⁻¹ at Ec − 0.1 eV; sheet ∝ t^0.38 |
+- S4_defects_traps.md:257: | Deep states (Ec − 0.15…−0.2 eV) underestimated in V1 | strongly supported | calibration (residual) | ×2.2-2.8 (2 nm), ×2.6 (6.3 nm) |
+- S4_defects_traps.md:258: | SS_cc(t) read as a trap trend (naive SS formula, as in Januar/Kim) | rejected | calibration (surrogate check) | trap-free SS_cc 122 (μ 13) vs 75 (μ 59) mV/dec |
+- S4_defects_traps.md:259: | Front interface acceptors as the 6.3 nm cause | rejected | prediction (A4, run_0033) | ×5 → +0.051 V, gap unchanged; ×24 needed → SS_min ≈ 155 |
+- S4_defects_traps.md:260: | Back-surface acceptor/adsorbate sheet as sole 6.3 nm cause | rejected | prediction (A3, run_0030) | gap 0.72 vs 1.18 V; SS_min 97.7 vs 114.7 |
+- S4_defects_traps.md:261: | Low effective donor density (Nd_eff ~ 2.5e17, compensated) | plausible, unverified | correlation (Kim2024) + calibration | Kim 4.3-4.5e17; 0.036 V per 1e18 at 2 nm (not identifiable) |
+- S4_defects_traps.md:262: | Thickness-independent uniform donors explain 13.2 nm Vth drop | rejected | calibration | needs 2.2e18; misses 2 → 6.3 nm by 0.23 V |
+- S4_defects_traps.md:263: | Donor step (≤6.3 nm ≈ 2.5e17 → 13.2 nm ≈ 1e18 → 31.8 nm ≳ 2e18) | plausible, unverified | correlation | +0.248 V at 13.2 nm without confinement; degenerate with dEc |
+- S4_defects_traps.md:264: | Qf = ionized V_O layer at the front interface | plausible, unverified | none (electrostatically identical to oxide charge) | 1.73e12 cm⁻² ≈ 1.7e19 cm⁻³ over 1 nm |
+- S4_defects_traps.md:265: | States within ~1-2 kT of Ec + higher μ produce the 6.3 nm shape | plausible, unverified | calibration (surrogate; ATLAS test proposed) | 2e12 cm⁻² at Ec − 0.03 eV: gap +0.28 V, gm +24 %, SS_cc +23 |
+- S4_defects_traps.md:266: | Off-state floors = gate leakage | rejected (6.3, 13.2 nm) | correlation | flat ±3 % over 2.5 V; ×1432 with an identical stack |
+- S4_defects_traps.md:267: | Floors = gate-independent parallel IWO path | plausible, unverified | correlation | G 1.3e-13 / 4.4e-12 / 1.9e-10 S/sq ∝ t^3.85 |
+- S4_defects_traps.md:268: | Floors = thermal SRH generation | rejected | calculation (Astra audit) | 13-17 decades short |
+- S4_defects_traps.md:269: | Sweep hysteresis/stress behind the 0.29 V offset at 6.3 nm | not determined | none | 0.003-0.24 V extrapolated from Januar PBS |
+
+## S5_contacts_experimental_validation.md
+
+- S5_contacts_experimental_validation.md:3: Scope: contact and series resistance, Pd/IWO injection, access through the film, and which missing measurements break which degeneracies. Scripts and outputs are in `analysis_2026-09-25/scratch/S5/`: `s5_yfunction.py` → `s5_results.json` and `s5_yfunction_stdout.txt`; `s5_checks.py` → `s5_checks_stdout.txt`; `s5_plot.py` → `s5_yfunction_hfunction.png`. Constants come from EVIDENCE_BRIEF §1: Cox 8.955e-7 F/cm², L 20 µm, Vd 0.7 V, and the Vth_lin values in the §2 table.
+- S5_contacts_experimental_validation.md:6: 1. **Contact or series resistance cannot explain the thickness dependence.** To explain the Ion gap between 2 and 13.2 nm, 2 nm would need Rsd·W ≈ 1.15e6 Ω·µm. That requires ρc ≈ 0.26 Ω·cm² and L_T ≈ 45 µm (longer than L), and it would drop 0.58 V of the 0.7 V Vd across the contacts. The Rc it implies is about 5700× the TLM bound for metal/In2O3 (NatElec2022: < 0.1 Ω·mm). The measured 2 nm curve also shows the opposite of an Rsd signature: gm is still rising at +3 V and the net Y-function θ is negative.
+- S5_contacts_experimental_validation.md:7: 2. **The Y-function cannot extract Rsd from these curves (2, 6.3 and 13.2 nm).** All three films are net supralinear: the threshold-free H-function exponent is α_H = 1.59, 2.14 and 1.29, and θ_net = -0.10, -0.12 and -0.046 V⁻¹. Ideal-contact ATLAS runs with constant μ_band reproduce a negative θ (-0.04 to -0.06 V⁻¹). When the tail exponent and θ are fitted together they are perfectly correlated (r = +1.00), so Rsd is **not identifiable from one ID-VG curve at one L**.
+- S5_contacts_experimental_validation.md:8: 3. **Upper bounds on Rsd hold only within the model.** Using the calibrated trap model (runs 0012/0013), no positive Rsd is needed. Rsd·W ≲ 5e4 Ω·µm at 2 nm (≲ 4 % of R_on) and ≲ 1-2e4 Ω·µm at 13.2 nm (≲ 4-9 %). These are calibration-class bounds.
+- S5_contacts_experimental_validation.md:9: 4. **The paper-vs-workbook mobility mismatch is resolved.** Applying the *saturation* formula μ = (2L/WCox)(d√Id/dVg)²_max to the workbook curves (at Vd = 0.7 V) gives **5.09 and 27.40 cm²/Vs**. The paper quotes 5.1 and 27.4. So the workbook curves are the paper's thickness-series devices, and the paper's μ is a saturation-formula peak taken near threshold, not a linear-regime μ_FE. The same method predicts **3.86 cm²/Vs** for 6.3 nm, which can be checked against Januar Fig. 5a.
+- S5_contacts_experimental_validation.md:10: 5. **run_0027 (the "overlap 4 µm" run) is malformed.** ATLAS truncated the drain to a zero-width line. The run does not test overlap, and with ideal-Ohmic boundaries the model cannot represent ρc in any case.
+- S5_contacts_experimental_validation.md:14: On-resistance: R_on·W = Vd/Id(3 V) = **1.38e6** (2.0 nm), **1.74e6** (6.3), **2.28e5** (13.2) and **1.95e5 Ω·µm** (31.8), with Id from brief §2.
+- S5_contacts_experimental_validation.md:16: Method: gm is the central difference; the Savitzky-Golay derivative agrees within 2 %. Y = Id/√gm gives μ0 from the slope. θ comes from a direct fit, Id = A²(Vg−V*)/(1+θ(Vg−V*)). α_H comes from the Cerdeira H-function, H = ∫Id dVg/Id, whose slope is 1/(α+1) and needs no threshold. The main window is Vg ≥ Vth_lin + Vd, so the device is in the linear regime at Vd = 0.7 V. The ranges quoted span windows shifted by ±0.2 V and both gm methods.
+- S5_contacts_experimental_validation.md:18: | film | window (V), pts | μ0_Y (cm²/Vs) | θ_net (V⁻¹) | Y curvature | α_H (GCA baseline) | R_sh at source, 3 V (Ω/□) | Rsd·W bound, θ0 = 0 |
+- S5_contacts_experimental_validation.md:20: | 2.0 | 2.40-3.00, 13 | 8.8 (8.0-8.9) | −0.100 ± 0.007 (−0.10…−0.13) | +0.04…+0.15 | 1.59 (1.55-1.71) vs ≈1.1-1.2 | 8.2e4 | none: θ < 0 |
+- S5_contacts_experimental_validation.md:21: | 6.3 | 2.55-3.00, 10 | 7.9 (5.7-8.0) | −0.12…−0.20 | +0.30…+0.39 | 2.14 (2.14-2.23) vs ≈1.1-1.3 | 1.0e5 | none: θ < 0 |
+- S5_contacts_experimental_validation.md:22: | 13.2 | 1.75-3.00, 26 | 41.2 (39.2-41.9) | −0.046 ± 0.002 (−0.042…−0.061) | +0.04…+0.10 | 1.29 (1.27-1.35) vs ≈1.05-1.13 | 1.26e4 | none: θ < 0 |
+- S5_contacts_experimental_validation.md:23: | 31.8 | −0.20-3.00, 65 | Y invalid (154-217) | +0.17…+0.28 (Id fit, μ0 52-67) | +1.6…+2.0 | ≈1.0 | ~5e3 | ≤ 7.5e4-9.4e4 (38-48 % of R_on) |
+- S5_contacts_experimental_validation.md:27: | run | μ0_Y (cm²/Vs) | μ0_Y/μ_band | θ (V⁻¹) | α_H |
+- S5_contacts_experimental_validation.md:29: | run_0012 (2 nm) | 9.2-9.9 | 0.53 | −0.045…−0.070 | 1.35-1.46 |
+- S5_contacts_experimental_validation.md:30: | run_0015 (6.3 nm, tuned) | 6.6-7.1 | 0.58 | −0.054…−0.077 | 1.34-1.42 |
+- S5_contacts_experimental_validation.md:31: | run_0013 (13.2 nm) | 41.5-43.0 | 0.68 | −0.032…−0.047 | 1.23-1.28 |
+- S5_contacts_experimental_validation.md:35: Measured θ minus ATLAS θ is −0.044 (2 nm), −0.053 (6.3 nm) and −0.010 V⁻¹ (13.2 nm). Every residual has the sign opposite to Rsd.
+- S5_contacts_experimental_validation.md:37: **Rsd is not significant at 2, 6.3 or 13.2 nm, but only within the model.** A forward check (gradual-channel model plus Rsd, `s5_checks.py`) shows what an Rsd would do. With Rsd·W = 9.2e4 Ω·µm, a 13.2-nm-like device loses 27 % of Ion, α_H falls by 0.25, and the IR drop is 0.19 V. A 2-nm-like device loses 5 % of Ion and α_H falls by 0.06. The measured 13.2 nm α_H is the model value plus 0.04 ± 0.04, which gives the bound Rsd·W ≲ 1-2e4 Ω·µm (≤ 4-9 % of R_on). The 2 nm bound from window scatter (Δθ ≈ 0.02 V⁻¹) is Δθ/β ≈ 5e4 Ω·µm (≤ 4 %).
+- S5_contacts_experimental_validation.md:40: - **Near threshold.** For Vg < Vth_lin + Vd (2.36 / 2.52 / 1.74 V) the device is in saturation at Vd = 0.7 V. This leaves only 9-17 usable points at 2 and 6.3 nm.
+- S5_contacts_experimental_validation.md:41: - **Trap-limited films.** Throughout 2 and 6.3 nm, and weakly at 13.2 nm, the free fraction still rises at +3 V, so μ depends on Vg (α > 1 and θ < 0).
+- S5_contacts_experimental_validation.md:42: - **At 31.8 nm.** gm has two maxima (−0.3 V and ~+0.8 V; see figure), which indicates two parallel conduction paths, and the Y curvature is ≥ 1.6. The positive θ there cannot be assigned to contacts.
+- S5_contacts_experimental_validation.md:55: | ρc (Ω·cm²) | L_T at 2 / 6.3 / 13.2 nm (µm) | 2Rc/R_on at 2 / 6.3 / 13.2 nm |
+- S5_contacts_experimental_validation.md:57: | 1e-6 | 0.035 / 0.031 / 0.089 | 0.4 % / 0.4 % / 1.0 % |
+- S5_contacts_experimental_validation.md:58: | 1e-5 | 0.11 / 0.10 / 0.28 | 1.3 % / 1.2 % / 3.1 % |
+- S5_contacts_experimental_validation.md:59: | 1e-4 | 0.35 / 0.31 / 0.89 | 4.2 % / 3.7 % / 10 % |
+- S5_contacts_experimental_validation.md:60: | 1e-3 | 1.1 / 0.98 / 2.8 | 14 % / 12 % / 51 % |
+- S5_contacts_experimental_validation.md:64: **What would be needed.** To explain the gap, 2 nm would need Rc ≈ 5.7e5 Ω·µm per contact, i.e. ρc ≈ 0.26 Ω·cm² (L_T ≈ 45 µm). That is about 2600× larger than the ρc that would already cost 13.2 nm about 10 %. It is also 5700× the literature Rc.
+- S5_contacts_experimental_validation.md:67: - 2 nm, accumulated: 3.3e-9 Ω·cm² (n_avg 4.4e19 cm⁻³).
+- S5_contacts_experimental_validation.md:68: - 13.2 nm, accumulated average: 2.2e-8 Ω·cm².
+- S5_contacts_experimental_validation.md:69: - 13.2 nm, neutral top layer (Nd_eff 2.97e17 cm⁻³, μ 61.9; both FITTED): 4.5e-7 Ω·cm².
+- S5_contacts_experimental_validation.md:71: All of these are below 1 % of R_on, and the trend runs the wrong way (it grows with t). Access resistance would matter only if the film between the Pd and the channel were fully depleted. That cannot happen under a gated overlap. Whether the gate extends under the S/D is NOT DETERMINED.
+- S5_contacts_experimental_validation.md:73: **Current crowding at 2 nm.** For ρc ≤ 1e-4 Ω·cm², L_T ≤ 0.35 µm, so Rc does not depend on overlap. Crowding matters only above ~1e-3 Ω·cm².
+- S5_contacts_experimental_validation.md:75: **ATLAS run_0027 is not an overlap test.** Its deck extended the regions and electrodes to x = 28 µm but left `x.mesh` ending at 24 µm. From `deckbuild.out` l.166-204, ATLAS shortened the gate to 0-24 µm and the source to 0-3.905 µm, and collapsed the drain to a zero-width line at x = 24 µm (15 nodes) that touches the IWO only at a corner. So:
+- S5_contacts_experimental_validation.md:76: - The −2.15 % Ion (RUN_INDEX) reflects a slightly different L (20.1 µm) plus a point drain contact, not a 4 µm overlap.
+- S5_contacts_experimental_validation.md:80: **The 31.8 nm series resistance (V0: 9.2e4 Ω·µm total; `..\IWO_ATLAS_Model_claude\docs\PARAMETERS_AND_PROVENANCE.md` l.72).** The Id-fit bound on the same curve (≤ 7.5-9.4e4 Ω·µm) is consistent with it. That is two readings of one curve, not validation. If a contact of that size were thickness-independent, 13.2 nm would show θ_sd ≈ +0.17 V⁻¹, −27 % Ion and α_H lower by 0.25. None of these is observed: θ_net is −0.046, and run_0013 reproduces α_H with Rsd = 0. Therefore the 31.8 nm gm roll-off is either specific to the thick film (two-channel conduction; S1) or is not a contact effect.
+- S5_contacts_experimental_validation.md:84: **M1: Thickness-independent Rsd causes the Ion/μ_FE(t) trend.** (a) Penalty ∝ R_sh^−1/2, hurting thick films more. (b) Needs ρc = 0.26 Ω·cm²; falls short by 5700× in Rc, or needs 83 % of Vd dropped at the contacts. (c) Predicts gm roll-off, θ > 0, Ion ∝ L⁰, μ_FE ∝ L. (d) Observed: 2 nm gm_max at 3.00 V and still rising; θ < 0 in all films. (e) For: 13.2 nm gm plateau (max 2.80 V, −2 % at 3 V); 31.8 nm roll-off. Against: (d) and §1. (f) Correlation plus model-conditional bounds.
+- S5_contacts_experimental_validation.md:86: **M2: Confinement-raised contact barrier (Ec rising toward the pinned CNL).** (a) Δφ_B ≈ dEc(t) − (E_CNL − Ec); ρc ∝ exp(qΔφ_B/kT). (b) A ρc ratio ≥ 2600 needs Δφ ≥ kT·ln 2600 = 0.20 eV. The model's dEc(2) − dEc(13.2) = 0.33 eV (DFT proxy ±50 %), so this is possible only if IWO's CNL margin is ≤ 0.15 eV (In2O3: 0.4 eV) or dEc(2 nm) ≥ 0.6 eV. (c) Predicts S-shaped ID-VD near Vd = 0, activated Rc (Ea ≈ φ_B), and an effect confined to 2 nm (dEc(6.3) = 0.07 eV). (d) **Contradicted by the pattern:** Ion(6.3) = 0.79·Ion(2) and μ_FE(6.3) < μ_FE(2). (e) For: supralinear 2 nm Id (a gate-modulated barrier also gives this). Against: (d); NatElec2022 sees Schottky behaviour only below 1 nm. (f) None.
+- S5_contacts_experimental_validation.md:88: **M3: Vertical access** (ρ·t ≤ 5e-7 Ω·cm², grows with t) and **M4: current crowding** (smallest L_T/L at 2 nm): both rejected as thickness mechanisms. **M5: θ attenuation (Rsd + Januar θr):** θ_net < 0 everywhere and no roll-off at 2 nm within +3 V; θr, Rsd and the tail exponent are degenerate on one curve (not determined; shared with S2).
+- S5_contacts_experimental_validation.md:94: | ambiguity \ measurement | C-V per t (QS + multi-f) | T series (≥ 3-4 T) | ID-VD | dual-sweep hysteresis | vacuum/air/passivated | IG + IS | TLM / gated 4-probe | XPS/RBS W | XRR/ellipsometry t ± σ | optical gap vs t | replicates (N ≥ 3-5) |
+- S5_contacts_experimental_validation.md:97: | confinement dEc vs t-dependent fixed charge | P (gives the sum Φ_MS(t) − Qf/Cox; shape in t helps) | P (Ea of Ioff → Ec − EF) | – | – | P | – | – | P (XPS EF − Ev) | P (dEc ∝ t^−1.38) | **B** | P |
+- S5_contacts_experimental_validation.md:100: | sample-to-sample (N = 1) | P | – | – | P | – | – | P | P | P (wafer map) | – | **B** |
+- S5_contacts_experimental_validation.md:105: - **C-V.** If V_FB(2) ≈ V_FB(6.3) ≈ V_FB(13.2) within 50 mV, both the back-charge hypothesis (A3) and a bulk-charge explanation of the 6.3 nm offset are falsified, and the 0.35 V confinement shift at 2 nm must also appear as a C-V shift. If QS C-V gives n_free/n_total at +3 V above about 0.8 at 2 nm, the trap-limited account of μ_FE(2 nm) is falsified (S4).
+- S5_contacts_experimental_validation.md:107: - **TLM.** 2Rc/R_on > 30 % at 2 nm overturns M1's rejection. Rc(2)/Rc(13.2) > 10 revives M2.
+- S5_contacts_experimental_validation.md:108: - **ID-VD.** Superlinear output below Vd ≈ 0.1 V at 2 nm but not at 6.3 nm supports M2. Linear output at all thicknesses rejects it. Campaign B's ideal-contact ID-VD predictions (runs 0037-0049) serve as the reference.
+- S5_contacts_experimental_validation.md:110: - **Replicates.** A Vth spread of ≥ 0.3 V at 6.3 nm makes the "6.3 nm anomaly" process variation.
+- S5_contacts_experimental_validation.md:111: - **T series.** An activation energy of μ_FE(3 V) below ~5 meV at 2 nm falsifies trap-limited conduction as the μ_FE(t) driver. Campaign B 350 K predictions exist for comparison.
+- S5_contacts_experimental_validation.md:119: > "Drain bias (0.7 V), current normalisation and geometry were taken from the device schematic; gate and source currents were not recorded, so off-state currents cannot be attributed to the channel."
+- S5_contacts_experimental_validation.md:131: > "The confinement shift is a PBE proxy for pure In2O3 slabs of 0.95-1.98 nm, extrapolated to 6.3 and 13.2 nm and not measured on IWO; '~2 % W' is undefined (atomic, cation or WO3 fraction; target or film)."
+- S5_contacts_experimental_validation.md:137: - **Units and Vd.** A/µm and Vd = 0.7 V come only from the schematic (`data/data_summary.json`, `_units_note`). The μ_sat reproduction (5.09/27.40) confirms the A/µm normalisation together with L/Cox, but not Vd, because the saturation formula does not contain Vd.
+- S5_contacts_experimental_validation.md:138: - **Mobility definition (resolved, §0 point 4).** The d√Id/dVg maximum lies at Vg = 1.75 V (2 nm), 2.55 V (6.3 nm) and 0.95 V (13.2 nm). At 6.3 nm that point is in the linear regime (Vov ≈ 1.1 V > Vd), where the saturation formula is invalid. At 2 and 13.2 nm it sits at the trap-filling onset.
+- S5_contacts_experimental_validation.md:140: - **SS.** The paper claims "near-thermal-limit SS (60-70 mV dec⁻¹)" (l.209-210), but the workbook SS_min is 84.5 / 114.7 / 130.8 mV/dec. The pre-stress PBS devices are 62 mV/dec (2 nm) and ~119 mV/dec (10 nm) (l.668-671). Whether the PBS devices are the workbook devices is NOT DETERMINED.
+- S5_contacts_experimental_validation.md:141: - **Nt.** The PBS devices give Nt = 5.3e19 (2 nm) versus 3.39e18 cm⁻³ (10 nm), a ratio of 15.6, while §2.8 says "roughly a factor of four" between 13.2 and 2 nm. This again suggests different devices (S4). Likewise "10 nm" (PBS/AFM/SEM), "11-13 nm" (Fig. 1a) and 13.2 nm (workbook) cannot be matched; 31.8 nm is not in the paper.
+- S5_contacts_experimental_validation.md:149: S1: 31.8 nm double gm peak vs Rsd; passivation ambiguity behind A3. S2: μ_band(t) lumps Rsd; θr/Rsd/α degenerate; mobility definition changes the μ(t) exponent. S3: dEc sets the CNL-barrier margin (M2). S4: α_H > 1 is the tail-filling signature; IG/IS needed for floors. S6: run_0027 malformed; campaign B ID-VD is the contact reference.
+- S5_contacts_experimental_validation.md:155: | Thickness-independent Rsd causes the Ion/μ_FE(t) trend | rejected | correlation (+ literature, related material) | needs ρc ≈ 0.26 Ω·cm², Rc 5.7e5 Ω·µm per contact (5700× NatElec2022); θ_net < 0 in all films |
+- S5_contacts_experimental_validation.md:156: | Rsd as a minor contributor at 2-13.2 nm | not determined (bounded only within the model) | calibration | ≲ 5e4 Ω·µm (≤ 4 %) at 2 nm; ≲ 1-2e4 Ω·µm (≤ 4-9 %) at 13.2 nm |
+- S5_contacts_experimental_validation.md:157: | Confinement-raised Pd/IWO barrier at 2 nm | plausible-unverified; rejected as the cause of the 2/6.3 vs 13.2 step | none | needs Δφ ≥ 0.20 eV; dEc(6.3) = 0.07 eV cannot explain Ion(6.3) ≤ Ion(2) |
+- S5_contacts_experimental_validation.md:158: | Vertical access through the film | rejected | order-of-magnitude estimate | ρ·t ≤ 5e-7 Ω·cm² (< 1 % of R_on); grows with t |
+- S5_contacts_experimental_validation.md:159: | Current crowding / L_T in the 2 nm film | rejected | order-of-magnitude estimate | L_T ≤ 0.35 µm at ρc ≤ 1e-4 Ω·cm²; contact fraction ∝ R_sh^−1/2 |
+- S5_contacts_experimental_validation.md:160: | 31.8 nm series R (V0 9.2e4 Ω·µm) as a contact property carried over to 13.2 nm | rejected (within the model); 31.8 nm itself plausible-unverified | calibration | would give −27 % Ion and θ +0.17 V⁻¹ at 13.2 nm; observed θ −0.046 V⁻¹ |
+- S5_contacts_experimental_validation.md:161: | Y-function Rsd / intrinsic μ for these films | not determined (method invalid) | calibration (ATLAS method check) | α-θ correlation +1.00; μ0_Y/μ_band = 0.53-0.68 |
+- S5_contacts_experimental_validation.md:162: | Paper μ (5.1/27.4) = saturation formula applied to the workbook curves | demonstrated | validation (independent reproduction of published numbers) | 5.09 / 27.40 cm²/Vs; prediction for 6.3 nm: 3.86 |
+- S5_contacts_experimental_validation.md:163: | run_0027 as an overlap sensitivity test | rejected (malformed deck) | numerical audit | drain collapsed to x = 24 µm (15 nodes); ΔIon −2.15 % |
+
+## S6_tcad_numerics_predictions.md
+
+- S6_tcad_numerics_predictions.md:10: Simulated legacy metrics are recomputed exactly as `run_atlas.py` does: `np.interp` from the native grid onto the 0.05 V measurement grid.
+- S6_tcad_numerics_predictions.md:12: **Robust metrics used below** (all at the drain bias of the data, Vd = 0.7 V):
+- S6_tcad_numerics_predictions.md:14: - **SS(I1..I2):** fixed-current slope, [V(I2) − V(I1)]/log10(I2/I1).
+- S6_tcad_numerics_predictions.md:16: - **gap7:** V(1e-7) − Vth_cc.
+- S6_tcad_numerics_predictions.md:23: - ID-VD at Vd = 0.7 V reproduces the rescaled transfer curves to < 0.001 %.
+- S6_tcad_numerics_predictions.md:24: - The 6.3 nm mesh check passes: A7/run_0036 gives max 0.0039 dec and ΔVth_cc −0.3 mV.
+- S6_tcad_numerics_predictions.md:25: - The DOS 384/192 residual is +0.16 % Ion at 2 nm (Richardson extrapolation, order 2.0).
+- S6_tcad_numerics_predictions.md:26: - Native zeros occur only at Vg ≤ −0.10 V with |Id| ≤ 6.3e-18 A/µm, three decades below every measured floor.
+- S6_tcad_numerics_predictions.md:27: 2. **SS_min is not a valid metric.** A 2.6 % current difference at a single grid point (Vg = 0.15 V) moves it by 10 mV/dec. The fixed-current SS at 1e-11..1e-10 A/µm reproduces the data within 2.3 mV/dec for all three films.
+- S6_tcad_numerics_predictions.md:32: | 2 nm | −0.145 V | −8.6 % |
+- S6_tcad_numerics_predictions.md:33: | 6.3 nm | −0.362 V | −23 % |
+- S6_tcad_numerics_predictions.md:34: | 13.2 nm | −0.021 V | −2.6 % |
+- S6_tcad_numerics_predictions.md:37: - B0 fixes the gap but raises SS_cc by 116 mV/dec.
+- S6_tcad_numerics_predictions.md:38: - C1 keeps SS but recovers only 35 % of the gap.
+- S6_tcad_numerics_predictions.md:41: 4. **Work function, electron affinity and Qf are one parameter.** Each is an exact rigid shift at every thickness tested (max |Δlog Id| ≤ 1.6e-5 after a 0.100 V shift), so none can alter the thickness dependence. m* (through Nc) is second order: it changes the 2→13.2 nm Vth step by +14.9 mV.
+- S6_tcad_numerics_predictions.md:45: - S4's C1 partially passed: gm and SS were met, but the gap came out +0.12 V against +0.28 V predicted, and Ion +16 % against ±3 %.
+- S6_tcad_numerics_predictions.md:46: - The A6 held-out Vth_cc passed at −57 mV.
+- S6_tcad_numerics_predictions.md:47: - The S2 MTR temperature expectations were reproduced by ATLAS (P-MTR variant) within 1 mV and 0.4 %.
+- S6_tcad_numerics_predictions.md:55: - The run_0029/run_0038 current ratio is 1.024879 (min 1.024817, max 1.025135 over 43 points with Id > 1e-14), against 18.13/17.69 = 1.024873.
+- S6_tcad_numerics_predictions.md:56: - The run_0008/run_0003 ratio is 1.079171, against 1.079167.
+- S6_tcad_numerics_predictions.md:60: **Path independence.** B8–B10 at Vd = 0.7 V equal the rescaled B1/B2/B3 at Vg = 1–3 V to 0.000 %.
+- S6_tcad_numerics_predictions.md:66: | film (pair) | ΔId at Vg 0.7 / 1.5 / 2 / 3 V | ΔVth_cc | ΔVth_lin | Δgm | ΔSS fixed-current |
+- S6_tcad_numerics_predictions.md:68: | 2 nm (0012→0029) | −0.95 / +2.56 / +3.64 / +2.48 % | +1.1 mV | −22.0 mV | +0.9 % | ≤ +0.8 |
+- S6_tcad_numerics_predictions.md:69: | 6.3 nm (0015→B2 ×11.69/11.41) | −0.63 / +0.78 / +1.12 / +0.95 % | +0.7 | −4.8 | +0.6 % | ≤ +0.6 |
+- S6_tcad_numerics_predictions.md:70: | 13.2 nm (0013→B3 ×61.9/60.39) | −0.04 / +0.68 / +0.64 / +0.50 % | +0.2 | −4.5 | +0.3 % | ≤ +0.3 |
+- S6_tcad_numerics_predictions.md:73: - Ion changes +1.98 % (96→192) and +0.48 % (192→384), which gives an observed order p = 2.03.
+- S6_tcad_numerics_predictions.md:74: - The Richardson residual beyond 384/192 is +0.16 % Ion and about −1.4 mV Vth_lin.
+- S6_tcad_numerics_predictions.md:76: **Thickness dependence.** The Ion offset at 3 V scales 1 : 0.38 : 0.20, close to Nt(t) = 2.0e19 : 8.5e18 : 4.9e18 (1 : 0.43 : 0.25). It is a quadrature error of the discretized tail. Its sign flips between threshold (trapped charge over-counted) and the on-state (under-counted). Where ATLAS places the levels is NOT DETERMINED.
+- S6_tcad_numerics_predictions.md:82: | 2 nm | 17.6897 | B1 0.00 % |
+- S6_tcad_numerics_predictions.md:83: | 6.3 nm | 11.5820 | B2 −1.48 % at 11.41 |
+- S6_tcad_numerics_predictions.md:84: | 13.2 nm | 61.6046 | B3 −1.97 % at 60.39 |
+- S6_tcad_numerics_predictions.md:92: | 6.3 nm (A7 run_0036 vs run_0015) | 0.0039 dec (rms 0.0012) | −0.32 mV | ≤ 0.07 mV/dec | −0.15 mV | −0.02 % | −0.013 % |
+- S6_tcad_numerics_predictions.md:93: | 13.2 nm (run_0028 vs 0013) | 0.0029 dec | −0.36 mV | — | — | — | −0.013 % |
+- S6_tcad_numerics_predictions.md:99: **Native zeros.** There are 6–17 non-positive points per run on the native grid. All sit at Vg ≤ −0.10 V with |Id| ≤ 6.3e-18 A/µm. No metric uses them; simulated Ion/Ioff remains a lower bound.
+- S6_tcad_numerics_predictions.md:101: ### 1.4 Why SS_min moved from 73.2 to 83.1 mV/dec
+- S6_tcad_numerics_predictions.md:103: SS_min is the minimum over 5-point windows whose first point exceeds 5× the measured floor. At 2 nm that threshold is 2.30e-14 A/µm. Two runs sit on either side of it at Vg = 0.15 V:
+- S6_tcad_numerics_predictions.md:104: - run_0012: Id(0.15 V) = 2.34e-14. The first window starts at 0.15 V and gives 73.2 mV/dec.
+- S6_tcad_numerics_predictions.md:105: - B1: Id(0.15 V) = 2.28e-14. The window jumps to 0.20 V and gives 83.1 mV/dec.
+- S6_tcad_numerics_predictions.md:107: run_0003 → run_0008, a pure ×1.079 mobility scaling, flips SS_min the same way (83.1 → 73.2).
+- S6_tcad_numerics_predictions.md:109: Fixed-current SS agrees within 1–2 mV/dec in both cases:
+- S6_tcad_numerics_predictions.md:111: | pair | SS 1e-11..1e-10 | SS 1e-10..1e-9 |
+- S6_tcad_numerics_predictions.md:113: | run_0012 / B1 | 122.5 / 123.5 | 212.9 / 215.0 |
+- S6_tcad_numerics_predictions.md:115: At 13.2 nm, run_0013 vs run_0017 gives SS_min 151.3 vs 138.6 but fixed-current 90.8 vs 92.0. This confirms S3's artefact finding.
+- S6_tcad_numerics_predictions.md:117: The measured 13.2 nm window 1e-11..1e-10 sits only 1.5× above the floor (6.6e-12). Subtracting the floor changes its SS from 136.1 to 91.8 mV/dec, so floor-subtracted values are used.
+- S6_tcad_numerics_predictions.md:119: **Recommendation.** Retire SS_min. Use V(1e-9), SS over 1e-11..1e-10 and over 1e-10..1e-9, SS_cc, and the on-state shape markers gap7 and Ion/gm.
+- S6_tcad_numerics_predictions.md:125: | Vth_cc, V(I) | < 0.5 mV | ≤ 0.4 mV | log-linear vs PCHIP ≤ 1.5 mV | **±1.5 mV** |
+- S6_tcad_numerics_predictions.md:126: | fixed-current SS | < 0.3 mV/dec | ≤ 0.1 | ≤ 1.1 (measured 13.2 nm at 1e-11: 4.6) | **±1 mV/dec** |
+- S6_tcad_numerics_predictions.md:127: | SS_min | — | — | window phase ±10 | **invalid** |
+- S6_tcad_numerics_predictions.md:128: | Vth_lin | about −1.4 mV (2 nm) | 0.15 mV | 0.1 V solver grid above 1.5 V biases sim vs data by −5.4 / −0.8 / −11.7 mV | **±2 mV + that bias** |
+- S6_tcad_numerics_predictions.md:129: | gm_max, mu_FE | about 0.1 % | 0.02 % | −0.4 / 0 / −0.7 % | **±0.7 %** |
+- S6_tcad_numerics_predictions.md:130: | Ion, Id | +0.16 / ~0.06 / ~0.03 % | 0.013 % | exact | **±0.2 %** |
+- S6_tcad_numerics_predictions.md:136: | t (nm) | Vth_cc | SS 1e-11..1e-10 | SS 1e-10..1e-9 | SS_cc | Vth_lin | gap | gap7 | gm (A/V/µm) | mu_FE | Ion/gm (V) |
+- S6_tcad_numerics_predictions.md:138: | 2.0 | 0.662 / 0.680 | 121.2 / 123.5 | 194.8 / 215.0 | 269.9 / 290.9 | 1.663 / 1.537 | 1.001 / 0.856 | 1.051 / 1.024 | 3.807e-7 / 3.478e-7 | 12.15 / 11.10 | 1.337 / 1.463 |
+- S6_tcad_numerics_predictions.md:139: | 6.3 | 0.644 / 0.653 | 124.5 / 124.5 | 210.0 / 215.6 | 295.4 / 289.7 | 1.820 / 1.466 | 1.176 / 0.814 | 1.224 / 1.085 | 3.431e-7 / 2.631e-7 | 10.95 / 8.39 | 1.176 / 1.534 |
+- S6_tcad_numerics_predictions.md:140: | 13.2 | 0.083 / 0.054 | 91.8* / 90.9 | 118.8* / 143.4 | 158.4* / 193.0 | 1.044 / 0.995 | 0.962 / 0.941 | 0.571 / 0.630 | 1.572e-6 / 1.531e-6 | 50.17 / 48.85 | 1.953 / 2.005 |
+- S6_tcad_numerics_predictions.md:144: Ion matches to 0.00 % at every film by construction.
+- S6_tcad_numerics_predictions.md:147: - Vth_cc is within +19 / +9 / −29 mV.
+- S6_tcad_numerics_predictions.md:148: - The deep subthreshold (1e-11..1e-10) is within 2.3 mV/dec in all films.
+- S6_tcad_numerics_predictions.md:149: - In 1e-10..1e-9 the model is too soft by +20 / +6 / +25 mV/dec.
+- S6_tcad_numerics_predictions.md:154: | change | film | ΔVth_cc | ΔSS 1e-11..1e-10 / 1e-10..1e-9 / cc | ΔVth_lin | ΔIon | rigid-shift test |
+- S6_tcad_numerics_predictions.md:156: | WF +0.1 eV (run_0048) | 2 | +0.100 V | 0 / 0 / 0 | +0.092 | −6.8 % | exact 0.100 V shift, max Δlog 1.6e-5 |
+- S6_tcad_numerics_predictions.md:157: | WF +0.1 eV (run_0049) | 13.2 | +0.100 | 0 / 0 / 0 | +0.092 | **−5.0 %** | exact, 4.1e-6 |
+- S6_tcad_numerics_predictions.md:158: | χ ∓0.1 eV (runs 0020/0021, 96/48) | 2 | ±0.100 | 0 | ±0.091 | ∓6.9/7.0 % | exact, 6e-6 |
+- S6_tcad_numerics_predictions.md:159: | Qf pairs (0001→0003, 0002→0004, 0005→0007) | 2 / 13.2 / 6.3 | −309.2…−309.7 / −309.4…−309.8 / +293.6…+294.2 mV across 1e-11…1e-7 | — | — | — | analytic −309.5 / +293.9 mV |
+- S6_tcad_numerics_predictions.md:160: | m* ×1.3 (run_0050) | 2 | −0.044 | −10.2 / −18.0 / −17.7 | −0.043 | +4.1 % | not rigid (0.17 dec) |
+- S6_tcad_numerics_predictions.md:161: | m* ×1.3 (run_0051) | 13.2 | −0.029 | −4.7 / −10.5 / −13.2 | −0.061 | **+5.8 %** | not rigid |
+- S6_tcad_numerics_predictions.md:163: **Correction to EVIDENCE_BRIEF §5b.** The 13.2 nm ΔIon values relative to the B3 baseline are −5.0 % (WF) and +5.8 % (m*). The brief's −6.9 % and +3.7 % are errors relative to the *measurement*.
+- S6_tcad_numerics_predictions.md:167: | change | 2→13.2 ΔVth_cc | Ion(13.2)/Ion(2) | SS_cc(13.2) − SS_cc(2) |
+- S6_tcad_numerics_predictions.md:169: | WF +0.1 eV | −0.6251 → −0.6251 V (0.0 mV) | 5.914 → 6.031 (+2.0 %) | unchanged |
+- S6_tcad_numerics_predictions.md:170: | m* ×1.3 | +14.9 mV (2.4 % of the step) | +1.6 % | −97.1 → −92.7 mV/dec |
+- S6_tcad_numerics_predictions.md:172: - **WF.** The Ion ratio moves only because Ion is read at a fixed Vg of 3 V: Ion/gm is 1.46 V at 2 nm against 2.00 V at 13.2 nm. Refitting Qf removes this.
+- S6_tcad_numerics_predictions.md:187: The measured row gives absolute values; the other rows give model minus measured (Ion/gm is absolute). run_0014, run_0015, A1–A6 and B0 use DOS 96/48; B2 and C1 use 384/192. The DOS effect on these metrics is ≤ 1 mV / 0.6 mV/dec / 1 %.
+- S6_tcad_numerics_predictions.md:189: | run | Vth_cc | SS 1e-11..1e-10 | SS 1e-10..1e-9 | SS_cc | gap | gap7 | gm | Ion/gm (V) | Ion | RMSE (dec) |
+- S6_tcad_numerics_predictions.md:191: | measured | 0.644 | 124.5 | 210.0 | 295.4 | 1.176 | 1.224 | 3.431e-7 | 1.176 | 4.03e-7 | — |
+- S6_tcad_numerics_predictions.md:192: | 0014 validation | −0.294 | −2.2 | +1.4 | −10.5 | −0.314 | −0.161 | −16.6 % | 1.788 | +26.8 % | 0.678 |
+- S6_tcad_numerics_predictions.md:193: | 0015 tuned | +0.007 | −0.4 | +4.4 | −6.6 | −0.356 | −0.137 | −23.1 % | 1.529 | 0.0 % | 0.063 |
+- S6_tcad_numerics_predictions.md:194: | B2 (0039 ×1.0151) | +0.009 | 0.0 | +5.6 | −5.7 | −0.362 | −0.139 | −23.3 % | 1.534 | 0.0 % | 0.059† |
+- S6_tcad_numerics_predictions.md:195: | A3 back −1.64e12 | −0.017 | −21.8 | −43.2 | −64.1 | −0.452 | −0.267 | −18.4 % | 1.648 | +14.4 % | 0.237 |
+- S6_tcad_numerics_predictions.md:196: | A1 t = 5.3 nm | −0.258 | 0.0 | +5.0 | −4.9 | −0.297 | −0.137 | −18.1 % | 1.735 | +20.8 % | 0.613 |
+- S6_tcad_numerics_predictions.md:197: | A2 Nd0 1e16 | −0.264 | −2.0 | −1.3 | −14.7 | −0.329 | −0.168 | −17.5 % | 1.773 | +24.4 % | 0.634 |
+- S6_tcad_numerics_predictions.md:198: | A4 Dit ×5 | −0.243 | +2.8 | +3.5 | −9.1 | −0.319 | −0.160 | −16.9 % | 1.742 | +23.1 % | 0.595 |
+- S6_tcad_numerics_predictions.md:199: | A6 no QC, Qf from 2 nm | −0.057 | +0.6 | +4.8 | −7.7 | −0.337 | −0.154 | −18.4 % | 1.574 | +9.2 % | 0.211 |
+- S6_tcad_numerics_predictions.md:200: | A5 combination | −0.079 | −14.9 | −28.4 | −45.9 | −0.405 | −0.221 | −19.6 % | 1.664 | +13.9 % | 0.246 |
+- S6_tcad_numerics_predictions.md:201: | B0 S2 re-partition | +0.010 | **+48.8** | **+103.8** | **+115.5** | +0.026 | +0.115 | −5.0 % | 1.144 | −7.6 % | 0.270 |
+- S6_tcad_numerics_predictions.md:202: | C1 near-Ec band, mu 15.4 | +0.004 | +1.4 | +12.9 | +9.0 | −0.237 | −0.137 | −3.5 % | 1.413 | +16.0 % | 0.081 |
+- S6_tcad_numerics_predictions.md:206: A7 is a numerical duplicate of run_0015 (§1.3).
+- S6_tcad_numerics_predictions.md:212: | C1 | 13.28 | −16.8 % | unchanged (−0.237) |
+- S6_tcad_numerics_predictions.md:213: | B0 | 21.2 | +2.8 % | +0.026 |
+- S6_tcad_numerics_predictions.md:216: - C1 recovers 28 % of the gm miss and 35 % of the gap miss while keeping SS.
+- S6_tcad_numerics_predictions.md:217: - B0 recovers the whole on-state but adds +116 mV/dec to SS_cc.
+- S6_tcad_numerics_predictions.md:225: | P1 | S2 for B0 (`s2_part3_out` 18:59:35Z; config B 19:06:27Z; run_0037 ended 19:21:30Z) | Vth_cc 0.64 ± 0.03 → 0.654 ✓; Vth_lin 1.82–1.90 → 1.856 ✓; Ion −5…−10 % → −7.6 % ✓; mu_FE 10.5–11.0 → 10.40 ✗ (1 % low); SS_min +3…+15 over run_0015 → +30.8 ✗ (SS 1e-11..1e-10 +49) | on-state **passed**, subthreshold **failed** → re-partition rejected as the explanation |
+- S6_tcad_numerics_predictions.md:226: | P2 | S1 for B0 (1-D code 19:18:00Z; its output file 19:24:15Z is after the run ended; the code reads run_0014 parameters, not run_0037 → blind) | SS_cc 418 (±10) → 410.9 ✓; Vth_cc 0.656 → 0.654 ✓; gm 3.31e-7 → 3.26e-7 ✓; Vth_lin 1.889 → 1.856 (−33 mV, marginal) | **passed** (blind, not strictly timestamp-pre-registered) |
+- S6_tcad_numerics_predictions.md:227: | P3 | S4 for C1 (`s4_part3_out` 19:21:48Z; config C 19:35:23Z; run_0052 ended 22:47:22Z), vs run_0015 | gap +0.28 → +0.119 ✗; gm +24 % → +25.5 % ✓; SS_cc +23 (range +20…+30) → +15.6 (≈); Ion ±3 % → +16.0 % ✗; stated falsifiers (gm not rising, or SS_cc > 330) not triggered | **partially passed** |
+- S6_tcad_numerics_predictions.md:228: | P3' | S1's competing expectation for C1: the gap does not open without SS_cc rising well above 295 | gap +0.12 of the +0.36 needed, at SS_cc 304 | consistent |
+- S6_tcad_numerics_predictions.md:229: | P4 | A6 held-out (design in config A 18:28:53Z; run 18:57Z) | Vth_cc −57 mV (vs −294 with confinement); SS within 8 mV/dec; gap −0.34 V; Ion +9 % (mu 12.4 is labelled "FITTED per thickness", origin undocumented → Ion is not held-out) | threshold **passed** at the ±0.1 V level; on-state failed (common to all runs) |
+- S6_tcad_numerics_predictions.md:230: | P5 | A2 analytic bound ≤ +0.03 V (config A) | +0.030 V | **passed** |
+- S6_tcad_numerics_predictions.md:231: | P6 | A4 discriminator: traps shift Vth *and* degrade SS | +0.051 V; SS 1e-11..1e-10 +5.0, SS_min +8.3 | **passed** (qualitative) |
+- S6_tcad_numerics_predictions.md:232: | P7 | S2 MTR expectation at 350 K (`s2_part2_out` 18:56:57Z; runs 0044–0047 ended 21:21–21:54Z), vs ATLAS P-MTR | ΔVth_cc −64/−66 → −63.4/−65.6 mV; mu_FE ×0.993/0.999 → 0.9930/1.0002; Ion ×1.004/1.011 → 1.0084/1.0131; ΔVth_lin −15/−24 → −22.7/−25.9; Ea within 1–7 meV | **passed** (numerical cross-check only) |
+- S6_tcad_numerics_predictions.md:233: | P8 | S3: ATLAS SP/BQP at 6.3/13.2 nm moves Vg(n_s = 1e12) by +0.15…0.19 V | not run (budget) | not yet tested |
+- S6_tcad_numerics_predictions.md:234: | P9 | S1: 13.2 nm no-confinement run with Qf 4.76e10 → Vth_cc 0.33 | exact rigid identity from run_0017: 0.331 V (miss +0.248 V; required Qf 1.43e12, confirming S1/S4 over the brief's ~1.86e12) | determined by identity; no run needed |
+- S6_tcad_numerics_predictions.md:235: | P10 | S5: Januar Fig. 5a mu_sat(6.3 nm) = 3.86 | figure values not local | not yet tested |
+- S6_tcad_numerics_predictions.md:236: | P11 | This register (ID-VD, 338/358 K) | — | not yet tested |
+- S6_tcad_numerics_predictions.md:240: **The unexplained feature.** The measured 6.3 nm curve reaches 1e-7 A/µm 1.224 V after Vth_cc, and then rises with Ion/gm = 1.176 V. Every simulation whose fixed-current SS is within ~15 mV/dec of the data in every window sits at:
+- S6_tcad_numerics_predictions.md:241: - gap7 ≤ 1.09 V;
+- S6_tcad_numerics_predictions.md:242: - Ion/gm ≥ 1.41 V.
+- S6_tcad_numerics_predictions.md:248: | B2 → C1 | +0.125 V | +15 mV/dec | 8.5 mV per mV/dec |
+- S6_tcad_numerics_predictions.md:249: | B2 → B0 | +0.388 V | +121 mV/dec | 3.2 mV per mV/dec |
+- S6_tcad_numerics_predictions.md:251: Even at C1's efficiency, the missing +0.36 V costs SS_cc ≈ 332 against 295 measured.
+- S6_tcad_numerics_predictions.md:257: 2. Rigid equilibrium tails with no above-threshold trapping or sweep history (S4: PBS 0.003–0.24 V).
+- S6_tcad_numerics_predictions.md:258: 3. Gate-field quantization with local tails. S3 estimates +0.15–0.19 V in Vg(1e12) at t ≥ 6.3 nm, but this should also appear at 13.2 nm, where the classical model already fits.
+- S6_tcad_numerics_predictions.md:264: - **Classical DD at 2 nm.** S3's Schrödinger-Poisson shows trap-free electrostatics are adequate: rigid within 11 mV and C_eff within 1 %.
+- S6_tcad_numerics_predictions.md:265: - ATLAS dEc = 0.353 eV (realised 0.315–0.345 V) lies at the top of the SP range: bracket 0.14–0.38, central 0.26–0.30 V for m* 0.18.
+- S6_tcad_numerics_predictions.md:266: - The trap-limited device depends on the **tail energy reference**: tails that follow the confined edge give a 0.26 V shift, tails left at the bulk edge give 0.91 V. V1 implicitly uses the confined edge. This is NOT DETERMINED (localization length vs t).
+- S6_tcad_numerics_predictions.md:271: - the m*(t) Drude term (−18 % at 2 nm, S2);
+- S6_tcad_numerics_predictions.md:277: - **dEc law extrapolation.** It exceeds the effective-mass bound beyond about 3 nm: ×1.45–1.59 at 6.3 nm and ×2.15–2.51 at 13.2 nm (S2, S3). The Vth impact is ≤ 35 mV. The DFT-anchored curve (0.357 / 0.050 / 0.012 eV) should replace it.
+- S6_tcad_numerics_predictions.md:278: - **Regularized sheets.** The interface sheets live in a 0.25 nm layer. Halving that layer changes Id by ≤ 0.009 dec and −0.06 % (check E). C1's band is moment-matched in the same layer.
+- S6_tcad_numerics_predictions.md:279: - **run_0027 is malformed** (S5: the drain collapsed to a zero-width line at x = 24 µm). **The "OAT overlap_4um" row in `tables/SENSITIVITY_RESULTS.{md,csv}` (−2.17 % Ion) must be retracted**, together with "contact geometry … irrelevant" in `docs/SUPERVISOR_SUMMARY.md`. With ideal-Ohmic boundaries the model cannot test contact physics at all.
+- S6_tcad_numerics_predictions.md:282: - DOS 96/48 errors were Vg-dependent (Vth_lin −22 mV at 2 nm); all final numbers are now at 384/192.
+- S6_tcad_numerics_predictions.md:283: - The 0.1 V solver grid above 1.5 V biases sim Vth_lin by up to −12 mV.
+- S6_tcad_numerics_predictions.md:292: | film | Id(0.1)/Id(0.05), Vg 1 → 3 V | Vd_sat (gd = 10 % of gd0), Vg 1 → 3 V | gd(3 V)/gd0 | Id(Vg 3, Vd 0.1 / 3 V) (A/µm) |
+- S6_tcad_numerics_predictions.md:294: | 2 nm | 1.80 → 1.97 | 0.43 → 1.80 V | 0.01–0.17 % | 8.77e-8 / 8.69e-7 |
+- S6_tcad_numerics_predictions.md:295: | 6.3 nm | 1.81 → 1.97 | 0.44 → 1.90 V | 0.01–0.19 % | 6.90e-8 / 7.14e-7 |
+- S6_tcad_numerics_predictions.md:296: | 13.2 nm | 1.91 → 1.98 | 0.68 → 2.30 V | 0.03–0.68 % | 5.04e-7 / 6.39e-6 |
+- S6_tcad_numerics_predictions.md:298: d²Id/dVd² < 0 at Vd → 0 everywhere (no S-shape). Id(13.2)/Id(2) at Vg 3 V rises from 5.75 (Vd 0.1 V) to 7.35 (Vd 3 V). The genuine prediction content is the shape normalised to the calibrated Vd = 0.7 V point; absolute values at Vd 0.7 V are calibration.
+- S6_tcad_numerics_predictions.md:302: | quantity | 2 nm | 6.3 nm | 13.2 nm |
+- S6_tcad_numerics_predictions.md:304: | ΔVth_cc, P-MTR | −73.1 mV | −78.9 mV | −76.3 mV |
+- S6_tcad_numerics_predictions.md:305: | ΔVth_cc, P-phonon | −40.5 mV | −46.7 mV | −56.6 mV |
+- S6_tcad_numerics_predictions.md:306: | ΔVth_lin (both variants) | −26.5 mV | −34.5 mV | −30.1 mV |
+- S6_tcad_numerics_predictions.md:307: | ΔSS 1e-10..1e-9, P-MTR | −12.1 | −12.5 | −10.6 |
+- S6_tcad_numerics_predictions.md:308: | ΔSS 1e-10..1e-9, P-phonon | +2.0 | +2.4 | −3.3 |
+- S6_tcad_numerics_predictions.md:309: | mu_FE ratio, P-MTR | ×0.992 | ×1.000 | ×1.000 |
+- S6_tcad_numerics_predictions.md:310: | mu_FE ratio, P-phonon | ×0.760 | ×0.766 | ×0.767 |
+- S6_tcad_numerics_predictions.md:311: | ΔIon, P-MTR | +1.0 % | +2.2 % | +1.5 % |
+- S6_tcad_numerics_predictions.md:312: | ΔIon, P-phonon | −22.6 % | −21.6 % | −22.2 % |
+- S6_tcad_numerics_predictions.md:314: At 338.15 K (2 nm), ΔVth_cc is −49.3 mV (P-MTR) and −27.9 mV (P-phonon).
+- S6_tcad_numerics_predictions.md:318: | film | Vg 0.5 | 1 | 1.5 | 2 | 3 V |
+- S6_tcad_numerics_predictions.md:320: | 2 nm | 124 | 57 | 23 | 8 | 1.5 |
+- S6_tcad_numerics_predictions.md:321: | 6.3 nm | 128 | 53 | 20 | 9 | 3.5 |
+- S6_tcad_numerics_predictions.md:322: | 13.2 nm | 63 | 21 | 8 | 5 | 2.4 |
+- S6_tcad_numerics_predictions.md:324: P-phonon is exactly 42.3 meV lower at every Vg.
+- S6_tcad_numerics_predictions.md:330: - ΔIon > ~+5 % at 358 K → activated band mobility or percolation.
+- S6_tcad_numerics_predictions.md:331: - ΔIon ≈ −22 % → phonon-limited band transport.
+- S6_tcad_numerics_predictions.md:332: - Thin-film Ea(3 V) > Ea(13.2) + 10 meV, or the mu_FE ratio shrinking toward 3.3 → no common transport mechanism.
+- S6_tcad_numerics_predictions.md:333: - ΔVth_cc outside −35…−85 mV, or a thickness spread ≫ 20 mV → charge beyond equilibrium tail filling.
+- S6_tcad_numerics_predictions.md:335: Numerical uncertainty is ±0.2 % on currents, ±1.5 mV on V(I) and < 0.5 meV on Ea. DOS convergence was verified only at 300 K.
+- S6_tcad_numerics_predictions.md:343: | 1 | 2 / 13.2 nm fits 0.037 / 0.081 dec (FINAL_STATUS) | CAL | now 0.043 / 0.081 at 384/192 (B1, B3) |
+- S6_tcad_numerics_predictions.md:344: | 2 | 6.3 nm tuned fit 0.063 dec | CAL (device-specific Qf + mu) | B2 0.059 |
+- S6_tcad_numerics_predictions.md:345: | 3 | Shared laws predict 6.3 nm | **FAIL** | run_0014: −0.294 V, 0.678 dec |
+- S6_tcad_numerics_predictions.md:346: | 4 | "6.3 nm reproduced in SHAPE" (FINAL_STATUS) | subthreshold PTP; **on-state FAIL** | SS 1e-11..1e-10 −2.2; gap −0.31 V, gm −17 % |
+- S6_tcad_numerics_predictions.md:347: | 5 | Confinement accounts for the 2 vs 13.2 nm Vth step; "it was tested" (FINAL_STATUS #1, SUPERVISOR #1) | DN within the model; physically ASM | rigid-degenerate with 1.7e12 cm⁻²; A6 favours no-QC; wording "tested" should be removed |
+- S6_tcad_numerics_predictions.md:348: | 6 | Subthreshold follows Nt(t) + WTA + Dit "without tuning" | CAL | SS 1e-11..1e-10 within 2.3; 1e-10..1e-9 +6…+25 mV/dec |
+- S6_tcad_numerics_predictions.md:349: | 7 | mu_band fitted per film; no law (FINAL_STATUS #3) | CAL | — |
+- S6_tcad_numerics_predictions.md:350: | 8 | Physical deck ≡ reduced deck | DN | runs 0008/0012, 0009/0013 |
+- S6_tcad_numerics_predictions.md:351: | 9 | Qf is an exact rigid shift; Id linear in mu | DN | §1.1, §2 |
+- S6_tcad_numerics_predictions.md:352: | 10 | Mesh/DOS convergence | DN | §1.2–1.3; residual +0.16 % |
+- S6_tcad_numerics_predictions.md:353: | 11 | Removing confinement moves SS toward the data | **FAIL (artefact)** | §1.4 |
+- S6_tcad_numerics_predictions.md:354: | 12 | Donors and permittivity irrelevant at 2 nm | DN | runs 0022, 0026 |
+- S6_tcad_numerics_predictions.md:355: | 13 | Contact geometry irrelevant; SENSITIVITY overlap row | **retract** | run_0027 malformed |
+- S6_tcad_numerics_predictions.md:356: | 14 | WF, m*, 6.3 nm sensitivities "not run" (FINAL_STATUS) | superseded | runs 0030–0036, 0048–0051 |
+- S6_tcad_numerics_predictions.md:357: | 15 | 86 % of the model's 2→6.3 drop is dEc (S1) | DN | 1-D surrogate ≤ 3 mV vs ATLAS |
+- S6_tcad_numerics_predictions.md:358: | 16 | No confinement + 2 nm Qf predicts 6.3 nm Vth (S1, S3) | PTP (Vth only) | A6 −57 mV |
+- S6_tcad_numerics_predictions.md:359: | 17 | A1/A2/A3/A4/A5 rejected as the sole cause (S1, S4) | DN (model-conditional) | §3.1 |
+- S6_tcad_numerics_predictions.md:360: | 18 | Trap/mobility re-partition explains 6.3 nm (S2) | **FAIL** (on-state PTP) | B0 SS_cc +116 |
+- S6_tcad_numerics_predictions.md:361: | 19 | Near-Ec band explains the 6.3 nm shape (S4) | partially PTP / **FAIL** on gap and Ion | C1 |
+- S6_tcad_numerics_predictions.md:362: | 20 | 6.3 nm on-state shape is not a rigid offset | DN | all A/B/C runs |
+- S6_tcad_numerics_predictions.md:363: | 21 | Paper mu 5.1 / 27.4 = saturation formula (S2, S5) | passed (retrodiction of independent numbers) | 5.09 / 27.40 |
+- S6_tcad_numerics_predictions.md:364: | 22 | Structural step between 6.3 and 13.2 nm (S2) | PNT (correlation) | T series, GIXRD |
+- S6_tcad_numerics_predictions.md:365: | 23 | MTR temperature signature (S2) | numerical PTP; physical PNT | P7; register |
+- S6_tcad_numerics_predictions.md:366: | 24 | Confinement 0.26–0.30 V at 2 nm (S3 SP) | PNT (theory) | optical gap / IPES |
+- S6_tcad_numerics_predictions.md:367: | 25 | dEc not identifiable from ID-VG (S3) | DN | exact degeneracy |
+- S6_tcad_numerics_predictions.md:368: | 26 | t^-1.38 law unphysical beyond 3 nm | DN (analytic, effective-mass) | ≤ 35 mV Vth impact |
+- S6_tcad_numerics_predictions.md:369: | 27 | Floors = ungated parallel path, not gate leakage (S4) | PNT (correlation) | IG/IS |
+- S6_tcad_numerics_predictions.md:370: | 28 | Rsd cannot explain the thickness trend (S5) | correlation; bounds CAL | TLM |
+- S6_tcad_numerics_predictions.md:371: | 29 | WF/χ/Qf are one parameter; m* second-order (S6) | DN | §2 |
+- S6_tcad_numerics_predictions.md:372: | 30 | Ideal Ohmic contacts, constant mobility, T-independent tails | ASM | register tests |
+- S6_tcad_numerics_predictions.md:373: | 31 | ID-VD and 338/358 K predictions | PNT | `PREDICTIONS_REGISTER.md` |
+- S6_tcad_numerics_predictions.md:379: | EVIDENCE_BRIEF §5b | 13.2 nm isolation ΔIon values (§2) |
+- S6_tcad_numerics_predictions.md:380: | EVIDENCE_BRIEF §4 | 13.2 nm no-confinement Qf is 1.43e12, not ~1.86e12 |
+- S6_tcad_numerics_predictions.md:381: | S1 §3.1 | A7 now has execution.json (PASS) |
+- S6_tcad_numerics_predictions.md:382: | NUMERICAL_CONVERGENCE | check L → PASS (run_0036); check C' → resolved by recalibration |
+- S6_tcad_numerics_predictions.md:388: | Linear rescaling in mu_band (B2 ×1.0151, B3 ×1.0201) | demonstrated | numerical | ratio error 6e-6 |
+- S6_tcad_numerics_predictions.md:389: | DOS 384/192 converged | demonstrated | numerical | residual +0.16 % Ion (2 nm), p = 2.0 |
+- S6_tcad_numerics_predictions.md:390: | DOS offset thickness dependence | demonstrated | numerical | +2.48 / +0.95 / +0.50 % ∝ ~Nt(t); Vg-dependent sign |
+- S6_tcad_numerics_predictions.md:391: | 6.3 nm mesh (check L) | PASS | numerical | 0.0039 dec, −0.3 mV |
+- S6_tcad_numerics_predictions.md:392: | KCL / native zeros | PASS / harmless | numerical | ≤ 2.5e-16 A; zeros ≤ 6.3e-18 A/µm at Vg ≤ −0.10 V |
+- S6_tcad_numerics_predictions.md:393: | SS_min as a metric | rejected | numerical audit | 73.2 ↔ 83.1 from 2.6 % at one point |
+- S6_tcad_numerics_predictions.md:394: | Fixed-current SS 1e-11..1e-10 | model matches all films | calibration | within 2.3 mV/dec |
+- S6_tcad_numerics_predictions.md:395: | WF/χ/Qf degeneracy | demonstrated (exact, thickness-independent) | numerical | 0.100 V rigid, Δlog ≤ 1.6e-5 |
+- S6_tcad_numerics_predictions.md:396: | m* effect on thickness dependence | second-order | numerical | +14.9 mV on a 0.625 V step |
+- S6_tcad_numerics_predictions.md:397: | B0 re-partition (S2) | rejected | prospective test | on-state passed, SS_cc +116 |
+- S6_tcad_numerics_predictions.md:398: | S1's B0 SS_cc 418 | passed (blind) | prospective surrogate | 410.9 |
+- S6_tcad_numerics_predictions.md:399: | C1 near-Ec band (S4) | partially passed; not the explanation | prospective test | gap +0.12 vs +0.28 V; Ion +16 % |
+- S6_tcad_numerics_predictions.md:400: | A6 held-out Vth_cc | passed (Vth only) | prospective | −57 mV |
+- S6_tcad_numerics_predictions.md:401: | S2 MTR temperature expectations vs ATLAS P-MTR | passed | numerical cross-check | ΔVth_cc within 0.6 mV |
+- S6_tcad_numerics_predictions.md:402: | 6.3 nm on-state shape | unexplained within V1 | — | gap −0.36 V, gm −23 % |
+- S6_tcad_numerics_predictions.md:403: | Constant mobility as the most likely cause | plausible, unverified | inference from the trade-off | 3.2–8.5 mV gap per mV/dec SS |
+- S6_tcad_numerics_predictions.md:404: | run_0027 SENSITIVITY row | retract | numerical audit (S5) | drain collapsed |
+- S6_tcad_numerics_predictions.md:405: | Temperature predictions (tmu 1.5) | registered in two exact variants | prediction | ΔIon(358 K, 2 nm) +1.0 % vs −22.6 % |
+- S6_tcad_numerics_predictions.md:406: | ID-VD predictions | registered | prediction | Id(0.1)/Id(0.05) 1.80–1.98, no S-shape |
+
+## REVIEW.md
+
+- REVIEW.md:10: - It also reads the deckbuild logs of run_0045 and run_0027 and file timestamps.
+- REVIEW.md:29: | test | V1 with confinement (V) | V1 without confinement (V) |
+- REVIEW.md:31: | least-squares offset on all 3 films | 0.136 | 0.133 |
+- REVIEW.md:32: | leave-one-out | 0.205 | 0.199 |
+- REVIEW.md:33: | offset fitted on 2 nm only (held-out 6.3 and 13.2) | 0.221 | **0.180** |
+- REVIEW.md:34: | offset fitted on 13.2 nm only | **0.190** | 0.278 |
+- REVIEW.md:35: | offset fitted on 6.3 nm only | 0.288 | 0.220 |
+- REVIEW.md:39: - **FINAL_STATUS #1 and SUPERVISOR #1** say confinement "accounts for the 0.58 V threshold difference" and "was tested". Not supported.
+- REVIEW.md:44: - with confinement, 6.3 nm needs about 1.64e12 cm^-2 of its own;
+- REVIEW.md:45: - without it, 13.2 nm needs about 1.39e12 cm^-2 of its own.
+- REVIEW.md:48: - The "validation" run_0014 is not parameter-free. Its mu_band of 12.4 is the V0 per-film fit of this same 6.3 nm curve (`config/iwo_material_model.yaml` mu_band_fitted 6.3: 12.4; `docs/MATERIAL_PARAMETER_EXTRACTION.md`), and it still misses Vth_cc by -0.294 V.
+- REVIEW.md:51: - B0: SS_cc +116 mV/dec against the measurement;
+- REVIEW.md:52: - C1: gap +0.12 V against +0.28 V predicted, and Ion +16 % against ±3 %.
+- REVIEW.md:53: - The one reproduction of independent published numbers (the paper's 5.1 and 27.4 cm^2/Vs) validates data provenance, not device physics.
+- REVIEW.md:75: The analytic values are 0.3095 and 0.2939 V.
+- REVIEW.md:76: - **Gate WF +0.1 eV** (runs 0048/0049) gives exactly +0.1000 V at both films, with SS_cc changed by 0.0 mV/dec.
+- REVIEW.md:78: - **mu_band trades against Nt on Ion.** Nt ×1.5 is equivalent to mu ×1.33 (run_0023; S2 Jacobian).
+- REVIEW.md:89: **Assumed values.** WF 4.70 eV, χ 4.3 eV, Dit 3e11, the deep Gaussian and ε(Al2O3) = 9.0 all sit inside the degenerate sets. So Qf = 1.73e12 cm^-2 is an alignment absorber, not a charge: ±0.2 eV of TiN work function is equivalent to ±1.12e12 cm^-2.
+- REVIEW.md:99: - At 2 and 13.2 nm, Ion and Vth_cc are fitted: Ion errors +0.00 % and -0.02 %; Vth_cc within +19 and -27 mV (B1 and B3 as run).
+- REVIEW.md:101: - The "validation" run_0014 uses a V0 mobility fitted to the same curve and misses Vth_cc by -0.2941 V (recomputed).
+- REVIEW.md:107: | A6 | Vth_cc -0.0573 V | threshold only, and designed post hoc |
+- REVIEW.md:108: | B0 | SS_cc 410.95 vs 295.37 mV/dec | fails |
+- REVIEW.md:109: | C1 | gap +0.119 V vs +0.28 predicted; Ion +16.0 % vs ±3 % | partly fails |
+- REVIEW.md:110: | P7 | S2 surrogate vs ATLAS P-MTR | a numerical cross-check, not an experiment |
+- REVIEW.md:111: | 5.09 / 27.40 | reproduction of the paper's numbers | data provenance and extraction, not the device model |
+- REVIEW.md:117: - Januar SI Fig. S12 (2 nm at 338/358 K), taken as changes relative to that device's own 300 K curve. ΔVth_lin = -17 / -27 mV is the same in both registered variants, so it is the sharpest test.
+- REVIEW.md:127: - A surface + bulk form through the same anchors differs by only 8 % at 6.3 nm (S4).
+- REVIEW.md:130: - At 6.3 nm it gives 72 meV against 46 meV for m* = 0.208, i.e. ×1.59.
+- REVIEW.md:134: - the 6.3 nm Vth misses by -0.294 V;
+- REVIEW.md:135: - a mu_FE power law through 2 and 13.2 nm (exponent 0.7516) predicts 28.8 against 10.95 cm^2/Vs, i.e. ×2.63.
+- REVIEW.md:149: **The offset (0.29 V) is not assigned.** As shown in §0, a film-specific charge at 6.3 nm (with confinement) and one at 13.2 nm (without confinement) fit equally well. None of the non-simulatable causes is excluded:
+- REVIEW.md:151: - bias stress during the sweep (S4 estimates 0.003-0.24 V);
+- REVIEW.md:157: **The shape is not explained.** Recomputed for the tuned run_0015:
+- REVIEW.md:158: - gap (Vth_lin - Vth_cc) 0.820 V against 1.176 V measured;
+- REVIEW.md:159: - gm_max -23.1 %;
+- REVIEW.md:160: - Vth_lin -0.349 V.
+- REVIEW.md:163: - the seven electrostatic variants give gaps of 0.72-0.88 V;
+- REVIEW.md:164: - B0 opens the gap (1.202 V) only by adding +122 mV/dec of SS_cc relative to run_0015;
+- REVIEW.md:165: - C1 recovers 33-35 % of the gap.
+- REVIEW.md:168: - It also implies a same-signed miss at 2 nm, which exists but is not reported in FINAL_STATUS: gap -0.145 V, gm -8.6 % (recomputed on B1).
+- REVIEW.md:173: - Transfer curves at Vd = 0.05-0.1 V.
+- REVIEW.md:179: - **Mesh ×0.7 at 6.3 nm** (A7): RMSE 0.06247 vs 0.06261 dec, ΔVth_cc -0.32 mV, Ion -0.027 % (recomputed).
+- REVIEW.md:180: - **Mesh ×0.7 at 13.2 nm** (run_0028).
+- REVIEW.md:181: - **DOS refinement at 2 nm** (96 → 192 → 384 levels): Ion +1.983 % then +0.484 %, observed order p = 2.03, Richardson residual +0.156 % (recomputed).
+- REVIEW.md:182: - **Linearity in mu:** the run_0029/run_0038 ratio is 1.024879 against 1.024873.
+- REVIEW.md:189: - **ID-VD at high Vd.** No mesh check near pinch-off, although Vd_sat and gd(3 V)/gd0 = 0.01-0.68 % are registered and are mesh-sensitive.
+- REVIEW.md:190: - **C1's narrow band.** There is no DOS-resolution check for its 20 meV Gaussian. If the 384 levels are spaced uniformly over the ~3.1 eV gap, about 4 levels fall within its ~33 meV FWHM. The level placement is NOT DETERMINED, so C1's partial-fail verdict may be affected by discretization.
+- REVIEW.md:191: - **Coarse solver grid.** The 0.1 V solver grid above 1.5 V biases Vth_lin by up to -12 mV (S6).
+- REVIEW.md:192: - **SS_min is not a converged metric.** A 2.5 % current rescale flips it by 10 mV/dec (V9).
+- REVIEW.md:207: - On one ID-VG curve it is equivalent to fixed charge: dEc(2 nm) = 0.353 eV ≡ 1.97e12 cm^-2, and the realised 0.3156 V ≡ 1.76e12 cm^-2.
+- REVIEW.md:211: - the horizontal shift between runs 0012 and 0016 is 0.3446 V at 1e-14 A/um, 0.3017 V at 1e-8 and 0.3109 V at 3e-7;
+- REVIEW.md:212: - SS_cc is 289.1 vs 303.7 mV/dec.
+- REVIEW.md:214: That is 43 mV and 14.6 mV/dec, below the leverage of the fitted WTA (+12.4 mV/dec per 5 meV) and Dit.
+- REVIEW.md:216: **S3's Schrödinger-Poisson result is theory, not a measurement on these films.** A 0.26-0.30 V shift at 2 nm is physically plausible, but the bracket is 0.14-0.38 V, set by m*.
+- REVIEW.md:226: - ρc ≈ 0.26 Ω·cm²;
+- REVIEW.md:227: - 83 % of Vd dropped at the contacts;
+- REVIEW.md:237: - **run_0027 is malformed** (verified):
+- REVIEW.md:253: | FINAL_STATUS | confinement + Nt law + a 6.3 nm device-specific offset |
+- REVIEW.md:254: | S1 | no confinement; 13.2 nm is the outlier |
+- REVIEW.md:255: | S2 | structural step with a density-dependent mobility |
+- REVIEW.md:256: | S4 | donor step + near-Ec states |
+- REVIEW.md:257: | S6 | a constant-mobility model-form error |
+- REVIEW.md:263: - The ΔVth_cc envelope at 358 K (-35 to -85 mV) is wide.
+- REVIEW.md:265: - Only two registered items bear on thickness: the "mu_FE ratio shrinks toward 3.3" item and the Ea(3 V) ordering.
+- REVIEW.md:271: | "structural step" | GIXRD/TEM shows the same phase and grain size at 6.3 and 13.2 nm, or Hall mobility at 6.3 nm is within 30 % of 13.2 nm |
+- REVIEW.md:272: | "confinement" | the optical-gap shift between 2 and 13.2 nm is below 0.1 eV |
+- REVIEW.md:273: | "6.3 nm is device variation" | replicates give σ(Vth) < 0.1 V with a mean still 0.29 V off the shared law |
+- REVIEW.md:274: | "MTR-limited transport" | μ_FE(3 V) at 2 nm rises by more than 5 % between 300 and 358 K |
+- REVIEW.md:281: - Vd = 0.7 V and A/µm come only from the schematic/PPTX (`data/data_summary.json`, `_units_note`).
+- REVIEW.md:286: - Every ATLAS run and every linear μ_FE assumes Vd = 0.7 V.
+- REVIEW.md:290: - The 6.3 nm "anomaly" is 0.29 V. S3's own power estimate needs n ≈ 3 (σ = 0.05 V) to 10 (σ = 0.10 V) devices per thickness to resolve 0.13 V.
+- REVIEW.md:294: - Januar PBS gives 0.72-1.2 V shifts after 6 V / 1200 s. S4 scales this to 0.003-0.24 V for one sweep, which is comparable to the 0.29 V offset.
+- REVIEW.md:301: | film | μ_sat (cm^2/Vs) | peak at Vg |
+- REVIEW.md:303: | 2 nm | 5.09 | 1.75 V |
+- REVIEW.md:304: | 13.2 nm | 27.40 | 0.95 V |
+- REVIEW.md:305: | 6.3 nm | 3.86 | 2.55 V |
+- REVIEW.md:309: - The 13.2 nm peak lies *below* Vth_lin (0.95 < 1.044 V).
+- REVIEW.md:310: - The 2 nm peak is only 0.09 V above Vth_lin, i.e. in saturation at Vd = 0.7 V. It is not "in the linear regime" (S2).
+- REVIEW.md:313: - **Consequence 2: the paper's SS claim.** The paper's "near-thermal-limit SS (60-70 mV/dec)" (l.209-210) can be obtained from these curves only next to the noise floor:
+- REVIEW.md:314: - the 5-point SS without the floor gate is 70.6 mV/dec at 0.20 V (2 nm);
+- REVIEW.md:315: - the 2-point minimum is 58.6 mV/dec (2 nm) and **33.4 mV/dec (6.3 nm, sub-thermal, i.e. noise)**;
+- REVIEW.md:316: - the floor-gated SS_min is 84.5 / 114.7 / 130.8 mV/dec.
+- REVIEW.md:319: - The one film the model cannot reproduce (always-on; Id(-3 V) = 3.0e-7 A/µm) was excluded after the model failed on it.
+- REVIEW.md:320: - S2 nonetheless cites its "apparent mu_FE 49.2 ≈ 50.2" as a mobility plateau. That number is gm_max at Vg = -0.30 V of an always-on film:
+- REVIEW.md:321: - gm has local maxima at -0.30, 0.85, 1.15 and 1.70 V;
+- REVIEW.md:322: - gm(3 V)/gm_max = 0.067 (recomputed).
+- REVIEW.md:330: - Recomputed floors (median over -2 to -0.5 V):
+- REVIEW.md:334: | 2 nm | 4.606e-15 | — | not flat below -2 V: +1.21 dec/V over -3 to -2 V |
+- REVIEW.md:335: | 6.3 nm | 1.528e-13 | max/min 3.0-3.5; p10/p90 of I/median 0.55/1.25 | slope -0.011 dec/V; half-window medians agree to 2 % |
+- REVIEW.md:339: - The 6.3 nm scatter is ±45 %, not the "±3 %" S4 states.
+- REVIEW.md:343: - raw 136.1 mV/dec;
+- REVIEW.md:344: - floor-subtracted 91.8 mV/dec;
+- REVIEW.md:345: - model 91.2 mV/dec.
+- REVIEW.md:351: - **The log line is not direct proof.** `run_0045/deckbuild.out` l.391-393 prints "@ Temperature = 358 Kelvin, mu = 12.977, tmu = 1.5". Here 12.977 is the *300 K* parameter (17.6897 × 0.73359), not the effective mobility.
+- REVIEW.md:353: - run_0045 / run_0038 gives Ion ratio 0.7742;
+- REVIEW.md:357: - **It is still a configuration-control failure.** The IWO user material carries other silicon defaults in the parameter dump (vsat 9.78e6 cm/s, SRH and Auger coefficients, Alattice 5.43 Å). They are inactive or irrelevant here, but the paper needs a full audit of default versus set parameters.
+- REVIEW.md:358: - **Minor text error in the register.** The register prose quotes ×1.19665 and ×1.30426; the exact values are 1.19669 and 1.30441. The code (`s6_part3_predictions.py` l.64) uses the exact expression, so only the prose is wrong, by 0.012 %.
+- REVIEW.md:360: **2.8 Malformed run_0027 still cited (major until retracted).**
+- REVIEW.md:361: - "Electrode shortened" appears only in run_0027. The other 50 deckbuild logs carry at most the benign "Projection cannot be done" warning.
+- REVIEW.md:369: - Recomputed at Vg = 0.15 V:
+- REVIEW.md:371: | run | Id(0.15 V) (A/µm) | vs 5 × floor gate (2.3028e-14) | SS_min (mV/dec) |
+- REVIEW.md:373: | run_0012 | 2.3383e-14 | above | 73.2 |
+- REVIEW.md:375: | run_0029 (same DOS as B1, mu 18.13) | 2.3386e-14 | above | 73.2 |
+- REVIEW.md:377: A 2.5 % mobility rescale moves "SS" by 10 mV/dec.
+- REVIEW.md:386: | "Confinement ... accounts for the measured 0.58 V threshold difference" | Realised confinement is 0.3156 - 0.0234 = 0.292 V, i.e. **50.4 %** of the measured 0.579 V. About 0.11 V of the step is the mobility bias of the constant-current definition (+0.108 V). The model step (0.623 V) overshoots by 44 mV. |
+- REVIEW.md:387: | "It was tested" | The 2/13.2 nm agreement is the design point. The out-of-sample 6.3 nm test failed (-0.294 V). |
+- REVIEW.md:388: | "Without the law the two films would need fixed charges differing by 1.6e12" | Recomputed 1.39e12 cm^-2 (0.248 V). With the law, 6.3 nm needs 1.64e12, so the argument is symmetric. |
+- REVIEW.md:389: | "6.3 nm is reproduced in SHAPE" | SS_min is invalid. The on-state shape fails: run_0014 gap -0.314 V, gm -16.6 %. |
+- REVIEW.md:390: | "The tuned run shows that one electrostatic number is all it misses" | run_0015 also changed mu (12.4 → 11.69) and still misses Vth_lin by -0.349 V and gm by -23.1 %. |
+- REVIEW.md:391: | "+27 % on-current is the consequence of that overdrive error, not of the mobility" | The mobility choice is 24.9 % of the log error (+6.06 % of the +26.8 %). |
+- REVIEW.md:392: | "Subthreshold shapes ... without tuning" | Nt2 and WTA are FITTED (brief §3). |
+- REVIEW.md:393: | "Validation ... nothing tuned" | mu 12.4 is the V0 fit of this curve. |
+- REVIEW.md:394: | "Offsets agreeing to 40 mV" (runs 0001/0002) | +0.3331 vs +0.2866 V, i.e. 46.5 mV. |
+- REVIEW.md:395: | "15 launches" / "all 14 launches" | 52. |
+- REVIEW.md:396: | "Not run: WF, m*, 6.3 nm sensitivities" | Superseded (runs 0030-0036, 0048-0051). |
+- REVIEW.md:401: - Log-RMSE is also insensitive to on-state errors: run_0015 misses gm by -23 % at 0.063 dec.
+- REVIEW.md:405: - On the measured 13.2 nm curve, giving it the 2 nm mobility moves Vth_cc by +0.1084 V (μ_FE ratio 4.13) to +0.1154 V (ratio 4.45).
+- REVIEW.md:409: **2.13 Extraction at Vd = 0.7 V (minor).**
+- REVIEW.md:411: - At 2 nm, gm_max falls on the last point (3.00 V, a one-sided difference). So μ_FE(2 nm) = 12.15 is a lower bound, and Vth_lin(2 nm) depends on where the sweep ends.
+- REVIEW.md:416: - ε(Al2O3) = 9.0 is assumed. Varying it over 7-9 moves the EOT by about 3 %, and every q/Cox-derived charge moves with it.
+- REVIEW.md:421: - `s1_poisson1d.py` was saved at 19:18:00Z, after run_0037 started (19:16:21Z);
+- REVIEW.md:423: - **A6 was designed after the 6.3 nm miss was known.** The needed Qf (~-3e11) was pre-computed in the brief, and seven hypotheses were tried. It is "held out" in parameters, not in model selection.
+- REVIEW.md:428: - S4 reads Qf's magnitude as donors or an ionized-V_O layer (≈1.7e19 cm^-3 over 1 nm).
+- REVIEW.md:429: - Qf is exactly degenerate with WF and χ (0.100 V rigid; max |Δlog Id| ≤ 1.6e-5), so its magnitude is not a charge measurement.
+- REVIEW.md:439: | V1 | A6 misses 6.3 nm Vth_cc by -0.057 V; run_0014 by -0.294 V (S1, S3, S6) | -0.0573 / -0.2941 V | **agree** on the numbers; **disagree** with "A6 favours no-QC" (V11) |
+- REVIEW.md:440: | V2 | B0: SS_cc 410.9, SS_min 141.6, Vth_cc 0.654, Vth_lin 1.856, mu_FE 10.40, Ion -7.6 % (brief §5b, S6) | 410.95 / 141.60 / 0.6543 / 1.8563 / 10.396 / -7.63 %. SS_cc is +115.6 vs measured and +122.1 vs run_0015 | **agree** |
+- REVIEW.md:441: | V3 | Paper's 5.1 / 27.4 = saturation formula on the workbook curves: 5.09 / 27.40; 6.3 nm gives 3.86 (S2, S5) | 5.09 at 1.75 V, 27.40 at 0.95 V, 3.86 at 2.55 V. Robust to unsmoothed finite differences; SG smoothing gives 4.99-5.08 / 25.7-26.4. Ratio 5.387 vs 5.373 | **agree** on the reproduction; **disagree** with S2's "linear regime" and "0.45-0.55 of the true value" (actual 0.419 / 0.352 / 0.546; 13.2 nm peak below Vth_lin) |
+- REVIEW.md:442: | V4 | Floors are flat to ±3 % (6.3, 13.2 nm) and rise ×1432 ∝ t^3.85 (S4) | 4.606e-15 / 1.528e-13 / 6.597e-12; ratio 1432.3 (t^3.851; segments 3.05 / 5.09). 13.2 nm max/min 1.06. 6.3 nm max/min 3.0-3.5 (p10/p90 0.55/1.25) with no trend | **agree** on the ratio and on 13.2 nm; **disagree** on "±3 %" at 6.3 nm |
+- REVIEW.md:443: | V5 | q/Cox = 0.179 V per 1e12; Qf is an exact rigid shift; dEc(2 nm) is exactly degenerate with ~1.7e12 cm^-2 (brief, S3, S6) | 0.17891 V per 1e12. Qf shifts -0.3092…-0.3098 and +0.2936…+0.2942 V across 1e-14..3e-7 A/µm. The confinement package is **not** rigid: 0.3446 → 0.3017 → 0.3109 V; SS_cc 289.1 vs 303.7 | **agree** (Qf); **partially** (dEc + m* is near-, not exactly, degenerate; only pure dEc is exact) |
+- REVIEW.md:444: | V6 | DOS 96/48 → 384/192 gives +2.5 / +1.0 / +0.5 % Ion; p = 2.0; residual +0.16 %; recalibrated mu 17.69 / 11.58 / 61.60 (brief §5b, S6) | +2.476 / +0.947 / +0.496 %; p = 2.03; residual +0.156 %; mu 17.6897 / 11.5820 / 61.6046 | **agree** ("∝ Nt(t)" is only approximate: 1 : 0.38 : 0.20 vs 1 : 0.42 : 0.24) |
+- REVIEW.md:445: | V7 | tmu factor 0.7667 at 358.15 K; P-MTR multipliers ×1.30426 / ×1.19665 (brief §5b, register §2) | (358.15/300)^-1.5 = 0.76663. Exact multipliers 1.30441 / 1.19669. Simulated Ion ratio 0.7742 → P-MTR +0.98 % (6.3: +2.23 %; 13.2: +1.52 %) | **agree** on the factor and physics; **disagree** with the register prose factors (0.012 %); the deckbuild line alone is not proof |
+- REVIEW.md:446: | V8 | 86 % of the model's 2→6.3 nm drop is dEc(2) - dEc(6.3) (S1) | 0.2809 eV / 0.3265 V = 86.0 %. The counterfactual realised difference is 0.2514 V = 77.0 %. Confinement is 50.4 % of the *measured* 2→13.2 step | **agree** arithmetically; the share depends on the decomposition (77-86 %) |
+- REVIEW.md:447: | V9 | SS_min flips 73.2 ↔ 83.1 from a 2.6 % current difference at 0.15 V (S6, brief §5b) | 2.3383e-14 / gate 2.3028e-14 / 2.2813e-14 A/µm; 73.21 vs 83.14; run_0029 gives 73.23 | **agree** |
+- REVIEW.md:448: | V10 | Fixed-current SS 1e-11..1e-10 within 2.3 mV/dec in all films (S6) | measured vs simulated: 2 nm 121.2 vs 123.5; 6.3 nm 124.5 vs 124.8; 13.2 nm **136.1 raw** / 91.8 floor-subtracted vs 91.2 | **agree only with floor subtraction** at 13.2 nm |
+- REVIEW.md:449: | V11 | A6 favours no-QC; the data mildly disfavour confinement (S1, S3) | one-offset rms 0.136 vs 0.133 V; LOO 0.205 vs 0.199; anchor 2 nm 0.221 vs 0.180; anchor 13.2 nm 0.190 vs 0.278 | **disagree**: indistinguishable |
+- REVIEW.md:450: | V12 | Step form wins LOO (×1.11) vs power law (×2.63) (S2) | power law ×2.63 (exponent 0.7516); step ×1.110 with t_c ∈ (6.3, 13.2), ×4.58 with t_c ∈ (2, 6.3) | **agree** on the numbers; **disagree** on their weight (circular) |
+- REVIEW.md:451: | V13 | The CC definition contributes +0.108 / +0.115 V to the 13.2 nm Vth_cc (S1) | +0.1084 / +0.1154 V | **agree** |
+- REVIEW.md:452: | V14 | 13.2 nm isolation ΔIon is -5.0 % (WF) and +5.8 % (m*) vs B3; the brief's -6.8 / +3.7 % are relative to the measurement (S6) | -4.99 / +5.79 % vs run_0040; -6.86 / +3.71 % vs measured | **agree** (S6 is right, the brief is wrong) |
+- REVIEW.md:453: | V15 | A7 mesh check passes: 0.0625 vs 0.0626 dec (brief, S6) | 0.06247 vs 0.06261; ΔVth_cc -0.32 mV; Ion -0.027 % | **agree** |
+- REVIEW.md:454: | V16 | 31.8 nm apparent mu_FE 49.2 ≈ the 13.2 nm plateau (S2) | 49.18 at Vg -0.30 V; four gm maxima; gm(3 V)/gm_max 0.067 | **agree** on the number; **disagree** that it is a mobility |
+- REVIEW.md:455: | V17 | The laws alone offset 2 and 13.2 nm by the same +0.3 V "to 40 mV" (FINAL_STATUS, runs 0001/0002) | +0.3331 / +0.2866 V (46.5 mV) at Qf = 0, mu 16.8 / 57.6, reduced deck | **agree** approximately |
+- REVIEW.md:456: | V18 | run_0014's +27 % Ion is overdrive, "not the mobility" (FINAL_STATUS) | the mobility is 24.9 % of the log error | **partially** |
+- REVIEW.md:457: | V19 | S1's B0 SS_cc of 418 was a prediction (S1; S6 P2 "passed, blind") | code saved 19:18:00Z, output 19:24:15Z; run_0037 ran 19:16:21-19:21:30Z | **disagree**: not pre-registered |
+- REVIEW.md:460: - **S1:** the Gauss-term table and the "≤ 3 mV vs 12 ATLAS runs" surrogate agreement.
+- REVIEW.md:461: - **S2:** the 1-D partition (Nt 2.38 / 2.66 / 0.476e19; mu 19.3 / 19.6 / 62.7).
+- REVIEW.md:484: - S3 rates film confinement at 2 nm "strongly supported" (0.26-0.30 V).
+- REVIEW.md:486: If S3 is right, S1's reading needs an unexplained, 2 nm-specific ~+1.5-1.7e12 cm^-2 (S3 §3 says so itself). That is again one device-specific parameter, now at 2 nm.
+- REVIEW.md:491: B0 reproduced the on-state but broke SS_cc (+116 mV/dec), and S6 marks S2's re-partition FAIL. S2 was written at 19:04Z, before B0, and has not been updated.
+- REVIEW.md:492: - **K4. SS_min: physics or artefact?** S4 §2 treats the SS_min change on removing confinement as physics ("another way of shifting the tail-to-deep-state balance") and uses it to explain run_0012's 73 vs 84.5. S3 and S6 show it is a window artefact, and I confirmed this (V9).
+- REVIEW.md:495: - S5 says the 2 and 13.2 nm peaks sit at "trap-filling onset", and the 6.3 nm peak at "Vov ≈ 1.1 V".
+- REVIEW.md:496: - Recomputed, the 6.3 nm Vov is 1.91 V relative to Vth_cc and 0.73 V relative to Vth_lin. Neither is 1.1 V.
+- REVIEW.md:500: - S6 §1.6 finds the model too soft in the 1e-10..1e-9 window by +20 / +6 / +25 mV/dec.
+- REVIEW.md:503: - S1 §3.1 says A7 is "NOT DETERMINED", but run_0036 finished at 19:16:11Z, before S1 was saved at 19:33:37Z.
+- REVIEW.md:506: - EVIDENCE_BRIEF §4 gives the 13.2 nm no-confinement Qf as ~1.86e12 and §5b gives the isolation ΔIon values. Both are wrong.
+- REVIEW.md:507: - S1, S4 and S6 are right: 1.434e12 recomputed, and -4.99 / +5.79 %.
+- REVIEW.md:521: Vd is not confirmed. The paper's SS (60-70 mV/dec) and Nt ratio (×4 vs PBS ×15.6) are not reproducible from the same devices.
+- REVIEW.md:522: - **O2. S3's "exact" degeneracy.** It is near-degenerate: the Nc part gives 43 mV and 14.6 mV/dec (V5).
+- REVIEW.md:523: - **O3. S1's "demonstrated, 86 %".** This depends on the decomposition; the counterfactual gives 77 %.
+- REVIEW.md:524: - **O4. S4's "flat to ±3 %".** Not true at 6.3 nm.
+- REVIEW.md:527: - **O7. S6 "within 2.3 mV/dec for all three films".** This holds only with floor subtraction at 13.2 nm.
+- REVIEW.md:533: - **U1. The on-state shape also misses at 2 nm** (gap -0.145 V, gm -8.6 %). It is hidden by the 0.037 dec RMSE.
+- REVIEW.md:537: - **U5. The runner does not gate on ATLAS geometry warnings** (run_0027 was accepted).
+- REVIEW.md:547: > "With the DFT-proxy confinement law, one shared offset brings 2 and 13.2 nm within 30 mV and misses 6.3 nm by 0.29 V; without it, one offset fitted on 2 nm brings 6.3 nm within 60 mV and misses 13.2 nm by 0.25 V. The three thresholds do not discriminate the two readings (one-offset rms 0.136 vs 0.133 V). Confinement is an assumed input, not a result."
+- REVIEW.md:551: > "an out-of-sample test of the threshold (mobility from an earlier fit of the same curve), which failed by -0.29 V; the on-state shape (gap -0.31 V, gm -17 %) is also not reproduced."
+- REVIEW.md:553: - **SS.** Replace SS_min everywhere by V(1e-9), SS over 1e-11..1e-10 and over 1e-10..1e-9, SS_cc, the gap and Ion/gm. State the floor-subtraction choice.
+- REVIEW.md:554: - **Contacts.** Retract the run_0027 row and "contact geometry irrelevant".
+- REVIEW.md:567: - Fig. S12 (2 nm at 338/358 K): test ΔVth_lin (-17 / -27 mV, the same in both variants), ΔVth_cc and ΔIon against the hash-locked register.
+- REVIEW.md:571: 4. **Output and contact data:** ID-VD, low-Vd transfer curves (0.05-0.1 V), and TLM or an L-series.
+- REVIEW.md:607: - the run_0027 `device.in` / `deckbuild.out` inspection (x.mesh ends at 24 µm; 3 × "Electrode shortened");
+- REVIEW.md:609: - `run_0045/deckbuild.out` l.384-423.
+
+## PREDICTIONS_REGISTER.md
+
+- PREDICTIONS_REGISTER.md:7: - Calibrated (300 K, Vd 0.7 V, one ID-VG per film): mu_band = 17.6897 (2 nm), 11.582 (6.3 nm), 61.6046 cm^2/Vs (13.2 nm); Qf = 1.73e12 cm^-2 (2 and 13.2 nm, shared) and 8.7e10 cm^-2 (6.3 nm, device-specific "tuned" configuration).
+- PREDICTIONS_REGISTER.md:8: - 300 K references: run_0038 (B1) x 17.6897/17.69 = x0.999983, run_0039 (B2) x 11.582/11.41 = x1.015074, run_0040 (B3) x 61.6046/60.39 = x1.020113 (exact: Id is linear in the uniform constant mobility; verified run_0029/run_0038 ratio 1.024879 vs 1.024873 expected over 43 points; ID-VD at Vd 0.7 V equals the rescaled transfer curves to <0.001 % at all 15 (film, Vg) points).
+- PREDICTIONS_REGISTER.md:10: - Known calibration residuals the predictions inherit (final converged comparison, S6 report section 1): 2 nm gm_max -8.6 %, Vth_lin -0.127 V; 6.3 nm gm_max -23 %, Vth_lin -0.354 V (on-state shape NOT reproduced; the 6.3 nm predictions are lower-confidence); 13.2 nm gm_max -2.6 %.
+- PREDICTIONS_REGISTER.md:13: ATLAS applied its silicon-default constant-mobility temperature exponent (printed "tmu = 1.5" in `run_0045/deckbuild.out`, REGIONAL MOBILITY MODEL SUMMARY, lines ~384-423: "mu = 12.977 @ 358 K, tmu = 1.5"), i.e. mu_band(T) = mu_band(300 K)(T/300)^-1.5, although the plan declared a T-independent band mobility. Because the mobility is uniform and constant, the current is exactly proportional to that factor, so two variants are exact:
+- PREDICTIONS_REGISTER.md:21: ## 4. ID-VD predictions (300 K; runs B8 run_0041, B9 run_0042, B10 run_0043; Vd 0-0.5 V in 0.05 V steps, 0.5-3 V in 0.1 V steps)
+- PREDICTIONS_REGISTER.md:24: | film | Vg (V) | Id @0.05 | Id @0.1 | Id @0.5 | Id @1 | Id @2 | Id @3 V | Id @0.7 (= calibrated transfer) | model/measured at Vd 0.7 (calibration residual, context) |
+- PREDICTIONS_REGISTER.md:26: | 2 nm | 1 | 1.854e-09 | 3.34e-09 | 7.693e-09 | 7.872e-09 | 7.882e-09 | 7.888e-09 | 7.86e-09 | 0.813 |
+- PREDICTIONS_REGISTER.md:27: | 2 nm | 1.5 | 8.969e-09 | 1.699e-08 | 5.292e-08 | 6.075e-08 | 6.106e-08 | 6.111e-08 | 5.841e-08 | 0.972 |
+- PREDICTIONS_REGISTER.md:28: | 2 nm | 2 | 1.988e-08 | 3.86e-08 | 1.482e-07 | 2.014e-07 | 2.101e-07 | 2.103e-07 | 1.786e-07 | 1.052 |
+- PREDICTIONS_REGISTER.md:29: | 2 nm | 2.5 | 3.197e-08 | 6.27e-08 | 2.649e-07 | 4.135e-07 | 4.761e-07 | 4.772e-07 | 3.376e-07 | 1.035 |
+- PREDICTIONS_REGISTER.md:30: | 2 nm | 3 | 4.447e-08 | 8.768e-08 | 3.883e-07 | 6.537e-07 | 8.582e-07 | 8.687e-07 | 5.09e-07 | 1.000 |
+- PREDICTIONS_REGISTER.md:31: | 6.3 nm | 1 | 2.116e-09 | 3.836e-09 | 8.985e-09 | 9.233e-09 | 9.247e-09 | 9.254e-09 | 9.214e-09 | 1.021 |
+- PREDICTIONS_REGISTER.md:32: | 6.3 nm | 1.5 | 8.245e-09 | 1.575e-08 | 5.224e-08 | 6.136e-08 | 6.176e-08 | 6.181e-08 | 5.859e-08 | 1.229 |
+- PREDICTIONS_REGISTER.md:33: | 6.3 nm | 2 | 1.644e-08 | 3.202e-08 | 1.266e-07 | 1.791e-07 | 1.891e-07 | 1.893e-07 | 1.553e-07 | 1.249 |
+- PREDICTIONS_REGISTER.md:34: | 6.3 nm | 2.5 | 2.549e-08 | 5.005e-08 | 2.138e-07 | 3.408e-07 | 4.037e-07 | 4.048e-07 | 2.745e-07 | 1.131 |
+- PREDICTIONS_REGISTER.md:35: | 6.3 nm | 3 | 3.498e-08 | 6.9e-08 | 3.069e-07 | 5.211e-07 | 7.027e-07 | 7.142e-07 | 4.034e-07 | 1.000 |
+- PREDICTIONS_REGISTER.md:36: | 13.2 nm | 1 | 4.651e-08 | 8.863e-08 | 2.852e-07 | 3.245e-07 | 3.259e-07 | 3.263e-07 | 3.142e-07 | 0.948 |
+- PREDICTIONS_REGISTER.md:37: | 13.2 nm | 1.5 | 9.441e-08 | 1.838e-07 | 7.241e-07 | 1.011e-06 | 1.055e-06 | 1.056e-06 | 8.85e-07 | 0.996 |
+- PREDICTIONS_REGISTER.md:38: | 13.2 nm | 2 | 1.463e-07 | 2.872e-07 | 1.228e-06 | 1.954e-06 | 2.289e-06 | 2.294e-06 | 1.576e-06 | 1.006 |
+- PREDICTIONS_REGISTER.md:39: | 13.2 nm | 2.5 | 2e-07 | 3.946e-07 | 1.758e-06 | 2.988e-06 | 4.015e-06 | 4.068e-06 | 2.312e-06 | 1.004 |
+- PREDICTIONS_REGISTER.md:40: | 13.2 nm | 3 | 2.55e-07 | 5.044e-07 | 2.302e-06 | 4.063e-06 | 6.035e-06 | 6.388e-06 | 3.071e-06 | 1.000 |
+- PREDICTIONS_REGISTER.md:42: ### 4.2 Output-curve shape (the genuine prediction content: normalised to the calibrated Vd = 0.7 V point)
+- PREDICTIONS_REGISTER.md:43: | film | Vg | Vg - Vth_lin(300 K model) (V) | Id(0.1)/Id(0.05) | d2Id/dVd2 at Vd->0 (A/um/V^2) | gd0 (S/um, quadratic fit 0-0.1 V) | Vd_sat: gd = 10 % of gd0 (V) | gd at Vd 3 V (S/um) | gd(3 V)/gd0 | Id(3)/Id(0.7) | Id(0.1)/Id(0.7) |
+- PREDICTIONS_REGISTER.md:45: | 2 nm | 1 | -0.54 | 1.8011 | -1.48e-07 | 4.077e-08 | 0.43 | 4.7e-12 | 0.01 % | 1.0036 | 0.4249 |
+- PREDICTIONS_REGISTER.md:46: | 2 nm | 1.5 | -0.04 | 1.8941 | -3.8e-07 | 1.889e-07 | 0.68 | 4e-11 | 0.02 % | 1.0463 | 0.2909 |
+- PREDICTIONS_REGISTER.md:47: | 2 nm | 2 | +0.46 | 1.9414 | -4.66e-07 | 4.093e-07 | 1.01 | 1.6e-10 | 0.04 % | 1.1773 | 0.2161 |
+- PREDICTIONS_REGISTER.md:48: | 2 nm | 2.5 | +0.96 | 1.9614 | -4.93e-07 | 6.516e-07 | 1.40 | 4.9e-10 | 0.08 % | 1.4136 | 0.1857 |
+- PREDICTIONS_REGISTER.md:49: | 2 nm | 3 | +1.46 | 1.9716 | -5.04e-07 | 9.02e-07 | 1.80 | 1.49e-09 | 0.17 % | 1.7067 | 0.1723 |
+- PREDICTIONS_REGISTER.md:50: | 6.3 nm | 1 | -0.47 | 1.8126 | -1.59e-07 | 4.63e-08 | 0.44 | 6e-12 | 0.01 % | 1.0044 | 0.4163 |
+- PREDICTIONS_REGISTER.md:51: | 6.3 nm | 1.5 | +0.03 | 1.9103 | -2.96e-07 | 1.723e-07 | 0.73 | 4.4e-11 | 0.03 % | 1.0550 | 0.2688 |
+- PREDICTIONS_REGISTER.md:52: | 6.3 nm | 2 | +0.53 | 1.9472 | -3.47e-07 | 3.375e-07 | 1.09 | 1.6e-10 | 0.05 % | 1.2188 | 0.2061 |
+- PREDICTIONS_REGISTER.md:53: | 6.3 nm | 2.5 | +1.03 | 1.9636 | -3.71e-07 | 5.191e-07 | 1.49 | 4.6e-10 | 0.09 % | 1.4746 | 0.1823 |
+- PREDICTIONS_REGISTER.md:54: | 6.3 nm | 3 | +1.53 | 1.9725 | -3.85e-07 | 7.093e-07 | 1.90 | 1.38e-09 | 0.19 % | 1.7702 | 0.1710 |
+- PREDICTIONS_REGISTER.md:55: | 13.2 nm | 1 | +0.01 | 1.9057 | -1.76e-06 | 9.741e-07 | 0.68 | 2.6e-10 | 0.03 % | 1.0384 | 0.2821 |
+- PREDICTIONS_REGISTER.md:56: | 13.2 nm | 1.5 | +0.51 | 1.9468 | -2.01e-06 | 1.938e-06 | 1.05 | 1e-09 | 0.05 % | 1.1934 | 0.2077 |
+- PREDICTIONS_REGISTER.md:57: | 13.2 nm | 2 | +1.01 | 1.9639 | -2.11e-06 | 2.978e-06 | 1.45 | 2.8e-09 | 0.09 % | 1.4558 | 0.1822 |
+- PREDICTIONS_REGISTER.md:58: | 13.2 nm | 2.5 | +1.51 | 1.9728 | -2.17e-06 | 4.055e-06 | 1.87 | 8.1e-09 | 0.20 % | 1.7596 | 0.1707 |
+- PREDICTIONS_REGISTER.md:59: | 13.2 nm | 3 | +2.01 | 1.9783 | -2.21e-06 | 5.155e-06 | 2.30 | 3.5e-08 | 0.68 % | 2.0803 | 0.1643 |
+- PREDICTIONS_REGISTER.md:61: Gradual-channel reference: Id(0.1)/Id(0.05) = 2 x [1 - 0.05/Vov]/[1 - 0.025/Vov] < 2 for an Ohmic contact (Vov = effective overdrive); every registered value is 1.80-1.98 with negative low-Vd curvature (no S-shape). Output conductance at 3 V is 0.01-0.68 % of gd0 (L = 20 um, no channel-length modulation, no parallel path in the model).
+- PREDICTIONS_REGISTER.md:64: | ratio | Vg | Vd 0.05 | 0.1 | 0.5 | 1 | 2 | 3 V |
+- PREDICTIONS_REGISTER.md:66: | 6.3/2 nm | 1 | 1.141 | 1.149 | 1.168 | 1.173 | 1.173 | 1.173 |
+- PREDICTIONS_REGISTER.md:67: | 6.3/2 nm | 1.5 | 0.919 | 0.927 | 0.987 | 1.010 | 1.011 | 1.011 |
+- PREDICTIONS_REGISTER.md:68: | 6.3/2 nm | 2 | 0.827 | 0.829 | 0.854 | 0.889 | 0.900 | 0.900 |
+- PREDICTIONS_REGISTER.md:69: | 6.3/2 nm | 2.5 | 0.797 | 0.798 | 0.807 | 0.824 | 0.848 | 0.848 |
+- PREDICTIONS_REGISTER.md:70: | 6.3/2 nm | 3 | 0.787 | 0.787 | 0.790 | 0.797 | 0.819 | 0.822 |
+- PREDICTIONS_REGISTER.md:71: | 13.2/2 nm | 1 | 25.082 | 26.538 | 37.075 | 41.223 | 41.353 | 41.365 |
+- PREDICTIONS_REGISTER.md:72: | 13.2/2 nm | 1.5 | 10.526 | 10.819 | 13.685 | 16.648 | 17.272 | 17.281 |
+- PREDICTIONS_REGISTER.md:73: | 13.2/2 nm | 2 | 7.357 | 7.442 | 8.285 | 9.701 | 10.894 | 10.909 |
+- PREDICTIONS_REGISTER.md:74: | 13.2/2 nm | 2.5 | 6.258 | 6.294 | 6.636 | 7.225 | 8.432 | 8.524 |
+- PREDICTIONS_REGISTER.md:75: | 13.2/2 nm | 3 | 5.734 | 5.753 | 5.929 | 6.215 | 7.033 | 7.354 |
+- PREDICTIONS_REGISTER.md:77: ## 5. Elevated-temperature transfer predictions (Vd 0.7 V; B11 run_0044 338.15 K 2 nm; B12 run_0045, B13 run_0046, B14 run_0047 at 358.15 K)
+- PREDICTIONS_REGISTER.md:80: | film | Vth_cc (V) | V(1e-11) (V) | V(1e-7) (V) | SS 1e-11..1e-10 | SS 1e-10..1e-9 | SS 1e-10..1e-8 (mV/dec) | Vth_lin (V) | mu_FE (cm^2/Vs) | Ion (A/um) |
+- PREDICTIONS_REGISTER.md:82: | 2 nm | 0.6804 | 0.3419 | 1.7043 | 123.5 | 215.0 | 290.9 | 1.5365 | 11.096 | 5.09e-07 |
+- PREDICTIONS_REGISTER.md:83: | 6.3 nm | 0.6529 | 0.3128 | 1.7376 | 124.5 | 215.6 | 289.7 | 1.4664 | 8.393 | 4.034e-07 |
+- PREDICTIONS_REGISTER.md:84: | 13.2 nm | 0.0536 | -0.1807 | 0.6832 | 90.9 | 143.4 | 193.0 | 0.9946 | 48.851 | 3.071e-06 |
+- PREDICTIONS_REGISTER.md:87: | film | T (K) | variant | Vth_cc (V) | dVth_cc (mV) | dV(1e-11) (mV) | dV(1e-7) (mV) | SS 1e-11..1e-10 (d) | SS 1e-10..1e-9 (d) | SS 1e-10..1e-8 (d) | dVth_lin (mV) | mu_FE (ratio) | Ion (A/um) | dIon (%) |
+- PREDICTIONS_REGISTER.md:89: | 2 nm | 338.15 | P-phonon | 0.6526 | -27.9 | -28.9 | +56.4 | 123.5 (+0.0) | 216.0 (+1.0) | 300.2 (+9.3) | -17.2 | 9.223 (x0.8312) | 4.28e-07 | -15.91 |
+- PREDICTIONS_REGISTER.md:90: | 2 nm | 338.15 | P-MTR | 0.6311 | -49.3 | -36.9 | -27.1 | 119.7 (-3.8) | 206.3 (-8.6) | 287.1 (-3.8) | -17.2 | 11.037 (x0.9947) | 5.122e-07 | +0.63 |
+- PREDICTIONS_REGISTER.md:91: | 2 nm | 358.15 | P-phonon | 0.6399 | -40.5 | -44.0 | +85.4 | 125.0 (+1.5) | 216.9 (+2.0) | 304.5 (+13.6) | -26.5 | 8.437 (x0.7604) | 3.94e-07 | -22.58 |
+- PREDICTIONS_REGISTER.md:92: | 2 nm | 358.15 | P-MTR | 0.6074 | -73.1 | -54.6 | -41.6 | 117.3 (-6.3) | 202.8 (-12.1) | 285.3 (-5.6) | -26.5 | 11.006 (x0.9919) | 5.14e-07 | +0.99 |
+- PREDICTIONS_REGISTER.md:93: | 6.3 nm | 358.15 | P-phonon | 0.6062 | -46.7 | -48.3 | +107.8 | 123.7 (-0.7) | 217.9 (+2.4) | 307.3 (+17.6) | -34.5 | 6.433 (x0.7664) | 3.162e-07 | -21.63 |
+- PREDICTIONS_REGISTER.md:94: | 6.3 nm | 358.15 | P-MTR | 0.5739 | -78.9 | -60.2 | -45.4 | 118.2 (-6.3) | 203.1 (-12.5) | 286.9 (-2.8) | -34.5 | 8.391 (x0.9997) | 4.124e-07 | +2.22 |
+- PREDICTIONS_REGISTER.md:95: | 13.2 nm | 358.15 | P-phonon | -0.0030 | -56.6 | -55.4 | +0.9 | 93.0 (+2.1) | 140.1 (-3.3) | 195.2 (+2.2) | -30.1 | 37.459 (x0.7668) | 2.39e-06 | -22.17 |
+- PREDICTIONS_REGISTER.md:96: | 13.2 nm | 358.15 | P-MTR | -0.0226 | -76.3 | -65.2 | -64.2 | 90.4 (-0.5) | 132.9 (-10.6) | 183.1 (-9.9) | -30.1 | 48.862 (x1.0002) | 3.117e-06 | +1.52 |
+- PREDICTIONS_REGISTER.md:98: Thickness ratio mu_FE(13.2)/mu_FE(2): 4.403 (300 K) -> 4.440 (358.15 K) in both variants (+0.8 %); Ion(13.2)/Ion(2): 6.033 -> 6.065. The tmu factor is common to all films, so the ratios are variant-independent.
+- PREDICTIONS_REGISTER.md:100: ### 5.3 Apparent activation energy of Id at fixed Vg (meV; Vd 0.7 V; 2 nm fit over 300/338.15/358.15 K with the two pair values in brackets, 6.3 and 13.2 nm over 300/358.15 K)
+- PREDICTIONS_REGISTER.md:101: | film | variant | Vg 0 | 0.5 | 1.0 | 1.5 | 2.0 | 3.0 V |
+- PREDICTIONS_REGISTER.md:103: | 2 nm | P-phonon | n/a (Id < 1e-16) | +81.6 (+81.4, +82.1) | +15.2 (+15.2, +14.9) | -19.5 (-19.1, -20.5) | -34.3 (-33.6, -36.2) | -40.6 (-39.7, -43.2) |
+- PREDICTIONS_REGISTER.md:104: | 2 nm | P-MTR | n/a (Id < 1e-16) | +123.7 (+122.5, +127.1) | +57.3 (+56.4, +59.9) | +22.6 (+22.0, +24.5) | +7.8 (+7.5, +8.8) | +1.5 (+1.4, +1.8) |
+- PREDICTIONS_REGISTER.md:105: | 6.3 nm | P-phonon | +452.0 * | +86.0 | +11.1 | -22.3 | -33.5 | -38.8 |
+- PREDICTIONS_REGISTER.md:106: | 6.3 nm | P-MTR | +494.3 * | +128.3 | +53.4 | +20.0 | +8.8 | +3.5 |
+- PREDICTIONS_REGISTER.md:107: | 13.2 nm | P-phonon | +120.8 | +20.4 | -21.5 | -34.0 | -37.7 | -39.9 |
+- PREDICTIONS_REGISTER.md:108: | 13.2 nm | P-MTR | +163.1 | +62.7 | +20.8 | +8.3 | +4.7 | +2.4 |
+- PREDICTIONS_REGISTER.md:110: \* below 5x the measured 300 K off-floor of that film: not measurable on the existing devices. The P-MTR minus P-phonon difference is the tmu term, +1.5 k_B T_eff = +42.3 meV for 300-358.15 K, at every Vg.
+- PREDICTIONS_REGISTER.md:113: | film | quantity at 350 K | S2 surrogate (registered 2026-09-24T18:57Z) | ATLAS P-MTR (interpolated linearly in T) | difference |
+- PREDICTIONS_REGISTER.md:115: | 2 nm | dVth_cc (mV) | -64 | -63.4 | +0.6 |
+- PREDICTIONS_REGISTER.md:116: | 2 nm | mu_FE ratio | 0.993 | 0.9930 | +0.0000 |
+- PREDICTIONS_REGISTER.md:117: | 2 nm | Ion ratio | 1.004 | 1.0084 | +0.0044 |
+- PREDICTIONS_REGISTER.md:118: | 2 nm | dVth_lin (mV) | -15 | -22.7 | -7.7 |
+- PREDICTIONS_REGISTER.md:119: | 13.2 nm | dVth_cc (mV) | -66 | -65.6 | +0.4 |
+- PREDICTIONS_REGISTER.md:120: | 13.2 nm | mu_FE ratio | 0.999 | 1.0002 | +0.0012 |
+- PREDICTIONS_REGISTER.md:121: | 13.2 nm | Ion ratio | 1.011 | 1.0131 | +0.0021 |
+- PREDICTIONS_REGISTER.md:122: | 13.2 nm | dVth_lin (mV) | -24 | -25.9 | -1.9 |
+- PREDICTIONS_REGISTER.md:123: Ea (P-MTR, 300-358 K fit) vs S2 (300-350 K): 2 nm 124/57/23/8/2 vs 120/56/23/7/1 meV at Vg 0.5/1/1.5/2/3 V; 13.2 nm 163/63/21/8/5/2 vs 156/61/20/8/4/2 meV at Vg 0/0.5/1/1.5/2/3 V. This is a model-vs-surrogate consistency test (numerical), not an experimental validation.
+- PREDICTIONS_REGISTER.md:128: | Low-Vd linearity, all films and Vg | Id(0.1)/Id(0.05) = 1.80-1.98; d2Id/dVd2 < 0 at Vd -> 0 | ratio > 2.0 or upward (S-shaped) curvature below ~0.2 V, in particular at 2 nm only | ideal Ohmic Pd/IWO injection (S5 M2: confinement-raised barrier); also the mu_band = intrinsic lumping |
+- PREDICTIONS_REGISTER.md:129: | Normalised output Id(0.1)/Id(0.7) at Vg 3 V | 0.172 / 0.171 / 0.164 (2 / 6.3 / 13.2 nm) | measured value lower by more than the repeatability, growing with Id | negligible Rsd (series resistance compresses the low-Vd end); thickness ordering of the deficit identifies which film carries Rc |
+- PREDICTIONS_REGISTER.md:130: | Saturation | Vd_sat(10 %) 0.43-1.80 V (2 nm), 0.44-1.90 (6.3), 0.68-2.30 (13.2) for Vg 1-3 V | quasi-saturation well below these (> ~0.3 V lower) | constant mobility and zero Rsd (field-dependent mobility or Rsd) |
+- PREDICTIONS_REGISTER.md:131: | Output conductance at Vd 3 V | 0.01-0.19 % of gd0 (2, 6.3 nm), 0.03-0.68 % (13.2 nm) | several % of gd0, or rising with t | no parallel/ungated path, long-channel electrostatics (S4 floor path; back-channel conduction) |
+- PREDICTIONS_REGISTER.md:132: | Film ratios at low Vd | Id(13.2)/Id(2) at Vd 0.1 V = 26.5 / 10.8 / 7.44 / 6.29 / 5.75 (Vg 1-3 V) | low-Vd ratio differing from the Vd 0.7 V ratio beyond the predicted Vd dependence | thickness-independent (zero) contact resistance |
+- PREDICTIONS_REGISTER.md:133: | On-current vs T (2 nm, 358 K) | P-MTR +0.99 %, P-phonon -22.6 % (mu_FE x0.992 / x0.760) | dIon > ~+5 % (g < -0.2) | T-independent or phonon-like band mobility: activated band mobility / percolation (S2 4b predicts mu x1.03-1.39) |
+- PREDICTIONS_REGISTER.md:134: | On-current vs T | as above | dIon near -22 % (g ~ +1.5) | T-independent band mobility (band-like phonon-limited transport instead) |
+- PREDICTIONS_REGISTER.md:135: | Thickness ratio mu_FE(13.2)/mu_FE(2) | 4.40 -> 4.44 at 358 K (both variants) | shrinks toward ~3.3 (or 2.7-3.3) | common band-transport mechanism in all films (S2: barrier-limited thin films, phonon-limited 13.2 nm) |
+- PREDICTIONS_REGISTER.md:136: | dVth_cc at 358 K | P-MTR -73 / -79 / -76 mV; P-phonon -41 / -47 / -57 mV (2 / 6.3 / 13.2 nm); dVth_lin -27 / -35 / -30 mV in both | at 358 K, outside the -35 ... -85 mV envelope of the two variants beyond the (NOT DETERMINED, to be measured) repeatability, or a thickness spread >> 20 mV | equilibrium tail filling as the only T-dependent charge (e.g. thermally ionized V_O donors, T-dependent Qf, hysteresis) |
+- PREDICTIONS_REGISTER.md:137: | dVth_cc at 338 K (2 nm) | P-MTR -49 mV; P-phonon -28 mV | as above | as above |
+- PREDICTIONS_REGISTER.md:138: | Subthreshold Ea at fixed Vg | P-MTR 124 / 128 / 63 meV at 0.5 V; 57 / 53 / 21 meV at 1 V (2 / 6.3 / 13.2 nm) | ordering Ea(2) ~ Ea(6.3) > Ea(13.2) violated beyond ~10 meV | tail/EF alignment (Vth) ordering of the model; a different EF-Ec at the 6.3 nm film |
+- PREDICTIONS_REGISTER.md:139: | On-state Ea (Vg 3 V) | P-MTR +1.5 / +3.5 / +2.4 meV; P-phonon -40.6 / -38.8 / -39.9 meV | thin-film Ea(3 V) exceeding the 13.2 nm value by > ~10 meV | thickness-independent transport mechanism (structural/percolation step, S2) |
+- PREDICTIONS_REGISTER.md:140: | SS at fixed current, 358 K | P-MTR: SS 1e-10..1e-9 -12.1 / -12.5 / -10.6 mV/dec; P-phonon +2.0 / +2.4 / -3.3 | increase > ~20 mV/dec | T-independent tail (WTA) and Dit; thermal-equilibrium trapping |
+- PREDICTIONS_REGISTER.md:143: - Id, Ion, mu_FE ratios: DOS residual beyond 384/192 +0.16 % at 2 nm (Richardson, observed order 2.0 from runs 0012/0019/0029), smaller for 6.3/13.2 nm (offsets scale ~Nt); mesh x0.7 <= 0.013 % (runs 0036, 0028); linear rescale exact to 1e-5. DOS convergence was verified at 300 K only (not at 338/358 K).
+- PREDICTIONS_REGISTER.md:144: - Vth_cc, V(I): +/-1 mV (DOS residual < 0.5 mV, mesh 0.3-0.4 mV, log-linear vs PCHIP interpolation <= 1.5 mV). Fixed-current SS: +/-1 mV/dec. Vth_lin: grid-limited, -5 to -12 mV bias of the simulation grid relative to a 0.05 V measurement (0.1 V solver steps above 1.5 V); gm_max: -0.4 to -0.7 %.
+- PREDICTIONS_REGISTER.md:145: - Ea: < 0.5 meV (numerical); ID-VD: Vd_sat +/-0.05 V (0.1 V grid); gd(3 V) at Vg 1 V is set by current differences of ~5e-13 A/um per 0.1 V and carries up to ~5 % numerical uncertainty (KCL residual up to 1e-14 A in runs 0041/0042).
+- PREDICTIONS_REGISTER.md:149: 300 K references: run_0038 (B1, 2 nm), run_0039 (B2, 6.3 nm tuned), run_0040 (B3, 13.2 nm). ID-VD: run_0041 (B8), run_0042 (B9), run_0043 (B10). Elevated T: run_0044 (B11, 2 nm, 338.15 K), run_0045 (B12, 2 nm, 358.15 K), run_0046 (B13, 6.3 nm, 358.15 K), run_0047 (B14, 13.2 nm, 358.15 K). Linearity check: run_0029 vs run_0038. All launches are logged in `results/RUN_INDEX.csv` (finish rows 2026-09-24T19:28:46Z to 21:54:12Z).
+- PREDICTIONS_REGISTER.md:152: `analysis_2026-09-25/predictions_canonical.csv` (1917 rows; columns film, T_K, variant, Vg, Vd, quantity, value, unit, run_id). Variants: as_simulated_300K (ID-VD), reference_300K, P-phonon, P-MTR. It holds every ID-VD point (Vd > 0), the normalised output curves, the derived output metrics, the full predicted transfer curves (Vg >= -1 V, Id > 1e-16 A/um) for every film, temperature and variant, the metric changes and the Ea values.
+- PREDICTIONS_REGISTER.md:155: | file (relative to the package root) | SHA-256 |
+
+## EVIDENCE_BRIEF.md
+
+- EVIDENCE_BRIEF.md:8: - Bottom-gate TFT: TiN 50 nm / HfO2 15 nm (eps 19.57, measured) / Al2O3 2 nm (eps 9.0, assumed) / IWO (~2 % W, composition definition NOT DETERMINED) / Pd 70 nm top S/D; air above the channel (no passivation). W/L = 290/20 um, Vd = 0.7 V (from the schematic; workbook has no units).
+- EVIDENCE_BRIEF.md:9: - Cox = 8.955e-7 F/cm^2 (EOT 3.86 nm). q/Cox = 0.179 V per 1e12 cm^-2. kT = 25.85 meV (T assumed 300 K; not recorded).
+- EVIDENCE_BRIEF.md:10: - Data: ONE ID-VG curve per thickness (2.0, 6.3, 13.2, 31.8 nm), -3..+3 V, 0.05 V steps, `data/experimental_clean.csv` (A/um). NOT available: IG, IS, sweep direction/hysteresis, dwell, temperature, ID-VD, C-V, TLM, number of devices per thickness (device-to-device spread unknown), thickness-measurement method/uncertainty, measurement ambient.
+- EVIDENCE_BRIEF.md:11: - Target paper: Januar et al. 2026 Small Structures (text in `inputs/papers_text/Januar2026_SmallStruct_IWO.txt`). NOTE: the paper quotes peak mu_FE 5.1 (2 nm) and 27.4 cm^2/Vs (13.2 nm) (tables/THICKNESS_LAW_EVIDENCE.csv), whereas the workbook curves give 12.1 and 50.2 with Cox 8.955e-7, L/W 20/290 um, Vd 0.7 V; the ratio is not constant (2.4x vs 1.8x). Origin NOT DETERMINED (different devices? different extraction/normalisation?).
+- EVIDENCE_BRIEF.md:14: | t (nm) | Vth_cc@1e-9 A/um (V) | Vth_lin (V) | SS_min (mV/dec) | SS 1e-10..1e-8 (mV/dec) | gm_max (A/V/um) | mu_FE (cm2/Vs) | Ion@3V (A/um) | off-band median (A/um) |
+- EVIDENCE_BRIEF.md:16: | 2.0 | 0.662 | 1.663 | 84.5 | 269.9 | 3.807e-7 | 12.15 | 5.09e-7 | 4.6e-15 |
+- EVIDENCE_BRIEF.md:17: | 6.3 | 0.644 | 1.820 | 114.7 | 295.4 | 3.431e-7 | 10.95 | 4.03e-7 | 1.5e-13 |
+- EVIDENCE_BRIEF.md:18: | 13.2 | 0.083 | 1.044 | 130.8 | 160.0 | 1.572e-6 | 50.17 | 3.07e-6 | 6.6e-12 |
+- EVIDENCE_BRIEF.md:19: | 31.8 | always on (Id >= 2.6e-7 A/um at -3 V) | | | | | | 3.59e-6 | |
+- EVIDENCE_BRIEF.md:24: | quantity | law | 2.0 | 6.3 | 13.2 | status |
+- EVIDENCE_BRIEF.md:26: | dEc = dEg (confinement) | 0.9205 t^-1.3815 eV (log-log fit through THREE PBE slab points at 0.95-1.98 nm, pure In2O3; EXTRAPOLATED beyond 2 nm) | 0.353 | 0.072 | 0.026 | DFT proxy, +/-50 % |
+- EVIDENCE_BRIEF.md:27: | m* | 0.208 + 0.1311 t^-1.412 (enters only Nc) | 0.257 | 0.218 | 0.211 | proxy |
+- EVIDENCE_BRIEF.md:28: | Nt (tail integral) | 2e19 (2/t)^0.75 cm^-3 (anchored on the 2 nm fit; exponent from a 2-point ratio ~4 between 13.2 and 2 nm in Januar 2026) | 2.0e19 | 8.5e18 | 4.9e18 | FITTED |
+- EVIDENCE_BRIEF.md:29: | Nt x t (sheet) | | 4.0e12 | 5.3e12 | 6.4e12 cm^-2 | derived |
+- EVIDENCE_BRIEF.md:30: | WTA | 0.040 eV shared | | | | FITTED |
+- EVIDENCE_BRIEF.md:31: | Nd_eff | 2.5e17 (1+(t/20)^4) | 2.50e17 | 2.52e17 | 2.97e17 | FITTED; q Nd t/Cox = 0.009 / 0.028 / 0.070 V |
+- EVIDENCE_BRIEF.md:32: | interface acceptor sheet | 3e11 cm^-2 eV^-1 at Ec-0.3 eV, W 0.12 | shared | | | ASSUMED |
+- EVIDENCE_BRIEF.md:33: | Qf (front, fixed) | 1.73e12 cm^-2 shared (= -0.31 V), 8.7e10 for 6.3 nm tuned only | | | | FITTED |
+- EVIDENCE_BRIEF.md:34: | mu_band | per film | 18.13 | 11.69 (tuned) / 12.4 (validation) | 61.9 | FITTED per thickness |
+- EVIDENCE_BRIEF.md:35: | roughness factor (1-0.287/t)^2 | Januar Dsr 2.87 A | 0.734 | 0.911 | 0.957 | literature |
+- EVIDENCE_BRIEF.md:36: | gate WF | 4.70 eV | | | | ASSUMED (degenerate with Qf, chi) |
+- EVIDENCE_BRIEF.md:42: | 0012 | 2 nm calibrated | 0.676 | 1.559 | 73.2 | 289.1 | 3.531e-7 | 11.27 | 5.09e-7 | 0.037 |
+- EVIDENCE_BRIEF.md:43: | 0016 | 2 nm, confinement removed (same Qf, mu) | 0.361 | 1.260 | 83.9 | 303.7 | 3.551e-7 | 11.33 | 6.18e-7 | 0.846 |
+- EVIDENCE_BRIEF.md:44: | 0014 | 6.3 nm VALIDATION (shared params, mu 12.4) | 0.350 | 1.212 | 108.2 | 284.9 | 2.860e-7 | 9.13 | 5.11e-7 | 0.678 |
+- EVIDENCE_BRIEF.md:45: | 0015 | 6.3 nm TUNED (Qf 8.7e10, mu 11.69) | 0.651 | 1.471 | 110.8 | 288.8 | 2.639e-7 | 8.42 | 4.03e-7 | 0.063 |
+- EVIDENCE_BRIEF.md:46: | 0013 | 13.2 nm calibrated | 0.053 | 0.999 | 151.3 | 192.5 | 1.534e-6 | 48.95 | 3.07e-6 | 0.081 |
+- EVIDENCE_BRIEF.md:47: | 0017 | 13.2 nm, confinement removed | 0.030 | 0.979 | 138.6 | 193.3 | 1.533e-6 | 48.92 | 3.10e-6 | 0.115 |
+- EVIDENCE_BRIEF.md:49: - A Qf change is an exact rigid shift: dVth = -q dQf/Cox reproduced to 1 mV (runs 0001->0003, 0005->0007). Id is exactly linear in mu_band (+7.9 % mu -> +7.9 % Ion).
+- EVIDENCE_BRIEF.md:50: - The tuned 6.3 nm run matches Vth_cc and Ion but misses Vth_lin by -0.35 V, gm_max by -23 % and mu_FE by -23 %: the on-state SHAPE of 6.3 nm is not reproduced, so the discrepancy is not purely a rigid offset.
+- EVIDENCE_BRIEF.md:52: - Symmetry of the calibration: with confinement + one Qf, 2 and 13.2 nm fit and 6.3 nm misses by -0.29 V. Without confinement, the Qf that fits 2 nm is 4.76e10 (rigid shift from run_0016); the Qf that would fit 6.3 nm without confinement is estimated near 8.7e10 - (0.07 V x Cox/q) ~ -3e11, and 13.2 nm would need ~1.86e12. Campaign A run A6 tests the no-confinement held-out prediction for 6.3 nm directly.
+- EVIDENCE_BRIEF.md:53: - Sensitivities at 2 nm (one at a time vs run_0012): chi +/-0.1 eV -> -/+0.10 V; Nt x1.5 -> +0.08 V, Ion -25 %; WTA +5 meV -> SS +12 mV/dec; Dit x3 -> +0.025 V, SS +9; Nd x2, eps 10.55, 4 um overlap: < 2 %.
+- EVIDENCE_BRIEF.md:54: - Numerics (docs/NUMERICAL_CONVERGENCE.md): mesh x0.5 (2 nm) and x0.7 (13.2 nm) pass (< 0.005 dec); DOS levels 96/48 -> 384/192 raise Ion by +2.5 % at 2 nm (FAIL of the 1 % criterion, being fixed in campaign B); 6.3 nm mesh check open (campaign A, A7).
+- EVIDENCE_BRIEF.md:60: - Campaign A `config/campaign_A_6p3_hypotheses.json` (runs 0030-0036), one mechanism at a time relative to run_0014 (6.3 nm, shared Qf 1.73e12, mu 12.4, DOS 96/48): A3 back-surface fixed charge -1.64e12 cm^-2 on the exposed IWO/air channel; A1 physical thickness 5.3 nm (all laws at 5.3); A2 Nd0 1e16; A4 front Dit x5; A6 NO confinement + Qf 4.76e10 fitted on 2 nm only (held-out prediction of 6.3 nm); A5 combination (5.8 nm + Nd0 1e16 + back charge -1.0e12); A7 mesh x0.7 on the tuned configuration.
+- EVIDENCE_BRIEF.md:61: - Campaign B `config/campaign_B_recal_predictions.json` (runs 0037-0051): B0 = pre-registered test of specialist S2's trap/mobility re-partition at 6.3 nm (Nt 2.66e19, mu_band 19.6, Qf 9.8e11, DOS 96/48); DOS 384/192 recalibration of 2 / 6.3 (tuned) / 13.2 nm with mu_band rescaled exactly; PREDICTIONS: ID-VD (Vg 1, 1.5, 2, 2.5, 3 V; Vd 0-3 V) per film, transfer curves at 65 C (338.15 K, 2 nm) and 85 C (358.15 K, 2 / 6.3 / 13.2 nm) - the temperatures of the Januar SI Fig. S12 data that we do NOT possess; isolation tests gate WF +0.1 eV and m* x1.3 at 2 and 13.2 nm.
+- EVIDENCE_BRIEF.md:62: - Specialist finding already established (S5): run_0027 (overlap 4 um) is MALFORMED - x.mesh ends at 24 um, so the drain collapsed to a zero-width line; its -2.15 % Ion is not an overlap effect. Specialist reports S2 (transport/power laws) and S5 (contacts/experimental validation) are in this folder.
+- EVIDENCE_BRIEF.md:65: - Campaign A complete (runs 0030-0036); A7 mesh x0.7 on the tuned 6.3 nm deck: 0.0625 vs 0.0626 dec, Id(3V) -0.03 % -> check L PASSES.
+- EVIDENCE_BRIEF.md:66: - Campaign B complete (runs 0037-0051), summary in results/campaigns/campaign_B_recal_predictions.json. Recalibrated mu_band at DOS 384/192 (exact rescale by Ion_meas/Ion_sim, placeholders): 17.69 (2 nm; B1 Ion error 0.00 %), 11.58 (6.3 nm; B2 run at 11.41 gave -1.48 %), 61.60 (13.2 nm; B3 run at 60.39 gave -1.97 %). So the 96/48 -> 384/192 Ion offset is thickness-dependent: +2.5 % / +1.0 % / +0.5 %. B2/B3 curves at the recalibrated mu follow by exact linearity (x1.0150 / x1.0201). ID-VD (B8-B10) and elevated-T runs (B11-B14) used the recalibrated mu values.
+- EVIDENCE_BRIEF.md:67: - SS_min is NOT a robust metric: B1 (2 nm, DOS 384/192, mu 17.69, Ion identical to run_0012 within 0.01 %) gives SS_min 83.1 vs 73.2 mV/dec in run_0012 (S3 also showed grid-phase/floor-window artefacts). Use fixed-current SS.
+- EVIDENCE_BRIEF.md:68: - B0 (S2 re-partition, run_0037): Vth_cc 0.654, Vth_lin 1.856, mu_FE 10.40, Ion -7.6 % (S2's pre-registered on-state predictions met except mu_FE marginally low) BUT SS_cc 410.9 and SS_min 141.6 vs measured 295 / 115 (S1 predicted SS_cc ~418 beforehand) -> the re-partition fixes the on-state and breaks the subthreshold.
+- EVIDENCE_BRIEF.md:70: - Isolation tests (DOS 384/192, vs B1 / B3 at the same mu): gate WF +0.1 eV -> Vth_cc +0.100 V at both 2 and 13.2 nm, SS unchanged, Ion -6.8 % at both (runs 0048/0049). m* x1.3 -> Vth_cc -0.043 V (2 nm) / -0.028 V (13.2 nm), SS_cc -18 / -13 mV/dec, Ion +4.1 / +3.7 % (runs 0050/0051).
+- EVIDENCE_BRIEF.md:71: - Campaign C (config/campaign_C_6p3_nearEc_band.json, run_0052 when finished): pre-registered test of S4's near-Ec acceptor band (2e12 cm^-2 at Ec-0.03 eV, W 0.02) + mu_band 15.4 on the tuned 6.3 nm deck at DOS 384/192; baseline B2; S4 prediction vs run_0015: gap +0.28 V, gm +24 %, SS_cc +23 mV/dec. Launch budget is now exhausted (52/52).

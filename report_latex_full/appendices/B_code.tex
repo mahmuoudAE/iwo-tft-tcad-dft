@@ -1,0 +1,306 @@
+% ===================================================================
+% appendices/B_code.tex -- Source code (writer C2; filled by W4). ASCII only.
+% Listings are the ASCII-sanitised copies in code/ made by tools/make_appendix_assets.py.
+% ===================================================================
+\chapter{Source code}\label{ch:app-code}
+
+This appendix reproduces every Python script of the package that generates decks, launches the solver, extracts metrics
+or produces analysis numbers quoted in the report, so that each number can be re-derived from code rather than from
+prose. The listings are copies of the package files, made ASCII-safe for typesetting by
+\file{tools/make_appendix_assets.py}; the package files themselves (\file{PKG/scripts/} and
+\file{PKG/analysis_2026-09-25/scratch/}) are authoritative. The commands used to run them are collected in
+\cref{ch:app-repro}.
+
+\section{Organisation of the code}\label{sec:code-overview}
+
+The code falls into three groups. The first group consists of the package scripts in \file{scripts/}
+(\cref{sec:code-package}): the material laws, the deck generator, the runner and campaign driver that launch the real
+solver, the common metric extractor, and the table and plot writers. Only \file{run_atlas.py}, \file{run_campaign.py}
+and \file{sensitivity_analysis.py} launch ATLAS; all other scripts read existing files. The second group consists of the
+analysis scripts of 2026-09-25 in \file{analysis_2026-09-25/scratch/<S1..S6, REVIEW, SYNTHESIS>/}
+(\cref{sec:code-analysis}), which contain the specialist analyses. None of them launches ATLAS or modifies a package
+file; they read run outputs and the measured data, and several import \file{scripts/extract_metrics.py} unchanged, so
+that the same extraction is used everywhere. In the listings below the file name is prefixed with the analysis folder
+(e.g.\ \file{S1_s1_analytic.py} is \file{scratch/S1/s1_analytic.py}). The third group consists of the report tools in
+\file{REPORT/tools/} (\cref{sec:code-collect}), which build the figures, the digest and the appendix assets of this
+report; they are described but not listed.
+
+Results of surrogate models (1-D Poisson, Schr\"odinger-Poisson, charge-sheet models) are always labelled \evSURR{} in the
+report. They are used for decomposition and hypothesis generation and never as a substitute for an ATLAS curve.
+
+% -------------------------------------------------------------------
+\section{Package scripts}\label{sec:code-package}
+
+\subsection{\texttt{material\_laws.py}}
+The script implements \texttt{IWO\_material(t, xW)}, the thickness-aware material laws of about 2\,at.\,\% W:\InO{} used
+by V1. It fits the thickness laws to the literature and DFT evidence (confinement shift, effective mass, tail density,
+background donors, roughness factor) and evaluates them at a requested thickness; no simulator is run. The deck generator
+imports it, so that every deck is produced from the same laws (\cref{ch:derivations-es,ch:derivations-tr}).
+\lstinputlisting[language=Python]{code/scripts/material_laws.py}
+
+\subsection{\texttt{build\_iwo\_decks.py}}
+The script generates the ATLAS decks from one material model, \texttt{IWO\_material(t, xW)}, for the requested
+thicknesses. It accepts dotted-path overrides of the material model (\texttt{--override}), the structure form
+(\texttt{--structure full|reduced}) and the sweep form (\texttt{--sweep stepped|pointwise}), and it writes the provenance
+header of every deck (\cref{sec:num-deck}). All decks of \cref{ch:app-decks} were produced with it.
+\lstinputlisting[language=Python]{code/scripts/build_iwo_decks.py}
+
+\subsection{\texttt{run\_atlas.py}}
+The script launches one real ATLAS run of a generated deck through DeckBuild in batch mode. It validates the terminal
+currents (status, KCL, drain sign, native zeros), scores the curve against the measurement with the common extractor and
+appends one row to \file{results/RUN_INDEX.csv}; a Python model is never substituted for the solver. Options select the
+thickness, label, overrides, sweep segments, structure and timeout. The option \texttt{--rescore} repeats validation and
+scoring from an existing run folder without a launch, and \texttt{--output-vgs} adds the $\Id$--$\Vd$ families of the
+prediction runs (\cref{sec:num-validation,sec:num-campaign-runner}).
+\lstinputlisting[language=Python]{code/scripts/run_atlas.py}
+
+\subsection{\texttt{run\_campaign.py}}
+The script runs a sequential ATLAS campaign from a JSON plan (the 2026-09-25 hypothesis, convergence, sensitivity and
+prediction study), e.g.\ \texttt{python scripts/run\_campaign.py config/campaign\_A\_6p3\_hypotheses.json}. Each plan
+entry is launched through \file{run_atlas.py}, one at a time, and the metrics of each run are collected in
+\file{results/campaigns/<name>.json}.
+\lstinputlisting[language=Python]{code/scripts/run_campaign.py}
+
+\subsection{\texttt{extract\_metrics.py}}
+This is the single metric extractor, applied identically to measured and simulated $\Id$--$\Vg$ curves; no simulator is
+called. Its docstring states the conventions used for $\Vthcc$, $\Vthlin$, the swings, $\gmmax$, $\muFE$ and $\Ion$,
+because the target paper does not define its extraction (\cref{sec:der-metrics}). Called with \texttt{--thickness}, it
+prints the metrics of a measured curve; with \texttt{--sim}, it applies the simulation conventions.
+\lstinputlisting[language=Python]{code/scripts/extract_metrics.py}
+
+\subsection{\texttt{compare\_experiment\_simulation.py}}
+The script builds \file{tables/EXPERIMENTAL_VS_SIMULATION.{csv,md}} and the overlay and residual plots of each thickness
+from the best V1 runs listed in \file{results/BEST_RUNS_V1.json}, with the same extraction for measured and simulated
+curves. No simulator is called.
+\lstinputlisting[language=Python]{code/scripts/compare_experiment_simulation.py}
+
+\subsection{\texttt{make\_provenance\_tables.py}}
+The script writes \file{tables/MATERIAL_PARAMETERS_USED.{csv,md}}, \file{tables/PARAMETER_PROVENANCE.csv} and
+\file{docs/PARAMETER_PROVENANCE.md} from \file{config/iwo_material_model.yaml}, optionally with the calibrated overrides
+recorded in \file{results/BEST_RUNS_V1.json}. These tables form the basis of \cref{tab:provenance-master}.
+\lstinputlisting[language=Python]{code/scripts/make_provenance_tables.py}
+
+\subsection{\texttt{sensitivity\_analysis.py}}
+The script performs a one-at-a-time sensitivity analysis of the V1 model in the real solver; each case is one ATLAS
+launch relative to the best run of a thickness (e.g.\ \texttt{--thickness 2 --cases chi\_m0p1 nd\_x2 dit\_x3}). It
+produced the sensitivity runs \run{0020}--\run{0027} (\run{0027} malformed and retracted, \cref{sec:cal-param-control});
+the chain was stopped by the user when the launch budget was limited.
+\lstinputlisting[language=Python]{code/scripts/sensitivity_analysis.py}
+
+\subsection{\texttt{sensitivity\_from\_stage\_runs.py}}
+The script derives sensitivities from the real calibration-stage runs already in \file{results/} (pairs of stage runs
+that differ in one parameter), without calling the simulator. It was written after the one-at-a-time chain had been
+stopped, in order to extract the remaining sensitivities from runs that already existed.
+\lstinputlisting[language=Python]{code/scripts/sensitivity_from_stage_runs.py}
+
+\subsection{\texttt{plot\_results.py}}
+The script produces plots from the best V1 runs (\file{results/BEST_RUNS_V1.json}) and the thickness laws without calling
+the simulator. For each thickness it draws the overlays on logarithmic and linear axes, the residual, the band diagrams
+at equilibrium, threshold and on-state, and the electron density versus gate voltage. Several of these PNG files are
+reproduced in \cref{ch:derivations-es}.
+\lstinputlisting[language=Python]{code/scripts/plot_results.py}
+
+\subsection{\texttt{plot\_sensitivity.py}}
+The script writes \file{plots/sensitivity_overview.png}, which shows the no-confinement counterfactual overlays at 2 and
+\SI{13.2}{nm} and the one-at-a-time metric changes at \SI{2}{nm} from \file{tables/SENSITIVITY_OAT.csv}. No simulator is
+called.
+\lstinputlisting[language=Python]{code/scripts/plot_sensitivity.py}
+
+\subsection{\texttt{qe\_build\_inputs.py}}
+The script builds an \emph{unexecuted} Quantum ESPRESSO workflow \citep[p.~1]{Giannozzi2009} for a matrix of W content
+and slab thickness, writing \texttt{pw.x} input files and a README. Quantum ESPRESSO is not installed on the project
+machine, so no DFT number of this report comes from this script; it documents how the DFT proxies of the thickness laws
+could be replaced by IWO-specific calculations.
+\lstinputlisting[language=Python]{code/scripts/qe_build_inputs.py}
+
+\subsection{\texttt{export\_report\_pdf.py}}
+The script renders the earlier Markdown report \file{docs/FULL_REPORT.md} to HTML with print CSS and embedded key
+figures, and to PDF with the installed Microsoft Edge in headless mode. It changes no report text and calls no
+simulator; it is not part of the present \LaTeX{} report.
+\lstinputlisting[language=Python]{code/scripts/export_report_pdf.py}
+
+% -------------------------------------------------------------------
+\section{Analysis scripts of 2026-09-25}\label{sec:code-analysis}
+
+\subsection{\texttt{S1\_s1\_analytic.py}}
+The script contains the order-of-magnitude analytic electrostatics of specialist S1, with constants taken from the
+evidence brief and the material model (\evTHEORY). It provides the dimensional estimates against which the ATLAS-based
+S1 tables are checked.
+\lstinputlisting[language=Python]{code/analysis/S1_s1_analytic.py}
+
+\subsection{\texttt{S1\_s1\_atlas\_tables.py}}
+The script builds the S1 electrostatics tables only from existing ATLAS outputs and the measured data
+(\file{execution.json}, \file{comparison.csv} and the conduction-band, quasi-Fermi-level and electron-density profiles of
+the runs). No ATLAS launch is made.
+\lstinputlisting[language=Python]{code/analysis/S1_s1_atlas_tables.py}
+
+\subsection{\texttt{S1\_s1\_poisson1d.py}}
+The script has two parts: (A) post-processing of the ATLAS depth profiles into a trapped-charge budget at the cut
+$x = 12\,\mu$m, and (B) a 1-D Poisson plus gradual-channel (Pao-Sah) surrogate of the V1 model, used only for
+decomposition and what-if questions (lever arm of a back-surface charge, neutral-layer onset, no-confinement symmetric
+test). The surrogate is checked against ATLAS before use; it underlies the threshold budget of \cref{sec:der-vth-budget}
+(\evSURR).
+\lstinputlisting[language=Python]{code/analysis/S1_s1_poisson1d.py}
+
+\subsection{\texttt{S1\_s1\_shape\_test.py}}
+The script addresses S1 task 3, namely which kind of gate-voltage-dependent charge could reproduce the \SI{6.3}{nm}
+on-state shape ($\Vthlin$, $\gmmax$) while keeping $\Vthcc$, $\SScc$ and $\Ion$. An extra acceptor Gaussian band (sheet
+density, depth below $\Ec$, width) is added to the \run{0015} configuration in the ATLAS-checked 1-D surrogate. The
+result is hypothesis-generating only (\evSURR) and motivated the pre-registered test C1 (\run{0052}).
+\lstinputlisting[language=Python]{code/analysis/S1_s1_shape_test.py}
+
+\subsection{\texttt{S2\_s2\_part1\_curves.py}}
+This is part 1 of the transport analysis of specialist S2. It extracts mobility curves from the measured and simulated
+transfer curves and fits the thickness laws of mobility and on-current, including the leave-one-out comparison of power
+law, $A + B/t$, exponential and step models (\cref{sec:der-powerlaw}).
+\lstinputlisting[language=Python]{code/analysis/S2_s2_part1_curves.py}
+
+\subsection{\texttt{S2\_s2\_part2\_mtr\_temperature.py}}
+Part 2 of S2 treats the temperature dependence of the drain current in the multiple-trapping-and-release picture, which
+is used to frame the two temperature variants of the predictions (\cref{sec:der-activation,sec:par-temperature}).
+\lstinputlisting[language=Python]{code/analysis/S2_s2_part2_mtr_temperature.py}
+
+\subsection{\texttt{S2\_s2\_part3\_repartition.py}}
+Part 3 of S2 performs the shape-consistent re-partition of the field-effect mobility into band mobility and
+trap-limited factor for each film, which led to the pre-registered B0 test (\run{0037}; \cref{ch:6p3}).
+\lstinputlisting[language=Python]{code/analysis/S2_s2_part3_repartition.py}
+
+\subsection{\texttt{S2\_s2\_part4\_musat\_location.py}}
+Part 4 of S2 determines the gate voltage at which the saturation-formula mobility peaks. This is relevant to the
+interpretation of the mobility values of the paper as saturation-formula peaks near threshold (\cref{sec:der-mufe}).
+\lstinputlisting[language=Python]{code/analysis/S2_s2_part4_musat_location.py}
+
+\subsection{\texttt{S3\_s3\_e1\_magnitude.py}}
+The script addresses S3 task 1, the magnitude of electron confinement in 2, 6.3 and \SI{13.2}{nm} IWO films, from pure
+effective-mass estimates (finite-difference eigenvalues) without fitting to device data (\evTHEORY;
+\cref{sec:der-confinement}).
+\lstinputlisting[language=Python]{code/analysis/S3_s3_e1_magnitude.py}
+
+\subsection{\texttt{S3\_s3\_necessity\_curves.py}}
+The script addresses S3 task 3, whether confinement is required by the transfer data. It uses only existing ATLAS
+outputs (\file{idvg.dat}, native A/$\mu$m) and the measured curves, and it starts with a rigid-shift test of the
+horizontal distance between the confinement-on and confinement-off curves versus current level (\run{0012}/\run{0016},
+\run{0013}/\run{0017}).
+\lstinputlisting[language=Python]{code/analysis/S3_s3_necessity_curves.py}
+
+\subsection{\texttt{S3\_s3\_sp1d.py}}
+The script addresses S3 task 2 with a minimal self-consistent 1-D Schr\"odinger-Poisson model, compared with a classical
+3-D Fermi-Dirac model of the gate stack at the channel centre at $\Vd = 0$ (equilibrium with the source/drain Fermi
+level). It produces the onset shifts of \cref{sec:der-confinement} (\evSURR).
+\lstinputlisting[language=Python]{code/analysis/S3_s3_sp1d.py}
+
+\subsection{\texttt{S3\_s3\_sp1d\_series.py}}
+The script addresses S3 task 5, the same trap-free comparison of Schr\"odinger-Poisson and classical models for a denser
+thickness series (3, 4 and \SI{5}{nm}); it imports \file{s3_sp1d.py}.
+\lstinputlisting[language=Python]{code/analysis/S3_s3_sp1d_series.py}
+
+\subsection{\texttt{S4\_s4\_traps.py}}
+The script contains the defect and trap analysis of specialist S4 and is read-only with respect to the runs. Its parts
+include the thickness law of the tail density (power law versus a surface-plus-bulk decomposition, with the numbers of
+\citet[pp.~7, 9]{Januar2026} and \citet[pp.~173507-3, 173507-6]{Kim2024}); the trap-spectroscopy figure of
+\cref{ch:derivations-es} (\file{scratch/S4/s4_trap_spectroscopy.png}) belongs to the same S4 analysis.
+\lstinputlisting[language=Python]{code/analysis/S4_s4_traps.py}
+
+\subsection{\texttt{S4\_s4\_part2.py}}
+Part 2 of S4 computes the integrated trap-charge excess at \SI{6.3}{nm} by energy window (measured versus \run{0015},
+with the same inversion), the channel current at $\Vg = 0$ compared with the off-floor, and tables of the ratio of
+measured to ATLAS-inverted trap densities for each film.
+\lstinputlisting[language=Python]{code/analysis/S4_s4_part2.py}
+
+\subsection{\texttt{S4\_s4\_part3\_63shape.py}}
+Part 3 of S4 asks which trap redistribution reproduces the \SI{6.3}{nm} on-state shape. It uses a zero-dimensional
+charge-sheet surrogate (uniform film potential, Fermi-Dirac free electrons, thermal trap occupancy, Pao-Sah-type integral
+at $\Vd = \SI{0.7}{V}$), with each variant rigidly aligned to the measured $\Vthcc = \SI{0.644}{V}$. It proposed the
+near-$\Ec$ acceptor band tested as C1 (\run{0052}) (\evSURR).
+\lstinputlisting[language=Python]{code/analysis/S4_s4_part3_63shape.py}
+
+\subsection{\texttt{S5\_s5\_yfunction.py}}
+The script performs the series-resistance, Y-function and contact analysis of the measured transfer curves and, as a
+method check, of ideal-contact ATLAS runs ($\Rsd = 0$ by construction, constant $\muband$). The inputs are the measured
+data and the \file{comparison.csv} files of the runs; no parameter is invented (\cref{sec:der-yfunction}).
+\lstinputlisting[language=Python]{code/analysis/S5_s5_yfunction.py}
+
+\subsection{\texttt{S5\_s5\_checks.py}}
+The S5 checks comprise (1) the ideal gradual-channel baseline of the H-function exponent in the same windows (at
+$\Vd = \SI{0.7}{V}$ the condition $\Vd \ll V_{\mathrm{ov}}$ does not hold), (2) the forward effect of a series resistance
+on the ideal curve and on a measured-like curve, and (3) the determination of which mobility definition reproduces the
+values 5.1 and \SI{27.4}{cm^2/(V.s)} of the paper from the workbook curves (the provenance test of
+\cref{sec:inp-metrics-measured}).
+\lstinputlisting[language=Python]{code/analysis/S5_s5_checks.py}
+
+\subsection{\texttt{S5\_s5\_plot.py}}
+The script draws the Y-function and H-function (threshold-free exponent) figure for the measured curves and the
+ideal-contact ATLAS runs, reproduced as the \texttt{yfunction} figure.
+\lstinputlisting[language=Python]{code/analysis/S5_s5_plot.py}
+
+\subsection{\texttt{S6\_s6\_lib.py}}
+The script contains the common helpers of specialist S6 (read-only): metrics from fixed-current crossings with both
+log-linear and PCHIP interpolation on $\log_{10}\Id$ (their difference is reported as interpolation uncertainty),
+fixed-current swings and on-state shape markers. The package extractor \file{scripts/extract_metrics.py} is imported
+unchanged.
+\lstinputlisting[language=Python]{code/analysis/S6_s6_lib.py}
+
+\subsection{\texttt{S6\_s6\_part1\_numerics.py}}
+Part 1 of S6 establishes the numerical closure from existing run outputs: linearity in $\muband$, DOS offsets versus gate
+voltage and thickness, the 6.3 and \SI{13.2}{nm} mesh checks, KCL, native zeros, the fragility of $\SSmin$, and the
+uncertainty due to interpolation and to the transconductance grid. It supplies the numbers of \cref{sec:num-convergence}.
+\lstinputlisting[language=Python]{code/analysis/S6_s6_part1_numerics.py}
+
+\subsection{\texttt{S6\_s6\_part2\_robust.py}}
+Part 2 of S6 produces the tables of fixed-current metrics for the final converged comparison, the isolation tests
+B4--B7 (\run{0048}--\run{0051}) with a rigid-shift test, and the closure of the \SI{6.3}{nm} hypotheses A1--A7, B0 and
+C1. Curves are rescaled by the exact linearity in $\muband$ (verified in part 1 to $10^{-5}$).
+\lstinputlisting[language=Python]{code/analysis/S6_s6_part2_robust.py}
+
+\subsection{\texttt{S6\_s6\_part3\_predictions.py}}
+Part 3 of S6 performs the computations of the prediction register from real ATLAS outputs: $\Id$--$\Vd$ (B8--B10,
+\run{0041}--\run{0043}) and elevated temperature (B11--B14, \run{0044}--\run{0047}). The \SI{300}{K} references B1--B3 are
+rescaled exactly to the mobility used in the prediction runs, in the two temperature variants P-phonon (as simulated,
+TMUN $= 1.5$) and P-MTR (temperature-independent band mobility).
+\lstinputlisting[language=Python]{code/analysis/S6_s6_part3_predictions.py}
+
+\subsection{\texttt{S6\_s6\_write\_register.py}}
+The script writes \file{PREDICTIONS_REGISTER.md} and \file{predictions_canonical.csv} from the outputs of part 3,
+together with hashes; it makes no simulator call and modifies no package file (\cref{ch:app-register}).
+\lstinputlisting[language=Python]{code/analysis/S6_s6_write_register.py}
+
+\subsection{\texttt{REVIEW\_review\_verify.py}}
+The script contains the referee's re-computation of the load-bearing specialist claims of \file{REVIEW.md}. It reads only
+raw files (measured data, run outputs and \file{deckbuild.out}) and imports \file{scripts/extract_metrics.py} unchanged;
+no ATLAS launch is made.
+\lstinputlisting[language=Python]{code/analysis/REVIEW_review_verify.py}
+
+\subsection{\texttt{SYNTHESIS\_syn\_checks.py}}
+The script contains the read-only checks of the synthesis stage. It is run from the package root with the Python
+environment of the project, and its outputs are written to \file{scratch/SYNTHESIS/syn_checks_out.txt}.
+\lstinputlisting[language=Python]{code/analysis/SYNTHESIS_syn_checks.py}
+
+\subsection{\texttt{SYNTHESIS\_syn\_leverage.py}}
+The script makes a read-only comparison of the leverage of the confinement package with that of the fitted and assumed
+parameters at \SI{2}{nm} on the same metrics: fixed-current swings ($10^{-11}$--$10^{-10}$, $10^{-10}$--$10^{-9}$),
+$\SScc$ ($10^{-10}$--$10^{-8}$) and the non-rigidity of the horizontal shift (shift at $10^{-8}$ minus shift at
+$10^{-11}\Aum$), for the one-at-a-time pairs relative to \run{0012} or \run{0038}.
+\lstinputlisting[language=Python]{code/analysis/SYNTHESIS_syn_leverage.py}
+
+% -------------------------------------------------------------------
+\section{Collection script of this report}\label{sec:code-collect}
+
+The report itself is assembled from package files by scripts in \file{REPORT/tools/}; they read package files and write
+only inside the report folder. In stage 0a, \file{tools/build_digest.py} builds \file{REPORT/digest/}, which contains the
+paper texts split by printed page (\cref{sec:lit-convention}), the list of literature items used, the citations found in
+the analysis reports, the ATLAS manual pages of the statements used by the decks, the run table \file{digest/runs.csv}
+and a list of key numbers, so that writers never re-read raw sources. In stage 0b, \file{tools/make_figures.py} builds
+every registry figure from real run and data files and writes \file{figures/<stem>.pdf}, a PNG copy and
+\file{figures/MANIFEST.md} with the sources and key numbers of each figure; the call
+\texttt{python tools/make\_figures.py [stem ...]} rebuilds selected figures. In stage 0c,
+\file{tools/make_appendix_assets.py} copies code, decks, configuration and data into the report (ASCII-sanitised) and
+generates \file{appendices/A_runs_table.tex} (\cref{tab:run-catalogue}) and \file{appendices/D_hashes_table.tex}
+(re-verified hashes). Finally, \file{tools/lint_latex.py} is a static checker of the \LaTeX{} sources, since no TeX
+installation is available on the project machine; it prints a report and exits with code 1 if any error is found.
+
+\begin{keyresult}
+All deck generation, solver launches, metric extraction and analysis are performed by the scripts listed here. Only three
+package scripts launch ATLAS, and each launch is logged. All analysis scripts are read-only with respect to the runs and
+share one metric extractor, so that measured and simulated metrics are computed identically. Surrogate models are
+confined to decomposition and hypothesis generation (\evSURR).
+\end{keyresult}

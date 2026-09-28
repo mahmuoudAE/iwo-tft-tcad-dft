@@ -1,0 +1,220 @@
+% chapters/10_predictions.tex -- writer R2b (W6). Registered predictions: ID-VD and elevated temperature.
+\chapter{Registered predictions}\label{ch:predictions}
+
+A model that has only been fitted to the curves it describes is calibrated, not validated (\cref{ch:calibration}). The out-of-sample tests available within the present data set failed or partly failed: the shared-parameter 6.3~nm threshold of \run{0014} missed by $-0.294$~V, and the registered 6.3~nm hypothesis tests B0 (\run{0037}) and C1 (\run{0052}) did not succeed (\cref{ch:6p3}). The only remaining route to a validation claim is therefore prospective. Quantities that were not used in calibration and were not measured when the model was frozen must be computed, recorded with a timestamp and cryptographic hashes, and then compared with data obtained later. This chapter documents that register. It describes which output-characteristic (ID-VD) and elevated-temperature transfer quantities the calibrated V1 model predicts (\cref{sec:pred-idvd,sec:pred-temperature}), which physical assumption each prediction tests, and which rules decide, before any comparison, whether an outcome confirms or falsifies the model (\cref{sec:pred-falsification}).
+
+\paragraph{Registration.} The register \file{analysis_2026-09-25/PREDICTIONS_REGISTER.md} was written at 2026-09-24T23:24:53Z by specialist S6 from the real ATLAS runs \run{0038}--\run{0047} (S6 made no ATLAS launch). None of the predicted quantities was used in calibration, and no measurement of them was available to the project at the time of registration. Temperature-dependent transfer curves of a 2~nm device at 65 and 85~$^{\circ}$C exist in the supplementary information of the target paper \citep[SI Fig.~S12, referred to on p.~9 and captioned on p.~11]{Januar2026}; they are not part of the package and form the first intended test (\cref{sec:val-checklist}). The file list and SHA-256 hashes of all 44 registered files are reproduced in \cref{ch:app-register}; the synthesis re-computed all 44 hashes and found them unchanged (\file{scratch/SYNTHESIS/syn_checks_out.txt}, check [SYN-c]).
+
+\paragraph{Model state that is registered.} The registered model is V1 (\file{config/iwo_material_model.yaml}) in the physical structure, with classical electrons-only drift-diffusion with Fermi statistics, acceptor tail $\NTA$/$\WTA$ ($\WTA = 0.040$~eV), deep and interface Gaussians, fixed front charge $\Qf$, uniform $\Ndeff(t)$, confinement law $\dEc = 0.9205\,t^{-1.3815}$~eV, $\Nc(\mstar(t))$, constant spatially uniform band mobility, ideal Ohmic Pd contacts, DOS discretization 384/192 levels. Calibrated values (300~K, $\Vd = 0.7$~V, one ID-VG per film): $\muband = 17.6897$, $11.582$ and $61.6046$~\cmVs{} for 2, 6.3 and 13.2~nm; $\Qf = \SI{1.73e12}{cm^{-2}}$ (2 and 13.2~nm, shared) and $\SI{8.7e10}{cm^{-2}}$ (6.3~nm, device-specific ``tuned'' configuration). The 300~K reference curves are \run{0038} ($\times 0.999983$), \run{0039} ($\times 1.015074$) and \run{0040} ($\times 1.020113$); these factors are exact because $\Id$ is linear in a uniform constant mobility (verified by the \run{0029}/\run{0038} ratio 1.024879 against 1.024873 expected over 43 points; \cref{sec:num-validation}). The ID-VD runs reproduce the rescaled transfer curves at $\Vd = 0.7$~V to better than 0.001\,\% at all 15 (film, $\Vg$) points.
+
+\paragraph{Inherited residuals.} The predictions inherit the calibration residuals of \cref{sec:cal-final}: at 2~nm $\gmmax$ $-8.6$\,\% and $\Vthlin$ $-0.127$~V; at 6.3~nm $\gmmax$ $-23$\,\% and $\Vthlin$ $-0.354$~V (the on-state shape is not reproduced, \cref{sec:6p3-shape}; the 6.3~nm predictions are therefore of lower confidence); at 13.2~nm $\gmmax$ $-2.6$\,\%. For this reason the primary registered quantities are changes (voltage shifts, ratios, activation energies) to be compared with changes measured on the same device relative to its own 300~K curve. Absolute values carry the 300~K calibration residual.
+
+\paragraph{Extraction definitions.} All metrics are extracted with the unchanged \file{scripts/extract_metrics.py} (SHA-256 \texttt{a7d0b236...}): $\Vthcc$ at $\Id = 10^{-9}$~\Aum{} (log-linear), $\Vthlin$ by secant $\gm$ on the 0.05~V grid and linear extrapolation at $\gmmax$, $\muFE = \gmmax L/(W\Cox\Vd)$ with $L = 20~\mu$m, $\Cox = \SI{8.955e-7}{F/cm^2}$, $\Vd = 0.7$~V, and $\Ion = \Id(3~\mathrm{V})$. Simulated curves are first interpolated onto the 0.05~V measurement grid. Fixed-current quantities added by S6: $V(I)$, the gate voltage at $\Id = I$ (log-linear), and $\SSfix{I_1}{I_2} = [V(I_2)-V(I_1)]/\log_{10}(I_2/I_1)$ for the windows $10^{-11}$..$10^{-10}$, $10^{-10}$..$10^{-9}$ and $10^{-10}$..$10^{-8}$~\Aum. $\SSmin$ is deliberately not registered (window-phase artefact, \cref{sec:der-metrics}). The apparent activation energy is $\Ea(\Vg) = -\kB\,\partial\ln\Id/\partial(1/T)$ at fixed $\Vg$ and $\Vd = 0.7$~V, by least squares over the available temperatures.
+
+% ---------------------------------------------------------------------------
+\section{Output characteristics (ID-VD) at 300 K}\label{sec:pred-idvd}
+
+Runs \run{0041} (B8, 2~nm), \run{0042} (B9, 6.3~nm tuned) and \run{0043} (B10, 13.2~nm) sweep $\Vd$ from 0 to 0.5~V in 0.05~V steps and from 0.5 to 3~V in 0.1~V steps at $\Vg = 1$, 1.5, 2, 2.5 and 3~V (\cref{fig:idvd_predictions}). Because the calibration fixes only the $\Vd = 0.7$~V column, the genuine prediction content is the shape of each output curve normalised to that calibrated point: the low-$\Vd$ linearity, the saturation voltage, the output conductance and the film ratios at low $\Vd$. These test auxiliary assumptions (ideal Ohmic injection, negligible $\Rsd$, constant mobility, no parallel path); they do not by themselves test the thickness mechanism (REVIEW objection U7, conceded in \file{SYNTHESIS.md} \S G.2).
+
+\begin{figure}[tbp]
+  \centering
+  \includegraphics[width=\linewidth]{idvd_predictions}
+  \caption{Registered ID-VD predictions of the calibrated V1 model at 300~K, \run{0041} (2~nm), \run{0042} (6.3~nm, tuned) and \run{0043} (13.2~nm), recalibrated DOS 384/192, at $\Vg = 1$, 1.5, 2, 2.5 and 3~V. Top row: full $\Vd$ range 0--3~V; bottom row: low-field zoom $\Vd$ = 0--0.3~V. All films show a strictly sub-linear low-$\Vd$ curvature (no S-shape) and a flat saturation (output conductance $<0.7$\,\% of $g_{d0}$). $\Id(\Vg=3,\Vd=3~\mathrm{V})$ = \SI{8.687e-7}{}, \SI{7.142e-7}{} and \SI{6.388e-6}{}~\Aum{} (figures/MANIFEST.md).}
+  \label{fig:idvd_predictions}
+\end{figure}
+
+\begin{table}[tbp]
+  \centering
+  \footnotesize
+  \caption{Registered ID-VD predictions (300~K). Drain current in A/$\mu$m and shape metrics normalised to the calibrated $\Vd = 0.7$~V point. $V_{\mathrm{ov}} = \Vg - \Vthlin$ of the 300~K model. $V_{\mathrm{d,sat}}$ is the drain bias at which $g_d$ falls to 10\,\% of $g_{d0}$ (quadratic fit 0--0.1~V). Runs \run{0041}--\run{0043}; \file{PREDICTIONS_REGISTER.md} \S 4.1--4.2.}
+  \label{tab:pred-idvd}
+  \setlength{\tabcolsep}{3pt}
+  \begin{tabular}{llrrrrrrrr}
+    \toprule
+    film & $\Vg$ (V) & $V_{\mathrm{ov}}$ (V) & $\Id(0.1)$ & $\Id(0.7)$ & $\Id(3)$ & $\frac{\Id(0.1)}{\Id(0.05)}$ & $\frac{\Id(0.1)}{\Id(0.7)}$ & $V_{\mathrm{d,sat}}$ (V) & $\frac{g_d(3)}{g_{d0}}$ \\
+    \midrule
+    2 nm & 1.0 & $-0.54$ & 3.34e-9 & 7.86e-9 & 7.888e-9 & 1.8011 & 0.4249 & 0.43 & 0.01\,\% \\
+         & 1.5 & $-0.04$ & 1.699e-8 & 5.841e-8 & 6.111e-8 & 1.8941 & 0.2909 & 0.68 & 0.02\,\% \\
+         & 2.0 & $+0.46$ & 3.86e-8 & 1.786e-7 & 2.103e-7 & 1.9414 & 0.2161 & 1.01 & 0.04\,\% \\
+         & 2.5 & $+0.96$ & 6.27e-8 & 3.376e-7 & 4.772e-7 & 1.9614 & 0.1857 & 1.40 & 0.08\,\% \\
+         & 3.0 & $+1.46$ & 8.768e-8 & 5.09e-7 & 8.687e-7 & 1.9716 & 0.1723 & 1.80 & 0.17\,\% \\
+    \midrule
+    6.3 nm & 1.0 & $-0.47$ & 3.836e-9 & 9.214e-9 & 9.254e-9 & 1.8126 & 0.4163 & 0.44 & 0.01\,\% \\
+         & 1.5 & $+0.03$ & 1.575e-8 & 5.859e-8 & 6.181e-8 & 1.9103 & 0.2688 & 0.73 & 0.03\,\% \\
+         & 2.0 & $+0.53$ & 3.202e-8 & 1.553e-7 & 1.893e-7 & 1.9472 & 0.2061 & 1.09 & 0.05\,\% \\
+         & 2.5 & $+1.03$ & 5.005e-8 & 2.745e-7 & 4.048e-7 & 1.9636 & 0.1823 & 1.49 & 0.09\,\% \\
+         & 3.0 & $+1.53$ & 6.9e-8 & 4.034e-7 & 7.142e-7 & 1.9725 & 0.1710 & 1.90 & 0.19\,\% \\
+    \midrule
+    13.2 nm & 1.0 & $+0.01$ & 8.863e-8 & 3.142e-7 & 3.263e-7 & 1.9057 & 0.2821 & 0.68 & 0.03\,\% \\
+         & 1.5 & $+0.51$ & 1.838e-7 & 8.85e-7 & 1.056e-6 & 1.9468 & 0.2077 & 1.05 & 0.05\,\% \\
+         & 2.0 & $+1.01$ & 2.872e-7 & 1.576e-6 & 2.294e-6 & 1.9639 & 0.1822 & 1.45 & 0.09\,\% \\
+         & 2.5 & $+1.51$ & 3.946e-7 & 2.312e-6 & 4.068e-6 & 1.9728 & 0.1707 & 1.87 & 0.20\,\% \\
+         & 3.0 & $+2.01$ & 5.044e-7 & 3.071e-6 & 6.388e-6 & 1.9783 & 0.1643 & 2.30 & 0.68\,\% \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\paragraph{Low-drain linearity.} For an Ohmic contact and gradual-channel transport, $\Id(0.1)/\Id(0.05) = 2[1-0.05/V_{\mathrm{ov}}]/[1-0.025/V_{\mathrm{ov}}] < 2$. Every registered value lies between 1.80 and 1.98, with negative curvature $\partial^2\Id/\partial\Vd^2$ at $\Vd\rightarrow 0$ (from $-1.48\times10^{-7}$ to $-2.21\times10^{-6}$~A/$\mu$m/V$^2$; register \S 4.2). No S-shape appears in any film. A measured ratio above 2.0, or an upward curvature below about 0.2~V, in particular if it occurs at 2~nm only, would falsify ideal Ohmic Pd/IWO injection; specialist S5 identified a confinement-raised injection barrier at 2~nm as the physical alternative (mechanism M2, \cref{sec:mech-contacts}).
+
+\paragraph{Series resistance.} The normalised ratio $\Id(0.1)/\Id(0.7)$ at $\Vg = 3$~V is 0.172, 0.171 and 0.164 for 2, 6.3 and 13.2~nm. Source/drain resistance compresses the low-$\Vd$ end. A measured value that is lower than predicted by more than the repeatability, with a deficit that grows with $\Id$, indicates $\Rsd$, and the thickness ordering of the deficit locates it.
+
+\paragraph{Saturation and output conductance.} With constant mobility and zero $\Rsd$, $V_{\mathrm{d,sat}}$ rises from 0.43 to 1.80~V (2~nm), 0.44 to 1.90~V (6.3~nm) and 0.68 to 2.30~V (13.2~nm) for $\Vg$ from 1 to 3~V. The output conductance at 3~V is 0.01--0.19\,\% of $g_{d0}$ for 2 and 6.3~nm and 0.03--0.68\,\% for 13.2~nm ($L = 20~\mu$m, no channel-length modulation, no parallel path in the model). Quasi-saturation more than about 0.3~V earlier would indicate field-dependent mobility or $\Rsd$; an output conductance of several percent, or one rising with $t$, would indicate an ungated or back-channel path (compare the off-floor analysis in \cref{sec:mech-traps}).
+
+\paragraph{Film ratios.} The ratio $\Id(13.2)/\Id(2)$ at $\Vd = 0.1$~V is 26.5, 10.8, 7.44, 6.29 and 5.75 for $\Vg$ = 1, 1.5, 2, 2.5 and 3~V (register \S 4.3; at $\Vd = 3$~V the corresponding values are 41.4, 17.3, 10.9, 8.52 and 7.35). The ratio $\Id(6.3)/\Id(2)$ at 0.1~V is 1.149, 0.927, 0.829, 0.798 and 0.787. A low-$\Vd$ ratio that departs from the $\Vd = 0.7$~V ratio beyond this predicted $\Vd$ dependence falsifies a thickness-independent (zero) contact resistance.
+
+\paragraph{Numerical uncertainty.} $V_{\mathrm{d,sat}}$ carries $\pm 0.05$~V (0.1~V grid); $g_d(3~\mathrm{V})$ at $\Vg = 1$~V is set by current differences of about $5\times10^{-13}$~\Aum{} per 0.1~V and carries up to about 5\,\% numerical uncertainty (KCL residual up to $10^{-14}$~A in \run{0041}, \run{0042}). No DOS or mesh check was performed for ID-VD (\cref{sec:num-convergence}; checklist item 2.3 in \cref{sec:val-checklist}).
+
+% ---------------------------------------------------------------------------
+\section{Elevated-temperature transfer characteristics}\label{sec:pred-temperature}
+
+Runs \run{0044} (B11, 2~nm, 338.15~K), \run{0045} (B12, 2~nm, 358.15~K), \run{0046} (B13, 6.3~nm, 358.15~K) and \run{0047} (B14, 13.2~nm, 358.15~K) repeat the calibrated transfer sweep at $\Vd = 0.7$~V. The declared temperature assumptions of campaign B were: $\Nc$, $\Nv \propto T^{1.5}$ (ATLAS); $\Eg$ temperature-independent (egalpha = 0); $\NTA$, $\WTA$, $\Dit$, deep states, $\Qf$ and $\Ndeff$ temperature-independent; trap occupancy at the lattice temperature (isothermal, no self-heating); and a temperature-independent band mobility.
+
+\begin{caveat}[title={The tmu caveat}]
+ATLAS did not honour the last assumption: it applied its silicon default tmu = 1.5 to the constant mobility, so the runs as simulated (P-phonon, $\muband\propto T^{-1.5}$) and the same currents multiplied by the exact factors $(T/300)^{+1.5}$ (P-MTR, temperature-independent band mobility) are registered as two exact variants, and the as-simulated runs are never quoted as ``temperature-independent mobility''; the evidence, the factors and the register's prose typo are given in \cref{sec:par-temperature}.
+\end{caveat}
+
+A measured result between the variants is read through an effective exponent $g$ defined by $\muband\propto T^{-g}$,
+\begin{equation}
+  g = -\frac{\ln(R_{\mathrm{meas}}/R_{\mathrm{MTR}})}{\ln(T/300~\mathrm{K})},\label{eq:pred-g}
+\end{equation}
+where $R$ is the measured and the P-MTR-predicted ratio of the same current quantity ($\Ion$ or $\muFE$) at $T$ and at 300~K; $g = 0$ is P-MTR and $g = 1.5$ is P-phonon.
+
+\begin{figure}[tbp]
+  \centering
+  \includegraphics[width=\linewidth]{temperature_predictions}
+  \caption{Predicted ratio $\Id(T)/\Id(300~\mathrm{K})$ versus $\Vg$ at $\Vd = 0.7$~V for 2~nm at 338.15~K (\run{0044}) and 358.15~K (\run{0045}), 6.3~nm at 358.15~K (\run{0046}) and 13.2~nm at 358.15~K (\run{0047}), relative to the 300~K references \run{0038}, \run{0039} ($\times1.015074$) and \run{0040} ($\times1.020113$). Solid: P-phonon (as simulated, ATLAS tmu = 1.5). Dashed: P-MTR ($\times(T/300)^{1.5}$). At $\Vg = 3$~V the P-phonon/P-MTR ratios are 0.841/1.006 (2~nm, 338~K), 0.774/1.010 (2~nm, 358~K), 0.784/1.022 (6.3~nm) and 0.778/1.015 (13.2~nm); at 0.5~V the P-MTR ratio is 1.71, 2.18, 2.24 and 1.48 (figures/MANIFEST.md).}
+  \label{fig:temperature_predictions}
+\end{figure}
+
+\begin{table}[tbp]
+  \centering
+  \footnotesize
+  \caption{Registered elevated-temperature predictions ($\Vd = 0.7$~V): changes relative to each film's own 300~K reference (2~nm \run{0038}; 6.3~nm \run{0039} $\times1.015074$; 13.2~nm \run{0040} $\times1.020113$). Shifts in mV; fixed-current SS in mV/dec with its change in brackets. Runs \run{0044}--\run{0047}; \file{PREDICTIONS_REGISTER.md} \S 5.2.}
+  \label{tab:pred-temperature}
+  \setlength{\tabcolsep}{2.5pt}
+  \begin{tabular}{lrlrrrrrrr}
+    \toprule
+    film & $T$ (K) & variant & $\Delta\Vthcc$ & $\Delta V(10^{-11})$ & $\Delta V(10^{-7})$ & $\SSfix{10^{-10}}{10^{-9}}$ & $\Delta\Vthlin$ & $\muFE$ ratio & $\Delta\Ion$ (\%) \\
+    \midrule
+    2 nm & 338.15 & P-phonon & $-27.9$ & $-28.9$ & $+56.4$ & 216.0 ($+1.0$) & $-17.2$ & 0.8312 & $-15.91$ \\
+         & 338.15 & P-MTR    & $-49.3$ & $-36.9$ & $-27.1$ & 206.3 ($-8.6$) & $-17.2$ & 0.9947 & $+0.63$ \\
+         & 358.15 & P-phonon & $-40.5$ & $-44.0$ & $+85.4$ & 216.9 ($+2.0$) & $-26.5$ & 0.7604 & $-22.58$ \\
+         & 358.15 & P-MTR    & $-73.1$ & $-54.6$ & $-41.6$ & 202.8 ($-12.1$) & $-26.5$ & 0.9919 & $+0.99$ \\
+    \midrule
+    6.3 nm & 358.15 & P-phonon & $-46.7$ & $-48.3$ & $+107.8$ & 217.9 ($+2.4$) & $-34.5$ & 0.7664 & $-21.63$ \\
+         & 358.15 & P-MTR    & $-78.9$ & $-60.2$ & $-45.4$ & 203.1 ($-12.5$) & $-34.5$ & 0.9997 & $+2.22$ \\
+    \midrule
+    13.2 nm & 358.15 & P-phonon & $-56.6$ & $-55.4$ & $+0.9$ & 140.1 ($-3.3$) & $-30.1$ & 0.7668 & $-22.17$ \\
+         & 358.15 & P-MTR    & $-76.3$ & $-65.2$ & $-64.2$ & 132.9 ($-10.6$) & $-30.1$ & 1.0002 & $+1.52$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The 300~K references are (register \S 5.1): $\Vthcc$ = 0.6804, 0.6529 and 0.0536~V; $\SSfix{10^{-10}}{10^{-9}}$ = 215.0, 215.6 and 143.4~\mVdec; $\Vthlin$ = 1.5365, 1.4664 and 0.9946~V; $\muFE$ = 11.096, 8.393 and 48.851~\cmVs; $\Ion$ = \SI{5.09e-7}{}, \SI{4.034e-7}{} and \SI{3.071e-6}{}~\Aum{} for 2, 6.3 and 13.2~nm.
+
+Three features of \cref{tab:pred-temperature} are relevant to the test design. First, $\Delta\Vthlin$ is identical in the two variants ($-17.2$ and $-26.5$~mV at 2~nm, $-34.5$~mV at 6.3~nm, $-30.1$~mV at 13.2~nm), because a common current factor does not move the linear-extrapolation intercept. It is therefore the most selective test of the equilibrium tail-filling electrostatics, independent of the mobility assumption. Second, $\Delta\Vthcc$ differs between variants, because the constant-current definition converts a current factor into a voltage (the same coupling as SYNTHESIS D6). Third, the thickness ratio $\muFE(13.2)/\muFE(2)$ changes from 4.403 (300~K) to 4.440 (358.15~K) in both variants ($+0.8$\,\%), and $\Ion(13.2)/\Ion(2)$ from 6.033 to 6.065. The model, which uses one transport mechanism in all films, thus predicts that the thickness contrast does not decrease with temperature.
+
+\begin{figure}[tbp]
+  \centering
+  \includegraphics[width=\linewidth]{activation_energy}
+  \caption{Predicted apparent activation energy $\Ea(\Vg)$ of $\Id$ at $\Vd = 0.7$~V for both variants and the three films, least-squares Arrhenius fit over 300/338.15/358.15~K (2~nm; \run{0038}, \run{0044}, \run{0045}) and 300/358.15~K (6.3~nm \run{0039}, \run{0046}; 13.2~nm \run{0040}, \run{0047}). At $\Vg = 1$~V: P-MTR 57.3/53.4/20.8~meV, P-phonon 15.1/11.1/$-21.5$~meV for 2/6.3/13.2~nm (figures/MANIFEST.md). The two variants differ by the constant tmu term $1.5\,\kB T_{\mathrm{eff}} = 42.3$~meV.}
+  \label{fig:activation_energy}
+\end{figure}
+
+\begin{table}[tbp]
+  \centering
+  \small
+  \caption{Registered apparent activation energy of $\Id$ at fixed $\Vg$ (meV; $\Vd = 0.7$~V). 2~nm: fit over three temperatures (the two pair values in brackets); 6.3 and 13.2~nm: 300/358.15~K. $^{*}$Below 5$\times$ the measured 300~K off-floor of that film: not measurable on the existing devices. \file{PREDICTIONS_REGISTER.md} \S 5.3.}
+  \label{tab:pred-ea}
+  \begin{tabular}{llrrrrrr}
+    \toprule
+    film & variant & 0 V & 0.5 V & 1.0 V & 1.5 V & 2.0 V & 3.0 V \\
+    \midrule
+    2 nm & P-phonon & n/a & $+81.6$ & $+15.2$ & $-19.5$ & $-34.3$ & $-40.6$ \\
+         & P-MTR    & n/a & $+123.7$ & $+57.3$ & $+22.6$ & $+7.8$ & $+1.5$ \\
+    6.3 nm & P-phonon & $+452.0^{*}$ & $+86.0$ & $+11.1$ & $-22.3$ & $-33.5$ & $-38.8$ \\
+         & P-MTR    & $+494.3^{*}$ & $+128.3$ & $+53.4$ & $+20.0$ & $+8.8$ & $+3.5$ \\
+    13.2 nm & P-phonon & $+120.8$ & $+20.4$ & $-21.5$ & $-34.0$ & $-37.7$ & $-39.9$ \\
+         & P-MTR    & $+163.1$ & $+62.7$ & $+20.8$ & $+8.3$ & $+4.7$ & $+2.4$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+For 2~nm, the bracketed pair values of the register (e.g. P-MTR at 0.5~V: $+122.5$ and $+127.1$~meV for 300--338 and 300--358~K) differ from the three-point fit by at most a few meV, so a single Arrhenius slope describes the model in this range. At $\Vg = 0$ the 2~nm current is below $10^{-16}$~\Aum{} and no value is registered.
+
+\paragraph{Cross-check against the analytic MTR surrogate.} Specialist S2 had registered, at 2026-09-24T18:57Z, a one-dimensional MTR surrogate expectation for 300$\rightarrow$350~K with temperature-independent mobility. Interpolated linearly in $T$, ATLAS P-MTR gives $\Delta\Vthcc = -63.4$ (surrogate $-64$) and $-65.6$ ($-66$)~mV, $\muFE$ ratios 0.9930 (0.993) and 1.0002 (0.999), and $\Ion$ ratios 1.0084 (1.004) and 1.0131 (1.011) at 2 and 13.2~nm; the largest difference is $\Delta\Vthlin$ at 2~nm ($-22.7$ against $-15$~mV), within the solver-grid bias of $\Vthlin$. The P-MTR activation energies agree with the surrogate to within 7~meV at every $\Vg$ (register \S 5.4). This is a model-versus-surrogate numerical consistency test, not an experimental validation (\evSURR{} against \evNUM).
+
+\paragraph{Numerical uncertainty.} $\Id$, $\Ion$ and $\muFE$ ratios: DOS residual beyond 384/192 of $+0.16$\,\% at 2~nm (Richardson, observed order 2.0 from \run{0012}, \run{0019}, \run{0029}), smaller at 6.3 and 13.2~nm; mesh $\times0.7$ $\le 0.013$\,\% (\run{0036}, \run{0028}); linear rescale exact to $10^{-5}$. $\Vthcc$ and $V(I)$: $\pm1$~mV; fixed-current SS: $\pm1$~\mVdec; $\Vthlin$: grid-limited, $-5$ to $-12$~mV bias relative to a 0.05~V measurement grid (0.1~V solver steps above 1.5~V); $\gmmax$: $-0.4$ to $-0.7$\,\%; $\Ea$: below 0.5~meV. DOS convergence was verified at 300~K only, not at 338 or 358~K. Physical and model-form uncertainty is not included in these numbers.
+
+% ---------------------------------------------------------------------------
+\section{Falsification criteria and prospective status}\label{sec:pred-falsification}
+
+\Cref{tab:pred-falsify} lists, for each registered prediction, the outcome that falsifies it and the assumption that would then be falsified. \Cref{tab:pred-decision} gives the decision rules that the synthesis attached to the register before any comparison data were requested. The symbol $\sigma_{\mathrm{rep}}$ denotes the repeatability of the same device; it is not determined and must be measured before the comparison is reported.
+
+\begin{table}[tbp]
+  \centering
+  \footnotesize
+  \caption{What each registered outcome would falsify (\file{PREDICTIONS_REGISTER.md} \S 6).}
+  \label{tab:pred-falsify}
+  \begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{0.2\linewidth}>{\raggedright\arraybackslash}p{0.24\linewidth}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}
+    \toprule
+    prediction & model value(s) & falsifying outcome & assumption falsified \\
+    \midrule
+    Low-$\Vd$ linearity & $\Id(0.1)/\Id(0.05)$ = 1.80--1.98; negative curvature & ratio $>2.0$ or S-shape below $\approx0.2$~V, especially at 2~nm only & ideal Ohmic Pd/IWO injection; $\muband$ lumping \\
+    $\Id(0.1)/\Id(0.7)$ at 3~V & 0.172 / 0.171 / 0.164 & lower by more than repeatability, growing with $\Id$ & negligible $\Rsd$ \\
+    Saturation & $V_{\mathrm{d,sat}}$ 0.43--1.80, 0.44--1.90, 0.68--2.30~V & quasi-saturation $>0.3$~V earlier & constant mobility, zero $\Rsd$ \\
+    Output conductance & 0.01--0.19\,\% (2, 6.3~nm), 0.03--0.68\,\% (13.2~nm) of $g_{d0}$ & several \% or rising with $t$ & no parallel/ungated path \\
+    Film ratio at low $\Vd$ & $\Id(13.2)/\Id(2)$ = 26.5 / 10.8 / 7.44 / 6.29 / 5.75 & departure from the predicted $\Vd$ dependence & zero contact resistance \\
+    $\Delta\Ion$ (2~nm, 358~K) & P-MTR $+0.99$\,\%, P-phonon $-22.6$\,\% & $>+5$\,\% ($g<-0.2$) or near $-22$\,\% & T-independent band mobility (activated/percolation or phonon-like transport) \\
+    $\muFE(13.2)/\muFE(2)$ & 4.40 $\rightarrow$ 4.44 at 358~K & shrinks toward $\approx$2.7--3.3 & common band-transport mechanism in all films \\
+    $\Delta\Vthcc$ (358~K) & P-MTR $-73$/$-79$/$-76$; P-phonon $-41$/$-47$/$-57$~mV & outside $-35$ to $-85$~mV, or thickness spread $\gg20$~mV & equilibrium tail filling as only T-dependent charge \\
+    Subthreshold $\Ea$ & P-MTR 124/128/63 (0.5~V), 57/53/21~meV (1~V) & ordering $\Ea(2)\approx\Ea(6.3)>\Ea(13.2)$ violated by $>10$~meV & tail/$\EF$ alignment ordering \\
+    On-state $\Ea$ (3~V) & P-MTR $+1.5$/$+3.5$/$+2.4$; P-phonon $-40.6$/$-38.8$/$-39.9$~meV & thin-film value exceeding 13.2~nm by $>10$~meV & thickness-independent transport mechanism \\
+    SS (358~K) & $\SSfix{10^{-10}}{10^{-9}}$ P-MTR $-12.1$/$-12.5$/$-10.6$~\mVdec & increase $>20$~\mVdec & T-independent $\WTA$, $\Dit$; equilibrium trapping \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\begin{table}[tbp]
+  \centering
+  \footnotesize
+  \caption{Decision rules fixed before any comparison (\file{SYNTHESIS.md} \S G.2).}
+  \label{tab:pred-decision}
+  \begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{0.3\linewidth}>{\raggedright\arraybackslash}X}
+    \toprule
+    test & outcome and meaning \\
+    \midrule
+    $\Delta\Ion$(2~nm, 358~K) & $\ge +5$\,\%: activated band mobility or percolation; both variants and constant mobility falsified. Between $-5$ and $+5$\,\%: P-MTR consistent. $\le -15$\,\%: phonon-like; P-MTR falsified. Otherwise report $g$ from \cref{eq:pred-g}; neither variant confirmed. \\
+    $\Delta\Vthlin$ at 338/358~K ($-17.2$/$-26.5$~mV, both variants) & pass if $|\mathrm{meas}-\mathrm{pred}| \le \max(15~\mathrm{mV}, 2\sigma_{\mathrm{rep}})$; the 15~mV exceeds the $-5$ to $-12$~mV grid bias. A fail falsifies the equilibrium tail-filling electrostatics. \\
+    $\Delta\Vthcc$(358~K) & inside $-35$ to $-85$~mV: tail filling sufficient; outside: additional temperature-dependent charge. \\
+    $\Delta\SSfix{10^{-10}}{10^{-9}}$ at 358~K & increase $>20$~\mVdec: temperature-dependent tail/$\Dit$ or non-equilibrium trapping. \\
+    $\muFE(13.2)/\muFE(2)$ vs $T$ & constant within $\pm5$\,\%: common mechanism; falling toward $\approx3.3$: supports the structural-transition hypothesis C1 (\cref{sec:concl-plausible}). \\
+    Low-$\Vd$ output & $\Id(0.1)/\Id(0.05)>2.0$ or S-shape (especially 2~nm only): non-Ohmic injection. \\
+    $\Id(0.1)/\Id(0.7)$ at $\Vg$ = 3~V & lower than predicted by more than $\sigma_{\mathrm{rep}}$ and growing with $\Id$: $\Rsd$ present; the film ordering of the deficit locates it. \\
+    $\mu_{\mathrm{sat}}$(6.3~nm) in the target paper's Fig.~5a & 3.86~\cmVs{} within the digitisation error confirms the provenance chain (\cref{sec:der-mufe}). \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+Only the test of the $\muFE$ ratio versus $T$ and the ordering of $\Ea(3~\mathrm{V})$ bear on the thickness mechanism; the ID-VD items test auxiliary assumptions (conceded, REVIEW U7).
+
+\paragraph{Rules that preserve prospective status.} The register remains prospective only if the following rules are observed (\file{SYNTHESIS.md} \S G.3):
+\begin{enumerate}
+  \item \emph{Hashes.} All 44 files of register \S 10 are unchanged (check [SYN-c]); the register's own SHA-256 is \texttt{836ead1f731745f95e339dedff351c2cc4dae5c6cdd3979d5c992e8e3030a681} (\cref{ch:app-register}).
+  \item \emph{External timestamp.} The register, \file{predictions_canonical.csv}, the synthesis and their hashes are deposited with an external timestamp (e-mail to the supervisor and an OSF/Zenodo or repository commit) before the S12 data are requested or opened. Until then the only timestamp is internal (2026-09-24T23:24:53Z); the limitation sentence is: ``Predictions were registered internally with SHA-256 hashes; no third-party timestamp exists.''
+  \item \emph{No edits.} Neither the register nor the CSV is edited. The prose multiplier error (1.19665/1.30426 for the exact 1.19669/1.30441) goes in a separately timestamped addendum.
+  \item \emph{No refit before comparison.} $\muband$, $\Qf$, $\Nt$ and $\WTA$ are not refitted before the comparison is written; the unchanged extractor is used. If S12 exists only as figures, it is digitised before the predictions are viewed and the digitisation error is recorded.
+  \item \emph{Re-checks beside, never instead of, the registered numbers.} Tier-2 re-checks (explicit TMUN, DOS at 358~K, ID-VD mesh; \cref{sec:val-checklist}) are reported next to the registered numbers; a shift beyond the registered numerical uncertainty is reported as a numerical flaw of that prediction.
+  \item \emph{Device identity.} Whether the S12 device is the workbook 2~nm device is recorded (currently not determined). Only changes relative to that device's own 300~K curve are compared.
+\end{enumerate}
+Any later change to the registered files, the extraction definitions or the model state invalidates the prospective status; a revised register must be a new, separately timestamped file.
+
+\begin{keyresult}[title={Key result: registered predictions}]
+\begin{itemize}
+  \item ID-VD (\run{0041}--\run{0043}): strictly sub-linear low-$\Vd$ response ($\Id(0.1)/\Id(0.05)$ = 1.80--1.98), $\Id(0.1)/\Id(0.7)$ = 0.172/0.171/0.164 at $\Vg$ = 3~V, $V_{\mathrm{d,sat}}$ up to 1.80/1.90/2.30~V and output conductance $\le0.68$\,\% of $g_{d0}$. These test contact and parasitic-path assumptions, not the thickness mechanism.
+  \item Temperature (\run{0044}--\run{0047}): two exact variants because ATLAS applied tmu = 1.5; factors $(338.15/300)^{1.5} = 1.19669$ and $(358.15/300)^{1.5} = 1.30441$. At 358~K, $\Delta\Ion$(2~nm) = $+0.99$\,\% (P-MTR) or $-22.58$\,\% (P-phonon); $\Delta\Vthlin$ = $-26.5$~mV in both; $\muFE(13.2)/\muFE(2)$ 4.40$\rightarrow$4.44.
+  \item Status: \evPRED{} (registered 2026-09-24T23:24:53Z, 44/44 hashes unchanged), untested; no third-party timestamp yet.
+\end{itemize}
+\end{keyresult}
+
+The registered predictions provide the route to validation, but none of them has yet been tested. The next chapter states the validation status of every model claim and the work required, in order of dependency, before submission.

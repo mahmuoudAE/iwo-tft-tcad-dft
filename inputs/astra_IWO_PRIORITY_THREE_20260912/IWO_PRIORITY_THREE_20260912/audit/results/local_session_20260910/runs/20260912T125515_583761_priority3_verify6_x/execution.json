@@ -1,0 +1,261 @@
+{
+  "run_id": "20260912T125515_583761_priority3_verify6_x",
+  "event": "finish",
+  "timestamp": "2026-09-12T13:05:17.278399+00:00",
+  "command": [
+    "C:/sedatools/exe/deckbuild.exe",
+    "-run",
+    "device.in",
+    "-outfile",
+    "deckbuild.out"
+  ],
+  "cwd": "C:\\Users\\moham\\Downloads\\IWO_Local_Codex_Handoff (1)\\IWO_ATLAS_Model\\results\\local_session_20260910\\runs\\20260912T125515_583761_priority3_verify6_x",
+  "deck_sha256": "9170cac6798cb1974be9b9b8d540337d8f4b391641ad2aa48573659b55cb77ef",
+  "config_sha256": "79abcfbdc88a2a0c3e12b82b4537fee44ed2243fa59615fb95399cccc648b8dc",
+  "declared_simulator": "atlas",
+  "version_evidence": "See fresh raw simulator banner; no version inferred from path",
+  "input_artifacts": {},
+  "parameters": {
+    "diagnostic": "priority3_verify6_x",
+    "curves": {
+      "2p0": {
+        "thickness_nm": 2.0,
+        "data": "data/iwo_2p0nm.csv",
+        "nd_cm3": 2e+17,
+        "mu_band_cm2Vs": 13.3,
+        "gate_shift_V": 0.065,
+        "nta_cm3_eV": 5.5e+20,
+        "wta_eV": 0.04,
+        "nga_cm3_eV": 0,
+        "ega_eV_below_Ec": 0.3,
+        "wga_eV": 0.15,
+        "ngd_cm3_eV": 0,
+        "egd_eV_below_Ec": 0.2,
+        "wgd_eV": 0.1,
+        "interface_peak_cm2_eV": 200000000000.0,
+        "interface_center_eV_below_Ec": 0.3,
+        "interface_width_eV": 0.12
+      },
+      "6p3": {
+        "thickness_nm": 6.3,
+        "data": "data/iwo_6p3nm.csv",
+        "nd_cm3": 1e+17,
+        "mu_band_cm2Vs": 12.0,
+        "gate_shift_V": 0.065,
+        "nta_cm3_eV": 3.7142857142857145e+20,
+        "wta_eV": 0.04,
+        "nga_cm3_eV": 0,
+        "ega_eV_below_Ec": 0.3,
+        "wga_eV": 0.15,
+        "ngd_cm3_eV": 0,
+        "egd_eV_below_Ec": 0.2,
+        "wgd_eV": 0.1,
+        "interface_peak_cm2_eV": 0,
+        "interface_center_eV_below_Ec": 0.3,
+        "interface_width_eV": 0.12
+      },
+      "13p2": {
+        "thickness_nm": 13.2,
+        "data": "data/iwo_13p2nm.csv",
+        "nd_cm3": 1e+18,
+        "mu_band_cm2Vs": 55,
+        "gate_shift_V": 0.065,
+        "nta_cm3_eV": 4.761904761904762e+19,
+        "wta_eV": 0.035,
+        "nga_cm3_eV": 0,
+        "ega_eV_below_Ec": 0.3,
+        "wga_eV": 0.15,
+        "ngd_cm3_eV": 0,
+        "egd_eV_below_Ec": 0.2,
+        "wgd_eV": 0.1,
+        "interface_peak_cm2_eV": 0,
+        "interface_center_eV_below_Ec": 0.3,
+        "interface_width_eV": 0.12
+      },
+      "31p8": {
+        "thickness_nm": 31.8,
+        "data": "data/iwo_31p8nm.csv",
+        "nd_cm3": 4e+18,
+        "mu_band_cm2Vs": 55,
+        "gate_shift_V": 0.065,
+        "nta_cm3_eV": 2.7672955974842765e+19,
+        "wta_eV": 0.05,
+        "nga_cm3_eV": 0,
+        "ega_eV_below_Ec": 0.3,
+        "wga_eV": 0.15,
+        "ngd_cm3_eV": 0,
+        "egd_eV_below_Ec": 0.2,
+        "wgd_eV": 0.1,
+        "interface_peak_cm2_eV": 0,
+        "interface_center_eV_below_Ec": 0.3,
+        "interface_width_eV": 0.12
+      }
+    }
+  },
+  "timeout_seconds": 1500.0,
+  "declared_simulators": [
+    "atlas"
+  ],
+  "reserved_simulator_launches": 1,
+  "deadline_monotonic": 83636.828,
+  "process_lifecycle": {
+    "launcher_returncode": 0,
+    "launcher_exit_observed_elapsed_seconds": 600.7660000000033,
+    "observed_owned_processes": [
+      {
+        "pid": 44920,
+        "parent_pid": null,
+        "created_filetime": 134336913156413149,
+        "first_observed_elapsed_seconds": 0.0,
+        "executable_basename": "deckbuild.exe",
+        "still_running": false,
+        "exit_code": 0
+      },
+      {
+        "pid": 54168,
+        "parent_pid": 44920,
+        "created_filetime": 134336913156600866,
+        "first_observed_elapsed_seconds": 0.04700000000593718,
+        "executable_basename": "conhost.exe",
+        "still_running": false,
+        "exit_code": 0
+      },
+      {
+        "pid": 13568,
+        "parent_pid": 44920,
+        "created_filetime": 134336913157346726,
+        "first_observed_elapsed_seconds": 0.17200000000593718,
+        "executable_basename": "sflm_monitord.exe",
+        "still_running": false,
+        "exit_code": 0
+      },
+      {
+        "pid": 18420,
+        "parent_pid": 13568,
+        "created_filetime": 134336913157528904,
+        "first_observed_elapsed_seconds": 0.17200000000593718,
+        "executable_basename": "conhost.exe",
+        "still_running": false,
+        "exit_code": 0
+      },
+      {
+        "pid": 5468,
+        "parent_pid": 44920,
+        "created_filetime": 134336913159045455,
+        "first_observed_elapsed_seconds": 0.3120000000053551,
+        "executable_basename": "deckbuild.exe",
+        "still_running": false,
+        "exit_code": 0
+      },
+      {
+        "pid": 22096,
+        "parent_pid": 5468,
+        "created_filetime": 134336913212753426,
+        "first_observed_elapsed_seconds": 5.672000000005937,
+        "executable_basename": "atlas.exe",
+        "still_running": false,
+        "exit_code": 0
+      },
+      {
+        "pid": 41896,
+        "parent_pid": 22096,
+        "created_filetime": 134336913212924470,
+        "first_observed_elapsed_seconds": 5.672000000005937,
+        "executable_basename": "conhost.exe",
+        "still_running": false,
+        "exit_code": 0
+      },
+      {
+        "pid": 35092,
+        "parent_pid": 22096,
+        "created_filetime": 134336913214266302,
+        "first_observed_elapsed_seconds": 5.812000000005355,
+        "executable_basename": "sipc.exe",
+        "still_running": false,
+        "exit_code": 0
+      },
+      {
+        "pid": 48412,
+        "parent_pid": 22096,
+        "created_filetime": 134336913214357014,
+        "first_observed_elapsed_seconds": 5.828000000008615,
+        "executable_basename": "atlas.exe",
+        "still_running": false,
+        "exit_code": 0
+      },
+      {
+        "pid": 35320,
+        "parent_pid": 48412,
+        "created_filetime": 134336913231583226,
+        "first_observed_elapsed_seconds": 7.60899999999674,
+        "executable_basename": "atlas2.exe",
+        "still_running": false,
+        "exit_code": 0
+      }
+    ],
+    "observed_owned_all_exited": true,
+    "lineage_closure_verified": false,
+    "lifecycle_review_required": true,
+    "tracking_scope": "Observed lineage pinned by process handles and native creation/exit times; short-lived unobserved descendants cannot be certified.",
+    "short_lived_processes_missed": 2,
+    "missed_observations": [
+      {
+        "pid": 50648,
+        "observed_parent_pid": 44920,
+        "snapshot_executable_basename": "sipc.exe",
+        "identity_pinned": false,
+        "reason": "REFRESHED_LINEAGE_OR_LIVE_IDENTITY_UNAVAILABLE",
+        "observed_elapsed_seconds": 0.2970000000059372
+      },
+      {
+        "pid": 50608,
+        "observed_parent_pid": 35092,
+        "snapshot_executable_basename": "conhost.exe",
+        "identity_pinned": false,
+        "reason": "REFRESHED_LINEAGE_OR_LIVE_IDENTITY_UNAVAILABLE",
+        "observed_elapsed_seconds": 5.8439999999973224
+      }
+    ],
+    "owned_termination_attempts": [],
+    "cleanup_errors": [],
+    "output_quiet_seconds_required": 0.75,
+    "output_quiet_seconds_observed": 0.8429999999934807,
+    "output_drain_passed": true,
+    "cleanup_reserve_seconds": 2.0,
+    "original_deadline_monotonic": 83636.828,
+    "lifecycle_error": null,
+    "native_completion_required_separately": true
+  },
+  "actual_started_simulator_stages": [
+    "atlas"
+  ],
+  "elapsed_seconds": 601.6560000000027,
+  "returncode": 0,
+  "status": "PROCESS_EXITED_LIFECYCLE_REVIEW_REQUIRED",
+  "outputs": {
+    "bulk_acceptor.dat": "eccd7199cb6a6d4ad242936372d5662a088e7ff8e8ceb11cb227cfd5a26d8123",
+    "bulk_back_electrons_vg.dat": "d3ed88dc15c6a8f3e1b813a032b7fbc2472258d514fdfb4d45e49b8d0f515bb2",
+    "bulk_donor.dat": "a71195faf65309c3eb255e25110661dfa337ca3fbcc84b3cf48f6402853890c1",
+    "bulk_free_electrons_vg.dat": "3918a409e1175bd8079c89c8c7394d9b713f0b3596f55b196207c587ee0e2f50",
+    "bulk_front_electrons_vg.dat": "a392416b7ca799110b8f0606ee33f59136f8470ab791f8567df39238e958c1a0",
+    "bulk_ionized_acceptors_vg.dat": "5726bb0c20d18fde6838a16beb371f865875a5b87dafca57e51b2d6a4eb9c9b9",
+    "bulk_ionized_donors_vg.dat": "3b4a24a4b8fdfde7dc10dcfeda87a99089b07d5eded94f40ba33aa1e41d43c16",
+    "deckbuild.out": "444d33205a64c7812c46c6baf637ef0220c5f701bc3ad620dc1a1b985db81f36",
+    "device.in": "9170cac6798cb1974be9b9b8d540337d8f4b391641ad2aa48573659b55cb77ef",
+    "electrons_vg.dat": "374ab4f3fadd5c728bfbbde06460d0b9fdd8170af00ba50e3614026def691e77",
+    "equilibrium.str": "f9daf20e792fe290e260c96021b8ecad20ea6bd596373257272a64149a3f99c1",
+    "final.str": "8a4f4d1e9894e42bb4c5413815b30defcc2cf389fcb93e1a9294d655684849f6",
+    "geometry.str": "47b46119be1de19d267abba843806dcfeda772f6a3ec7009a20abfd72400caa1",
+    "idvg.dat": "90a7df0820c66552584738841a4764f908b884b58c6d4edbd5209c4babcc28fe",
+    "igvg.dat": "dca84bc52603c934e49e5ba0823d798f185df04d9fb77941cf54661ae6ccc434",
+    "input_config.json": "79abcfbdc88a2a0c3e12b82b4537fee44ed2243fa59615fb95399cccc648b8dc",
+    "isvg.dat": "4dc216dda56a4cff4ef4b3109598a7eda437e2c2479ab54c74e718e99d077f5a",
+    "launcher_stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "launcher_stdout.txt": "ea2ff3527865d7a9ba5028f1c6a22d61ed2c62ffa426aa2967ebea42a3d4a1cf",
+    "mobility_vg.dat": "e11603890397711dd4cc003ca6e010f571edceab77d9a60e65e335bbfdaf6347",
+    "off.str": "946987e83839c8e4092077daeae26572d97fb1e724b304bed6943a8519f54f1c",
+    "transfer.log": "3f51c55e141bccf78fea07177e7234f4f6bc5d859ed7d668183aee8a8584ecff",
+    "vdvg.dat": "154231266cde0ce3ded5060e04529f88867057ee588a6a99c5a7ea0839809830",
+    "vsvg.dat": "247fec9ef4aaccfbfd549f3172050e08e759ca861c9d93db54ede7fac2325402"
+  }
+}

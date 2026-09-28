@@ -1,0 +1,110 @@
+scope,parameter,value,status,source
+geometry,physical_width_um,290.0,target_or_documented_geometry_assumption,config/rebuild_fit_bulk_width04.json
+geometry,channel_length_um,20.0,target_or_documented_geometry_assumption,config/rebuild_fit_bulk_width04.json
+geometry,contact_length_um,2.0,target_or_documented_geometry_assumption,config/rebuild_fit_bulk_width04.json
+geometry,simulation_width_um,1.0,target_or_documented_geometry_assumption,config/rebuild_fit_bulk_width04.json
+geometry,hfo2_nm,15.0,target_or_documented_geometry_assumption,config/rebuild_fit_bulk_width04.json
+geometry,al2o3_nm,2.0,target_or_documented_geometry_assumption,config/rebuild_fit_bulk_width04.json
+geometry,gate_metal_nm,50.0,target_or_documented_geometry_assumption,config/rebuild_fit_bulk_width04.json
+geometry,source_drain_metal_nm,70.0,target_or_documented_geometry_assumption,config/rebuild_fit_bulk_width04.json
+shared,temperature_K,300.0,fixed_prior_or_assumption,config/rebuild_fit_bulk_width04.json
+shared,vd_V,0.7,fixed_prior_or_assumption,config/rebuild_fit_bulk_width04.json
+shared,eps_iwo,9.3,fixed_prior_or_assumption,config/rebuild_fit_bulk_width04.json
+shared,eps_hfo2,19.57,fixed_prior_or_assumption,config/rebuild_fit_bulk_width04.json
+shared,eps_al2o3,9.0,fixed_prior_or_assumption,config/rebuild_fit_bulk_width04.json
+shared,eg_eV,3.05,fixed_prior_or_assumption,config/rebuild_fit_bulk_width04.json
+shared,affinity_eV,4.3,fixed_prior_or_assumption,config/rebuild_fit_bulk_width04.json
+shared,nc300_cm3,5e+18,fixed_prior_or_assumption,config/rebuild_fit_bulk_width04.json
+shared,nv300_cm3,1e+19,fixed_prior_or_assumption,config/rebuild_fit_bulk_width04.json
+shared,gate_workfunction_eV,4.7,fixed_prior_or_assumption,config/rebuild_fit_bulk_width04.json
+shared,hole_mu_cm2Vs,0.01,fixed_prior_or_assumption,config/rebuild_fit_bulk_width04.json
+shared,taun_s,1e-06,fixed_prior_or_assumption,config/rebuild_fit_bulk_width04.json
+shared,taup_s,1e-06,fixed_prior_or_assumption,config/rebuild_fit_bulk_width04.json
+contacts,mode,schottky,fixed_prior_or_assumption,config/rebuild_fit_bulk_width04.json
+contacts,electron_barrier_eV,0.15,fixed_prior_or_assumption,config/rebuild_fit_bulk_width04.json
+numerics,x_spacing_um,0.5,numerical_or_model_choice,config/rebuild_fit_bulk_width04.json
+numerics,contact_edge_spacing_um,0.05,numerical_or_model_choice,config/rebuild_fit_bulk_width04.json
+numerics,channel_intervals,8,numerical_or_model_choice,config/rebuild_fit_bulk_width04.json
+numerics,alumina_intervals,4,numerical_or_model_choice,config/rebuild_fit_bulk_width04.json
+numerics,hafnia_intervals,10,numerical_or_model_choice,config/rebuild_fit_bulk_width04.json
+numerics,gate_step_V,0.1,numerical_or_model_choice,config/rebuild_fit_bulk_width04.json
+numerics,current_tolerance_A,1e-20,numerical_or_model_choice,config/rebuild_fit_bulk_width04.json
+numerics,maxtrap,10,numerical_or_model_choice,config/rebuild_fit_bulk_width04.json
+numerics,itlimit,60,numerical_or_model_choice,config/rebuild_fit_bulk_width04.json
+numerics,carrier_equations,electrons,numerical_or_model_choice,config/rebuild_fit_bulk_width04.json
+numerics,precision_bits,64,numerical_or_model_choice,config/rebuild_fit_bulk_width04.json
+defects,bulk,True,numerical_or_model_choice,config/rebuild_fit_bulk_width04.json
+defects,interface,False,numerical_or_model_choice,config/rebuild_fit_bulk_width04.json
+defects,bulk_levels_a,384,numerical_or_model_choice,config/rebuild_fit_bulk_width04.json
+defects,bulk_levels_d,192,numerical_or_model_choice,config/rebuild_fit_bulk_width04.json
+defects,interface_levels_a,160,numerical_or_model_choice,config/rebuild_fit_bulk_width04.json
+defects,interface_levels_d,80,numerical_or_model_choice,config/rebuild_fit_bulk_width04.json
+defects,capture_cm2,1e-15,numerical_or_model_choice,config/rebuild_fit_bulk_width04.json
+transport,mode,constant,fixed_prior_or_assumption,config/rebuild_fit_bulk_width04.json
+transport,gamma0,-0.36,fixed_prior_or_assumption,config/rebuild_fit_bulk_width04.json
+transport,tgamma_K,178.4,fixed_prior_or_assumption,config/rebuild_fit_bulk_width04.json
+transport,ncrit_cm3,1e+20,fixed_prior_or_assumption,config/rebuild_fit_bulk_width04.json
+2p0,thickness_nm,2.0,fixed_2nm_assumption,actual2nmrun20260912T074527_865393
+2p0,data,data/iwo_2p0nm.csv,fixed_2nm_assumption,actual2nmrun20260912T074527_865393
+2p0,nd_cm3,2e+17,fixed_2nm_assumption,actual2nmrun20260912T074527_865393
+2p0,mu_band_cm2Vs,13.3,fitted_classical_2nm_hypothesis,actual2nmrun20260912T074527_865393
+2p0,gate_shift_V,0.065,fitted_classical_2nm_hypothesis,actual2nmrun20260912T074527_865393
+2p0,nta_cm3_eV,5.5e+20,fitted_classical_2nm_hypothesis,actual2nmrun20260912T074527_865393
+2p0,wta_eV,0.04,fitted_classical_2nm_hypothesis,actual2nmrun20260912T074527_865393
+2p0,nga_cm3_eV,0,fixed_2nm_assumption,actual2nmrun20260912T074527_865393
+2p0,ega_eV_below_Ec,0.3,fixed_2nm_assumption,actual2nmrun20260912T074527_865393
+2p0,wga_eV,0.15,fixed_2nm_assumption,actual2nmrun20260912T074527_865393
+2p0,ngd_cm3_eV,0,fixed_2nm_assumption,actual2nmrun20260912T074527_865393
+2p0,egd_eV_below_Ec,0.2,fixed_2nm_assumption,actual2nmrun20260912T074527_865393
+2p0,wgd_eV,0.1,fixed_2nm_assumption,actual2nmrun20260912T074527_865393
+2p0,interface_peak_cm2_eV,200000000000.0,fixed_2nm_assumption,actual2nmrun20260912T074527_865393
+2p0,interface_center_eV_below_Ec,0.3,fixed_2nm_assumption,actual2nmrun20260912T074527_865393
+2p0,interface_width_eV,0.12,fixed_2nm_assumption,actual2nmrun20260912T074527_865393
+6p3,thickness_nm,6.3,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+6p3,data,data/iwo_6p3nm.csv,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+6p3,nd_cm3,3e+17,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+6p3,mu_band_cm2Vs,12.0,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+6p3,gate_shift_V,0,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+6p3,nta_cm3_eV,8e+19,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+6p3,wta_eV,0.032,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+6p3,nga_cm3_eV,1e+17,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+6p3,ega_eV_below_Ec,0.3,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+6p3,wga_eV,0.15,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+6p3,ngd_cm3_eV,1e+16,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+6p3,egd_eV_below_Ec,0.2,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+6p3,wgd_eV,0.1,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+6p3,interface_peak_cm2_eV,300000000000.0,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+6p3,interface_center_eV_below_Ec,0.3,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+6p3,interface_width_eV,0.12,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+13p2,thickness_nm,13.2,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+13p2,data,data/iwo_13p2nm.csv,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+13p2,nd_cm3,1e+18,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+13p2,mu_band_cm2Vs,45.0,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+13p2,gate_shift_V,0,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+13p2,nta_cm3_eV,4e+19,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+13p2,wta_eV,0.04,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+13p2,nga_cm3_eV,2e+17,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+13p2,ega_eV_below_Ec,0.3,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+13p2,wga_eV,0.15,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+13p2,ngd_cm3_eV,1e+16,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+13p2,egd_eV_below_Ec,0.2,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+13p2,wgd_eV,0.1,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+13p2,interface_peak_cm2_eV,400000000000.0,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+13p2,interface_center_eV_below_Ec,0.3,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+13p2,interface_width_eV,0.12,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+31p8,thickness_nm,31.8,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+31p8,data,data/iwo_31p8nm.csv,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+31p8,nd_cm3,5e+18,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+31p8,mu_band_cm2Vs,55.0,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+31p8,gate_shift_V,0,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+31p8,nta_cm3_eV,3e+19,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+31p8,wta_eV,0.07,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+31p8,nga_cm3_eV,5e+17,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+31p8,ega_eV_below_Ec,0.3,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+31p8,wga_eV,0.15,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+31p8,ngd_cm3_eV,1e+16,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+31p8,egd_eV_below_Ec,0.2,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+31p8,wgd_eV,0.1,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+31p8,interface_peak_cm2_eV,600000000000.0,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+31p8,interface_center_eV_below_Ec,0.3,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries
+31p8,interface_width_eV,0.12,unused_legacy_seed_not_extension_candidate,Do not use; extension01 config separately supersedes these unused entries

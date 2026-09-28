@@ -1,0 +1,270 @@
+{
+  "campaign": "B_recal_predictions",
+  "purpose": "(1) DOS 96/48 -> 384/192 recalibration of the three final configurations (one converged run per film; mu_band pre-scaled by 1/1.025 from the 2 nm run_0029 offset, then rescaled EXACTLY by Ion_meas/Ion_sim - Id is linear in a constant mobility); (2) PROSPECTIVE predictions recorded before any measurement: ID-VD families (Vg = 1, 1.5, 2, 2.5, 3 V; Vd 0-3 V) and transfer curves at 65 C (338.15 K, 2 nm) and 85 C (358.15 K, all films) - the temperatures of the Januar SI Fig. S12 elevated-temperature transfer curves of the 2 nm device, which are NOT in our possession (prediction recorded before we see them) with the recalibrated parameters; (3) parameter-isolation tests: gate work function +0.1 eV alone and m* x1.3 alone at 2 and 13.2 nm, relative to the B1/B3 baselines (same mu). Temperature runs keep mu_band, NTA/WTA, Qf and Eg temperature-independent (egalpha=0); Nc scales as T^1.5 in ATLAS; these are the stated assumptions of the prediction. 2026-09-25, user request. B0 (added after specialist S2): pre-registered test of the S2 trap/mobility re-partition at 6.3 nm (Nt(6.3) = Nt(2 nm)-like 2.66e19, mu_band 19.6, Qf 9.8e11; S2 prediction before the run: Vth_cc 0.64+/-0.03 V, Vth_lin 1.82-1.90 V, mu_FE 10.5-11.0, Ion -5..-10 %), DOS 96/48 for comparability with campaign A.",
+  "runs": [
+    {
+      "id": "B0_repartition_6p3",
+      "thickness": 6.3,
+      "label": "hyp_S2_repartition_Nt2p66e19_mu19p6",
+      "purpose": "S2 pre-registered prediction test: is the 6.3 nm on-state shape miss (Vth_lin -0.35 V, gm -23 %) a trap/mobility mis-partition of the Nt(t) law? Nt fixed at 2.66e19 (alpha 0), mu_band 19.6, Qf 9.8e11, DOS 96/48.",
+      "overrides": [
+        "traps.fixed_interface_charge_Qf_cm2.value=9.8e11",
+        "thickness_laws.Nt_cm3.alpha=0",
+        "thickness_laws.Nt_cm3.Nt2=2.66e19",
+        "thickness_laws.mu0_cm2Vs.mu_band_fitted[6.3]=19.6"
+      ]
+    },
+    {
+      "id": "B1_dos384_2p0",
+      "thickness": 2.0,
+      "label": "recal_dos384_2p0",
+      "mu_used": 17.69,
+      "recal_key": "2p0",
+      "purpose": "Converged-DOS (384/192) recalibration of the 2 nm film: mu_band 18.13/1.0249 = 17.69 (run_0029 offset +2.49 %).",
+      "overrides": [
+        "traps.fixed_interface_charge_Qf_cm2.value=1.73e12",
+        "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=17.69",
+        "solver.dos_levels.numa=384",
+        "solver.dos_levels.numd=192"
+      ]
+    },
+    {
+      "id": "B2_dos384_6p3",
+      "thickness": 6.3,
+      "label": "recal_dos384_6p3_tuned",
+      "mu_used": 11.41,
+      "recal_key": "6p3",
+      "purpose": "Converged-DOS recalibration of the 6.3 nm tuned configuration (device-specific Qf 8.7e10): mu_band 11.69/1.025 = 11.41.",
+      "overrides": [
+        "traps.fixed_interface_charge_Qf_cm2.value=8.7e10",
+        "thickness_laws.mu0_cm2Vs.mu_band_fitted[6.3]=11.41",
+        "solver.dos_levels.numa=384",
+        "solver.dos_levels.numd=192"
+      ]
+    },
+    {
+      "id": "B3_dos384_13p2",
+      "thickness": 13.2,
+      "label": "recal_dos384_13p2",
+      "mu_used": 60.39,
+      "recal_key": "13p2",
+      "timeout": 1500,
+      "purpose": "Converged-DOS recalibration of the 13.2 nm film: mu_band 61.9/1.025 = 60.39.",
+      "overrides": [
+        "traps.fixed_interface_charge_Qf_cm2.value=1.73e12",
+        "thickness_laws.mu0_cm2Vs.mu_band_fitted[13.2]=60.39",
+        "solver.dos_levels.numa=384",
+        "solver.dos_levels.numd=192"
+      ]
+    },
+    {
+      "id": "B8_idvd_2p0",
+      "thickness": 2.0,
+      "label": "pred_idvd_2p0",
+      "mode": "output",
+      "output_vgs": [
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0
+      ],
+      "vd_segments": [
+        [
+          0.5,
+          0.05
+        ],
+        [
+          3.0,
+          0.1
+        ]
+      ],
+      "timeout": 2000,
+      "purpose": "PREDICTION: ID-VD at Vg = 1, 1.5, 2, 2.5, 3 V, 2 nm, recalibrated parameters (ideal Ohmic contacts, constant mobility).",
+      "overrides": [
+        "traps.fixed_interface_charge_Qf_cm2.value=1.73e12",
+        "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]={mu:2p0}",
+        "solver.dos_levels.numa=384",
+        "solver.dos_levels.numd=192"
+      ]
+    },
+    {
+      "id": "B9_idvd_6p3",
+      "thickness": 6.3,
+      "label": "pred_idvd_6p3_tuned",
+      "mode": "output",
+      "output_vgs": [
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0
+      ],
+      "vd_segments": [
+        [
+          0.5,
+          0.05
+        ],
+        [
+          3.0,
+          0.1
+        ]
+      ],
+      "timeout": 2000,
+      "purpose": "PREDICTION: ID-VD at Vg = 1, 1.5, 2, 2.5, 3 V, 6.3 nm tuned configuration, recalibrated.",
+      "overrides": [
+        "traps.fixed_interface_charge_Qf_cm2.value=8.7e10",
+        "thickness_laws.mu0_cm2Vs.mu_band_fitted[6.3]={mu:6p3}",
+        "solver.dos_levels.numa=384",
+        "solver.dos_levels.numd=192"
+      ]
+    },
+    {
+      "id": "B10_idvd_13p2",
+      "thickness": 13.2,
+      "label": "pred_idvd_13p2",
+      "mode": "output",
+      "output_vgs": [
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0
+      ],
+      "vd_segments": [
+        [
+          0.5,
+          0.05
+        ],
+        [
+          3.0,
+          0.1
+        ]
+      ],
+      "timeout": 3000,
+      "purpose": "PREDICTION: ID-VD at Vg = 1, 1.5, 2, 2.5, 3 V, 13.2 nm, recalibrated.",
+      "overrides": [
+        "traps.fixed_interface_charge_Qf_cm2.value=1.73e12",
+        "thickness_laws.mu0_cm2Vs.mu_band_fitted[13.2]={mu:13p2}",
+        "solver.dos_levels.numa=384",
+        "solver.dos_levels.numd=192"
+      ]
+    },
+    {
+      "id": "B11_T338_2p0",
+      "thickness": 2.0,
+      "label": "pred_T338K_2p0",
+      "timeout": 1500,
+      "purpose": "PREDICTION: transfer curve (Vd 0.7 V) at 65 C (338.15 K), 2p0, recalibrated DOS 384/192; mu_band, NTA/WTA, Qf, Dit T-independent; Eg fixed (egalpha=0); Nc ~ T^1.5 (ATLAS).",
+      "overrides": [
+        "traps.fixed_interface_charge_Qf_cm2.value=1.73e12",
+        "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]={mu:2p0}",
+        "solver.dos_levels.numa=384",
+        "solver.dos_levels.numd=192",
+        "solver.models=fermi srh temp=338.15 print",
+        "temperature_K.value=338.15"
+      ]
+    },
+    {
+      "id": "B12_T358_2p0",
+      "thickness": 2.0,
+      "label": "pred_T358K_2p0",
+      "timeout": 1500,
+      "purpose": "PREDICTION: transfer curve (Vd 0.7 V) at 85 C (358.15 K), 2p0, recalibrated DOS 384/192; mu_band, NTA/WTA, Qf, Dit T-independent; Eg fixed (egalpha=0); Nc ~ T^1.5 (ATLAS).",
+      "overrides": [
+        "traps.fixed_interface_charge_Qf_cm2.value=1.73e12",
+        "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]={mu:2p0}",
+        "solver.dos_levels.numa=384",
+        "solver.dos_levels.numd=192",
+        "solver.models=fermi srh temp=358.15 print",
+        "temperature_K.value=358.15"
+      ]
+    },
+    {
+      "id": "B13_T358_6p3",
+      "thickness": 6.3,
+      "label": "pred_T358K_6p3",
+      "timeout": 1500,
+      "purpose": "PREDICTION: transfer curve (Vd 0.7 V) at 85 C (358.15 K), 6p3, recalibrated DOS 384/192; mu_band, NTA/WTA, Qf, Dit T-independent; Eg fixed (egalpha=0); Nc ~ T^1.5 (ATLAS).",
+      "overrides": [
+        "traps.fixed_interface_charge_Qf_cm2.value=8.7e10",
+        "thickness_laws.mu0_cm2Vs.mu_band_fitted[6.3]={mu:6p3}",
+        "solver.dos_levels.numa=384",
+        "solver.dos_levels.numd=192",
+        "solver.models=fermi srh temp=358.15 print",
+        "temperature_K.value=358.15"
+      ]
+    },
+    {
+      "id": "B14_T358_13p2",
+      "thickness": 13.2,
+      "label": "pred_T358K_13p2",
+      "timeout": 1500,
+      "purpose": "PREDICTION: transfer curve (Vd 0.7 V) at 85 C (358.15 K), 13p2, recalibrated DOS 384/192; mu_band, NTA/WTA, Qf, Dit T-independent; Eg fixed (egalpha=0); Nc ~ T^1.5 (ATLAS).",
+      "overrides": [
+        "traps.fixed_interface_charge_Qf_cm2.value=1.73e12",
+        "thickness_laws.mu0_cm2Vs.mu_band_fitted[13.2]={mu:13p2}",
+        "solver.dos_levels.numa=384",
+        "solver.dos_levels.numd=192",
+        "solver.models=fermi srh temp=358.15 print",
+        "temperature_K.value=358.15"
+      ]
+    },
+    {
+      "id": "B4_wf_2p0",
+      "thickness": 2.0,
+      "label": "sens_wf_p0p1_2p0_dos384",
+      "purpose": "Isolation: gate work function 4.70 -> 4.80 eV alone at 2 nm (baseline B1, same mu 17.69).",
+      "overrides": [
+        "traps.fixed_interface_charge_Qf_cm2.value=1.73e12",
+        "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=17.69",
+        "solver.dos_levels.numa=384",
+        "solver.dos_levels.numd=192",
+        "contacts.gate_workfunction_eV.value=4.8"
+      ]
+    },
+    {
+      "id": "B5_wf_13p2",
+      "thickness": 13.2,
+      "label": "sens_wf_p0p1_13p2_dos384",
+      "timeout": 1500,
+      "purpose": "Isolation: gate work function +0.1 eV alone at 13.2 nm (baseline B3, same mu 60.39).",
+      "overrides": [
+        "traps.fixed_interface_charge_Qf_cm2.value=1.73e12",
+        "thickness_laws.mu0_cm2Vs.mu_band_fitted[13.2]=60.39",
+        "solver.dos_levels.numa=384",
+        "solver.dos_levels.numd=192",
+        "contacts.gate_workfunction_eV.value=4.8"
+      ]
+    },
+    {
+      "id": "B6_mstar_2p0",
+      "thickness": 2.0,
+      "label": "sens_mstar_x1p3_2p0_dos384",
+      "purpose": "Isolation: m* x1.3 alone (bulk 0.208 -> 0.2704, increment b 0.1311 -> 0.1704; enters ATLAS only through Nc) at 2 nm; dEc law unchanged.",
+      "overrides": [
+        "traps.fixed_interface_charge_Qf_cm2.value=1.73e12",
+        "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=17.69",
+        "solver.dos_levels.numa=384",
+        "solver.dos_levels.numd=192",
+        "bulk_reference.mstar_bulk_m0.value=0.2704",
+        "thickness_laws.mstar_m0.b=0.17043"
+      ]
+    },
+    {
+      "id": "B7_mstar_13p2",
+      "thickness": 13.2,
+      "label": "sens_mstar_x1p3_13p2_dos384",
+      "timeout": 1500,
+      "purpose": "Isolation: m* x1.3 alone at 13.2 nm (baseline B3).",
+      "overrides": [
+        "traps.fixed_interface_charge_Qf_cm2.value=1.73e12",
+        "thickness_laws.mu0_cm2Vs.mu_band_fitted[13.2]=60.39",
+        "solver.dos_levels.numa=384",
+        "solver.dos_levels.numd=192",
+        "bulk_reference.mstar_bulk_m0.value=0.2704",
+        "thickness_laws.mstar_m0.b=0.17043"
+      ]
+    }
+  ]
+}

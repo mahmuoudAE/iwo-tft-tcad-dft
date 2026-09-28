@@ -1,0 +1,103 @@
+=== 1. Linearity of Id in mu_band ===
+2 nm DOS 384/192 (B1 vs check C): run_0029/run_0038 expected 1.024873; observed mean 1.024879, min 1.024817, max 1.025135 over 43 pts with Id>1e-14 (Vg 0.15..3.0)
+2 nm DOS 96/48 reduced deck (stage pair): run_0008/run_0003 expected 1.079167; observed mean 1.079171, min 1.079163, max 1.079252 over 58 pts with Id>1e-14 (Vg 0.15..3.0)
+
+=== 2. DOS 96/48 -> 384/192 offset (same mu after exact rescale) ===
+2.0 nm 96/48 -> 384/192 (both mu 18.13):
+   dId/Id (%) at Vg: 0.3: -0.05, 0.5: -0.47, 0.7: -0.95, 1: -0.56, 1.5: +2.56, 2: +3.64, 2.5: +3.12, 3: +2.48
+   dIon_pct +2.48, dVcc_mV +1.10, dSS_10_9 +0.83, dSS_11_10 +0.23, dSS_10_8 +0.20, dVlin_mV -22.02, dgm_pct +0.93, dgap7_mV -15.16
+2.0 nm 96/48 -> 192/96 (both mu 18.13):
+   dId/Id (%) at Vg: 0.3: -0.04, 0.5: -0.38, 0.7: -0.76, 1: -0.45, 1.5: +2.05, 2: +2.91, 2.5: +2.50, 3: +1.98
+   dIon_pct +1.98, dVcc_mV +0.88, dSS_10_9 +0.66, dSS_11_10 +0.18, dSS_10_8 +0.16, dVlin_mV -17.68, dgm_pct +0.75, dgap7_mV -12.34
+6.3 nm run_0015 (mu 11.69, 96/48) vs B2 (mu 11.41, 384/192) x 11.69/11.41:
+   dId/Id (%) at Vg: 0.3: -0.06, 0.5: -0.34, 0.7: -0.63, 1: -0.35, 1.5: +0.78, 2: +1.12, 2.5: +1.06, 3: +0.95
+   dIon_pct +0.95, dVcc_mV +0.73, dSS_10_9 +0.57, dSS_11_10 +0.13, dSS_10_8 +0.24, dVlin_mV -4.77, dgm_pct +0.63, dgap7_mV -6.06
+13.2 nm run_0013 (mu 61.9, 96/48) vs B3 (mu 60.39, 384/192) x 61.9/60.39:
+   dId/Id (%) at Vg: 0.3: -0.50, 0.5: -0.43, 0.7: -0.04, 1: +0.41, 1.5: +0.68, 2: +0.64, 2.5: +0.56, 3: +0.50
+   dIon_pct +0.50, dVcc_mV +0.19, dSS_10_9 +0.15, dSS_11_10 +0.03, dSS_10_8 +0.30, dVlin_mV -4.52, dgm_pct +0.27, dgap7_mV -0.03
+
+2 nm Ion: 96->192 +1.983 %, 192->384 +0.484 %, observed order p = 2.03; Richardson residual beyond 384/192 = +0.156 %
+   Vg 0.7: 96->192 -0.761 %, 192->384 -0.186 %
+   Vg 1.0: 96->192 -0.455 %, 192->384 -0.108 %
+   Vg 1.5: 96->192 +2.047 %, 192->384 +0.507 %
+   Vg 2.0: 96->192 +2.910 %, 192->384 +0.710 %
+
+=== 3. Mesh x0.7 ===
+6.3 nm run_0036 vs run_0015: max_dlog +0.0039, rms_dlog +0.0012, dVcc_mV -0.3173, dSS_11_10 +0.0170, dSS_10_9 +0.0156, dSS_10_8 +0.0742, dVlin_mV -0.1468, dgm_pct -0.0227, dIon_pct -0.0131, dSSmin +0.1113
+13.2 nm run_0028 vs run_0013: max_dlog +0.0029, rms_dlog +0.0008, dVcc_mV -0.3605, dSS_11_10 -0.0899, dSS_10_9 -0.0289, dSS_10_8 +0.0215, dVlin_mV -0.1240, dgm_pct -0.0196, dIon_pct -0.0134, dSSmin +0.1498
+
+=== 4. KCL and native zeros (runs 0012-0052 with idvg.dat) ===
+{'run': 'run_0012', 'max_kcl': 9.999999999310304e-17, 'limit': 4.60552e-16, 'fails': 0, 'nonpos': 12, 'vg_max_nonpos': -0.15, 'max_abs_below': 3.65493e-18, 'first_vg_above_1e15': 0.1}
+{'run': 'run_0013', 'max_kcl': 1.1516456e-16, 'limit': 6.42069e-13, 'fails': 0, 'nonpos': 12, 'vg_max_nonpos': -0.75, 'max_abs_below': 2.65956e-18, 'first_vg_above_1e15': -0.4}
+{'run': 'run_0014', 'max_kcl': 3.5892497000000005e-17, 'limit': 1.5275900000000002e-14, 'fails': 0, 'nonpos': 8, 'vg_max_nonpos': -0.5, 'max_abs_below': 1.56678e-19, 'first_vg_above_1e15': -0.25}
+{'run': 'run_0015', 'max_kcl': 3.5560067999999996e-17, 'limit': 1.5275900000000002e-14, 'fails': 0, 'nonpos': 12, 'vg_max_nonpos': -0.25, 'max_abs_below': 3.52181e-19, 'first_vg_above_1e15': 0.05}
+{'run': 'run_0016', 'max_kcl': 2.445589e-17, 'limit': 4.60552e-16, 'fails': 0, 'nonpos': 9, 'vg_max_nonpos': -0.55, 'max_abs_below': 3.70697e-18, 'first_vg_above_1e15': -0.25}
+{'run': 'run_0017', 'max_kcl': 1.673024949e-16, 'limit': 6.59655e-13, 'fails': 0, 'nonpos': 9, 'vg_max_nonpos': -0.8, 'max_abs_below': 1.66999e-18, 'first_vg_above_1e15': -0.45}
+{'run': 'run_0018', 'max_kcl': None, 'limit': None, 'fails': None}
+{'run': 'run_0019', 'max_kcl': 1.7684105e-17, 'limit': 4.60552e-16, 'fails': 0, 'nonpos': 9, 'vg_max_nonpos': -0.15, 'max_abs_below': 5.86828e-18, 'first_vg_above_1e15': 0.1}
+{'run': 'run_0020', 'max_kcl': 1.0375146e-17, 'limit': 4.60552e-16, 'fails': 0, 'nonpos': 17, 'vg_max_nonpos': -0.15, 'max_abs_below': 3.45178e-18, 'first_vg_above_1e15': 0.2}
+{'run': 'run_0021', 'max_kcl': 1.1563885e-17, 'limit': 4.60552e-16, 'fails': 0, 'nonpos': 11, 'vg_max_nonpos': -0.45, 'max_abs_below': 2.31503e-18, 'first_vg_above_1e15': 0.0}
+{'run': 'run_0022', 'max_kcl': 4.9744169999999997e-17, 'limit': 4.60552e-16, 'fails': 0, 'nonpos': 16, 'vg_max_nonpos': -0.1, 'max_abs_below': 6.30824e-18, 'first_vg_above_1e15': 0.1}
+{'run': 'run_0023', 'max_kcl': 2.2047671e-17, 'limit': 4.60552e-16, 'fails': 0, 'nonpos': 13, 'vg_max_nonpos': -0.15, 'max_abs_below': 3.27508e-18, 'first_vg_above_1e15': 0.1}
+{'run': 'run_0024', 'max_kcl': 1.3028550000000001e-17, 'limit': 4.60552e-16, 'fails': 0, 'nonpos': 16, 'vg_max_nonpos': -0.2, 'max_abs_below': 3.72675e-18, 'first_vg_above_1e15': 0.1}
+{'run': 'run_0025', 'max_kcl': 9.999999999310304e-18, 'limit': 4.60552e-16, 'fails': 0, 'nonpos': 9, 'vg_max_nonpos': -0.3, 'max_abs_below': 3.86462e-18, 'first_vg_above_1e15': 0.1}
+{'run': 'run_0026', 'max_kcl': 2.6441596e-17, 'limit': 4.60552e-16, 'fails': 0, 'nonpos': 13, 'vg_max_nonpos': -0.2, 'max_abs_below': 3.65115e-18, 'first_vg_above_1e15': 0.1}
+{'run': 'run_0027', 'max_kcl': 8.3997346e-17, 'limit': 4.60552e-16, 'fails': 0, 'nonpos': 12, 'vg_max_nonpos': -0.15, 'max_abs_below': 7.28519e-19, 'first_vg_above_1e15': 0.1}
+{'run': 'run_0028', 'max_kcl': 9.212732000000001e-17, 'limit': 6.59655e-13, 'fails': 0, 'nonpos': 6, 'vg_max_nonpos': -0.75, 'max_abs_below': 5.15317e-18, 'first_vg_above_1e15': -0.4}
+{'run': 'run_0029', 'max_kcl': 9.999999999956538e-17, 'limit': 4.60552e-16, 'fails': 0, 'nonpos': 11, 'vg_max_nonpos': -0.25, 'max_abs_below': 4.64519e-18, 'first_vg_above_1e15': 0.1}
+{'run': 'run_0030', 'max_kcl': 3.5583646999999996e-17, 'limit': 1.5275900000000002e-14, 'fails': 0, 'nonpos': 12, 'vg_max_nonpos': -0.25, 'max_abs_below': 3.28643e-19, 'first_vg_above_1e15': 0.1}
+{'run': 'run_0031', 'max_kcl': 4.9990892e-17, 'limit': 1.5275900000000002e-14, 'fails': 0, 'nonpos': 12, 'vg_max_nonpos': -0.5, 'max_abs_below': 3.9198e-19, 'first_vg_above_1e15': -0.2}
+{'run': 'run_0032', 'max_kcl': 5.1626e-20, 'limit': 1.5275900000000002e-14, 'fails': 0, 'nonpos': 7, 'vg_max_nonpos': -0.55, 'max_abs_below': 1.75592e-20, 'first_vg_above_1e15': -0.2}
+{'run': 'run_0033', 'max_kcl': 7.2050207e-18, 'limit': 1.5275900000000002e-14, 'fails': 0, 'nonpos': 8, 'vg_max_nonpos': -0.5, 'max_abs_below': 3.29951e-19, 'first_vg_above_1e15': -0.25}
+{'run': 'run_0034', 'max_kcl': 5.33239764e-17, 'limit': 1.5275900000000002e-14, 'fails': 0, 'nonpos': 10, 'vg_max_nonpos': -0.3, 'max_abs_below': 3.44534e-19, 'first_vg_above_1e15': 0.0}
+{'run': 'run_0035', 'max_kcl': 1.57004e-19, 'limit': 1.5275900000000002e-14, 'fails': 0, 'nonpos': 13, 'vg_max_nonpos': -0.4, 'max_abs_below': 1.70564e-20, 'first_vg_above_1e15': 0.05}
+{'run': 'run_0036', 'max_kcl': 2.3539978e-17, 'limit': 1.5275900000000002e-14, 'fails': 0, 'nonpos': 15, 'vg_max_nonpos': -0.2, 'max_abs_below': 1.07916e-18, 'first_vg_above_1e15': 0.05}
+{'run': 'run_0037', 'max_kcl': 8.1891607e-17, 'limit': 1.5275900000000002e-14, 'fails': 0, 'nonpos': 12, 'vg_max_nonpos': -0.45, 'max_abs_below': 2.54252e-19, 'first_vg_above_1e15': -0.1}
+{'run': 'run_0038', 'max_kcl': 9.999999999956538e-17, 'limit': 4.60552e-16, 'fails': 0, 'nonpos': 11, 'vg_max_nonpos': -0.15, 'max_abs_below': 2.99597e-18, 'first_vg_above_1e15': 0.1}
+{'run': 'run_0039', 'max_kcl': 9.999999999956538e-17, 'limit': 1.5275900000000002e-14, 'fails': 0, 'nonpos': 15, 'vg_max_nonpos': -0.2, 'max_abs_below': 2.70784e-19, 'first_vg_above_1e15': 0.05}
+{'run': 'run_0040', 'max_kcl': 1.11272245e-16, 'limit': 6.59655e-13, 'fails': 0, 'nonpos': 10, 'vg_max_nonpos': -0.7, 'max_abs_below': 8.06305e-19, 'first_vg_above_1e15': -0.4}
+{'run': 'run_0041', 'max_kcl': 9.99999999987899e-15, 'limit': None, 'fails': 0}
+{'run': 'run_0042', 'max_kcl': 9.99999999987899e-15, 'limit': None, 'fails': 0}
+{'run': 'run_0043', 'max_kcl': 1.667959e-18, 'limit': None, 'fails': 0}
+{'run': 'run_0044', 'max_kcl': 1.718324e-17, 'limit': 4.60552e-16, 'fails': 0, 'nonpos': 8, 'vg_max_nonpos': -0.45, 'max_abs_below': 3.3509e-18, 'first_vg_above_1e15': 0.05}
+{'run': 'run_0045', 'max_kcl': 1.240969e-17, 'limit': 4.60552e-16, 'fails': 0, 'nonpos': 15, 'vg_max_nonpos': -0.35, 'max_abs_below': 2.91214e-18, 'first_vg_above_1e15': 0.0}
+{'run': 'run_0046', 'max_kcl': 2.673075e-17, 'limit': 1.5275900000000002e-14, 'fails': 0, 'nonpos': 12, 'vg_max_nonpos': -0.35, 'max_abs_below': 3.44076e-19, 'first_vg_above_1e15': 0.0}
+{'run': 'run_0047', 'max_kcl': 2.32698157e-16, 'limit': 6.59655e-13, 'fails': 0, 'nonpos': 6, 'vg_max_nonpos': -0.75, 'max_abs_below': 1.84614e-18, 'first_vg_above_1e15': -0.5}
+{'run': 'run_0048', 'max_kcl': 9.999999999956538e-17, 'limit': 4.60552e-16, 'fails': 0, 'nonpos': 14, 'vg_max_nonpos': -0.1, 'max_abs_below': 3.85845e-18, 'first_vg_above_1e15': 0.2}
+{'run': 'run_0049', 'max_kcl': 2.07456308e-16, 'limit': 6.59655e-13, 'fails': 0, 'nonpos': 11, 'vg_max_nonpos': -0.6, 'max_abs_below': 1.39167e-18, 'first_vg_above_1e15': -0.3}
+{'run': 'run_0050', 'max_kcl': 7.0251e-18, 'limit': 4.60552e-16, 'fails': 0, 'nonpos': 16, 'vg_max_nonpos': -0.3, 'max_abs_below': 4.58019e-18, 'first_vg_above_1e15': 0.1}
+{'run': 'run_0051', 'max_kcl': 2.466678652e-16, 'limit': 6.59655e-13, 'fails': 0, 'nonpos': 7, 'vg_max_nonpos': -0.75, 'max_abs_below': 1.9291e-18, 'first_vg_above_1e15': -0.4}
+{'run': 'run_0052', 'max_kcl': 6.34825523e-17, 'limit': 1.5275900000000002e-14, 'fails': 0, 'nonpos': 10, 'vg_max_nonpos': -0.3, 'max_abs_below': 2.63072e-19, 'first_vg_above_1e15': 0.05}
+max KCL over transfer runs: 2.47e-16 A; max |Id| at or below the highest-Vg native zero: 6.31e-18 A/um; highest Vg of a native zero: -0.10 V
+
+=== 5. SS_min window phase: run_0012 vs B1 (run_0038), run_0003 vs run_0008 ===
+2.0 nm run_0012: 5x floor 2.3e-14; first native point above = 0.15 V (Id 2.34e-14; previous point 3.75e-15); SS_min 73.2; SS_11_10 122.5; SS_10_9 212.9; SS_cc 289.1
+2.0 nm run_0038: 5x floor 2.3e-14; first native point above = 0.20 V (Id 1.36e-13; previous point 2.28e-14); SS_min 83.1; SS_11_10 123.5; SS_10_9 215.0; SS_cc 290.9
+2.0 nm run_0029: 5x floor 2.3e-14; first native point above = 0.15 V (Id 2.34e-14; previous point 3.75e-15); SS_min 73.2; SS_11_10 122.7; SS_10_9 213.7; SS_cc 289.3
+2.0 nm run_0019: 5x floor 2.3e-14; first native point above = 0.15 V (Id 2.34e-14; previous point 3.75e-15); SS_min 73.2; SS_11_10 122.7; SS_10_9 213.6; SS_cc 289.3
+2.0 nm run_0016: 5x floor 2.3e-14; first native point above = -0.15 V (Id 1.14e-13; previous point 1.92e-14); SS_min 83.9; SS_11_10 132.1; SS_10_9 228.2; SS_cc 303.7
+2.0 nm run_0003: 5x floor 2.3e-14; first native point above = 0.20 V (Id 1.29e-13; previous point 2.16e-14); SS_min 83.1; SS_11_10 125.0; SS_10_9 216.7; SS_cc 294.2
+2.0 nm run_0008: 5x floor 2.3e-14; first native point above = 0.15 V (Id 2.33e-14; previous point 3.75e-15); SS_min 73.2; SS_11_10 122.5; SS_10_9 212.9; SS_cc 289.1
+13.2 nm run_0013: 5x floor 3.3e-11; first native point above = -0.10 V (Id 8.24e-11; previous point 2.46e-11); SS_min 151.3; SS_11_10 90.8; SS_10_9 143.1; SS_cc 192.5
+13.2 nm run_0040: 5x floor 3.3e-11; first native point above = -0.10 V (Id 8.03e-11; previous point 2.4e-11); SS_min 151.4; SS_11_10 91.2; SS_10_9 144.1; SS_cc 193.8
+13.2 nm run_0017: 5x floor 3.3e-11; first native point above = -0.15 V (Id 4.65e-11; previous point 1.23e-11); SS_min 138.6; SS_11_10 92.0; SS_10_9 144.2; SS_cc 193.3
+13.2 nm run_0028: 5x floor 3.3e-11; first native point above = -0.10 V (Id 8.29e-11; previous point 2.48e-11); SS_min 151.4; SS_11_10 90.7; SS_10_9 143.1; SS_cc 192.5
+
+=== 6. Crossing interpolation: log-linear minus PCHIP (mV) ===
+meas 2.0: V_1e-11 +0.38, V_1e-10 +0.83, V_1e-9 +0.45, V_1e-8 +0.21, V_1e-7 +0.25 | SS_11_10 +0.46, SS_10_9 -0.39, SS_10_8 -0.31
+meas 6.3: V_1e-11 +0.93, V_1e-10 +1.15, V_1e-9 +0.25, V_1e-8 +0.41, V_1e-7 +0.16 | SS_11_10 +0.22, SS_10_9 -0.90, SS_10_8 -0.37
+meas 13.2: V_1e-11 -4.31, V_1e-10 +0.24, V_1e-9 +0.87, V_1e-8 +0.71, V_1e-7 +0.12 | SS_11_10 +4.55, SS_10_9 +0.63, SS_10_8 +0.23
+B1 2.0: V_1e-11 +0.73, V_1e-10 +0.91, V_1e-9 +0.60, V_1e-8 +0.07, V_1e-7 +0.23 | SS_11_10 +0.18, SS_10_9 -0.32, SS_10_8 -0.42
+B2 6.3: V_1e-11 +0.94, V_1e-10 +0.83, V_1e-9 +0.19, V_1e-8 +0.40, V_1e-7 +1.49 | SS_11_10 -0.12, SS_10_9 -0.64, SS_10_8 -0.22
+B3 13.2: V_1e-11 +0.89, V_1e-10 +0.84, V_1e-9 +0.32, V_1e-8 +0.05, V_1e-7 +0.36 | SS_11_10 -0.05, SS_10_9 -0.52, SS_10_8 -0.40
+C1 6.3: V_1e-11 +0.06, V_1e-10 +1.15, V_1e-9 +0.08, V_1e-8 +0.30, V_1e-7 +1.27 | SS_11_10 +1.09, SS_10_9 -1.07, SS_10_8 -0.43
+
+=== 7. gm_max / Vth_lin grid effect (measured curves passed through the simulation grid) ===
+2.0 nm: gm_max -0.37 %, Vth_lin -5.4 mV, Vth_cc +0.00 mV
+6.3 nm: gm_max +0.00 %, Vth_lin -0.8 mV, Vth_cc +0.00 mV
+13.2 nm: gm_max -0.66 %, Vth_lin -11.7 mV, Vth_cc +0.00 mV
+
+=== 8. Path independence: ID-VD (Vd = 0.7 V) vs transfer curve at the same Vg, same mu ===
+2.0 nm run_0041 vs run_0038 x0.999983: dId % at Vg 1/1.5/2/2.5/3 = +0.000, +0.000, +0.000, +0.000, +0.000
+6.3 nm run_0042 vs run_0039 x1.015074: dId % at Vg 1/1.5/2/2.5/3 = +0.000, +0.000, +0.000, +0.000, +0.000
+13.2 nm run_0043 vs run_0040 x1.020113: dId % at Vg 1/1.5/2/2.5/3 = +0.000, +0.000, -0.000, +0.000, -0.000

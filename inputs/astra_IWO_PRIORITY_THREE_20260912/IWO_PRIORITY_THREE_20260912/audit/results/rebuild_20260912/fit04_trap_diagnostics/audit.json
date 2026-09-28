@@ -1,0 +1,369 @@
+{
+  "created_utc": "2026-09-12T08:12:58.443495+00:00",
+  "run_directory": "results\\local_session_20260910\\runs\\20260912T074527_865393_fit_bulk_width04_2nm",
+  "status": "ACTUAL_NATIVE_DOS_AND_OCCUPIED_BULK_CHARGE_VERIFIED",
+  "native_rows": 121,
+  "capacity_cm3": 2.2e+19,
+  "capacity_cm2": 4400000000000.0,
+  "native_average_box": {
+    "region": 2,
+    "x_um": [
+      2,
+      22
+    ],
+    "y_um": [
+      -0.002,
+      0
+    ],
+    "thickness_cm": 2e-07
+  },
+  "native_dos": {
+    "schema_version": 1,
+    "audit_kind": "NATIVE_DOS_PARAMETER_AND_CAPACITY_ONLY",
+    "created_utc": "2026-09-12T08:12:58.430494+00:00",
+    "run_directory": "results\\local_session_20260910\\runs\\20260912T074527_865393_fit_bulk_width04_2nm",
+    "configuration": "results\\local_session_20260910\\runs\\20260912T074527_865393_fit_bulk_width04_2nm\\input_config.json",
+    "config_sha256": "e2068f83f2f207eb28a442848c0aa37e75cf6abdaea9728743628144e1982b6b",
+    "deck_sha256": "109da74397107c5a716b67d139d44d3e27c6f391ea71a55185c56821f6c8aa22",
+    "key": "2p0",
+    "bandgap_eV": 3.05,
+    "thickness_cm": 2e-07,
+    "simulator_completed": true,
+    "sample_peak_normalized_tolerance": 5e-05,
+    "export_integral_relative_tolerance": 0.05,
+    "groups": {
+      "bulk": {
+        "enabled": true,
+        "expected_parameters": {
+          "enabled": true,
+          "numa": 384,
+          "numd": 192,
+          "nta": 5.5e+20,
+          "wta": 0.04,
+          "ntd": 0,
+          "wtd": 0.1,
+          "nga": 0,
+          "ega": 0.3,
+          "wga": 0.15,
+          "ngd": 0,
+          "egd": 2.8499999999999996,
+          "wgd": 0.1
+        },
+        "exports": {
+          "afile": {
+            "path": "results\\local_session_20260910\\runs\\20260912T074527_865393_fit_bulk_width04_2nm\\bulk_acceptor.dat",
+            "sha256": "610ff9581e804ab04293c5179bddbb0aa213a45cb70cb215a96859f27d7742b7",
+            "parameter_values_pass": true,
+            "energy_axis": "below_Ec",
+            "density_units": "cm^-3 eV^-1",
+            "capacity_units": "cm^-3",
+            "grid": {
+              "raw_rows": 384,
+              "unique_rows": 384,
+              "duplicate_rows": 0,
+              "energy_min_eV": -4.440892e-16,
+              "energy_max_eV": 3.05,
+              "spacing_min_eV": 0.00796299999999972,
+              "spacing_max_eV": 0.007964000000000304,
+              "approximately_uniform": false,
+              "expected_plot_rows_from_NUMA_NUMD": 384,
+              "matches_requested_plot_row_count": true
+            },
+            "components": {
+              "acceptor_tail": {
+                "sample_formula_pass": true,
+                "max_error_normalized_to_input_peak": 9.617066378705455e-08,
+                "sampled_maximum": 5.5e+20,
+                "sampled_maximum_energy_eV": -4.440892e-16,
+                "expected_value_at_sampled_maximum": 5.500000000000061e+20,
+                "analytic_band_truncated_capacity": 2.2e+19,
+                "sampled_trapezoid_capacity": 2.2072617277317075e+19,
+                "sampled_integral_relative_error": 0.0033007853325943155,
+                "export_sampling_integral_pass": true,
+                "analytic_sheet_capacity_cm2": 4400000000000.0,
+                "sampled_sheet_capacity_cm2": 4414523455463.415
+              },
+              "acceptor_gaussian": {
+                "sample_formula_pass": true,
+                "max_error_normalized_to_input_peak": 0,
+                "sampled_maximum": 0.0,
+                "sampled_maximum_energy_eV": -4.440892e-16,
+                "expected_value_at_sampled_maximum": 0.0,
+                "analytic_band_truncated_capacity": 0.0,
+                "sampled_trapezoid_capacity": 0.0,
+                "sampled_integral_relative_error": 0,
+                "export_sampling_integral_pass": true,
+                "analytic_sheet_capacity_cm2": 0.0,
+                "sampled_sheet_capacity_cm2": 0.0
+              },
+              "acceptor_total": {
+                "sample_formula_pass": true,
+                "max_error_normalized_to_input_peak": 9.617066378705455e-08,
+                "sampled_maximum": 5.5e+20,
+                "sampled_maximum_energy_eV": -4.440892e-16,
+                "expected_value_at_sampled_maximum": 5.500000000000061e+20,
+                "analytic_band_truncated_capacity": 2.2e+19,
+                "sampled_trapezoid_capacity": 2.2072617277317075e+19,
+                "sampled_integral_relative_error": 0.0033007853325943155,
+                "export_sampling_integral_pass": true,
+                "analytic_sheet_capacity_cm2": 4400000000000.0,
+                "sampled_sheet_capacity_cm2": 4414523455463.415
+              }
+            },
+            "export_sampling_integral_pass": true,
+            "matches_execution_hash": true
+          },
+          "dfile": {
+            "path": "results\\local_session_20260910\\runs\\20260912T074527_865393_fit_bulk_width04_2nm\\bulk_donor.dat",
+            "sha256": "c4f38dc6c28b828a0b73531001f9921aa2d812a344d8f016694908cb314fa8de",
+            "parameter_values_pass": true,
+            "energy_axis": "above_Ev",
+            "density_units": "cm^-3 eV^-1",
+            "capacity_units": "cm^-3",
+            "grid": {
+              "raw_rows": 192,
+              "unique_rows": 192,
+              "duplicate_rows": 0,
+              "energy_min_eV": 0.0,
+              "energy_max_eV": 3.05,
+              "spacing_min_eV": 0.015967999999999982,
+              "spacing_max_eV": 0.015969000000000122,
+              "approximately_uniform": true,
+              "expected_plot_rows_from_NUMA_NUMD": 192,
+              "matches_requested_plot_row_count": true
+            },
+            "components": {
+              "donor_tail": {
+                "sample_formula_pass": true,
+                "max_error_normalized_to_input_peak": 0,
+                "sampled_maximum": 0.0,
+                "sampled_maximum_energy_eV": 0.0,
+                "expected_value_at_sampled_maximum": 0.0,
+                "analytic_band_truncated_capacity": 0.0,
+                "sampled_trapezoid_capacity": 0.0,
+                "sampled_integral_relative_error": 0,
+                "export_sampling_integral_pass": true,
+                "analytic_sheet_capacity_cm2": 0.0,
+                "sampled_sheet_capacity_cm2": 0.0
+              },
+              "donor_gaussian": {
+                "sample_formula_pass": true,
+                "max_error_normalized_to_input_peak": 0,
+                "sampled_maximum": 0.0,
+                "sampled_maximum_energy_eV": 0.0,
+                "expected_value_at_sampled_maximum": 0.0,
+                "analytic_band_truncated_capacity": 0.0,
+                "sampled_trapezoid_capacity": 0.0,
+                "sampled_integral_relative_error": 0,
+                "export_sampling_integral_pass": true,
+                "analytic_sheet_capacity_cm2": 0.0,
+                "sampled_sheet_capacity_cm2": 0.0
+              },
+              "donor_total": {
+                "sample_formula_pass": true,
+                "max_error_normalized_to_input_peak": 0,
+                "sampled_maximum": 0.0,
+                "sampled_maximum_energy_eV": 0.0,
+                "expected_value_at_sampled_maximum": 0.0,
+                "analytic_band_truncated_capacity": 0.0,
+                "sampled_trapezoid_capacity": 0.0,
+                "sampled_integral_relative_error": 0,
+                "export_sampling_integral_pass": true,
+                "analytic_sheet_capacity_cm2": 0.0,
+                "sampled_sheet_capacity_cm2": 0.0
+              }
+            },
+            "export_sampling_integral_pass": true,
+            "matches_execution_hash": true
+          },
+          "tfile": {
+            "requested": false,
+            "available": false
+          }
+        },
+        "native_region_or_interface_selector": "2"
+      },
+      "interface": {
+        "enabled": false,
+        "expected_parameters": {
+          "enabled": false,
+          "numa": 160,
+          "numd": 80,
+          "nta": 0,
+          "wta": 0.025,
+          "ntd": 0,
+          "wtd": 0.05,
+          "nga": 200000000000.0,
+          "ega": 0.3,
+          "wga": 0.12,
+          "ngd": 0,
+          "egd": 0.4,
+          "wgd": 0.1
+        },
+        "exports": {}
+      }
+    },
+    "errors": [],
+    "warnings": [],
+    "occupancy_available": false,
+    "interpretation": "Exports describe available DOS capacity, not occupied/ionized trap charge. A parameter pass does not establish electrical application at the correct interface, solver quadrature convergence, unique defects, or an accepted transfer fit.",
+    "degeneracy": "No extra spin/charge/chemical degeneracy multiplier is applied. Continuous-DOS amplitudes are read in their native stated units; microscopic defect degeneracy and charge-state identity are not independently established by these exports.",
+    "parameter_audit_pass": true,
+    "enabled_distribution_groups": 1,
+    "native_dos_exports_verified": true,
+    "status": "NATIVE_DOS_PARAMETERS_VERIFIED_CAPACITY_ONLY"
+  },
+  "hashes": {
+    "device.in": {
+      "sha256": "109da74397107c5a716b67d139d44d3e27c6f391ea71a55185c56821f6c8aa22",
+      "matches_execution_manifest": true
+    },
+    "input_config.json": {
+      "sha256": "e2068f83f2f207eb28a442848c0aa37e75cf6abdaea9728743628144e1982b6b",
+      "matches_execution_manifest": true
+    },
+    "deckbuild.out": {
+      "sha256": "3107e88958de861119aa0a28d5b97811f71518d47325efcc3ba00e3ff0a079a1",
+      "matches_execution_manifest": true
+    },
+    "transfer.log": {
+      "sha256": "61aa4fe3ad6aca4fe5b50ff54be2eb298a28c3a39491700e35b2f965168d3eda",
+      "matches_execution_manifest": true
+    },
+    "bulk_acceptor.dat": {
+      "sha256": "610ff9581e804ab04293c5179bddbb0aa213a45cb70cb215a96859f27d7742b7",
+      "matches_execution_manifest": true
+    },
+    "bulk_donor.dat": {
+      "sha256": "c4f38dc6c28b828a0b73531001f9921aa2d812a344d8f016694908cb314fa8de",
+      "matches_execution_manifest": true
+    },
+    "bulk_free_electrons_vg.dat": {
+      "sha256": "a3f9ec575b9e0d3c243baee96dbf0a8cb2c38c123682d9356eb18f18ca6c2a20",
+      "matches_execution_manifest": true
+    },
+    "bulk_ionized_acceptors_vg.dat": {
+      "sha256": "fc08728b7552f4d40ba1bce1a16709f17444b84b31d229e972e379633a4226f7",
+      "matches_execution_manifest": true
+    },
+    "bulk_ionized_donors_vg.dat": {
+      "sha256": "3b4a24a4b8fdfde7dc10dcfeda87a99089b07d5eded94f40ba33aa1e41d43c16",
+      "matches_execution_manifest": true
+    }
+  },
+  "exports_vs_log": {
+    "bulk_free_electrons": {
+      "all_rows_match_native_log": true,
+      "maximum_relative_rounding_difference": 3.958374883206162e-06,
+      "labels": {
+        "title": "Probe bulk_free_electrons vs gate bias",
+        "x_label": "gate bias",
+        "y_label": "Probe bulk_free_electrons"
+      }
+    },
+    "bulk_ionized_acceptors": {
+      "all_rows_match_native_log": true,
+      "maximum_relative_rounding_difference": 4.747354242384816e-06,
+      "labels": {
+        "title": "Probe bulk_ionized_acceptors vs gate bias",
+        "x_label": "gate bias",
+        "y_label": "Probe bulk_ionized_acceptors"
+      }
+    },
+    "bulk_ionized_donors": {
+      "all_rows_match_native_log": true,
+      "maximum_relative_rounding_difference": 0.0,
+      "labels": {
+        "title": "Probe bulk_ionized_donors vs gate bias",
+        "x_label": "gate bias",
+        "y_label": "Probe bulk_ionized_donors"
+      }
+    }
+  },
+  "selected_biases": [
+    {
+      "vg_V": 0.2,
+      "free_n_cm3": 120566758100000.0,
+      "ionized_acceptors_cm3": 4.566349386e+16,
+      "ionized_donors_cm3": 0.0,
+      "free_sheet_cm2": 24113351.619999997,
+      "acceptor_sheet_cm2": 9132698772.0,
+      "donor_sheet_cm2": 0.0,
+      "free_charge_C_cm2": -3.863384853299004e-12,
+      "acceptor_charge_C_cm2": -1.4632196577858891e-09,
+      "donor_charge_C_cm2": 0.0,
+      "acceptor_capacity_occupied_percent": 0.20756133572727273,
+      "trapped_fraction_free_plus_acceptor_percent": 99.73666215605975
+    },
+    {
+      "vg_V": 0.5,
+      "free_n_cm3": 6.838703178e+16,
+      "ionized_acceptors_cm3": 2.448269528e+18,
+      "ionized_donors_cm3": 0.0,
+      "free_sheet_cm2": 13677406356.0,
+      "acceptor_sheet_cm2": 489653905600.0,
+      "donor_sheet_cm2": 0.0,
+      "free_charge_C_cm2": -2.1913620877306285e-09,
+      "acceptor_charge_C_cm2": -7.845120462991617e-08,
+      "donor_charge_C_cm2": 0.0,
+      "acceptor_capacity_occupied_percent": 11.128497854545456,
+      "trapped_fraction_free_plus_acceptor_percent": 97.28262358587467
+    },
+    {
+      "vg_V": 1.0,
+      "free_n_cm3": 1.215008587e+18,
+      "ionized_acceptors_cm3": 9.827507126e+18,
+      "ionized_donors_cm3": 0.0,
+      "free_sheet_cm2": 243001717400.0,
+      "acceptor_sheet_cm2": 1965501425200.0,
+      "donor_sheet_cm2": 0.0,
+      "free_charge_C_cm2": -3.893316736401512e-08,
+      "acceptor_charge_C_cm2": -3.1490804575491383e-07,
+      "donor_charge_C_cm2": 0.0,
+      "acceptor_capacity_occupied_percent": 44.67048693636364,
+      "trapped_fraction_free_plus_acceptor_percent": 88.99699471951297
+    },
+    {
+      "vg_V": 2.0,
+      "free_n_cm3": 1.347715445e+19,
+      "ionized_acceptors_cm3": 1.851500998e+19,
+      "ionized_donors_cm3": 0.0,
+      "free_sheet_cm2": 2695430889999.9995,
+      "acceptor_sheet_cm2": 3703001996000.0,
+      "donor_sheet_cm2": 0.0,
+      "free_charge_C_cm2": -4.318556390519823e-07,
+      "acceptor_charge_C_cm2": -5.932863273646561e-07,
+      "donor_charge_C_cm2": 0.0,
+      "acceptor_capacity_occupied_percent": 84.15913627272728,
+      "trapped_fraction_free_plus_acceptor_percent": 57.873577202041155
+    },
+    {
+      "vg_V": 3.0,
+      "free_n_cm3": 3.533584809e+19,
+      "ionized_acceptors_cm3": 2.051412899e+19,
+      "ionized_donors_cm3": 0.0,
+      "free_sheet_cm2": 7067169617999.999,
+      "acceptor_sheet_cm2": 4102825798000.0,
+      "donor_sheet_cm2": 0.0,
+      "free_charge_C_cm2": -1.1322854030474305e-06,
+      "acceptor_charge_C_cm2": -6.573451626928004e-07,
+      "donor_charge_C_cm2": 0.0,
+      "acceptor_capacity_occupied_percent": 93.24604086363637,
+      "trapped_fraction_free_plus_acceptor_percent": 36.73077423221746
+    }
+  ],
+  "all_donors_zero": true,
+  "all_acceptors_nonnegative_and_capacity_bounded": true,
+  "free_density_range_cm3": [
+    2150422358000.0,
+    3.533584809e+19
+  ],
+  "ionized_acceptor_range_cm3": [
+    42236927180000.0,
+    2.051412899e+19
+  ],
+  "raw_current_zero_count": 54,
+  "calibrated_all_point_transfer": false,
+  "chemical_species_identified": false,
+  "note": "Native AFILE is available capacity; solved LOG CONCACC.CTRAP is ionized/occupied acceptor density. Sheet values are equivalent channel-average values, not midpoint cutlines or total gate charge."
+}

@@ -1,0 +1,246 @@
+% ===================================================================
+% chapters/02a_literature_target.tex -- writer L1
+% Literature basis of the TCAD model: opening, source map, citation
+% conventions, and the page-exact treatment of the target paper
+% (Januar et al. 2026, Small Structures).
+% ASCII only. Page numbers follow CONVENTIONS section 5.
+% ===================================================================
+\chapter{Literature basis of the TCAD model}\label{ch:literature}
+
+The credibility of a drift--diffusion model of an ultrathin oxide-semiconductor transistor depends
+on the numbers that enter it. The thickness-dependent indium--tungsten oxide (\IWO) model of this
+report contains about forty inputs: a gate stack, a band structure that changes with film thickness,
+an electron effective mass, a trap density of states, fixed and interface charges, a band mobility,
+contact assumptions and numerical settings. Some of these inputs were measured on the target device,
+some were taken from measurements on a related material (pure \InO{}) and some from
+density-functional (DFT) slab calculations on pure \InO{}; others were assumed, and the remainder
+were fitted to the measured transfer curves. For every source that supplied a number or a modelling
+choice, this chapter addresses three questions: (i) what exactly was taken, together with the printed
+page (and figure or equation) at which it can be checked; (ii) how the item enters the ATLAS model,
+with a reference to the parameter section in which it is derived; and (iii) what was considered but
+deliberately not used, and where the sources disagree. The chapter closes with a master provenance
+table (\cref{sec:lit-provenance}), which lists every model input with its status label, its source
+page or the run in which it was fitted, and the runs that test its sensitivity.
+
+\Cref{tab:lit-sources} gives an overview of all sources. Each bundled paper (text available locally
+with page markers) is treated in a section of its own, in
+\cref{sec:lit-januar,sec:lit-si2021,sec:lit-lin2022,sec:lit-si2022,sec:lit-wang2022,sec:lit-kim2024,sec:lit-stokey2021,sec:lit-pandey2025,sec:lit-wangx2025,sec:lit-anusha2024,sec:lit-giannozzi2009}.
+The sources that are not bundled appear only through the bundled record that cites them
+(\cref{sec:lit-secondary}), and the Silvaco manual pages behind every deck statement are listed in
+\cref{sec:lit-atlas-manual}.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Map of all literature and reference sources used by the model. ``Bundled'' means that the
+text is available locally with page markers and every page cited in this chapter was located in it.
+Status labels follow \cref{sec:lit-convention}.}
+\label{tab:lit-sources}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{2.0cm}>{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}p{1.0cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{1.5cm}@{}}
+\toprule
+Key & Work & Bundled & Role in the model & Section \\
+\midrule
+Januar2026 & Target paper: \IWO{} and \InO{} TFTs vs thickness, Small Struct.\ & yes & gate stack and process; roughness $\Dsr$; trap trend $\Nt(t)$; mobility extraction convention; analytic framework & \cref{sec:lit-januar} \\
+JanuarSI2026 & Supporting information of the target paper & no & permittivities of \IWO, \InO, \HfO{} (Fig.~S1b); grains; temperature data (Fig.~S12) & \cref{sec:lit-secondary} \\
+Si2021 & \InO{} transistors down to \SI{0.7}{nm}, Nano Lett.\ & yes & confinement point $\dEc(\SI{1.5}{nm})$; $\Ec$-only partition; CNL above $\Ec$ & \cref{sec:lit-si2021} \\
+Lin2022 & nm-thick \InO{} with high drain current, ACS Nano & yes & PBE slab gaps and masses; $\Dit$ of \HfO/\InO & \cref{sec:lit-lin2022} \\
+Si2022 & Scaled ALD \InO{} transistors, Nat.\ Electron.\ & yes & CNL and low contact resistance (Ohmic S/D, qualitative) & \cref{sec:lit-si2022} \\
+Wang2022 & Traps in \HfO/\InO{} MOS capacitors, Front.\ Mater.\ & yes & $\Dit$ bracket; subgap DOS and TCAD trap conventions & \cref{sec:lit-wang2022} \\
+Kim2024 & Thickness-dependent stability of \IWO{} TFTs, APL & yes & thickness trend of bulk/border traps (support for $\Ndeff(t)$ rise) & \cref{sec:lit-kim2024} \\
+Stokey2021 & Dielectric constants and electron mass of \InO, JAP & yes & bulk $\mstar = 0.208\,m_0$; $\varepsilon_{\mathrm{DC}} = 10.55$ (sensitivity bound) & \cref{sec:lit-stokey2021} \\
+Pandey2025 & Analytical short-channel model of oxide TFTs, TED & yes & method reference only & \cref{sec:lit-pandey2025} \\
+WangX2025 & Physics-based compact model of IGZO FETs, TED & yes & method reference (Gaussian shallow donors) & \cref{sec:lit-wangx2025} \\
+Anusha2024 & Review of IGZO TCAD/compact modelling, Meas.\ Sens.\ & yes & SS--trap relation (theory) & \cref{sec:lit-anusha2024} \\
+Giannozzi2009 & Quantum ESPRESSO, JPCM & yes & software reference of the unexecuted DFT workflow & \cref{sec:lit-giannozzi2009} \\
+Fan2021, Hamberg1986, Yoo2024, Lee2018, King2008, Robertson2011, Hinuma2019, Ando1982 & secondary sources & no & only through a citing bundled record or the Astra audit & \cref{sec:lit-secondary} \\
+AtlasManual, DeckBuildManual & Silvaco ATLAS 5.28.1.R / DeckBuild manuals & local PDF & syntax and physics of every deck statement & \cref{sec:lit-atlas-manual} \\
+ExperimentalWorkbook, DeviceSchematic & measured ID--VG workbook; device schematic & local & ground truth; geometry & \cref{ch:device} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Citation and page conventions}\label{sec:lit-convention}
+
+\paragraph{Page-exact citations.}
+Every statement taken from a paper carries the printed page of the article, written as
+\citep[p.~21539]{Lin2022}; figures and equations are added where useful, as in
+\citep[p.~8, Fig.~5f]{Januar2026}. The local text files contain one block per PDF page. Because the
+mapping from the PDF page to the printed article page differs between journals, it is fixed in
+\cref{tab:lit-pages}. Where a journal uses article-number pagination (APL, JAP), the page is
+written as \emph{article number--page}, as in \citep[p.~173507-6]{Kim2024}. The publisher cover
+pages of Kim2024 and Stokey2021 carry no article page and are never cited.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Page convention: printed page to be cited for the $N$-th PDF page of each bundled source.}
+\label{tab:lit-pages}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{2.1cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}p{2.6cm}@{}}
+\toprule
+Key & Local text file & Printed page for PDF page $N$ & Printed range \\
+\midrule
+Januar2026 & \file{Januar2026_SmallStruct_IWO.txt} & $N$ (``$N$ of 12'') & 1--12 \\
+Si2021 & \file{Si2021_NanoLett_In2O3_0p7nm.txt} & $499 + N$ & 500--506 \\
+Lin2022 & \file{Lin2022_ACSNano_thick_In2O3.txt} & $21535 + N$ & 21536--21545 \\
+Si2022 & \file{NatElec2022_s41928-022-00718-w.txt} & $163 + N$ & 164--170 \\
+Wang2022 & \file{Wang2022_FrontMater_traps_HfO2In2O3.txt} & $N$ & 1--7 \\
+Kim2024 & \file{Kim2024_APL_IWO_thickness_stability.txt} & 173507-$(N-1)$; PDF p.~1 is a cover & 173507-1 to -7 \\
+Stokey2021 & \file{Stokey2021_JAP_In2O3_dielectric_mass.txt} & 225102-$(N-1)$; PDF p.~1 is a cover & 225102-1 to -15 \\
+Pandey2025 & \file{Pandey2025_TED_SCE_TFT.txt} & $N$ (early-access pagination) & 1--9 \\
+WangX2025 & \file{Wang2025_TED_IGZO_compact.txt} & $2389 + N$ & 2390--2398 \\
+Anusha2024 & \file{Anusha2024_MeasSens_IGZO_review.txt} & $N$ & 1--16 \\
+Giannozzi2009 & \file{Giannozzi2009_QE.txt} & $N$ & 1--19 \\
+AtlasManual & \file{atlas_users1.pdf} (ATLAS 5.28.1.R) & printed footer page; PDF page stated where they differ & see \cref{tab:lit-atlas} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Sources that are not bundled.}
+The supporting information of the target paper and eight secondary works (\cref{sec:lit-secondary})
+are not available locally, and they are never cited as if they had been read. Each of them appears
+either together with the bundled record that cites it and that record's page (``as cited in
+\citet[p.~501]{Si2021}''), or with an explicit note that the value was taken over from the audit of
+the earlier Astra package
+(\file{inputs/astra_IWO_PRIORITY_THREE_20260912/.../audit/docs/paper_revision_20260911/}).
+
+\paragraph{Status labels.}
+Every model input carries one label (typeset as small capitals, e.g.\ \prov{FITTED}):
+\prov{MEASURED\_TARGET\_DEVICE} (measured on the target process or device);
+\prov{LITERATURE\_IWO} (reported for \IWO, possibly a different process or device);
+\prov{MEASURED\_RELATED\_MATERIAL} (measured on pure \InO{});
+\prov{LITERATURE\_IN2O3\_PROXY} (reported for \InO{} and transferred as a proxy);
+\prov{DFT\_PURE\_IN2O3\_PROXY} (PBE slab-minus-bulk differences for pure \InO{});
+\prov{CALCULATED} (computed from other inputs by a stated formula);
+\prov{ASSUMED} (chosen without a direct measurement; a way to measure it is given in the parameter section);
+\prov{FITTED} (adjusted to the measured transfer curves, with the run that fixed it).
+The evidence classes of \cref{ch:validation} (\evDATA, \evNUM, \evCAL, \evOOS, \evPOST, \evPRED,
+\evSURR, \evTHEORY, \evLIT, \evCORR) are used when a claim, rather than an input, is qualified. A
+literature value used as a model input belongs to the class \evLIT; a fitted value belongs to the
+class \evCAL{} and never counts as validation.
+
+\paragraph{Structure of each paper section.}
+Each paper section contains (a) a short summary; (b) a box that lists every item used, with the value,
+the printed page, the way in which it enters the model, the parameter section of
+\cref{ch:derivations-es} or \cref{ch:derivations-tr} in which it is derived, and its caveat; (c) the
+items that were considered but not used; and (d) the contradictions with other sources or within the
+paper.
+
+\section{Januar et al.\ 2026: the target device and its analytic framework}\label{sec:lit-januar}
+
+\paragraph{Summary.}
+\citet{Januar2026} fabricate bottom-gate thin-film transistors with sputtered \IWO{} (``$\sim$2\% W'')
+and \InO{} channels on a TiN/\HfO/\AlO{} gate stack with Pd source/drain contacts
+\citep[pp.~2--3]{Januar2026}, and study how the channel thickness controls mobility, threshold,
+subthreshold swing and bias stability. They report peak field-effect mobilities of about 5.1 to
+$27.4\cmVs$ for the \IWO{} thickness series \citep[p.~3]{Januar2026}. The decline for thinner films
+is interpreted within a trap-limited transport framework in which the tail-trap density $\Nt$ grows
+roughly fourfold from 13.2 to \SI{2}{nm} \citep[p.~7]{Januar2026}, and the gate-dependent mobility
+is described by a surface-roughness (Ando-type) term with an effective roughness
+$\Dsr \approx \SI{2.87}{\angstrom}$ for \IWO{} \citep[pp.~7--8, Fig.~5f]{Januar2026}. PBE-GGA calculations
+are used for qualitative trends in the band structure and at the \IWO/\HfO{} interface
+\citep[p.~3]{Januar2026}, and positive-bias-stress (PBS) devices are analysed with the same compact
+model \citep[p.~9]{Januar2026}. The measured transfer curves of the workbook used in this report
+belong to the thickness-series devices of the paper; this identification was established in the S5
+report, as described below.
+
+\paragraph{Device and process facts used.}
+The gate is a \SI{50}{nm} TiN electrode deposited by physical vapour deposition, followed by the
+\HfO/\AlO{} gate dielectric and the \IWO{} or \InO{} channel \citep[p.~2]{Januar2026}. The channel
+lacks long-range crystallinity and consists of nanoscale grains, which are smaller for \IWO{} than for
+\InO{} at comparable thickness \citep[p.~2]{Januar2026}. Pd source/drain electrodes of \SI{70}{nm}
+complete the device, which is then annealed by rapid thermal annealing \citep[p.~3]{Januar2026}. The
+paper states that the trap metrics improve after annealing at \SI{150}{\degreeCelsius}, and that
+higher annealing temperatures can raise the mobility further but make the device harder to turn off,
+through a crystallinity-driven increase of the carrier concentration \citep[p.~3]{Januar2026}. The
+\HfO{} and \AlO{} thicknesses (15 and \SI{2}{nm}), $W/L = 290/20$\,$\mu$m and $\Vd = \SI{0.7}{V}$ are
+taken from the device schematic \citep{DeviceSchematic} and are consistent with the stack description
+of the paper (details in \cref{sec:inp-device,sec:inp-geometry}).
+
+\begin{usedbox}
+\textbf{Items used from \citet{Januar2026} (and its SI, not bundled).}\par\smallskip
+\footnotesize
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{1.8cm}>{\raggedright\arraybackslash}p{1.5cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{1.35cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Quantity & Value & Page & How it enters the model & Section & Caveat \\
+\midrule
+Gate metal & TiN, \SI{50}{nm} & p.~2 & gate electrode region; work function assumed \SI{4.70}{eV} & \cref{sec:par-stack,sec:par-gatewf} & TiN work function not reported \\
+Gate dielectric & \HfO/\AlO{} bilayer & p.~2 & two insulator regions; $\Cox = \SI{8.955e-7}{\farad\per\centi\metre\squared}$ & \cref{sec:par-stack} & thicknesses from the schematic \\
+Channel & \IWO{} ($\sim$2\% W) & p.~2 & material label only & \cref{sec:par-nd} & composition basis not defined; never converted to a donor density \\
+S/D metal & Pd, \SI{70}{nm} & p.~3 & ideal Ohmic contacts & \cref{sec:par-contacts} & no TLM data \\
+$\epsIWO$ & 9.30 & SI Fig.~S1b (caption list p.~11) & permittivity of the channel & \cref{sec:par-eps-iwo} & SI not bundled; value recorded by the Astra audit \\
+$\varepsilon_{\mathrm{HfO_2}}$ & 19.57 & SI Fig.~S1b (p.~11) & gate-stack capacitance & \cref{sec:par-stack} & same \\
+$\Dsr$ & \SI{2.87}{\angstrom} & p.~8, Fig.~5f & roughness factor $(1-\Dsr/t)^2 = 0.734$, 0.911, 0.957, 0.982 & \cref{sec:par-rough} & fitted by the authors on $\musat$ values; unit ambiguity between prose (\AA) and figure axis (nm) \\
+$\Nt(13.2)/\Nt(2)$ & $\approx 1/4$ & p.~7, Fig.~5a & trend constraint for $\Nt(t) \propto t^{-0.75}$ & \cref{sec:par-tail} & a compact-model output, not a measurement \\
+$\Nt$ convention & $n_t \approx \theta_t \Nt \exp[(\EF-\Ec)/\kB T_t]$ & pp.~4, 9 & mapping to ATLAS $\NTA\WTA$ & \cref{sec:par-tail,sec:der-tlc} & absolute $T_t$ not given (only changes) \\
+$\mu_{\max}$ & 5.1 / $27.4\cmVs$ (2 / \SI{13.2}{nm}) & pp.~3, 7 & defines the extraction convention; reproduced by the saturation formula (5.09 / 27.40, S5 report) & \cref{sec:der-mufe} & not a model input; linear $\muFE$ is 12.15 / 50.17 \\
+Roll-off $\mu_0/(1+\theta_r V_{\mathrm{ov}})$ & form only & p.~7 & NOT inserted; approximation gap & \cref{sec:par-mu,sec:der-mu-linear} & ATLAS ignores MOBILITY updates between SOLVEs \\
+Smoother \IWO/\HfO{} interface & qualitative & pp.~2, 8 & supports the low assumed $\Dit$ & \cref{sec:par-dit} & the target interface is \IWO/\AlO \\
+Grain/crystallinity trend & qualitative & pp.~2--3 & hypothesis for the $\muband$ step 6.3 $\rightarrow$ \SI{13.2}{nm} & \cref{sec:par-mu,sec:mech-transport} & not quantified \\
+\bottomrule
+\end{tabularx}
+\end{usedbox}
+
+\paragraph{How the paper's analytic framework is used.}
+The paper bases its interpretation on a trap-limited conduction model in which the free-carrier
+fraction of the induced charge sets the apparent mobility \citep[p.~7, Eq.~5]{Januar2026}, and on a
+tail-trap density written with a factor $\theta_t$ and a characteristic temperature $T_t$
+\citep[p.~4, Eq.~3]{Januar2026}; the
+same convention is used for the PBS extraction \citep[p.~9]{Januar2026}. These closed forms are not
+inserted into the TCAD model. The model solves the Poisson and drift--diffusion equations with an
+explicit acceptor-like exponential tail $g_{\mathrm{TA}}(E) = \NTA\exp[(E-\Ec)/\WTA]$, whose integral
+$\Nt \approx \NTA\WTA$ plays the role of $\Nt$ in the paper. The partition between free and trapped
+charge then follows self-consistently from the occupancy of the discretised trap levels
+(\cref{sec:der-tlc}). Only the \emph{trend} reported in the paper ($\times 4$ from 13.2 to
+\SI{2}{nm}) constrains the model; the absolute magnitudes differ by the convention factor $\theta_t$
+and are therefore compared but not equated (\cref{sec:par-tail}).
+
+\paragraph{Mobility definition (resolved discrepancy).}
+The mobilities of the paper (5.1 and $27.4\cmVs$; \citealp[pp.~3, 7]{Januar2026}) are not the
+linear-regime field-effect mobilities of the workbook curves (12.15, 10.95 and $50.17\cmVs$
+for 2.0, 6.3 and \SI{13.2}{nm}, \file{docs/MATERIAL_PARAMETER_EXTRACTION.md} section 10; the
+$49.2\cmVs$ extracted at \SI{31.8}{nm} is not a mobility, because $\gm$ has several maxima there).
+Applying the saturation formula $\mu = (2L/W\Cox)(\mathrm{d}\sqrt{\Id}/\mathrm{d}\Vg)^2_{\max}$ to
+the workbook curves at $\Vd = \SI{0.7}{V}$ gives 5.09 and $27.40\cmVs$ (S5 report,
+\file{analysis_2026-09-25/S5_contacts_experimental_validation.md}). This result identifies the
+workbook curves with the thickness series of the paper, and the $\mu_{\max}$ of the paper with a
+peak of the saturation formula. All comparisons in this report use one extraction, applied in the
+same way to measured and simulated curves (\cref{sec:der-mufe,sec:der-metrics}).
+
+\paragraph{Considered but not used.}
+The absolute values $\Nt(\SI{2}{nm}) = \SI{5.3e19}{cm^{-3}}$ and
+$\Nt(\SI{10}{nm}) = \SI{3.39e18}{cm^{-3}}$ of the unstressed PBS devices \citep[p.~9]{Januar2026}
+were not used, because they belong to a different device set and depend on a $\theta_t$ convention;
+the model anchor is instead the real-ATLAS tail integral $\NTA\WTA = \SI{2.0e19}{cm^{-3}}$ at
+\SI{2}{nm} (\cref{sec:par-tail}). The stress-induced changes of $\Nt$ and $T_t$ under PBS
+\citep[p.~9]{Januar2026} were also not used, since the model describes unstressed DC transfer curves
+only. The PBE band structures and interface structures \citep[pp.~3, 5]{Januar2026} were used only
+qualitatively (W raises $\mstar$; the \IWO/\HfO{} interface is smoother). No number was taken from
+them, because absolute PBE values are not transferable and the effect of W on $\mstar$ cannot be
+determined numerically from the available data. The oxygen-vacancy donor excess of undoped \InO{}
+($n > 10^{19}\cmcu$; \citealp[p.~2]{Januar2026}) serves as the motivation for W doping and is not a
+model input; the fitted $\Ndeff$ of \IWO{} is 2--3 orders of magnitude lower (\cref{sec:par-nd}).
+The \InO{} reference devices of the paper consist of a different material and were not modelled.
+Finally, the elevated-temperature transfer curves of the \SI{2}{nm} device at 338 and \SI{358}{K}
+(SI Fig.~S12, referred to on p.~9 and captioned on p.~11) were not used for calibration; they form
+the natural first test of the registered temperature predictions \run{0044}--\run{0047}
+(\cref{sec:pred-temperature}).
+
+\paragraph{Contradictions and open points.}
+\begin{enumerate}
+\item \emph{$\Nt(t)$ exponent.} The thickness-series ratio ($\approx 4$ from 13.2 to \SI{2}{nm},
+  p.~7) implies $\Nt \propto t^{-0.73}$, whereas the two PBS devices ($5.3\times10^{19}$ at
+  \SI{2}{nm}, $3.39\times10^{18}\cmcu$ at \SI{10}{nm}, p.~9) imply $t^{-1.71}$ (S2 report). The two
+  come from different device sets; the model follows the thickness series (exponent 0.75).
+\item \emph{Mobility extraction.} The $\mu_{\max}$ of the paper and the linear $\muFE$ differ by a
+  factor of about 2 (see above); the difference arises from the extraction formula, not from the data.
+\item \emph{Roughness units.} $\Dsr$ is printed as \SI{2.87}{\angstrom} in the text (p.~8), whereas the
+  fitted figure uses a nm axis (a unit ambiguity recorded by the Astra audit); the \AA{} value is used.
+\item \emph{Composition.} The specification ``$\sim$2\% W'' (p.~2) does not state whether an atomic,
+  cation or WO$_3$ fraction is meant; it is therefore treated as a label only.
+\item \emph{Equation conventions.} The Astra audit records that some main-text equations
+  differ in convention from the SI. Only the $\Nt$ trend and the $\theta_t$ definition are used here,
+  so the discrepancy does not propagate into the model.
+\item \emph{Interface.} The paper discusses the \IWO/\HfO{} interface (pp.~2, 5, 8), but the target
+  stack has a \SI{2}{nm} \AlO{} interlayer between \HfO{} and \IWO; statements about the interface are
+  therefore transferred only qualitatively.
+\end{enumerate}

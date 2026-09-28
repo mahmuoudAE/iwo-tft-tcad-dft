@@ -1,0 +1,99 @@
+[
+ {
+  "job": "iwo_W8b",
+  "kind": "iwo_bulk",
+  "n_atoms": 80,
+  "n_electrons": 705,
+  "irreducible_k": {
+   "k3": 6,
+   "k4": 14
+  },
+  "pools": {
+   "nk_rel": 4,
+   "nk_k4": 8,
+   "nk_bands": 8,
+   "nk_spin": 8
+  }
+ },
+ {
+  "job": "iwo_W24d",
+  "kind": "iwo_bulk",
+  "n_atoms": 80,
+  "n_electrons": 705,
+  "irreducible_k": {
+   "k3": 10,
+   "k4": 30
+  },
+  "pools": {
+   "nk_rel": 8,
+   "nk_k4": 8,
+   "nk_bands": 8,
+   "nk_spin": 8
+  }
+ },
+ {
+  "job": "slab1_v15",
+  "kind": "slab_scf",
+  "n_atoms": 96,
+  "n_electrons": 624,
+  "irreducible_k": 4,
+  "occupied_bands": 312,
+  "pools": {
+   "nk": 4,
+   "nk_bands": 4,
+   "awin": 4.868921973422407
+  }
+ },
+ {
+  "job": "slab1_v25",
+  "kind": "slab_scf",
+  "n_atoms": 96,
+  "n_electrons": 624,
+  "irreducible_k": 4,
+  "occupied_bands": 312,
+  "pools": {
+   "nk": 4,
+   "nk_bands": 4,
+   "awin": 4.868921973422407
+  }
+ },
+ {
+  "job": "slab2_v25",
+  "kind": "slab_scf",
+  "n_atoms": 176,
+  "n_electrons": 1328,
+  "irreducible_k": 2,
+  "occupied_bands": 664,
+  "pools": {
+   "nk": 2,
+   "nk_bands": 8,
+   "awin": 4.868921973422407
+  }
+ },
+ {
+  "job": "slab1_relax",
+  "kind": "slab_relax",
+  "n_atoms": 96,
+  "n_electrons": 624,
+  "irreducible_k": 4,
+  "occupied_bands": 312,
+  "pools": {
+   "nk": 4,
+   "nk_bands": 8,
+   "awin": 4.868921973422407
+  }
+ },
+ {
+  "job": "slab2_relax",
+  "kind": "slab_relax",
+  "n_atoms": 176,
+  "n_electrons": 1328,
+  "irreducible_k": 2,
+  "occupied_bands": 664,
+  "pools": {
+   "nk": 2,
+   "nk_bands": 16,
+   "awin": 4.868921973422407
+  }
+ }
+]

@@ -1,0 +1,81 @@
+{
+ "campaign": "D_checks",
+ "purpose": "2026-09-27, user-approved. D1: corrected contact-overlap sensitivity (overlap 4 um with the x-mesh following the contacts; replaces the malformed run_0027) on the converged 2 nm configuration of run_0038. D2: 2 nm transfer at 358.15 K with an explicit constant-mobility temperature exponent tmun = 0 (T-independent band mobility); it must equal run_0045 x (358.15/300)^1.5 = x1.30441 if the exact-rescaling argument of the prediction register holds.",
+ "plan_file": "config\\campaign_D_checks.json",
+ "placeholders": {},
+ "runs": [
+  {
+   "id": "D1_overlap4_2p0",
+   "thickness": 2.0,
+   "label": "check_overlap_4um_meshfixed_dos384",
+   "purpose": "",
+   "mode": "transfer",
+   "overrides": [
+    "traps.fixed_interface_charge_Qf_cm2.value=1.73e12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=17.69",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "geometry.contact_overlap_um.value=4.0"
+   ],
+   "error": "RuntimeError: run_0053: no export (timeout=True); inspect C:\\Users\\moham\\Downloads\\IWO_Local_Codex_Handoff (1)\\IWO_PHYSICS_CONSTRAINED_MODEL_V1\\results\\runs\\run_0053_2p0_check_overlap_4um_meshfixed_dos384",
+   "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\moham\\Downloads\\IWO_Local_Codex_Handoff (1)\\IWO_PHYSICS_CONSTRAINED_MODEL_V1\\scripts\\run_campaign.py\", line 54, in main\n    dest = execute(float(e['thickness']), e['label'], ov, timeout=e.get('timeout'))\n  File \"C:\\Users\\moham\\Downloads\\IWO_Local_Codex_Handoff (1)\\IWO_PHYSICS_CONSTRAINED_MODEL_V1\\scripts\\run_atlas.py\", line 144, in execute\n    if not (dest / 'idvg.dat').exists(): finish('TIMEOUT' if timed_out else 'NO_EXPORT', 'no', 'no idvg.dat'); raise RuntimeError(f'{rid}: no export (timeout={timed_out}); inspect {dest}')\n                                                                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: run_0053: no export (timeout=True); inspect C:\\Users\\moham\\Downloads\\IWO_Local_Codex_Handoff (1)\\IWO_PHYSICS_CONSTRAINED_MODEL_V1\\results\\runs\\run_0053_2p0_check_overlap_4um_meshfixed_dos384\n",
+   "wall_s": 902.5
+  },
+  {
+   "id": "D2_tmun0_T358_2p0",
+   "thickness": 2.0,
+   "label": "check_T358K_tmun0_2p0",
+   "purpose": "",
+   "mode": "transfer",
+   "overrides": [
+    "traps.fixed_interface_charge_Qf_cm2.value=1.73e12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=17.6897",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.models=fermi srh temp=358.15 print",
+    "temperature_K.value=358.15",
+    "solver.tmun=0"
+   ],
+   "run_dir": "results/runs/run_0054_2p0_check_T358K_tmun0_2p0",
+   "run_id": "run_0054",
+   "status": "REAL_ATLAS_SCORED",
+   "elapsed_s": 1377.8,
+   "active_rmse_dec": 0.22144888172916924,
+   "sub_rmse_dec": 0.4403091624579473,
+   "on_rmse_dec": 0.04341454902069108,
+   "Id3V_err_pct": 0.985331043723936,
+   "sim": {
+    "Vth_cc_1e-9_V": 0.6073649309504732,
+    "Vth_lin_V": 1.5100704409079035,
+    "SS_mV_dec": 81.33798946107201,
+    "SS_min_window_mV_dec": 81.33798946107201,
+    "SS_cc_1e-10_1e-8_mV_dec": 285.26463300965105,
+    "gm_max_A_V_um": 3.449699999999997e-07,
+    "mu_FE_cm2Vs": 11.006006361130437,
+    "Ion_A_per_um": 5.13981e-07,
+    "Ioff_A_per_um": 2.866650000000113e-20,
+    "Ioff_definition": "min Id over sweep (min POSITIVE; native zeros counted)",
+    "native_zero_count": 19,
+    "Ion_over_Ioff": 17929674009731.906,
+    "off_band_median_A_per_um": null
+   },
+   "exp": {
+    "Vth_cc_1e-9_V": 0.6618205007741922,
+    "Vth_lin_V": 1.6630785395324494,
+    "SS_mV_dec": 84.45385574424456,
+    "SS_min_window_mV_dec": 84.45385574424456,
+    "SS_cc_1e-10_1e-8_mV_dec": 269.89862041948567,
+    "gm_max_A_V_um": 3.8070000000000266e-07,
+    "mu_FE_cm2Vs": 12.145944927623823,
+    "Ion_A_per_um": 5.08966e-07,
+    "Ioff_A_per_um": 1.07931e-16,
+    "Ioff_definition": "min Id over sweep",
+    "native_zero_count": 0,
+    "Ion_over_Ioff": 4715660931.521065,
+    "off_band_median_A_per_um": 4.60552e-15
+   },
+   "max_kcl_A": 1.9298659999999998e-17,
+   "wall_s": 1387.2
+  }
+ ]
+}

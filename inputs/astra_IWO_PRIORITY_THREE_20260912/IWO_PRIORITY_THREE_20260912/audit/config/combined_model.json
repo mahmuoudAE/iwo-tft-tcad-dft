@@ -1,0 +1,187 @@
+{
+  "schema_version": 1,
+  "status": "COMBINED_ATHENA_ATLAS_UNCALIBRATED",
+  "geometry": {
+    "physical_width_um": 290.0,
+    "channel_length_um": 20.0,
+    "contact_length_um": 2.0,
+    "simulation_width_um": 1.0,
+    "hfo2_nm": 15.0,
+    "al2o3_nm": 2.0,
+    "interface_regularization_nm": 0.25,
+    "source_drain_metal": "Pd",
+    "source_drain_metal_nm": 70.0,
+    "gate_metal": "TiN",
+    "gate_metal_nm": 50.0,
+    "substrate": "Explicit 200nm displayed n+Si slice with backside assumed tied to gate; not measured wafer thickness."
+  },
+  "shared": {
+    "temperature_K": 300.0,
+    "vd_V": 0.7,
+    "eps_iwo": 9.3,
+    "eps_hfo2": 19.57,
+    "eps_al2o3": 9.0,
+    "eg_eV": 3.05,
+    "affinity_eV": 4.3,
+    "nc300_cm3": 5E+18,
+    "nv300_cm3": 1E+19,
+    "gate_workfunction_eV": 4.7,
+    "hole_mu_cm2Vs": 0.01,
+    "taun_s": 1E-06,
+    "taup_s": 1E-06,
+    "capture_cm2": 1E-15,
+    "donor_tail_amplitude_cm3_eV": 0.0,
+    "donor_gaussian_amplitude_cm3_eV": 0.0,
+    "dos_levels_a": 96,
+    "dos_levels_d": 48,
+    "deep_acceptor_center_from_Ec_eV": 0.6,
+    "deep_acceptor_width_eV": 0.15,
+    "interface_acceptor_center_from_Ec_eV": 0.3,
+    "interface_acceptor_width_eV": 0.12
+  },
+  "contacts": {
+    "mode": "ohmic",
+    "effective_electron_barrier_eV": 0.15,
+    "warning": "Ohmic is an initialization hypothesis, NOT a measured property of Pd/IWO. Schottky option uses effective fitted barrier, not bulk Pd workfunction."
+  },
+  "numerics": {
+    "x_mesh_scale": 1.0,
+    "y_mesh_scale": 1.0,
+    "itlimit": 60,
+    "maxtrap": 10,
+    "climit": 1E-06,
+    "continuation_gate_step_V": 0.1,
+    "logging_epsilon_A_per_um": 1E-40,
+    "continuity_absolute_tolerance": 1E-20,
+    "current_absolute_tolerance": 1E-20,
+    "continuity_relative_tolerance": 1E-06,
+    "carrier_equations": "electrons"
+  },
+  "mobility": {
+    "mode": "constant",
+    "softplus_kappa_Vinv": 12.0,
+    "warning": "Constant band-mobility initialization. ATLAS DOS partitions free/trapped carriers; do not multiply again by paper Eq5. Eq6 roughness needs native implementation and sensitivity verification."
+  },
+  "curves": {
+    "2p0": {
+      "thickness_nm": 2.0,
+      "data": "data/iwo_2p0nm.csv",
+      "nd_cm3": 2E+17,
+      "mu_band_cm2Vs": 14.0,
+      "theta_Vinv": 0.28,
+      "roll_reference_V": 0.0,
+      "delta_vfb_V": 0.0,
+      "nta_cm3_eV": 1E+20,
+      "wta_eV": 0.022,
+      "nga_cm3_eV": 50000000000000000.0,
+      "interface_gaussian_peak_cm2_eV": 200000000000.0
+    },
+    "6p3": {
+      "thickness_nm": 6.3,
+      "data": "data/iwo_6p3nm.csv",
+      "nd_cm3": 3E+17,
+      "mu_band_cm2Vs": 12.0,
+      "theta_Vinv": 0.2,
+      "roll_reference_V": 0.0,
+      "delta_vfb_V": 0.0,
+      "nta_cm3_eV": 8E+19,
+      "wta_eV": 0.032,
+      "nga_cm3_eV": 1E+17,
+      "interface_gaussian_peak_cm2_eV": 300000000000.0
+    },
+    "13p2": {
+      "thickness_nm": 13.2,
+      "data": "data/iwo_13p2nm.csv",
+      "nd_cm3": 1E+18,
+      "mu_band_cm2Vs": 45.0,
+      "theta_Vinv": 0.18,
+      "roll_reference_V": 0.0,
+      "delta_vfb_V": 0.0,
+      "nta_cm3_eV": 4E+19,
+      "wta_eV": 0.04,
+      "nga_cm3_eV": 2E+17,
+      "interface_gaussian_peak_cm2_eV": 400000000000.0
+    },
+    "31p8": {
+      "thickness_nm": 31.8,
+      "data": "data/iwo_31p8nm.csv",
+      "nd_cm3": 5E+18,
+      "mu_band_cm2Vs": 55.0,
+      "theta_Vinv": 0.03,
+      "roll_reference_V": 0.0,
+      "delta_vfb_V": 0.0,
+      "nta_cm3_eV": 3E+19,
+      "wta_eV": 0.07,
+      "nga_cm3_eV": 5E+17,
+      "interface_gaussian_peak_cm2_eV": 600000000000.0
+    }
+  },
+  "calibration": {
+    "off_weight": 0.15,
+    "active_multiplier": 5.0,
+    "linear_weight": 0.35,
+    "prior_weight": 0.03,
+    "sweep_stride": 1,
+    "note": "5x off-band median defines a weighting region, NOT an instrument detection limit. No current offset is added to ATLAS results."
+  },
+  "provenance": {
+    "dimensions": "User screenshot and main paper Section 2.1; contact_length_um is an explicit unknown seed.",
+    "current_units": "A/um inferred from screenshot; Excel headers do not state units.",
+    "temperature": "300 K working assumption; measurement temperature not recorded in workbook.",
+    "eps_hfo2_and_iwo": "2026 Supporting Information Figure S1: HfO2 19.57 +/-0.06 and IWO 9.30 +/-0.04.",
+    "eps_al2o3": "9.0 explicit provisional assumption, not reported measurement in supplied main paper.",
+    "eg_and_affinity": "Prior from a DIFFERENT IWO study, Fan et al. Nanomaterials 2021, 11,3070, Section 3: Eg=3.05 eV; affinity estimate4.30eV. Not measured for this 2026 sample.",
+    "all_other_electronic_values": "UNFITTED engineering seeds. No trap density or mobility claimed to be a uniquely extracted physical parameter.",
+    "microscopic_mobility": "Seed band mobility is not the already trap-reduced measured field-effect mobility; free/trapped partition enters through ATLAS DOS, not a second multiplicative partition."
+  },
+  "process": {
+    "channel": "Pulsed DC sputtering, geometry deposition approximation only",
+    "power_W": 30,
+    "frequency_kHz": 10,
+    "on_off_ratio": "9:1",
+    "W_at_percent_approx": 2,
+    "dielectric_ALD_temperature_C": 250,
+    "RTA_temperature_C": 150,
+    "RTA_duration_s": 600,
+    "missing": [
+      "sputter deposition rate",
+      "gas flows/pressure",
+      "oxygen chemical potential",
+      "defect formation/annealing kinetics"
+    ]
+  },
+  "paper_traps": {
+    "bulk_acceptor_center_below_Ec_eV": 0.3,
+    "bulk_acceptor_width_eV": 0.15,
+    "oxygen_donor_peak_cm3_eV": 10000000000000000.0,
+    "oxygen_donor_center_below_Ec_eV": 0.2,
+    "oxygen_donor_width_eV": 0.1,
+    "interface_acceptor_center_below_Ec_eV": 0.3,
+    "interface_acceptor_width_eV": 0.12,
+    "back_surface_acceptor_peak_cm2_eV": 0,
+    "capture_cm2": 1E-15,
+    "interface_levels_a": 160,
+    "interface_levels_d": 80,
+    "prior_note": "Oxygen donor+deep acceptor forms supported by 2021; numerical seeds not 2026 measurements. Native interface Gaussian uses explicit MAX.GAUSSIAN peak convention. Background ND is residual shallow donor term, not repeated VO count. Back surface disabled absent identifiable evidence."
+  },
+  "inactive_legacy_controls": [
+    "shared.deep_acceptor_center_from_Ec_eV",
+    "shared.deep_acceptor_width_eV",
+    "shared.interface_acceptor_center_from_Ec_eV",
+    "shared.interface_acceptor_width_eV",
+    "shared.donor_gaussian_amplitude_cm3_eV",
+    "shared.donor_tail_amplitude_cm3_eV",
+    "mobility.softplus_kappa_Vinv",
+    "curves.*.theta_Vinv",
+    "curves.*.roll_reference_V",
+    "geometry.interface_regularization_nm"
+  ],
+  "athena_structure_path": "results/local_session_20260910/runs/20260911T144631_108956_paper_athena_2nm/iwo_2p0nm_athena_device.str",
+  "substrate_electrical_model": "ideal_equipotential",
+  "transport": {
+    "mode": "tokyo_percolation",
+    "gamma0": -0.36,
+    "tgamma_K": 178.4,
+    "ncrit_cm3": 1E+20
+  }
+}

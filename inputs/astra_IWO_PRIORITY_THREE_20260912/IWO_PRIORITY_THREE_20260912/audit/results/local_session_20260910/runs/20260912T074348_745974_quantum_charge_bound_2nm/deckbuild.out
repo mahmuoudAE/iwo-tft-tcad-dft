@@ -1,0 +1,1122 @@
+
+*** this is deckbuild version 5.0.10.R ***
+
+go atlas
+
+
+                                   A T L A S
+
+            Version:  atlas 5.28.1.R (Wed Jun  5 11:14:46 PDT 2019)
+
+                           Copyright (c) 1984 - 2019
+                        Silvaco Inc. All rights reserved
+
+    We acknowledge the contribution of the following collaborative partners:
+
+                              Stanford University
+
+
+
+               ======================================================
+
+                  ATLAS                           : enabled
+
+                  S-PISCES                        : enabled
+
+                  BLAZE                           : enabled
+
+                  GIGA                            : enabled
+
+                  LUMINOUS                        : enabled
+
+                  LED                             : enabled
+
+                  TFT                             : enabled
+
+                  ORGANIC DISPLAY                 : enabled
+
+                  ORGANIC SOLAR                   : enabled
+
+                  MIXEDMODE                       : enabled
+
+                  LASER                           : enabled
+
+                  VCSEL                           : enabled
+
+                  FERRO                           : enabled
+
+                  QUANTUM                         : enabled
+
+                  NOISE                           : enabled
+
+                  REM                             : enabled
+
+                  MAGNETIC                        : enabled
+
+                  DEVICE3D                        : enabled
+
+                  THERMAL3D                       : enabled
+
+                  GIGA3D                          : enabled
+
+                  MIXEDMODE3D                     : enabled
+
+                  TFT3D                           : enabled
+
+                  QUANTUM3D                       : enabled
+
+                  LUMINOUS3D                      : enabled
+
+                  REM3D                           : enabled
+
+                  MAGNETIC3D                      : enabled
+
+                  LED3D                           : enabled
+
+                  LASER3D                         : enabled
+
+                  MIXEDMODE XL                    : enabled
+
+                  S-PISCES BUNDLE                 : not licensed
+
+                  BLAZE BUNDLE                    : not licensed
+
+                  TFT BUNDLE                      : not licensed
+
+                  ORGANIC BUNDLE                  : not licensed
+
+                  DEVICE3D BUNDLE                 : not licensed
+
+                  TFT3D BUNDLE                    : not licensed
+
+               ======================================================
+
+                           Sat Sep 12 15:43:56 2026
+
+                            Executing on host: dell
+                     Current SFLM Server: 127.0.0.1:3162/
+
+
+
+ATLAS> title IWO 2 nm classical versus hard-wall Schrodinger charge bound
+************************************************************
+IWO 2 nm classical versus hard-wall Schrodinger charge bound
+************************************************************
+ATLAS> # Units: um. Geometry fixed by the target; electronic parameters are hypotheses.
+ATLAS> # n+Si support is screened by ideal TiN and excluded from this electrical domain.
+ATLAS> # Physical stack: n+Si / TiN50 / HfO2 15 / Al2O3 2 / IWO / Pd70 nm.
+ATLAS> # Air above the exposed channel; no artificial SiO2 overlayer.
+ATLAS> # Zero-current charge diagnostic only; no transfer-current fit is attempted.
+ATLAS> 
+ATLAS> # 1. Direct rectangular mesh; no imported process mesh.
+ATLAS> mesh width=1
+	####################################################
+	######                                        ######
+	######           Running on 1 CPU             ######
+	######           20 CPUs available            ######
+	######                                        ######
+	####################################################
+ATLAS> x.mesh loc=0 spac=0.5
+ATLAS> x.mesh loc=1.8 spac=0.1
+ATLAS> x.mesh loc=2 spac=0.05
+ATLAS> x.mesh loc=2.2 spac=0.1
+ATLAS> x.mesh loc=12 spac=0.5
+ATLAS> x.mesh loc=21.8 spac=0.1
+ATLAS> x.mesh loc=22 spac=0.05
+ATLAS> x.mesh loc=22.2 spac=0.1
+ATLAS> x.mesh loc=24 spac=0.5
+ATLAS> y.mesh loc=-0.072 spac=0.015
+ATLAS> y.mesh loc=-0.022 spac=0.005
+ATLAS> y.mesh loc=-0.004 spac=0.001
+ATLAS> y.mesh loc=-0.002 spac=6.25e-05
+ATLAS> y.mesh loc=-0.0019375 spac=6.25e-05
+ATLAS> y.mesh loc=-0.001875 spac=6.25e-05
+ATLAS> y.mesh loc=-0.0018125 spac=6.25e-05
+ATLAS> y.mesh loc=-0.00175 spac=6.25e-05
+ATLAS> y.mesh loc=-0.0016875 spac=6.25e-05
+ATLAS> y.mesh loc=-0.001625 spac=6.25e-05
+ATLAS> y.mesh loc=-0.0015625 spac=6.25e-05
+ATLAS> y.mesh loc=-0.0015 spac=6.25e-05
+ATLAS> y.mesh loc=-0.0014375 spac=6.25e-05
+ATLAS> y.mesh loc=-0.001375 spac=6.25e-05
+ATLAS> y.mesh loc=-0.0013125 spac=6.25e-05
+ATLAS> y.mesh loc=-0.00125 spac=6.25e-05
+ATLAS> y.mesh loc=-0.0011875 spac=6.25e-05
+ATLAS> y.mesh loc=-0.001125 spac=6.25e-05
+ATLAS> y.mesh loc=-0.0010625 spac=6.25e-05
+ATLAS> y.mesh loc=-0.001 spac=6.25e-05
+ATLAS> y.mesh loc=-0.0009375 spac=6.25e-05
+ATLAS> y.mesh loc=-0.000875 spac=6.25e-05
+ATLAS> y.mesh loc=-0.0008125 spac=6.25e-05
+ATLAS> y.mesh loc=-0.00075 spac=6.25e-05
+ATLAS> y.mesh loc=-0.0006875 spac=6.25e-05
+ATLAS> y.mesh loc=-0.000625 spac=6.25e-05
+ATLAS> y.mesh loc=-0.0005625 spac=6.25e-05
+ATLAS> y.mesh loc=-0.0005 spac=6.25e-05
+ATLAS> y.mesh loc=-0.0004375 spac=6.25e-05
+ATLAS> y.mesh loc=-0.000375 spac=6.25e-05
+ATLAS> y.mesh loc=-0.0003125 spac=6.25e-05
+ATLAS> y.mesh loc=-0.00025 spac=6.25e-05
+ATLAS> y.mesh loc=-0.0001875 spac=6.25e-05
+ATLAS> y.mesh loc=-0.000125 spac=6.25e-05
+ATLAS> y.mesh loc=-6.25e-05 spac=6.25e-05
+ATLAS> y.mesh loc=0 spac=6.25e-05
+ATLAS> y.mesh loc=0.0005 spac=0.0005
+ATLAS> y.mesh loc=0.001 spac=0.0005
+ATLAS> y.mesh loc=0.0015 spac=0.0005
+ATLAS> y.mesh loc=0.002 spac=0.0005
+ATLAS> y.mesh loc=0.0035 spac=0.0015
+ATLAS> y.mesh loc=0.005 spac=0.0015
+ATLAS> y.mesh loc=0.0065 spac=0.0015
+ATLAS> y.mesh loc=0.008 spac=0.0015
+ATLAS> y.mesh loc=0.0095 spac=0.0015
+ATLAS> y.mesh loc=0.011 spac=0.0015
+ATLAS> y.mesh loc=0.0125 spac=0.0015
+ATLAS> y.mesh loc=0.014 spac=0.0015
+ATLAS> y.mesh loc=0.0155 spac=0.0015
+ATLAS> y.mesh loc=0.017 spac=0.0015
+ATLAS> y.mesh loc=0.067 spac=0.01
+ATLAS> 
+ATLAS> # 2. Active stack and physical metal volumes.
+ATLAS> region num=1 material=Air y.min=-0.072 y.max=-0.002
+ATLAS> region num=2 user.material=IWO y.min=-0.002 y.max=0
+ATLAS> region num=3 material=Al2O3 y.min=0 y.max=0.002
+ATLAS> region num=4 material=HfO2 y.min=0.002 y.max=0.017
+ATLAS> region num=5 material=Conductor y.min=0.017 y.max=0.067
+ATLAS> electrode num=1 name=gate material=Conductor x.min=0 x.max=24 y.min=0.017 y.max=0.067
+ 
+Electrode #1
+Name: gate                
+ Number of boundary nodes: 1260
+ Dimensions in microns: 
+       min         max
+ x 0.000e+000  2.400e+001 
+ y 1.700e-002  6.700e-002 
+
+ATLAS> electrode num=2 name=source material=Palladium x.min=0 x.max=2 y.min=-0.072 y.max=-0.002
+ 
+Electrode #2
+Name: source              
+ Number of boundary nodes: 198
+ Dimensions in microns: 
+       min         max
+ x 0.000e+000  2.000e+000 
+ y -7.200e-002  -2.000e-003 
+
+ATLAS> electrode num=3 name=drain material=Palladium x.min=22 x.max=24 y.min=-0.072 y.max=-0.002
+ 
+Electrode #3
+Name: drain               
+ Number of boundary nodes: 198
+ Dimensions in microns: 
+       min         max
+ x 2.200e+001  2.400e+001 
+ y -7.200e-002  -2.000e-003 
+
+ATLAS> 
+ATLAS> # 3. Custom IWO; unlisted inherited constants remain a limitation.
+ATLAS> material material=IWO user.group=semiconductor user.default=silicon  eg300=3.05 affinity=4.3 permittivity=9.3  nc300=5e+18 nv300=1e+19  mun=10 mup=0.01  taun0=1e-06 taup0=1e-06
+
+Mesh
+ Type:               non-cylindrical
+ Width:              1
+ Total grid points:  8820
+ Total triangles  :  17264
+ Obtuse triangles :  0  (0 %)
+ATLAS> material material=Al2O3 permittivity=9
+ATLAS> material material=HfO2 permittivity=19.57
+ATLAS> material material=Air permittivity=1
+ATLAS> doping uniform n.type conc=2e+17 region=2
+  
+ Warning: Statement out of order. Structure 
+ creation statements (MESH, X.MESH, Y.MESH, REGION,
+ ELECTRODE and DOPING) preceed all output, contact,
+ material, models or solution control statements.
+  
+ATLAS> 
+ATLAS> # 4. Native electrical boundary conditions.
+ATLAS> contact name=gate workfunction=4.7
+ATLAS> contact name=source workfunction=4.45 surf.rec
+ATLAS> contact name=drain workfunction=4.45 surf.rec
+ATLAS> models srh fermi temp=300 print
+ATLAS> 
+ATLAS> # 7. Charge-only diagnostic; one ATLAS engine, two model phases.
+ATLAS> # Seed: config/rebuild_contact_electron.json. Both trap families are OFF.
+ATLAS> # The same 32-interval IWO mesh and same input physics are used in both phases.
+ATLAS> # MC=0.34*m0 is an explicit single-parabolic-band prior, approximately consistent
+ATLAS> # with NC300=5e18 cm^-3 at 300K, not an independently measured IWO mass.
+ATLAS> # Hard-wall quantum phase disallows insulator penetration (^OX.SCHRO).
+ATLAS> # This is a confinement bound, not finite-barrier calibration or atomistic IWO.
+ATLAS> material region=2 mc=0.34 ml=0.34 mt1=0.34 mt2=0.34
+ATLAS> models srh fermi temp=300 ^schrodinger ^p.schro ^bqp.n ^bqp.p print
+ATLAS> method newton carriers=0 trap maxtrap=10 itlimit=60 climit=1e-6 cr.toler=1e-20 ir.tol=1e-20 cx.toler=1e-6
+
+
+CONSTANTS:
+ Boltzmann's constant  = 1.38066e-023 J/K
+ Elementary charge     = 1.60219e-019 C
+ Permitivity in vacuum = 8.85419e-014 F/cm
+ Temperature           = 300 K
+ Thermal voltage       = 0.025852 V
+
+REGIONAL MATERIAL PARAMETERS:
+ Region       :        1         2         3         4         5         6         7         8   
+ Material     :        Air       IWO     Al2O3      HfO2 Conductor Conductor Palladium Palladium 
+ Type         :    insulator semicond. insulator insulator   metal     metal     metal     metal  
+
+ Average Composition Fraction 
+ X-composition:         0         0         0         0         0         0         0         0 
+ Y-composition:         0         0         0         0         0         0         0         0 
+
+ Band Parameters
+ Epsilon      :         1       9.3         9      19.6                                         
+ Eg (eV)      :         9      3.05         9       5.7                                         
+ Chi (eV)     :       0.9       4.3       0.9         0                                         
+ Nc (per cc)  :              5e+018                                                             
+ Nv (per cc)  :              1e+019                                                             
+ ni (per cc)  :            1.7e-007                                                             
+
+ Bandgap narrowing parameters 
+ bgn.e (eV)   :               0.009                                                             
+ bgn.n (/cc)  :              1e+017                                                             
+ bgn.c        :                 0.5                                                             
+ ubgn.b       :            3.1e+012                                                             
+ ubgn.c       :            3.9e-005                                                             
+ bgn.shnk.me  :               0.321                                                             
+ bgn.shnk.mh  :               0.346                                                             
+ bgn.shnk.eps :                11.7                                                             
+ bgn.shnk.ge  :                  12                                                             
+ bgn.shnk.gh  :                   4                                                             
+ bgn.lind.anc :             0.00974                                                             
+ bgn.lind.bnc :             0.00139                                                             
+ bgn.lind.anv :              0.0127                                                             
+ bgn.lind.bnv :              0.0014                                                             
+ bgn.lind.apc :              0.0114                                                             
+ bgn.lind.bpc :             0.00205                                                             
+ bgn.lind.apv :              0.0111                                                             
+ bgn.lind.bpv :             0.00206                                                             
+ bgn.lind.cpv :                   0                                                             
+ bgn.lind.nd  :              1e+018                                                             
+ bgn.lind.na  :              1e+018                                                             
+
+ Effective Richardson Constants
+ An*          :                 110                                                             
+ Ap*          :                  30                                                             
+
+ Recombination Parameters
+ taun0        :              1e-006                                                             
+ taup0        :              1e-006                                                             
+ etrap        :                   0                                                             
+ lt.taun      :                   0                                                             
+ lt.taup      :                   0                                                             
+ nsrhn        :              5e+016                                                             
+ nsrhp        :              5e+016                                                             
+ ksrhtn       :              0.0025                                                             
+ ksrhtp       :              0.0025                                                             
+ ksrhcn       :              3e-013                                                             
+ ksrhcp       :           1.18e-012                                                             
+ ksrhgn       :                1.77                                                             
+ ksrhgp       :                0.57                                                             
+ nsrhn        :              5e+016                                                             
+ nsrhp        :              5e+016                                                             
+ augn         :            2.8e-031                                                             
+ augp         :            9.9e-032                                                             
+ augkn        :                   0                                                             
+ augkp        :                   0                                                             
+ kaugcn       :           1.83e-031                                                             
+ kaugcp       :           2.78e-031                                                             
+ kaugdn       :                1.18                                                             
+ kaugdp       :                0.72                                                             
+ aug.cnl      :            2.2e-031                                                             
+ aug.cpl      :            9.2e-032                                                             
+ aug.chi      :           1.66e-030                                                             
+ hns.ae       :            6.7e-032                                                             
+ hns.ah       :            7.2e-032                                                             
+ hns.be       :           2.45e-031                                                             
+ hns.bh       :            4.5e-033                                                             
+ hns.ce       :           -2.2e-032                                                             
+ hns.ch       :           2.63e-032                                                             
+ hns.he       :                3.47                                                             
+ hns.hh       :                8.26                                                             
+ hns.n0e      :              1e+018                                                             
+ hns.p0e      :              1e+018                                                             
+ copt         :                   0                                                             
+
+ Band-to-band tunneling Parameters
+ mass.tunnel  :                0.25                                                             
+ me.tunnel    :                0.34                                                             
+ mh.tunnel    :               0.549                                                             
+
+ Thermal Velocities
+ vn (cm/s)    :           1.08e+007                                                             
+ vp (cm/s)    :            1.3e+007                                                             
+
+ Saturation Velocities
+ vsatn (cm/s) :           1.03e+007                                                             
+ vsatp (cm/s) :           1.03e+007                                                             
+
+ Piezoelectric Parameters
+ e33 (C/m^2)  :                   0                                                             
+ e31 (C/m^2)  :                   0                                                             
+ Psp (C/m^2)  :                   0                                                             
+ Alattice (Å) :         0      5.43         0         0                                         
+
+REGIONAL MODEL FLAGS:
+ Region:          1    2    3    4    5    6    7    8 
+ SRH                   T                                
+ consrh                F                                
+ klasrh                F                                
+ Auger                 F                                
+ klaaug                F                                
+ picaug                F                                
+ hnsaug                F                                
+ auggen                F                                
+ kerraug               F                                
+ richteraug            F                                
+ optr                  F                                
+ optr.gb               F                                
+ bgn(std/kla)          F                                
+ ubgn                  F                                
+ bgn.alamo             F                                
+ bgn.bennett           F                                
+ bgn.schenk            F                                
+ bgn.lind              F                                
+ bgn.persson           F                                
+ incomplete            F                                
+ inc.two_level         F                                
+ inc.ion               F                                
+ ioniz                 F                                
+ inc.cryo              F                                
+ bbt                   F                                
+ bbtauto               F                                
+ bbthurkx              F                                
+ bbtkane               F                                
+ bbtschenk             F                                
+ bbtheigl              F                                
+ bbtnonlocal           F                                
+ tat(local)            F                                
+ tatnonlocal           F                                
+ tat(coulombic)        F                                
+ impact                F                                
+ Boltzmann             F                                
+ Fermi-Dirac           T                                
+
+Gain and Rsp scaling
+  Gain scale factor  :         1         1         1         1 
+  Rsp scale factor   :         1         1         1         1 
+
+
+REGIONAL MOBILITY MODEL SUMMARY:
+
+  Region #2:
+
+    Model for Electrons:
+
+      Concentration Independent Mobility
+      @ Temperature =     300 Kelvin 
+        mu  = 10
+        tmu = 1.5
+
+
+
+    Model for Holes:
+
+      Concentration Independent Mobility
+      @ Temperature =     300 Kelvin 
+        mu  = 0.01
+        tmu = 1.5
+
+
+
+
+Contacts:
+Name         Num  Work fn    Resist.    Capacit.   Induct.
+                   (eV)      (Ohms)     (Farads)   (Henries)
+gate          1     4.700   0.000E+00  0.000E+00  0.000E+00
+source        2     4.450   0.000E+00  0.000E+00  0.000E+00
+drain         3     4.450   0.000E+00  0.000E+00  0.000E+00
+  
+ATLAS> output con.band val.band charge
+ATLAS> probe name=qbound_n_avg region=2 average n.conc x.min=2 x.max=22 y.min=-0.002 y.max=0
+ATLAS> probe name=qbound_n_mid region=2 x=12.037 y=-0.00094 n.conc
+ATLAS> save outf=qbound_geometry.str
+
+Starting module:   BLAZE                          
+
+
+MASTER format file written to qbound_geometry.str at Sat Sep 12 15:44:01 2026
+
+ATLAS> 
+ATLAS> # 8. Classical zero-current charge reference.
+ATLAS> solve init
+
+Obtaining static solution:
+
+
+init           psi    psi 
+direct          x     rhs 
+   i    j  m  -5.00* -26.0*
+---------------------------
+   1    1  G   0.000 -13.28
+   1    2  G  -0.301 -13.28
+   1    3  G  -0.477 -13.28
+   1    4  G  -0.604 -13.28
+   1    5  G  -7.95* -24.22
+  
+ATLAS> log outf=qbound_classical.log
+ATLAS> solve vgate=0 vsource=0 vdrain=0
+
+Obtaining static solution:
+
+
+prev           psi    psi 
+direct          x     rhs 
+   i    j  m  -5.00* -26.0*
+---------------------------
+   1    1  G  -12.6* -28.0*
+
+Electrode       Va(V)        Ic(A)       It(A)
+=================================================
+gate           0.000e+000              0.000e+000
+source         0.000e+000              0.000e+000
+drain          0.000e+000              0.000e+000
+Total                                  0.000e+000
+
+Time for bias point:   0.09 sec. 
+Total time:            5.30 sec. 
+  
+ATLAS> save outf=qbound_classical_vg0.str
+
+MASTER format file written to qbound_classical_vg0.str at Sat Sep 12 15:44:02 2026
+
+ATLAS> solve vgate=0.5 vsource=0 vdrain=0
+
+Obtaining static solution:
+
+ V(   gate  ) = 0.5         
+
+
+prev           psi    psi 
+direct          x     rhs 
+   i    j  m  -5.00* -26.0*
+---------------------------
+   1    1  G  -0.453 -13.54
+   1    2  G  -0.265 -13.64
+   1    3  G   0.076 -13.76
+   1    4  G   0.588 -13.94
+   1    5  G  -0.003 -14.24
+   1    6  G  -0.617 -17.69
+   1    7  G  -1.822 -19.47
+   1    8  G  -4.238 -22.02
+   1    9  G  -9.07* -26.9*
+
+Electrode       Va(V)        Ic(A)       It(A)
+=================================================
+gate           5.000e-001              0.000e+000
+source         0.000e+000              0.000e+000
+drain          0.000e+000              0.000e+000
+Total                                  0.000e+000
+
+Time for bias point:   0.90 sec. 
+Total time:            7.14 sec. 
+  
+ATLAS> save outf=qbound_classical_vg0p5.str
+
+MASTER format file written to qbound_classical_vg0p5.str at Sat Sep 12 15:44:04 2026
+
+ATLAS> solve vgate=1 vsource=0 vdrain=0
+
+Obtaining static solution:
+
+ V(   gate  ) = 1           
+
+
+proj           psi    psi 
+direct          x     rhs 
+   i    j  m  -5.00* -26.0*
+---------------------------
+   1    1  G  -0.595 -14.97
+   1    2  G  -0.328 -15.17
+   1    3  G   0.142 -14.97
+   1    4  G  -0.150 -15.67
+   1    5  G  -1.067 -17.20
+   1    6  G  -2.901 -19.07
+   1    7  G  -6.56* -22.73
+
+Electrode       Va(V)        Ic(A)       It(A)
+=================================================
+gate           1.000e+000              0.000e+000
+source         0.000e+000              0.000e+000
+drain          0.000e+000              0.000e+000
+Total                                  0.000e+000
+
+Time for bias point:   0.57 sec. 
+Total time:            8.68 sec. 
+  
+ATLAS> save outf=qbound_classical_vg1.str
+
+MASTER format file written to qbound_classical_vg1.str at Sat Sep 12 15:44:06 2026
+
+ATLAS> solve vgate=2 vsource=0 vdrain=0
+
+Obtaining static solution:
+
+ V(   gate  ) = 2           
+
+
+proj           psi    psi 
+direct          x     rhs 
+   i    j  m  -5.00* -26.0*
+---------------------------
+   1    1  G  -0.493 -15.61
+   1    2  G  -1.145 -16.90
+   1    3  G  -3.003 -18.71
+   1    4  G  -6.75* -22.45
+
+Electrode       Va(V)        Ic(A)       It(A)
+=================================================
+gate           2.000e+000              0.000e+000
+source         0.000e+000              0.000e+000
+drain          0.000e+000              0.000e+000
+Total                                  0.000e+000
+
+Time for bias point:   0.39 sec. 
+Total time:            9.90 sec. 
+  
+ATLAS> save outf=qbound_classical_vg2.str
+
+MASTER format file written to qbound_classical_vg2.str at Sat Sep 12 15:44:07 2026
+
+ATLAS> solve vgate=3 vsource=0 vdrain=0
+
+Obtaining static solution:
+
+ V(   gate  ) = 3           
+
+
+proj           psi    psi 
+direct          x     rhs 
+   i    j  m  -5.00* -26.0*
+---------------------------
+   1    1  G  -0.823 -15.75
+   1    2  G  -2.185 -17.44
+   1    3  G  -4.946 -20.25
+   1    4  G  -10.7* -25.99
+
+Electrode       Va(V)        Ic(A)       It(A)
+=================================================
+gate           3.000e+000              0.000e+000
+source         0.000e+000              0.000e+000
+drain          0.000e+000              0.000e+000
+Total                                  0.000e+000
+
+Time for bias point:   0.53 sec. 
+Total time:           11.55 sec. 
+  
+ATLAS> save outf=qbound_classical_vg3.str
+
+MASTER format file written to qbound_classical_vg3.str at Sat Sep 12 15:44:09 2026
+
+ATLAS> log off
+ATLAS> 
+ATLAS> # 9. Self-consistent electron Schrodinger-Poisson phase: reinitialize.
+ATLAS> # SP.GEOMETRY=1DY selects the documented y slice; NUM.DIRECT=1 is one isotropic valley.
+ATLAS> # FIXED.FERMI sets the quantum Fermi level to zero, consistent with VS=VD=0.
+ATLAS> # QMINCONC is a numerical density floor in cm^-3, not a leakage-current model.
+ATLAS> # SP.NUMITER is bounded; reaching a bias target alone does not prove SP convergence.
+ATLAS> models srh fermi temp=300 schrodinger num.direct=1 sp.geometry=1dy eigens=8 fixed.fermi ^calc.fermi ^ox.schro ^post.schro ^bqp.n ^bqp.p qminconc=1e-10 qcrit.negf=1e-4 print
+
+Starting module:   Quantum                        
+
+
+Using   1DY  geometry for Schrodinger solution 
+
+ATLAS> method newton carriers=0 trap maxtrap=10 itlimit=60 climit=1e-6 cr.toler=1e-20 ir.tol=1e-20 cx.toler=1e-6 sp.numiter=60 sp.numosc=30 sp.staosc=3 sp.mindif=1e-4
+
+
+CONSTANTS:
+ Boltzmann's constant  = 1.38066e-023 J/K
+ Elementary charge     = 1.60219e-019 C
+ Permitivity in vacuum = 8.85419e-014 F/cm
+ Temperature           = 300 K
+ Thermal voltage       = 0.025852 V
+
+REGIONAL MATERIAL PARAMETERS:
+ Region       :        1         2         3         4         5         6         7         8   
+ Material     :        Air       IWO     Al2O3      HfO2 Conductor Conductor Palladium Palladium 
+ Type         :    insulator semicond. insulator insulator   metal     metal     metal     metal  
+
+ Average Composition Fraction 
+ X-composition:         0         0         0         0         0         0         0         0 
+ Y-composition:         0         0         0         0         0         0         0         0 
+
+ Band Parameters
+ Epsilon      :         1       9.3         9      19.6                                         
+ Eg (eV)      :         9      3.05         9       5.7                                         
+ Chi (eV)     :       0.9       4.3       0.9         0                                         
+ Nc (per cc)  :              5e+018                                                             
+ Nv (per cc)  :              1e+019                                                             
+ ni (per cc)  :            1.7e-007                                                             
+
+ Bandgap narrowing parameters 
+ bgn.e (eV)   :               0.009                                                             
+ bgn.n (/cc)  :              1e+017                                                             
+ bgn.c        :                 0.5                                                             
+ ubgn.b       :            3.1e+012                                                             
+ ubgn.c       :            3.9e-005                                                             
+ bgn.shnk.me  :               0.321                                                             
+ bgn.shnk.mh  :               0.346                                                             
+ bgn.shnk.eps :                11.7                                                             
+ bgn.shnk.ge  :                  12                                                             
+ bgn.shnk.gh  :                   4                                                             
+ bgn.lind.anc :             0.00974                                                             
+ bgn.lind.bnc :             0.00139                                                             
+ bgn.lind.anv :              0.0127                                                             
+ bgn.lind.bnv :              0.0014                                                             
+ bgn.lind.apc :              0.0114                                                             
+ bgn.lind.bpc :             0.00205                                                             
+ bgn.lind.apv :              0.0111                                                             
+ bgn.lind.bpv :             0.00206                                                             
+ bgn.lind.cpv :                   0                                                             
+ bgn.lind.nd  :              1e+018                                                             
+ bgn.lind.na  :              1e+018                                                             
+ ml           :         1      0.34         1         1                                         
+ mt1          :         1      0.34         1         1                                         
+ mt2          :         1      0.34         1         1                                         
+ mc          :         1      0.34      0.25         0                                         
+ degeneracy   :         1         6         1         1                                         
+ mhh          :         1      0.49         0         0                                         
+ mlh          :         1      0.16         0         0                                         
+ mso          :         1      0.23         0         0                                         
+ mv          :         1     0.549       0.5         0                                         
+
+
+Crystal orientation of region 1 : 
+
+X : [     1,     0,     0 ] 
+Y : [     0,     1,     0 ] 
+Z : [     0,     0,     1 ] 
+
+
+Crystal orientation of region 2 : 
+
+X : [     1,     0,     0 ] 
+Y : [     0,     1,     0 ] 
+Z : [     0,     0,     1 ] 
+
+
+Crystal orientation of region 3 : 
+
+X : [     1,     0,     0 ] 
+Y : [     0,     1,     0 ] 
+Z : [     0,     0,     1 ] 
+
+
+Crystal orientation of region 4 : 
+
+X : [     1,     0,     0 ] 
+Y : [     0,     1,     0 ] 
+Z : [     0,     0,     1 ] 
+
+
+ Effective Richardson Constants
+ An*          :                 110                                                             
+ Ap*          :                  30                                                             
+
+ Recombination Parameters
+ taun0        :              1e-006                                                             
+ taup0        :              1e-006                                                             
+ etrap        :                   0                                                             
+ lt.taun      :                   0                                                             
+ lt.taup      :                   0                                                             
+ nsrhn        :              5e+016                                                             
+ nsrhp        :              5e+016                                                             
+ ksrhtn       :              0.0025                                                             
+ ksrhtp       :              0.0025                                                             
+ ksrhcn       :              3e-013                                                             
+ ksrhcp       :           1.18e-012                                                             
+ ksrhgn       :                1.77                                                             
+ ksrhgp       :                0.57                                                             
+ nsrhn        :              5e+016                                                             
+ nsrhp        :              5e+016                                                             
+ augn         :            2.8e-031                                                             
+ augp         :            9.9e-032                                                             
+ augkn        :                   0                                                             
+ augkp        :                   0                                                             
+ kaugcn       :           1.83e-031                                                             
+ kaugcp       :           2.78e-031                                                             
+ kaugdn       :                1.18                                                             
+ kaugdp       :                0.72                                                             
+ aug.cnl      :            2.2e-031                                                             
+ aug.cpl      :            9.2e-032                                                             
+ aug.chi      :           1.66e-030                                                             
+ hns.ae       :            6.7e-032                                                             
+ hns.ah       :            7.2e-032                                                             
+ hns.be       :           2.45e-031                                                             
+ hns.bh       :            4.5e-033                                                             
+ hns.ce       :           -2.2e-032                                                             
+ hns.ch       :           2.63e-032                                                             
+ hns.he       :                3.47                                                             
+ hns.hh       :                8.26                                                             
+ hns.n0e      :              1e+018                                                             
+ hns.p0e      :              1e+018                                                             
+ copt         :                   0                                                             
+
+ Band-to-band tunneling Parameters
+ mass.tunnel  :                0.25                                                             
+ me.tunnel    :                0.34                                                             
+ mh.tunnel    :               0.549                                                             
+
+ Thermal Velocities
+ vn (cm/s)    :           1.08e+007                                                             
+ vp (cm/s)    :            1.3e+007                                                             
+
+ Saturation Velocities
+ vsatn (cm/s) :           1.03e+007                                                             
+ vsatp (cm/s) :           1.03e+007                                                             
+
+ Piezoelectric Parameters
+ e33 (C/m^2)  :                   0                                                             
+ e31 (C/m^2)  :                   0                                                             
+ Psp (C/m^2)  :                   0                                                             
+ Alattice (Å) :         0      5.43         0         0                                         
+
+REGIONAL MODEL FLAGS:
+ Region:          1    2    3    4    5    6    7    8 
+ SRH                   T                                
+ consrh                F                                
+ klasrh                F                                
+ Auger                 F                                
+ klaaug                F                                
+ picaug                F                                
+ hnsaug                F                                
+ auggen                F                                
+ kerraug               F                                
+ richteraug            F                                
+ optr                  F                                
+ optr.gb               F                                
+ bgn(std/kla)          F                                
+ ubgn                  F                                
+ bgn.alamo             F                                
+ bgn.bennett           F                                
+ bgn.schenk            F                                
+ bgn.lind              F                                
+ bgn.persson           F                                
+ incomplete            F                                
+ inc.two_level         F                                
+ inc.ion               F                                
+ ioniz                 F                                
+ inc.cryo              F                                
+ bbt                   F                                
+ bbtauto               F                                
+ bbthurkx              F                                
+ bbtkane               F                                
+ bbtschenk             F                                
+ bbtheigl              F                                
+ bbtnonlocal           F                                
+ tat(local)            F                                
+ tatnonlocal           F                                
+ tat(coulombic)        F                                
+ impact                F                                
+ Boltzmann             F                                
+ Fermi-Dirac           T                                
+
+Gain and Rsp scaling
+  Gain scale factor  :         1         1         1         1 
+  Rsp scale factor   :         1         1         1         1 
+
+
+REGIONAL MOBILITY MODEL SUMMARY:
+
+  Region #2:
+
+    Model for Electrons:
+
+      Concentration Independent Mobility
+      @ Temperature =     300 Kelvin 
+        mu  = 10
+        tmu = 1.5
+
+
+
+    Model for Holes:
+
+      Concentration Independent Mobility
+      @ Temperature =     300 Kelvin 
+        mu  = 0.01
+        tmu = 1.5
+
+
+
+
+Contacts:
+Name         Num  Work fn    Resist.    Capacit.   Induct.
+                   (eV)      (Ohms)     (Farads)   (Henries)
+gate          1     4.700   0.000E+00  0.000E+00  0.000E+00
+source        2     4.450   0.000E+00  0.000E+00  0.000E+00
+drain         3     4.450   0.000E+00  0.000E+00  0.000E+00
+  
+ATLAS> output con.band val.band charge eigens=8
+ATLAS> solve init
+
+Obtaining static solution:
+
+ V(   gate  ) = 0           
+
+
+init           psi    psi 
+direct          x     rhs 
+   i    j  m  -5.00* -26.0*
+---------------------------
+   1    1  S    0.000 -13.28
+   1    2  SP  -0.301 -13.28
+   1    3  SP  -0.477 -13.28
+   1    4  SP  -0.604 -13.28
+   1    5  SP  -11.2* -27.2*
+   2    1  S   -8.45* -23.14
+  
+ATLAS> log outf=qbound_schrodinger.log
+ATLAS> solve vgate=0 vsource=0 vdrain=0
+
+Obtaining static solution:
+
+
+prev           psi    psi 
+direct          x     rhs 
+   i    j  m  -5.00* -26.0*
+---------------------------
+   1    1  S   -12.5* -28.0*
+
+Electrode       Va(V)        Ic(A)       It(A)
+=================================================
+gate           0.000e+000              0.000e+000
+source         0.000e+000              0.000e+000
+drain          0.000e+000              0.000e+000
+Total                                  0.000e+000
+
+Time for bias point:   0.24 sec. 
+Total time:           14.34 sec. 
+  
+ATLAS> save outf=qbound_schrodinger_vg0.str
+
+MASTER format file written to qbound_schrodinger_vg0.str at Sat Sep 12 15:44:12 2026
+
+ATLAS> solve vgate=0.5 vsource=0 vdrain=0
+
+Obtaining static solution:
+
+ V(   gate  ) = 0.5         
+
+
+prev           psi    psi 
+direct          x     rhs 
+   i    j  m  -5.00* -26.0*
+---------------------------
+   1    1  S   -0.453 -13.54
+   1    2  SP  -0.265 -13.64
+   1    3  SP   0.076 -13.76
+   1    4  SP   0.588 -13.94
+   1    5  SP  -0.002 -14.24
+   1    6  SP  -1.354 -17.85
+   1    7  SP  -3.146 -19.65
+   2    1  S   -4.818 -20.42
+
+Electrode       Va(V)        Ic(A)       It(A)
+=================================================
+gate           5.000e-001              0.000e+000
+source         0.000e+000              0.000e+000
+drain          0.000e+000              0.000e+000
+Total                                  0.000e+000
+
+Time for bias point:   1.14 sec. 
+Total time:           16.94 sec. 
+  
+ATLAS> save outf=qbound_schrodinger_vg0p5.str
+
+MASTER format file written to qbound_schrodinger_vg0p5.str at Sat Sep 12 15:44:14 2026
+
+ATLAS> solve vgate=1 vsource=0 vdrain=0
+
+Obtaining static solution:
+
+ V(   gate  ) = 1           
+
+
+proj           psi    psi 
+direct          x     rhs 
+   i    j  m  -5.00* -26.0*
+---------------------------
+   1    1  S   -0.684 -13.86
+   1    2  SP  -0.570 -14.02
+   1    3  SP  -0.470 -14.29
+   1    4  SP  -0.766 -14.88
+   1    5  SP  -0.932 -15.45
+   1    6  SP  -1.165 -16.03
+   1    7  SP  -1.724 -16.79
+   2    1  S   -2.098 -16.68
+   2    2  SP  -4.171 -19.05
+   2    3  SP  -7.91* -22.96
+   3    1  S   -3.150 -17.60
+   3    2  SP  -6.03* -21.10
+   4    1  S   -3.970 -18.50
+   4    2  SP  -7.77* -22.84
+   5    1  S   -4.847 -19.39
+
+Electrode       Va(V)        Ic(A)       It(A)
+=================================================
+gate           1.000e+000              0.000e+000
+source         0.000e+000              0.000e+000
+drain          0.000e+000              0.000e+000
+Total                                  0.000e+000
+
+Time for bias point:   1.82 sec. 
+Total time:           20.12 sec. 
+  
+ATLAS> save outf=qbound_schrodinger_vg1.str
+
+MASTER format file written to qbound_schrodinger_vg1.str at Sat Sep 12 15:44:18 2026
+
+ATLAS> solve vgate=2 vsource=0 vdrain=0
+
+Obtaining static solution:
+
+ V(   gate  ) = 2           
+
+
+proj           psi    psi 
+direct          x     rhs 
+   i    j  m  -5.00* -26.0*
+---------------------------
+   1    1  S   -0.927 -14.17
+   1    2  SP  -0.510 -14.59
+   1    3  SP  -1.006 -15.34
+   1    4  SP  -1.484 -16.06
+   1    5  SP  -2.467 -17.19
+   1    6  SP  -4.470 -19.34
+   1    7  SP  -8.48* -23.61
+   2    1  S   -2.350 -16.66
+   2    2  SP  -4.502 -19.02
+   2    3  SP  -8.58* -23.29
+   3    1  S   -2.967 -17.21
+   3    2  SP  -5.63* -20.16
+   4    1  S   -3.338 -17.74
+   4    2  SP  -6.48* -21.22
+   5    1  S   -3.837 -18.26
+   5    2  SP  -7.49* -22.23
+   6    1  S   -4.344 -18.77
+
+Electrode       Va(V)        Ic(A)       It(A)
+=================================================
+gate           2.000e+000              0.000e+000
+source         0.000e+000              0.000e+000
+drain          0.000e+000              0.000e+000
+Total                                  0.000e+000
+
+Time for bias point:   2.72 sec. 
+Total time:           24.28 sec. 
+  
+ATLAS> save outf=qbound_schrodinger_vg2.str
+
+MASTER format file written to qbound_schrodinger_vg2.str at Sat Sep 12 15:44:22 2026
+
+ATLAS> solve vgate=3 vsource=0 vdrain=0
+
+Obtaining static solution:
+
+ V(   gate  ) = 3           
+
+
+proj           psi    psi 
+direct          x     rhs 
+   i    j  m  -5.00* -26.0*
+---------------------------
+   1    1  S   -1.287 -15.39
+   1    2  SP  -2.020 -16.29
+   1    3  SP  -3.498 -17.84
+   1    4  SP  -6.47* -20.91
+   2    1  S   -2.984 -17.27
+   2    2  SP  -5.89* -20.39
+   3    1  S   -3.397 -17.73
+   3    2  SP  -6.71* -21.21
+   4    1  S   -3.801 -18.13
+   4    2  SP  -7.51* -22.01
+   5    1  S   -4.201 -18.52
+
+Electrode       Va(V)        Ic(A)       It(A)
+=================================================
+gate           3.000e+000              0.000e+000
+source         0.000e+000              0.000e+000
+drain          0.000e+000              0.000e+000
+Total                                  0.000e+000
+
+Time for bias point:   1.38 sec. 
+Total time:           26.98 sec. 
+  
+ATLAS> save outf=qbound_schrodinger_vg3.str
+
+MASTER format file written to qbound_schrodinger_vg3.str at Sat Sep 12 15:44:24 2026
+
+ATLAS> log off
+ATLAS> 
+ATLAS> # 10. Native charge-versus-gate exports. No analytical or measured current is used.
+ATLAS> EXTRACT> init infile="qbound_classical.log"
+EXTRACT> extract name="qbound_classical_n_avg" curve(v."gate",probe."qbound_n_avg") outfile="qbound_classical_n_avg.dat"
+EXTRACT> extract name="qbound_classical_n_mid" curve(v."gate",probe."qbound_n_mid") outfile="qbound_classical_n_mid.dat"
+EXTRACT> extract name="qbound_classical_vd" curve(v."gate",v."drain") outfile="qbound_classical_vd.dat"
+EXTRACT> extract name="qbound_classical_vs" curve(v."gate",v."source") outfile="qbound_classical_vs.dat"
+EXTRACT> quit
+EXTRACT> init infile="qbound_schrodinger.log"
+EXTRACT> extract name="qbound_schrodinger_n_avg" curve(v."gate",probe."qbound_n_avg") outfile="qbound_schrodinger_n_avg.dat"
+EXTRACT> extract name="qbound_schrodinger_n_mid" curve(v."gate",probe."qbound_n_mid") outfile="qbound_schrodinger_n_mid.dat"
+EXTRACT> extract name="qbound_schrodinger_vd" curve(v."gate",v."drain") outfile="qbound_schrodinger_vd.dat"
+EXTRACT> extract name="qbound_schrodinger_vs" curve(v."gate",v."source") outfile="qbound_schrodinger_vs.dat"
+EXTRACT> 
+EXTRACT> # 11. Native electron-density cutlines through x=12.037 um.
+EXTRACT> # Electron Conc and material=All are documented native EXTRACT labels.
+EXTRACT> # Retain the full native cutline; the IWO interval is -0.002 <= y <= 0 um.
+EXTRACT> # A cutline integral over micrometre depth needs a 1e-4 factor for cm^-2.
+EXTRACT> quit
+EXTRACT> init infile="qbound_classical_vg0.str"
+EXTRACT> extract name="qbound_classical_n_y_vg0" curve(depth,impurity="Electron Conc" material="All" x.val=12.037) outfile="qbound_classical_n_y_vg0.dat"
+Extracting existing "Electron Conc" from structure, no re-calculations required
+EXTRACT> quit
+EXTRACT> init infile="qbound_classical_vg0p5.str"
+EXTRACT> extract name="qbound_classical_n_y_vg0p5" curve(depth,impurity="Electron Conc" material="All" x.val=12.037) outfile="qbound_classical_n_y_vg0p5.dat"
+Extracting existing "Electron Conc" from structure, no re-calculations required
+EXTRACT> quit
+EXTRACT> init infile="qbound_classical_vg1.str"
+EXTRACT> extract name="qbound_classical_n_y_vg1" curve(depth,impurity="Electron Conc" material="All" x.val=12.037) outfile="qbound_classical_n_y_vg1.dat"
+Extracting existing "Electron Conc" from structure, no re-calculations required
+EXTRACT> quit
+EXTRACT> init infile="qbound_classical_vg2.str"
+EXTRACT> extract name="qbound_classical_n_y_vg2" curve(depth,impurity="Electron Conc" material="All" x.val=12.037) outfile="qbound_classical_n_y_vg2.dat"
+Extracting existing "Electron Conc" from structure, no re-calculations required
+EXTRACT> quit
+EXTRACT> init infile="qbound_classical_vg3.str"
+EXTRACT> extract name="qbound_classical_n_y_vg3" curve(depth,impurity="Electron Conc" material="All" x.val=12.037) outfile="qbound_classical_n_y_vg3.dat"
+Extracting existing "Electron Conc" from structure, no re-calculations required
+EXTRACT> quit
+EXTRACT> init infile="qbound_schrodinger_vg0.str"
+EXTRACT> extract name="qbound_schrodinger_n_y_vg0" curve(depth,impurity="Electron Conc" material="All" x.val=12.037) outfile="qbound_schrodinger_n_y_vg0.dat"
+Extracting existing "Electron Conc" from structure, no re-calculations required
+EXTRACT> quit
+EXTRACT> init infile="qbound_schrodinger_vg0p5.str"
+EXTRACT> extract name="qbound_schrodinger_n_y_vg0p5" curve(depth,impurity="Electron Conc" material="All" x.val=12.037) outfile="qbound_schrodinger_n_y_vg0p5.dat"
+Extracting existing "Electron Conc" from structure, no re-calculations required
+EXTRACT> quit
+EXTRACT> init infile="qbound_schrodinger_vg1.str"
+EXTRACT> extract name="qbound_schrodinger_n_y_vg1" curve(depth,impurity="Electron Conc" material="All" x.val=12.037) outfile="qbound_schrodinger_n_y_vg1.dat"
+Extracting existing "Electron Conc" from structure, no re-calculations required
+EXTRACT> quit
+EXTRACT> init infile="qbound_schrodinger_vg2.str"
+EXTRACT> extract name="qbound_schrodinger_n_y_vg2" curve(depth,impurity="Electron Conc" material="All" x.val=12.037) outfile="qbound_schrodinger_n_y_vg2.dat"
+Extracting existing "Electron Conc" from structure, no re-calculations required
+EXTRACT> quit
+EXTRACT> init infile="qbound_schrodinger_vg3.str"
+EXTRACT> extract name="qbound_schrodinger_n_y_vg3" curve(depth,impurity="Electron Conc" material="All" x.val=12.037) outfile="qbound_schrodinger_n_y_vg3.dat"
+Extracting existing "Electron Conc" from structure, no re-calculations required
+EXTRACT> 
+EXTRACT> quit
+quit
+
+ATLAS version 5.28.1.R finished at Sat Sep 12 15:44:42 2026

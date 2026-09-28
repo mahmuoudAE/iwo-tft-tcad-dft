@@ -1,0 +1,41 @@
+{
+  "status": "UNVALIDATED_INDEPENDENT_REBUILD",
+  "key": "2p0",
+  "channel_nm": 2.0,
+  "region_ids": {
+    "IWO": 2,
+    "Al2O3": 3,
+    "HfO2": 4,
+    "TiN_ideal": 5
+  },
+  "y_boundaries_um": [
+    -0.07200000000000001,
+    -0.002,
+    0,
+    0.002,
+    0.017,
+    0.067
+  ],
+  "source_end_um": 2.0,
+  "drain_start_um": 22.0,
+  "probe_xy_um": [
+    12.037,
+    -0.00094
+  ],
+  "native_interface": "2/3 at y=0",
+  "extra_probe_names": [
+    "bulk_free_electrons",
+    "bulk_ionized_acceptors",
+    "bulk_ionized_donors"
+  ],
+  "surface_density_probe_distance_nm": null,
+  "external_structure_required": false,
+  "geometry_model": "Direct ATLAS, screened support excluded",
+  "enabled": {
+    "bulk_DOS": true,
+    "interface_DOS": false,
+    "mobility": "constant",
+    "contacts": "schottky",
+    "carrier_equations": "electrons"
+  }
+}

@@ -1,0 +1,248 @@
+% ===================================================================
+% chapters/02b_literature_in2o3.tex -- writer L2
+% Sections of the literature chapter (no \chapter): the In2O3 and IWO
+% device/material papers that supply numbers to the TCAD model.
+%   Si et al. 2021 (Nano Lett.), Lin et al. 2022 (ACS Nano),
+%   Si et al. 2022 (Nature Electronics), Wang et al. 2022 (Front. Mater.),
+%   Kim et al. 2024 (APL), and a closing cross-source comparison.
+% ASCII only. Page numbers follow CONVENTIONS section 5.
+% ===================================================================
+
+\section{Si et al.\ (2021): why \InO{} can make \SI{0.7}{nm} transistors}
+\label{sec:lit-si2021}
+
+\paragraph{Summary.}
+\citet{Si2021} demonstrate atomic-layer-deposited \InO{} transistors with channels down to
+sub-nanometre thickness and explain why an oxide with a very high bulk electron density (of order
+$10^{20}\cmcu$; \citealp[p.~500]{Si2021}) can still be switched off when it is thin enough. Their
+argument has two parts. First, the charge-neutrality (transition) level of bulk \InO{} lies about
+\SI{0.4}{eV} above the conduction-band edge \citep[pp.~503--504]{Si2021}, so surfaces and interfaces
+tend to donate electrons. Second, PBE slab calculations of \InO{} on \AlO{} show that thinning the film
+to \SI{1.5}{nm} raises $\Ec$ by about \SI{0.6}{eV} while $\Ev$ stays almost unchanged
+\citep[p.~504, Fig.~4]{Si2021}; the charge-neutrality level then falls below $\Ec$ and the film
+becomes depletable. The paper also uses a relatively low \InO{} dielectric constant of 8.9 (taken
+from Hamberg and Granqvist) to argue for good gate control \citep[p.~501]{Si2021}.
+
+\begin{usedbox}
+\textbf{Items used from \citet{Si2021}.}\par\smallskip
+\footnotesize
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{1.6cm}>{\raggedright\arraybackslash}p{1.4cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{1.35cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Quantity & Value & Page & How it enters the model & Section & Caveat \\
+\midrule
+$\dEc$ at \SI{1.5}{nm} & $\approx$\SI{0.6}{eV} & p.~504, Fig.~4b & one of three fit points of $\dEg(t) = 0.9205\,t^{-1.3815}$\,eV & \cref{sec:par-dec,sec:der-confinement} & pure \InO, crystalline slab on \AlO, PBE; $\pm$50\% uncertainty assigned \\
+Band-edge partition & $\Ev$ almost unchanged $\Rightarrow \dEc/\dEg = 1$ & p.~504 & the whole confinement shift is put on $\Ec$: $\chi(t) = \chi_{\mathrm{bulk}} - \dEc(t)$ & \cref{sec:par-chi,sec:par-eg} & one slab thickness only \\
+CNL/TNL above bulk $\Ec$ & $\approx$\SI{0.4}{eV} & pp.~503--504 & consistency check: $\mathrm{TNL}-\Ec(t) = 0.4 - \dEc(t)$ ($+0.05$\,eV at \SI{2}{nm}) predicts $\EF$ deeper and $\Vth$ more positive for thinner films; qualitative support for Ohmic S/D & \cref{sec:par-chi,sec:par-contacts,sec:der-vth-budget} & not a deck parameter; pure \InO \\
+\bottomrule
+\end{tabularx}
+\end{usedbox}
+
+\paragraph{Considered but not used.}
+The dielectric constant 8.9 (\citealp[p.~501]{Si2021}, from \citealp{Hamberg1986}) is kept only as
+a lower bound of the permittivity range; the model uses the C--V value 9.30 measured on the target
+process (\cref{sec:par-eps-iwo}), and the one sensitivity run on permittivity used the upper bound
+10.55 (\run{0026}). The bulk electron density of order $10^{20}\cmcu$ \citep[p.~500]{Si2021} refers
+to undoped ALD \InO{} and is not transferred to \IWO. The PBE absolute band gaps are not used
+(PBE underestimates them); only the slab-minus-bulk shift enters.
+
+\paragraph{Contradictions.}
+The Si2021 shift at \SI{1.5}{nm} (\SI{0.6}{eV}) lies between the Lin2022 shifts at 1.98 and
+\SI{0.95}{nm} (0.33 and \SI{0.94}{eV}; \cref{sec:lit-lin2022}) and is consistent with them, although the
+slabs differ in termination (\AlO{} versus hydrogen/vacuum) and in the code used. The quoted 8.9 conflicts with the
+bulk-crystal static value 10.55 of \citet[p.~225102-12]{Stokey2021} and with the target-process
+9.30; the spread (8.9--10.55) is carried as the permittivity uncertainty.
+
+\section{Lin et al.\ (2022): nanometre-thick \InO{} with ultra-high drain current}
+\label{sec:lit-lin2022}
+
+\paragraph{Summary.}
+\citet{Lin2022} report ALD \InO{} transistors on \HfO{} with very high drain currents and large sheet
+densities (an $n_{2D}$ of about $7.6\times10^{13}\cmsq$ is estimated for one device;
+\citealp[p.~21537]{Lin2022}). From the subthreshold swing they infer a high-quality \HfO/\InO{}
+interface with $\Dit \approx 6\times10^{11}$\,cm$^{-2}$\,eV$^{-1}$ and attribute the ease of
+accumulation to a charge-neutrality level about \SI{0.4}{eV} above $\Ec$ \citep[p.~21539]{Lin2022}.
+DFT (PBE) calculations of bulk and slab \InO{} give conduction-band effective masses of 0.17 (bulk),
+0.19 (\SI{3.52}{nm} slab), 0.23 (\SI{1.98}{nm}) and $0.30\,m_0$ (\SI{0.95}{nm}) \citep[p.~21540]{Lin2022},
+and the Methods list the PBE band gaps of bulk \InO, the \SI{1.98}{nm} slab and the \SI{0.95}{nm} slab
+as 0.94, 1.27 and \SI{1.88}{eV} \citep[p.~21542]{Lin2022}.
+
+\begin{usedbox}
+\textbf{Items used from \citet{Lin2022}.}\par\smallskip
+\footnotesize
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{1.8cm}>{\raggedright\arraybackslash}p{1.3cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{1.35cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Quantity & Value & Page & How it enters the model & Section & Caveat \\
+\midrule
+PBE gap, bulk / \SI{1.98}{nm} / \SI{0.95}{nm} & 0.94 / 1.27 / \SI{1.88}{eV} & p.~21542 & shifts $+0.33$ and $+0.94$\,eV = two fit points of $\dEg(t)$ & \cref{sec:par-dec,sec:der-confinement} & PBE absolute gaps not used; H-passivated slab in vacuum; the \SI{3.52}{nm} slab gap is not printed \\
+$\mstar$ bulk / 3.52 / 1.98 / \SI{0.95}{nm} & 0.17 / 0.19 / 0.23 / $0.30\,m_0$ & p.~21540 & increments 0.02, 0.06, $0.13\,m_0$ over bulk give $b = 0.1311$, $q = 1.4121$ in $\mstar(t) = 0.208 + b\,t^{-q}$; $\mstar$ also sets $\Nc(t)$ & \cref{sec:par-mstar,sec:par-nc} & PBE bulk 0.17 is below experiment 0.208; only the increment is used \\
+$\Dit$ (\HfO/\InO) & $6\times10^{11}$\,cm$^{-2}$\,eV$^{-1}$ & p.~21539 & upper literature bracket for the assumed Gaussian interface sheet $3\times10^{11}$\,cm$^{-2}$\,eV$^{-1}$ & \cref{sec:par-dit} & different interface (the target has \AlO/\IWO) \\
+CNL above $\Ec$ & $\approx$\SI{0.4}{eV} & p.~21539 & same consistency use as Si2021; context for Ohmic S/D & \cref{sec:par-chi,sec:par-contacts} & qualitative \\
+\bottomrule
+\end{tabularx}
+\end{usedbox}
+
+\paragraph{Considered but not used.}
+The very high sheet density and drain current \citep[p.~21537]{Lin2022} describe thick, highly
+conducting ALD \InO{} and are outside the range of the measured \IWO{} devices. The PBE bulk mass
+0.17 is replaced by the measured 0.208 (\cref{sec:lit-stokey2021}); only the slab-minus-bulk increment
+is kept, on the assumption that PBE errors cancel in the difference.
+
+\paragraph{Contradictions.}
+(i) The $\Dit$ unit is printed as cm$^{-1}$\,eV$^{-1}$ at p.~21539; it is read as the usual
+cm$^{-2}$\,eV$^{-1}$, consistent with the value 6.3$\times10^{11}$\,cm$^{-2}$\,eV$^{-1}$ of
+\citet[p.~4]{Wang2022}. (ii) PBE bulk $\mstar = 0.17\,m_0$ vs the experimental $0.208\,m_0$
+\citep[p.~225102-12]{Stokey2021} and the zero-density extrapolation 0.18 (Feneberg et al., as cited in
+\citealp[p.~225102-2]{Stokey2021}); V1 uses 0.208 plus the DFT increment
+(\file{docs/INPUT_INVENTORY.md} section G, item 1).
+
+\section{Si et al.\ (2022): scaled ALD \InO{} transistors}
+\label{sec:lit-si2022}
+
+\paragraph{Summary.}
+\citet{Si2022} scale ALD \InO{} transistors with high-$k$ gate stacks (the device structure includes
+Ni gate metal and \HfO{}, and EDX maps of a W/\HfO/\AlO/\InO/Ni stack are shown;
+\citealp[pp.~164--165]{Si2022}). They attribute the low contact resistance, below
+\SI{0.1}{\ohm\milli\metre}, to the charge-neutrality level of bulk \InO{} lying about
+\SI{0.4}{eV} above the conduction-band edge \citep[p.~167]{Si2022}. From capacitor
+$1/C^2$--$V$ analysis they estimate a donor density $N_D \approx 9.0\times10^{19}\cmcu$, using an
+\InO{} permittivity of about 8.9 \citep[p.~168]{Si2022}; the devices are annealed in O$_2$ at
+\SI{250}{\degreeCelsius} \citep[p.~169]{Si2022}.
+
+\begin{usedbox}
+\textbf{Items used from \citet{Si2022}.}\par\smallskip
+\footnotesize
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{1.7cm}>{\raggedright\arraybackslash}p{1.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{1.35cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Quantity & Value & Page & How it enters the model & Section & Caveat \\
+\midrule
+Contact resistance & $< \SI{0.1}{\ohm\milli\metre}$ & p.~167 & qualitative support for ideal Ohmic Pd S/D contacts (no Schottky barrier, $\Rsd = 0$ for the thin films) & \cref{sec:par-contacts} & different metal (Ni), pure \InO; no TLM exists for the target device \\
+CNL above $\Ec$ & $\approx$\SI{0.4}{eV} & p.~167 & mechanism behind the low contact barrier & \cref{sec:par-contacts} & qualitative \\
+\bottomrule
+\end{tabularx}
+\end{usedbox}
+
+\paragraph{Considered but not used.}
+The donor density $9.0\times10^{19}\cmcu$ \citep[p.~168]{Si2022} is that of undoped ALD \InO; the
+electrically active background donor density needed by the \IWO{} model is
+$\Ndeff \approx 2.5\times10^{17}\cmcu$ for the thin films (\cref{sec:par-nd}), 2--3 orders lower,
+consistent with W suppressing the oxygen-vacancy donors. The permittivity 8.9 (p.~168) is the same
+Hamberg value as in Si2021 and is treated as a lower bound only.
+
+\paragraph{Contradictions.}
+Apart from the donor density, which refers to a different material, no contradiction with the model
+exists. The low contact resistance supports, but does not prove, the Ohmic assumption for the
+\IWO/Pd contacts; the Y-function analysis of the measured curves provides the check at device level
+(\cref{sec:der-yfunction}).
+
+\section{Wang et al.\ (2022): interface and bulk traps in \HfO/\InO{} MOS capacitors}
+\label{sec:lit-wang2022}
+
+\paragraph{Summary.}
+\citet{Wang2022} characterise ALD \InO{} MOS capacitors with \HfO{} dielectric by C--V and
+conductance methods. They extract a donor density of about $10^{20}\cmcu$ and a high subgap density of
+states of $3.3\times10^{20}$\,cm$^{-3}$\,eV$^{-1}$ by the conductance method
+\citep[pp.~1--2]{Wang2022}, recall that the \InO{} charge-neutrality level lies above $\Ec$
+\citep[p.~2]{Wang2022}, and report an interface-trap density of $6.3\times10^{11}$\,cm$^{-2}$\,eV$^{-1}$
+for the \HfO/\InO{} interface, quoted from transistor data on p.~4 and estimated with the
+subthreshold method on p.~5 \citep[pp.~4--5]{Wang2022}. For the extraction they use $\varepsilon_S =
+8.9$ from optical measurements \citep[p.~4]{Wang2022}. A TCAD model with tail and Gaussian trap
+densities (bulk trap DOS up to $6\times10^{21}$\,cm$^{-3}$\,eV$^{-1}$) reproduces their C--V curves
+\citep[p.~6]{Wang2022}.
+
+\begin{usedbox}
+\textbf{Items used from \citet{Wang2022}.}\par\smallskip
+\footnotesize
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{1.8cm}>{\raggedright\arraybackslash}p{1.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{1.35cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Quantity & Value & Page & How it enters the model & Section & Caveat \\
+\midrule
+$\Dit$ (\HfO/\InO) & $6.3\times10^{11}$\,cm$^{-2}$\,eV$^{-1}$ & pp.~4--5 & literature bracket for the assumed interface sheet ($3\times10^{11}$ at $\Ec-0.3$\,eV, width 0.12\,eV) & \cref{sec:par-dit} & \HfO{} contact, not \AlO; undoped \InO \\
+TCAD trap representation & exponential tails + Gaussians & p.~6 & supports the ATLAS DEFECTS representation (tail + deep Gaussian) & \cref{sec:par-tail,sec:par-deep} & method only; their magnitudes are for undoped \InO \\
+\bottomrule
+\end{tabularx}
+\end{usedbox}
+
+\paragraph{Considered but not used.}
+The subgap DOS $3.3\times10^{20}$\,cm$^{-3}$\,eV$^{-1}$ \citep[pp.~1--2]{Wang2022} and the donor
+density $\sim10^{20}\cmcu$ (p.~1) describe undoped ALD \InO{} and are not transferred. For comparison,
+the model's tail intercept $\NTA$ is $5.0\times10^{20}$ (\SI{2}{nm}) to $6.3\times10^{19}$
+(\SI{31.8}{nm}) cm$^{-3}$\,eV$^{-1}$ at the band edge, falling exponentially into the gap
+(\cref{sec:par-tail}); the magnitudes are therefore of the same order near $\Ec$ but not comparable
+in energy resolution.
+
+\paragraph{Contradictions.}
+The $\Dit$ values of Lin2022 and Wang2022 agree ($\approx 6\times10^{11}$). The value
+$3\times10^{11}$ assumed in the model is a factor of 2 lower, because the target interface has an
+\AlO{} interlayer and the target paper reports a smoother interface for \IWO{}
+\citep[p.~8]{Januar2026}. The sensitivity to this value was tested with factors of $\times3$
+(\run{0025}, \SI{2}{nm}) and $\times5$ (\run{0033}, \SI{6.3}{nm}); neither variant explains the
+threshold offset of the \SI{6.3}{nm} film (\cref{sec:6p3-hypotheses}).
+
+\section{Kim et al.\ (2024): thickness-dependent stability of IWO transistors}
+\label{sec:lit-kim2024}
+
+\paragraph{Summary.}
+\citet{Kim2024} study RF-sputtered \IWO{} transistors (target \InO:\WO{} 99:1 by weight, SiO$_2$ gate
+oxide, anneal at \SI{300}{\degreeCelsius}; \citealp[p.~173507-2]{Kim2024}) with channel thicknesses
+of 10, 20 and \SI{30}{nm}. AFM roughness increases with thickness (values up to \SI{0.258}{nm} at
+\SI{30}{nm}; \citealp[p.~173507-3]{Kim2024}), and low-frequency-noise analysis gives bulk/border trap
+densities $N_{bt}$ of 2.37, 3.12 and $14.6\times10^{18}$\,cm$^{-3}$\,eV$^{-1}$ for 10, 20 and
+\SI{30}{nm} \citep[p.~173507-6]{Kim2024}. The work is the only bundled \IWO{} thickness series other
+than the target paper, but it is a different process on a different gate dielectric.
+
+\begin{usedbox}
+\textbf{Items used from \citet{Kim2024}.}\par\smallskip
+\footnotesize
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{2.0cm}>{\raggedright\arraybackslash}p{1.5cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{1.35cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Quantity & Value & Page & How it enters the model & Section & Caveat \\
+\midrule
+$N_{bt}$ at 10 / 20 / \SI{30}{nm} & 2.37 / 3.12 / $14.6\times10^{18}$\,cm$^{-3}$\,eV$^{-1}$ & p.~173507-6 & qualitative support for the steep rise of $\Ndeff(t) = 2.5\times10^{17}[1+(t/20\,\mathrm{nm})^4]$ beyond $\approx$\SI{20}{nm} (value $1.85\times10^{18}\cmcu$ at \SI{31.8}{nm}) & \cref{sec:par-nd} & a trap density, not a donor density; different process and gate dielectric \\
+\bottomrule
+\end{tabularx}
+\end{usedbox}
+
+\paragraph{Considered but not used.}
+The AFM roughness (p.~173507-3) is not used for $\Dsr$; the target paper's own fit
+($\Dsr = 2.87$\,\AA) applies to the target process (\cref{sec:par-rough}). The package extraction note
+also records a performance optimum near \SI{20}{nm} from this paper as support for the crystallinity
+hypothesis of the $\muband$ step. The paper does report that its \SI{20}{nm} devices combine the
+highest mobility with a low trap density \citep[pp.~173507-1, 173507-6]{Kim2024}, but it does not
+attribute this to crystallinity, so it is not used as evidence for that hypothesis here.
+
+\paragraph{Contradictions.}
+The $N_{bt}$ trend (traps \emph{increase} with thickness) runs opposite to the tail-trap trend of the
+target paper ($\Nt$ \emph{decreases} with thickness, \citealp[p.~7]{Januar2026}). The two quantities
+are different (border traps from noise vs band-tail states from transfer curves) and the processes
+differ, so no conflict is resolved or implied; Kim2024 is used only as a qualitative indication that
+thick \IWO{} films can carry a much larger density of electrically active defects.
+
+\section{Cross-source comparison of the \InO{} and IWO literature parameters}
+\label{sec:lit-l2-comparison}
+
+\Cref{tab:lit-crosscheck} collects the quantities reported by more than one source, with the value
+adopted by the model. Two general observations follow from it. First, every band-structure number is a
+pure-\InO{} proxy (from DFT or from measurement), and none was measured on \IWO. Second, the donor
+and trap densities reported for undoped ALD \InO{} ($\sim10^{20}\cmcu$) are 2--3 orders of magnitude
+above the values required by the \IWO{} transfer curves, so that the literature densities constrain the
+model only through trends and brackets.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Quantities reported by several sources, and the value adopted by the V1 model.}
+\label{tab:lit-crosscheck}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{3.3cm}@{}}
+\toprule
+Quantity & Reported values (source, page) & Adopted \\
+\midrule
+CNL/TNL above bulk $\Ec$ & $\approx$0.4\,eV \citep[pp.~503--504]{Si2021}; 0.4\,eV \citep[p.~21539]{Lin2022}; 0.4\,eV \citep[p.~167]{Si2022}; above 0.4\,eV \citep[p.~2]{Wang2022} & consistency check only \\
+Confinement shift & $\dEc \approx 0.6$\,eV at 1.5\,nm \citep[p.~504]{Si2021}; $\dEg = 0.33$ (1.98\,nm), 0.94\,eV (0.95\,nm) \citep[p.~21542]{Lin2022} & $0.9205\,t^{-1.3815}$\,eV (\cref{sec:par-dec}) \\
+Bulk $\mstar$ & 0.17 (PBE) \citep[p.~21540]{Lin2022}; 0.208 \citep[p.~225102-12]{Stokey2021}; 0.18 (zero density, Feneberg, cited in \citealp[p.~225102-2]{Stokey2021}) & $0.208\,m_0$ + DFT increment \\
+Permittivity & 8.9 (Hamberg, cited in \citealp[p.~501]{Si2021}; \citealp[p.~4]{Wang2022}; \citealp[p.~168]{Si2022}); 10.55 \citep[p.~225102-12]{Stokey2021}; 9.30 \IWO{} and 9.03 \InO{} (SI Fig.~S1b of \citealp{JanuarSI2026}, not bundled; values via the Astra audit, caption printed in \citealp[p.~11]{Januar2026}) & 9.30 (\cref{sec:par-eps-iwo}); 10.55 tested in \run{0026} \\
+$\Dit$ & $6\times10^{11}$ \citep[p.~21539]{Lin2022}; $6.3\times10^{11}$ \citep[pp.~4--5]{Wang2022} (cm$^{-2}$\,eV$^{-1}$, \HfO/\InO) & $3\times10^{11}$ \prov{ASSUMED} \\
+Donor density & $\sim10^{20}$ \citep[p.~500]{Si2021}; $\sim10^{20}$ \citep[p.~1]{Wang2022}; $9.0\times10^{19}$ \citep[p.~168]{Si2022} (undoped ALD \InO) & $\Ndeff(t) = 2.5\times10^{17}$--$1.85\times10^{18}\cmcu$ \prov{FITTED} \\
+Trap trend with $t$ & $\Nt$ $\times4$ from 13.2 to 2\,nm \citep[p.~7]{Januar2026}; $N_{bt}$ rising 10$\rightarrow$30\,nm \citep[p.~173507-6]{Kim2024} & $\Nt \propto t^{-0.75}$ \\
+\bottomrule
+\end{tabularx}
+\end{table}

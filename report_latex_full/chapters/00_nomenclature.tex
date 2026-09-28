@@ -1,0 +1,198 @@
+% ===================================================================
+% 00_nomenclature.tex -- Nomenclature (writer C1). ASCII only.
+% ===================================================================
+\chapter*{Nomenclature}
+\addcontentsline{toc}{chapter}{Nomenclature}
+\phantomsection\label{ch:nomenclature}
+
+This list fixes the meaning of every symbol, abbreviation, provenance label and evidence class used in the report.
+Values given here are those of the device and of the model as used throughout; the chapter or section in which a quantity is
+derived is given in the last column where applicable. All currents are per micrometre of channel width
+(A/$\mu$m); the simulated two-dimensional cross-section has a width of \SI{1}{\micro\metre}
+(\cref{sec:inp-geometry}), and the total current of the \SI{290}{\micro\metre} wide device is 290 times the quoted value.
+
+\section*{Device and bias symbols}
+{\small
+\begin{longtable}{@{}p{0.17\linewidth}p{0.53\linewidth}p{0.24\linewidth}@{}}
+\toprule
+Symbol & Meaning & Unit / value \\
+\midrule
+\endfirsthead
+\toprule
+Symbol & Meaning & Unit / value \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+$\tIWO$, $t$ & IWO channel thickness (nominal film thickness of the measured series) & nm; 2.0, 6.3, 13.2, 31.8 \\
+$L$ & channel length (gap between the Pd source and drain) & \SI{20}{\micro\metre} \\
+$W$ & physical channel width & \SI{290}{\micro\metre} \\
+$\Vg$, $\Vd$ & gate and drain voltage (source grounded) & V; $\Vd = \SI{0.7}{V}$ for all transfer curves \\
+$\Id$, $\Ig$, $\Is$ & drain, gate and source terminal currents & A/$\mu$m \\
+$\Cox$ & gate-stack capacitance per area (\HfO{} \SI{15}{nm} + \AlO{} \SI{2}{nm} in series) & \SI{8.955e-7}{\farad\per\centi\metre\squared} \\
+$\EOT$ & equivalent SiO$_2$ thickness of the stack & \SI{3.86}{nm} \\
+$q/\Cox$ & gate-voltage equivalent of a sheet charge of $10^{12}\cmsq$ & \SI{0.179}{V} \\
+$T$ & lattice temperature (not recorded for the measurement; assumed) & \SI{300}{K} \\
+$\kT$ & thermal energy at \SI{300}{K} & \SI{25.85}{meV} \\
+\end{longtable}}
+
+\section*{Extracted metrics}
+The same extractor (\file{scripts/extract_metrics.py}) is applied to measured and simulated curves; the definitions are
+derived in \cref{sec:der-metrics}.
+{\small
+\begin{longtable}{@{}p{0.17\linewidth}p{0.53\linewidth}p{0.24\linewidth}@{}}
+\toprule
+Symbol & Meaning & Unit \\
+\midrule
+\endfirsthead
+\toprule
+Symbol & Meaning & Unit \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+$\Vthcc$ & constant-current threshold voltage, $\Vg$ at $\Id = 10^{-9}\Aum$ & V \\
+$\Vthlin$ & linear-extrapolation threshold voltage (tangent at the transconductance maximum) & V \\
+$\gm$, $\gmmax$ & transconductance $\partial\Id/\partial\Vg$ and its maximum & A/(V\,$\mu$m) \\
+$\SSfix{I_1}{I_2}$ & fixed-current subthreshold swing: gate-voltage span per decade between the currents $I_1$ and $I_2$ (A/$\mu$m) & mV/dec \\
+$\SScc$ & fixed-current swing between $10^{-10}$ and $10^{-8}\Aum$ & mV/dec \\
+$\SSmin$ & minimum local swing of a curve; not a reliable metric (grid-phase and floor-window artefacts, \cref{sec:num-convergence}); reported for history only & mV/dec \\
+$\muFE$ & linear-regime field-effect mobility, $L\,\gmmax/(W\Cox\Vd)$ & \cmVs \\
+$\musat$ & saturation-formula mobility, $(2L/W\Cox)\,(\mathrm{d}\sqrt{\Id}/\mathrm{d}\Vg)^2_{\max}$, applied at $\Vd = \SI{0.7}{V}$ & \cmVs \\
+$\Ion$ & drain current at $\Vg = \SI{3}{V}$ & A/$\mu$m \\
+$\Ioff$, off-floor & median measured current in the off-band $-2 \le \Vg \le -0.5$\,V & A/$\mu$m \\
+active region & measured points with $\Id > 5\times$ the off-floor (all points for $t \ge \SI{20}{nm}$); used for the fit residual & -- \\
+active RMSE & root-mean-square of $\log_{10}\Id^{\mathrm{sim}} - \log_{10}\Id^{\mathrm{meas}}$ over the active region & dec \\
+\end{longtable}}
+
+\section*{Material and model parameters}
+{\small
+\begin{longtable}{@{}p{0.17\linewidth}p{0.53\linewidth}p{0.24\linewidth}@{}}
+\toprule
+Symbol & Meaning & Unit / section \\
+\midrule
+\endfirsthead
+\toprule
+Symbol & Meaning & Unit / section \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+$\Eg$ & band gap (bulk value plus confinement increment) & eV, \cref{sec:par-eg} \\
+$\chiIWO$ & electron affinity & eV, \cref{sec:par-chi} \\
+$\dEc$, $\dEg$ & confinement shift of the conduction-band edge; equal to the gap increment ($\Ev$ unchanged) & eV, \cref{sec:par-dec} \\
+$\mstar$ & electron effective mass (enters only $\Nc$) & $m_0$, \cref{sec:par-mstar} \\
+$\Nc$, $\Nv$ & effective conduction- and valence-band densities of states & \cmcu, \cref{sec:par-nc,sec:par-nv} \\
+$\epsIWO$ & relative permittivity of IWO & 9.3, \cref{sec:par-eps-iwo} \\
+$\Nt$ & integrated acceptor-like tail density, $\NTA\WTA$ & \cmcu, \cref{sec:par-tail} \\
+$\NTA$, $\WTA$ & tail DOS at $\Ec$ and its characteristic energy ($g_{\mathrm{TA}} = \NTA\exp[(E-\Ec)/\WTA]$) & \si{cm^{-3}.eV^{-1}}, eV \\
+$\NGA$, $\EGA$, $\WGA$ & amplitude, depth below $\Ec$ and width of a Gaussian acceptor band & \si{cm^{-3}.eV^{-1}}, eV, eV \\
+$\Dit$ & interface acceptor sheet at the IWO/\AlO{} interface (regularized in a \SI{0.25}{nm} layer) & \si{cm^{-2}.eV^{-1}}, \cref{sec:par-dit} \\
+$\Qf$ & fixed front-interface charge density (in units of $q$) & \cmsq, \cref{sec:par-qf} \\
+$\Qb$ & fixed charge on the exposed back (IWO/air) surface & \cmsq, \cref{sec:par-backq} \\
+$\Ndeff$ & effective ionized background donor density (not the W concentration) & \cmcu, \cref{sec:par-nd} \\
+$\muband$ & constant band mobility of a film (fitted per thickness) & \cmVs, \cref{sec:par-mu} \\
+MUN & ATLAS constant electron mobility, $\muband(1-\Dsr/t)^2$ & \cmVs \\
+$\Dsr$ & surface-roughness length of the roughness factor & \SI{0.287}{nm}, \cref{sec:par-rough} \\
+$\Rsd$ & source/drain series resistance (zero in the model: ideal Ohmic contacts) & $\Omega\,\mu$m, \cref{sec:par-contacts} \\
+$\Ea$ & activation energy of $\Id$ at fixed $\Vg$ & meV, \cref{sec:der-activation} \\
+tmu, TMUN & ATLAS exponent of the constant-mobility temperature law $\mu(T) = \mu(300)(T/300)^{-\mathrm{TMUN}}$ & 1.5 (default, \cref{sec:par-temperature}) \\
+NUMA/NUMD & number of energy levels used by ATLAS to integrate the continuous acceptor/donor DOS & 96/48 or 384/192, \cref{sec:der-dos-discretization} \\
+\end{longtable}}
+
+\section*{Abbreviations}
+{\small
+\begin{longtable}{@{}p{0.17\linewidth}p{0.77\linewidth}@{}}
+\toprule
+Abbreviation & Meaning \\
+\midrule
+\endfirsthead
+\toprule
+Abbreviation & Meaning \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+IWO & tungsten-doped indium oxide (about 2 at.\,\% W in \InO{}; composition definition not determined from the available data) \\
+TFT & thin-film transistor \\
+TCAD & technology computer-aided design (here: Silvaco ATLAS 5.28.1.R drift-diffusion) \\
+ALD & atomic layer deposition \\
+RTA & rapid thermal annealing \\
+DOS & density of states \\
+DFT, PBE & density functional theory; Perdew-Burke-Ernzerhof functional \\
+EMA & effective-mass approximation \\
+SP & Schr\"odinger-Poisson (1-D surrogate of specialist S3) \\
+MTR & multiple trapping and release \\
+SRH & Shockley-Read-Hall recombination \\
+KCL & Kirchhoff current law check, $\max|\Id+\Is+\Ig|$ \\
+CNL & charge-neutrality level \\
+TLM & transfer-length method (not available) \\
+PBS & positive bias stress \\
+SI & supporting information of \citet{Januar2026} (not bundled) \\
+V0, V1 & earlier per-thickness package (\file{IWO_ATLAS_Model_claude}, 34 launches) and the present physics-constrained package \\
+Astra & earlier independent package (\file{astra_IWO_PRIORITY_THREE_20260912}), used for cross-checks \\
+S1--S6 & specialist analyses of 2026-09-25 (S1 electrostatics, S2 transport, S3 confinement, S4 defects, S5 contacts/validation, S6 numerics/predictions) \\
+\end{longtable}}
+
+\section*{Run identifiers}
+Every simulated number carries its run identifier \run{NNNN} ($\mathrm{NNNN} = 0001\ldots0052$), the name of the folder
+\file{results/runs/run_NNNN_<film>_<label>} in the package; the film key is written \texttt{2p0}, \texttt{6p3},
+\texttt{13p2}, \texttt{31p8}. The complete list is \cref{tab:run-catalogue} (\cref{ch:app-runs}). Run identifiers of the
+earlier V0 package are always written ``V0 run\_NNNN'' to avoid confusion. Campaign codes of 2026-09-25 map onto run
+identifiers as follows: A1 = \run{0031}, A2 = \run{0032}, A3 = \run{0030}, A4 = \run{0033}, A5 = \run{0035},
+A6 = \run{0034}, A7 = \run{0036}; B0 = \run{0037}, B1--B3 = \run{0038}--\run{0040}, B4--B7 = \run{0048}--\run{0051}
+(isolation tests), B8--B10 = \run{0041}--\run{0043} ($\Id$--$\Vd$ predictions), B11--B14 = \run{0044}--\run{0047}
+(elevated temperature); C1 = \run{0052}.
+
+\section*{Provenance labels}
+Every parameter carries one label; the labels are those of \file{config/iwo_material_model.yaml} and the master table
+\cref{tab:provenance-master}.
+{\small
+\begin{longtable}{@{}p{0.30\linewidth}p{0.64\linewidth}@{}}
+\toprule
+Label & Meaning \\
+\midrule
+\endfirsthead
+\toprule
+Label & Meaning \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\prov{MEASURED\_TARGET\_DEVICE} & measured on, or stated for, the target devices of \citet{Januar2026} or the user's schematic and workbook \\
+\prov{LITERATURE\_IWO} & value reported for IWO, but for a different device or process \\
+\prov{MEASURED\_RELATED\_MATERIAL} & measured on a related material (e.g.\ bulk \InO{}) \\
+\prov{DFT\_PURE\_IN2O3\_PROXY} & computed by DFT for pure \InO{} slabs and used as a proxy for IWO \\
+\prov{LITERATURE\_IN2O3\_PROXY} & literature value for an \InO{} device used as a proxy (e.g.\ $\Dit$ of \HfO{}/\InO{}) \\
+\prov{FITTED} & adjusted to the measured transfer curves of this study (calibration) \\
+\prov{ASSUMED} & chosen without direct evidence; the choice and its sensitivity are stated \\
+\prov{CALCULATED} & computed from other labelled quantities by a stated formula \\
+\end{longtable}}
+
+\section*{Evidence classes and verdicts}
+{\small
+\begin{longtable}{@{}p{0.17\linewidth}p{0.77\linewidth}@{}}
+\toprule
+Class & Meaning \\
+\midrule
+\endfirsthead
+\toprule
+Class & Meaning \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\evDATA & a measured curve or a number extracted from it \\
+\evNUM & converged ATLAS result; a statement about the model, not about the device \\
+\evCAL & agreement with the same curve that was used to fit the parameters (calibration, not validation) \\
+\evOOS & out-of-sample test designed before the outcome was known \\
+\evPOST & test designed or evaluated after the outcome was known \\
+\evPRED & registered prediction, not yet tested against measurement \\
+\evSURR & result of a specialist surrogate model (1-D Poisson, SP, charge sheet), not of ATLAS \\
+\evTHEORY & analytic argument \\
+\evLIT & statement of the literature, with page \\
+\evCORR & correction of an earlier claim of this project \\
+\end{longtable}}
+Verdicts are \verdict{demonstrated}, \verdict{strongly supported}, \verdict{plausible, unverified},
+\verdict{rejected} and \verdict{not determined}. ``Calibrated'' (\evCAL) and ``validated'' (\evOOS{} passed) are never used
+interchangeably.

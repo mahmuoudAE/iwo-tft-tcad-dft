@@ -1,0 +1,40 @@
+{
+  "run_id": "run_0041",
+  "thickness_nm": 2.0,
+  "label": "pred_idvd_2p0",
+  "mode": "output_prediction",
+  "elapsed_s": 1266.1339467999933,
+  "returncode": 0,
+  "timed_out": false,
+  "scan": {
+    "warnings": [
+      "Warning: Projection cannot be done with",
+      "Warning: Projection cannot be done with",
+      "Warning: Projection cannot be done with",
+      "Warning: Projection cannot be done with"
+    ],
+    "convergence_flags": [],
+    "errors": [],
+    "banner": true,
+    "finished": true,
+    "static_solutions": 271
+  },
+  "overrides": [
+    "traps.fixed_interface_charge_Qf_cm2.value=1.73e12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=17.6897",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192"
+  ],
+  "output_vgs": [
+    1.0,
+    1.5,
+    2.0,
+    2.5,
+    3.0
+  ],
+  "validation": {
+    "max_kcl_abs_A": 9.99999999987899e-15,
+    "kcl_fail_count": 0
+  },
+  "status": "REAL_ATLAS_PREDICTION"
+}

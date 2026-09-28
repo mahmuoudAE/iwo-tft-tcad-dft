@@ -1,0 +1,29 @@
+ratio D_meas / D_ATLAS-inverted (same inversion, V1 mobilities) vs u
+  t=  2.0:  2.84  2.20  1.18  0.94  0.86  0.81  0.85  0.98  1.20  1.35  1.16   (u = -0.200, -0.175, -0.150, -0.125, -0.100, -0.075, -0.050, -0.025, -0.000, +0.025, +0.050)
+  t=  6.3:   -     -    2.60  0.90  0.96  0.98  1.25  1.46  1.72  0.87  0.25   (u = -0.200, -0.175, -0.150, -0.125, -0.100, -0.075, -0.050, -0.025, -0.000, +0.025, +0.050)
+  t= 13.2:   -     -     -   30.39  1.05  0.87  1.17  1.05  1.05  0.74  0.24   (u = -0.200, -0.175, -0.150, -0.125, -0.100, -0.075, -0.050, -0.025, -0.000, +0.025, +0.050)
+
+integrated excess trapped sheet charge at 6.3 nm, measured minus run_0015 (cm^-2):
+  V1 mun       u in [-0.169,-0.100] : +3.275e+11
+  V1 mun       u in [-0.100,+0.000] : +6.467e+11
+  V1 mun       u in [+0.000,+0.088] : -9.832e+11
+  V1 mun       u in [-0.169,+0.088] : -7.848e+09
+  S2 partition u in [-0.183,-0.100] : +5.486e+11
+  S2 partition u in [-0.100,+0.000] : +1.945e+12
+  S2 partition u in [+0.000,+0.059] : +1.631e+12
+  S2 partition u in [-0.183,+0.059] : +4.122e+12
+  (needed from the Vth_lin-Vth_cc gap: +1.99e12)
+  t=2.0: u(source) at Vth_lin 1.663 V = +0.063 eV ; at Vth_cc: see below
+  t=6.3: u(source) at Vth_lin 1.82 V = +0.028 eV ; at Vth_cc: see below
+  t=13.2: u(source) at Vth_lin 1.044 V = -0.003 eV ; at Vth_cc: see below
+  t=2.0: u(source) at Vth_cc 0.662 V = -0.051 eV ; n_s0 = 8.71e+10 cm^-2
+  t=6.3: u(source) at Vth_cc 0.644 V = -0.071 eV ; n_s0 = 1.01e+11 cm^-2
+  t=13.2: u(source) at Vth_cc 0.083 V = -0.118 eV ; n_s0 = 3.52e+10 cm^-2
+
+floor vs channel current at Vg = 0 V (measured):
+  t=2.0: Id(0 V) = 5.37e-15 A/um, floor 4.61e-15, floor/Id(0) = 0.858
+  t=6.3: Id(0 V) = 1.84e-13 A/um, floor 1.53e-13, floor/Id(0) = 0.831
+  t=13.2: Id(0 V) = 2.34e-10 A/um, floor 6.60e-12, floor/Id(0) = 0.028
+  isolated film t=2.0: EF-Ec = -0.208 eV, n0 = 1.05e+15 cm^-3, q n0 mu t = 4.47e-10 S/sq
+  isolated film t=6.3: EF-Ec = -0.173 eV, n0 = 3.13e+15 cm^-3, q n0 mu t = 3.37e-09 S/sq
+  isolated film t=13.2: EF-Ec = -0.145 eV, n0 = 9.11e+15 cm^-3, q n0 mu t = 1.14e-07 S/sq

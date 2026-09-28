@@ -1,0 +1,27 @@
+{
+  "run_id": "run_0053",
+  "thickness_nm": 2.0,
+  "label": "check_overlap_4um_meshfixed_dos384",
+  "elapsed_s": 902.0973210000084,
+  "returncode": 1,
+  "timed_out": true,
+  "scan": {
+    "warnings": [
+      "Warning: Projection cannot be done with"
+    ],
+    "convergence_flags": [],
+    "errors": [],
+    "banner": false,
+    "finished": false,
+    "static_solutions": 59
+  },
+  "requested_points": 76,
+  "overrides": [
+    "traps.fixed_interface_charge_Qf_cm2.value=1.73e12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=17.69",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "geometry.contact_overlap_um.value=4.0"
+  ],
+  "status": "TIMEOUT"
+}

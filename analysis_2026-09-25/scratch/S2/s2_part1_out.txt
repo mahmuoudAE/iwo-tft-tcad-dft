@@ -1,0 +1,83 @@
+=== A. Measured curve features (Cox 8.955e-7, L 20 um, Vd 0.7 V) ===
+t=  2.0 Vcc=0.662 Vlin=1.663 gap=1.001 V  gm_max=3.807e-07 at Vg=3.00  mu_FE=12.15  Ion/gm=1.337 V  gm(3V)/gm_max=1.000  mu_sat-formula=5.09  mu_eff(Id/ov)max=16.08
+t=  6.3 Vcc=0.644 Vlin=1.820 gap=1.176 V  gm_max=3.431e-07 at Vg=2.85  mu_FE=10.95  Ion/gm=1.176 V  gm(3V)/gm_max=0.981  mu_sat-formula=3.86  mu_eff(Id/ov)max=15.01
+t= 13.2 Vcc=0.083 Vlin=1.044 gap=0.962 V  gm_max=1.572e-06 at Vg=2.80  mu_FE=50.17  Ion/gm=1.953 V  gm(3V)/gm_max=0.978  mu_sat-formula=27.40  mu_eff(Id/ov)max=73.14
+t=31.8 gm_max=1.541e-06 A/V/um at Vg=-0.30 -> apparent mu_FE=49.2 cm2/Vs (always-on film, context only)
+Paper peak mu_FE 5.1 (2 nm) / 27.4 (13.2 nm); ratio paper/workbook = 0.42 0.546
+  variant mu_sat: 2 nm 5.09, 13.2 nm 27.40; 13.2/2 ratio 5.39 (paper 13.2/2 = 5.37; workbook linear = 4.13)
+  variant mu_eff: 2 nm 16.08, 13.2 nm 73.14; 13.2/2 ratio 4.55 (paper 13.2/2 = 5.37; workbook linear = 4.13)
+  series-C(t) hypothesis t=2.0: C=7.355e-07, mu would be 14.8 (moves the wrong way)
+  series-C(t) hypothesis t=13.2: C=3.677e-07, mu would be 122.2 (moves the wrong way)
+
+=== B. ATLAS runs: same features, decomposition mu_FE = mu_band x R(t) x P ===
+run_0012 t=2.0 Vcc=0.676 Vlin=1.559 gap=0.882 gm=3.531e-07 mu_FE=11.27 Ion=5.090e-07 Ion/gm=1.441 roll=1.000 | mu_band=18.13 R=0.734 mun=13.30 P=mu_FE/mun=0.847
+run_0023 t=2.0 Vcc=0.758 Vlin=1.841 gap=1.083 gm=3.292e-07 mu_FE=10.50 Ion=3.815e-07 Ion/gm=1.159 roll=1.000 | mu_band=18.13 R=0.734 mun=13.30 P=mu_FE/mun=0.790
+run_0016 t=2.0 Vcc=0.361 Vlin=1.260 gap=0.899 gm=3.551e-07 mu_FE=11.33 Ion=6.179e-07 Ion/gm=1.740 roll=1.000 | mu_band=18.13 R=0.734 mun=13.30 P=mu_FE/mun=0.852
+run_0014 t=6.3 Vcc=0.350 Vlin=1.212 gap=0.862 gm=2.860e-07 mu_FE=9.13 Ion=5.114e-07 Ion/gm=1.788 roll=1.000 | mu_band=12.4 R=0.911 mun=11.30 P=mu_FE/mun=0.808
+run_0015 t=6.3 Vcc=0.651 Vlin=1.471 gap=0.820 gm=2.639e-07 mu_FE=8.42 Ion=4.034e-07 Ion/gm=1.529 roll=1.000 | mu_band=11.69 R=0.911 mun=10.65 P=mu_FE/mun=0.791
+run_0013 t=13.2 Vcc=0.053 Vlin=0.999 gap=0.946 gm=1.534e-06 mu_FE=48.95 Ion=3.070e-06 Ion/gm=2.001 roll=1.000 | mu_band=61.9 R=0.957 mun=59.24 P=mu_FE/mun=0.826
+run_0017 t=13.2 Vcc=0.030 Vlin=0.979 gap=0.949 gm=1.533e-06 mu_FE=48.92 Ion=3.099e-06 Ion/gm=2.021 roll=1.000 | mu_band=61.9 R=0.957 mun=59.24 P=mu_FE/mun=0.826
+Log-decomposition of measured mu_FE ratios (band, roughness, partition, model residual):
+  6.3->13.2: total ln=1.522 (x4.58); band 1.667 (109%), roughness 0.049 (3%), partition 0.044 (3%), residual -0.238 (-16%)
+  2.0->13.2: total ln=1.418 (x4.13); band 1.228 (87%), roughness 0.266 (19%), partition -0.025 (-2%), residual -0.051 (-4%)
+  2.0->6.3: total ln=-0.104 (x0.90); band -0.439 (422%), roughness 0.217 (-208%), partition -0.069 (67%), residual 0.187 (-180%)
+
+=== C. Degeneracy Jacobian at 2 nm (run_0012 base; Nt x1.5 = run_0023; mu exact-linear; Qf rigid) ===
+  per unit ln(Nt): {'Vcc': np.float64(0.2023), 'gap': np.float64(0.4945), 'lngm': np.float64(-0.1731), 'lnIon': np.float64(-0.7112)}
+  -> Ion is threshold-dominated: dlnIon/dlnNt = -0.711 vs dln gm/dlnNt = -0.173
+  Nt needed to change mu_FE by x4.6 via partition alone (linearised): ln Nt change = 8.8 -> factor 6.7e+03
+  6.3 nm residual (exp - run_0015): dVcc=-0.007 V, dgap=+0.356 V, dln gm=+0.263
+  solution: Nt x2.05 (Nt6.3 -> 1.74e+19 cm-3), mu_band x1.47 (-> 17.2), rigid dV=-0.153 V (Qf change +8.52e+11 cm-2 -> Qf ~ 9.39e+11)
+    Jacobian scale 1.00: Nt x2.05, mu_band 17.2, Qf ~ 9.39e+11
+    Jacobian scale 1.32: Nt x1.72, mu_band 17.2, Qf ~ 9.39e+11
+    Jacobian scale 2.00: Nt x1.43, mu_band 17.2, Qf ~ 9.39e+11
+
+=== D. Thickness-law form tests (3 thin films) ===
+mu_FE: [12.1459, 10.9467, 50.1662]
+   power   a t^0.68                         rms rel resid  0.558  max  0.886 | LOO(2,13.2)->6.3: 28.77 vs 10.95 (2.63x)
+   A+B/t   39.7+-62.6/t                     rms rel resid  1.025  max  1.723 | LOO(2,13.2)->6.3: 42.73 vs 10.95 (3.90x)
+   exp     a exp(0.135 t)                   rms rel resid  0.344  max  0.529 | LOO(2,13.2)->6.3: 20.94 vs 10.95 (1.91x)
+   linear  -1.45+3.61 t                     rms rel resid  0.626  max  0.945 | LOO(2,13.2)->6.3: 26.74 vs 10.95 (2.44x)
+   step    step 11.5|50.2 (tc in 6.3-13.2)  rms rel resid  0.043  max  0.055 | LOO(2,13.2)->6.3: 12.15 vs 10.95 (1.11x)
+Ion: [0.0, 0.0, 0.0]
+   power   a t^0.85                         rms rel resid  0.851  max  1.387 | LOO(2,13.2)->6.3: 1.518e-06 vs 4.034e-07 (3.76x)
+   A+B/t   2.35e-06+-4.19e-06/t             rms rel resid  1.871  max  3.186 | LOO(2,13.2)->6.3: 2.57e-06 vs 4.034e-07 (6.37x)
+   exp     a exp(0.173 t)                   rms rel resid  0.525  max  0.830 | LOO(2,13.2)->6.3: 1.015e-06 vs 4.034e-07 (2.52x)
+   linear  -4.17e-07+2.44e-07 t             rms rel resid  1.137  max  1.768 | LOO(2,13.2)->6.3: 1.492e-06 vs 4.034e-07 (3.70x)
+   step    step 4.56e-07|3.07e-06 (tc in 6.3-13.2) rms rel resid  0.096  max  0.131 | LOO(2,13.2)->6.3: 5.09e-07 vs 4.034e-07 (1.26x)
+gm_max: [0.0, 0.0, 0.0]
+   power   a t^0.68                         rms rel resid  0.558  max  0.886 | LOO(2,13.2)->6.3: 9.018e-07 vs 3.431e-07 (2.63x)
+   A+B/t   1.25e-06+-1.96e-06/t             rms rel resid  1.025  max  1.723 | LOO(2,13.2)->6.3: 1.339e-06 vs 3.431e-07 (3.90x)
+   exp     a exp(0.135 t)                   rms rel resid  0.344  max  0.529 | LOO(2,13.2)->6.3: 6.563e-07 vs 3.431e-07 (1.91x)
+   linear  -4.53e-08+1.13e-07 t             rms rel resid  0.626  max  0.945 | LOO(2,13.2)->6.3: 8.382e-07 vs 3.431e-07 (2.44x)
+   step    step 3.62e-07|1.57e-06 (tc in 6.3-13.2) rms rel resid  0.043  max  0.055 | LOO(2,13.2)->6.3: 3.807e-07 vs 3.431e-07 (1.11x)
+mu_band_fit: [18.13, 11.69, 61.9]
+   power   a t^0.56                         rms rel resid  0.730  max  1.178 | LOO(2,13.2)->6.3: 38.25 vs 11.69 (3.27x)
+   A+B/t   47.1+-67.7/t                     rms rel resid  1.244  max  2.114 | LOO(2,13.2)->6.3: 53.34 vs 11.69 (4.56x)
+   exp     a exp(0.122 t)                   rms rel resid  0.517  max  0.815 | LOO(2,13.2)->6.3: 29.05 vs 11.69 (2.49x)
+   linear  0.304+4.22 t                     rms rel resid  0.811  max  1.302 | LOO(2,13.2)->6.3: 34.93 vs 11.69 (2.99x)
+   step    step 14.9|61.9 (tc in 6.3-13.2)  rms rel resid  0.189  max  0.275 | LOO(2,13.2)->6.3: 18.13 vs 11.69 (1.55x)
+Vth_cc: [0.6618, 0.644, 0.0825]
+   power   a t^-1.01                        rms rel resid  0.535  max  0.639 | LOO(2,13.2)->6.3: 0.1866 vs 0.644 (0.29x)
+   A+B/t   0.222+0.984/t                    rms rel resid  1.516  max  2.592 | LOO(2,13.2)->6.3: 0.1958 vs 0.644 (0.30x)
+   exp     a exp(-0.196 t)                  rms rel resid  0.335  max  0.397 | LOO(2,13.2)->6.3: 0.2976 vs 0.644 (0.46x)
+   linear  0.853+-0.0545 t                  rms rel resid  0.386  max  0.623 | LOO(2,13.2)->6.3: 0.4394 vs 0.644 (0.68x)
+   step    step 0.653|0.0825 (tc in 6.3-13.2) rms rel resid  0.011  max  0.014 | LOO(2,13.2)->6.3: 0.6618 vs 0.644 (1.03x)
+Vth_lin: [1.6631, 1.82, 1.0441]
+   power   a t^-0.22                        rms rel resid  0.167  max  0.217 | LOO(2,13.2)->6.3: 1.253 vs 1.82 (0.69x)
+   A+B/t   1.29+0.901/t                     rms rel resid  0.214  max  0.299 | LOO(2,13.2)->6.3: 1.165 vs 1.82 (0.64x)
+   exp     a exp(-0.045 t)                  rms rel resid  0.121  max  0.161 | LOO(2,13.2)->6.3: 1.391 vs 1.82 (0.76x)
+   linear  1.94+-0.0606 t                   rms rel resid  0.113  max  0.142 | LOO(2,13.2)->6.3: 1.425 vs 1.82 (0.78x)
+   step    step 1.74|1.04 (tc in 6.3-13.2)  rms rel resid  0.037  max  0.047 | LOO(2,13.2)->6.3: 1.663 vs 1.82 (0.91x)
+Ion power law through 6.3/13.2 (exponent 2.74) predicts Ion(31.8) = 3.43e-05 vs measured 3.59e-06 A/um; pure series-R ceiling 0.7 V/9e4 ohm.um = 7.8e-06
+Ion power law through 2/13.2 (exponent 0.95) predicts Ion(31.8) = 7.09e-06
+
+=== E. Model laws: Nt surface+bulk decomposition, dEc vs EMA upper bound, m* ===
+Nt = A + B/t through the V1 anchors: A=2.15e+18 cm-3, B=3.57e+12 cm-2 (sheet); at 6.3: 7.82e+18 vs power law 8.46e18
+Januar2026 internal Nt values: 5.3e19 (2 nm) / 3.39e18 (10 nm) -> exponent 1.71 ; Sec.2.8 "x4 from 13.2 to 2" -> exponent 0.73
+t= 1.98 dEc law 0.3582 eV | infinite-well EMA upper bound m*=0.208: 0.4611, m*(t): 0.3718 | law/EMA = 0.78
+t= 2.00 dEc law 0.3533 eV | infinite-well EMA upper bound m*=0.208: 0.4519, m*(t): 0.3654 | law/EMA = 0.78
+t= 3.00 dEc law 0.2018 eV | infinite-well EMA upper bound m*=0.208: 0.2009, m*(t): 0.1772 | law/EMA = 1.00
+t= 6.30 dEc law 0.0724 eV | infinite-well EMA upper bound m*=0.208: 0.0455, m*(t): 0.0435 | law/EMA = 1.59
+t=13.20 dEc law 0.0261 eV | infinite-well EMA upper bound m*=0.208: 0.0104, m*(t): 0.0102 | law/EMA = 2.51
+law exceeds the infinite-well parabolic bound (m*=0.208) for t > 2.98 nm

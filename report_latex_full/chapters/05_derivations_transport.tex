@@ -1,0 +1,750 @@
+% ===================================================================
+% chapters/05_derivations_transport.tex  (owner D2)
+% Physical model II: transport, extraction, contacts, temperature and
+% numerical discretization.  ASCII only.
+% ===================================================================
+\chapter{Physical model II: transport, extraction, contacts, temperature and numerical discretization}\label{ch:derivations-tr}
+
+\Cref{ch:derivations-es} established where the charge sits in the gate stack and in the IWO film. The present chapter treats the subsequent steps. It describes how V1 converts that charge into a drain current, how the current is reduced to the metrics that are compared with the measurement, and which parts of this chain are assumed, fitted or derived. Six topics are addressed. The first is the set of transport parameters used for each film and their origin (\cref{sec:par-mu,sec:par-rough,sec:der-tlc}). The second is the exact relation that reduces the mobility calibration to a single linear rescaling (\cref{sec:der-mu-linear}). The third is the definition of the measured and simulated metrics, the identification of those that are reliable, and the reason why the mobilities of the target paper differ from those of this report (\cref{sec:der-mufe,sec:der-metrics}). The fourth is the information that the data contain about contacts and series resistance (\cref{sec:par-contacts,sec:der-yfunction}). The fifth is what was actually simulated at elevated temperature and what an activation energy measures in this model (\cref{sec:par-temperature,sec:der-activation}). The sixth is the convergence of the discretized trap density of states (\cref{sec:der-dos-discretization}) and the question of whether three films can identify a thickness law at all (\cref{sec:der-powerlaw}).
+Every section follows the structure fixed for parameter sections: definition and role, values, source, derivation, ATLAS implementation, sensitivity evidence, and status with caveats. Every simulated number names its run. Analysis numbers name the 2026-09-25 report (S2, S5, S6, SYNTHESIS, REVIEW, PREDICTIONS\_REGISTER) they come from.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Transport, extraction and numerical inputs treated in this chapter, with their final values and status. ``Recalibrated'' refers to the DOS 384/192 state (\run{0038}, \run{0039} rescaled $\times 1.015074$, \run{0040} rescaled $\times 1.020113$; SYNTHESIS D8).}
+\label{tab:d2-overview}
+\begin{tabularx}{\linewidth}{@{}l X l@{}}
+\toprule
+Section & Quantity and final value(s) & Status \\
+\midrule
+\ref{sec:par-mu} & $\muband$ = 17.69 / 11.58 / 61.60 $\cmVs$ (2 / 6.3 / 13.2 nm) & \prov{FITTED} \\
+\ref{sec:par-rough} & $R(t)=(1-\Dsr/t)^2$, $\Dsr=\SI{0.287}{nm}$; $R$ = 0.734 / 0.911 / 0.957 & \prov{LITERATURE\_IWO} (form assumed) \\
+\ref{sec:der-tlc} & Free/trapped partition $P$ = 0.847 / 0.791 / 0.826 (V1 runs) & \prov{CALCULATED} \\
+\ref{sec:der-mu-linear} & $\Id \propto \mu$ exactly; checked to $6\times10^{-6}$ & demonstrated (\evNUM) \\
+\ref{sec:der-mufe} & $\muFE$ (linear) 12.15 / 10.95 / 50.17; saturation formula 5.09 / 3.86 / 27.40 $\cmVs$ & \evDATA \\
+\ref{sec:par-contacts} & Ideal Ohmic Pd S/D, $\Rsd = 0$, overlap \SI{2}{\micro\metre} & \prov{ASSUMED} \\
+\ref{sec:der-yfunction} & $\theta_{\mathrm{net}} < 0$ in all films; $\Rsd$ not identifiable & not determined \\
+\ref{sec:par-temperature} & $T$ = 300 K; 338.15 / 358.15 K with ATLAS default $\mathrm{tmu}=1.5$ & \prov{ASSUMED}; configuration error \\
+\ref{sec:der-activation} & $\Ea(\Vg)$ from MTR; two exact variants differ by 42.3 meV & \evPRED \\
+\ref{sec:der-metrics} & $\Vthcc$ at $10^{-9}\Aum$; fixed-current SS; $\SSmin$ retired & convention \\
+\ref{sec:der-dos-discretization} & NUMA/NUMD 384/192; Richardson residual +0.16\,\% $\Ion$ & demonstrated (\evNUM) \\
+\ref{sec:der-powerlaw} & Power laws in $t$ for $\muFE$, $\Ion$, $\Vth$: LOO miss $\times 2.63$ / $\times 3.76$ & rejected \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% -------------------------------------------------------------------
+\section{Band mobility per film, \texorpdfstring{$\muband(t)$}{mu\_band(t)}}\label{sec:par-mu}
+
+\paragraph{Definition and role in the model.}
+V1 describes electron transport in the IWO region with the ATLAS constant low-field mobility model. The mobility is uniform in space and does not depend on electric field, carrier density or doping. The value handed to ATLAS is
+\begin{equation}
+  \mu_n^{\mathrm{ATLAS}}(t) \;=\; \muband(t)\, R(t),
+  \label{eq:d2-mun}
+\end{equation}
+where $R(t)$ is the roughness factor of \cref{sec:par-rough}. In the multiple-trapping-and-release (MTR) picture that V1 implements, $\muband$ is the mobility of the \emph{free} (band) electrons. Electrons captured in the acceptor-like tail (\cref{sec:par-tail}) do not conduct. The field-effect mobility extracted from a transfer curve is therefore lower than $\mu_n^{\mathrm{ATLAS}}$, by the partition factor $P$ and the capacitance ratio $C_{\mathrm{eff}}/\Cox$ (\cref{sec:der-tlc}). $\muband$ is the only transport parameter that V1 fits. It sets the magnitude of the on-state current. Because the current is exactly linear in a uniform constant mobility (\cref{sec:der-mu-linear}), it has no effect on the electrostatics.
+
+\paragraph{Values used (per thickness).}
+\Cref{tab:d2-mu-values} lists the values. Two calibrated states exist. The V1 state at DOS 96/48 (\run{0012}, \run{0015}, \run{0013}) was superseded by the recalibrated state at DOS 384/192 (\run{0038}, \run{0039}, \run{0040}; S6 section 1, SYNTHESIS D8). \run{0039} and \run{0040} were simulated at 11.41 and 60.39\,$\cmVs$. Their currents were then rescaled by $\times 1.015074$ and $\times 1.020113$, which is exact because of \cref{eq:id-linear-mu}. That gives the final values 11.5820 and 61.6046\,$\cmVs$. The earlier stages of the calibration used 16.8 (2 nm, \run{0003}) and 57.6\,$\cmVs$ (13.2 nm, \run{0004}) before $\Ion$ was matched (\run{0008}, \run{0009}).
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Band mobility per film. Measured $\muFE$ is the linear-regime estimator of \cref{eq:mufe-lin} applied to the $\Vd=\SI{0.7}{V}$ data. Simulated $\muFE$ is the same estimator applied to the final runs (MANIFEST, \texttt{calibrated\_overlays}). All mobilities in $\cmVs$.}
+\label{tab:d2-mu-values}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+$t$ (nm) & V1, DOS 96/48 (run) & recalibrated, DOS 384/192 (run) & $\muFE$ measured & $\muFE$ simulated \\
+\midrule
+2.0  & 18.13 (\run{0012}) & 17.6897 (\run{0038} at 17.69, $\times 0.999983$) & 12.15 & 11.10 \\
+6.3  & 11.69 tuned (\run{0015}); 12.4 (\run{0014}) & 11.5820 (\run{0039} at 11.41, $\times 1.015074$) & 10.95 & 8.39 \\
+13.2 & 61.9 (\run{0013}) & 61.6046 (\run{0040} at 60.39, $\times 1.020113$) & 50.17 & 48.85 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Source.}
+\prov{FITTED}, separately for each film, to the measured on-current $\Ion=\Id(\Vg=\SI{3}{V})$ at $\Vd=\SI{0.7}{V}$. With the final runs the $\Ion$ error is 0.00\,\% by construction (S6 section 1.6). No measured band or Hall mobility of these IWO films is available. The 6.3 nm value 12.4\,$\cmVs$ used in the shared-parameter run \run{0014} is not independent: it is the V0 per-film fit of the same 6.3 nm curve (REVIEW; SYNTHESIS D4). Hence, \run{0014} tests the threshold only and is not a parameter-free prediction.
+
+\paragraph{Derivation.}
+Since $\Id$ is exactly proportional to $\mu_n^{\mathrm{ATLAS}}$ (\cref{eq:id-linear-mu}), the fit takes a single step:
+\begin{equation}
+  \muband^{\mathrm{new}} \;=\; \muband^{\mathrm{old}}\;\frac{\Ion^{\mathrm{meas}}}{\Ion^{\mathrm{sim}}(\muband^{\mathrm{old}})}.
+  \label{eq:d2-mu-rescale}
+\end{equation}
+For example, $11.41\times1.015074 = 11.582$ and $60.39\times1.020113 = 61.60$\,$\cmVs$ (S6 section 1: \run{0039} was 1.48\,\% and \run{0040} 1.97\,\% low in $\Ion$ before rescaling). The measured field-effect mobility can be split into the factors V1 carries (S2 report):
+\begin{equation}
+  \muFE^{\mathrm{meas}} \;=\; \muband \cdot R(t) \cdot P(t) \cdot \frac{\muFE^{\mathrm{meas}}}{\muFE^{\mathrm{sim}}},
+  \qquad P \equiv \frac{\muFE^{\mathrm{sim}}}{\mu_n^{\mathrm{ATLAS}}}.
+  \label{eq:d2-mu-decomposition}
+\end{equation}
+For the V1 runs \run{0012} / \run{0015} / \run{0013}, S2 finds $R$ = 0.734 / 0.911 / 0.957, $P$ = 0.847 / 0.791 / 0.826, $\muFE^{\mathrm{sim}}$ = 11.27 / 8.42 / 48.95 and a measured-to-simulated ratio of 1.078 / 1.300 / 1.025. On a logarithmic scale the 6.3 $\rightarrow$ 13.2 nm step ($\times 4.58$ in $\muFE$) splits into +109\,\% from the fitted $\muband$, +3\,\% from $R$, +3\,\% from $P$ and $-16$\,\% model residual. The 2 $\rightarrow$ 13.2 nm step ($\times 4.13$) splits into +87 / +19 / $-2$ / $-4$\,\%. Hence, the thickness dependence of the mobility sits almost entirely in the fitted parameter (S2, ``demonstrated, model-internal''). \Cref{fig:mobility_partition} shows the partition.
+
+A band mobility could be measured directly instead of being fitted. A gated Hall measurement (van der Pauw) on each film would separate $\muband$ from the trap partition, and quasi-static C--V would give $n_{\mathrm{free}}/n_{\mathrm{total}}$. A temperature series would separate band-limited from barrier-limited transport, and TLM would remove $\Rsd$ from $\muband$ (S2 report; S5 report).
+
+\paragraph{ATLAS implementation.}
+The product in \cref{eq:d2-mun} is passed as the electron mobility \texttt{MUN} of the IWO user material, set with the \texttt{MATERIAL} statement \citep[p.~1343]{AtlasManual}. The constant low-field model is $\mu_{n0} = \texttt{MUN}\,(T_L/300)^{-\texttt{TMUN}}$ \citep[p.~179, Eq.~3-215]{AtlasManual}. At 300 K the temperature factor is unity. At elevated $T$ it was \emph{not} unity (\cref{sec:par-temperature}). As an example, $\texttt{MUN}=17.6897\times0.73359 = 12.977$\,$\cmVs$ for 2 nm is the 300 K value printed in \file{run_0045/deckbuild.out} (REVIEW V7). The deck listings are in \cref{ch:app-decks}.
+
+\paragraph{Sensitivity evidence.}
+\begin{itemize}
+\item \run{0003} $\rightarrow$ \run{0008} (2 nm, $\muband$ 16.8 $\rightarrow$ 18.13, $\times1.0792$): the current ratio is 1.079171 against 1.079167 expected (S6 section 1.1). $\Delta\Vthcc=-0.009$\,V, $\Delta\SSfix{10^{-10}}{10^{-9}}=-3.8\mVdec$, $\Delta\Ion=+7.9$\,\% (MANIFEST, \texttt{param\_control\_delta}; \cref{fig:param_control_2nm,fig:param_control_delta}).
+\item \run{0004} $\rightarrow$ \run{0009} (13.2 nm, 57.6 $\rightarrow$ 61.9): the same pure rescaling (\cref{fig:param_control_13nm}).
+\item Constant-current threshold confounding (SYNTHESIS D6): giving the 13.2 nm curve the 2 nm mobility moves $\Vthcc$ by +0.108 to +0.115\,V. That is 19--20\,\% of the measured 0.579\,V step. $\Vthcc$ is therefore partly a mobility metric.
+\item Degeneracy with the tail density (S2 report): on $\Ion$ alone, $\Nt\times1.5$ (\run{0023}) is exactly compensated by $\mu\times1.33$. Only the on-state shape (gap, $\gm$) separates them.
+\item Campaign A (\run{0030}--\run{0034}, 6.3 nm, $\muband$ 12.4) changes $\gmmax$ by at most 2\,\%. Hence, the 6.3 nm $\gm$ miss is not electrostatic (S2 report).
+\end{itemize}
+
+\paragraph{Status and caveats.}
+\prov{FITTED} per thickness. No thickness law is claimed (\cref{sec:der-powerlaw}). Caveats:
+(1) The fitted sequence 17.69 / 11.58 / 61.60 is non-monotonic. S2 rates the 6.3 nm dip ``strongly supported'' as an artefact of the $\Nt(t)$ law partition. S2's shape-consistent alternative ($\muband$ 19.3 / 19.6 / 62.7 with $\Nt$ 2.4 / 2.7 / 0.48$\times10^{19}\cmcu$) was tested prospectively in \run{0037} (B0). The on-state passed, but $\SScc$ rose to 410.9 against $295.4\mVdec$ measured, so the re-partition is \verdict{rejected} (SYNTHESIS conflict table; S6 P1).
+(2) $\muband$ lumps together any series resistance (\cref{sec:par-contacts}), the ratio $C_{\mathrm{eff}}/\Cox\approx0.87$ (S3), the Drude $\mstar(t)$ term that V1 does not carry ($-18$\,\% at 2 nm at fixed scattering time; S2 report), and the roughness factor.
+(3) The 6.3 nm on-state shape (gap $-0.36$\,V, $\gm$ $-23$\,\%) is not reproduced by any tested V1 variant (\cref{sec:6p3-shape}). The most plausible cause is the constant, density-independent mobility itself. That inference is \verdict{plausible, unverified} (SYNTHESIS section A.2).
+
+% -------------------------------------------------------------------
+\section{Roughness factor and \texorpdfstring{$\Dsr$}{Delta\_sr}}\label{sec:par-rough}
+
+\paragraph{Definition and role in the model.}
+V1 multiplies the band mobility by a thickness-dependent reduction factor,
+\begin{equation}
+  R(t) \;=\; \left(1-\frac{\Dsr}{t}\right)^{2},
+  \label{eq:d2-rough}
+\end{equation}
+where $\Dsr$ is a roughness length. It is the only explicit thickness dependence of transport in V1 that does not come from a fit.
+
+\paragraph{Values used (per thickness).}
+$\Dsr=\SI{0.287}{nm}$ (\SI{2.87}{\angstrom}). This gives $R$ = 0.73359 (2.0 nm), 0.911 (6.3 nm) and 0.957 (13.2 nm) (EVIDENCE\_BRIEF section 3; S2 report).
+
+\paragraph{Source.}
+Both are taken from the target paper: the functional form is the thickness factor of its Eq.~6 \citep[p.~7]{Januar2026}, and $\Dsr\approx2.87$~\AA{} is its extracted effective roughness for IWO \citep[p.~8]{Januar2026}; the page mapping is listed in \cref{sec:lit-januar}. The package classifies the value as literature (EVIDENCE\_BRIEF section 3).
+
+\paragraph{Derivation.}
+The package documentation does not give a microscopic derivation of \cref{eq:d2-rough}, and none is claimed here. Two exact rewritings show what the form implies. For $\Dsr\ll t$,
+\begin{equation}
+  R(t) \approx 1-\frac{2\Dsr}{t}
+  \quad\Longleftrightarrow\quad
+  \frac{1}{\mu_n^{\mathrm{ATLAS}}} \approx \frac{1}{\muband}+\frac{1}{\mu_x},\qquad
+  \mu_x = \muband\,\frac{t}{2\Dsr}.
+  \label{eq:d2-rough-matthiessen}
+\end{equation}
+Hence, to first order the factor acts like an extra Matthiessen scattering channel whose mobility grows only linearly with $t$. The comparison with thickness-fluctuation scattering is instructive. In that mechanism the subband energy fluctuates by $\delta E_1 = 2E_1\Delta/t$ and $\mu_{\mathrm{SR}}\propto t^{6}$. S2 evaluates $\delta E_1$ = 105 / 3.96 / 0.44\,meV for the three films. If such a channel alone produced the step, with $\mu_{\mathrm{SR}}(6.3)=17\cmVs$ (the extra channel Matthiessen's rule needs for $\mu(13.2)\approx62$), then $\mu_{\mathrm{SR}}(2)$ would be 0.017\,$\cmVs$, against about 12--19\,$\cmVs$ extracted. That contradiction is $\times700$ (S2 report). A roughness factor can therefore only be a weak correction.
+
+$\Dsr$ could be measured by AFM or X-ray reflectivity of the film roughness at each thickness. A Hall mobility at several thicknesses would test whether the reduction exists.
+
+\paragraph{ATLAS implementation.}
+No separate surface-roughness mobility model is used. $R(t)$ is folded into \texttt{MUN} through \cref{eq:d2-mun} \citep[p.~1343]{AtlasManual}.
+
+\paragraph{Sensitivity evidence.}
+No run varies $\Dsr$ alone. None is needed: by \cref{eq:id-linear-mu}, any change in $R$ is absorbed exactly by the refit of $\muband$, so the two are perfectly degenerate on one curve. The ratios that $R$ contributes are $\times1.051$ (13.2/6.3 nm) and $\times1.305$ (13.2/2 nm), i.e.\ 3\,\% of the logarithm needed for the 6.3 $\rightarrow$ 13.2 nm step (S2 report; SYNTHESIS section D).
+
+\paragraph{Status and caveats.}
+Value \prov{LITERATURE\_IWO}; functional form \prov{ASSUMED}. As the mobility step, the roughness factor is \verdict{rejected} ($\times1.05$ against $\times4.58$ needed). Whether the 2 nm film is continuous is \verdict{not determined} (SYNTHESIS referee responses). Because $R$ is degenerate with $\muband$, its presence does not change any fitted curve. It only changes how the fitted $\muband$ is read.
+
+% -------------------------------------------------------------------
+\section{Trap-limited conduction: the free/trapped partition}\label{sec:der-tlc}
+
+\paragraph{Definition and role in the model.}
+V1 contains no mobility that depends on density. The apparent density dependence of the field-effect mobility comes from multiple trapping. The acceptor-like exponential tail (\cref{sec:par-tail}, \cref{eq:tail-dos}) takes part of the gate-induced charge, and only the free part conducts. The partition factor $P$ turns $\mu_n^{\mathrm{ATLAS}}$ into $\muFE$.
+
+\paragraph{Values used (per thickness).}
+There is no input of its own. $P$ follows from the tail parameters $\Nt(t)=2\times10^{19}(2/t)^{0.75}\cmcu$ (2.0 / 0.85 / 0.49$\times10^{19}$) and $\WTA=\SI{0.040}{eV}$ (both \prov{FITTED}; EVIDENCE\_BRIEF section 3). The resulting values are $P$ = 0.847 / 0.791 / 0.826 for \run{0012} / \run{0015} / \run{0013} (S2 report). They come from a 1-D surrogate that reproduces the ATLAS $\muFE$ within 3\,\% (11.56 vs 11.27, 8.48 vs 8.42, 49.44 vs 48.95). At $\Vg=\SI{3}{V}$ the free fraction is 0.68 / 0.67 / 0.76, with trapped sheet densities $n_{\mathrm{trap}}\approx$ 4.0 / 4.2 / 3.4$\times10^{12}\cmsq$.
+
+\paragraph{Source.}
+\prov{CALCULATED} from the fitted tail and the model electrostatics. The trap-limited partition of the target paper \citep[p.~7, Eq.~5]{Januar2026} motivated it. The page mapping of that equation is listed in \cref{sec:lit-januar}.
+
+\paragraph{Derivation.}
+\begin{derivation}[: field-effect mobility of a trap-limited sheet]
+Let $n_f$ and $n_t$ be the free and trapped sheet densities, and let $C_{\mathrm{eff}}$ be the effective gate capacitance per unit area. Gauss's law above flat band gives $q\,\mathrm{d}(n_f+n_t) = C_{\mathrm{eff}}\,\mathrm{d}\Vg$. In the linear regime (small $\Vd$) only free electrons drift: $\Id = (W/L)\,q\,\mu_n\,n_f\,\Vd$. Hence
+\begin{equation}
+  \gm = \frac{W}{L}\,q\,\mu_n\,\Vd\,\frac{\mathrm{d}n_f}{\mathrm{d}\Vg}
+      = \frac{W}{L}\,\mu_n\,C_{\mathrm{eff}}\,\Vd\,\frac{\mathrm{d}n_f}{\mathrm{d}(n_f+n_t)},
+  \qquad
+  \muFE \equiv \frac{L\,\gm}{W\Cox\Vd} = \mu_n\,\frac{C_{\mathrm{eff}}}{\Cox}\,P,
+  \quad P=\left(1+\frac{\mathrm{d}n_t}{\mathrm{d}n_f}\right)^{-1}.
+  \label{eq:d2-partition}
+\end{equation}
+For an exponential tail with $\WTA > \kT$ and the Fermi level below $\Ec$, the trapped density is $n_t\simeq t\,\NTA\WTA\exp[(\EF-\Ec)/\WTA]$. The free density is non-degenerate, $n_f\propto\exp[(\EF-\Ec)/\kT]$. Eliminating $\EF$ gives
+\begin{equation}
+  n_t \propto n_f^{\,T/T_t},\qquad T_t\equiv \WTA/\kB = \SI{464}{K}\ \ (\WTA=\SI{0.040}{eV}),
+  \qquad \frac{\mathrm{d}n_t}{\mathrm{d}n_f} = \frac{T}{T_t}\,\frac{n_t}{n_f}.
+  \label{eq:d2-tail-power}
+\end{equation}
+Where trapping dominates ($n_t\gg n_f$, with $n_t\propto \Vg-V_0$), \cref{eq:d2-tail-power} gives $n_f\propto(\Vg-V_0)^{T_t/T}$. The linear-regime current is then supralinear, $\Id\propto(\Vg-V_0)^{\alpha}$ with $\alpha=T_t/T\approx1.55$ at 300 K. This is a thin-sheet estimate with no vertical band bending (\evTHEORY). For comparison, the threshold-free H-function exponents are $\alpha_H$ = 1.35--1.46 for \run{0012}, and 1.59 / 2.14 / 1.29 for the measured 2 / 6.3 / 13.2 nm curves (S5 report; \cref{sec:der-yfunction}). As the tail fills, $n_f/n_t$ grows and $P\rightarrow1$. This is the origin of the negative mobility-degradation coefficient $\theta$ seen in all films.
+\end{derivation}
+
+Linearising the partition shows what the trap model can do. Moving $P$ from 0.791 (6.3 nm) to 0.826 (13.2 nm) contributes only +4\,\%. Producing the $\times4.6$ step through $P$ alone would need $\Nt$ to change by $\times6.7\times10^{3}$. This falls short by a factor of 30 in the logarithm (S2 report). The trapped sheet charge is nearly the same in every film (4.0 / 4.2 / 3.4$\times10^{12}\cmsq$), so the partition cannot carry a thickness step.
+
+\paragraph{ATLAS implementation.}
+The tail is a \texttt{DEFECTS CONTINUOUS} acceptor tail with \texttt{NTA} and \texttt{WTA} \citep[pp.~1169, 1171, 1173]{AtlasManual}. Its occupancy is computed in steady state from the local quasi-Fermi level. Trapped electrons contribute to Poisson's equation but not to the current. No parameter for $P$ exists: the partition emerges from Poisson's equation and Fermi--Dirac occupancy. The discretization of the tail integral is treated in \cref{sec:der-dos-discretization}.
+
+\paragraph{Sensitivity evidence.}
+\begin{itemize}
+\item \run{0012} $\rightarrow$ \run{0023} ($\Nt\times1.5$, 2 nm): $\Delta\Vthcc=+0.082$\,V, $\Delta\SSfix{10^{-10}}{10^{-9}}=+49.0\mVdec$, $\Delta\Ion=-25.1$\,\% (MANIFEST). Per unit $\ln\Nt$ the Jacobian is $\mathrm{d}\Vthcc=+0.202$\,V and $\mathrm{d}(\text{gap})=+0.495$\,V (S2 report).
+\item \run{0037} (B0, S2 re-partition at 6.3 nm): $\Vthcc$ 0.654\,V, $\Vthlin$ 1.856\,V and $\Ion$ $-7.6$\,\% all fall inside the predicted ranges, but $\SScc = 410.9\mVdec$ against 295.4 measured, so the prediction \verdict{failed} (S6 P1).
+\item \run{0052} (C1, near-$\Ec$ band, $\mu$ 15.4): recovers 28\,\% of the $\gm$ miss and 33\,\% of the 0.356\,V gap miss at a moderate SS cost ($\SScc$ $+15.6\mVdec$). The gap opens by +0.119 against +0.28\,V predicted, and $\Ion$ rises +16\,\% against $\pm3$\,\% predicted (S6 P3; \verdict{partly failed}, SYNTHESIS section D).
+\item Trade-off: every tested change that opens the 6.3 nm gap costs 3.2--8.5\,mV of gap per mV/dec of $\SScc$ (S6 section 3.3). Even at the best efficiency, closing the missing +0.36\,V would give $\SScc\approx332\mVdec$ against 295 measured.
+\end{itemize}
+
+\paragraph{Status and caveats.}
+\prov{CALCULATED} (model-internal). The underlying $\Nt$ anchor and $\WTA$ are \prov{FITTED}. The trap-limited partition as the primary cause of the mobility step is \verdict{rejected} (S2). The tails are rigid, in thermal equilibrium and independent of $T$. Above-threshold trapping and sweep history are not modelled (S6 section 3).
+
+% -------------------------------------------------------------------
+\section{Drain current is linear in a uniform constant mobility}\label{sec:der-mu-linear}
+
+\paragraph{Definition and role in the model.}
+This section proves, and verifies numerically, the property that makes the V1 mobility calibration and both temperature variants exact. For a uniform, constant mobility, the drain current at every bias is proportional to that mobility:
+\begin{equation}
+  \Id(\Vg,\Vd;\,\lambda\mu_n) \;=\; \lambda\,\Id(\Vg,\Vd;\,\mu_n)\qquad\text{for all }\lambda>0.
+  \label{eq:id-linear-mu}
+\end{equation}
+
+\paragraph{Values used.}
+The identity has no input of its own. It holds for $\mu_n^{\mathrm{ATLAS}}$ of \cref{eq:d2-mun}, and therefore also for $R(t)$ and for the temperature factor $(T/300)^{-\texttt{TMUN}}$.
+
+\paragraph{Source.}
+The analytic argument is given below (\evTHEORY). The numerical verification is from S6 section 1.1 (\evNUM).
+
+\paragraph{Derivation.}
+\begin{derivation}[: exact linearity of the drift-diffusion current in $\mu_n$]
+The steady-state electron equations in quasi-Fermi form are
+\begin{align}
+  \nabla\cdot(\varepsilon\nabla\psi) &= -q\,[\,p - n - n_t(\psi,\phi_n) + N_D^{+} + \dots\,], \label{eq:d2-poisson}\\
+  \mathbf{J}_n &= -q\,\mu_n\,n\,\nabla\phi_n, \qquad \nabla\cdot\mathbf{J}_n = q\,U, \label{eq:d2-continuity}
+\end{align}
+with $n = \Nc\,F_{1/2}\!\left[({\EF}_{n}-\Ec)/\kT\right]$. Because $D_n=\mu_n\kT/q$ (Einstein relation), the quasi-Fermi form $\mathbf{J}_n=-q\mu_n n\nabla\phi_n$ contains both drift and diffusion. Three conditions are needed. (a) $\mu_n$ is uniform and constant in the only conducting region. (b) The net recombination $U$ is negligible. The IWO film is unipolar ($p\approx0$), and thermal generation is 13--17 decades below the measured floors (S4). (c) The trap occupancy is a function of the local $(\psi,\phi_n)$ only, which holds in steady state. Under these conditions, dividing \cref{eq:d2-continuity} by the constant $\mu_n$ gives $\nabla\cdot(n\nabla\phi_n)=0$, which does not contain $\mu_n$. \Cref{eq:d2-poisson} and the Ohmic and gate boundary conditions do not contain $\mu_n$ either. The solution $(\psi,\phi_n,n,n_t)$ is therefore independent of $\mu_n$, and $\mathbf{J}_n$, hence $\Id$, is proportional to it. Subthreshold diffusion current scales in the same way, because $D_n\propto\mu_n$.
+\end{derivation}
+
+Consequences used throughout the report:
+\begin{enumerate}
+\item The fit of $\muband$ takes one rescaling step (\cref{eq:d2-mu-rescale}). The rescaled runs \run{0039} ($\times1.015074$) and \run{0040} ($\times1.020113$) are exact representatives of runs at 11.582 and 61.605\,$\cmVs$.
+\item Every ratio metric is independent of $\mu_n$: $\Vthlin$, $\Ion/\gm$, the gap $\Vthlin-\Vthcc$ in its $\Vthlin$ part, $\alpha_H$ and $\theta$. Hence, is the local slope $\mathrm{d}\Vg/\mathrm{d}\log\Id$ at fixed $\Vg$. Constant-current quantities are not: $\Vthcc$ moves by $\mathit{SS}_{\mathrm{local}}\log_{10}\lambda$, and fixed-current SS windows slide along the curve. This is why $\muband$ 16.8 $\rightarrow$ 18.13 moves $\Vthcc$ by $-9$\,mV (a factor of 1.079 is 0.033 decade, at a local slope of order 270\,mV/dec) and changes $\SSfix{10^{-10}}{10^{-9}}$ by $-3.8\mVdec$.
+\item $\muband$, $R(t)$, any constant factor on $W/L$, and the temperature factor of the constant-mobility model are indistinguishable on one curve.
+\item The elevated-temperature runs computed with $\texttt{TMUN}=1.5$ can be converted exactly into the intended $T$-independent-mobility variant (\cref{sec:par-temperature}).
+\end{enumerate}
+
+\paragraph{ATLAS implementation.}
+The identity holds for the constant low-field model \citep[p.~179]{AtlasManual} as used in V1. That means no concentration-, field- or density-dependent mobility is enabled in the IWO region. The IWO user material carries further silicon defaults in the parameter dump, such as $v_{\mathrm{sat}}=9.78\times10^{6}$\,cm/s and SRH/Auger coefficients. REVIEW judges them inactive or irrelevant here, but they are still to be audited (SYNTHESIS item 0.3).
+
+\paragraph{Sensitivity evidence.}
+\begin{itemize}
+\item \run{0029} vs \run{0038} (2 nm, DOS 384/192, $\muband$ 18.13 vs 17.69): the current ratio is 1.024879 against $18.13/17.69=1.024873$. Over 43 points with $\Id>10^{-14}\Aum$ it ranges from 1.024817 to 1.025135 (S6 section 1.1).
+\item \run{0008} vs \run{0003} (2 nm, 18.13 vs 16.8): the ratio is 1.079171 against 1.079167.
+\item Path independence: the $\Id$--$\Vd$ runs at $\Vd=\SI{0.7}{V}$ reproduce the rescaled transfer curves at $\Vg$ = 1--3\,V to 0.000\,\% (S6 section 1.1).
+\end{itemize}
+The ratio error is $6\times10^{-6}$ (S6 findings table). The small min--max spread reflects solver tolerance.
+
+\paragraph{Status and caveats.}
+\verdict{Demonstrated} (analytic identity plus \evNUM\ check). The property holds only because V1's mobility is uniform and constant. It would fail with a field- or density-dependent mobility, with a series resistance, with a different mobility in another conducting region, or with significant recombination. The constancy of the mobility is itself an assumption of V1, and the most plausible cause of the unexplained 6.3 nm on-state shape (\cref{sec:par-mu}). \Cref{eq:id-linear-mu} is a property of the model, not of the device.
+
+% -------------------------------------------------------------------
+\section{Field-effect mobility: linear estimator versus the saturation formula}\label{sec:der-mufe}
+
+\paragraph{Definition and role in the model.}
+Two estimators of mobility from a transfer curve are used in this report and in the target paper. They differ by up to a factor of 2.8 on the same data. The linear-regime estimator is
+\begin{equation}
+  \muFE \;=\; \frac{L\,\gmmax}{W\,\Cox\,\Vd},\qquad \gm=\frac{\partial\Id}{\partial\Vg}\Big|_{\Vd},
+  \label{eq:mufe-lin}
+\end{equation}
+and the saturation formula is
+\begin{equation}
+  \musat \;=\; \frac{2L}{W\Cox}\left(\frac{\partial\sqrt{\Id}}{\partial\Vg}\right)^{2}_{\max}.
+  \label{eq:mu-sat}
+\end{equation}
+The report uses \cref{eq:mufe-lin}, identically for measured and simulated curves, as the apparent field-effect mobility. It is neither $\muband$ nor $\mu_n^{\mathrm{ATLAS}}$ (\cref{eq:d2-partition}).
+
+\paragraph{Values used (per thickness).}
+Constants in \file{scripts/extract_metrics.py}: $\Cox=\SI{8.955e-7}{\farad\per\centi\metre\squared}$, $L=\SI{20}{\micro\metre}$, $W=\SI{1}{\micro\metre}$ (the currents are normalised in A/$\mu$m), and $\Vd=\SI{0.7}{V}$. The measured values (MANIFEST, \texttt{mufe\_extraction}; S6 section 1.6) are:
+\begin{center}
+\small
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+$t$ (nm) & $\gmmax$ (A/V/$\mu$m) & $\muFE$, \cref{eq:mufe-lin} & $\musat$, \cref{eq:mu-sat} & $\Vg$ at $\musat$ peak (V) & peak $-\Vthlin$ (V) & paper \\
+\midrule
+2.0  & $3.807\times10^{-7}$ & 12.15 & 5.09  & 1.75 & +0.09 & 5.1 \\
+6.3  & $3.431\times10^{-7}$ & 10.95 & 3.86  & 2.55 & +0.73 & not quoted \\
+13.2 & $1.572\times10^{-6}$ & 50.17 & 27.40 & 0.95 & $-0.09$ & 27.4 \\
+\bottomrule
+\end{tabular}
+\end{center}
+Mobilities are in $\cmVs$. The final simulated values of \cref{eq:mufe-lin} are 11.10 (\run{0038}), 8.39 (\run{0039} rescaled) and 48.85 (\run{0040} rescaled). These are $-8.6$, $-23$ and $-2.6$\,\% from the measured values (S6 section 1.6).
+
+\paragraph{Source.}
+Measured curves \file{data/experimental_clean.csv} (\cref{sec:inp-data}) at $\Vd=\SI{0.7}{V}$. The $\Vd$ value and the A/$\mu$m normalisation come from the device schematic (\cref{sec:inp-device}). The saturation-formula reproduction of the paper's numbers is from S2 report and S5 report, key finding 4, with the regime reading corrected by SYNTHESIS (section C, D12).
+
+\paragraph{Derivation.}
+\begin{derivation}[: the two estimators in the square-law gradual-channel model]
+With a constant mobility $\mu$ and threshold $V_t$, the gradual-channel current in the linear regime ($\Vd < V_{\mathrm{ov}}\equiv\Vg-V_t$) is
+$\Id = \mu\Cox\frac{W}{L}\left(V_{\mathrm{ov}}\Vd - \tfrac12\Vd^{2}\right)$. Hence $\gm=\mu\Cox(W/L)\Vd$, which gives \cref{eq:mufe-lin}. In saturation ($\Vd\ge V_{\mathrm{ov}}$), $\Id=\mu\Cox\frac{W}{2L}V_{\mathrm{ov}}^{2}$, so $\sqrt{\Id}$ is linear in $\Vg$ with slope $\sqrt{\mu\Cox W/2L}$, which gives \cref{eq:mu-sat}. If \cref{eq:mu-sat} is applied to the linear-regime expression, then with $k=\mu\Cox W/L$
+\begin{equation}
+  \left(\frac{\partial\sqrt{\Id}}{\partial\Vg}\right)^{2} = \frac{k^{2}\Vd^{2}}{4\Id}
+  = \frac{k\,\Vd}{4V_{\mathrm{ov}}-2\Vd}
+  \quad\Rightarrow\quad
+  \frac{\musat}{\mu} = \frac{\Vd}{2V_{\mathrm{ov}}-\Vd}\quad(\Vd<V_{\mathrm{ov}}).
+  \label{eq:d2-musat-ratio}
+\end{equation}
+Hence, in the square-law model the saturation formula underestimates the mobility wherever the device is in its linear regime. At the saturation boundary $V_{\mathrm{ov}}=\Vd$ the two estimators coincide.
+\end{derivation}
+
+The measured ratios $\muFE/\musat$ are 2.39 (2 nm), 2.84 (6.3 nm) and 1.83 (13.2 nm). \Cref{eq:d2-musat-ratio} cannot be applied quantitatively, for three reasons. The curves are supralinear ($\alpha_H>1$, \cref{sec:der-tlc}). The peaks of $\partial\sqrt{\Id}/\partial\Vg$ lie at +0.09, +0.73 and $-0.09$\,V relative to $\Vthlin$. The earlier readings of the peak positions as ``linear regime'' (S2) or ``$V_{\mathrm{ov}}\approx\SI{1.1}{V}$'' (S5) were withdrawn (SYNTHESIS conflict table and referee responses). The conclusion that can be supported is narrower. Applied to the workbook curves, the saturation formula reproduces the paper's 5.1 and 27.4\,$\cmVs$ \citep[p.~7]{Januar2026} to within rounding (5.09 and 27.40). The paper's mobilities are therefore saturation-formula peaks of these same curves, not linear-regime $\muFE$ (an inference of this analysis; the paper calls the quantity field-effect mobility in the Fig.~1b caption on p.~3 but does not state its extraction formula). This is provenance evidence. It fixes the product $L/(W\Cox)$ together with the A/$\mu$m normalisation, but not $\Vd$, because \cref{eq:mu-sat} does not contain $\Vd$ (SYNTHESIS D12). The same method predicts $\musat$ = 3.86\,$\cmVs$ at 6.3 nm. Checking this against the paper's figure requires figure values that are not available locally (S6 P10, not yet tested).
+
+Three further properties of the measured $\muFE$ matter for its use as a calibration target:
+\begin{itemize}
+\item At 2 nm, $\gm$ is largest at the last point of the sweep ($\Vg=\SI{3.00}{V}$), so 12.15\,$\cmVs$ is a lower bound. The roll-off $\gm(\SI{3}{V})/\gmmax$ is 1.000 / 0.981 / 0.978, which limits series-resistance or mobility-degradation effects to at most 2.2\,\% (S2 report).
+\item The classical centroid and degenerate DOS alone give $C_{\mathrm{eff}}/\Cox\approx0.87$. Hence, even with no trapping, \cref{eq:mufe-lin} with $\Cox$ understates the mobility by about 13\,\% (S3). ATLAS includes this, so the fitted $\muband$ already absorbs it.
+\item The apparent 49.2\,$\cmVs$ of the 31.8 nm film is not a mobility. Its $\gm$ has maxima at $-0.30$, 0.85, 1.15 and 1.70\,V, and $\gm(\SI{3}{V})/\gmmax=0.067$ (SYNTHESIS conflict table). It is reported only as a documented model failure.
+\end{itemize}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{mufe_extraction}
+  \caption{Mobility extraction from the measured transfer curves at $\Vd=\SI{0.7}{V}$ for 2.0, 6.3 and 13.2 nm. The linear-regime estimator $\muFE(\Vg)=L\gm/(W\Cox\Vd)$ (\cref{eq:mufe-lin}) is compared with the saturation formula $(2L/W\Cox)(\partial\sqrt{\Id}/\partial\Vg)^{2}$ (\cref{eq:mu-sat}). Derivatives use \texttt{numpy.gradient} on the measured 0.05\,V grid. The peaks are 12.15 / 10.95 / 50.17\,$\cmVs$ (linear) against 5.09 / 3.86 / 27.40\,$\cmVs$ (saturation formula). The target paper quotes 5.1 and 27.4\,$\cmVs$ for 2 and 13.2 nm. Note that the 2 nm linear estimator is still rising at the end of the sweep.}
+  \label{fig:mufe_extraction}
+\end{figure}
+
+\paragraph{ATLAS implementation.}
+None. Both estimators are post-processing. \Cref{eq:mufe-lin} is implemented in \file{scripts/extract_metrics.py} (\texttt{metrics}: \texttt{gm = np.gradient(idv, vg)}; \texttt{mu\_FE\_cm2Vs = gm\_max*L\_CM/(W\_CM*COX*VD)}). The code is listed in \cref{ch:app-code}. Simulated curves are first interpolated onto the 0.05\,V measurement grid (S6 section 1).
+
+\paragraph{Sensitivity evidence.}
+The numerical uncertainty of $\gmmax$ and $\muFE$ is $\pm0.7$\,\% (S6 section 1.5; \cref{tab:d2-uncertainty}). The disagreement between the two estimators is a factor of 1.8--2.8. That is a definitional difference, not an uncertainty.
+
+\paragraph{Status and caveats.}
+Measured $\muFE$: \evDATA, one device per thickness. The equality of the paper's mobilities with the saturation formula on the workbook curves is \verdict{demonstrated} (independent retrodiction; S6 findings row 21). Caveat: the thickness dependence of any ``mobility'' depends on the estimator. Between 2 and 13.2 nm, $\muFE$ changes by $\times4.13$ but $\musat$ by $\times5.38$. Hence, an exponent quoted for a mobility law without its estimator is meaningless (S5 report).
+
+% -------------------------------------------------------------------
+\section{Source/drain contacts, overlap and series resistance}\label{sec:par-contacts}
+
+\paragraph{Definition and role in the model.}
+The Pd source and drain (\SI{70}{nm}) sit on top of the IWO film and overlap the gate by \SI{2}{\micro\metre} on each side. $L=\SI{20}{\micro\metre}$ and $W=\SI{290}{\micro\metre}$ (\cref{sec:inp-geometry}, \cref{fig:stack_schematic}). In V1 the contacts only inject carriers. They are ideal Ohmic boundaries with no barrier, no specific contact resistivity $\rho_c$ and no lumped series resistance. Hence, any access or contact resistance present in the device is absorbed into the fitted $\muband$.
+
+\paragraph{Values used (per thickness).}
+The same for all films: ideal Ohmic S/D, $\Rsd=0$, $\rho_c=0$, overlap \SI{2}{\micro\metre}. The measured on-resistances $R_{\mathrm{on}}W=\Vd/\Id(\SI{3}{V})$ set the scale for any contact contribution: $1.38\times10^{6}$ (2.0 nm), $1.74\times10^{6}$ (6.3 nm), $2.28\times10^{5}$ (13.2 nm) and $1.95\times10^{5}$\,\si{\ohm\micro\metre} (31.8 nm) (S5 report).
+
+\paragraph{Source.}
+Geometry from the device schematic (\prov{MEASURED\_TARGET\_DEVICE} as drawn). The Ohmic boundary and $\Rsd=0$ are \prov{ASSUMED}. The literature bound on metal/In$_2$O$_3$ contact resistance from TLM, $R_c<\SI{0.1}{\ohm\milli\metre}$, is taken from \citet[p.~167]{Si2022} as quoted in S5 (page mapping in \cref{sec:lit-si2022}).
+
+\paragraph{Derivation.}
+For a top contact of length $L_{\mathrm{ov}}$ on a film of sheet resistance $R_{\mathrm{sh}}$, the transmission-line model gives
+\begin{equation}
+  R_c W = \sqrt{\rho_c R_{\mathrm{sh}}}\;\coth\!\left(\frac{L_{\mathrm{ov}}}{L_T}\right),\qquad
+  L_T=\sqrt{\rho_c/R_{\mathrm{sh}}},
+  \label{eq:d2-tlm}
+\end{equation}
+which reduces to $R_cW\approx\sqrt{\rho_cR_{\mathrm{sh}}}$ for $L_{\mathrm{ov}}\gg L_T$. S5 evaluates \cref{eq:d2-tlm} with the accumulated sheet resistance at the source at $\Vg=\SI{3}{V}$: $R_{\mathrm{sh}}$ = $8.2\times10^{4}$ / $1.0\times10^{5}$ / $1.26\times10^{4}$\,\si{\ohm}/$\square$ for 2 / 6.3 / 13.2 nm (\cref{tab:d2-contacts}).
+\begin{table}[htbp]
+\centering
+\small
+\caption{Transfer length and contact share of the on-resistance for assumed specific contact resistivities (S5 report, \cref{eq:d2-tlm}).}
+\label{tab:d2-contacts}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+$\rho_c$ (\si{\ohm\centi\metre\squared}) & $L_T$ at 2 / 6.3 / 13.2 nm (\si{\micro\metre}) & $2R_c/R_{\mathrm{on}}$ at 2 / 6.3 / 13.2 nm \\
+\midrule
+$10^{-6}$ & 0.035 / 0.031 / 0.089 & 0.4 / 0.4 / 1.0\,\% \\
+$10^{-5}$ & 0.11 / 0.10 / 0.28   & 1.3 / 1.2 / 3.1\,\% \\
+$10^{-4}$ & 0.35 / 0.31 / 0.89   & 4.2 / 3.7 / 10\,\% \\
+$10^{-3}$ & 1.1 / 0.98 / 2.8     & 14 / 12 / 51\,\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+Two consequences follow. (a) For $\rho_c\le10^{-4}\,\si{\ohm\centi\metre\squared}$, $L_T\le\SI{0.35}{\micro\metre}\ll L_{\mathrm{ov}}$. Hence, $R_c$ does not depend on the overlap, and current crowding matters only above about $10^{-3}$\,\si{\ohm\centi\metre\squared}. (b) A contact penalty scales as $R_{\mathrm{sh}}^{-1/2}$ relative to $R_{\mathrm{on}}$, so it hurts the thick, conductive films more. That is the opposite of what is needed to explain the low currents of the thin films. Explaining the $\Ion$ gap between 2 and 13.2 nm by contacts alone would need $\Rsd W\approx1.15\times10^{6}$\,\si{\ohm\micro\metre} at 2 nm. That means $\rho_c\approx\SI{0.26}{\ohm\centi\metre\squared}$ and $L_T\approx\SI{45}{\micro\metre}$ (longer than $L$), and 0.58\,V of the 0.7\,V drain bias dropped across the contacts. The implied $R_c$ is about 5700 times the TLM bound quoted above (S5 report). Vertical access through the film is also negligible: the series resistivities are $3.3\times10^{-9}$ (2 nm, accumulated), $2.2\times10^{-8}$ (13.2 nm, accumulated) and $4.5\times10^{-7}$\,\si{\ohm\centi\metre\squared} (13.2 nm, neutral top layer with $\Ndeff=2.97\times10^{17}\cmcu$). All are below 1\,\% of $R_{\mathrm{on}}$ and grow with $t$ (S5 report).
+
+The contact parameters could be measured by TLM or an $L$-series, by gated four-probe measurements, and by low-$\Vd$ output characteristics. Superlinear output below $\Vd\approx\SI{0.1}{V}$ at 2 nm would indicate a barrier. The registered ideal-contact $\Id$--$\Vd$ predictions are the reference (\cref{sec:pred-idvd}).
+
+\paragraph{ATLAS implementation.}
+An electrode without a \texttt{CONTACT} statement is treated as charge-neutral (Ohmic) \citep[p.~1145]{AtlasManual}. V1 attaches no \texttt{CON.RESIST} (distributed contact resistance, \si{\ohm\centi\metre\squared}) and no \texttt{RESISTANCE} (lumped resistor) to the source and drain. Both are available \citep[p.~1153]{AtlasManual}, with an example of a lumped and a distributed contact resistor on p.~1155 of the manual. With ideal Ohmic boundaries the model cannot represent $\rho_c$ at all (S5; SYNTHESIS section F).
+
+\paragraph{Sensitivity evidence.}
+\begin{itemize}
+\item \run{0027} is malformed and has been retracted. Its mesh collapsed the drain, so its $-2.15$\,\% $\Ion$ change is not an overlap effect, and contact geometry and resistance are untested in V1 (full statement in \cref{sec:cal-param-control}).
+\item The bounds from the calibrated model are $\Rsd W\lesssim5\times10^{4}$\,\si{\ohm\micro\metre} at 2 nm ($\le4$\,\% of $R_{\mathrm{on}}$) and $\lesssim1$--$2\times10^{4}$\,\si{\ohm\micro\metre} at 13.2 nm (4--9\,\%). They come from the Y- and H-function analysis of \cref{sec:der-yfunction} and hold only within the model (S5 report).
+\item The 31.8 nm series resistance of V0 ($9.2\times10^{4}$\,\si{\ohm\micro\metre} total) cannot be carried over to 13.2 nm. There it would give $\theta\approx+0.17$\,V$^{-1}$, $-27$\,\% $\Ion$ and $\alpha_H$ lower by 0.25. None of these is observed: $\theta_{\mathrm{net}}=-0.046$\,V$^{-1}$, and \run{0013} reproduces $\alpha_H$ with $\Rsd=0$ (S5 report).
+\end{itemize}
+
+\paragraph{Status and caveats.}
+\prov{ASSUMED} (ideal Ohmic, $\Rsd=0$). The mechanism verdicts of the S5 report are as follows. A thickness-independent $\Rsd$ as the cause of the $\Ion$/$\muFE$ trend is \verdict{rejected}.
+A confinement-raised Pd/IWO barrier at 2 nm is \verdict{plausible, unverified}. It would need $\Delta\phi\ge\kT\ln2600=\SI{0.20}{eV}$, and it is rejected as the cause of the 2/6.3 vs 13.2 nm step because $\dEc(6.3)=\SI{0.07}{eV}$ cannot explain $\Ion(6.3)\le\Ion(2)$.
+Vertical access and current crowding are \verdict{rejected} as thickness mechanisms.
+$\Rsd$ as a minor contributor is \verdict{not determined} and bounded only within the model. Whether the gate extends under the S/D in the real device is \verdict{not determined}.
+
+% -------------------------------------------------------------------
+\section{Y-function and H-function analysis}\label{sec:der-yfunction}
+
+\paragraph{Definition and role in the model.}
+The Y-function method separates an intrinsic low-field mobility $\mu_0$ from the mobility attenuation $\theta$, which contains the series-resistance term $\beta\Rsd$. The threshold-free H-function measures the power-law exponent of the linear-regime current. In this report both serve as tests. They show whether $\Rsd$ can be extracted from a single transfer curve, and whether ATLAS with ideal contacts reproduces the measured curvature.
+
+\paragraph{Values used (per thickness).}
+Fit windows $\Vg\ge\Vthlin+\Vd$ (2.40--3.00, 2.55--3.00 and 1.75--3.00\,V for 2 / 6.3 / 13.2 nm; 13, 10 and 26 points). Results in \cref{tab:d2-yfunction}.
+
+\paragraph{Source.}
+S5 report (scripts \file{scratch/S5/s5_yfunction.py}, \file{s5_checks.py}), applied to the measured curves and to the V1 runs \run{0012}, \run{0015}, \run{0013}.
+
+\paragraph{Derivation.}
+\begin{derivation}[: Y- and H-functions]
+Assume a linear-regime current with first-order mobility attenuation, $\Id = \mu_0\Cox\frac{W}{L}\Vd\,\frac{V_{\mathrm{ov}}}{1+\theta V_{\mathrm{ov}}}$ with $\theta=\theta_0+\beta\Rsd$ and $\beta=\mu_0\Cox W/L$. Then $\gm=\mu_0\Cox\frac{W}{L}\Vd/(1+\theta V_{\mathrm{ov}})^{2}$ and
+\begin{equation}
+  Y\equiv\frac{\Id}{\sqrt{\gm}} = \sqrt{\mu_0\Cox\frac{W}{L}\Vd}\;V_{\mathrm{ov}},
+  \label{eq:d2-yfunction}
+\end{equation}
+which is independent of $\theta$. Hence, $\mu_0$ follows from the slope of $Y(\Vg)$, and $\theta$ from a direct fit of the attenuated expression. $\Rsd$ follows from $\theta-\theta_0$ if $\theta_0$ is known. For a power-law current $\Id\propto(\Vg-V_0)^{\alpha}$ the H-function is
+\begin{equation}
+  H\equiv\frac{\int_{V_0}^{\Vg}\Id\,\mathrm{d}V}{\Id} = \frac{\Vg-V_0}{\alpha+1},
+  \label{eq:d2-hfunction}
+\end{equation}
+whose slope $1/(\alpha+1)$ gives $\alpha$ without any threshold. An ideal square-law device has $\alpha_H\approx1$ at small $\Vd$. Series resistance lowers $\alpha_H$ and makes $\theta>0$. Tail filling (\cref{eq:d2-tail-power}) raises $\alpha_H$ and makes $\theta_{\mathrm{net}}<0$.
+\end{derivation}
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Y- and H-function results (S5 report). The GCA baseline is the $\alpha_H$ expected from the gradual-channel model at $\Vd=\SI{0.7}{V}$ without traps. Ranges span windows shifted by $\pm0.2$\,V and two $\gm$ methods (central difference and Savitzky--Golay, which agree within 2\,\%).}
+\label{tab:d2-yfunction}
+\begin{tabularx}{\linewidth}{@{}l c X X c@{}}
+\toprule
+curve & $\mu_{0,Y}$ ($\cmVs$) & $\theta_{\mathrm{net}}$ (V$^{-1}$) & $\alpha_H$ & $\mu_{0,Y}/\muband$ \\
+\midrule
+measured 2.0 nm  & 8.8 (8.0--8.9)   & $-0.100\pm0.007$ & 1.59 (1.55--1.71) vs GCA 1.1--1.2 & -- \\
+measured 6.3 nm  & 7.9 (5.7--8.0)   & $-0.12$ to $-0.20$ & 2.14 (2.14--2.23) vs GCA 1.1--1.3 & -- \\
+measured 13.2 nm & 41.2 (39.2--41.9) & $-0.046\pm0.002$ & 1.29 (1.27--1.35) vs GCA 1.05--1.13 & -- \\
+\run{0012} (2 nm)    & 9.2--9.9   & $-0.045$ to $-0.070$ & 1.35--1.46 & 0.53 \\
+\run{0015} (6.3 nm)  & 6.6--7.1   & $-0.054$ to $-0.077$ & 1.34--1.42 & 0.58 \\
+\run{0013} (13.2 nm) & 41.5--43.0 & $-0.032$ to $-0.047$ & 1.23--1.28 & 0.68 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+All three measured films are net supralinear, with $\theta_{\mathrm{net}}<0$. The ideal-contact, constant-$\muband$ ATLAS runs also give negative $\theta$. The measured-minus-ATLAS residuals are $-0.044$, $-0.053$ and $-0.010$\,V$^{-1}$, every one with the sign opposite to what $\Rsd$ would produce. When the tail exponent and $\theta$ are fitted together, they are perfectly correlated ($r=+1.00$). Hence $\Rsd$ is \emph{not identifiable} from one transfer curve at one channel length. The Y-function mobility is not an intrinsic mobility here: $\mu_{0,Y}/\muband$ = 0.53--0.68 on the model's own curves. The method's premise, a density-independent $\mu_0$, fails in trap-limited films. The free fraction is still rising at +3\,V at 2 and 6.3 nm (S5 report).
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{yfunction}
+  \caption{Y-function and H-function analysis of the measured transfer curves at $\Vd=\SI{0.7}{V}$ (existing analysis figure, \file{analysis_2026-09-25/scratch/S5/s5_yfunction_hfunction.png}). $Y=\Id/\sqrt{\gm}$ gives $\mu_0$ from its slope, and the H-function slope $1/(\alpha+1)$ gives the exponent without a threshold. All films show $\theta_{\mathrm{net}}<0$ and $\alpha_H>1$ (1.59 / 2.14 / 1.29), the tail-filling signature rather than the series-resistance signature. The 31.8 nm film has two $\gm$ maxima, so its Y-function is invalid.}
+  \label{fig:yfunction}
+\end{figure}
+
+\paragraph{ATLAS implementation.}
+Post-processing only. The ATLAS runs enter as ideal-contact references (\run{0012}, \run{0015}, \run{0013}). A forward check (gradual-channel model plus $\Rsd$, \file{s5_checks.py}) shows what a real $\Rsd$ would do. At $\Rsd W=9.2\times10^{4}$\,\si{\ohm\micro\metre}, a 13.2-nm-like device loses 27\,\% of $\Ion$, its $\alpha_H$ falls by 0.25 and the IR drop is 0.19\,V. A 2-nm-like device loses 5\,\% and its $\alpha_H$ falls by 0.06.
+
+\paragraph{Sensitivity evidence.}
+The measured 13.2 nm $\alpha_H$ is the model value plus $0.04\pm0.04$, which gives $\Rsd W\lesssim1$--$2\times10^{4}$\,\si{\ohm\micro\metre}. The 2 nm scatter across windows ($\Delta\theta\approx0.02$\,V$^{-1}$) gives $\Delta\theta/\beta\approx5\times10^{4}$\,\si{\ohm\micro\metre} (S5 report). At 31.8 nm $\gm$ has two maxima and the Y curvature is $\ge1.6$, so the positive $\theta$ there (+0.17 to +0.28\,V$^{-1}$) cannot be assigned to contacts.
+
+\paragraph{Status and caveats.}
+Y-function $\Rsd$ and intrinsic mobility for these films: \verdict{not determined} (method invalid; $\alpha$--$\theta$ correlation +1.00). The $\Rsd$ bounds are calibration-class. They assume the V1 trap model and are not independent measurements. Near threshold the device is in saturation at $\Vd=\SI{0.7}{V}$ (below $\Vthlin+\Vd$ = 2.36 / 2.52 / 1.74\,V), which leaves only 9--17 usable points at 2 and 6.3 nm. Transfer curves at $\Vd$ = 0.05--0.1\,V and a TLM series would make the method applicable.
+
+% -------------------------------------------------------------------
+\section{Temperature: \texorpdfstring{$T$}{T}, tmu = 1.5, \texorpdfstring{$\Nc(T)$}{Nc(T)} and the band gap}\label{sec:par-temperature}
+
+\paragraph{Definition and role in the model.}
+The lattice temperature enters V1 through the Fermi--Dirac statistics and the effective densities of states $\Nc(T)$ and $\Nv(T)$ (\cref{sec:par-nc,sec:par-nv}). It also enters through the occupation of the tails relative to the fixed tail width, and through the temperature factor of the constant mobility. All calibration is done at 300 K. The elevated-temperature runs are predictions (\cref{sec:pred-temperature}).
+
+\paragraph{Values used.}
+\begin{itemize}
+\item $T=\SI{300}{K}$ for all calibration and sensitivity runs.
+\item $T$ = 338.15 K (2 nm) and 358.15 K (2, 6.3 and 13.2 nm) in \run{0044}--\run{0047} (campaign B). \run{0045} is the 2 nm run at 358.15 K.
+\item Mobility temperature exponent: \emph{the ATLAS default $\texttt{TMUN}=1.5$ was applied}, although the plan declared a $T$-independent band mobility (PREDICTIONS\_REGISTER; SYNTHESIS D10).
+\item $\Nc\propto T^{3/2}$, a $T$-independent band gap, a $T$-independent tail ($\WTA$ = 40 meV, $T_t=\SI{464}{K}$) and a $T$-independent $\muband$ are the declared assumptions of campaign B (S2 report).
+\end{itemize}
+
+\paragraph{Source.}
+$T$ = 300 K is \prov{ASSUMED} as the measurement temperature. The $\texttt{TMUN}$ value is the silicon default of the manual \citep[p.~179, Table~3-43]{AtlasManual}; the default is also listed on p.~1413 of the manual, and the parameter is defined on p.~1355. It is printed in the \run{0045} run log: \file{deckbuild.out} l.~391--393 reads ``Temperature = 358 Kelvin, mu = 12.977, tmu = 1.5'' (PREDICTIONS\_REGISTER; REVIEW V7).
+
+\paragraph{Derivation.}
+The constant low-field model \citep[p.~179, Eq.~3-215]{AtlasManual} is $\mu_{n0}(T)=\texttt{MUN}\,(T/300)^{-\texttt{TMUN}}$. By \cref{eq:id-linear-mu} the simulated current at temperature $T$ is exactly
+\begin{equation}
+  \Id^{\,\text{P-phonon}}(T) = \left(\frac{T}{300}\right)^{-1.5}\Id^{\,\text{P-MTR}}(T),
+  \label{eq:d2-tmu-variants}
+\end{equation}
+where ``P-MTR'' denotes the intended variant with $T$-independent band mobility and ``P-phonon'' the variant as simulated. The phonon-like variant has $\mu\propto T^{-3/2}$. Both variants are therefore exact, and both are registered. The factors are:
+\begin{center}
+\small
+\begin{tabular}{@{}lcc@{}}
+\toprule
+$T$ (K) & $(T/300)^{-1.5}$ & P-MTR multiplier $(T/300)^{1.5}$ \\
+\midrule
+338.15 & 0.83564 & 1.19669 \\
+358.15 & 0.76663 & 1.30441 \\
+\bottomrule
+\end{tabular}
+\end{center}
+The multipliers are the exact values recomputed by REVIEW (V7). The register prose quoted $\times1.19665$ and $\times1.30426$, which is 0.012\,\% low; the code uses the exact expression. As a check, $\Ion(\run{0045})/\Ion(\run{0038})=0.7742$, and $0.7742\times1.30441=1.0098$. Hence, the P-MTR on-current rises by +0.98\,\% at 2 nm (6.3 nm: +2.23\,\%; 13.2 nm: +1.52\,\%). The ``mu = 12.977'' in the log is the 300 K parameter ($17.6897\times0.73359$), not the effective mobility at 358 K. Hence, the log line alone is not proof that the factor was applied. The proof is the exact current ratio.
+
+$\Nc(T)=\Nc(300)\,(T/300)^{3/2}$ follows from the parabolic effective-mass density of states (\cref{sec:par-nc}). The band gap is assumed $T$-independent. Whether the deck sets the ATLAS band-gap temperature coefficients (\texttt{EGALPHA}, described with the \texttt{MATERIAL} parameters on p.~1352 of the manual) to zero explicitly, or inherits defaults, is part of the default audit (SYNTHESIS item 0.3). It is \verdict{not determined} from the material read for this chapter. Because the IWO film is unipolar, a small $\Eg(T)$ shift would affect only the valence side and the deep states.
+
+\paragraph{ATLAS implementation.}
+The temperature is set by the \texttt{TEMPERATURE} parameter of the \texttt{MODELS} statement \citep[p.~1478]{AtlasManual}. The mobility exponent is \texttt{TMUN} on the \texttt{MATERIAL} (or \texttt{MOBILITY}) statement \citep[p.~1355]{AtlasManual}. V1 did not set \texttt{TMUN}, so the default 1.5 applied. The same parameter dump carries further silicon defaults ($v_{\mathrm{sat}}=9.78\times10^{6}$\,cm/s, SRH and Auger coefficients, lattice constant \SI{5.43}{\angstrom}). REVIEW judges them inactive or irrelevant here.
+
+\paragraph{Sensitivity evidence.}
+\Cref{tab:d2-temperature} summarises the registered changes from 300 K to 358.15 K (S6 report; \cref{fig:temperature_predictions}). At 338.15 K (2 nm), $\Delta\Vthcc$ is $-49.3$\,mV (P-MTR) and $-27.9$\,mV (P-phonon). The S2 1-D surrogate had predicted $\Delta\Vthcc$ of $-64$/$-66$\,mV, $\muFE\times0.993$/$\times0.999$ and $\Ion\times1.004$/$\times1.011$ at 350 K for 2/13.2 nm. ATLAS P-MTR reproduces these within 1\,mV and 0.4\,\% (S6 P7). That is a numerical cross-check between two implementations of the same assumptions, not a physical test.
+\begin{table}[htbp]
+\centering
+\small
+\caption{Registered 358.15 K predictions relative to 300 K, both exact variants (S6 report; PREDICTIONS\_REGISTER). Runs \run{0044}--\run{0047}; 300 K references \run{0038}, \run{0039} ($\times1.015074$), \run{0040} ($\times1.020113$).}
+\label{tab:d2-temperature}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+quantity & 2 nm & 6.3 nm & 13.2 nm \\
+\midrule
+$\Delta\Vthcc$, P-MTR (mV) & $-73.1$ & $-78.9$ & $-76.3$ \\
+$\Delta\Vthcc$, P-phonon (mV) & $-40.5$ & $-46.7$ & $-56.6$ \\
+$\Delta\Vthlin$, both (mV) & $-26.5$ & $-34.5$ & $-30.1$ \\
+$\Delta\SSfix{10^{-10}}{10^{-9}}$, P-MTR / P-phonon (mV/dec) & $-12.1$ / $+2.0$ & $-12.5$ / $+2.4$ & $-10.6$ / $-3.3$ \\
+$\muFE$ ratio, P-MTR / P-phonon & 0.992 / 0.760 & 1.000 / 0.766 & 1.000 / 0.767 \\
+$\Delta\Ion$, P-MTR / P-phonon & +1.0 / $-22.6$\,\% & +2.2 / $-21.6$\,\% & +1.5 / $-22.2$\,\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+The factor is common to all films, so the thickness ratios do not depend on the variant. $\muFE(13.2)/\muFE(2)$ goes from 4.403 to 4.440 and $\Ion(13.2)/\Ion(2)$ from 6.033 to 6.065 (PREDICTIONS\_REGISTER).
+
+\paragraph{Status and caveats.}
+$T$ = 300 K: \prov{ASSUMED}. $\texttt{TMUN}=1.5$ in the elevated-$T$ runs: accepted as a \verdict{configuration-control failure} (SYNTHESIS referee response 2.7), with no loss of information because of \cref{eq:d2-tmu-variants}. The planned fix is to re-run the 2 nm, 358.15 K case with $\texttt{TMUN}=0$. The P-MTR variant is expected to agree within $\pm0.2$\,\% in current (SYNTHESIS item 2.1). DOS convergence (\cref{sec:der-dos-discretization}) was verified only at 300 K. The tails are assumed $T$-independent. A rise of $\SSfix{10^{-10}}{10^{-9}}$ by more than 20\,mV/dec at 358 K would falsify that assumption (PREDICTIONS\_REGISTER).
+
+% -------------------------------------------------------------------
+\section{Activation energy in the multiple-trapping model}\label{sec:der-activation}
+
+\paragraph{Definition and role in the model.}
+The apparent activation energy at fixed bias is
+\begin{equation}
+  \Ea(\Vg) \;\equiv\; -\kB\,\frac{\partial\ln\Id}{\partial(1/T)}\Big|_{\Vg,\Vd}
+  \;\approx\; \kB\,\frac{\ln\!\left[\Id(T_2)/\Id(T_1)\right]}{1/T_1-1/T_2}.
+  \label{eq:d2-ea}
+\end{equation}
+It is the observable that best separates the transport pictures that three room-temperature curves cannot tell apart: MTR with a $T$-independent band mobility, phonon-limited band transport, and barrier- or percolation-limited transport. V1 has no activation parameter. $\Ea$ emerges from the statistics.
+
+\paragraph{Values used (per thickness).}
+Registered predictions for the two exact variants, from \run{0044}--\run{0047} and the 300 K references (S6 report; MANIFEST \texttt{activation\_energy}). Least-squares Arrhenius fits use 300 / 338.15 / 358.15 K at 2 nm and 300 / 358.15 K for the other films. At $\Vg=\SI{1}{V}$, P-MTR gives $\Ea$ = 57.3 / 53.4 / 20.8\,meV and P-phonon 15.1 / 11.1 / $-21.5$\,meV for 2 / 6.3 / 13.2 nm. The full P-MTR table (meV) is:
+\begin{center}
+\small
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+film & $\Vg=0.5$ & 1 & 1.5 & 2 & 3\,V \\
+\midrule
+2 nm   & 124 & 57 & 23 & 8 & 1.5 \\
+6.3 nm & 128 & 53 & 20 & 9 & 3.5 \\
+13.2 nm & 63 & 21 & 8 & 5 & 2.4 \\
+\bottomrule
+\end{tabular}
+\end{center}
+P-phonon is lower by exactly 42.3\,meV at every $\Vg$ (S6 report; PREDICTIONS\_REGISTER).
+
+\paragraph{Source.}
+\prov{CALCULATED} from the V1 model at elevated $T$ (\cref{sec:par-temperature}). The 1-D surrogate expectation is from S2 report.
+
+\paragraph{Derivation.}
+\begin{derivation}[: activation energy of an MTR channel]
+In the non-degenerate limit the free sheet density is $n_f\propto\Nc(T)\exp[-(\Ec-\EF)/\kT]$, and $\Id\propto\mu_n(T)\,n_f$. With $\Nc\propto T^{3/2}$ and $\mu_n\propto T^{-\texttt{TMUN}}$, \cref{eq:d2-ea} gives
+\begin{equation}
+  \Ea \;=\; \left(\Ec-\EF\right)_{\mathrm{eff}} \;+\; \tfrac32\kT \;-\; \texttt{TMUN}\,\kT,
+  \label{eq:d2-ea-mtr}
+\end{equation}
+because a prefactor $T^{a}$ contributes $a\kT$ to $-\kB\,\partial\ln\Id/\partial(1/T)$. The first term is the Arrhenius slope of $\exp[-(\Ec-\EF)/\kT]$ at fixed $\Vg$. It includes the temperature shift of $\EF$ caused by the redistribution between free and trapped electrons (\cref{eq:d2-tail-power}). In subthreshold it follows $\Ec-\EF$ at the surface. Once $\EF$ enters the band it falls to about zero (S2 report). The two registered variants differ only in the last term. For the finite-difference form of \cref{eq:d2-ea} the difference is $1.5\,\kB T_{\mathrm{eff}}$ with $T_{\mathrm{eff}}=\ln(T_2/T_1)/(1/T_1-1/T_2)=\SI{327.4}{K}$ for 300--358.15 K. That equals 42.3\,meV, exactly the offset found between the variants.
+\end{derivation}
+
+For comparison, the S2 surrogate gives, at 350 K, $\Ea$ = 504 / 120 / 56 / 23 / 7 / 1\,meV (2 nm) and 156 / 61 / 20 / 8 / 4 / 2\,meV (13.2 nm) at $\Vg$ = 0 / 0.5 / 1 / 1.5 / 2 / 3\,V. At equal $\Vg$ the 2 nm film is more activated. At equal overdrive the two films are similar, about 20\,meV at $\Vthlin$. Two alternative transport pictures give different signatures (S2 report):
+(a) \emph{Percolation} over a Gaussian barrier distribution, $\mu\propto\exp[-(\phi_m-\sigma^{2}/2\kT)/\kT]$. For $\phi_m$ = 20--60\,meV and $\sigma$ = 0--20\,meV this gives $\mu(350)/\mu(300)$ = 1.03--1.39 ($\Ea$ 6--60\,meV). The activation persists above threshold, and the Arrhenius plot is curved.
+(b) \emph{Grain-boundary barriers} as the source of the $\times4.6$ step. A barrier difference of $\kT\ln4.6=\SI{39}{meV}$ suffices. The thin films would then gain $\times1.24$ more than 13.2 nm between 300 and 350 K, and $\muFE(13.2)/\muFE(2)$ would fall from 4.13 to about 3.3.
+
+\paragraph{ATLAS implementation.}
+None beyond \cref{sec:par-temperature}: $\Ea$ is evaluated in post-processing from runs at different \texttt{MODELS TEMPERATURE} \citep[p.~1478]{AtlasManual}. The numerical uncertainty is below 0.5\,meV (S6 report).
+
+\paragraph{Sensitivity evidence.}
+The ATLAS P-MTR variant reproduces the S2 surrogate within 1--7\,meV in $\Ea$ and within 1\,mV in $\Delta\Vthcc$ (S6 P7). The registered discriminators (S6 report; S5 report; \cref{sec:pred-falsification}) are the following. A change $\Delta\Ion>{\sim}+5$\,\% at 358 K would point to an activated band mobility or to percolation, whereas $\Delta\Ion\approx-22$\,\% would point to phonon-limited band transport. A thin-film $\Ea(\SI{3}{V})>\Ea(13.2)+\SI{10}{meV}$, or a $\muFE$ ratio shrinking toward 3.3, would indicate that there is no common transport mechanism. An activation energy of $\muFE(\SI{3}{V})$ below about 5\,meV at 2 nm would falsify trap-limited conduction as the driver of $\muFE(t)$.
+
+\paragraph{Status and caveats.}
+\evPRED, registered and untested. The numerical cross-check (S6 P7) \verdict{passed}. The physical MTR signature is \verdict{not determined}. Caveats: the $\texttt{TMUN}$ variant choice (\cref{sec:par-temperature}); $T$-independent tails; no measured data at $T\ne\SI{300}{K}$. Figures: \cref{fig:activation_energy,fig:temperature_predictions}.
+
+% -------------------------------------------------------------------
+\section{Extraction of the device metrics}\label{sec:der-metrics}
+
+\paragraph{Definition and role in the model.}
+Every comparison between the model and the data in this report goes through a fixed set of metrics. They are extracted with identical code from the measured and the simulated curves. The target paper does not define its extraction, so the definitions below are stated conventions (\file{scripts/extract_metrics.py}, docstring). \Cref{sec:inp-metrics-measured} and \cref{tab:measured-metrics} list the measured values.
+
+\paragraph{Values used (definitions).}
+\begin{description}[style=nextline,leftmargin=1.2em]
+\item[Constant-current threshold.] $\Vthcc$ is the gate voltage at which $\Id=I_{\mathrm{cc}}=10^{-9}\Aum$, interpolated log-linearly between adjacent grid points $(V_i,I_i)$, $(V_{i+1},I_{i+1})$ that bracket $I_{\mathrm{cc}}$, with no extrapolation:
+\begin{equation}
+  \Vthcc = V_i + (V_{i+1}-V_i)\,\frac{\log_{10}I_{\mathrm{cc}}-\log_{10}I_i}{\log_{10}I_{i+1}-\log_{10}I_i}.
+  \label{eq:vthcc}
+\end{equation}
+The same routine gives $V(I)$ at any current level.
+\item[Linear-extrapolation threshold.] $\Vthlin = V_{g}^{*}-\Id(V_g^{*})/\gmmax$ at the point $V_g^{*}$ of maximum $\gm$. $\gm$ is \texttt{numpy.gradient} on the 0.05\,V grid (central differences in the interior).
+\item[Fixed-current SS.] $\SSfix{I_1}{I_2}=[V(I_2)-V(I_1)]/\log_{10}(I_2/I_1)$, with windows $10^{-11}$--$10^{-10}$ and $10^{-10}$--$10^{-9}\Aum$ (S6 section 1).
+\item[$\SScc$.] $[V(10^{-8})-V(10^{-10})]/2$ decades.
+\item[$\SSmin$ (retired).] The minimum of $\Delta\Vg/\Delta\log_{10}\Id$ over 5-point (0.2\,V) windows. Each window's first point must exceed 5 times the measured off-band median of the same thickness, and its current must be below $0.01\,\Ion$.
+\item[On-state shape.] gap $=\Vthlin-\Vthcc$; gap7 $=V(10^{-7})-\Vthcc$; $\Ion/\gm$.
+\item[$\muFE$.] \Cref{eq:mufe-lin}.
+\item[Currents.] $\Ion=\Id(\Vg=\SI{3}{V})$; $\Ioff$ = minimum $\Id$ over the sweep. For simulations it is the minimum positive $\Id$, with the count of native zeros reported and never replaced by a floor. The off-floor is the median of $\Id$ over $\Vg\in[-2,-0.5]$\,V.
+\end{description}
+Simulated curves are interpolated with \texttt{np.interp} from the native solver grid onto the 0.05\,V measurement grid before extraction (S6 section 1).
+
+\paragraph{Source.}
+Conventions of this study (\prov{ASSUMED}); code in \cref{ch:app-code}. The retirement of $\SSmin$ and the fixed-current replacements are from S6 section 1.4 and SYNTHESIS D7.
+
+\paragraph{Derivation.}
+The failure of $\SSmin$ has the following cause. The simulated SS rises steeply with current, by about 10--25\,mV/dec per 0.5 decade (S3). $\SSmin$ is therefore just the SS of the first window above the $5\times$ floor gate, and it depends on where that window falls on the 0.05\,V grid. At 2 nm the gate is $2.30\times10^{-14}\Aum$. \run{0012} has $\Id(\SI{0.15}{V})=2.34\times10^{-14}$, so its first window starts at 0.15\,V and gives $73.2\mVdec$. \run{0038} (B1) has $2.28\times10^{-14}$, so its window jumps to 0.20\,V and gives $83.1\mVdec$. The two runs have the same $\Ion$ within 0.01\,\% and differ by 2.5--2.6\,\% at that one point (S6 section 1.4; SYNTHESIS D7). \run{0029} ($2.34\times10^{-14}$) behaves like \run{0012}. The pure mobility rescaling \run{0003} $\rightarrow$ \run{0008} flips $\SSmin$ the other way (83.1 $\rightarrow$ 73.2). At 13.2 nm, \run{0013} and \run{0017} give $\SSmin$ = 151.3 and 138.6 but fixed-current SS = 90.8 and 92.0\,mV/dec. The earlier claim that ``removing confinement moves SS toward the data'' is therefore an artefact. The fixed-current SS agrees within 1--2\,mV/dec in these pairs: 122.5 / 123.5 ($10^{-11}$--$10^{-10}$) and 212.9 / 215.0 ($10^{-10}$--$10^{-9}$) for \run{0012} / \run{0038}.
+
+A second extraction subtlety concerns the floor. The measured 13.2 nm window $10^{-11}$--$10^{-10}\Aum$ sits only 1.5 times above the off-floor ($6.6\times10^{-12}\Aum$). Subtracting the floor changes its SS from 136.1 to 91.8\,mV/dec. The floor-subtracted value is used, and the subtraction is flagged as an assumption (S6 section 1.4; SYNTHESIS, referee response 2.6). The measured $\SSmin$ values are 84.5 / 114.7 / 130.8\,mV/dec. The paper's ``near-thermal-limit'' 60--70\,mV/dec is reachable on these curves only next to the noise floor. The 5-point SS without the floor gate is 70.6\,mV/dec at 0.20\,V for 2 nm (REVIEW).
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Measured / simulated metrics of the final calibrated state (\run{0038}; \run{0039} $\times1.015074$; \run{0040} $\times1.020113$) with the revised definitions (S6 section 1.6). $^{*}$13.2 nm measured SS values are floor-subtracted. SS in mV/dec, voltages in V, $\gm$ in A/V/$\mu$m, $\muFE$ in $\cmVs$.}
+\label{tab:d2-metrics-final}
+\begin{tabularx}{\linewidth}{@{}l*{8}{>{\centering\arraybackslash}X}@{}}
+\toprule
+$t$ & $\Vthcc$ & $\SSfix{10^{-11}}{10^{-10}}$ & $\SSfix{10^{-10}}{10^{-9}}$ & $\SScc$ & $\Vthlin$ & gap7 & $\muFE$ & $\Ion/\gm$ \\
+\midrule
+2.0  & 0.662 / 0.680 & 121.2 / 123.5 & 194.8 / 215.0 & 269.9 / 290.9 & 1.663 / 1.537 & 1.051 / 1.024 & 12.15 / 11.10 & 1.337 / 1.463 \\
+6.3  & 0.644 / 0.653 & 124.5 / 124.5 & 210.0 / 215.6 & 295.4 / 289.7 & 1.820 / 1.466 & 1.224 / 1.085 & 10.95 / 8.39 & 1.176 / 1.534 \\
+13.2 & 0.083 / 0.054 & 91.8$^{*}$ / 90.9 & 118.8$^{*}$ / 143.4 & 158.4$^{*}$ / 193.0 & 1.044 / 0.995 & 0.571 / 0.630 & 50.17 / 48.85 & 1.953 / 2.005 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+$\Ion$ matches to 0.00\,\% by construction. $\Vthcc$ is within +19 / +9 / $-29$\,mV. The deep subthreshold slope ($10^{-11}$--$10^{-10}$) is within 2.3\,mV/dec in all films, where 13.2 nm holds only with floor subtraction (REVIEW O7). In $10^{-10}$--$10^{-9}$ the model is too soft by +20 / +6 / +25\,mV/dec. The measured off-floors are $4.61\times10^{-15}$, $1.53\times10^{-13}$ and $6.60\times10^{-12}\Aum$ (ratio 1432 between 13.2 and 2 nm). Their origin is \verdict{not determined} (\cref{fig:off_floors}). The simulated native zeros occur only at $\Vg\le\SI{-0.10}{V}$ with $|\Id|\le6.3\times10^{-18}\Aum$, three decades below every measured floor. No metric uses them.
+
+\paragraph{ATLAS implementation.}
+None (post-processing). The solver grid matters in one place: the 0.1\,V solver step above 1.5\,V biases the simulated $\Vthlin$ by $-5.4$ / $-0.8$ / $-11.7$\,mV relative to the data (S6 section 1.5; \cref{sec:num-sweep}).
+
+\paragraph{Sensitivity evidence.}
+\Cref{tab:d2-uncertainty} gives the numerical uncertainty budget per metric (S6 section 1.5).
+\begin{table}[htbp]
+\centering
+\small
+\caption{Numerical uncertainty of the extracted metrics (S6 section 1.5). DOS: residual beyond 384/192. Mesh: $\times0.7$ refinement. Interpolation: log-linear vs PCHIP and grid effects.}
+\label{tab:d2-uncertainty}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+metric & DOS & mesh & interpolation / grid & total \\
+\midrule
+$\Vthcc$, $V(I)$ & $<0.5$\,mV & $\le0.4$\,mV & $\le1.5$\,mV & $\pm1.5$\,mV \\
+fixed-current SS & $<0.3$ & $\le0.1$ & $\le1.1$ (meas.\ 13.2 nm at $10^{-11}$: 4.6) & $\pm1$\,mV/dec \\
+$\SSmin$ & -- & -- & window phase $\pm10$ & invalid \\
+$\Vthlin$ & ${\approx}-1.4$\,mV (2 nm) & 0.15\,mV & solver-grid bias $-5.4$/$-0.8$/$-11.7$\,mV & $\pm2$\,mV + bias \\
+$\gmmax$, $\muFE$ & ${\approx}0.1$\,\% & 0.02\,\% & $-0.4$/0/$-0.7$\,\% & $\pm0.7$\,\% \\
+$\Ion$, $\Id$ & +0.16/${\sim}$0.06/${\sim}$0.03\,\% & 0.013\,\% & exact & $\pm0.2$\,\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Status and caveats.}
+Definitions: conventions, applied identically to data and model. $\SSmin$: \verdict{rejected} as a metric (numerical audit; 73.2 vs 83.1\,mV/dec at identical $\Ion$). It survives as the key \texttt{SS\_mV\_dec} in \file{scripts/extract_metrics.py} for backward compatibility, and must not be quoted as a result. $\Vthcc$ is partly a mobility metric (\cref{sec:par-mu}). The floor subtraction at 13.2 nm is an assumption. With one device per thickness, no metric carries a device-to-device uncertainty.
+
+% -------------------------------------------------------------------
+\section{Discretization of the trap density of states (NUMA/NUMD)}\label{sec:der-dos-discretization}
+
+\paragraph{Definition and role in the model.}
+The continuous tail and Gaussian defect densities (\cref{sec:par-tail,sec:par-deep}) enter Poisson's equation through energy integrals of density times occupancy. ATLAS evaluates these on a finite set of discrete energy levels: \texttt{NUMA} for acceptor-like and \texttt{NUMD} for donor-like states. The discretization error propagates directly into the trapped charge, hence into $P$ (\cref{sec:der-tlc}), $\Ion$ and the fitted $\muband$.
+
+\paragraph{Values used.}
+NUMA/NUMD = 96/48 in the V1 calibration and campaign-A runs (for example \run{0012}--\run{0015}, \run{0030}--\run{0035}) and in B0 (\run{0037}). 192/96 in \run{0019}. 384/192 in \run{0029}, the recalibrated runs \run{0038}--\run{0040}, C1 (\run{0052}) and the prediction runs \run{0041}--\run{0047} (S6 section 1.6; MANIFEST). The ATLAS default is 12 \citep[p.~1168]{AtlasManual}.
+
+\paragraph{Source.}
+Numerical choice (\prov{CALCULATED} by convergence study; S6 section 1; SYNTHESIS D9).
+
+\paragraph{Derivation.}
+\begin{derivation}[: quadrature error and Richardson extrapolation]
+The trapped acceptor density is $n_t(\mathbf{r})=\int g_A(E)\,f\!\left(E;{\EF}_{n}(\mathbf{r})\right)\mathrm{d}E$, evaluated as a sum over $N$ levels. The integrand varies on the scales $\WTA=\SI{40}{meV}$ and $\kT=\SI{25.9}{meV}$, so the levels must resolve these scales. For a smooth integrand and a midpoint- or trapezoid-type rule, the error behaves as $e(N)\simeq C N^{-p}$ with $p=2$. Given a quantity $Q$ at $N$, $2N$ and $4N$, the observed order and the extrapolated limit are
+\begin{equation}
+  p=\log_2\frac{Q_{2N}-Q_{N}}{Q_{4N}-Q_{2N}},\qquad
+  Q_\infty \approx Q_{4N}+\frac{Q_{4N}-Q_{2N}}{2^{p}-1}.
+  \label{eq:d2-richardson}
+\end{equation}
+At 2 nm (\run{0012} $\rightarrow$ \run{0019} $\rightarrow$ \run{0029}), $\Ion$ changes by +1.98\,\% (96 $\rightarrow$ 192) and +0.48\,\% (192 $\rightarrow$ 384). That gives $p=2.03$ and a residual beyond 384/192 of $0.48/(2^{2.03}-1)\approx+0.16$\,\% in $\Ion$, and about $-1.4$\,mV in $\Vthlin$ (S6 section 1). The observed order matches the expected second-order quadrature.
+\end{derivation}
+
+The DOS offset between 96/48 and 384/192 at equal mobility depends on thickness and on bias (\cref{tab:d2-dos}). At $\Vg=\SI{3}{V}$ it is +2.48 / +0.95 / +0.50\,\%, in the ratio 1 : 0.38 : 0.20. That is close to the tail densities $\Nt$ = 2.0 : 0.85 : 0.49$\times10^{19}\cmcu$ (1 : 0.43 : 0.25). The offset is therefore a quadrature error of the discretized tail. Its sign flips between threshold, where trapped charge is over-counted, and the on-state, where it is under-counted. Where ATLAS places the levels is \verdict{not determined} (S6 section 1).
+\begin{table}[htbp]
+\centering
+\small
+\caption{Effect of DOS 96/48 $\rightarrow$ 384/192 at equal mobility (S6 section 1). 6.3 and 13.2 nm compare \run{0015} and \run{0013} with the recalibrated runs scaled back to the V1 mobilities ($\times11.69/11.41$, $\times61.9/60.39$).}
+\label{tab:d2-dos}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+film (pair) & $\Delta\Id$ at $\Vg$ 0.7 / 1.5 / 2 / 3\,V (\%) & $\Delta\Vthcc$ (mV) & $\Delta\Vthlin$ (mV) & $\Delta\gm$ & $\Delta$SS fixed (mV/dec) \\
+\midrule
+2 nm (\run{0012} $\rightarrow$ \run{0029}) & $-0.95$ / +2.56 / +3.64 / +2.48 & +1.1 & $-22.0$ & +0.9\,\% & $\le+0.8$ \\
+6.3 nm (\run{0015} $\rightarrow$ \run{0039}) & $-0.63$ / +0.78 / +1.12 / +0.95 & +0.7 & $-4.8$ & +0.6\,\% & $\le+0.6$ \\
+13.2 nm (\run{0013} $\rightarrow$ \run{0040}) & $-0.04$ / +0.68 / +0.64 / +0.50 & +0.2 & $-4.5$ & +0.3\,\% & $\le+0.3$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+Because $\Id$ is linear in $\muband$ (\cref{eq:id-linear-mu}), the recalibration at 384/192 absorbs these offsets into $\muband$: 18.13 / 11.69 / 61.9 $\rightarrow$ 17.69 / 11.58 / 61.60\,$\cmVs$, which is $-2.4$ / $-0.9$ / $-0.5$\,\%, the $\Ion$ offsets with the sign reversed. For the historical 96/48 runs (\run{0014}, \run{0015}, A1--A6, B0) the effect on the metrics of \cref{tab:d2-metrics-final} is at most 1\,mV, 0.6\,mV/dec and 1\,\% (S6 section 3.1).
+
+\paragraph{ATLAS implementation.}
+\texttt{DEFECTS CONTINUOUS ... NUMA=384 NUMD=192} \citep[pp.~1168--1169]{AtlasManual}. \texttt{NUMA} and \texttt{NUMD} cannot be changed with \texttt{MODIFY} \citep[p.~1171]{AtlasManual}, so every DOS level change requires a new deck. Mesh convergence is a separate check (\cref{sec:num-mesh,sec:num-convergence}): $\times0.7$ refinement changes the 6.3 nm curve by at most 0.0039 decade ($\Delta\Vthcc=-0.32$\,mV; \run{0036} vs \run{0015}) and the 13.2 nm curve by at most 0.0029 decade ($-0.36$\,mV; \run{0028} vs \run{0013}).
+
+\paragraph{Sensitivity evidence.}
+\Cref{tab:d2-dos} and \cref{fig:numerics_convergence}.
+
+\paragraph{Status and caveats.}
+DOS 384/192 converged: \verdict{demonstrated} (\evNUM; residual +0.16\,\% $\Ion$ at 2 nm, $p=2.0$). The DOS offset is thickness-dependent: \verdict{demonstrated}. Convergence was checked at 300 K only, and at 2 nm only for the three-level sequence. The 6.3 and 13.2 nm residuals are expected to be smaller in proportion to $\Nt$, but that is inferred, not computed.
+
+% -------------------------------------------------------------------
+\section{Identifiability of thickness power laws; leave-one-out tests}\label{sec:der-powerlaw}
+
+\paragraph{Definition and role in the model.}
+Several V1 inputs are written as power laws in $t$. Examples are $\dEc\propto t^{-1.38}$ (\cref{sec:par-dec}), $\Nt\propto t^{-0.75}$ (\cref{sec:par-tail}), $\mstar\propto t^{-1.41}$ (\cref{sec:par-mstar}) and the $\Ndeff$ law (\cref{sec:par-nd}). Earlier package documents also described the measured metrics with power laws. This section asks what three films can identify.
+
+\paragraph{Values used.}
+Measured $\muFE$ = 12.15 / 10.95 / 50.17\,$\cmVs$ and $\Ion$ = $5.09\times10^{-7}$ / $4.03\times10^{-7}$ / $3.07\times10^{-6}\Aum$ at 2 / 6.3 / 13.2 nm. The 31.8 nm film serves as context only ($\Ion=3.59\times10^{-6}\Aum$).
+
+\paragraph{Source.}
+\evDATA; analysis in S2 report, REVIEW V12 and MANIFEST \texttt{powerlaw\_loo}.
+
+\paragraph{Derivation.}
+A two-parameter law $y=A\,t^{b}$ through two anchors has
+\begin{equation}
+  b=\frac{\ln(y_2/y_1)}{\ln(t_2/t_1)},\qquad \hat y(t_3)=y_1\,(t_3/t_1)^{b}.
+  \label{eq:d2-powerlaw}
+\end{equation}
+With three films and two parameters there is exactly one residual degree of freedom. Any two-point law passes exactly through its anchors, so it cannot be falsified there. The only test the data allow is to leave one film out and predict it. More flexible forms (three parameters) cannot be tested at all. The measured sequence is also non-monotonic: $\muFE(6.3)<\muFE(2)<\muFE(13.2)$ and $\Ion(6.3)<\Ion(2)<\Ion(13.2)$. Every monotonic law in $t$ therefore fails at one film at least.
+
+Fitting through 2 and 13.2 nm and predicting 6.3 nm (measured $\muFE=10.95\,\cmVs$):
+\begin{center}
+\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+form through (2, 13.2 nm) & parameters & predicted $\muFE(6.3)$ & miss \\
+\midrule
+power law $A t^{b}$ & $b=0.7516$ & 28.78 & $\times2.63$ \\
+$A+B/t$ & $A=56.96$, $B=-89.62$ & 42.73 & $\times3.90$ \\
+exponential $A e^{t/\tau}$ & $1/\tau=0.1266$\,nm$^{-1}$ & 20.94 & $\times1.91$ \\
+step, $t_c\in(6.3,13.2)$ & -- & 12.15 & $\times1.11$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+The predicted values are from MANIFEST (\texttt{powerlaw\_loo}). The parameters follow from \cref{eq:d2-powerlaw} and its analogues through the anchors 12.15 and 50.17. For $\Ion$ the same power-law test misses 6.3 nm by $\times3.76$ (SYNTHESIS section D). An $\Ion$ power law through 6.3 and 13.2 nm (exponent 2.74--2.75) predicts $3.4\times10^{-5}\Aum$ at 31.8 nm. The measured value is $3.59\times10^{-6}$, $\times9.6$ lower. The prediction also exceeds the series-resistance ceiling $0.7\,\mathrm{V}/9\times10^{4}\,\Omega\,\mu\mathrm{m}=7.8\times10^{-6}\Aum$ (S2 report).
+
+The step form wins the leave-one-out test ($\times1.11$), but that result is circular. The step location was chosen after the data were seen, and with $t_c\in(2,6.3)$ the same form misses by $\times4.58$ (REVIEW V12). SYNTHESIS concedes the point: all laws are two-point laws or extrapolations, the step is equally unsupported, and no functional form is claimed.
+
+The same limitation applies to the input laws. The $\Nt$ exponent 0.75 comes from a two-point ratio of about 4 between 13.2 and 2 nm stated by \citet[p.~7]{Januar2026}. The same paper's PBS devices ($5.3\times10^{19}$ at 2 nm and $3.39\times10^{18}\cmcu$ at 10 nm) imply 1.71 \citep[p.~9]{Januar2026}. A surface-plus-bulk form through the same anchors ($\Nt=2.15\times10^{18}\cmcu+3.57\times10^{12}\cmsq/t$) predicts $7.8\times10^{18}$ at 6.3 nm, against $8.5\times10^{18}\cmcu$ from the power law. The data cannot tell them apart (S2 report; S4). The $\dEc$ exponent is a local three-point slope of DFT slab data. Beyond about 3 nm it exceeds the infinite-well upper bound ($\times1.59$ at 6.3 nm, $\times2.51$ at 13.2 nm); relative to the DFT-anchored effective-width estimate of S3 the same overshoot is $\times1.45$ / $\times2.15$ (\cref{tab:d1-e1}), a different reference, not a different result. Its effect on $\Vth$ is at most 35\,mV (SYNTHESIS; \cref{sec:der-confinement}).
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{powerlaw_loo}
+  \caption{Leave-one-out tests of thickness laws for the measured $\muFE(t)$ and $\Ion(t)$. Power law, $A+B/t$, exponential and step forms are fitted through 2 and 13.2 nm and used to predict 6.3 nm (measured $\muFE=10.95\,\cmVs$; predictions 28.78, 42.73, 20.94 and 12.15). The panels also show the extrapolation to 31.8 nm. An $\Ion$ power law through 6.3 and 13.2 nm (exponent 2.75) predicts $3.43\times10^{-5}\Aum$ against $3.59\times10^{-6}$ measured. Note the non-monotonic data: no monotonic law passes through all three films.}
+  \label{fig:powerlaw_loo}
+\end{figure}
+
+\paragraph{ATLAS implementation.}
+The thickness laws enter the decks only as per-film numbers written by the deck generator (\cref{ch:app-code}). ATLAS itself knows no law. The fitted per-film $\muband$ is deliberately \emph{not} a law (\cref{sec:par-mu}).
+
+\paragraph{Sensitivity evidence.}
+Leave-one-out misses are $\times2.63$ for $\muFE$ and $\times3.76$ for $\Ion$. Applied to the V1-fitted $\muband$, the power-law test misses by $\times3.27$ (S2 report). The 31.8 nm extrapolation overshoots by $\times9.6$.
+
+\paragraph{Status and caveats.}
+Power laws in $t$ for $\muFE$, $\Ion$ and $\Vth$: \verdict{rejected} as descriptions of the data. Thickness laws in general: not identifiable from three films with $N=1$ device each. Of the input laws, $\Nt\propto t^{-0.75}$ is \verdict{not determined} (empirical interpolation). $\mstar\propto t^{-1.41}$ is \verdict{plausible, unverified}. $\dEc\propto t^{-1.38}$ beyond 3 nm is \verdict{rejected} as physics (S2 findings). The measured pattern, 2 $\approx$ 6.3 nm $\ne$ 13.2 nm in every metric, is more consistent with a change of material between 6.3 and 13.2 nm (crystallinity, grain boundaries, percolation), which S2 rates \verdict{plausible, unverified}. It would be tested by a temperature series and GIXRD, and by more thicknesses between 6.3 and 13.2 nm.
+
+% -------------------------------------------------------------------
+\begin{keyresult}[: transport, extraction, contacts, temperature and numerics]
+\begin{itemize}[leftmargin=1.2em]
+\item Mobility is fitted, not derived. $\muband$ = 17.69 / 11.58 / 61.60\,$\cmVs$ at DOS 384/192 (\run{0038}, \run{0039} $\times1.015074$, \run{0040} $\times1.020113$), replacing 18.13 / 11.69 / 61.9 at 96/48. The fitted $\muband$ carries 109\,\% of the 6.3 $\rightarrow$ 13.2 nm mobility step. The roughness factor and the trap partition each carry about 3\,\% (\evCAL).
+\item $\Id$ is exactly linear in a uniform constant mobility: \run{0029}/\run{0038} = 1.024879 against 1.024873. This makes the one-step calibration, the rescaled 6.3 / 13.2 nm runs and both temperature variants exact (\evNUM, demonstrated).
+\item The paper's 5.1 and 27.4\,$\cmVs$ are the saturation formula applied to the same $\Vd=\SI{0.7}{V}$ curves (5.09 / 27.40), not linear-regime $\muFE$ (12.15 / 50.17). This is demonstrated provenance evidence, and it predicts 3.86\,$\cmVs$ at 6.3 nm.
+\item Contacts are untested in V1. The S/D are ideal Ohmic. \run{0027} is malformed and retracted (\cref{sec:cal-param-control}). $\Rsd$ is not identifiable from one curve ($\theta_{\mathrm{net}}<0$, $\alpha$--$\theta$ correlation +1.00). A contact explanation of the thickness trend is rejected.
+\item The elevated-$T$ runs used ATLAS's default $\mathrm{tmu}=1.5$. Both variants are exact, with P-MTR multipliers 1.30441 (358.15 K) and 1.19669 (338.15 K). Their activation energies differ by exactly 42.3 meV. A direct check, \run{0054} (2 nm, 358.15 K, $\mathrm{tmun}=0$ declared explicitly), reproduces \run{0045}$\times1.30441$ to within 0.11\,\% at every gate voltage, which confirms the rescaling numerically. All temperature results are registered predictions (\evPRED).
+\item $\SSmin$ is retired: 73.2 vs 83.1\,mV/dec at identical $\Ion$ (\run{0012} vs \run{0038}). Fixed-current SS reproduces the $10^{-11}$--$10^{-10}\Aum$ slope within 2.3\,mV/dec in all films (13.2 nm floor-subtracted).
+\item DOS 384/192 is converged where checked (2 nm, 300 K: order 2.03, residual +0.16\,\% $\Ion$). The 96/48 offsets of +2.48 / +0.95 / +0.50\,\% scale with $\Nt$.
+\item No thickness power law is identifiable from three non-monotonic films. The leave-one-out misses are $\times2.63$ ($\muFE$) and $\times3.76$ ($\Ion$), and the $\Ion$ law overshoots 31.8 nm by $\times9.6$. No functional form is claimed.
+\end{itemize}
+\end{keyresult}
+
+With every physical input derived, the next chapter documents how the model is turned into ATLAS decks, how each launch is validated before it is scored, and how far the numerical results are converged.

@@ -1,0 +1,86 @@
+% ===================================================================
+% main.tex -- Full source-traceable TCAD report on thickness-dependent
+% ultrathin IWO (W:In2O3) thin-film transistors.
+% Build (Overleaf or TeX Live): pdflatex main; bibtex main; pdflatex main; pdflatex main
+% ===================================================================
+\documentclass[11pt,oneside,openany]{report}
+\input{preamble}
+
+\newcommand{\reporttitle}{Thickness-Dependent Behaviour of Ultrathin W-Doped \InO{} Thin-Film Transistors}
+\newcommand{\reportsubtitle}{A Source-Traceable TCAD Study: Literature Basis, Inputs, Derivations, Simulation Campaigns, Mechanism Analysis and Validation Status}
+\newcommand{\reportauthor}{Mahmoud Elrasheedy}
+\newcommand{\reportsupervisor}{Chao-Hsin Wu}
+\newcommand{\reportdate}{25 September 2026}
+
+\hypersetup{pdftitle={Thickness-dependent ultrathin IWO TFTs: source-traceable TCAD study},pdfauthor={\reportauthor}}
+
+\begin{document}
+
+% ---------------- title page ----------------
+\begin{titlepage}
+  \centering
+  \vspace*{2.5cm}
+  \rule{\linewidth}{0.6pt}\\[0.8cm]
+  {\LARGE\bfseries \reporttitle\par}
+  \vspace{0.5cm}
+  {\large \reportsubtitle\par}
+  \vspace{0.6cm}
+  \rule{\linewidth}{0.6pt}\\[1.6cm]
+  {\large \reportauthor\par}
+  \vspace{0.3cm}
+  {\normalsize Principal Investigator: \reportsupervisor\par}
+  \vspace{0.2cm}
+  {\normalsize Mentor: Mukul Kumar\par}
+  \vspace{1.2cm}
+  {\normalsize Silvaco ATLAS 5.28.1.R / DeckBuild 5.0.10.R drift-diffusion simulations (52 recorded launches)\\
+   of the \SI{2.0}{nm}, \SI{6.3}{nm} and \SI{13.2}{nm} devices, with the \SI{31.8}{nm} device as context\par}
+  \vfill
+  {\normalsize \reportdate\par}
+  \vspace{0.4cm}
+  {\small Every simulated number in this report comes from a real ATLAS launch listed in \cref{ch:app-runs};
+   every material number carries a provenance label and a page-exact source (\cref{sec:lit-provenance}).\par}
+\end{titlepage}
+
+\pagenumbering{roman}
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+\input{chapters/00_abstract}
+
+\tableofcontents
+\listoffigures
+\listoftables
+\input{chapters/00_nomenclature}
+
+\cleardoublepage
+\pagenumbering{arabic}
+
+\include{chapters/01_introduction}
+\include{chapters/02a_literature_target}
+\input{chapters/02b_literature_in2o3}
+\input{chapters/02c_literature_methods}
+\input{chapters/02d_provenance}
+\include{chapters/03_device_data}
+\include{chapters/04_derivations_electrostatics}
+\include{chapters/05_derivations_transport}
+\include{chapters/06_numerics}
+\include{chapters/07_calibration}
+\include{chapters/08_six_nm}
+\include{chapters/09_mechanisms}
+\include{chapters/10_predictions}
+\include{chapters/11_validation}
+\include{chapters/12_conclusions}
+
+\appendix
+\include{appendices/A_runs}
+\include{appendices/B_code}
+\include{appendices/C_decks}
+\include{appendices/D_register}
+\include{appendices/E_reproducibility}
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{Bibliography}
+\bibliographystyle{unsrtnat}
+\bibliography{references,bib/extra_L1,bib/extra_L2,bib/extra_L3,bib/extra_D1,bib/extra_D2,bib/extra_C1,bib/extra_C2,bib/extra_R1,bib/extra_R2a,bib/extra_R2b,bib/extra_R3}
+
+\end{document}

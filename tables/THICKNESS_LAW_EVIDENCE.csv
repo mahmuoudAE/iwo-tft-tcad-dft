@@ -1,0 +1,31 @@
+quantity,value,unit,thickness_nm,material,label,source,location
+Eg_PBE,0.94,eV,bulk,In2O3,DFT_PURE_IN2O3_PROXY,Lin2022_ACSNano,"Methods, p.21542"
+Eg_PBE,1.27,eV,1.98,"In2O3 slab (H-passivated, vacuum)",DFT_PURE_IN2O3_PROXY,Lin2022_ACSNano,"Methods, p.21542"
+Eg_PBE,1.88,eV,0.95,In2O3 slab,DFT_PURE_IN2O3_PROXY,Lin2022_ACSNano,"Methods, p.21542"
+dEc_PBE,0.6,eV,1.5,In2O3 on Al2O3 slab; Ev ~unchanged,DFT_PURE_IN2O3_PROXY,Si2021_NanoLett,"p.504, Fig.4b text"
+mstar,0.17,m0,bulk,In2O3 (PBE),DFT_PURE_IN2O3_PROXY,Lin2022_ACSNano,p.21540
+mstar,0.19,m0,3.52,In2O3 slab (PBE),DFT_PURE_IN2O3_PROXY,Lin2022_ACSNano,p.21540
+mstar,0.23,m0,1.98,In2O3 slab (PBE),DFT_PURE_IN2O3_PROXY,Lin2022_ACSNano,p.21540
+mstar,0.3,m0,0.95,In2O3 slab (PBE),DFT_PURE_IN2O3_PROXY,Lin2022_ACSNano,p.21540
+mstar_exp,0.208,m0,bulk,"In2O3 single crystal, n=2.8e17 (optical Hall)",MEASURED_RELATED_MATERIAL,Stokey2021_JAP,Abstract; Sec. IV.C
+mstar_exp_0,0.18,m0,bulk,"In2O3 zero-density extrapolation (Feneberg, cited)",LITERATURE_IN2O3_PROXY,Stokey2021_JAP,"Sec. I, Eq.(3)"
+eps_DC,10.55,-,bulk,In2O3 single crystal (LST/THz),MEASURED_RELATED_MATERIAL,Stokey2021_JAP,Abstract; Table II
+eps_DC,8.9,-,film,"evaporated In2O3 films (Hamberg, cited)",LITERATURE_IN2O3_PROXY,Si2021_NanoLett,p.501
+eps_r,9.3,-,film,"IWO of the target process (C-V, SI Fig.S1)",MEASURED_TARGET_DEVICE,Januar2026_SI (not bundled; value recorded in Astra SOURCES_AND_CORRECTIONS),SI Fig.S1b
+eps_r,9.03,-,film,"In2O3 of the target process (C-V, SI Fig.S1)",MEASURED_RELATED_MATERIAL,Januar2026_SI (not bundled),SI Fig.S1b
+eps_r_HfO2,19.57,-,film,HfO2 of the target process,MEASURED_TARGET_DEVICE,Januar2026_SI (not bundled),SI Fig.S1b
+Eg_IWO,3.05,eV,film,"sputtered a-IWO, different device (Fan 2021)",LITERATURE_IWO,Fan2021_Nanomaterials (cited by Astra),Sec.3
+chi_IWO,4.3,eV,film,"estimate, 96/4 composition mixing (Fan 2021)",LITERATURE_IWO,Fan2021_Nanomaterials (cited by Astra),Sec.3
+CNL_above_Ec,0.4,eV,bulk,In2O3,LITERATURE_IN2O3_PROXY,Si2021_NanoLett; Lin2022; Wang2022,text
+Dit,600000000000.0,cm^-2 eV^-1,1.2,HfO2/In2O3 (from SS 63.5 mV/dec),LITERATURE_IN2O3_PROXY,Lin2022_ACSNano,p.21539
+Dit,630000000000.0,cm^-2 eV^-1,3.5,HfO2/In2O3 (subthreshold method),LITERATURE_IN2O3_PROXY,Wang2022_FrontMater,p.4
+bulk_DOS,3.3e+20,cm^-3 eV^-1,3.5,"ALD In2O3 (conductance method), ND 1e20",LITERATURE_IN2O3_PROXY,Wang2022_FrontMater,Abstract; p.4-5
+Nt,5.3e+19,cm^-3,2.0,"IWO 2 nm (compact-model extraction, unstressed)","LITERATURE_IWO (target process, PBS device)",Januar2026,p.9
+Nt,3.39e+18,cm^-3,10.0,"IWO 10 nm (compact-model extraction, unstressed)","LITERATURE_IWO (target process, PBS device)",Januar2026,p.9
+Nt_ratio_13p2_to_2,4.0,-,2..13.2,IWO thickness series,LITERATURE_IWO,Januar2026,"Sec.2.8, Fig.5a"
+Delta_sr,2.87,A,series,IWO effective roughness (fit of mu vs t),LITERATURE_IWO,Januar2026,"Sec.2.9, Fig.5f"
+mu_max,27.4,cm^2/Vs,13.2,IWO peak field-effect mobility,LITERATURE_IWO,Januar2026,Sec.2.8
+mu_max,5.1,cm^2/Vs,2.0,IWO peak field-effect mobility,LITERATURE_IWO,Januar2026,Sec.2.8
+Nbk_LFN,2.37e+18,cm^-3 eV^-1,10,"IWO (1 wt% WO3, SiO2 gate) border traps",LITERATURE_IWO (different process),Kim2024_APL,p.6
+Nbk_LFN,3.12e+18,cm^-3 eV^-1,20,same,LITERATURE_IWO (different process),Kim2024_APL,p.6
+Nbk_LFN,1.46e+19,cm^-3 eV^-1,30,same,LITERATURE_IWO (different process),Kim2024_APL,p.6

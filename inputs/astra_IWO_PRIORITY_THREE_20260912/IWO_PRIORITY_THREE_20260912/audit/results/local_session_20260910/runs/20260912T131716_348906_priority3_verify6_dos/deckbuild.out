@@ -1,0 +1,4392 @@
+
+*** this is deckbuild version 5.0.10.R ***
+
+go atlas
+
+
+                                   A T L A S
+
+            Version:  atlas 5.28.1.R (Wed Jun  5 11:14:46 PDT 2019)
+
+                           Copyright (c) 1984 - 2019
+                        Silvaco Inc. All rights reserved
+
+    We acknowledge the contribution of the following collaborative partners:
+
+                              Stanford University
+
+
+
+               ======================================================
+
+                  ATLAS                           : enabled
+
+                  S-PISCES                        : enabled
+
+                  BLAZE                           : enabled
+
+                  GIGA                            : enabled
+
+                  LUMINOUS                        : enabled
+
+                  LED                             : enabled
+
+                  TFT                             : enabled
+
+                  ORGANIC DISPLAY                 : enabled
+
+                  ORGANIC SOLAR                   : enabled
+
+                  MIXEDMODE                       : enabled
+
+                  LASER                           : enabled
+
+                  VCSEL                           : enabled
+
+                  FERRO                           : enabled
+
+                  QUANTUM                         : enabled
+
+                  NOISE                           : enabled
+
+                  REM                             : enabled
+
+                  MAGNETIC                        : enabled
+
+                  DEVICE3D                        : enabled
+
+                  THERMAL3D                       : enabled
+
+                  GIGA3D                          : enabled
+
+                  MIXEDMODE3D                     : enabled
+
+                  TFT3D                           : enabled
+
+                  QUANTUM3D                       : enabled
+
+                  LUMINOUS3D                      : enabled
+
+                  REM3D                           : enabled
+
+                  MAGNETIC3D                      : enabled
+
+                  LED3D                           : enabled
+
+                  LASER3D                         : enabled
+
+                  MIXEDMODE XL                    : enabled
+
+                  S-PISCES BUNDLE                 : not licensed
+
+                  BLAZE BUNDLE                    : not licensed
+
+                  TFT BUNDLE                      : not licensed
+
+                  ORGANIC BUNDLE                  : not licensed
+
+                  DEVICE3D BUNDLE                 : not licensed
+
+                  TFT3D BUNDLE                    : not licensed
+
+               ======================================================
+
+                           Sat Sep 12 21:17:23 2026
+
+                            Executing on host: dell
+                     Current SFLM Server: 127.0.0.1:3162/
+
+
+
+ATLAS> title IWO 6.3 nm - independent rebuild - uncalibrated
+***********************************************
+IWO 6.3 nm - independent rebuild - uncalibrated
+***********************************************
+ATLAS> # Units: um. Geometry fixed by the target; electronic parameters are hypotheses.
+ATLAS> # n+Si support is screened by ideal TiN and excluded from this electrical domain.
+ATLAS> # Physical stack: n+Si / TiN50 / HfO2 15 / Al2O3 2 / IWO / Pd70 nm.
+ATLAS> # Air above the exposed channel; no artificial SiO2 overlayer.
+ATLAS> # Width-one currents are A/um. Physical device total current is 290 times that.
+ATLAS> 
+ATLAS> # 1. Direct rectangular mesh; no imported process mesh.
+ATLAS> mesh width=1
+	####################################################
+	######                                        ######
+	######           Running on 1 CPU             ######
+	######           20 CPUs available            ######
+	######                                        ######
+	####################################################
+ATLAS> x.mesh loc=0 spac=0.5
+ATLAS> x.mesh loc=1.8 spac=0.1
+ATLAS> x.mesh loc=2 spac=0.05
+ATLAS> x.mesh loc=2.2 spac=0.1
+ATLAS> x.mesh loc=12 spac=0.5
+ATLAS> x.mesh loc=21.8 spac=0.1
+ATLAS> x.mesh loc=22 spac=0.05
+ATLAS> x.mesh loc=22.2 spac=0.1
+ATLAS> x.mesh loc=24 spac=0.5
+ATLAS> y.mesh loc=-0.0763 spac=0.015
+ATLAS> y.mesh loc=-0.0263 spac=0.005
+ATLAS> y.mesh loc=-0.0083 spac=0.001
+ATLAS> y.mesh loc=-0.0063 spac=0.00025
+ATLAS> y.mesh loc=-0.0055125 spac=0.0007875
+ATLAS> y.mesh loc=-0.004725 spac=0.0007875
+ATLAS> y.mesh loc=-0.0039375 spac=0.0007875
+ATLAS> y.mesh loc=-0.00315 spac=0.0007875
+ATLAS> y.mesh loc=-0.0023625 spac=0.0007875
+ATLAS> y.mesh loc=-0.001575 spac=0.0007875
+ATLAS> y.mesh loc=-0.0007875 spac=0.0007875
+ATLAS> y.mesh loc=0 spac=0.00025
+ATLAS> y.mesh loc=0.0005 spac=0.0005
+ATLAS> y.mesh loc=0.001 spac=0.0005
+ATLAS> y.mesh loc=0.0015 spac=0.0005
+ATLAS> y.mesh loc=0.002 spac=0.0005
+ATLAS> y.mesh loc=0.0035 spac=0.0015
+ATLAS> y.mesh loc=0.005 spac=0.0015
+ATLAS> y.mesh loc=0.0065 spac=0.0015
+ATLAS> y.mesh loc=0.008 spac=0.0015
+ATLAS> y.mesh loc=0.0095 spac=0.0015
+ATLAS> y.mesh loc=0.011 spac=0.0015
+ATLAS> y.mesh loc=0.0125 spac=0.0015
+ATLAS> y.mesh loc=0.014 spac=0.0015
+ATLAS> y.mesh loc=0.0155 spac=0.0015
+ATLAS> y.mesh loc=0.017 spac=0.0015
+ATLAS> y.mesh loc=0.067 spac=0.01
+ATLAS> 
+ATLAS> # 2. Active stack and physical metal volumes.
+ATLAS> region num=1 material=Air y.min=-0.0763 y.max=-0.0063
+ATLAS> region num=2 user.material=IWO y.min=-0.0063 y.max=0
+ATLAS> region num=3 material=Al2O3 y.min=0 y.max=0.002
+ATLAS> region num=4 material=HfO2 y.min=0.002 y.max=0.017
+ATLAS> region num=5 material=Conductor y.min=0.017 y.max=0.067
+ATLAS> electrode num=1 name=gate material=Conductor x.min=0 x.max=24 y.min=0.017 y.max=0.067
+ 
+Electrode #1
+Name: gate                
+ Number of boundary nodes: 1260
+ Dimensions in microns: 
+       min         max
+ x 0.000e+000  2.400e+001 
+ y 1.700e-002  6.700e-002 
+
+ATLAS> electrode num=2 name=source material=Palladium x.min=0 x.max=2 y.min=-0.0763 y.max=-0.0063
+ 
+Electrode #2
+Name: source              
+ Number of boundary nodes: 176
+ Dimensions in microns: 
+       min         max
+ x 0.000e+000  2.000e+000 
+ y -7.630e-002  -6.300e-003 
+
+ATLAS> electrode num=3 name=drain material=Palladium x.min=22 x.max=24 y.min=-0.0763 y.max=-0.0063
+ 
+Electrode #3
+Name: drain               
+ Number of boundary nodes: 176
+ Dimensions in microns: 
+       min         max
+ x 2.200e+001  2.400e+001 
+ y -7.630e-002  -6.300e-003 
+
+ATLAS> 
+ATLAS> # 3. Custom IWO; unlisted inherited constants remain a limitation.
+ATLAS> material material=IWO user.group=semiconductor user.default=silicon  eg300=3.05 affinity=4.3 permittivity=9.3  nc300=5e+18 nv300=1e+19  mun=12 mup=0.01  taun0=1e-06 taup0=1e-06
+
+Mesh
+ Type:               non-cylindrical
+ Width:              1
+ Total grid points:  5880
+ Total triangles  :  11440
+ Obtuse triangles :  0  (0 %)
+ATLAS> material material=Al2O3 permittivity=9
+ATLAS> material material=HfO2 permittivity=19.57
+ATLAS> material material=Air permittivity=1
+ATLAS> doping uniform n.type conc=1e+17 region=2
+  
+ Warning: Statement out of order. Structure 
+ creation statements (MESH, X.MESH, Y.MESH, REGION,
+ ELECTRODE and DOPING) preceed all output, contact,
+ material, models or solution control statements.
+  
+ATLAS> 
+ATLAS> # 4. Native electrical boundary conditions.
+ATLAS> contact name=gate workfunction=4.765
+ATLAS> contact name=source workfunction=4.45 surf.rec
+ATLAS> contact name=drain workfunction=4.45 surf.rec
+ATLAS> models srh fermi temp=300 print
+ATLAS> 
+ATLAS> # 5. Native bulk DOS: peak cm^-3/eV; donor center referenced to Ev.
+ATLAS> defects region=2 continuous numa=384 numd=192  nta=3.71428571e+20 wta=0.04 ntd=0 wtd=0.1  nga=0 ega=0.3 wga=0.15  ngd=0 egd=2.85 wgd=0.1  sigtae=1e-15 sigtah=1e-15 sigtde=1e-15 sigtdh=1e-15  siggae=1e-15 siggah=1e-15 siggde=1e-15 siggdh=1e-15  afile=bulk_acceptor.dat dfile=bulk_donor.dat
+ATLAS> 
+ATLAS> # 7. Numerical controls and independent interior-point diagnostics.
+ATLAS> method newton carriers=1 electrons trap maxtrap=10 itlimit=60 climit=1e-6 cr.toler=1e-20 ir.tol=1e-20 cx.toler=1e-6
+
+Continuous trap energy used for DEFECTS statement 1
+
+
+CONSTANTS:
+ Boltzmann's constant  = 1.38066e-023 J/K
+ Elementary charge     = 1.60219e-019 C
+ Permitivity in vacuum = 8.85419e-014 F/cm
+ Temperature           = 300 K
+ Thermal voltage       = 0.025852 V
+
+REGIONAL MATERIAL PARAMETERS:
+ Region       :        1         2         3         4         5         6         7         8   
+ Material     :        Air       IWO     Al2O3      HfO2 Conductor Conductor Palladium Palladium 
+ Type         :    insulator semicond. insulator insulator   metal     metal     metal     metal  
+
+ Average Composition Fraction 
+ X-composition:         0         0         0         0         0         0         0         0 
+ Y-composition:         0         0         0         0         0         0         0         0 
+
+ Band Parameters
+ Epsilon      :         1       9.3         9      19.6                                         
+ Eg (eV)      :         9      3.05         9       5.7                                         
+ Chi (eV)     :       0.9       4.3       0.9         0                                         
+ Nc (per cc)  :              5e+018                                                             
+ Nv (per cc)  :              1e+019                                                             
+ ni (per cc)  :            1.7e-007                                                             
+
+ Bandgap narrowing parameters 
+ bgn.e (eV)   :               0.009                                                             
+ bgn.n (/cc)  :              1e+017                                                             
+ bgn.c        :                 0.5                                                             
+ ubgn.b       :            3.1e+012                                                             
+ ubgn.c       :            3.9e-005                                                             
+ bgn.shnk.me  :               0.321                                                             
+ bgn.shnk.mh  :               0.346                                                             
+ bgn.shnk.eps :                11.7                                                             
+ bgn.shnk.ge  :                  12                                                             
+ bgn.shnk.gh  :                   4                                                             
+ bgn.lind.anc :             0.00974                                                             
+ bgn.lind.bnc :             0.00139                                                             
+ bgn.lind.anv :              0.0127                                                             
+ bgn.lind.bnv :              0.0014                                                             
+ bgn.lind.apc :              0.0114                                                             
+ bgn.lind.bpc :             0.00205                                                             
+ bgn.lind.apv :              0.0111                                                             
+ bgn.lind.bpv :             0.00206                                                             
+ bgn.lind.cpv :                   0                                                             
+ bgn.lind.nd  :              1e+018                                                             
+ bgn.lind.na  :              1e+018                                                             
+
+ Effective Richardson Constants
+ An*          :                 110                                                             
+ Ap*          :                  30                                                             
+
+ Recombination Parameters
+ taun0        :              1e-006                                                             
+ taup0        :              1e-006                                                             
+ etrap        :                   0                                                             
+ lt.taun      :                   0                                                             
+ lt.taup      :                   0                                                             
+ nsrhn        :              5e+016                                                             
+ nsrhp        :              5e+016                                                             
+ ksrhtn       :              0.0025                                                             
+ ksrhtp       :              0.0025                                                             
+ ksrhcn       :              3e-013                                                             
+ ksrhcp       :           1.18e-012                                                             
+ ksrhgn       :                1.77                                                             
+ ksrhgp       :                0.57                                                             
+ nsrhn        :              5e+016                                                             
+ nsrhp        :              5e+016                                                             
+ augn         :            2.8e-031                                                             
+ augp         :            9.9e-032                                                             
+ augkn        :                   0                                                             
+ augkp        :                   0                                                             
+ kaugcn       :           1.83e-031                                                             
+ kaugcp       :           2.78e-031                                                             
+ kaugdn       :                1.18                                                             
+ kaugdp       :                0.72                                                             
+ aug.cnl      :            2.2e-031                                                             
+ aug.cpl      :            9.2e-032                                                             
+ aug.chi      :           1.66e-030                                                             
+ hns.ae       :            6.7e-032                                                             
+ hns.ah       :            7.2e-032                                                             
+ hns.be       :           2.45e-031                                                             
+ hns.bh       :            4.5e-033                                                             
+ hns.ce       :           -2.2e-032                                                             
+ hns.ch       :           2.63e-032                                                             
+ hns.he       :                3.47                                                             
+ hns.hh       :                8.26                                                             
+ hns.n0e      :              1e+018                                                             
+ hns.p0e      :              1e+018                                                             
+ copt         :                   0                                                             
+
+ Band-to-band tunneling Parameters
+ mass.tunnel  :                0.25                                                             
+ me.tunnel    :               0.322                                                             
+ mh.tunnel    :               0.549                                                             
+
+ Thermal Velocities
+ vn (cm/s)    :           1.08e+007                                                             
+ vp (cm/s)    :            1.3e+007                                                             
+
+ Saturation Velocities
+ vsatn (cm/s) :           1.03e+007                                                             
+ vsatp (cm/s) :           1.03e+007                                                             
+
+ Piezoelectric Parameters
+ e33 (C/m^2)  :                   0                                                             
+ e31 (C/m^2)  :                   0                                                             
+ Psp (C/m^2)  :                   0                                                             
+ Alattice (Å) :         0      5.43         0         0                                         
+
+REGIONAL MODEL FLAGS:
+ Region:          1    2    3    4    5    6    7    8 
+ SRH                   T                                
+ consrh                F                                
+ klasrh                F                                
+ Auger                 F                                
+ klaaug                F                                
+ picaug                F                                
+ hnsaug                F                                
+ auggen                F                                
+ kerraug               F                                
+ richteraug            F                                
+ optr                  F                                
+ optr.gb               F                                
+ bgn(std/kla)          F                                
+ ubgn                  F                                
+ bgn.alamo             F                                
+ bgn.bennett           F                                
+ bgn.schenk            F                                
+ bgn.lind              F                                
+ bgn.persson           F                                
+ incomplete            F                                
+ inc.two_level         F                                
+ inc.ion               F                                
+ ioniz                 F                                
+ inc.cryo              F                                
+ bbt                   F                                
+ bbtauto               F                                
+ bbthurkx              F                                
+ bbtkane               F                                
+ bbtschenk             F                                
+ bbtheigl              F                                
+ bbtnonlocal           F                                
+ tat(local)            F                                
+ tatnonlocal           F                                
+ tat(coulombic)        F                                
+ impact                F                                
+ Boltzmann             F                                
+ Fermi-Dirac           T                                
+
+Gain and Rsp scaling
+  Gain scale factor  :         1         1         1         1 
+  Rsp scale factor   :         1         1         1         1 
+
+
+REGIONAL MOBILITY MODEL SUMMARY:
+
+  Region #2:
+
+    Model for Electrons:
+
+      Concentration Independent Mobility
+      @ Temperature =     300 Kelvin 
+        mu  = 12
+        tmu = 1.5
+
+
+
+    Model for Holes:
+
+      Concentration Independent Mobility
+      @ Temperature =     300 Kelvin 
+        mu  = 0.01
+        tmu = 1.5
+
+
+
+
+Contacts:
+Name         Num  Work fn    Resist.    Capacit.   Induct.
+                   (eV)      (Ohms)     (Farads)   (Henries)
+gate          1     4.765   0.000E+00  0.000E+00  0.000E+00
+source        2     4.450   0.000E+00  0.000E+00  0.000E+00
+drain         3     4.450   0.000E+00  0.000E+00  0.000E+00
+  
+ATLAS> output con.band val.band e.mobility traps traps.ft int.charge charge
+ATLAS> probe name=channel_mobility x=12.037 y=-0.002961 n.mob dir=0
+ATLAS> probe name=channel_electrons x=12.037 y=-0.002961 n.conc
+ATLAS> probe name=bulk_free_electrons region=2 average n.conc x.min=2 x.max=22 y.min=-0.0063 y.max=0
+ATLAS> probe name=bulk_ionized_acceptors region=2 average concacc.ctrap x.min=2 x.max=22 y.min=-0.0063 y.max=0
+ATLAS> probe name=bulk_ionized_donors region=2 average concdon.ctrap x.min=2 x.max=22 y.min=-0.0063 y.max=0
+ATLAS> probe name=bulk_front_electrons x=12.037 y=-0.000819 n.conc
+ATLAS> probe name=bulk_back_electrons x=12.037 y=-0.005481 n.conc
+ATLAS> save outf=geometry.str
+
+Starting module:   BLAZE                          
+
+
+Starting module:   TFT                            
+
+
+MASTER format file written to geometry.str at Sat Sep 12 21:17:28 2026
+
+ATLAS> solve init
+
+Obtaining static solution:
+
+
+init           psi    psi 
+direct          x     rhs 
+   i    j  m  -5.00* -26.0*
+---------------------------
+   1    1  G   0.000 -13.57
+   1    2  G  -0.301 -13.68
+   1    3  G  -0.477 -13.79
+   1    4  G  -0.602 -13.79
+   1    5  G  -0.860 -14.07
+   1    6  G  -8.27* -23.92
+  
+ATLAS> save outf=equilibrium.str
+
+MASTER format file written to equilibrium.str at Sat Sep 12 21:17:29 2026
+
+ATLAS> solve vsource=0
+
+Obtaining static solution:
+
+
+prev           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -12.3* -12.3* -28.5* -18.54
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           0.000e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   0.75 sec. 
+Total time:            6.72 sec. 
+  
+ATLAS> solve vgate=-0.1
+
+Obtaining static solution:
+
+ V(   gate  ) = -0.1        
+
+
+prev           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N   0.587 -0.013 -17.86 -5.983
+   2       N  -1.745  1.071 -18.01 -8.935
+   3       N  -2.164 -1.182 -23.40 -11.27
+   4       N  -6.49* -4.555 -28.5* -18.72
+   5       N  -12.0* -11.4* -28.5* -18.69
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.000e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   2.64 sec. 
+Total time:            9.58 sec. 
+  
+ATLAS> solve vgate=-0.2
+
+Obtaining static solution:
+
+ V(   gate  ) = -0.2        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.793 -1.793 -22.02 -9.941
+   2       N  -5.89* -3.886 -26.4* -16.56
+   3       N  -10.5* -10.3* -28.5* -18.75
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.000e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.77 sec. 
+Total time:           11.45 sec. 
+  
+ATLAS> solve vgate=-0.3
+
+Obtaining static solution:
+
+ V(   gate  ) = -0.3        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -2.038 -2.038 -22.55 -10.40
+   2       N  -6.53* -4.376 -27.5* -17.60
+   3       N  -11.6* -11.4* -28.3* -18.74
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -3.000e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.86 sec. 
+Total time:           13.48 sec. 
+  
+ATLAS> solve vgate=-0.4
+
+Obtaining static solution:
+
+ V(   gate  ) = -0.4        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -2.270 -2.270 -23.04 -10.78
+   2       N  -7.12* -4.841 -28.2* -18.39
+   3       N  -11.9* -11.9* -28.3* -18.47
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -4.000e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.96 sec. 
+Total time:           15.52 sec. 
+  
+ATLAS> solve vgate=-0.5
+
+Obtaining static solution:
+
+ V(   gate  ) = -0.5        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -2.484 -2.484 -23.51 -11.12
+   2       N  -7.66* -5.267 -28.3* -19.04
+   3       N  -12.1* -12.4* -28.2* -18.72
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -5.000e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   2.14 sec. 
+Total time:           17.79 sec. 
+  
+ATLAS> solve vgate=-0.6
+
+Obtaining static solution:
+
+ V(   gate  ) = -0.6        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -2.683 -2.683 -23.95 -11.44
+   2       N  -8.16* -5.666 -28.3* -18.96
+   3       N  -11.9* -12.9* -28.3* -18.93
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -6.000e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   2.01 sec. 
+Total time:           19.92 sec. 
+  
+ATLAS> solve vgate=-0.7
+
+Obtaining static solution:
+
+ V(   gate  ) = -0.7        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -2.864 -2.863 -24.36 -11.73
+   2       N  -8.60* -6.03* -28.1* -18.66
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -7.000e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.63 sec. 
+Total time:           21.65 sec. 
+  
+ATLAS> solve vgate=-0.8
+
+Obtaining static solution:
+
+ V(   gate  ) = -0.8        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -3.029 -3.029 -24.76 -12.00
+   2       N  -9.01* -6.36* -28.1* -18.85
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -8.000e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.72 sec. 
+Total time:           23.49 sec. 
+  
+ATLAS> solve vgate=-0.9
+
+Obtaining static solution:
+
+ V(   gate  ) = -0.9        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -3.183 -3.183 -25.08 -12.24
+   2       N  -9.39* -6.66* -28.1* -18.91
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -9.000e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.53 sec. 
+Total time:           25.12 sec. 
+  
+ATLAS> solve vgate=-1
+
+Obtaining static solution:
+
+ V(   gate  ) = -1          
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -3.327 -3.327 -25.36 -12.47
+   2       N  -9.73* -6.95* -28.1* -18.94
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.000e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.31 sec. 
+Total time:           26.53 sec. 
+  
+ATLAS> solve vgate=-1.1
+
+Obtaining static solution:
+
+ V(   gate  ) = -1.1        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -3.455 -3.455 -25.62 -12.68
+   2       N  -10.1* -7.21* -28.1* -19.01
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.100e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.65 sec. 
+Total time:           28.24 sec. 
+  
+ATLAS> solve vgate=-1.2
+
+Obtaining static solution:
+
+ V(   gate  ) = -1.2        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -3.576 -3.575 -25.86 -12.88
+   2       N  -10.3* -7.45* -28.0* -19.06
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.200e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.42 sec. 
+Total time:           29.77 sec. 
+  
+ATLAS> solve vgate=-1.3
+
+Obtaining static solution:
+
+ V(   gate  ) = -1.3        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -3.689 -3.689 -26.1* -13.06
+   2       N  -10.6* -7.67* -27.9* -19.03
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.300e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.44 sec. 
+Total time:           31.32 sec. 
+  
+ATLAS> solve vgate=-1.4
+
+Obtaining static solution:
+
+ V(   gate  ) = -1.4        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -3.796 -3.796 -26.3* -13.23
+   2       N  -10.9* -7.89* -27.9* -18.97
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.400e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.59 sec. 
+Total time:           32.97 sec. 
+  
+ATLAS> solve vgate=-1.5
+
+Obtaining static solution:
+
+ V(   gate  ) = -1.5        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -3.897 -3.897 -26.5* -13.39
+   2       N  -11.1* -8.09* -27.8* -19.01
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.500e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.50 sec. 
+Total time:           34.57 sec. 
+  
+ATLAS> solve vgate=-1.6
+
+Obtaining static solution:
+
+ V(   gate  ) = -1.6        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -3.993 -3.993 -26.7* -13.55
+   2       N  -11.3* -8.28* -27.9* -19.01
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.600e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.22 sec. 
+Total time:           35.89 sec. 
+  
+ATLAS> solve vgate=-1.7
+
+Obtaining static solution:
+
+ V(   gate  ) = -1.7        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -4.081 -4.080 -26.9* -13.69
+   2       N  -11.5* -8.45* -28.0* -19.01
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.700e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.33 sec. 
+Total time:           37.29 sec. 
+  
+ATLAS> solve vgate=-1.8
+
+Obtaining static solution:
+
+ V(   gate  ) = -1.8        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -4.162 -4.162 -27.1* -13.83
+   2       N  -11.7* -8.61* -27.7* -18.92
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.800e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.42 sec. 
+Total time:           38.81 sec. 
+  
+ATLAS> solve vgate=-1.9
+
+Obtaining static solution:
+
+ V(   gate  ) = -1.9        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -4.240 -4.239 -27.3* -13.97
+   2       N  -11.5* -8.77* -27.8* -19.19
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.900e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.60 sec. 
+Total time:           40.53 sec. 
+  
+ATLAS> solve vgate=-2
+
+Obtaining static solution:
+
+ V(   gate  ) = -2          
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -4.314 -4.314 -27.5* -14.10
+   2       N  -11.4* -8.92* -27.8* -19.49
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.000e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.38 sec. 
+Total time:           41.95 sec. 
+  
+ATLAS> solve vgate=-2.1
+
+Obtaining static solution:
+
+ V(   gate  ) = -2.1        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -4.385 -4.385 -27.7* -14.22
+   2       N  -11.6* -9.06* -27.8* -19.19
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.100e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.41 sec. 
+Total time:           43.41 sec. 
+  
+ATLAS> solve vgate=-2.2
+
+Obtaining static solution:
+
+ V(   gate  ) = -2.2        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -4.453 -4.453 -27.8* -14.34
+   2       N  -11.5* -9.19* -27.7* -19.19
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.200e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.29 sec. 
+Total time:           44.82 sec. 
+  
+ATLAS> solve vgate=-2.3
+
+Obtaining static solution:
+
+ V(   gate  ) = -2.3        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -3.274 -4.518 -27.1* -14.46
+   2       N  -10.1* -9.32* -27.7* -19.37
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.300e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.33 sec. 
+Total time:           46.25 sec. 
+  
+ATLAS> solve vgate=-2.4
+
+Obtaining static solution:
+
+ V(   gate  ) = -2.4        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.605 -4.581 -22.09 -14.57
+   2       N  -5.17* -9.01* -27.8* -19.36
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.400e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.09 sec. 
+Total time:           47.41 sec. 
+  
+ATLAS> solve vgate=-2.5
+
+Obtaining static solution:
+
+ V(   gate  ) = -2.5        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.263 -3.554 -17.82 -14.68
+   2       N  -1.106 -4.717 -19.68 -17.28
+   3       N  -2.952 -7.04* -23.39 -19.37
+   4       N  -6.67* -11.3* -27.8* -19.55
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.500e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.90 sec. 
+Total time:           49.35 sec. 
+  
+ATLAS> solve vgate=-2.6
+
+Obtaining static solution:
+
+ V(   gate  ) = -2.6        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.011 -2.856 -16.30 -13.47
+   2       N  -0.191 -3.482 -17.02 -14.69
+   3       N  -0.696 -4.040 -18.23 -15.80
+   4       N  -1.846 -5.265 -20.58 -18.25
+   5       N  -4.192 -7.76* -25.27 -19.38
+   6       N  -8.88* -12.7* -27.8* -19.27
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.600e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   2.95 sec. 
+Total time:           52.43 sec. 
+  
+ATLAS> solve vgate=-2.7
+
+Obtaining static solution:
+
+ V(   gate  ) = -2.7        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.150 -2.068 -16.60 -11.88
+   2       N  -0.527 -2.633 -17.75 -13.01
+   3       N  -1.422 -3.912 -19.92 -15.58
+   4       N  -3.301 -6.38* -24.02 -19.32
+   5       N  -7.08* -10.6* -27.9* -19.47
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.700e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   2.80 sec. 
+Total time:           55.35 sec. 
+  
+ATLAS> solve vgate=-2.8
+
+Obtaining static solution:
+
+ V(   gate  ) = -2.8        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.052 -1.939 -17.25 -11.65
+   2       N  -0.306 -2.253 -18.10 -12.26
+   3       N  -0.997 -2.953 -19.62 -13.66
+   4       N  -2.493 -4.442 -22.63 -16.64
+   5       N  -5.50* -7.45* -27.9* -19.45
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.800e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   3.23 sec. 
+Total time:           58.65 sec. 
+  
+ATLAS> solve vgate=-2.9
+
+Obtaining static solution:
+
+ V(   gate  ) = -2.9        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.308 -2.192 -17.76 -12.19
+   2       N  -0.937 -2.868 -19.22 -13.52
+   3       N  -2.309 -4.269 -22.04 -16.31
+   4       N  -5.11* -7.08* -27.7* -19.36
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.900e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   2.36 sec. 
+Total time:            1.02 min. 
+  
+ATLAS> solve vgate=-3
+
+Obtaining static solution:
+
+ V(   gate  ) = -3          
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.652 -2.544 -18.16 -12.93
+   2       N  -1.755 -3.664 -20.71 -15.14
+   3       N  -3.939 -5.906 -25.18 -19.10
+   4       N  -8.37* -10.4* -27.8* -19.36
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -3.000e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          0.000e+000  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   2.38 sec. 
+Total time:            1.06 min. 
+  
+ATLAS> solve vdrain=0.1
+  
+ Warning: Projection cannot be done with
+ current bias step.  Using previous solution
+ for initial guess.
+  
+
+Obtaining static solution:
+
+ V(  drain  ) = 0.1         
+
+
+prev           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N   0.580 -0.071 -19.39 -5.083
+   2       N  -3.410  0.412 -19.52 -9.205
+   3       N  -4.766 -4.906 -27.7* -15.97
+   4       N  -12.3* -10.4* -27.8* -19.54
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -3.000e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          1.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   2.62 sec. 
+Total time:            1.11 min. 
+  
+ATLAS> solve vdrain=0.2
+
+Obtaining static solution:
+
+ V(  drain  ) = 0.2         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -3.101 -5.007 -23.86 -15.39
+   2       N  -6.86* -8.96* -27.8* -19.21
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -3.000e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          2.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.51 sec. 
+Total time:            1.13 min. 
+  
+ATLAS> solve vdrain=0.3
+
+Obtaining static solution:
+
+ V(  drain  ) = 0.3         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -3.091 -5.052 -23.84 -15.49
+   2       N  -6.84* -8.94* -27.9* -19.63
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -3.000e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          3.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.25 sec. 
+Total time:            1.16 min. 
+  
+ATLAS> solve vdrain=0.4
+
+Obtaining static solution:
+
+ V(  drain  ) = 0.4         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -3.080 -5.096 -23.81 -15.58
+   2       N  -6.82* -9.00* -27.8* -19.59
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -3.000e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          4.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.45 sec. 
+Total time:            1.18 min. 
+  
+ATLAS> solve vdrain=0.5
+
+Obtaining static solution:
+
+ V(  drain  ) = 0.5         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -3.070 -5.140 -23.79 -15.67
+   2       N  -6.80* -8.97* -27.8* -19.56
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -3.000e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          5.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.30 sec. 
+Total time:            1.20 min. 
+  
+ATLAS> solve vdrain=0.6
+
+Obtaining static solution:
+
+ V(  drain  ) = 0.6         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -3.059 -5.183 -23.76 -15.76
+   2       N  -6.78* -8.94* -27.8* -19.63
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -3.000e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          6.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.71 sec. 
+Total time:            1.23 min. 
+  
+ATLAS> solve vdrain=0.7
+
+Obtaining static solution:
+
+ V(  drain  ) = 0.7         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -3.049 -5.225 -23.74 -15.85
+   2       N  -6.75* -8.92* -27.8* -19.40
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -3.000e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.59 sec. 
+Total time:            1.26 min. 
+  
+ATLAS> save outf=off.str
+
+MASTER format file written to off.str at Sat Sep 12 21:18:40 2026
+
+ATLAS> 
+ATLAS> # 8. Every original gate point; fresh signed terminal exports.
+ATLAS> log outf=transfer.log
+ATLAS> solve vgate=-3
+
+Obtaining static solution:
+
+
+prev           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -12.2* -12.8* -27.8* -19.57
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -3.000e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.01 sec. 
+Total time:            1.30 min. 
+  
+ATLAS> solve vgate=-2.95
+
+Obtaining static solution:
+
+ V(   gate  ) = -2.95       
+
+
+prev           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N   0.266 -0.405 -17.66 -7.722
+   2       N  -1.692 -1.197 -20.34 -13.97
+   3       N  -3.870 -5.390 -25.03 -19.40
+   4       N  -8.17* -10.2* -27.8* -19.47
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.950e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   2.82 sec. 
+Total time:            1.38 min. 
+  
+ATLAS> solve vgate=-2.9
+
+Obtaining static solution:
+
+ V(   gate  ) = -2.9        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.289 -3.284 -19.65 -14.31
+   2       N  -3.043 -5.040 -23.48 -17.81
+   3       N  -6.53* -8.55* -27.8* -19.31
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.900e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   2.31 sec. 
+Total time:            1.45 min. 
+  
+ATLAS> solve vgate=-2.85
+
+Obtaining static solution:
+
+ V(   gate  ) = -2.85       
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.118 -3.108 -19.49 -13.95
+   2       N  -2.684 -4.686 -22.89 -17.09
+   3       N  -5.83* -7.85* -27.7* -19.36
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.850e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   2.11 sec. 
+Total time:            1.51 min. 
+  
+ATLAS> solve vgate=-2.8
+
+Obtaining static solution:
+
+ V(   gate  ) = -2.8        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.917 -2.904 -19.33 -13.52
+   2       N  -2.288 -4.296 -22.29 -16.30
+   3       N  -5.09* -7.11* -27.7* -19.50
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.800e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   2.32 sec. 
+Total time:            1.58 min. 
+  
+ATLAS> solve vgate=-2.75
+
+Obtaining static solution:
+
+ V(   gate  ) = -2.75       
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.681 -2.673 -19.16 -13.04
+   2       N  -1.893 -3.904 -21.79 -15.51
+   3       N  -4.411 -6.43* -26.8* -19.48
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.750e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   2.18 sec. 
+Total time:            1.64 min. 
+  
+ATLAS> solve vgate=-2.7
+
+Obtaining static solution:
+
+ V(   gate  ) = -2.7        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.448 -2.453 -18.99 -12.59
+   2       N  -1.666 -3.676 -21.74 -15.05
+   3       N  -4.229 -6.23* -26.7* -19.47
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.700e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.99 sec. 
+Total time:            1.71 min. 
+  
+ATLAS> solve vgate=-2.65
+
+Obtaining static solution:
+
+ V(   gate  ) = -2.65       
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.369 -2.327 -18.78 -12.39
+   2       N  -1.660 -3.572 -21.88 -14.90
+   3       N  -4.282 -6.19* -27.1* -19.11
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.650e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   2.07 sec. 
+Total time:            1.77 min. 
+  
+ATLAS> solve vgate=-2.6
+
+Obtaining static solution:
+
+ V(   gate  ) = -2.6        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.379 -2.298 -18.58 -12.32
+   2       N  -2.143 -4.014 -21.45 -15.86
+   3       N  -4.836 -7.55* -27.1* -19.28
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.600e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.77 sec. 
+Total time:            1.83 min. 
+  
+ATLAS> solve vgate=-2.55
+
+Obtaining static solution:
+
+ V(   gate  ) = -2.55       
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.637 -2.531 -18.40 -12.92
+   2       N  -1.768 -4.723 -20.93 -17.52
+   3       N  -4.143 -7.37* -25.88 -19.12
+   4       N  -8.91* -12.0* -27.7* -19.22
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.550e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.94 sec. 
+Total time:            1.89 min. 
+  
+ATLAS> solve vgate=-2.5
+
+Obtaining static solution:
+
+ V(   gate  ) = -2.5        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.381 -3.019 -18.31 -13.90
+   2       N  -1.517 -4.686 -20.61 -17.24
+   3       N  -3.863 -7.08* -25.23 -19.30
+   4       N  -8.50* -11.8* -27.9* -19.44
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.500e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   2.84 sec. 
+Total time:            1.96 min. 
+  
+ATLAS> solve vgate=-2.45
+
+Obtaining static solution:
+
+ V(   gate  ) = -2.45       
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.281 -3.323 -18.51 -14.52
+   2       N  -1.630 -5.021 -21.36 -17.89
+   3       N  -4.486 -8.28* -27.1* -19.02
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.450e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   2.03 sec. 
+Total time:            2.03 min. 
+  
+ATLAS> solve vgate=-2.4
+
+Obtaining static solution:
+
+ V(   gate  ) = -2.4        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.416 -3.683 -19.60 -15.29
+   2       N  -2.685 -6.36* -24.25 -19.35
+   3       N  -7.34* -11.6* -27.8* -19.02
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.400e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   2.22 sec. 
+Total time:            2.10 min. 
+  
+ATLAS> solve vgate=-2.35
+
+Obtaining static solution:
+
+ V(   gate  ) = -2.35       
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.956 -4.359 -21.59 -15.86
+   2       N  -4.667 -8.39* -27.8* -19.26
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.350e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.42 sec. 
+Total time:            2.15 min. 
+  
+ATLAS> solve vgate=-2.3
+
+Obtaining static solution:
+
+ V(   gate  ) = -2.3        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.725 -5.214 -24.00 -15.80
+   2       N  -7.07* -10.7* -27.8* -19.28
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.300e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.46 sec. 
+Total time:            2.20 min. 
+  
+ATLAS> solve vgate=-2.25
+
+Obtaining static solution:
+
+ V(   gate  ) = -2.25       
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -2.553 -5.184 -26.5* -15.75
+   2       N  -9.56* -10.7* -27.8* -19.23
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.250e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.46 sec. 
+Total time:            2.26 min. 
+  
+ATLAS> solve vgate=-2.2
+
+Obtaining static solution:
+
+ V(   gate  ) = -2.2        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -3.391 -5.153 -27.9* -15.69
+   2       N  -11.4* -10.6* -27.7* -19.22
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.200e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.57 sec. 
+Total time:            2.31 min. 
+  
+ATLAS> solve vgate=-2.15
+
+Obtaining static solution:
+
+ V(   gate  ) = -2.15       
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -4.231 -5.121 -27.9* -15.64
+   2       N  -11.5* -10.5* -27.7* -19.33
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.150e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.72 sec. 
+Total time:            2.37 min. 
+  
+ATLAS> solve vgate=-2.1
+
+Obtaining static solution:
+
+ V(   gate  ) = -2.1        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -5.07* -5.089 -27.8* -15.58
+   2       N  -11.6* -10.5* -27.8* -19.33
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.100e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.85 sec. 
+Total time:            2.43 min. 
+  
+ATLAS> solve vgate=-2.05
+
+Obtaining static solution:
+
+ V(   gate  ) = -2.05       
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -5.06* -5.056 -27.8* -15.52
+   2       N  -11.4* -10.4* -27.8* -19.22
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.050e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.76 sec. 
+Total time:            2.49 min. 
+  
+ATLAS> solve vgate=-2
+
+Obtaining static solution:
+
+ V(   gate  ) = -2          
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -5.02* -5.022 -27.8* -15.46
+   2       N  -11.6* -10.3* -27.8* -19.24
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.000e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.38 sec. 
+Total time:            2.55 min. 
+  
+ATLAS> solve vgate=-1.95
+
+Obtaining static solution:
+
+ V(   gate  ) = -1.95       
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -4.988 -4.988 -27.8* -15.40
+   2       N  -11.6* -10.3* -27.9* -18.94
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.950e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.83 sec. 
+Total time:            2.60 min. 
+  
+ATLAS> solve vgate=-1.9
+
+Obtaining static solution:
+
+ V(   gate  ) = -1.9        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -4.953 -4.952 -27.9* -15.34
+   2       N  -11.6* -10.2* -27.8* -19.04
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.900e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.72 sec. 
+Total time:            2.66 min. 
+  
+ATLAS> solve vgate=-1.85
+
+Obtaining static solution:
+
+ V(   gate  ) = -1.85       
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -4.917 -4.917 -27.9* -15.28
+   2       N  -11.6* -10.1* -27.8* -19.09
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.850e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.71 sec. 
+Total time:            2.72 min. 
+  
+ATLAS> solve vgate=-1.8
+
+Obtaining static solution:
+
+ V(   gate  ) = -1.8        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -4.880 -4.880 -27.8* -15.21
+   2       N  -11.6* -10.0* -27.9* -19.23
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.800e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.29 sec. 
+Total time:            2.77 min. 
+  
+ATLAS> solve vgate=-1.75
+
+Obtaining static solution:
+
+ V(   gate  ) = -1.75       
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -4.843 -4.842 -27.9* -15.15
+   2       N  -11.7* -9.98* -27.8* -19.15
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.750e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.35 sec. 
+Total time:            2.83 min. 
+  
+ATLAS> solve vgate=-1.7
+
+Obtaining static solution:
+
+ V(   gate  ) = -1.7        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -4.804 -4.804 -27.9* -15.08
+   2       N  -11.6* -9.90* -27.9* -18.93
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.700e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.46 sec. 
+Total time:            2.88 min. 
+  
+ATLAS> solve vgate=-1.65
+
+Obtaining static solution:
+
+ V(   gate  ) = -1.65       
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -4.765 -4.765 -28.0* -15.01
+   2       N  -11.6* -9.82* -28.0* -19.10
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.650e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.11 sec. 
+Total time:            2.93 min. 
+  
+ATLAS> solve vgate=-1.6
+
+Obtaining static solution:
+
+ V(   gate  ) = -1.6        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -4.725 -4.725 -27.8* -14.94
+   2       N  -11.8* -9.74* -28.0* -19.08
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.600e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.19 sec. 
+Total time:            2.98 min. 
+  
+ATLAS> solve vgate=-1.55
+
+Obtaining static solution:
+
+ V(   gate  ) = -1.55       
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -4.684 -4.683 -27.9* -14.87
+   2       N  -11.6* -9.66* -27.9* -19.08
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.550e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.39 sec. 
+Total time:            3.03 min. 
+  
+ATLAS> solve vgate=-1.5
+
+Obtaining static solution:
+
+ V(   gate  ) = -1.5        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -4.642 -4.641 -27.9* -14.80
+   2       N  -11.8* -9.58* -28.0* -19.05
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.500e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.36 sec. 
+Total time:            3.08 min. 
+  
+ATLAS> solve vgate=-1.45
+
+Obtaining static solution:
+
+ V(   gate  ) = -1.45       
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -4.596 -4.596 -27.9* -14.73
+   2       N  -11.7* -9.49* -28.1* -19.15
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.450e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.31 sec. 
+Total time:            3.13 min. 
+  
+ATLAS> solve vgate=-1.4
+
+Obtaining static solution:
+
+ V(   gate  ) = -1.4        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -4.549 -4.549 -27.8* -14.65
+   2       N  -11.7* -9.39* -28.0* -19.20
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.400e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.38 sec. 
+Total time:            3.18 min. 
+  
+ATLAS> solve vgate=-1.35
+
+Obtaining static solution:
+
+ V(   gate  ) = -1.35       
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -4.501 -4.501 -27.7* -14.57
+   2       N  -11.7* -9.30* -28.0* -18.76
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.350e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.32 sec. 
+Total time:            3.24 min. 
+  
+ATLAS> solve vgate=-1.3
+
+Obtaining static solution:
+
+ V(   gate  ) = -1.3        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -4.451 -4.451 -27.6* -14.49
+   2       N  -11.8* -9.20* -28.0* -19.01
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.300e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.23 sec. 
+Total time:            3.29 min. 
+  
+ATLAS> solve vgate=-1.25
+
+Obtaining static solution:
+
+ V(   gate  ) = -1.25       
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -4.400 -4.400 -27.5* -14.41
+   2       N  -11.8* -9.09* -28.0* -19.01
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.250e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.38 sec. 
+Total time:            3.34 min. 
+  
+ATLAS> solve vgate=-1.2
+
+Obtaining static solution:
+
+ V(   gate  ) = -1.2        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -4.348 -4.347 -27.3* -14.33
+   2       N  -11.8* -8.99* -28.0* -19.05
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.200e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.52 sec. 
+Total time:            3.39 min. 
+  
+ATLAS> solve vgate=-1.15
+
+Obtaining static solution:
+
+ V(   gate  ) = -1.15       
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -4.293 -4.293 -27.2* -14.24
+   2       N  -11.7* -8.88* -28.0* -19.17
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.150e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.32 sec. 
+Total time:            3.44 min. 
+  
+ATLAS> solve vgate=-1.1
+
+Obtaining static solution:
+
+ V(   gate  ) = -1.1        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -4.238 -4.237 -27.1* -14.15
+   2       N  -11.6* -8.77* -28.1* -19.04
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.100e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.43 sec. 
+Total time:            3.49 min. 
+  
+ATLAS> solve vgate=-1.05
+
+Obtaining static solution:
+
+ V(   gate  ) = -1.05       
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -4.180 -4.180 -27.0* -14.06
+   2       N  -11.4* -8.66* -28.1* -18.91
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.050e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.55 sec. 
+Total time:            3.55 min. 
+  
+ATLAS> solve vgate=-1
+
+Obtaining static solution:
+
+ V(   gate  ) = -1          
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -4.121 -4.121 -26.9* -13.96
+   2       N  -11.3* -8.54* -28.1* -18.96
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.000e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.25 sec. 
+Total time:            3.59 min. 
+  
+ATLAS> solve vgate=-0.95
+
+Obtaining static solution:
+
+ V(   gate  ) = -0.95       
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -4.060 -4.060 -26.7* -13.86
+   2       N  -11.1* -8.42* -28.2* -18.95
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -9.500e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.41 sec. 
+Total time:            3.65 min. 
+  
+ATLAS> solve vgate=-0.9
+
+Obtaining static solution:
+
+ V(   gate  ) = -0.9        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -3.997 -3.997 -26.6* -13.76
+   2       N  -11.0* -8.29* -28.2* -18.74
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -9.000e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.43 sec. 
+Total time:            3.71 min. 
+  
+ATLAS> solve vgate=-0.85
+
+Obtaining static solution:
+
+ V(   gate  ) = -0.85       
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -3.932 -3.932 -26.5* -13.65
+   2       N  -10.8* -8.16* -28.1* -18.76
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -8.500e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.60 sec. 
+Total time:            3.77 min. 
+  
+ATLAS> solve vgate=-0.8
+
+Obtaining static solution:
+
+ V(   gate  ) = -0.8        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -3.862 -3.862 -26.4* -13.54
+   2       N  -10.6* -8.02* -28.1* -18.72
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -8.000e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.17 sec. 
+Total time:            3.82 min. 
+  
+ATLAS> solve vgate=-0.75
+
+Obtaining static solution:
+
+ V(   gate  ) = -0.75       
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -3.789 -3.789 -26.2* -13.43
+   2       N  -10.4* -7.88* -28.1* -18.81
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -7.500e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.41 sec. 
+Total time:            3.87 min. 
+  
+ATLAS> solve vgate=-0.7
+
+Obtaining static solution:
+
+ V(   gate  ) = -0.7        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -3.714 -3.713 -25.99 -13.31
+   2       N  -10.2* -7.73* -28.1* -18.75
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -7.000e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.31 sec. 
+Total time:            3.93 min. 
+  
+ATLAS> solve vgate=-0.65
+
+Obtaining static solution:
+
+ V(   gate  ) = -0.65       
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -3.635 -3.635 -25.80 -13.19
+   2       N  -10.0* -7.57* -28.1* -18.89
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -6.500e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.35 sec. 
+Total time:            3.98 min. 
+  
+ATLAS> solve vgate=-0.6
+
+Obtaining static solution:
+
+ V(   gate  ) = -0.6        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -3.554 -3.554 -25.61 -13.06
+   2       N  -9.84* -7.41* -28.3* -18.81
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -6.000e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.29 sec. 
+Total time:            4.02 min. 
+  
+ATLAS> solve vgate=-0.55
+
+Obtaining static solution:
+
+ V(   gate  ) = -0.55       
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -3.471 -3.470 -25.41 -12.92
+   2       N  -9.62* -7.24* -28.3* -18.98
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -5.500e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.12 sec. 
+Total time:            4.06 min. 
+  
+ATLAS> solve vgate=-0.5
+
+Obtaining static solution:
+
+ V(   gate  ) = -0.5        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -3.384 -3.384 -25.21 -12.78
+   2       N  -9.39* -7.07* -28.2* -18.84
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -5.000e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.27 sec. 
+Total time:            4.11 min. 
+  
+ATLAS> solve vgate=-0.45
+
+Obtaining static solution:
+
+ V(   gate  ) = -0.45       
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -3.291 -3.291 -25.00 -12.63
+   2       N  -9.15* -6.88* -28.3* -18.72
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -4.500e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.39 sec. 
+Total time:            4.16 min. 
+  
+ATLAS> solve vgate=-0.4
+
+Obtaining static solution:
+
+ V(   gate  ) = -0.4        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -3.194 -3.194 -24.78 -12.48
+   2       N  -8.90* -6.69* -28.2* -18.79
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -4.000e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.57 sec. 
+Total time:            4.22 min. 
+  
+ATLAS> solve vgate=-0.35
+
+Obtaining static solution:
+
+ V(   gate  ) = -0.35       
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -3.093 -3.093 -24.56 -12.31
+   2       N  -8.64* -6.49* -28.3* -18.91
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -3.500e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000  0.000e+000  0.000e+000  0.000e+000
+drain          7.000e-001  0.000e+000  0.000e+000  0.000e+000
+Total                                              0.000e+000
+
+Time for bias point:   1.75 sec. 
+Total time:            4.28 min. 
+  
+ATLAS> solve vgate=-0.3
+
+Obtaining static solution:
+
+ V(   gate  ) = -0.3        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -2.988 -2.988 -24.33 -12.14
+   2       N  -8.36* -6.28* -28.5* -18.86
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -3.000e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -2.065e-021 -2.065e-021 -2.065e-021
+drain          7.000e-001  2.065e-021  2.065e-021  2.065e-021
+Total                                             -9.291e-035
+
+Time for bias point:   1.68 sec. 
+Total time:            4.33 min. 
+  
+ATLAS> solve vgate=-0.25
+
+Obtaining static solution:
+
+ V(   gate  ) = -0.25       
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -2.880 -2.880 -24.10 -11.94
+   2       N  -8.07* -6.06* -28.4* -18.66
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.500e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -1.342e-020 -1.342e-020 -1.342e-020
+drain          7.000e-001  1.342e-020  1.342e-020  1.342e-020
+Total                                             -6.049e-034
+
+Time for bias point:   1.50 sec. 
+Total time:            4.38 min. 
+  
+ATLAS> solve vgate=-0.2
+
+Obtaining static solution:
+
+ V(   gate  ) = -0.2        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -2.768 -2.767 -23.86 -11.73
+   2       N  -7.77* -5.839 -28.5* -18.82
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -2.000e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -9.084e-020 -9.084e-020 -9.084e-020
+drain          7.000e-001  9.084e-020  9.084e-020  9.084e-020
+Total                                             -4.081e-033
+
+Time for bias point:   1.50 sec. 
+Total time:            4.44 min. 
+  
+ATLAS> solve vgate=-0.15
+
+Obtaining static solution:
+
+ V(   gate  ) = -0.15       
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -2.649 -2.649 -23.59 -11.51
+   2       N  -7.46* -5.603 -28.4* -18.70
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.500e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -6.287e-019 -6.287e-019 -6.287e-019
+drain          7.000e-001  6.287e-019  6.287e-019  6.287e-019
+Total                                             -2.831e-032
+
+Time for bias point:   1.42 sec. 
+Total time:            4.52 min. 
+  
+ATLAS> solve vgate=-0.1
+
+Obtaining static solution:
+
+ V(   gate  ) = -0.1        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -2.527 -2.527 -23.30 -11.29
+   2       N  -7.13* -5.361 -28.5* -18.63
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -1.000e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -4.352e-018 -4.352e-018 -4.352e-018
+drain          7.000e-001  4.351e-018  4.351e-018  4.351e-018
+Total                                             -1.032e-021
+
+Time for bias point:   1.46 sec. 
+Total time:            4.57 min. 
+  
+ATLAS> solve vgate=-0.05
+
+Obtaining static solution:
+
+ V(   gate  ) = -0.05       
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -2.404 -2.404 -23.00 -11.06
+   2       N  -6.79* -5.116 -28.6* -18.49
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate          -5.000e-002  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -3.008e-017 -3.008e-017 -3.008e-017
+drain          7.000e-001  3.008e-017  3.008e-017  3.008e-017
+Total                                             -1.362e-030
+
+Time for bias point:   1.33 sec. 
+Total time:            4.62 min. 
+  
+ATLAS> solve vgate=0
+
+Obtaining static solution:
+
+ V(   gate  ) = 0           
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -2.280 -2.280 -22.70 -10.83
+   2       N  -6.45* -4.871 -28.0* -17.88
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           0.000e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -2.079e-016 -2.079e-016 -2.079e-016
+drain          7.000e-001  2.079e-016  2.079e-016  2.079e-016
+Total                                              2.065e-021
+
+Time for bias point:   1.61 sec. 
+Total time:            4.68 min. 
+  
+ATLAS> solve vgate=0.05
+
+Obtaining static solution:
+
+ V(   gate  ) = 0.05        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -2.153 -2.152 -22.37 -10.60
+   2       N  -6.09* -4.618 -27.4* -17.23
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           5.000e-002  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -1.433e-015 -1.433e-015 -1.433e-015
+drain          7.000e-001  1.433e-015  1.433e-015  1.433e-015
+Total                                             -2.581e-022
+
+Time for bias point:   1.76 sec. 
+Total time:            4.74 min. 
+  
+ATLAS> solve vgate=0.1
+
+Obtaining static solution:
+
+ V(   gate  ) = 0.1         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.757 -1.757 -22.05 -10.38
+   2       N  -5.69* -3.816 -26.8* -16.62
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           1.000e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -9.790e-015 -9.790e-015 -9.790e-015
+drain          7.000e-001  9.790e-015  9.790e-015  9.790e-015
+Total                                             -5.162e-022
+
+Time for bias point:   1.52 sec. 
+Total time:            4.79 min. 
+  
+ATLAS> solve vgate=0.15
+
+Obtaining static solution:
+
+ V(   gate  ) = 0.15        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.290 -1.290 -21.70 -10.16
+   2       N  -4.298 -2.882 -25.23 -15.97
+   3       N  -7.78* -7.72* -28.7* -18.43
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           1.500e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -6.509e-014 -6.509e-014 -6.509e-014
+drain          7.000e-001  6.509e-014  6.509e-014  6.509e-014
+Total                                              7.742e-022
+
+Time for bias point:   2.07 sec. 
+Total time:            4.85 min. 
+  
+ATLAS> solve vgate=0.2
+
+Obtaining static solution:
+
+ V(   gate  ) = 0.2         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.874 -0.873 -20.40 -9.608
+   2       N  -3.066 -2.044 -22.94 -13.26
+   3       N  -5.68* -5.767 -28.8* -18.70
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           2.000e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -3.995e-013 -3.995e-013 -3.995e-013
+drain          7.000e-001  3.995e-013  3.995e-013  3.995e-013
+Total                                             -3.742e-021
+
+Time for bias point:   1.93 sec. 
+Total time:            4.91 min. 
+  
+ATLAS> solve vgate=0.25
+
+Obtaining static solution:
+
+ V(   gate  ) = 0.25        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.574 -0.572 -19.27 -8.241
+   2       N  -2.128 -1.430 -21.24 -11.01
+   3       N  -4.057 -4.438 -27.5* -15.88
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           2.500e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -2.052e-012 -2.052e-012 -2.052e-012
+drain          7.000e-001  2.052e-012  2.052e-012  2.052e-012
+Total                                             -3.351e-021
+
+Time for bias point:   1.95 sec. 
+Total time:            4.97 min. 
+  
+ATLAS> solve vgate=0.3
+
+Obtaining static solution:
+
+ V(   gate  ) = 0.3         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.469 -0.467 -18.64 -7.391
+   2       N  -1.717 -1.231 -20.44 -9.792
+   3       N  -3.373 -3.903 -26.1* -14.00
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           3.000e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -8.080e-012 -8.080e-012 -8.080e-012
+drain          7.000e-001  8.080e-012  8.080e-012  8.080e-012
+Total                                              2.924e-022
+
+Time for bias point:   1.84 sec. 
+Total time:            5.03 min. 
+  
+ATLAS> solve vgate=0.35
+
+Obtaining static solution:
+
+ V(   gate  ) = 0.35        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.529 -0.521 -18.50 -7.023
+   2       N  -1.745 -1.413 -20.48 -9.478
+   3       N  -3.517 -4.080 -26.1* -13.79
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           3.500e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -2.429e-011 -2.429e-011 -2.429e-011
+drain          7.000e-001  2.429e-011  2.429e-011  2.429e-011
+Total                                             -4.134e-021
+
+Time for bias point:   2.25 sec. 
+Total time:            5.10 min. 
+  
+ATLAS> solve vgate=0.4
+
+Obtaining static solution:
+
+ V(   gate  ) = 0.4         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.677 -0.638 -18.63 -6.933
+   2       N  -1.996 -1.739 -20.98 -9.644
+   3       N  -4.070 -4.658 -27.0* -14.51
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           4.000e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -5.877e-011 -5.877e-011 -5.877e-011
+drain          7.000e-001  5.877e-011  5.877e-011  5.877e-011
+Total                                              3.339e-021
+
+Time for bias point:   1.94 sec. 
+Total time:            5.16 min. 
+  
+ATLAS> solve vgate=0.45
+
+Obtaining static solution:
+
+ V(   gate  ) = 0.45        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.849 -0.777 -18.81 -6.944
+   2       N  -2.312 -2.082 -21.57 -9.940
+   3       N  -4.716 -5.351 -28.2* -15.48
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           4.500e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -1.213e-010 -1.213e-010 -1.213e-010
+drain          7.000e-001  1.213e-010  1.213e-010  1.213e-010
+Total                                              1.079e-021
+
+Time for bias point:   1.83 sec. 
+Total time:            5.21 min. 
+  
+ATLAS> solve vgate=0.5
+
+Obtaining static solution:
+
+ V(   gate  ) = 0.5         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.001 -0.916 -19.00 -6.973
+   2       N  -2.649 -2.403 -22.07 -10.26
+   3       N  -5.36* -6.000 -28.9* -16.42
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           5.000e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -2.232e-010 -2.232e-010 -2.232e-010
+drain          7.000e-001  2.232e-010  2.232e-010  2.232e-010
+Total                                              1.596e-021
+
+Time for bias point:   2.11 sec. 
+Total time:            5.28 min. 
+  
+ATLAS> solve vgate=0.55
+
+Obtaining static solution:
+
+ V(   gate  ) = 0.55        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.087 -0.129 -18.26 -6.409
+   2       N  -2.102 -2.172 -21.97 -9.458
+   3       N  -5.02* -4.720 -27.3* -15.05
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           5.500e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -3.776e-010 -3.776e-010 -3.776e-010
+drain          7.000e-001  3.776e-010  3.776e-010  3.776e-010
+Total                                              2.840e-021
+
+Time for bias point:   1.94 sec. 
+Total time:            5.34 min. 
+  
+ATLAS> solve vgate=0.6
+
+Obtaining static solution:
+
+ V(   gate  ) = 0.6         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.207 -0.187 -18.33 -5.999
+   2       N  -2.233 -2.269 -22.07 -9.377
+   3       N  -5.35* -4.910 -27.6* -15.76
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           6.000e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -5.996e-010 -5.996e-010 -5.996e-010
+drain          7.000e-001  5.996e-010  5.996e-010  5.996e-010
+Total                                             -2.005e-021
+
+Time for bias point:   1.93 sec. 
+Total time:            5.40 min. 
+  
+ATLAS> solve vgate=0.65
+
+Obtaining static solution:
+
+ V(   gate  ) = 0.65        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.314 -0.239 -18.38 -5.711
+   2       N  -2.321 -2.355 -22.16 -9.148
+   3       N  -5.60* -5.072 -27.8* -15.46
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           6.500e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -9.073e-010 -9.073e-010 -9.073e-010
+drain          7.000e-001  9.073e-010  9.073e-010  9.073e-010
+Total                                              3.138e-021
+
+Time for bias point:   2.29 sec. 
+Total time:            5.47 min. 
+  
+ATLAS> solve vgate=0.7
+
+Obtaining static solution:
+
+ V(   gate  ) = 0.7         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.365 -0.285 -18.42 -5.472
+   2       N  -2.378 -2.427 -22.23 -8.987
+   3       N  -5.81* -5.207 -28.1* -15.17
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           7.000e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -1.321e-009 -1.321e-009 -1.321e-009
+drain          7.000e-001  1.321e-009  1.321e-009  1.321e-009
+Total                                             -3.491e-021
+
+Time for bias point:   2.17 sec. 
+Total time:            5.53 min. 
+  
+ATLAS> solve vgate=0.75
+
+Obtaining static solution:
+
+ V(   gate  ) = 0.75        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.401 -0.328 -18.44 -5.184
+   2       N  -2.424 -2.476 -22.30 -8.891
+   3       N  -6.05* -5.337 -28.2* -15.03
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           7.500e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -1.867e-009 -1.867e-009 -1.867e-009
+drain          7.000e-001  1.867e-009  1.867e-009  1.867e-009
+Total                                             -5.178e-022
+
+Time for bias point:   2.25 sec. 
+Total time:            5.60 min. 
+  
+ATLAS> solve vgate=0.8
+
+Obtaining static solution:
+
+ V(   gate  ) = 0.8         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.381 -0.368 -18.44 -4.943
+   2       N  -2.452 -2.512 -22.34 -8.892
+   3       N  -6.34* -5.452 -28.4* -14.95
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           8.000e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -2.572e-009 -2.572e-009 -2.572e-009
+drain          7.000e-001  2.572e-009  2.572e-009  2.572e-009
+Total                                              4.818e-022
+
+Time for bias point:   2.39 sec. 
+Total time:            5.67 min. 
+  
+ATLAS> solve vgate=0.85
+
+Obtaining static solution:
+
+ V(   gate  ) = 0.85        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.176 -0.408 -18.46 -4.734
+   2       N  -2.465 -2.553 -22.35 -9.090
+   3       N  -6.34* -5.572 -28.5* -14.98
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           8.500e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -3.470e-009 -3.470e-009 -3.470e-009
+drain          7.000e-001  3.470e-009  3.470e-009  3.470e-009
+Total                                             -5.083e-022
+
+Time for bias point:   1.97 sec. 
+Total time:            5.73 min. 
+  
+ATLAS> solve vgate=0.9
+
+Obtaining static solution:
+
+ V(   gate  ) = 0.9         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.948 -0.447 -18.50 -4.537
+   2       N  -2.492 -2.496 -22.40 -8.379
+   3       N  -6.09* -5.652 -28.6* -15.16
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           9.000e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -4.598e-009 -4.598e-009 -4.598e-009
+drain          7.000e-001  4.598e-009  4.598e-009  4.598e-009
+Total                                              8.449e-021
+
+Time for bias point:   2.30 sec. 
+Total time:            5.80 min. 
+  
+ATLAS> solve vgate=0.95
+
+Obtaining static solution:
+
+ V(   gate  ) = 0.95        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.740 -0.487 -18.55 -4.363
+   2       N  -2.529 -2.390 -22.29 -7.918
+   3       N  -5.95* -5.728 -28.7* -14.69
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           9.500e-001  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -5.996e-009 -5.996e-009 -5.996e-009
+drain          7.000e-001  5.996e-009  5.996e-009  5.996e-009
+Total                                             -3.037e-021
+
+Time for bias point:   1.89 sec. 
+Total time:            5.85 min. 
+  
+ATLAS> solve vgate=1
+
+Obtaining static solution:
+
+ V(   gate  ) = 1           
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.621 -0.528 -18.62 -4.213
+   2       N  -2.573 -2.325 -22.16 -7.574
+   3       N  -5.81* -5.796 -28.6* -15.44
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           1.000e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -7.705e-009 -7.705e-009 -7.705e-009
+drain          7.000e-001  7.705e-009  7.705e-009  7.705e-009
+Total                                              7.001e-021
+
+Time for bias point:   2.31 sec. 
+Total time:            5.92 min. 
+  
+ATLAS> solve vgate=1.05
+
+Obtaining static solution:
+
+ V(   gate  ) = 1.05        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.623 -0.571 -18.71 -4.086
+   2       N  -2.304 -2.292 -22.11 -7.313
+   3       N  -5.13* -5.546 -28.7* -13.97
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           1.050e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -9.769e-009 -9.769e-009 -9.769e-009
+drain          7.000e-001  9.769e-009  9.769e-009  9.769e-009
+Total                                             -1.573e-020
+
+Time for bias point:   2.02 sec. 
+Total time:            5.99 min. 
+  
+ATLAS> solve vgate=1.1
+
+Obtaining static solution:
+
+ V(   gate  ) = 1.1         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.683 -0.615 -18.81 -3.980
+   2       N  -2.265 -2.283 -22.11 -7.118
+   3       N  -4.982 -5.412 -28.4* -13.47
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           1.100e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -1.223e-008 -1.223e-008 -1.223e-008
+drain          7.000e-001  1.223e-008  1.223e-008  1.223e-008
+Total                                              4.963e-024
+
+Time for bias point:   2.03 sec. 
+Total time:            6.05 min. 
+  
+ATLAS> solve vgate=1.15
+
+Obtaining static solution:
+
+ V(   gate  ) = 1.15        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.778 -0.659 -18.91 -3.893
+   2       N  -2.350 -2.291 -22.16 -6.975
+   3       N  -5.23* -5.354 -28.3* -13.18
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           1.150e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -1.512e-008 -1.512e-008 -1.512e-008
+drain          7.000e-001  1.512e-008  1.512e-008  1.512e-008
+Total                                             -8.907e-021
+
+Time for bias point:   2.53 sec. 
+Total time:            6.12 min. 
+  
+ATLAS> solve vgate=1.2
+
+Obtaining static solution:
+
+ V(   gate  ) = 1.2         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.887 -0.704 -19.03 -3.820
+   2       N  -2.517 -2.314 -22.24 -6.874
+   3       N  -5.56* -5.342 -28.4* -13.00
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           1.200e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -1.848e-008 -1.848e-008 -1.848e-008
+drain          7.000e-001  1.848e-008  1.848e-008  1.848e-008
+Total                                              9.718e-021
+
+Time for bias point:   2.20 sec. 
+Total time:            6.18 min. 
+  
+ATLAS> solve vgate=1.25
+
+Obtaining static solution:
+
+ V(   gate  ) = 1.25        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -0.999 -0.747 -19.14 -3.762
+   2       N  -2.732 -2.345 -22.33 -6.806
+   3       N  -5.78* -5.362 -28.4* -12.91
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           1.250e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -2.234e-008 -2.234e-008 -2.234e-008
+drain          7.000e-001  2.234e-008  2.234e-008  2.234e-008
+Total                                             -5.873e-021
+
+Time for bias point:   1.91 sec. 
+Total time:            6.24 min. 
+  
+ATLAS> solve vgate=1.3
+
+Obtaining static solution:
+
+ V(   gate  ) = 1.3         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.103 -0.790 -19.26 -3.714
+   2       N  -2.857 -2.384 -22.45 -6.763
+   3       N  -5.83* -5.403 -28.5* -12.87
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           1.300e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -2.674e-008 -2.674e-008 -2.674e-008
+drain          7.000e-001  2.674e-008  2.674e-008  2.674e-008
+Total                                              9.542e-021
+
+Time for bias point:   1.97 sec. 
+Total time:            6.30 min. 
+  
+ATLAS> solve vgate=1.35
+
+Obtaining static solution:
+
+ V(   gate  ) = 1.35        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.204 -0.831 -19.37 -3.675
+   2       N  -2.896 -2.427 -22.57 -6.739
+   3       N  -5.89* -5.459 -28.5* -12.88
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           1.350e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -3.168e-008 -3.168e-008 -3.168e-008
+drain          7.000e-001  3.168e-008  3.168e-008  3.168e-008
+Total                                              1.588e-021
+
+Time for bias point:   2.20 sec. 
+Total time:            6.36 min. 
+  
+ATLAS> solve vgate=1.4
+
+Obtaining static solution:
+
+ V(   gate  ) = 1.4         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.298 -0.871 -19.48 -3.643
+   2       N  -2.932 -2.472 -22.69 -6.729
+   3       N  -5.95* -5.525 -28.6* -12.91
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           1.400e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -3.719e-008 -3.719e-008 -3.719e-008
+drain          7.000e-001  3.719e-008  3.719e-008  3.719e-008
+Total                                              2.905e-021
+
+Time for bias point:   2.19 sec. 
+Total time:            6.43 min. 
+  
+ATLAS> solve vgate=1.45
+
+Obtaining static solution:
+
+ V(   gate  ) = 1.45        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.384 -0.909 -19.58 -3.617
+   2       N  -2.967 -2.518 -22.82 -6.730
+   3       N  -6.01* -5.597 -28.5* -12.96
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           1.450e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -4.328e-008 -4.328e-008 -4.328e-008
+drain          7.000e-001  4.328e-008  4.328e-008  4.328e-008
+Total                                              8.259e-021
+
+Time for bias point:   2.03 sec. 
+Total time:            6.50 min. 
+  
+ATLAS> solve vgate=1.5
+
+Obtaining static solution:
+
+ V(   gate  ) = 1.5         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.456 -0.945 -19.69 -3.596
+   2       N  -2.999 -2.565 -22.95 -6.739
+   3       N  -6.08* -5.672 -28.6* -13.02
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           1.500e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -4.994e-008 -4.994e-008 -4.994e-008
+drain          7.000e-001  4.994e-008  4.994e-008  4.994e-008
+Total                                              1.548e-021
+
+Time for bias point:   2.00 sec. 
+Total time:            6.56 min. 
+  
+ATLAS> solve vgate=1.55
+
+Obtaining static solution:
+
+ V(   gate  ) = 1.55        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.509 -0.979 -19.77 -3.578
+   2       N  -3.030 -2.611 -23.07 -6.753
+   3       N  -6.14* -5.748 -28.5* -13.10
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           1.550e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -5.718e-008 -5.718e-008 -5.718e-008
+drain          7.000e-001  5.718e-008  5.718e-008  5.718e-008
+Total                                              8.080e-021
+
+Time for bias point:   2.39 sec. 
+Total time:            6.63 min. 
+  
+ATLAS> solve vgate=1.6
+
+Obtaining static solution:
+
+ V(   gate  ) = 1.6         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.542 -1.012 -19.85 -3.553
+   2       N  -3.060 -2.657 -23.20 -6.771
+   3       N  -6.20* -5.825 -28.6* -13.18
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           1.600e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -6.498e-008 -6.498e-008 -6.498e-008
+drain          7.000e-001  6.498e-008  6.498e-008  6.498e-008
+Total                                              4.765e-021
+
+Time for bias point:   1.97 sec. 
+Total time:            6.69 min. 
+  
+ATLAS> solve vgate=1.65
+
+Obtaining static solution:
+
+ V(   gate  ) = 1.65        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.555 -1.043 -19.93 -3.524
+   2       N  -3.088 -2.701 -23.32 -6.792
+   3       N  -6.27* -5.901 -28.5* -13.26
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           1.650e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -7.331e-008 -7.331e-008 -7.331e-008
+drain          7.000e-001  7.331e-008  7.331e-008  7.331e-008
+Total                                              3.534e-021
+
+Time for bias point:   1.96 sec. 
+Total time:            6.76 min. 
+  
+ATLAS> solve vgate=1.7
+
+Obtaining static solution:
+
+ V(   gate  ) = 1.7         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.558 -1.072 -20.00 -3.497
+   2       N  -3.115 -2.744 -23.43 -6.814
+   3       N  -6.33* -5.975 -28.4* -13.34
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           1.700e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -8.217e-008 -8.217e-008 -8.217e-008
+drain          7.000e-001  8.217e-008  8.217e-008  8.217e-008
+Total                                              6.472e-021
+
+Time for bias point:   1.83 sec. 
+Total time:            6.82 min. 
+  
+ATLAS> solve vgate=1.75
+
+Obtaining static solution:
+
+ V(   gate  ) = 1.75        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.558 -1.100 -20.03 -3.472
+   2       N  -3.140 -2.786 -23.54 -6.838
+   3       N  -6.39* -6.05* -28.3* -13.43
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           1.750e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -9.151e-008 -9.151e-008 -9.151e-008
+drain          7.000e-001  9.151e-008  9.151e-008  9.151e-008
+Total                                             -2.132e-020
+
+Time for bias point:   2.36 sec. 
+Total time:            6.89 min. 
+  
+ATLAS> solve vgate=1.8
+
+Obtaining static solution:
+
+ V(   gate  ) = 1.8         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.561 -1.126 -20.06 -3.449
+   2       N  -3.165 -2.826 -23.65 -6.862
+   3       N  -6.45* -6.12* -28.5* -13.51
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           1.800e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -1.013e-007 -1.013e-007 -1.013e-007
+drain          7.000e-001  1.013e-007  1.013e-007  1.013e-007
+Total                                              2.569e-020
+
+Time for bias point:   1.86 sec. 
+Total time:            6.95 min. 
+  
+ATLAS> solve vgate=1.85
+
+Obtaining static solution:
+
+ V(   gate  ) = 1.85        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.570 -1.151 -20.10 -3.428
+   2       N  -3.188 -2.865 -23.75 -6.887
+   3       N  -6.50* -6.19* -28.5* -13.59
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           1.850e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -1.115e-007 -1.115e-007 -1.115e-007
+drain          7.000e-001  1.115e-007  1.115e-007  1.115e-007
+Total                                             -7.359e-021
+
+Time for bias point:   1.91 sec. 
+Total time:            7.01 min. 
+  
+ATLAS> solve vgate=1.9
+
+Obtaining static solution:
+
+ V(   gate  ) = 1.9         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.586 -1.175 -20.16 -3.408
+   2       N  -3.210 -2.902 -23.85 -6.911
+   3       N  -6.55* -6.25* -28.3* -13.68
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           1.900e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -1.222e-007 -1.222e-007 -1.222e-007
+drain          7.000e-001  1.222e-007  1.222e-007  1.222e-007
+Total                                             -2.276e-021
+
+Time for bias point:   1.83 sec. 
+Total time:            7.07 min. 
+  
+ATLAS> solve vgate=1.95
+
+Obtaining static solution:
+
+ V(   gate  ) = 1.95        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.608 -1.198 -20.23 -3.389
+   2       N  -3.231 -2.938 -23.95 -6.935
+   3       N  -6.61* -6.32* -28.3* -13.76
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           1.950e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -1.332e-007 -1.332e-007 -1.332e-007
+drain          7.000e-001  1.332e-007  1.332e-007  1.332e-007
+Total                                             -1.313e-020
+
+Time for bias point:   2.02 sec. 
+Total time:            7.13 min. 
+  
+ATLAS> solve vgate=2
+
+Obtaining static solution:
+
+ V(   gate  ) = 2           
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.635 -1.220 -20.26 -3.371
+   2       N  -3.251 -2.972 -24.04 -6.959
+   3       N  -6.66* -6.38* -28.3* -13.83
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           2.000e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -1.445e-007 -1.445e-007 -1.445e-007
+drain          7.000e-001  1.445e-007  1.445e-007  1.445e-007
+Total                                             -2.885e-021
+
+Time for bias point:   2.30 sec. 
+Total time:            7.20 min. 
+  
+ATLAS> solve vgate=2.05
+
+Obtaining static solution:
+
+ V(   gate  ) = 2.05        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.667 -1.241 -20.31 -3.353
+   2       N  -3.270 -3.006 -24.13 -6.982
+   3       N  -6.70* -6.44* -28.4* -13.90
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           2.050e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -1.561e-007 -1.561e-007 -1.561e-007
+drain          7.000e-001  1.561e-007  1.561e-007  1.561e-007
+Total                                              1.408e-020
+
+Time for bias point:   2.06 sec. 
+Total time:            7.26 min. 
+  
+ATLAS> solve vgate=2.1
+
+Obtaining static solution:
+
+ V(   gate  ) = 2.1         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.701 -1.261 -20.36 -3.337
+   2       N  -3.289 -3.038 -24.22 -7.004
+   3       N  -6.75* -6.50* -28.4* -13.98
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           2.100e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -1.680e-007 -1.680e-007 -1.680e-007
+drain          7.000e-001  1.680e-007  1.680e-007  1.680e-007
+Total                                             -1.112e-021
+
+Time for bias point:   1.66 sec. 
+Total time:            7.32 min. 
+  
+ATLAS> solve vgate=2.15
+
+Obtaining static solution:
+
+ V(   gate  ) = 2.15        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.738 -1.280 -20.42 -3.322
+   2       N  -3.306 -3.069 -24.30 -7.026
+   3       N  -6.79* -6.55* -28.4* -14.05
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           2.150e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -1.802e-007 -1.802e-007 -1.802e-007
+drain          7.000e-001  1.802e-007  1.802e-007  1.802e-007
+Total                                             -8.126e-021
+
+Time for bias point:   1.87 sec. 
+Total time:            7.38 min. 
+  
+ATLAS> solve vgate=2.2
+
+Obtaining static solution:
+
+ V(   gate  ) = 2.2         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.776 -1.299 -20.49 -3.307
+   2       N  -3.323 -3.099 -24.38 -7.047
+   3       N  -6.84* -6.60* -28.3* -14.12
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           2.200e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -1.926e-007 -1.926e-007 -1.926e-007
+drain          7.000e-001  1.926e-007  1.926e-007  1.926e-007
+Total                                              1.008e-020
+
+Time for bias point:   2.08 sec. 
+Total time:            7.44 min. 
+  
+ATLAS> solve vgate=2.25
+
+Obtaining static solution:
+
+ V(   gate  ) = 2.25        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.816 -1.317 -20.56 -3.293
+   2       N  -3.339 -3.127 -24.46 -7.067
+   3       N  -6.88* -6.66* -28.3* -14.18
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           2.250e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -2.052e-007 -2.052e-007 -2.052e-007
+drain          7.000e-001  2.052e-007  2.052e-007  2.052e-007
+Total                                              1.509e-021
+
+Time for bias point:   1.68 sec. 
+Total time:            7.49 min. 
+  
+ATLAS> solve vgate=2.3
+
+Obtaining static solution:
+
+ V(   gate  ) = 2.3         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.856 -1.334 -20.63 -3.279
+   2       N  -3.354 -3.155 -24.53 -7.086
+   3       N  -6.92* -6.71* -28.3* -14.24
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           2.300e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -2.180e-007 -2.180e-007 -2.180e-007
+drain          7.000e-001  2.180e-007  2.180e-007  2.180e-007
+Total                                             -1.080e-020
+
+Time for bias point:   2.01 sec. 
+Total time:            7.55 min. 
+  
+ATLAS> solve vgate=2.35
+
+Obtaining static solution:
+
+ V(   gate  ) = 2.35        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.896 -1.350 -20.68 -3.266
+   2       N  -3.369 -3.182 -24.60 -7.105
+   3       N  -6.96* -6.75* -28.2* -14.30
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           2.350e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -2.310e-007 -2.310e-007 -2.310e-007
+drain          7.000e-001  2.310e-007  2.310e-007  2.310e-007
+Total                                             -1.461e-020
+
+Time for bias point:   1.96 sec. 
+Total time:            7.61 min. 
+  
+ATLAS> solve vgate=2.4
+
+Obtaining static solution:
+
+ V(   gate  ) = 2.4         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.936 -1.366 -20.72 -3.253
+   2       N  -3.383 -3.208 -24.67 -7.123
+   3       N  -6.99* -6.80* -28.2* -14.36
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           2.400e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -2.442e-007 -2.442e-007 -2.442e-007
+drain          7.000e-001  2.442e-007  2.442e-007  2.442e-007
+Total                                              2.128e-020
+
+Time for bias point:   1.78 sec. 
+Total time:            7.67 min. 
+  
+ATLAS> solve vgate=2.45
+
+Obtaining static solution:
+
+ V(   gate  ) = 2.45        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -1.975 -1.382 -20.76 -3.241
+   2       N  -3.396 -3.233 -24.72 -7.140
+   3       N  -7.03* -6.84* -28.3* -14.42
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           2.450e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -2.575e-007 -2.575e-007 -2.575e-007
+drain          7.000e-001  2.575e-007  2.575e-007  2.575e-007
+Total                                              1.562e-020
+
+Time for bias point:   2.15 sec. 
+Total time:            7.73 min. 
+  
+ATLAS> solve vgate=2.5
+
+Obtaining static solution:
+
+ V(   gate  ) = 2.5         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -2.014 -1.396 -20.80 -3.229
+   2       N  -3.409 -3.257 -24.77 -7.157
+   3       N  -7.06* -6.89* -28.3* -14.46
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           2.500e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -2.710e-007 -2.710e-007 -2.710e-007
+drain          7.000e-001  2.710e-007  2.710e-007  2.710e-007
+Total                                             -1.535e-020
+
+Time for bias point:   2.01 sec. 
+Total time:            7.79 min. 
+  
+ATLAS> solve vgate=2.55
+
+Obtaining static solution:
+
+ V(   gate  ) = 2.55        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -2.052 -1.411 -20.83 -3.217
+   2       N  -3.422 -3.280 -24.82 -7.173
+   3       N  -7.09* -6.93* -28.3* -14.50
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           2.550e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -2.846e-007 -2.846e-007 -2.846e-007
+drain          7.000e-001  2.846e-007  2.846e-007  2.846e-007
+Total                                              2.012e-020
+
+Time for bias point:   2.17 sec. 
+Total time:            7.85 min. 
+  
+ATLAS> solve vgate=2.6
+
+Obtaining static solution:
+
+ V(   gate  ) = 2.6         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -2.090 -1.425 -20.87 -3.206
+   2       N  -3.434 -3.303 -24.86 -7.189
+   3       N  -7.13* -6.97* -28.4* -14.57
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           2.600e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -2.983e-007 -2.983e-007 -2.983e-007
+drain          7.000e-001  2.983e-007  2.983e-007  2.983e-007
+Total                                              1.281e-020
+
+Time for bias point:   1.85 sec. 
+Total time:            7.90 min. 
+  
+ATLAS> solve vgate=2.65
+
+Obtaining static solution:
+
+ V(   gate  ) = 2.65        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -2.127 -1.438 -20.90 -3.195
+   2       N  -3.445 -3.325 -24.91 -7.204
+   3       N  -7.16* -7.01* -28.3* -14.51
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           2.650e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -3.122e-007 -3.122e-007 -3.122e-007
+drain          7.000e-001  3.122e-007  3.122e-007  3.122e-007
+Total                                             -9.053e-021
+
+Time for bias point:   2.28 sec. 
+Total time:            7.97 min. 
+  
+ATLAS> solve vgate=2.7
+
+Obtaining static solution:
+
+ V(   gate  ) = 2.7         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -2.163 -1.451 -20.93 -3.184
+   2       N  -3.456 -3.346 -24.95 -7.218
+   3       N  -7.19* -7.05* -28.2* -14.62
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           2.700e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -3.262e-007 -3.262e-007 -3.262e-007
+drain          7.000e-001  3.262e-007  3.262e-007  3.262e-007
+Total                                             -2.615e-020
+
+Time for bias point:   2.23 sec. 
+Total time:            8.04 min. 
+  
+ATLAS> solve vgate=2.75
+
+Obtaining static solution:
+
+ V(   gate  ) = 2.75        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -2.198 -1.464 -20.97 -3.174
+   2       N  -3.467 -3.367 -24.99 -7.232
+   3       N  -7.21* -7.08* -28.3* -14.55
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           2.750e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -3.403e-007 -3.403e-007 -3.403e-007
+drain          7.000e-001  3.403e-007  3.403e-007  3.403e-007
+Total                                              1.318e-020
+
+Time for bias point:   1.76 sec. 
+Total time:            8.09 min. 
+  
+ATLAS> solve vgate=2.8
+
+Obtaining static solution:
+
+ V(   gate  ) = 2.8         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -2.232 -1.476 -21.00 -3.164
+   2       N  -3.477 -3.387 -25.04 -7.245
+   3       N  -7.24* -7.12* -28.2* -14.55
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           2.800e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -3.545e-007 -3.545e-007 -3.545e-007
+drain          7.000e-001  3.545e-007  3.545e-007  3.545e-007
+Total                                              6.935e-021
+
+Time for bias point:   2.05 sec. 
+Total time:            8.15 min. 
+  
+ATLAS> solve vgate=2.85
+
+Obtaining static solution:
+
+ V(   gate  ) = 2.85        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -2.265 -1.488 -21.03 -3.154
+   2       N  -3.487 -3.407 -25.08 -7.258
+   3       N  -7.27* -7.15* -28.3* -14.66
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           2.850e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -3.688e-007 -3.688e-007 -3.688e-007
+drain          7.000e-001  3.688e-007  3.688e-007  3.688e-007
+Total                                             -2.700e-020
+
+Time for bias point:   1.89 sec. 
+Total time:            8.21 min. 
+  
+ATLAS> solve vgate=2.9
+
+Obtaining static solution:
+
+ V(   gate  ) = 2.9         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -2.297 -1.500 -21.06 -3.144
+   2       N  -3.496 -3.426 -25.10 -7.270
+   3       N  -7.29* -7.19* -28.2* -14.58
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           2.900e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -3.831e-007 -3.831e-007 -3.831e-007
+drain          7.000e-001  3.831e-007  3.831e-007  3.831e-007
+Total                                             -4.023e-021
+
+Time for bias point:   2.30 sec. 
+Total time:            8.28 min. 
+  
+ATLAS> solve vgate=2.95
+
+Obtaining static solution:
+
+ V(   gate  ) = 2.95        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -2.329 -1.512 -21.08 -3.135
+   2       N  -3.505 -3.444 -25.13 -7.281
+   3       N  -7.32* -7.22* -28.3* -14.54
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           2.950e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -3.976e-007 -3.976e-007 -3.976e-007
+drain          7.000e-001  3.976e-007  3.976e-007  3.976e-007
+Total                                             -1.535e-020
+
+Time for bias point:   2.21 sec. 
+Total time:            8.34 min. 
+  
+ATLAS> solve vgate=3
+
+Obtaining static solution:
+
+ V(   gate  ) = 3           
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -6.00* -26.0* -20.0*
+-----------------------------------------
+   1       N  -2.359 -1.523 -21.11 -3.126
+   2       N  -3.514 -3.462 -25.16 -7.292
+   3       N  -7.34* -7.25* -28.2* -14.55
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           3.000e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -4.121e-007 -4.121e-007 -4.121e-007
+drain          7.000e-001  4.121e-007  4.121e-007  4.121e-007
+Total                                              1.170e-020
+
+Time for bias point:   2.20 sec. 
+Total time:            8.41 min. 
+  
+ATLAS> log off
+ATLAS> save outf=final.str
+
+MASTER format file written to final.str at Sat Sep 12 21:25:50 2026
+
+ATLAS> EXTRACT> init infile="transfer.log"
+EXTRACT> extract name="idvg" curve(v."gate",i."drain") outfile="idvg.dat"
+EXTRACT> extract name="isvg" curve(v."gate",i."source") outfile="isvg.dat"
+EXTRACT> extract name="igvg" curve(v."gate",i."gate") outfile="igvg.dat"
+EXTRACT> extract name="vdvg" curve(v."gate",v."drain") outfile="vdvg.dat"
+EXTRACT> extract name="vsvg" curve(v."gate",v."source") outfile="vsvg.dat"
+EXTRACT> extract name="mobility_vg" curve(v."gate",probe."channel_mobility") outfile="mobility_vg.dat"
+EXTRACT> extract name="electrons_vg" curve(v."gate",probe."channel_electrons") outfile="electrons_vg.dat"
+EXTRACT> extract name="bulk_free_electrons_vg" curve(v."gate",probe."bulk_free_electrons") outfile="bulk_free_electrons_vg.dat"
+EXTRACT> extract name="bulk_ionized_acceptors_vg" curve(v."gate",probe."bulk_ionized_acceptors") outfile="bulk_ionized_acceptors_vg.dat"
+EXTRACT> extract name="bulk_ionized_donors_vg" curve(v."gate",probe."bulk_ionized_donors") outfile="bulk_ionized_donors_vg.dat"
+EXTRACT> extract name="bulk_front_electrons_vg" curve(v."gate",probe."bulk_front_electrons") outfile="bulk_front_electrons_vg.dat"
+EXTRACT> extract name="bulk_back_electrons_vg" curve(v."gate",probe."bulk_back_electrons") outfile="bulk_back_electrons_vg.dat"
+EXTRACT> quit
+quit
+
+ATLAS version 5.28.1.R finished at Sat Sep 12 21:25:51 2026

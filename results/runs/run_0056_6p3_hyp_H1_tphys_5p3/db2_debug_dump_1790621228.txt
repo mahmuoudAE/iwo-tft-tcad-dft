@@ -1,0 +1,189 @@
+DB2 Dump Info Tue Sep 29 02:47:08 2026
+
+
+*** History of GUI state machine : ***
+
+state machine DB2 MainWindow State Machine (0x1eb0bf7a0c0) registered state initialState (0x1eb0bf79df0)
+state machine DB2 MainWindow State Machine (0x1eb0bf7a0c0) registered state normalState (0x1eb0bf79eb0)
+
+onEntry State initialState (0x1eb0bf79df0) !
+state entered: initialState (0x1eb0bf79df0)
+state properties assigned: initialState (0x1eb0bf79df0)
+state exited: initialState (0x1eb0bf79df0)
+
+onEntry State normalState (0x1eb0bf79eb0) !
+state entered: normalState (0x1eb0bf79eb0)
+
+onEntry State readyState (0x1eb0bf79910) !
+state entered: readyState (0x1eb0bf79910)
+state properties assigned: normalState (0x1eb0bf79eb0)
+state properties assigned: readyState (0x1eb0bf79910)
+state exited: readyState (0x1eb0bf79910)
+
+onEntry State runningState (0x1eb0bf7a690) !
+state entered: runningState (0x1eb0bf7a690)
+
+onEntry State startcontState (0x1eb0bf7b1a0) !
+state entered: startcontState (0x1eb0bf7b1a0)
+state properties assigned: runningState (0x1eb0bf7a690)
+state properties assigned: startcontState (0x1eb0bf7b1a0)
+
+
+*** List of GUI current machine's states : ***
+
+Name : runningState,			 @:0x1eb0bf7a690
+Name : normalState,			 @:0x1eb0bf79eb0
+Name : startcontState,			 @:0x1eb0bf7b1a0
+
+
+*** Executor info : ***
+
+state-name:SimReady
+itsWantExit:0
+itsInsertedDeckCmds:
+itsNextCmdIdx:1
+itsDeckCmds:
+  DeckLine:"solve vstep=0.05 vfinal=1.5 name=gate", number:120,line-id:120,generated:0,isExtract:0
+itsPendingEvents.size():0
+itsHandleEventsOnly:0
+itsDeckFinishedIssued:0
+itsNoPromptsReceived:0
+itsBatchMode:0
+itsNice:0
+itsNrCPUs:1
+itsSystemEnabled:1
+itsAIEnabled:1
+itsAIPreferencesEnabled:1
+itsDeckWasQuit:0
+itsMonitorStrings:
+  itsString:ERROR #,itsDisplayString:ERROR #
+  itsString:errors detected in,itsDisplayString:errors detected in
+  itsString:\*\*\*Stop now\*\*\*,itsDisplayString:***Stop now***
+  itsString:syntax error,itsDisplayString:syntax error
+  itsString:System Error,itsDisplayString:System Error
+  itsString:Command Error,itsDisplayString:Command Error
+itsSimSetting:
+  athena:path:"C:/sedatools\",version:"",args:""
+  atlas:path:"C:/sedatools\",version:"",args:""
+  clever:path:"C:/sedatools\",version:"",args:""
+  devedit:path:"",version:"",args:""
+  maskviews:path:"",version:"",args:""
+  sedit:path:"",version:"",args:""
+  tonyplot:path:"",version:"",args:""
+  tonyplot3d:path:"",version:"",args:""
+  utmost4:path:"C:/sedatools\",version:"",args:""
+  victorya:path:"C:/sedatools\",version:"",args:""
+  victoryd:path:"C:/sedatools\",version:"",args:""
+  victorymesh:path:"C:/sedatools\",version:"",args:""
+  victoryp:path:"C:/sedatools\",version:"",args:""
+  victorystress:path:"C:/sedatools\",version:"",args:""
+callbackHistory:  
+  timestamp:2114575344,vwf::editor::DeckExecutorCallbackTracer::reportResourceUsage:ru:act_vm_rss:242400,max_vm_rss:263724,cpu_user_sec:0,cpu_user_usec:0,cpu_sys_sec:0,cpu_sys_usec:15625,io_read_bytes:0,io_write_bytes:0
+  timestamp:2114775344,vwf::editor::DeckExecutorCallbackTracer::simStdout:rto:RTO:sim:atlas,txt:
+Obtaining static solution:
+
+ V(   gate  ) = 1.15        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -5.00* -26.0* -17.3*
+-----------------------------------------
+,timestamp:1790621225,deckLine:NULL
+  timestamp:2115147344,vwf::editor::DeckExecutorCallbackTracer::simStdout:rto:RTO:sim:atlas,txt:   1       N  -1.289 -0.952 -20.18 -2.610
+,timestamp:1790621225,deckLine:NULL
+  timestamp:2115333344,vwf::editor::DeckExecutorCallbackTracer::simStdout:rto:RTO:sim:atlas,txt:   2       N  -3.282 -2.525 -23.43 -5.764
+,timestamp:1790621225,deckLine:NULL
+  timestamp:2115519344,vwf::editor::DeckExecutorCallbackTracer::simStdout:rto:RTO:sim:atlas,txt:   3       N  -6.70* -5.57* -28.0* -12.10
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           1.150e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -4.582e-008 -4.582e-008 -4.582e-008
+drain          7.000e-001  4.582e-008  4.582e-008  4.582e-008
+Total                                              3.765e-019
+
+Time for bias point:   0.74 sec. 
+Total time:            3.11 min. 
+  
+,timestamp:1790621225,deckLine:NULL
+  timestamp:2115558344,vwf::editor::DeckExecutorCallbackTracer::reportResourceUsage:ru:act_vm_rss:242400,max_vm_rss:263724,cpu_user_sec:0,cpu_user_usec:0,cpu_sys_sec:0,cpu_sys_usec:15625,io_read_bytes:0,io_write_bytes:0
+  timestamp:2115829344,vwf::editor::DeckExecutorCallbackTracer::simStdout:rto:RTO:sim:atlas,txt:
+Obtaining static solution:
+
+ V(   gate  ) = 1.2         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -5.00* -26.0* -17.3*
+-----------------------------------------
+,timestamp:1790621226,deckLine:NULL
+  timestamp:2116138344,vwf::editor::DeckExecutorCallbackTracer::simStdout:rto:RTO:sim:atlas,txt:   1       N  -1.347 -0.987 -20.30 -2.616
+,timestamp:1790621226,deckLine:NULL
+  timestamp:2116322344,vwf::editor::DeckExecutorCallbackTracer::simStdout:rto:RTO:sim:atlas,txt:   2       N  -3.399 -2.584 -23.62 -5.851
+,timestamp:1790621226,deckLine:NULL
+  timestamp:2116569344,vwf::editor::DeckExecutorCallbackTracer::simStdout:rto:RTO:sim:atlas,txt:   3       N  -6.79* -5.68* -28.0* -12.33
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate           1.200e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -5.283e-008 -5.283e-008 -5.283e-008
+drain          7.000e-001  5.283e-008  5.283e-008  5.283e-008
+Total                                              7.432e-019
+
+Time for bias point:   0.73 sec. 
+Total time:            3.12 min. 
+  
+,timestamp:1790621226,deckLine:NULL
+  timestamp:2116573344,vwf::editor::DeckExecutorCallbackTracer::reportResourceUsage:ru:act_vm_rss:242400,max_vm_rss:263724,cpu_user_sec:0,cpu_user_usec:0,cpu_sys_sec:0,cpu_sys_usec:15625,io_read_bytes:0,io_write_bytes:0
+  timestamp:2116878344,vwf::editor::DeckExecutorCallbackTracer::simStdout:rto:RTO:sim:atlas,txt:
+Obtaining static solution:
+
+ V(   gate  ) = 1.25        
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -5.00* -26.0* -17.3*
+-----------------------------------------
+,timestamp:1790621227,deckLine:NULL
+  timestamp:2117248344,vwf::editor::DeckExecutorCallbackTracer::simStdout:rto:RTO:sim:atlas,txt:   1       N  -1.379 -1.020 -20.41 -2.625
+,timestamp:1790621227,deckLine:NULL
+  timestamp:2117496344,vwf::editor::DeckExecutorCallbackTracer::simStdout:rto:RTO:sim:atlas,txt:   2       N  -3.468 -2.641 -23.81 -5.939
+,timestamp:1790621227,deckLine:NULL
+  timestamp:2117563344,vwf::editor::DeckExecutorCallbackTracer::reportResourceUsage:ru:act_vm_rss:263284,max_vm_rss:263724,cpu_user_sec:0,cpu_user_usec:0,cpu_sys_sec:0,cpu_sys_usec:15625,io_read_bytes:0,io_write_bytes:0
+  timestamp:2117620344,vwf::editor::DeckExecutorCallbackTracer::simStdout:rto:RTO:sim:atlas,txt:   3       N  -6.87* -5.79* -28.0* -12.56
+
+Electrode       Va(V)        In(A)       Ic(A)       It(A)
+=============================================================
+gate    ,timestamp:1790621227,deckLine:NULL
+  timestamp:2117620344,vwf::editor::DeckExecutorCallbackTracer::simStdout:rto:RTO:sim:atlas,txt:       1.250e+000  0.000e+000  0.000e+000  0.000e+000
+source         0.000e+000 -6.038e-008 -6.038e-008 -6.038e-008
+drain          7.000e-001  6.038e-008  6.038e-008  6.038e-008
+Total                                              6.844e-019
+,timestamp:1790621227,deckLine:NULL
+  timestamp:2117620344,vwf::editor::DeckExecutorCallbackTracer::simStdout:rto:RTO:sim:atlas,txt:
+Time for bias point:   0.79 sec. 
+Total time:            3.14 min. 
+,timestamp:1790621227,deckLine:NULL
+  timestamp:2117620344,vwf::editor::DeckExecutorCallbackTracer::simStdout:rto:RTO:sim:atlas,txt:  
+,timestamp:1790621227,deckLine:NULL
+  timestamp:2117992344,vwf::editor::DeckExecutorCallbackTracer::simStdout:rto:RTO:sim:atlas,txt:
+Obtaining static solution:
+
+ V(   gate  ) = 1.3         
+
+
+proj           psi     n     psi     n  
+direct          x      x     rhs    rhs 
+   i    j  m  -5.00* -5.00* -26.0* -17.3*
+-----------------------------------------
+,timestamp:1790621228,deckLine:NULL
+
+
+
+*** Last line in execution was line 119: ***
+
+solve vstep=0.05 vfinal=1.5 name=gate
+

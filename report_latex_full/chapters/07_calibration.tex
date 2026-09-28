@@ -1,0 +1,339 @@
+% ===================================================================
+% chapters/07_calibration.tex -- writer R1 (written by W5)
+% Calibration and how each parameter controls the transfer curve.
+% ASCII only. All simulated numbers carry their run ID.
+% Sources: digest/runs.csv, figures/MANIFEST.md,
+% analysis_2026-09-25/SYNTHESIS.md, S6 sections 1-3,
+% tables/SENSITIVITY_RESULTS.md (with the SYNTHESIS K corrections).
+% ===================================================================
+\chapter{Calibration and how each parameter controls the transfer curve}\label{ch:calibration}
+
+The derivation chapters (\cref{ch:derivations-es,ch:derivations-tr}) fixed most inputs of the ATLAS model from the literature, from first-principles proxies and from physical laws in the thickness $t$. A small number of quantities cannot be fixed in this way and must be fitted to the measured transfer curves of \cref{ch:device}. This chapter documents that fitting in full. It addresses four points: (i) the order in which the free quantities were fitted and the reason why this order gives nearly orthogonal adjustments; (ii) the contribution of every stage run, including runs that did not fit or did not finish; (iii) the final converged calibrated state and the features of the measured curves that it reproduces or misses; and (iv) the action of each model parameter on the transfer curve, as measured by one-at-a-time ATLAS runs rather than estimated analytically. Point (iv) forms the basis of the identifiability discussion in \cref{sec:mech-identifiability}. Several parameters act on one transfer curve in exactly the same way, so that the calibrated set is one member of a family of equivalent calibrations and not a unique extraction. Throughout the chapter the model is regarded as \emph{calibrated}, not validated: the out-of-sample test of the shared parameters, the 6.3~nm threshold, failed, and the registered 6.3~nm hypothesis tests B0 and C1 failed or partly failed (\cref{ch:6p3}).
+
+Metrics follow \cref{sec:der-metrics}. In accordance with the corrections of the 2026-09-25 synthesis (\file{analysis_2026-09-25/SYNTHESIS.md}, section K), the windowed minimum slope $\SSmin$ is not used as evidence in this chapter. It depends on where a 5-point window falls on the 0.05~V grid and can move by up to 10~mV/dec without any physical change (S6 report, section 1.4). Subthreshold slopes are therefore reported at fixed current, $\SSfix{10^{-11}}{10^{-10}}$ and $\SSfix{10^{-10}}{10^{-9}}$ (in \Aum). They are given together with $\SScc$, the linear-extrapolation threshold $\Vthlin$, the turn-on delay (``gap'') $\Vthlin-\Vthcc$, the transconductance $\gmmax$, $\muFE$ and $\Ion$ at $\Vg=\SI{3}{V}$.
+
+% -------------------------------------------------------------------
+\section{Staged calibration strategy}\label{sec:cal-strategy}
+
+\subsection{What is fitted and what is not}\label{sec:cal-free-set}
+The calibration was designed so that as few numbers as possible are adjusted and so that each adjusted number has a single dominant effect on the curve. The complete set of fitted quantities is given here as corrected in SYNTHESIS section K; the earlier statement that there is ``one fitted electrostatic value'' is withdrawn. The set comprises one shared front fixed charge $\Qf=\SI{1.73e12}{cm^{-2}}$ for the 2 and 13.2~nm films (\cref{sec:par-qf}); a device-specific $\Qf=\SI{8.7e10}{cm^{-2}}$ for the 6.3~nm film, introduced only after the shared value had failed there (\cref{ch:6p3}); one band mobility $\muband$ per film, that is, three numbers (\cref{sec:par-mu}); the tail-state anchor $\Nt(\SI{2}{nm})=\SI{2e19}{cm^{-3}}$ and the tail width $\WTA=\SI{40}{meV}$ (\cref{sec:par-tail}); and the three constants of the effective donor law $\Ndeff(t)$, inherited from the V0 fit (\cref{sec:par-nd}).
+
+The following quantities are assumed, that is, neither fitted nor measured on these devices: the gate work function, the electron affinity $\chiIWO$, the interface acceptor sheet $\Dit$, the deep Gaussian, $\varepsilon$(\AlO) and the confinement law $\dEc(t)$ with its effective-mass companion $\mstar(t)$ (\cref{sec:par-gatewf,sec:par-chi,sec:par-dit,sec:par-deep,sec:par-dec,sec:par-mstar}). The anchor films are 2.0 and 13.2~nm. The 6.3~nm film was held out for a shared-parameter threshold test. The 31.8~nm film lies outside the scope of the model and is reported only as a documented failure (SYNTHESIS H.2, item 2.5).
+
+\subsection{Why the order gives near-orthogonal adjustments}\label{sec:cal-order}
+Two exact properties of the drift-diffusion model with a uniform, constant mobility make the procedure well conditioned; both are demonstrated in \cref{sec:cal-param-control}.
+\begin{enumerate}
+\item A front fixed sheet charge produces a rigid shift of the whole transfer curve, $\Delta\Vg=-q\Delta\Qf/\Cox$ (\cref{eq:flatband-shift}). With $\Cox=\SI{8.955e-7}{\farad\per\centi\metre\squared}$ this shift is $-0.3095$~V for $\Delta\Qf=\SI{1.73e12}{cm^{-2}}$, and ATLAS reproduces it to within 0.3~mV (\run{0001}$\rightarrow$\run{0003}: $-0.3092$~V). The shift is constant to within 0.6~mV from $10^{-14}$ to $3\times10^{-7}\Aum$ (SYNTHESIS D2).
+\item At fixed electrostatics the drain current is exactly proportional to a uniform constant mobility (\cref{eq:id-linear-mu}). The current ratio \run{0008}/\run{0003} is 1.079171 against $18.13/16.8=1.079167$, and \run{0029}/\run{0038} is 1.024879 against 1.024873 (S6 report, section 1.1).
+\end{enumerate}
+The procedure was therefore as follows. (1) The literature/DFT laws were run with $\Qf=0$ and the V0 mobilities (baseline laws). (2) The shared $\Qf$ was fitted on the threshold, which leaves the slopes unchanged. (3) $\muband$ was fitted on $\Ion$ by exact linear rescaling, which moves $\Vthcc$ by less than 10~mV, since the constant-current definition couples the mobility into the threshold (\cref{sec:mech-couplings}). (4) The held-out 6.3~nm device was predicted with the shared parameters. (5) All runs were repeated on the physical structure with the stepped sweep (\cref{sec:num-deck,sec:num-sweep}). (6) The trap-DOS discretization was refined from 96/48 to 384/192 levels, and $\muband$ was recalibrated by exact rescaling. The subthreshold parameters $\Nt(\SI{2}{nm})$ and $\WTA$ were fixed before stage (1) from the V0 fit; their origin is documented in \cref{sec:par-tail}. They were not re-fitted during these stages, and their leverage is measured in \cref{sec:cal-param-control}. \Cref{fig:cal-workflow} summarises the procedure.
+
+\begin{figure}[tbp]
+\centering
+\begin{tikzpicture}[
+  node distance=4mm and 6mm,
+  box/.style={draw, rounded corners=2pt, align=center, font=\footnotesize, minimum height=9mm, text width=31mm, fill=white},
+  test/.style={box, draw=failred!80, fill=failred!5},
+  ok/.style={box, draw=okgreen!80!black, fill=okgreen!5},
+  arr/.style={-{Stealth[length=2mm]}, thick}]
+\node[box] (s1) {1. Baseline laws\\$\Qf=0$, V0 $\muband$\\\run{0001}, \run{0002}};
+\node[box, right=of s1] (s2) {2. Shared $\Qf$ (rigid)\\$1.73\times10^{12}\cmsq$\\\run{0003}, \run{0004}};
+\node[box, right=of s2] (s3) {3. $\muband$ on $\Ion$ (linear)\\18.13 / 61.9\\\run{0008}, \run{0009}};
+\node[test, below=of s3] (s4) {4. Held-out 6.3 nm\\shared parameters\\\run{0005}/\run{0014}: \fail};
+\node[box, left=of s4] (s5) {5. Physical deck, stepped\\sweep\\\run{0012}, \run{0013}, \run{0015}};
+\node[ok, left=of s5] (s6) {6. DOS 384/192 recal.\\exact rescaling\\\run{0038}--\run{0040}};
+\draw[arr] (s1) -- (s2);
+\draw[arr] (s2) -- (s3);
+\draw[arr] (s3) -- (s4);
+\draw[arr] (s4) -- (s5);
+\draw[arr] (s5) -- (s6);
+\end{tikzpicture}
+\caption{Staged calibration flow. Each stage adjusts one class of quantity whose action on the transfer curve is known exactly: a rigid shift for $\Qf$ (stage 2) and a proportional current scaling for $\muband$ (stages 3 and 6). Stage 4 is the only out-of-sample test and failed for the threshold (\cref{ch:6p3}); the 6.3~nm device was then given its own $\Qf$ and $\muband$ (device-specific tuning, \run{0007}, \run{0015}, \run{0039}).}
+\label{fig:cal-workflow}
+\end{figure}
+
+\subsection{Goodness-of-fit measures}\label{sec:cal-gof}
+The ``active'' root-mean-square error of $\log_{10}\Id$ is evaluated where the measured current exceeds five times the off-band median floor (MANIFEST, \texttt{calibrated\_overlays}). It is a useful summary for each film but is \emph{not} comparable across films, because the active spans are 6.57 / 5.25 / 4.59 decades at 2 / 6.3 / 13.2~nm (SYNTHESIS H.2, item 2.11). The shape metrics listed in the introduction to this chapter are therefore always reported alongside it. The measured 13.2~nm window $10^{-11}$--$10^{-10}\Aum$ lies only 1.5 times above its floor ($6.6\times10^{-12}\Aum$). Its slope is 136.1~mV/dec before and 91.8~mV/dec after floor subtraction, and both values are given (S6 report, section 1.4). The floor subtraction is an assumption, since the origin of the floor has not been determined (\cref{sec:mech-traps}).
+
+% -------------------------------------------------------------------
+\section{Calibration history: every stage run and what it taught}\label{sec:cal-history}
+
+\Cref{tab:cal-history} lists every run of the calibration chain, including runs that did not fit, did not finish or were superseded. All numbers are taken from \file{digest/runs.csv}, which was extracted from the \file{execution.json} of each run with the unchanged extractor. \Cref{fig:calibration_history} shows the curves of the two anchor films through the stages.
+
+\begin{table}[tbp]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\caption{Every run of the calibration chain (stages 1--6) with its robust metrics. $\Delta\Id(3\,\mathrm{V})$ is the simulated minus measured current at $\Vg=\SI{3}{V}$ in per cent. RMSE is the active log-current error (dec). $\SSfix{-11}{-10}$ and $\SSfix{-10}{-9}$ are the fixed-current slopes between $10^{-11}$ and $10^{-10}$ and between $10^{-10}$ and $10^{-9}\Aum$. Stage numbers follow \cref{fig:cal-workflow}; the stage labels in the run names are quoted. Units: V, mV/dec, \cmVs. The measured rows are from \file{data/experimental_clean.csv}; for 13.2~nm the slopes are raw (floor-subtracted: 91.8 and 118.8~mV/dec).}
+\label{tab:cal-history}
+\begin{tabular}{@{}l r l l r r r r r r r@{}}
+\toprule
+run & $t$ & stage & change vs previous & $\Vthcc$ & $\Vthlin$ & $\SSfix{-11}{-10}$ & $\SSfix{-10}{-9}$ & $\muFE$ & $\Delta\Id(3\,\mathrm{V})$ & RMSE\\
+\midrule
+measured & 2.0 & data & -- & 0.662 & 1.663 & 121.2 & 194.8 & 12.15 & -- & --\\
+measured & 6.3 & data & -- & 0.644 & 1.820 & 124.5 & 210.0 & 10.95 & -- & --\\
+measured & 13.2 & data & -- & 0.083 & 1.044 & 136.1 & 121.6 & 50.17 & -- & --\\
+\midrule
+\run{0001} & 2.0 & 1 baseline laws & $\Qf=0$, $\muband=16.8$ & 0.995 & 1.838 & 125.3 & 216.4 & 10.19 & $-27.1$ & 3.928\\
+\run{0002} & 13.2 & 1 baseline laws & $\Qf=0$, $\muband=57.6$ & 0.369 & 1.285 & 92.4 & 145.7 & 44.97 & $-21.3$ & 1.030\\
+\run{0003} & 2.0 & 2 (``stage3'') & $\Qf=1.73\times10^{12}$ & 0.686 & 1.561 & 125.0 & 216.7 & 10.46 & $-7.3$ & 0.056\\
+\run{0004} & 13.2 & 2 (``stage3'') & $\Qf=1.73\times10^{12}$ & 0.059 & 1.001 & 92.0 & 145.7 & 45.60 & $-7.0$ & 0.086\\
+\run{0005} & 6.3 & 4 (``stage5'') & shared $\Qf$, held out & 0.350 & 1.215 & 122.3 & 211.4 & 9.14 & $+26.8$ & 0.678\\
+\run{0006} & 31.8 & 4 (``stage5'') & shared $\Qf$ & $-2.710$ & $-0.168$ & 84.9 & 140.2 & 39.90 & $-5.8$ & 1.050\\
+\run{0007} & 6.3 & 4b (``stage5b'') & device $\Qf=8.7\times10^{10}$ & 0.644 & 1.474 & 122.8 & 211.5 & 8.95 & $+6.1$ & 0.082\\
+\run{0008} & 2.0 & 3 (``stage6'') & $\muband=18.13$ & 0.676 & 1.561 & 122.5 & 212.9 & 11.29 & $+0.01$ & 0.037\\
+\run{0009} & 13.2 & 3 (``stage6'') & $\muband=61.9$ & 0.053 & 1.001 & 90.8 & 143.1 & 49.00 & $-0.02$ & 0.081\\
+\run{0010} & 31.8 & hypothesis & back donor sheet, $\Qf=1.22\times10^{13}$ & \multicolumn{7}{l}{aborted in SOLVE INIT; no currents (NO\_EXPORT)}\\
+\run{0011} & 6.3 & 3 (``stage6'') & $\muband=11.69$ & \multicolumn{7}{l}{not executed; stopped with the chain (no \file{execution.json})}\\
+\run{0012} & 2.0 & 5 physical deck & stepped sweep, DOS 96/48 & 0.676 & 1.559 & 122.5 & 212.9 & 11.27 & $+0.01$ & 0.037\\
+\run{0013} & 13.2 & 5 physical deck & stepped sweep, DOS 96/48 & 0.053 & 0.999 & 90.8 & 143.1 & 48.95 & $-0.02$ & 0.081\\
+\run{0014} & 6.3 & 5 validation & shared parameters, $\muband=12.4$ & 0.350 & 1.212 & 122.3 & 211.4 & 9.13 & $+26.8$ & 0.678\\
+\run{0015} & 6.3 & 5 tuned & $\Qf=8.7\times10^{10}$, $\muband=11.69$ & 0.651 & 1.471 & 124.1 & 214.4 & 8.42 & $-0.01$ & 0.063\\
+\run{0038} & 2.0 & 6 recal.\ B1 & DOS 384/192, $\muband=17.69$ & 0.680 & 1.537 & 123.5 & 215.0 & 11.10 & $+0.00$ & 0.043\\
+\run{0039} & 6.3 & 6 recal.\ B2 & DOS 384/192, $\muband=11.41$ & 0.655 & 1.466 & 124.8 & 216.5 & 8.27 & $-1.48$ & 0.059\\
+\run{0040} & 13.2 & 6 recal.\ B3 & DOS 384/192, $\muband=60.39$ & 0.055 & 0.995 & 91.2 & 144.1 & 47.89 & $-1.97$ & 0.081\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=\linewidth]{calibration_history}
+\caption{Staged calibration of the two anchor films, $\log_{10}\Id$ versus $\Vg$ at $\Vd=\SI{0.7}{V}$ against the measured curves. 2.0~nm: \run{0001} (baseline laws, $\Qf=0$) $\rightarrow$ \run{0003} (shared $\Qf=1.73\times10^{12}\cmsq$) $\rightarrow$ \run{0008} ($\muband=18.13$) $\rightarrow$ \run{0012} (physical deck, stepped sweep) $\rightarrow$ \run{0038} (DOS 384/192, $\muband=17.69$). 13.2~nm: \run{0002} $\rightarrow$ \run{0004} $\rightarrow$ \run{0009} $\rightarrow$ \run{0013} $\rightarrow$ \run{0040}. The $\Qf$ step is a pure horizontal translation, the mobility step a pure vertical scaling of the above-threshold current, and the last two steps are not visible at this scale. Metrics are in \cref{tab:cal-history}.}
+\label{fig:calibration_history}
+\end{figure}
+
+\subsection{Stage 1: baseline laws (\run{0001}, \run{0002})}
+With the literature/DFT laws, $\Qf=0$ and the V0 band mobilities, the 2~nm threshold is 0.333~V too late (\run{0001}: $\Vthcc=0.995$~V against 0.662~V), and the 13.2~nm threshold is 0.287~V too late (\run{0002}: 0.369 against 0.083~V). These law-only offsets differ by only 47~mV between the two anchors (SYNTHESIS K, FINAL\_STATUS Conclusion~1), and this is the reason why a single shared charge could be tried. Before any electrostatic fit, the fixed-current subthreshold slope $\SSfix{10^{-11}}{10^{-10}}$ is already close to the data at 2~nm (125.3 against 121.2~mV/dec) and, at 13.2~nm, close to the floor-subtracted value (92.4 against 91.8~mV/dec). This slope is set by the tail parameters, which were fixed beforehand. The active RMSE (3.93 and 1.03~dec) is dominated by the threshold offset.
+
+\subsection{Stage 2: shared fixed charge (\run{0003}, \run{0004})}
+The charge $\Qf=\SI{1.73e12}{cm^{-2}}$ moves both curves rigidly by $-0.309$ and $-0.310$~V, in agreement with the analytic value to within 1~mV, and leaves both fixed-current slopes unchanged to within 0.4~mV/dec. The residual threshold errors are $+24$~mV (2~nm) and $-23$~mV (13.2~nm), and the RMSE falls to 0.056 and 0.086~dec. $\Vthlin$ moves less than $\Vthcc$ ($-0.277$ and $-0.284$~V) because $\Vthlin$ is extracted at the transconductance maximum, which at 2~nm lies at the end of the sweep (\SI{3}{V}). A rigid shift of the curve then changes the part of the curve that is sampled at the sweep end (SYNTHESIS H.2, item 2.13). $\Ion$ changes by $+27.1$ and $+18.2$~\% because it is read at fixed $\Vg$.
+
+\subsection{Stage 4: the held-out 6.3~nm device (\run{0005}, \run{0014}) and the tuned alternative (\run{0007}, \run{0015})}
+With the shared parameters and $\muband=12.4$, the 6.3~nm threshold is predicted at 0.350~V against 0.644~V measured. This is a miss of $-0.294$~V, with $\Id(3\,\mathrm{V})$ 26.8~\% too high and an RMSE of 0.678~dec. The reduced-deck run (\run{0005}) and the physical-deck repeat (\run{0014}) agree to within 0.1~mV. Because $\muband=12.4$ is the V0 fit of the same curve, the test is out-of-sample for the threshold only (SYNTHESIS D4). About three quarters (log share) of the $+26.8$~\% current excess follows from the threshold miss and one quarter from the choice of mobility (SYNTHESIS K). A device-specific $\Qf=\SI{8.7e10}{cm^{-2}}$, which is 1.64$\times10^{12}\cmsq$ less positive than the shared value, removes the threshold miss exactly (\run{0007}: $+0.294$~V, $\Vthcc=0.644$~V). \Cref{ch:6p3} shows that this tuning does not repair the shape of the on-state.
+
+\subsection{Stage 4, 31.8~nm: a documented failure (\run{0006}, \run{0010})}
+The shared parameters give $\Vthcc=-2.71$~V at 31.8~nm (\run{0006}). The measured device is not turned off within the sweep, and the model with these laws is not applicable there. A hypothesis of a back-surface donor sheet for 31.8~nm (\run{0010}) aborted in the initial solution and produced no currents. The 31.8~nm film is not used as support for any claim (SYNTHESIS H.2, item 2.5).
+
+\subsection{Stage 3: band mobility (\run{0008}, \run{0009}; \run{0011} not executed)}
+$\muband$ was raised from 16.8 to 18.13 (2~nm) and from 57.6 to 61.9~\cmVs\ (13.2~nm), after which $\Id(3\,\mathrm{V})$ agrees to within 0.02~\%. The threshold moves by $-9$ and $-6$~mV and the fixed-current slopes by $-1.2$ to $-3.8$~mV/dec. A change of mobility is thus not perfectly orthogonal to the threshold, because the constant-current threshold and the free-carrier contribution to the slope depend on the current scale (\cref{sec:mech-couplings}). The planned 6.3~nm mobility run \run{0011} was stopped together with the chain and never executed; its setting was carried over into \run{0015}.
+
+\subsection{Stage 5: physical structure and stepped sweep (\run{0012}--\run{0015})}
+The full physical deck (stack, overlaps and air region as described in \cref{sec:num-deck}) with the stepped $\Vg$ sweep reproduces the reduced, pointwise stage-3 runs to within $-0.07$ and $-0.09$~mV in $\Vthcc$ and 0.002~\% in $\Ion$ (\run{0008}$\rightarrow$\run{0012}, \run{0009}$\rightarrow$\run{0013}; \file{tables/SENSITIVITY_RESULTS.md}). The physical deck and the reduced deck are therefore equivalent for the transfer metrics (SYNTHESIS E). Runs \run{0014} and \run{0015} repeat the shared and tuned 6.3~nm cases on the physical deck.
+
+\subsection{Stage 6: DOS refinement and exact recalibration (\run{0038}--\run{0040})}
+Refinement of the tail-DOS discretization changes the current in a manner that depends on the gate voltage. At 2~nm, $\Id$ changes by $-0.95$ / $+2.56$ / $+3.64$ / $+2.48$~\% at $\Vg=0.7$ / 1.5 / 2 / 3~V (\run{0012}$\rightarrow$\run{0029}), and $\Vthlin$ changes by $-22$~mV. The refinement series 96/48 $\rightarrow$ 192/96 $\rightarrow$ 384/192 at 2~nm (\run{0012}, \run{0019}, \run{0029}) changes $\Ion$ by $+1.98$~\% and then by $+0.48$~\%, which corresponds to an observed order of 2.03 with a Richardson residual of $+0.16$~\% (S6 report, section 1.2; \cref{sec:num-convergence}, \cref{fig:numerics_convergence}). The offset at 3~V scales with thickness as $1:0.38:0.20$, close to the ratio of $\Nt(t)$ ($1:0.43:0.25$); it is therefore a quadrature error of the discretized tail. Because $\Id$ is exactly linear in $\muband$, the three films were recalibrated at 384/192 by rescaling: \run{0038} at $\muband=17.69$ (Ion error 0.00~\%; exact value 17.6897), \run{0039} at 11.41 rescaled by 1.015074 to 11.582, and \run{0040} at 60.39 rescaled by 1.020113 to 61.6046~\cmVs. Path independence was verified: the ID-VD runs at $\Vd=\SI{0.7}{V}$ agree with the rescaled transfer runs at $\Vg=1$--3~V to 0.000~\% (S6 report, section 1.1). The earlier DOS 96/48 set (\run{0012}--\run{0015}) is superseded.
+
+% -------------------------------------------------------------------
+\section{Final converged calibration at DOS 384/192}\label{sec:cal-final}
+
+\Cref{tab:cal-final} gives the final calibrated state, and \cref{fig:calibrated_overlays} overlays it on the data. This is a \emph{calibration} (evidence class \evCAL): every row is fitted to, or evaluated on, the curve with which it is compared.
+
+\begin{table}[tbp]
+\centering
+\footnotesize
+\caption{Final converged calibration (DOS 384/192): measured versus simulated metrics. Simulated values are \run{0038} ($\times0.999983$), \run{0039} ($\times1.015074$) and \run{0040} ($\times1.020113$), i.e.\ exact rescalings to $\muband=17.6897$ / 11.582 / 61.6046~\cmVs\ (S6 report, section 1.6). $^{*}$Measured 13.2~nm floor ($6.6\times10^{-12}\Aum$) subtracted; raw values 136.1 ($\SSfix{-11}{-10}$) and 160.0~mV/dec ($\SScc$). Active RMSE from \file{figures/MANIFEST.md}. gap $=\Vthlin-\Vthcc$; gap7 $=V(10^{-7}\Aum)-\Vthcc$.}
+\label{tab:cal-final}
+\begin{tabular}{@{}l rr rr rr@{}}
+\toprule
+ & \multicolumn{2}{c}{2.0 nm} & \multicolumn{2}{c}{6.3 nm (device-tuned)} & \multicolumn{2}{c}{13.2 nm}\\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+metric & meas. & \run{0038} & meas. & \run{0039} & meas. & \run{0040}\\
+\midrule
+$\Qf$ (\cmsq) & -- & $1.73\times10^{12}$ & -- & $8.7\times10^{10}$ & -- & $1.73\times10^{12}$\\
+$\muband$ (\cmVs) & -- & 17.69 & -- & 11.58 & -- & 61.60\\
+$\Vthcc$ (V) & 0.662 & 0.680 & 0.644 & 0.653 & 0.083 & 0.054\\
+$\SSfix{10^{-11}}{10^{-10}}$ (mV/dec) & 121.2 & 123.5 & 124.5 & 124.5 & 91.8$^{*}$ & 90.9\\
+$\SSfix{10^{-10}}{10^{-9}}$ (mV/dec) & 194.8 & 215.0 & 210.0 & 215.6 & 118.8$^{*}$ & 143.4\\
+$\SScc$ (mV/dec) & 269.9 & 290.9 & 295.4 & 289.7 & 158.4$^{*}$ & 193.0\\
+$\Vthlin$ (V) & 1.663 & 1.537 & 1.820 & 1.466 & 1.044 & 0.995\\
+gap (V) & 1.001 & 0.856 & 1.176 & 0.814 & 0.962 & 0.941\\
+gap7 (V) & 1.051 & 1.024 & 1.224 & 1.085 & 0.571 & 0.630\\
+$\gmmax$ (A/V/\textmu m) & $3.807\times10^{-7}$ & $3.478\times10^{-7}$ & $3.431\times10^{-7}$ & $2.631\times10^{-7}$ & $1.572\times10^{-6}$ & $1.531\times10^{-6}$\\
+$\muFE$ (\cmVs) & 12.15 & 11.10 & 10.95 & 8.39 & 50.17 & 48.85\\
+$\Ion/\gmmax$ (V) & 1.337 & 1.463 & 1.176 & 1.534 & 1.953 & 2.005\\
+$\Ion$ (\Aum) & $5.09\times10^{-7}$ & 0.00~\% & $4.03\times10^{-7}$ & 0.00~\% & $3.07\times10^{-6}$ & 0.00~\%\\
+active RMSE (dec) & -- & 0.0429 & -- & 0.0630 & -- & 0.0813\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=\linewidth]{calibrated_overlays}
+\caption{Final converged calibration against the measured transfer curves ($\Vd=\SI{0.7}{V}$): \run{0038} (2.0~nm, $\times0.999983$), \run{0039} $\times1.015074$ (6.3~nm) and \run{0040} $\times1.020113$ (13.2~nm). Row 1: $\log_{10}\Id$; row 2: linear $\Id$; row 3: log residual. Simulated metrics: $\Vthcc$ 0.680 / 0.653 / 0.054~V, $\Vthlin$ 1.537 / 1.466 / 0.995~V, $\muFE$ 11.10 / 8.39 / 48.85~\cmVs, $\Ion$ $5.09\times10^{-7}$ / $4.034\times10^{-7}$ / $3.071\times10^{-6}\Aum$; active RMSE (measured current above five times the off-band median) 0.0429 / 0.0630 / 0.0813~dec. The late, steep 6.3~nm turn-on is not reproduced by the model (\cref{sec:6p3-shape}), and a smaller on-state residual of the same sign appears at 2~nm.}
+\label{fig:calibrated_overlays}
+\end{figure}
+
+\paragraph{Features that are reproduced.} $\Vthcc$ is reproduced to within $+19$ / $+9$ / $-29$~mV, and the deep-subthreshold slope $\SSfix{10^{-11}}{10^{-10}}$ to within 2.3~mV/dec in all three films (13.2~nm floor-subtracted). $\Ion$ agrees by construction. At 13.2~nm the shape of the on-state is also reproduced (gap within 21~mV, $\gmmax$ within 2.6~\%).
+
+\paragraph{Features that are missed.} Three deviations remain. First, in the window $10^{-10}$--$10^{-9}\Aum$ the model is too soft by $+20$ / $+6$ / $+25$~mV/dec. This is the same deficit that the trap-DOS inversion attributes to under-represented states at $\Ec-0.15$ to $-0.20$~eV (\cref{sec:mech-traps}). Second, the shape of the on-state is missed at 6.3~nm (gap $-0.362$~V, $\gmmax$ $-23.3$~\%) and, with the same sign but a smaller magnitude, at 2~nm (gap $-0.145$~V, $\gmmax$ $-8.6$~\%) (SYNTHESIS D5). Third, $\Vthlin$ at 13.2~nm and 2~nm carries a bias of $-11.7$ and $-5.4$~mV from the 0.1~V solver grid above 1.5~V (S6 report, section 1.5); this bias is included in the numbers above.
+
+\paragraph{Numerical uncertainty of the final state.} The numerical uncertainties, taken from S6 report, section 1.5, are $\pm1.5$~mV for $\Vthcc$ and $V(I)$, $\pm1$~mV/dec for the fixed-current SS, $\pm2$~mV plus the grid bias stated above for $\Vthlin$, $\pm0.7$~\% for $\gmmax$ and $\muFE$, and $\pm0.2$~\% for $\Ion$. A mesh refinement by a factor of 0.7 changes $\Vthcc$ by $-0.32$~mV at 6.3~nm (\run{0036} vs \run{0015}) and by $-0.36$~mV at 13.2~nm (\run{0028} vs \run{0013}); the maximum KCL error over the transfer runs is $2.5\times10^{-16}$~A. These uncertainties are one to two orders of magnitude smaller than every model-data difference discussed in this report. Convergence is established for 300~K transfer metrics only. The V1 2~nm mesh, the DOS order at 6.3 and 13.2~nm, and the elevated-temperature and ID-VD runs have not been demonstrated (SYNTHESIS E and F; \cref{sec:num-convergence}).
+
+\paragraph{Status.} The two anchor films are \emph{calibrated} (\evCAL). The 6.3~nm row is a device-specific calibration with its own $\Qf$ and $\muband$, and it does not constitute evidence that the shared laws describe that device. The recalibrated band mobilities are 17.69 / 11.58 / 61.60~\cmVs; the non-monotonic value at 6.3~nm is discussed in \cref{sec:mech-transport}.
+
+% -------------------------------------------------------------------
+\section{How each parameter controls the transfer curve}\label{sec:cal-param-control}
+
+Every parameter effect in this section is \emph{measured in ATLAS} from pairs of executed runs that differ in exactly one input or in one declared package of inputs; none is estimated analytically. Three kinds of pair are used: stage pairs from the calibration chain; one-at-a-time perturbations of the final DOS 96/48 2~nm run \run{0012} (\run{0016}, \run{0020}--\run{0026}); and isolation runs at DOS 384/192 relative to \run{0038} and \run{0040} (\run{0048}--\run{0051}; \cref{sec:cal-isolation}). The 6.3~nm hypothesis runs (\run{0030}--\run{0037}, \run{0052}) are also single-mechanism variants; they are analysed in \cref{ch:6p3}.
+
+\subsection{Complete table of perturbation and counterfactual runs}
+\Cref{tab:cal-oat} lists every pair. Differences are given as perturbed minus baseline and are computed from \file{digest/runs.csv}.
+
+\begingroup
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\begin{longtable}{@{}r l l r r r r r l l@{}}
+\caption{Every one-at-a-time, stage-pair and counterfactual run, with its measured effect. $\Delta$ = perturbed $-$ baseline. $\Delta\Ion$ at $\Vg=\SI{3}{V}$. RMSE: active log error of baseline $\rightarrow$ perturbed (dec). Action: R = rigid shift; S = subthreshold slope; G = turn-on delay (gap); I = current scale; -- = negligible.}\label{tab:cal-oat}\\
+\toprule
+$t$ & change & runs & $\Delta\Vthcc$ & $\Delta\Vthlin$ & $\Delta\SSfix{-11}{-10}$ & $\Delta\SSfix{-10}{-9}$ & $\Delta\Ion$ & RMSE & action\\
+ & & & (V) & (V) & (mV/dec) & (mV/dec) & (\%) & (dec) & \\
+\midrule
+\endfirsthead
+\toprule
+$t$ & change & runs & $\Delta\Vthcc$ & $\Delta\Vthlin$ & $\Delta\SSfix{-11}{-10}$ & $\Delta\SSfix{-10}{-9}$ & $\Delta\Ion$ & RMSE & action\\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\multicolumn{10}{@{}l}{\emph{Stage pairs}}\\
+2.0 & $\Qf$ $0\rightarrow1.73\times10^{12}\cmsq$ & \run{0001}$\rightarrow$\run{0003} & $-0.309$ & $-0.277$ & $-0.4$ & $+0.4$ & $+27.1$ & $3.928\rightarrow0.056$ & R\\
+13.2 & $\Qf$ $0\rightarrow1.73\times10^{12}\cmsq$ & \run{0002}$\rightarrow$\run{0004} & $-0.310$ & $-0.284$ & $-0.4$ & $0.0$ & $+18.2$ & $1.030\rightarrow0.086$ & R\\
+6.3 & $\Qf$ $1.73\times10^{12}\rightarrow8.7\times10^{10}$ & \run{0005}$\rightarrow$\run{0007} & $+0.294$ & $+0.260$ & $+0.5$ & $+0.1$ & $-16.3$ & $0.678\rightarrow0.082$ & R\\
+2.0 & $\muband$ $16.8\rightarrow18.13$ & \run{0003}$\rightarrow$\run{0008} & $-0.009$ & $0.000$ & $-2.5$ & $-3.8$ & $+7.9$ & $0.056\rightarrow0.037$ & I\\
+13.2 & $\muband$ $57.6\rightarrow61.9$ & \run{0004}$\rightarrow$\run{0009} & $-0.006$ & $0.000$ & $-1.2$ & $-2.5$ & $+7.5$ & $0.086\rightarrow0.081$ & I\\
+2.0 & reduced $\rightarrow$ physical deck, stepped & \run{0008}$\rightarrow$\run{0012} & $-0.0001$ & $-0.002$ & $0.0$ & $0.0$ & $-0.002$ & $0.037\rightarrow0.037$ & --\\
+13.2 & reduced $\rightarrow$ physical deck, stepped & \run{0009}$\rightarrow$\run{0013} & $-0.0001$ & $-0.002$ & $0.0$ & $0.0$ & $+0.000$ & $0.081\rightarrow0.081$ & --\\
+\midrule
+\multicolumn{10}{@{}l}{\emph{One-at-a-time at 2.0 nm, baseline \run{0012} (DOS 96/48)}}\\
+2.0 & $\chiIWO$ $-0.1$~eV (4.20) & \run{0012}$\rightarrow$\run{0020} & $+0.100$ & $+0.090$ & $0.0$ & $0.0$ & $-6.9$ & $0.037\rightarrow0.463$ & R\\
+2.0 & $\chiIWO$ $+0.1$~eV (4.40) & \run{0012}$\rightarrow$\run{0021} & $-0.100$ & $-0.091$ & $0.0$ & $0.0$ & $+7.0$ & $0.037\rightarrow0.361$ & R\\
+2.0 & $\Nd$ anchor $\times2$ ($N_{d0}=5\times10^{17}$) & \run{0012}$\rightarrow$\run{0022} & $-0.009$ & $-0.008$ & $-1.0$ & $+0.7$ & $+0.7$ & $0.037\rightarrow0.054$ & --\\
+2.0 & $\Nt$ anchor $\times1.5$ ($3\times10^{19}\cmcu$) & \run{0012}$\rightarrow$\run{0023} & $+0.082$ & $+0.283$ & $+21.8$ & $+49.0$ & $-25.1$ & $0.037\rightarrow0.263$ & S, G, I\\
+2.0 & $\WTA$ $+5$~meV (45~meV) & \run{0012}$\rightarrow$\run{0024} & $+0.020$ & $-0.002$ & $+7.5$ & $+4.6$ & $+0.4$ & $0.037\rightarrow0.063$ & S\\
+2.0 & $\Dit$ $\times3$ ($9\times10^{11}$~cm$^{-2}$eV$^{-1}$) & \run{0012}$\rightarrow$\run{0025} & $+0.025$ & $+0.024$ & $+1.4$ & $+0.1$ & $-1.8$ & $0.037\rightarrow0.098$ & R (small)\\
+2.0 & $\epsIWO$ $\rightarrow10.55$ & \run{0012}$\rightarrow$\run{0026} & $-0.001$ & $-0.001$ & $-0.4$ & $-0.4$ & $+0.7$ & $0.037\rightarrow0.037$ & --\\
+2.0 & overlap 2 $\rightarrow$ 4~\textmu m & \run{0012}$\rightarrow$\run{0027} & \multicolumn{6}{l}{\textbf{retracted}: malformed deck (drain collapsed; see text)} & --\\
+2.0 & overlap 2 $\rightarrow$ 4~\textmu m (corrected mesh) & \run{0038}$\rightarrow$\run{0055} & \multicolumn{6}{l}{$\Delta\Vthcc = 0.000$~V, $\Delta\Ion = -0.006\,\%$, identical SS (DOS 384/192)} & --\\
+2.0 & confinement off ($\dEc$ and $\mstar(t)$ law) & \run{0012}$\rightarrow$\run{0016} & $-0.316$ & $-0.299$ & $+9.6$ & $+15.3$ & $+21.4$ & $0.037\rightarrow0.846$ & R (+S)\\
+13.2 & confinement off & \run{0013}$\rightarrow$\run{0017} & $-0.023$ & $-0.020$ & $+1.2$ & $+1.1$ & $+0.9$ & $0.081\rightarrow0.114$ & R\\
+\midrule
+\multicolumn{10}{@{}l}{\emph{Isolation at DOS 384/192, baselines \run{0038} (2.0 nm) and \run{0040} (13.2 nm)}}\\
+2.0 & gate WF $+0.1$~eV (4.8~eV) & \run{0038}$\rightarrow$\run{0048} & $+0.100$ & $+0.092$ & $0.0$ & $0.0$ & $-6.8$ & $0.043\rightarrow0.470$ & R\\
+13.2 & gate WF $+0.1$~eV (4.8~eV) & \run{0040}$\rightarrow$\run{0049} & $+0.100$ & $+0.092$ & $0.0$ & $0.0$ & $-5.0$ & $0.081\rightarrow0.221$ & R\\
+2.0 & $\mstar$ $\times1.3$ & \run{0038}$\rightarrow$\run{0050} & $-0.044$ & $-0.043$ & $-10.2$ & $-18.0$ & $+4.1$ & $0.043\rightarrow0.087$ & S\\
+13.2 & $\mstar$ $\times1.3$ & \run{0040}$\rightarrow$\run{0051} & $-0.029$ & $-0.061$ & $-4.7$ & $-10.5$ & $+5.8$ & $0.081\rightarrow0.122$ & S\\
+\end{longtable}
+\endgroup
+
+Two remarks apply to the reading of the table. First, parameters that shift the curve exactly rigidly ($\Qf$, $\chiIWO$, WF) nevertheless change $\Vthlin$ by only 0.090--0.092~V per 0.100~V of $\Vthcc$. This is an extraction effect of the 0.1~V solver grid above 1.5~V and of the sweep end, not a physical effect (S6 report, section 1.5): the maximum $\Delta\log_{10}\Id$ between the WF-shifted curve and the translated baseline curve is $1.6\times10^{-5}$ (2~nm) and $4.1\times10^{-6}$ (13.2~nm). Second, the $\SSmin$ column of the earlier \file{tables/SENSITIVITY_RESULTS.md} (for example ``$-9.89$'' for the mobility step and ``$+10.7$ / $-12.7$'' for confinement off) is retired as a window-phase artefact (\cref{sec:der-metrics}). On fixed-current windows these changes amount to at most 2--4~mV/dec (SYNTHESIS K).
+
+\paragraph{The retracted overlap run (\run{0027}).} Run \run{0027} was intended to test a 4~\textmu m source/drain overlap (override \texttt{geometry.contact\_overlap\_um.value=4.0}). Its deck extended the regions and electrodes to $x=28$~\textmu m but left \texttt{x.mesh} ending at 24~\textmu m. ATLAS therefore shortened the gate to 0--24~\textmu m and the source to 0--3.905~\textmu m, and it collapsed the drain to a zero-width line at $x=24$~\textmu m (15 nodes) that touches the IWO only at a corner. The file \file{deckbuild.out} reports ``Electrode shortened'' three times (S5 report, section 2; SYNTHESIS D11). The run converged and was scored, but its apparent $\Delta\Ion=-2.15$~\% reflects a slightly different $L$ (20.1~\textmu m) and a point drain, not an effect of the overlap. Three statements are retracted (S6 report; finding of specialist S5, \evCORR): the ``OAT overlap\_4um'' row of \file{tables/SENSITIVITY_RESULTS} ($-2.17$~\% $\Ion$), the statement that contact geometry is ``irrelevant'', and the earlier claim that a 4~\textmu m overlap changes the current by less than 2~\%. The run is kept in the catalogue (\cref{ch:app-runs}) and is excluded from every figure and table of sensitivities. Contact geometry and contact resistance were \emph{not tested} in this study (\cref{sec:mech-contacts}).
+
+\subsection{Small multiples and difference curves}
+\Cref{fig:param_control_2nm,fig:param_control_delta,fig:param_control_13nm} show the same pairs as curves.
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=\linewidth]{param_control_2nm}
+\caption{Effect of each parameter on the 2.0~nm transfer curve ($\log_{10}\Id$); each panel shows a perturbation against its baseline and the measured curve (grey circles). $\Qf$ $0\rightarrow1.73\times10^{12}\cmsq$ (\run{0001}$\rightarrow$\run{0003}); $\muband$ $16.8\rightarrow18.13$ (\run{0003}$\rightarrow$\run{0008}); $\chiIWO$ $-0.1$ / $+0.1$~eV (\run{0020} / \run{0021} vs \run{0012}); $\Nd$ $\times2$ (\run{0022}); $\Nt$ $\times1.5$ (\run{0023}); $\WTA$ $+5$~meV (\run{0024}); $\Dit$ $\times3$ (\run{0025}); $\epsIWO=10.55$ (\run{0026}); confinement off (\run{0016}); gate WF $+0.1$~eV (\run{0048} vs \run{0038}); $\mstar$ $\times1.3$ (\run{0050} vs \run{0038}). \run{0027} (overlap) is excluded as malformed. Four very different physical quantities ($\Qf$, $\chiIWO$, WF and, to a good approximation, confinement) produce the same horizontal translation, whereas only $\Nt$ changes the turn-on delay.}
+\label{fig:param_control_2nm}
+\end{figure}
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=\linewidth]{param_control_delta}
+\caption{(a) $\Delta\log_{10}\Id(\Vg)$ = perturbed $-$ baseline for every one-at-a-time case at 2.0~nm. (b) Bars of $\Delta\Vthcc$ (V), $\Delta\SSfix{10^{-10}}{10^{-9}}$ (mV/dec) and $\Delta\Ion$ (\%): $\Qf$ $0\rightarrow1.73\times10^{12}$: $-0.309$, $+0.4$, $+27.1$; $\muband$ $16.8\rightarrow18.13$: $-0.009$, $-3.8$, $+7.9$; $\chiIWO$ $-0.1$~eV: $+0.100$, $0.0$, $-6.9$; $\chiIWO$ $+0.1$~eV: $-0.100$, $0.0$, $+7.0$; $\Nd$ $\times2$: $-0.009$, $+0.7$, $+0.7$; $\Nt$ $\times1.5$: $+0.082$, $+49.0$, $-25.1$; $\WTA$ $+5$~meV: $+0.020$, $+4.6$, $+0.4$; $\Dit$ $\times3$: $+0.025$, $+0.1$, $-1.8$; $\epsIWO$ 10.55: $-0.001$, $-0.4$, $+0.7$; confinement off: $-0.316$, $+15.3$, $+21.4$; gate WF $+0.1$~eV: $+0.100$, $0.0$, $-6.8$; $\mstar$ $\times1.3$: $-0.044$, $-18.0$, $+4.1$. Rigid parameters give flat difference curves in the subthreshold region and a decaying difference above threshold (because $\Ion$ is read at fixed $\Vg$).}
+\label{fig:param_control_delta}
+\end{figure}
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=\linewidth]{param_control_13nm}
+\caption{Parameter control at 13.2~nm: $\Qf$ $0\rightarrow1.73\times10^{12}\cmsq$ (\run{0002}$\rightarrow$\run{0004}), $\muband$ $57.6\rightarrow61.9$ (\run{0004}$\rightarrow$\run{0009}), confinement off (\run{0017} vs \run{0013}), gate WF $+0.1$~eV (\run{0049} vs \run{0040}) and $\mstar$ $\times1.3$ (\run{0051} vs \run{0040}), against the measured 13.2~nm curve. Switching confinement off changes the 13.2~nm threshold by only $-23$~mV, against $-316$~mV at 2~nm.}
+\label{fig:param_control_13nm}
+\end{figure}
+
+\subsection{The control matrix}
+\Cref{tab:cal-control-matrix} condenses \cref{tab:cal-oat} into the leverage of each parameter on each feature of the curve and names the parameters with which it is degenerate on a single curve. It forms the empirical basis of \cref{tab:mech-identifiability}.
+
+\begin{table}[tbp]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\caption{Control matrix: measured leverage of each parameter on each transfer-curve feature (2.0~nm unless stated; from \cref{tab:cal-oat}). ``gap'' is $\Delta(\Vthlin-\Vthcc)$. Entries below 5~mV, 1~mV/dec or 1~\% are marked ``0''.}
+\label{tab:cal-control-matrix}
+\begin{tabular}{@{}l l l l l l l@{}}
+\toprule
+parameter (step) & $\Vthcc$ & deep SS & mid SS & gap & $\Ion$ at 3~V & degenerate on one curve with\\
+\midrule
+$\Qf$ ($10^{12}\cmsq$) & $-0.179$~V (exact) & 0 & 0 & 0$^{a}$ & via overdrive & WF, $\chiIWO$, $\dEc$, filled $\Dit$, $\Nd t$\\
+WF, $\chiIWO$ ($\pm0.1$~eV) & $\pm0.100$~V (exact) & 0 & 0 & 0$^{a}$ & $\mp7$~\% & $\Qf$, $\dEc$\\
+confinement package & $-0.316$~V (2~nm), $-0.023$~V (13.2~nm) & $+9.6$ & $+15.3$ & $+0.017$ & $+21$~\% & $\Qf$ (rigid part); $\mstar$, $\Nt$ (residual)\\
+$\muband$ ($+7.9$~\%) & $-0.009$~V & $-2.5$ & $-3.8$ & $+0.009$ & $+7.9$~\% (exact) & $\Nt$ ($\times1.5\equiv\mu\times1.33$ on $\Ion$), $\Rsd$\\
+$\Nt$ ($\times1.5$) & $+0.082$~V & $+21.8$ & $+49.0$ & $+0.201$ & $-25$~\% & $\muband$ ($\Ion$); $\mstar$ (small steps)\\
+$\WTA$ ($+5$~meV) & $+0.020$~V & $+7.5$ & $+4.6$ & $-0.021$ & 0 & $\Dit$, deep states\\
+$\Dit$ ($\times3$) & $+0.025$~V & $+1.4$ & 0 & 0 & $-1.8$~\% & $\Qf$ (when filled)\\
+$\mstar$ ($\times1.3$) & $-0.044$~V & $-10.2$ & $-18.0$ & 0 & $+4.1$~\% & confinement residual, $\Nt$\\
+$\Nd$ ($\times2$) & $-0.009$~V & $-1.0$ & 0 & 0 & 0 & $\Qf$\\
+$\epsIWO$ (10.55) & 0 & 0 & 0 & 0 & 0 & --\\
+\bottomrule
+\multicolumn{7}{@{}l}{$^{a}$ Apparent $\Vthlin$ changes of 8--10~mV per 0.1~V are solver-grid/sweep-end effects (see text).}
+\end{tabular}
+\end{table}
+
+The parameters fall into four groups. The first group consists of the rigid-shift parameters: $\Qf$, WF, $\chiIWO$, a filled $\Dit$, $q\Nd t/\Cox$ and the pure $\dEc$ term. They amount to one number per curve. The pure $\dEc(\SI{2}{nm})=0.353$~eV is equivalent to $1.97\times10^{12}\cmsq$ of fixed charge (SYNTHESIS D2).
+
+The second group is the current-scale parameter $\muband$. The current is exactly proportional to it, with a second-order coupling into $\Vthcc$ and into the fixed-current slope through the constant-current definition and the free-carrier capacitance.
+
+The third group comprises the slope parameters: $\WTA$, $\mstar$ (through $\Nc$) and the deep states. $\WTA$ acts mainly on the deep window, whereas $\mstar$ acts on both windows and on the threshold. The $\mstar$ threshold shift equals the local slope times $\log_{10}(1.3^{1.5})$, since $\Nc$ changes the partition between free and trapped charge at fixed current (S6 report, section 2).
+
+The fourth group contains only $\Nt$, which is the only parameter that changes the turn-on delay. $\Nt\times1.5$ opens the gap by 0.20~V, but at the cost of $+49$~mV/dec in the mid window and $+69$~mV/dec in $\SScc$ (289.1$\rightarrow$357.8, \run{0012}$\rightarrow$\run{0023}). This ratio, about 2.9~mV of gap per mV/dec of $\SScc$, lies on the same trade-off line that limits every attempt to repair the 6.3~nm on-state (\cref{sec:6p3-shape}).
+
+\paragraph{Donors and permittivity.} The 2~nm result is insensitive to the donor law ($\Nd\times2$: $-9$~mV, $+0.7$~\%) and to $\epsIWO$ (10.55: $-1$~mV, $+0.7$~\%) (\run{0022}, \run{0026}). The permittivity is therefore irrelevant at 2~nm, and the donor density cannot be identified there (0.036~V per $10^{18}\cmcu$ according to S4).
+
+\paragraph{Evidence class.} All entries are \evNUM: they are converged, model-internal statements on the response of ATLAS. They carry no information on which parameter values are physically correct.
+
+% -------------------------------------------------------------------
+\section{Isolation tests of the gate work function and the effective mass}\label{sec:cal-isolation}
+
+The package documents originally listed the work-function and effective-mass cases as ``not run'' (\file{tables/SENSITIVITY_RESULTS.md}); that statement is superseded. Runs \run{0048}--\run{0051} were performed at the final DOS 384/192 with the same mobilities as their baselines \run{0038} (2~nm) and \run{0040} (13.2~nm), so that each difference isolates a single parameter.
+
+\subsection{Gate work function $+0.1$~eV (\run{0048}, \run{0049})}
+The work function was raised from 4.7 to 4.8~eV (\cref{sec:par-gatewf}). Both films shift by exactly $+0.100$~V in $\Vthcc$, and all three fixed-current slopes remain unchanged to 0.0~mV/dec. The curves are exact translations: the maximum $\Delta\log_{10}\Id$ after a 0.100~V translation is $1.6\times10^{-5}$ at 2~nm and $4.1\times10^{-6}$ at 13.2~nm (S6 report, section 2). $\Ion$ decreases by 6.8~\% at 2~nm and by 5.0~\% at 13.2~nm relative to the baselines with the same mobility. The value of $-6.9$~\% at 13.2~nm given earlier in the evidence brief was computed relative to the measurement and is corrected here (SYNTHESIS A.3). The different changes of $\Ion$ do not indicate a thickness-dependent effect of the work function. $\Ion$ is read at a fixed $\Vg$ of 3~V, and $\Ion/\gmmax$ is 1.46~V at 2~nm against 2.00~V at 13.2~nm, so that the same translation removes a different fraction of the current. The thickness step is unchanged: $\Delta\Vthcc(2\rightarrow13.2)$ is $-0.6251$~V with and without the shift, and $\Ion(13.2)/\Ion(2)$ changes from 5.914 to 6.031 (+2.0~\%), a change that a refit of $\Qf$ removes.
+
+\emph{Consequence.} WF, $\chiIWO$ and $\Qf$ act as one number per curve and are independent of thickness (\evNUM, demonstrated). A thickness-dependent interface dipole or charge would therefore be indistinguishable from $\dEc(t)$ on ID-VG, because the $\Qf$ shift is constant over five decades of current.
+
+\subsection{Effective mass $\times1.3$ (\run{0050}, \run{0051})}
+The bulk effective mass was raised from 0.208 to 0.2704~$m_0$, and the thickness coefficient was scaled by the same factor (0.131 to 0.17043); the whole $\mstar(t)$ law was thus multiplied by 1.3 (\cref{sec:par-mstar}). In V1, $\mstar$ enters only through the effective density of states of the conduction band, $\Nc\propto{\mstar}^{3/2}$, and not through the confinement law. The effect is not a rigid shift (0.17~dec deviation from a translation), as the following values show.
+
+\begin{center}
+\footnotesize
+\begin{tabular}{@{}l r r r r r r@{}}
+\toprule
+film (runs) & $\Delta\Vthcc$ (V) & $\Delta\SSfix{-11}{-10}$ & $\Delta\SSfix{-10}{-9}$ & $\Delta\SScc$ & $\Delta\Vthlin$ (V) & $\Delta\Ion$\\
+\midrule
+2.0 nm (\run{0038}$\rightarrow$\run{0050}) & $-0.044$ & $-10.2$ & $-18.0$ & $-17.7$ & $-0.043$ & $+4.1$~\%\\
+13.2 nm (\run{0040}$\rightarrow$\run{0051}) & $-0.029$ & $-4.7$ & $-10.5$ & $-13.2$ & $-0.061$ & $+5.8$~\%\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+A larger $\Nc$ places a larger fraction of the induced charge in free electrons at a given quasi-Fermi level, so that a given current is reached with less trapped charge. The threshold therefore moves earlier by the local slope times $\log_{10}(1.3^{1.5})=0.171$~dec, and the slopes become steeper. With respect to the thickness dependence, $\mstar\times1.3$ changes the $2\rightarrow13.2$~nm threshold step by $+14.9$~mV (2.4~\% of the step), the $\Ion$ ratio by $+1.6$~\% and the $\SScc$ difference from $-97.1$ to $-92.7$~mV/dec (S6 report, section 2). The effect is thus of second order for the thickness trend (\evNUM).
+
+\subsection{What the isolation runs imply for confinement}
+The V1 confinement package ($\dEc(t)$ together with $\mstar(t)\rightarrow\Nc$) is only approximately rigid. At 2~nm its removal shifts the curve by 0.345~V at $10^{-14}$, 0.302~V at $10^{-8}$ and 0.311~V at $3\times10^{-7}\Aum$, and it changes $\SScc$ from 289.1 to 303.7~mV/dec (\run{0012} vs \run{0016}). Beyond a rigid shift, its only signature on the same curve is therefore $+38.8$~mV of non-rigidity between $10^{-11}$ and $10^{-8}\Aum$ and $+14.6$~mV/dec in $\SScc$. Log-linear scaling of the isolation run \run{0050} and of the tail run \run{0023} shows that this signature is nearly reproduced by $\mstar\times0.8$ ($\SScc$ $+14.6$~mV/dec, $+37.5$~mV) or by $\Nt\times1.09$ ($+14.6$~mV/dec, $+34$~mV) (SYNTHESIS D2 and [SYN-d]). The degeneracy is with $\mstar$ and $\Nt$, not with $\WTA$: on $\SScc$, $\WTA+5$~meV gives only $+0.8$~mV/dec and $\Dit\times3$ only $+0.5$~mV/dec. Confinement therefore cannot be identified from one transfer curve per thickness; the consequences are developed in \cref{sec:mech-confinement}.
+
+\begin{keyresult}[Key results of \cref{ch:calibration}]
+\begin{itemize}
+\item The calibration fits few numbers, in an order that exploits two exact model properties: $\Qf$ acts as a rigid shift ($-0.309$~V for $1.73\times10^{12}\cmsq$, analytic $-0.3095$~V; \run{0001}$\rightarrow$\run{0003}) and $\Id$ is exactly proportional to $\muband$ (to $6\times10^{-6}$).
+\item Fitted: shared $\Qf$; the 6.3~nm $\Qf$; $\muband$ for each film (17.69 / 11.58 / 61.60~\cmVs\ at DOS 384/192); the $\Nt$ anchor and $\WTA$; the $\Ndeff$ constants. Assumed: WF, $\chiIWO$, $\Dit$, deep states, $\varepsilon$(\AlO), $\dEc(t)$, $\mstar(t)$.
+\item Final state (\run{0038}--\run{0040}, \evCAL): $\Vthcc$ within $+19$ / $+9$ / $-29$~mV, deep-subthreshold slope within 2.3~mV/dec, $\Ion$ exact; mid-window slope too soft by $+20$ / $+6$ / $+25$~mV/dec; the 6.3~nm on-state is missed (gap $-0.36$~V, $\gmmax$ $-23$~\%).
+\item One-at-a-time runs show four classes of action: rigid ($\Qf$, WF, $\chiIWO$, $\dEc$), current scale ($\muband$), slope ($\WTA$, $\mstar$) and turn-on delay ($\Nt$ only, at a large slope cost). Donors and $\epsIWO$ are irrelevant at 2~nm.
+\item \run{0027} (overlap) is retracted as malformed. The corrected repetition \run{0055} (overlap 4~\textmu m, mesh following the contacts; the first attempt \run{0053} exceeded the 900~s time limit) changes $\Ion$ by $-0.006\,\%$ and leaves $\Vthcc$ and the subthreshold slope unchanged, so with ideal Ohmic contacts the assumed overlap does not influence the results. $\SSmin$ is retired (\cref{sec:der-metrics}).
+\item The calibrated set is one member of a family of equivalent calibrations, not a unique parameter extraction; the model is calibrated, not validated.
+\end{itemize}
+\end{keyresult}
+
+The only film that was not used for calibration, 6.3~nm, is the film for which the shared-parameter model fails. The next chapter decomposes that failure and tests every hypothesis proposed for it.

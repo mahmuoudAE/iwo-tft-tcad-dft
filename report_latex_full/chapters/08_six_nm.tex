@@ -1,0 +1,212 @@
+% ===================================================================
+% chapters/08_six_nm.tex -- owner R2a (written by W5)
+% The 6.3 nm discrepancy: a controlled hypothesis study
+% ASCII only. Sources: digest/runs.csv, figures/MANIFEST.md,
+% analysis_2026-09-25/SYNTHESIS.md (A.2, C, D), S6 sections 1-3,
+% S1/S4 verdict tables.
+% ===================================================================
+\chapter{The 6.3 nm discrepancy: a controlled hypothesis study}\label{ch:6p3}
+
+The 6.3~nm device is the only film that was held out of the calibration, and it is the film for which the shared-parameter model fails. In the measurement it behaves almost like the 2~nm device ($\Vthcc$ 0.644 against 0.662~V, $\muFE$ 10.95 against 12.15~\cmVs; \cref{tab:measured-metrics}), whereas the thickness laws of the model, anchored on 2 and 13.2~nm, place it much closer to the thick film. This chapter treats the discrepancy as a controlled experiment. It determines the size of the miss and whether the miss has more than one component. It examines which physical mechanisms, implemented one at a time in ATLAS with all other inputs held fixed, can close the miss and at what cost to the rest of the curve. Finally, it reports the outcome of two predictions that were registered before their runs finished. The result is a demonstrated \emph{decomposition} of the discrepancy into a rigid threshold part and an on-state shape part, a set of quantitative exclusions, and no assigned cause. Every simulated number carries its run ID. Unless stated otherwise, the metrics are taken from \file{digest/runs.csv} and from the metric table of the S6 report (section 3.1).
+
+% -------------------------------------------------------------------
+\section{The problem: a failed shared-parameter test and a tuned fit that still misses}\label{sec:6p3-problem}
+
+\subsection{The measured 6.3~nm curve}
+The measured 6.3~nm device has $\Vthcc=0.644$~V, $\Vthlin=1.820$~V, a turn-on delay (gap) $\Vthlin-\Vthcc=1.176$~V, $V(10^{-7}\Aum)-\Vthcc$ (gap7) $=1.224$~V, fixed-current slopes of 124.5 ($10^{-11}$--$10^{-10}\Aum$) and 210.0~mV/dec ($10^{-10}$--$10^{-9}\Aum$), $\SScc=295.4$~mV/dec, $\gmmax=3.431\times10^{-7}$~A/V/\textmu m ($\muFE=10.95$~\cmVs) and $\Ion=4.03\times10^{-7}\Aum$ at $\Vg=\SI{3}{V}$, $\Vd=\SI{0.7}{V}$ (S6 report, section 3.1; \cref{fig:measured_transfer}). After passing threshold, the current rises late and then steeply: $\Ion/\gmmax=1.176$~V, which is smaller than at 2~nm (1.337~V) and at 13.2~nm (1.953~V). The data come from a single device (N = 1); device spread and sweep history are not recorded (\cref{sec:inp-limitations}).
+
+\subsection{The shared-parameter test (\run{0014})}
+With the thickness laws, the shared $\Qf=\SI{1.73e12}{cm^{-2}}$ fitted on 2 and 13.2~nm, and $\muband=12.4$~\cmVs, the model predicts $\Vthcc=0.350$~V, a miss of $-0.294$~V (\run{0014}; identical to the reduced-deck run \run{0005} to within 0.1~mV). The fixed-current slope is reproduced ($\SSfix{10^{-11}}{10^{-10}}$ $-2.2$~mV/dec), but the on-state is not: the gap error is $-0.314$~V, the $\gmmax$ error $-16.6$~\% and the $\Ion$ error $+26.8$~\%, and the active RMSE is 0.678~dec. Because $\muband=12.4$ is the V0 fit of the same curve (\file{config/iwo_material_model.yaml}, line 105), the test is out-of-sample for the threshold only, and it \emph{failed} (\evOOS, SYNTHESIS D4). The earlier description of \run{0014} as ``validation, nothing tuned'' and as ``reproduced in shape'' is withdrawn (SYNTHESIS K).
+
+\subsection{The tuned fit (\run{0015}, \run{0039})}
+Assigning the device its own $\Qf=\SI{8.7e10}{cm^{-2}}$ (1.64$\times10^{12}\cmsq$ less positive, $+0.294$~V) and $\muband=11.69$ removes the threshold miss ($+7$~mV) and matches $\Ion$ (\run{0015}). At DOS 384/192 the same holds with $\muband=11.582$ (\run{0039} $\times1.015074$). The on-state, however, remains wrong: the gap error is $-0.356$ (\run{0015}) and $-0.362$~V (\run{0039}), the $\Vthlin$ error $-0.349$~V, and the $\gmmax$ error $-23.1$ and $-23.3$~\%. A single electrostatic number thus removes the threshold part but not the shape.
+
+\subsection{Decomposition into a rigid part and a shape part}\label{sec:6p3-decomposition}
+The decomposition uses the horizontal offset $\Vg^{\mathrm{meas}}(I)-\Vg^{\mathrm{sim}}(I)$ at fixed currents (\cref{tab:6p3-offsets}; SYNTHESIS A.2, check [SYN-a]). A positive value means that the measured curve reaches the given current later.
+
+\begin{table}[tbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\caption{Horizontal offset $\Vg^{\mathrm{meas}}(I)-\Vg^{\mathrm{sim}}(I)$ (V) at fixed currents (\Aum), from SYNTHESIS A.2 [SYN-a]. A rigid error is a constant row; a shape error is a row that changes with current.}
+\label{tab:6p3-offsets}
+\begin{tabular}{@{}l r r r r r r r r@{}}
+\toprule
+run & $10^{-11}$ & $10^{-10}$ & $10^{-9}$ & $10^{-8}$ & $3\times10^{-8}$ & $10^{-7}$ & $2\times10^{-7}$ & $3\times10^{-7}$\\
+\midrule
+6.3 nm \run{0014} (shared) & $+0.293$ & $+0.296$ & $+0.294$ & $+0.316$ & $+0.358$ & $+0.455$ & $+0.484$ & $+0.449$\\
+6.3 nm \run{0015} (tuned $\Qf$) & $-0.003$ & $-0.003$ & $-0.007$ & $+0.011$ & $+0.047$ & $+0.132$ & $+0.141$ & $+0.087$\\
+6.3 nm A6 \run{0034} (no confinement) & $+0.063$ & $+0.062$ & $+0.057$ & $+0.077$ & $+0.117$ & $+0.213$ & $+0.239$ & $+0.201$\\
+6.3 nm C1 \run{0052} & $+0.010$ & $+0.009$ & $-0.004$ & $-0.009$ & $+0.024$ & $+0.134$ & $+0.201$ & $+0.212$\\
+6.3 nm B0 \run{0037} & $+0.142$ & $+0.094$ & $-0.010$ & $-0.138$ & $-0.167$ & $-0.125$ & $-0.088$ & $-0.084$\\
+2.0 nm B1 \run{0038} & $+0.004$ & $+0.002$ & $-0.019$ & $-0.040$ & $-0.029$ & $+0.008$ & $+0.034$ & $+0.037$\\
+13.2 nm B3 \run{0040} & $+0.006$ & $+0.051$ & $+0.029$ & $-0.015$ & $-0.029$ & $-0.029$ & $-0.026$ & $-0.020$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Three observations follow from the table. The first concerns the rigid part. In \run{0014} the offset is 0.294~V and constant to within 3~mV from $10^{-11}$ to $10^{-9}\Aum$, which is an exact fixed-charge signature equivalent to $1.64\times10^{12}\cmsq$ ($q/\Cox=0.179$~V per $10^{12}\cmsq$). Its size depends on the confinement law: without the law (A6, \run{0034}) it is 0.057~V, equivalent to $0.32\times10^{12}\cmsq$. The second observation concerns the shape part. The offset minus its value at $10^{-9}\Aum$ is, at $10^{-7}$ / $2\times10^{-7}\Aum$, $+0.161$ / $+0.190$~V (\run{0014}), $+0.139$ / $+0.148$~V (\run{0015}) and $+0.156$ / $+0.182$~V (A6). The shape part is therefore independent of the confinement law and of $\Qf$. The third observation is a comparison with the other films: the residual swing of the final calibration is 0.07--0.08~V at 2 and 13.2~nm, against about 0.15~V at 6.3~nm, where it has a ``late, then steep'' form.
+
+The rigid part is what a shared-parameter model must explain on the threshold, and the shape part is what any model of the 6.3~nm device must explain, whatever value of $\Qf$ it uses. Both are demonstrated decompositions of the data relative to the model (\evNUM\ on \evDATA). Neither is assigned to a cause in this chapter.
+
+% -------------------------------------------------------------------
+\section{Campaign A: one mechanism at a time}\label{sec:6p3-hypotheses}
+
+\subsection{Design}
+Campaign A implemented six physically motivated modifications of the shared-parameter 6.3~nm deck (\run{0014}), each with all other inputs unchanged, together with a mesh check (A7). The design file (config A) was written after the \run{0014} miss was known. The campaign is therefore a set of post-hoc hypothesis tests, and A6 in particular is classed as \evPOST, not as pre-registered (SYNTHESIS A.3 and H.2, item 2.15).
+
+\begin{description}
+\item[A1, thickness error (\run{0031}).] Film thickness of 5.3~nm instead of 6.3~nm in the geometry and in every thickness law, $\muband=12.4$. This case tests whether a 1~nm metrology error explains the offset through $\dEc(t)$, $\Nt(t)$ and $\Ndeff(t)$.
+\item[A2, fewer donors (\run{0032}).] $N_{d0}=10^{16}\cmcu$ (effectively no donors). This case tests whether the donor term $q\Nd t/\Cox$ explains the offset; the analytic bound is $\le0.03$~V (\cref{sec:par-nd}).
+\item[A3, back-surface charge (\run{0030}).] A negative fixed sheet $\Qb=\SI{-1.64e12}{cm^{-2}}$ at the air-exposed back surface, corresponding to the full rigid miss (\cref{sec:par-backq}).
+\item[A4, front interface traps (\run{0033}).] Interface acceptor sheet $\times5$ ($1.5\times10^{12}$~cm$^{-2}$eV$^{-1}$) (\cref{sec:par-dit}).
+\item[A5, combination (\run{0035}).] $t=5.8$~nm, $N_{d0}=10^{16}\cmcu$, $\Qb=\SI{-1.0e12}{cm^{-2}}$, $\muband=12.4$: a ``plausible combination'' of small effects.
+\item[A6, no confinement (\run{0034}).] $\dEc$ and $\mstar(t)$ laws switched off, with $\Qf=\SI{4.76e10}{cm^{-2}}$ taken from a no-confinement fit of the 2~nm device.
+\item[A7, mesh check (\run{0036}).] The tuned deck with mesh spacing $\times0.7$, a numerical duplicate of \run{0015} ($\Delta\Vthcc=-0.32$~mV, RMSE 0.0625 vs 0.0626~dec; \evNUM, PASS).
+\end{description}
+Two further hypotheses were tested after campaign A, with predictions registered before the runs finished (\cref{sec:6p3-shape}): B0, a re-partition of tail density and mobility (\run{0037}), and C1, a narrow acceptor band just below $\Ec$ (\run{0052}).
+
+\subsection{Results}
+\Cref{tab:6p3-hypotheses} gives every 6.3~nm variant in terms of the shape metrics, and \cref{fig:hyp_6p3_overlays,fig:hyp_6p3_metrics} show the curves and the errors.
+
+\begin{table}[tbp]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.4pt}
+\caption{All 6.3~nm variants: model minus measured (measured row absolute), from S6 report, section 3.1. \run{0014}, \run{0015}, A1--A6 and B0 use DOS 96/48; B2 and C1 use 384/192 (the DOS effect on these metrics is $\le1$~mV, 0.6~mV/dec, 1~\%). $\SSfix{-11}{-10}$, $\SSfix{-10}{-9}$: fixed-current slopes between the stated decades of \Aum. $\gmmax$ and $\Ion$ in per cent of the measured value. The last column gives what the mechanism would need to close the rigid miss, or the outcome of its registered test.}
+\label{tab:6p3-hypotheses}
+\begin{tabular}{@{}l l r r r r r r r r r l@{}}
+\toprule
+case & run & $\Vthcc$ & $\SSfix{-11}{-10}$ & $\SSfix{-10}{-9}$ & $\SScc$ & gap & gap7 & $\gmmax$ & $\Ion$ & RMSE & requirement / verdict\\
+ & & (V) & (mV/dec) & (mV/dec) & (mV/dec) & (V) & (V) & (\%) & (\%) & (dec) & \\
+\midrule
+measured & -- & 0.644 & 124.5 & 210.0 & 295.4 & 1.176 & 1.224 & $3.431\times10^{-7}$ & $4.03\times10^{-7}$ & -- & --\\
+\midrule
+shared laws & \run{0014} & $-0.294$ & $-2.2$ & $+1.4$ & $-10.5$ & $-0.314$ & $-0.161$ & $-16.6$ & $+26.8$ & 0.678 & OOS threshold test: failed\\
+tuned $\Qf$, $\mu$ & \run{0015} & $+0.007$ & $-0.4$ & $+4.4$ & $-6.6$ & $-0.356$ & $-0.137$ & $-23.1$ & 0.0 & 0.063 & CAL; shape missed\\
+B2 (tuned, 384/192) & \run{0039} & $+0.009$ & 0.0 & $+5.6$ & $-5.7$ & $-0.362$ & $-0.139$ & $-23.3$ & 0.0 & 0.059$^{\dagger}$ & CAL; shape missed\\
+\midrule
+A1 $t=5.3$~nm & \run{0031} & $-0.258$ & 0.0 & $+5.0$ & $-4.9$ & $-0.297$ & $-0.137$ & $-18.1$ & $+20.8$ & 0.613 & needs $t\approx2.1$~nm; rejected\\
+A2 $N_{d0}=10^{16}$ & \run{0032} & $-0.264$ & $-2.0$ & $-1.3$ & $-14.7$ & $-0.329$ & $-0.168$ & $-17.5$ & $+24.4$ & 0.634 & $+0.030$~V max; rejected\\
+A3 back $-1.64\times10^{12}$ & \run{0030} & $-0.017$ & $-21.8$ & $-43.2$ & $-64.1$ & $-0.452$ & $-0.267$ & $-18.4$ & $+14.4$ & 0.237 & SS broken; rejected as sole cause\\
+A4 $\Dit\times5$ & \run{0033} & $-0.243$ & $+2.8$ & $+3.5$ & $-9.1$ & $-0.319$ & $-0.160$ & $-16.9$ & $+23.1$ & 0.595 & needs $\times$23--24; rejected\\
+A5 combination & \run{0035} & $-0.079$ & $-14.9$ & $-28.4$ & $-45.9$ & $-0.405$ & $-0.221$ & $-19.6$ & $+13.9$ & 0.246 & 73~\% of miss, SS $-46$; rejected\\
+A6 no confinement & \run{0034} & $-0.057$ & $+0.6$ & $+4.8$ & $-7.7$ & $-0.337$ & $-0.154$ & $-18.4$ & $+9.2$ & 0.211 & POST; threshold within 0.1~V only\\
+\midrule
+B0 re-partition & \run{0037} & $+0.010$ & $+48.8$ & $+103.8$ & $+115.5$ & $+0.026$ & $+0.115$ & $-5.0$ & $-7.6$ & 0.270 & OOS: on-state met, SS failed\\
+C1 near-$\Ec$ band & \run{0052} & $+0.004$ & $+1.4$ & $+12.9$ & $+9.0$ & $-0.237$ & $-0.137$ & $-3.5$ & $+16.0$ & 0.081 & OOS: partly failed\\
+\bottomrule
+\multicolumn{12}{@{}l}{$^{\dagger}$ At $\muband=11.41$ before rescaling; 0.0630~dec after the exact rescaling (\file{figures/MANIFEST.md}).}
+\end{tabular}
+\end{table}
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=\linewidth]{hyp_6p3_overlays}
+\caption{The 6.3~nm device against every campaign-A variant (DOS 96/48): measured curve versus \run{0014} (shared-parameter test), \run{0015} (tuned $\Qf$ and $\muband$), A1 \run{0031} ($t=5.3$~nm), A2 \run{0032} (donors removed), A3 \run{0030} (back charge $-1.64\times10^{12}\cmsq$), A4 \run{0033} ($\Dit\times5$), A5 \run{0035} (combination) and A6 \run{0034} (no confinement): $\log_{10}\Id$ and a linear on-state panel. Every variant that moves the threshold to the data leaves the linear on-state below and to the left of the measurement.}
+\label{fig:hyp_6p3_overlays}
+\end{figure}
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=\linewidth]{hyp_6p3_metrics}
+\caption{Errors of every 6.3~nm hypothesis relative to the measurement ($\Vthcc$ 0.644~V, $\SScc$ 295.4~mV/dec, gap 1.176~V, $\gmmax$ $3.431\times10^{-7}$~A/V/\textmu m); green marks agreement within 0.05~V / 20~mV/dec / 0.1~V / 8~\%. $\Vthcc$, $\SScc$, gap and $\gmmax$ errors: \run{0014} $-0.294$~V, $-10.4$, $-0.314$~V, $-16.6$~\%; \run{0015} $+0.007$~V, $-6.5$, $-0.356$~V, $-23.1$~\%; A1 \run{0031} $-0.258$~V, $-4.9$, $-0.297$~V, $-18.1$~\%; A2 \run{0032} $-0.264$~V, $-14.7$, $-0.329$~V, $-17.5$~\%; A3 \run{0030} $-0.017$~V, $-64.1$, $-0.452$~V, $-18.4$~\%; A4 \run{0033} $-0.243$~V, $-9.1$, $-0.319$~V, $-16.9$~\%; A5 \run{0035} $-0.079$~V, $-45.9$, $-0.405$~V, $-19.6$~\%; A6 \run{0034} $-0.057$~V, $-7.7$, $-0.337$~V, $-18.4$~\%; B0 \run{0037} $+0.010$~V, $+115.6$, $+0.026$~V, $-5.0$~\%; C1 \run{0052} $+0.004$~V, $+9.1$, $-0.237$~V, $-3.5$~\%; B2 \run{0039} $+0.009$~V, $-5.7$, $-0.362$~V, $-23.3$~\%. No case is green in all four metrics.}
+\label{fig:hyp_6p3_metrics}
+\end{figure}
+
+\subsection{Mechanism-by-mechanism reading}
+\paragraph{A1, thickness error: rejected (model-conditional).} A film thinner by 1~nm moves $\Vthcc$ by only $+0.036$~V (0.386 against 0.350~V), which is 12~\% of the required $+0.294$~V. Closing the rigid miss through $\dEc(t)$ would require $t\approx2.1$~nm, that is, a metrology error of 67~\%. The gap error remains at $-0.297$~V and the $\gmmax$ error at $-18$~\%. With a physical, weaker $\dEc(t)$ beyond 3~nm the gain would be even smaller (\cref{sec:mech-confinement}). \evNUM.
+
+\paragraph{A2, fewer donors: rejected.} Removal of the donors gives $+0.030$~V (analytic bound 0.028~V), about ten times too little. \evNUM.
+
+\paragraph{A3, back-surface negative charge: rejected as the sole cause (model-conditional).} A back sheet of $-1.64\times10^{12}\cmsq$ matches the threshold ($-17$~mV). This shows that at threshold the back surface has nearly the same lever arm as the front (0.96--1.2 times, not the 1.7--2.4 times of a naive $Q t/\varepsilon_s$ estimate; S1 verdicts). However, the back charge destroys the agreement in the subthreshold region ($\SScc$ $-64.1$~mV/dec, with changes of $-22$ and $-43$~mV/dec in the two fixed-current windows), closes the gap further (0.724~V against 1.176~V) and increases the offset at $10^{-7}\Aum$ to $+0.285$~V. \evNUM.
+
+\paragraph{A4, front interface traps: rejected at plausible densities.} $\Dit\times5$ gives $+0.051$~V with the gap unchanged (0.857 against 0.862~V). Closing the miss would require about $\times$23--24 ($\approx7\times10^{12}$~cm$^{-2}$eV$^{-1}$) at 6.3~nm only, on a gate stack that is shared with the other films, and the slope would degrade accordingly. The discriminator registered in config A (traps shift the threshold \emph{and} degrade the slope) was confirmed qualitatively. \evNUM.
+
+\paragraph{A5, combination: rejected.} A plausible combination covers 0.215 of 0.294~V (73~\%) but costs $-45.9$~mV/dec in $\SScc$, because its back-charge component carries the slope penalty of A3. \evNUM.
+
+\paragraph{A6, no confinement: the threshold miss is reduced but not explained.} Without the confinement law, and with $\Qf$ taken from a no-confinement fit of the 2~nm film, the 6.3~nm threshold is predicted to within $-0.057$~V (RMSE 0.21 against 0.68~dec). This statement concerns the threshold only, since $\muband=12.4$ is not held out, and the on-state fails as in every other run (gap $-0.337$~V). A6 was designed after the \run{0014} miss was known and is classed as \evPOST. It does not show that the data prefer the absence of confinement. Without the law it is the 13.2~nm device that requires its own charge ($1.43\times10^{12}$ against $0.047\times10^{12}\cmsq$); the no-confinement 13.2~nm threshold is 0.331~V, a miss of $+0.248$~V, obtained from the exact rigid identity applied to \run{0017}. Thresholds with a single offset do not discriminate between the two readings (\cref{sec:mech-confinement}).
+
+\paragraph{Any rigid charge as the whole miss: rejected.} In the tuned run the offset still varies from $-0.007$ to $+0.141$~V between $10^{-9}$ and $2\times10^{-7}\Aum$ (\cref{tab:6p3-offsets}), and no rigid term can remove this variation. Eight charge or electrostatic variants (\run{0014}, \run{0015}, \run{0030}--\run{0035}) give gaps of 0.72--0.88~V against 1.176~V measured (SYNTHESIS D5), and they change $\gmmax$ by at most 2~\% relative to each other.
+
+% -------------------------------------------------------------------
+\section{The on-state shape problem and two pre-registered tests}\label{sec:6p3-shape}
+
+\subsection{What must be reproduced}
+The measured 6.3~nm curve reaches $10^{-7}\Aum$ 1.224~V after $\Vthcc$ and then rises with $\Ion/\gmmax=1.176$~V. Every simulation whose fixed-current slopes lie within about 15~mV/dec of the data in every window has gap7 $\le1.09$~V and $\Ion/\gmmax\ge1.41$~V (S6 report, section 3.3). The feature requires additional charge that is trapped between $\Vthcc$ and $\Vthlin$ (about $2\times10^{12}\cmsq$ according to the S4 surrogate) and then released into a steeper rise, without additional charge in the subthreshold region. Two trap-side remedies that could plausibly produce this behaviour were proposed by the specialist analyses and registered, with file timestamps, before the corresponding ATLAS runs finished.
+
+\subsection{B0: re-partition of tail density and band mobility (\run{0037})}
+The S2 analysis proposed that the non-monotonic $\muband$ (lower at 6.3 than at 2~nm) is an artefact of the imposed $\Nt(t)$ law and that a partition consistent with the shape would be $\muband=19.3$ / 19.6 / 62.7~\cmVs\ with $\Nt=2.4\times10^{19}$ / $2.7\times10^{19}$ / $4.8\times10^{18}\cmcu$. B0 implements this proposal at 6.3~nm: the exponent of the $\Nt$ law is set to 0 with $\Nt=\SI{2.66e19}{cm^{-3}}$, $\muband=19.6$ and $\Qf=\SI{9.8e11}{cm^{-2}}$. The S2 prediction was written at 18:59:35Z, config B at 19:06:27Z, and \run{0037} ended at 19:21:30Z (UTC file times; S6 report, section 3.2).
+
+\emph{Outcome.} The on-state predictions passed: $\Vthcc$ $0.64\pm0.03\rightarrow0.654$~V, $\Vthlin$ 1.82--1.90 $\rightarrow$ 1.856~V, $\Ion$ $-5$ to $-10$~\% $\rightarrow$ $-7.6$~\%, and $\muFE$ 10.5--11.0 $\rightarrow$ 10.40 (1~\% low). The subthreshold prediction failed by a wide margin: $\SScc$ is 410.9 against 295.4~mV/dec measured ($+115.5$), and the error in $\SSfix{10^{-11}}{10^{-10}}$ is $+48.8$~mV/dec. Rescaling the mobility so that $\Ion$ matches (21.2~\cmVs) gives $\gmmax$ $+2.8$~\% and gap $+0.026$~V. B0 thus reproduces the whole on-state, but only by adding 116~mV/dec to $\SScc$. The re-partition is therefore rejected as the explanation (\evOOS, failed). A competing blind calculation by S1 for the same configuration ($\SScc$ 418~$\pm$~10~mV/dec) agreed with the outcome. Its code, however, was saved during the run (19:18:00Z) and its output after the run had ended, so it is classed as \evPOST\ (SYNTHESIS A.3).
+
+\subsection{C1: a narrow acceptor band just below $\Ec$ (\run{0052})}
+The S4 analysis proposed states concentrated within 1--2~$\kT$ of $\Ec$ together with a higher mobility. C1 adds a Gaussian acceptor band $\NGA=\SI{9.0e19}{cm^{-3}.eV^{-1}}$ at $\EGA=\Ec-0.03$~eV with $\WGA=0.02$~eV (``2e12'' in the run name), keeps $\Qf=\SI{8.7e10}{cm^{-2}}$ and sets $\muband=15.4$ (DOS 384/192). The S4 prediction was written at 19:21:48Z, config C at 19:35:23Z, and \run{0052} ended at 22:47:22Z.
+
+\emph{Outcome} (relative to \run{0015}). The gap was predicted to change by $+0.28$~V and changed by $+0.119$~V (\fail); $\gmmax$ was predicted to rise by $+24$~\% and rose by $+25.5$~\% (\pass); $\SScc$ was predicted to change by $+23$ ($+20$ to $+30$)~mV/dec and changed by $+15.6$~mV/dec (close); and $\Ion$ was predicted to change by $\pm3$~\% and changed by $+16.0$~\% (\fail). The stated falsifiers ($\gmmax$ not rising, or $\SScc>330$~mV/dec) were not triggered. At matched $\Ion$ ($\muband=13.28$) the $\gmmax$ error returns to $-16.8$~\%, with the gap error unchanged at $-0.237$~V. C1 therefore recovers about one third of the gap miss (33~\% of 0.356~V) and 28~\% of the $\gmmax$ miss at a moderate cost in slope ($\SScc$ $+15.6$~mV/dec). The verdict is partly failed (SYNTHESIS section D): a near-$\Ec$ band is at most a partial contributor (\evOOS). The DOS resolution of the 20~meV band was not checked, since a repeat with 768/384 levels was not run.
+
+\subsection{Registered predictions and outcomes}
+\Cref{tab:6p3-prereg} collects every prediction made for the 6.3~nm study together with its registration status. It follows section 3.2 of the S6 report, with the classification corrections of SYNTHESIS A.3.
+
+\begin{table}[tbp]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\caption{Predictions for the 6.3~nm study and their outcomes. OOS: prediction file time-stamped before the run ended. POST: designed or evaluated after the outcome was known.}
+\label{tab:6p3-prereg}
+\begin{tabularx}{\linewidth}{@{}l l X X l@{}}
+\toprule
+\# & prediction (source) & predicted $\rightarrow$ obtained & outcome & class\\
+\midrule
+P1 & S2 for B0 (\run{0037}) & $\Vthcc$ $0.64\pm0.03\rightarrow0.654$; $\Vthlin$ 1.82--1.90 $\rightarrow$ 1.856; $\Ion$ $-5$ to $-10$~\% $\rightarrow$ $-7.6$~\%; $\muFE$ 10.5--11.0 $\rightarrow$ 10.40; slope $+3$ to $+15$ over \run{0015} $\rightarrow$ $\SSfix{-11}{-10}$ $+49$ & on-state passed, subthreshold failed: re-partition rejected & \evOOS\\
+P2 & S1 1-D code for B0 & $\SScc$ $418\pm10\rightarrow410.9$; $\Vthcc$ $0.656\rightarrow0.654$; $\gmmax$ $3.31\rightarrow3.26\times10^{-7}$; $\Vthlin$ $1.889\rightarrow1.856$ & agreed & \evPOST\\
+P3 & S4 for C1 (\run{0052}), vs \run{0015} & gap $+0.28\rightarrow+0.119$; $\gmmax$ $+24\rightarrow+25.5$~\%; $\SScc$ $+23\rightarrow+15.6$; $\Ion$ $\pm3\rightarrow+16.0$~\% & partly failed & \evOOS\\
+P3$'$ & S1: gap cannot open without $\SScc$ rising well above 295 & gap $+0.12$ of $+0.36$ needed at $\SScc$ 304 & consistent & \evOOS\\
+P4 & A6 (\run{0034}) held-out threshold & $\Vthcc$ $-57$~mV; slope within 8~mV/dec; gap $-0.34$; $\Ion$ $+9$~\% & threshold within 0.1~V; on-state failed & \evPOST\\
+P5 & A2 analytic bound & $\le+0.03\rightarrow+0.030$~V & passed & \evOOS\\
+P6 & A4 discriminator & traps shift $\Vthcc$ and degrade slope $\rightarrow$ $+0.051$~V, $\SSfix{-11}{-10}$ $+5.0$ & passed (qualitative) & \evOOS\\
+P8 & S3: SP/BQP moves $\Vg(n_s=10^{12}\cmsq)$ by $+0.15$--0.19~V at 6.3/13.2~nm & not run (launch budget) & untested & \evPRED\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=\linewidth]{shape_6p3}
+\caption{The 6.3~nm on-state shape: measured curve against B2 (\run{0039}, rescaled by 11.581987/11.41), B0 (\run{0037}, tail re-partition) and C1 (\run{0052}, near-$\Ec$ acceptor band). (a) $\log_{10}\Id$; (b) linear $\Id$; (c) $\gm(\Vg)$ from the numerical gradient on the 0.05~V grid. B0 reproduces the on-state (b, c) but not the subthreshold region (a); C1 retains the subthreshold behaviour and recovers only part of the delayed, steep rise; B2 rises too early and too slowly.}
+\label{fig:shape_6p3}
+\end{figure}
+
+\subsection{The trade-off line}
+Every trap-side change moves the model along one line in the plane of gap against $\SScc$ (S6 report, section 3.3). From B2 to C1 the gap opens by $+0.125$~V at $+15$~mV/dec (8.5~mV of gap per mV/dec), and from B2 to B0 by $+0.388$~V at $+121$~mV/dec (3.2~mV per mV/dec). The 2~nm tail run lies on the same kind of line: $\Nt\times1.5$ opens the gap by $+0.201$~V at $+68.7$~mV/dec in $\SScc$ (\run{0012}$\rightarrow$\run{0023}; about 2.9~mV per mV/dec; \cref{tab:cal-oat}). Even at the efficiency of C1, the missing $+0.36$~V would cost $\SScc\approx332$~mV/dec against 295~mV/dec measured. Within the V1 model form (equilibrium tails and a constant, density-independent mobility), the on-state and the subthreshold region of the 6.3~nm device cannot be fitted simultaneously.
+
+% -------------------------------------------------------------------
+\section{Verdict: what is and is not understood}\label{sec:6p3-verdict}
+
+\paragraph{Demonstrated (\evNUM\ on \evDATA).} The departure of the 6.3~nm device from the shared calibration consists of two separable parts. The first is a rigid threshold offset (0.294~V with the confinement law, $\equiv1.64\times10^{12}\cmsq$; 0.057~V without it). The second is an on-state shape part that depends on gate voltage (turn-on delay 0.31--0.36~V too small, $\gmmax$ 17--23~\% too low) and is independent of $\Qf$ and of the confinement law.
+
+\paragraph{Rejected, with the quantitative reason (\evNUM, model-conditional).} The following explanations are rejected: thickness error ($+0.036$~V per nm; would need $t\approx2.1$~nm), donor reduction ($+0.030$~V), front $\Dit$ (needs $\times$23--24), back-surface charge as the sole cause ($\SScc$ $-64$~mV/dec), the plausible combination (73~\% of the offset, $\SScc$ $-46$), the S2 re-partition B0 ($\SScc$ $+116$), a near-$\Ec$ band as the full explanation (C1: 33~\% of the gap, $\Ion$ $+16$~\%), and any rigid charge as the whole miss.
+
+\paragraph{Not determined.} Device-to-device spread, sweep history and bias stress during the sweep, the measurement ambient, and a thickness error beyond the model-conditional bound have not been determined. Extrapolation of the positive-bias-stress shifts of the same device family \citep[p.~9]{Januar2026} to a $-3$ to $+3$~V sweep gives 0.003--0.24~V (S4 report, section 6). The upper end reaches the order of the rigid offset, so that sweep history is a possible but unquantified confounder (\cref{sec:mech-couplings}). With one device per thickness, the rigid offset cannot be distinguished from process variation. Separating a film property from spread at the size of the offset requires $n\approx15.7\sigma^2/\Delta^2$ replicates per thickness, in practice 3--5 devices with dual sweeps and recorded dwell (SYNTHESIS Q4 and F, Tier~4).
+
+\paragraph{Ranked model-form causes of the shape part (plausible, unverified).}
+\begin{enumerate}
+\item \emph{Constant, density-independent mobility.} The feature requires a current that rises faster than the free charge above threshold without additional subthreshold charge. This is the signature of a carrier-density-dependent (percolation or power-law) mobility, which would also lower the slope. The ATLAS version used ignores MOBILITY statements between SOLVE statements (a verified runner fact), so that V1 cannot emulate such a mobility within a sweep (SYNTHESIS C5).
+\item \emph{Rigid equilibrium tails}, without above-threshold trapping or sweep history.
+\item \emph{Gate-field quantization with local tails.} S3 estimates $+0.15$--0.19~V in $\Vg(n_s=10^{12}\cmsq)$ for $t\ge6.3$~nm, but this effect should also appear at 13.2~nm, where the classical model already fits (P8, untested).
+\end{enumerate}
+The miss is largest at 6.3~nm, smaller at 2~nm (gap $-0.145$~V, $\gmmax$ $-8.6$~\%) and negligible at 13.2~nm ($-0.021$~V, $-2.6$~\%). This ordering is consistent with a distinction between disordered thin films and ordered thick films (\cref{sec:mech-transport}), but it is a correlation over three devices, not a demonstration.
+
+\paragraph{Falsification tests.} Hypothesis C5 (density-dependent mobility) is falsified if a density-dependent mobility calibrated on 2 and 13.2~nm leaves the 6.3~nm gap miss above 0.1~V at $\SScc\le330$~mV/dec, or if dual sweeps show the feature to be hysteretic. Hypothesis C4 (device-specific offset) is supported if replicates give $\sigma(\Vth)<0.1$~V with a mean at least 0.2~V away from the shared law (SYNTHESIS C). The registered predictions of \cref{ch:predictions} do not test the 6.3~nm shape directly.
+
+\begin{keyresult}[Key results of \cref{ch:6p3}]
+\begin{itemize}
+\item The shared-parameter model misses the held-out 6.3~nm threshold by $-0.294$~V (\run{0014}): a failed out-of-sample test of the threshold only.
+\item The discrepancy is a rigid part (0.294~V $\equiv1.64\times10^{12}\cmsq$ with the confinement law; 0.057~V without) plus an on-state shape part ($+0.14$ to $+0.19$~V of extra delay between $10^{-9}$ and $2\times10^{-7}\Aum$; gap 0.31--0.36~V too small; $\gmmax$ 17--23~\% low), independent of $\Qf$ and confinement.
+\item Thickness error, donors, front $\Dit$, back charge, a plausible combination, the S2 re-partition (B0, $\SScc$ $+116$~mV/dec) and a near-$\Ec$ band (C1, 33~\% of the gap) are excluded as the full explanation.
+\item Within V1, gap and subthreshold slope trade along one line (3.2--8.5~mV of gap per mV/dec); the shape part remains unexplained, and its most plausible cause, the constant, density-independent mobility, is untested.
+\item With one device per thickness, the rigid part cannot be assigned: device spread and sweep history are not determined.
+\end{itemize}
+\end{keyresult}
+
+The 6.3~nm study excludes several single mechanisms but assigns none. The next chapter widens the view to all five mechanism families and examines, for the whole thickness series, which of them the data require, identify or exclude.

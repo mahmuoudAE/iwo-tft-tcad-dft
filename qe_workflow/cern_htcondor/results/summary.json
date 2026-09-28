@@ -1,0 +1,117 @@
+{
+ "updated": "2026-09-28T18:46:19Z",
+ "bulk": {
+  "a_A": 10.3061,
+  "a_exp_A": 10.117,
+  "gap_fundamental_eV": 0.8887,
+  "mstar_m0": 0.159,
+  "gap_gamma_eV": 0.8931
+ },
+ "slabs": [
+  {
+   "job": "gpu_bench_v15",
+   "VBM_eV": -0.022,
+   "CBM_eV": 0.9366,
+   "gap_eV": 0.9586,
+   "scf_iterations": 46,
+   "total_force_Ry_bohr": 0.265834,
+   "relaxed": false,
+   "mstar_m0": null,
+   "dEg_eV": 0.0699
+  },
+  {
+   "job": "slab1_v15",
+   "VBM_eV": -0.0219,
+   "CBM_eV": 0.9367,
+   "gap_eV": 0.9586,
+   "scf_iterations": 46,
+   "total_force_Ry_bohr": 0.265813,
+   "E_vac_eV": 4.3698,
+   "vacuum_plateau_spread_meV": 0.01,
+   "EA_eV": 3.4331,
+   "IP_eV": 4.3917,
+   "relaxed": false,
+   "mstar_m0": 0.2411,
+   "dEg_eV": 0.0699
+  },
+  {
+   "job": "slab1_v25",
+   "VBM_eV": -1.275,
+   "CBM_eV": -0.3164,
+   "gap_eV": 0.9586,
+   "scf_iterations": 64,
+   "total_force_Ry_bohr": 0.265842,
+   "E_vac_eV": 3.1168,
+   "vacuum_plateau_spread_meV": 0.01,
+   "EA_eV": 3.4332,
+   "IP_eV": 4.3918,
+   "relaxed": false,
+   "mstar_m0": 0.2419,
+   "dEg_eV": 0.0699
+  },
+  {
+   "job": "slab1_v35",
+   "VBM_eV": -1.9695,
+   "CBM_eV": -1.0109,
+   "gap_eV": 0.9586,
+   "scf_iterations": 77,
+   "total_force_Ry_bohr": 0.265842,
+   "E_vac_eV": 2.4223,
+   "vacuum_plateau_spread_meV": 0.0,
+   "EA_eV": 3.4332,
+   "IP_eV": 4.3918,
+   "relaxed": false,
+   "mstar_m0": 0.2411,
+   "dEg_eV": 0.0699
+  }
+ ],
+ "iwo": {
+  "8b": {
+   "source": "iwo_W8b",
+   "E_Ry": -15496.3476465985,
+   "bfgs_steps": 16,
+   "W_O_A": [
+    1.972,
+    1.972,
+    1.972,
+    1.972,
+    1.972,
+    1.972
+   ],
+   "W_O_mean_A": 1.972,
+   "total_magnetization_muB": 0.74
+  },
+  "24d": {
+   "source": "iwo_W24d_partial",
+   "E_Ry": -15496.3666036746,
+   "bfgs_steps": 18,
+   "W_O_A": [
+    1.892,
+    1.892,
+    1.902,
+    1.902,
+    2.152,
+    2.152
+   ],
+   "W_O_mean_A": 1.982
+  },
+  "dE_8b_minus_24d_eV": 0.258,
+  "preferred_site": "24d",
+  "shannon_W_O_A": {
+   "W6+": 1.98,
+   "W5+": 2.0,
+   "W4+": 2.04,
+   "In3+": 2.18
+  }
+ },
+ "lin2022": {
+  "a_A": 10.3,
+  "gap_bulk_eV": 0.94,
+  "gap_095nm_eV": 1.88,
+  "gap_198nm_eV": 1.27,
+  "mstar_bulk": 0.17,
+  "mstar_095nm": 0.3,
+  "mstar_198nm": 0.23,
+  "page": "p. 21540, 21542"
+ }
+}

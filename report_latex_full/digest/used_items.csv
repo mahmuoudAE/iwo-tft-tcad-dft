@@ -1,0 +1,55 @@
+key,quantity,value,unit,thickness_nm,material,label,package_location,pages_where_value_string_found
+Lin2022,Eg_PBE,0.94,eV,bulk,In2O3,DFT_PURE_IN2O3_PROXY,"Methods, p.21542",21542
+Lin2022,Eg_PBE,1.27,eV,1.98,"In2O3 slab (H-passivated, vacuum)",DFT_PURE_IN2O3_PROXY,"Methods, p.21542",21542
+Lin2022,Eg_PBE,1.88,eV,0.95,In2O3 slab,DFT_PURE_IN2O3_PROXY,"Methods, p.21542",21542
+Si2021,dEc_PBE,0.6,eV,1.5,In2O3 on Al2O3 slab; Ev ~unchanged,DFT_PURE_IN2O3_PROXY,"p.504, Fig.4b text",504
+Lin2022,mstar,0.17,m0,bulk,In2O3 (PBE),DFT_PURE_IN2O3_PROXY,p.21540,21540;21542
+Lin2022,mstar,0.19,m0,3.52,In2O3 slab (PBE),DFT_PURE_IN2O3_PROXY,p.21540,21540
+Lin2022,mstar,0.23,m0,1.98,In2O3 slab (PBE),DFT_PURE_IN2O3_PROXY,p.21540,21540
+Lin2022,mstar,0.3,m0,0.95,In2O3 slab (PBE),DFT_PURE_IN2O3_PROXY,p.21540,21540;21542
+Stokey2021,mstar_exp,0.208,m0,bulk,"In2O3 single crystal, n=2.8e17 (optical Hall)",MEASURED_RELATED_MATERIAL,Abstract; Sec. IV.C,NOT_FOUND_BY_STRING (check manually / not bundled)
+Stokey2021,mstar_exp_0,0.18,m0,bulk,"In2O3 zero-density extrapolation (Feneberg, cited)",LITERATURE_IN2O3_PROXY,"Sec. I, Eq.(3)",225102-2;cover
+Stokey2021,eps_DC,10.55,-,bulk,In2O3 single crystal (LST/THz),MEASURED_RELATED_MATERIAL,Abstract; Table II,225102-12
+Si2021,eps_DC,8.9,-,film,"evaporated In2O3 films (Hamberg, cited)",LITERATURE_IN2O3_PROXY,p.501,501
+Januar2026,eps_r,9.3,-,film,"IWO of the target process (C-V, SI Fig.S1)",MEASURED_TARGET_DEVICE,SI Fig.S1b,NOT_FOUND_BY_STRING (check manually / not bundled)
+Januar2026,eps_r,9.03,-,film,"In2O3 of the target process (C-V, SI Fig.S1)",MEASURED_RELATED_MATERIAL,SI Fig.S1b,NOT_FOUND_BY_STRING (check manually / not bundled)
+Januar2026,eps_r_HfO2,19.57,-,film,HfO2 of the target process,MEASURED_TARGET_DEVICE,SI Fig.S1b,NOT_FOUND_BY_STRING (check manually / not bundled)
+Fan2021_Nanomaterials (cited by Astra),Eg_IWO,3.05,eV,film,"sputtered a-IWO, different device (Fan 2021)",LITERATURE_IWO,Sec.3,NOT_FOUND_BY_STRING (check manually / not bundled)
+Fan2021_Nanomaterials (cited by Astra),chi_IWO,4.3,eV,film,"estimate, 96/4 composition mixing (Fan 2021)",LITERATURE_IWO,Sec.3,NOT_FOUND_BY_STRING (check manually / not bundled)
+Si2021,CNL_above_Ec,0.4,eV,bulk,In2O3,LITERATURE_IN2O3_PROXY,text,503;504
+Lin2022,Dit,600000000000.0,cm^-2 eV^-1,1.2,HfO2/In2O3 (from SS 63.5 mV/dec),LITERATURE_IN2O3_PROXY,p.21539,21539
+Wang2022,Dit,630000000000.0,cm^-2 eV^-1,3.5,HfO2/In2O3 (subthreshold method),LITERATURE_IN2O3_PROXY,p.4,4;5
+Wang2022,bulk_DOS,3.3e+20,cm^-3 eV^-1,3.5,"ALD In2O3 (conductance method), ND 1e20",LITERATURE_IN2O3_PROXY,Abstract; p.4-5,1;2;6
+Januar2026,Nt,5.3e+19,cm^-3,2.0,"IWO 2 nm (compact-model extraction, unstressed)","LITERATURE_IWO (target process, PBS device)",p.9,9
+Januar2026,Nt,3.39e+18,cm^-3,10.0,"IWO 10 nm (compact-model extraction, unstressed)","LITERATURE_IWO (target process, PBS device)",p.9,9
+Januar2026,Nt_ratio_13p2_to_2,4.0,-,2..13.2,IWO thickness series,LITERATURE_IWO,"Sec.2.8, Fig.5a",NOT_FOUND_BY_STRING (check manually / not bundled)
+Januar2026,Delta_sr,2.87,A,series,IWO effective roughness (fit of mu vs t),LITERATURE_IWO,"Sec.2.9, Fig.5f",8
+Januar2026,mu_max,27.4,cm^2/Vs,13.2,IWO peak field-effect mobility,LITERATURE_IWO,Sec.2.8,3;7
+Januar2026,mu_max,5.1,cm^2/Vs,2.0,IWO peak field-effect mobility,LITERATURE_IWO,Sec.2.8,3;7
+Kim2024,Nbk_LFN,2.37e+18,cm^-3 eV^-1,10,"IWO (1 wt% WO3, SiO2 gate) border traps",LITERATURE_IWO (different process),p.6,NOT_FOUND_BY_STRING (check manually / not bundled)
+Kim2024,Nbk_LFN,3.12e+18,cm^-3 eV^-1,20,same,LITERATURE_IWO (different process),p.6,NOT_FOUND_BY_STRING (check manually / not bundled)
+Kim2024,Nbk_LFN,1.46e+19,cm^-3 eV^-1,30,same,LITERATURE_IWO (different process),p.6,NOT_FOUND_BY_STRING (check manually / not bundled)
+Fan2021 Sec.3 (bulk); Lin2022 Methods; Si2021 Fig.4,Bandgap,,,,,LITERATURE_IWO + DFT_PURE_IN2O3_PROXY,Lin2022 p.21542; Si2021 p.504,PBE absolute gaps not used
+Fan2021 Sec.3; Si2021,Electron affinity,,,,,LITERATURE_IWO + DFT_PURE_IN2O3_PROXY,Si2021 p.504,absolute vacuum alignment not available; relative dEc only
+Januar2026 SI Fig.S1 (not bundled; recorded by Astra),Relative permittivity,,,,,MEASURED_TARGET_DEVICE,SI Fig.S1b,no thickness dependence imposed
+Stokey2021; Lin2022,Electron effective mass,,,,,MEASURED_RELATED_MATERIAL + DFT_PURE_IN2O3_PROXY,Stokey2021 Sec.IV.C; Lin2022 p.21540,nonparabolicity ignored
+this work,Effective conduction-band DOS,,,,,CALCULATED,-,3-D continuum value; quasi-2D at 2 nm
+-,Effective valence-band DOS,,,,,ASSUMED,-,holes not solved
+this work (real ATLAS),Band mobility,,,,,FITTED,-,no defensible law; percolation/crystallinity hypothesis
+Januar2026,Roughness factor,,,,,LITERATURE_IWO,"Sec.2.9, Fig.5f",
+this work,Constant mobility in deck,,,,,CALCULATED,-,gate roll-off theta_r Vov not native (approximation gap)
+-,Effective mobility,,,,,CALCULATED,-,reported as mu_FE from gm in EXPERIMENTAL_VS_SIMULATION
+this work; Kim2024 trend,Effective background donor density,,,,,FITTED,Kim2024 p.6,electrically active donors only
+-,Flat-band carrier density,,,,,CALCULATED,-,Ioff ~ t n_FB used only as a consistency check
+this work; Januar2026,Bulk tail trap density,,,,,FITTED,Januar2026 Sec.2.8/2.10,Januar Nt(2 nm)=5.3e19 with theta_t convention
+-,Tail intercept density,,,,,CALCULATED,-,gTA = NTA exp((E-Ec)/WTA)
+this work,Tail energy width,,,,,FITTED,-,Tt = 464 K; absolute Tt not in the paper
+Fan2021 range,Deep acceptor density,,,,,ASSUMED,Fan2021 p.9,insensitive; EGA from Ec
+Lin2022; Wang2022 (HfO2/In2O3 6e11),Interface trap density,,,,,ASSUMED,Lin2022 p.21539; Wang2022 p.4,"Gaussian at Ec-0.3 eV, W 0.12 eV; IWO/Al2O3 interface here"
+this work,Fixed interface charge,,,,,FITTED (shared) + FITTED device-specific (6.3 nm),-,"dVfb = -q Qf/Cox = -0.310 V (2 nm), -0.016 V (6.3 nm)"
+-,Capture cross sections,,,,,ASSUMED,-,not identifiable from DC
+TiN literature range 4.5-4.9,Gate work function,,,,,ASSUMED,-,degenerate with chi and Qf
+Si2022/Lin2022 (CNL) context,S/D contact,,,,,ASSUMED (+FITTED for 31.8 nm),-,
+-,SRH lifetimes,,,,,ASSUMED,-,negligible
+schematic,Channel length / width,,,,,MEASURED_TARGET_DEVICE,-,A/um normalization
+"SI Fig.S1 (HfO2), Al2O3 eps assumed",Gate-stack capacitance,,,,,CALCULATED,-,EOT 3.86 nm

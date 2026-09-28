@@ -1,0 +1,188 @@
+go atlas
+title IWO 2 nm classical versus hard-wall Schrodinger charge bound
+# Units: um. Geometry fixed by the target; electronic parameters are hypotheses.
+# n+Si support is screened by ideal TiN and excluded from this electrical domain.
+# Physical stack: n+Si / TiN50 / HfO2 15 / Al2O3 2 / IWO / Pd70 nm.
+# Air above the exposed channel; no artificial SiO2 overlayer.
+# Zero-current charge diagnostic only; no transfer-current fit is attempted.
+
+# 1. Direct rectangular mesh; no imported process mesh.
+mesh width=1
+x.mesh loc=0 spac=0.5
+x.mesh loc=1.8 spac=0.1
+x.mesh loc=2 spac=0.05
+x.mesh loc=2.2 spac=0.1
+x.mesh loc=12 spac=0.5
+x.mesh loc=21.8 spac=0.1
+x.mesh loc=22 spac=0.05
+x.mesh loc=22.2 spac=0.1
+x.mesh loc=24 spac=0.5
+y.mesh loc=-0.072 spac=0.015
+y.mesh loc=-0.022 spac=0.005
+y.mesh loc=-0.004 spac=0.001
+y.mesh loc=-0.002 spac=6.25e-05
+y.mesh loc=-0.0019375 spac=6.25e-05
+y.mesh loc=-0.001875 spac=6.25e-05
+y.mesh loc=-0.0018125 spac=6.25e-05
+y.mesh loc=-0.00175 spac=6.25e-05
+y.mesh loc=-0.0016875 spac=6.25e-05
+y.mesh loc=-0.001625 spac=6.25e-05
+y.mesh loc=-0.0015625 spac=6.25e-05
+y.mesh loc=-0.0015 spac=6.25e-05
+y.mesh loc=-0.0014375 spac=6.25e-05
+y.mesh loc=-0.001375 spac=6.25e-05
+y.mesh loc=-0.0013125 spac=6.25e-05
+y.mesh loc=-0.00125 spac=6.25e-05
+y.mesh loc=-0.0011875 spac=6.25e-05
+y.mesh loc=-0.001125 spac=6.25e-05
+y.mesh loc=-0.0010625 spac=6.25e-05
+y.mesh loc=-0.001 spac=6.25e-05
+y.mesh loc=-0.0009375 spac=6.25e-05
+y.mesh loc=-0.000875 spac=6.25e-05
+y.mesh loc=-0.0008125 spac=6.25e-05
+y.mesh loc=-0.00075 spac=6.25e-05
+y.mesh loc=-0.0006875 spac=6.25e-05
+y.mesh loc=-0.000625 spac=6.25e-05
+y.mesh loc=-0.0005625 spac=6.25e-05
+y.mesh loc=-0.0005 spac=6.25e-05
+y.mesh loc=-0.0004375 spac=6.25e-05
+y.mesh loc=-0.000375 spac=6.25e-05
+y.mesh loc=-0.0003125 spac=6.25e-05
+y.mesh loc=-0.00025 spac=6.25e-05
+y.mesh loc=-0.0001875 spac=6.25e-05
+y.mesh loc=-0.000125 spac=6.25e-05
+y.mesh loc=-6.25e-05 spac=6.25e-05
+y.mesh loc=0 spac=6.25e-05
+y.mesh loc=0.0005 spac=0.0005
+y.mesh loc=0.001 spac=0.0005
+y.mesh loc=0.0015 spac=0.0005
+y.mesh loc=0.002 spac=0.0005
+y.mesh loc=0.0035 spac=0.0015
+y.mesh loc=0.005 spac=0.0015
+y.mesh loc=0.0065 spac=0.0015
+y.mesh loc=0.008 spac=0.0015
+y.mesh loc=0.0095 spac=0.0015
+y.mesh loc=0.011 spac=0.0015
+y.mesh loc=0.0125 spac=0.0015
+y.mesh loc=0.014 spac=0.0015
+y.mesh loc=0.0155 spac=0.0015
+y.mesh loc=0.017 spac=0.0015
+y.mesh loc=0.067 spac=0.01
+
+# 2. Active stack and physical metal volumes.
+region num=1 material=Air y.min=-0.072 y.max=-0.002
+region num=2 user.material=IWO y.min=-0.002 y.max=0
+region num=3 material=Al2O3 y.min=0 y.max=0.002
+region num=4 material=HfO2 y.min=0.002 y.max=0.017
+region num=5 material=Conductor y.min=0.017 y.max=0.067
+electrode num=1 name=gate material=Conductor x.min=0 x.max=24 y.min=0.017 y.max=0.067
+electrode num=2 name=source material=Palladium x.min=0 x.max=2 y.min=-0.072 y.max=-0.002
+electrode num=3 name=drain material=Palladium x.min=22 x.max=24 y.min=-0.072 y.max=-0.002
+
+# 3. Custom IWO; unlisted inherited constants remain a limitation.
+material material=IWO user.group=semiconductor user.default=silicon \
+ eg300=3.05 affinity=4.3 permittivity=9.3 \
+ nc300=5e+18 nv300=1e+19 \
+ mun=10 mup=0.01 \
+ taun0=1e-06 taup0=1e-06
+material material=Al2O3 permittivity=9
+material material=HfO2 permittivity=19.57
+material material=Air permittivity=1
+doping uniform n.type conc=2e+17 region=2
+
+# 4. Native electrical boundary conditions.
+contact name=gate workfunction=4.7
+contact name=source workfunction=4.45 surf.rec
+contact name=drain workfunction=4.45 surf.rec
+models srh fermi temp=300 print
+
+# 7. Charge-only diagnostic; one ATLAS engine, two model phases.
+# Seed: config/rebuild_contact_electron.json. Both trap families are OFF.
+# The same 32-interval IWO mesh and same input physics are used in both phases.
+# MC=0.34*m0 is an explicit single-parabolic-band prior, approximately consistent
+# with NC300=5e18 cm^-3 at 300K, not an independently measured IWO mass.
+# Hard-wall quantum phase disallows insulator penetration (^OX.SCHRO).
+# This is a confinement bound, not finite-barrier calibration or atomistic IWO.
+material region=2 mc=0.34 ml=0.34 mt1=0.34 mt2=0.34
+models srh fermi temp=300 ^schrodinger ^p.schro ^bqp.n ^bqp.p print
+method newton carriers=0 trap maxtrap=10 itlimit=60 climit=1e-6 cr.toler=1e-20 ir.tol=1e-20 cx.toler=1e-6
+output con.band val.band charge
+probe name=qbound_n_avg region=2 average n.conc x.min=2 x.max=22 y.min=-0.002 y.max=0
+probe name=qbound_n_mid region=2 x=12.037 y=-0.00094 n.conc
+save outf=qbound_geometry.str
+
+# 8. Classical zero-current charge reference.
+solve init
+log outf=qbound_classical.log
+solve vgate=0 vsource=0 vdrain=0
+save outf=qbound_classical_vg0.str
+solve vgate=0.5 vsource=0 vdrain=0
+save outf=qbound_classical_vg0p5.str
+solve vgate=1 vsource=0 vdrain=0
+save outf=qbound_classical_vg1.str
+solve vgate=2 vsource=0 vdrain=0
+save outf=qbound_classical_vg2.str
+solve vgate=3 vsource=0 vdrain=0
+save outf=qbound_classical_vg3.str
+log off
+
+# 9. Self-consistent electron Schrodinger-Poisson phase: reinitialize.
+# SP.GEOMETRY=1DY selects the documented y slice; NUM.DIRECT=1 is one isotropic valley.
+# FIXED.FERMI sets the quantum Fermi level to zero, consistent with VS=VD=0.
+# QMINCONC is a numerical density floor in cm^-3, not a leakage-current model.
+# SP.NUMITER is bounded; reaching a bias target alone does not prove SP convergence.
+models srh fermi temp=300 schrodinger num.direct=1 sp.geometry=1dy eigens=8 fixed.fermi ^calc.fermi ^ox.schro ^post.schro ^bqp.n ^bqp.p qminconc=1e-10 qcrit.negf=1e-4 print
+method newton carriers=0 trap maxtrap=10 itlimit=60 climit=1e-6 cr.toler=1e-20 ir.tol=1e-20 cx.toler=1e-6 sp.numiter=60 sp.numosc=30 sp.staosc=3 sp.mindif=1e-4
+output con.band val.band charge eigens=8
+solve init
+log outf=qbound_schrodinger.log
+solve vgate=0 vsource=0 vdrain=0
+save outf=qbound_schrodinger_vg0.str
+solve vgate=0.5 vsource=0 vdrain=0
+save outf=qbound_schrodinger_vg0p5.str
+solve vgate=1 vsource=0 vdrain=0
+save outf=qbound_schrodinger_vg1.str
+solve vgate=2 vsource=0 vdrain=0
+save outf=qbound_schrodinger_vg2.str
+solve vgate=3 vsource=0 vdrain=0
+save outf=qbound_schrodinger_vg3.str
+log off
+
+# 10. Native charge-versus-gate exports. No analytical or measured current is used.
+extract init infile="qbound_classical.log"
+extract name="qbound_classical_n_avg" curve(v."gate",probe."qbound_n_avg") outfile="qbound_classical_n_avg.dat"
+extract name="qbound_classical_n_mid" curve(v."gate",probe."qbound_n_mid") outfile="qbound_classical_n_mid.dat"
+extract name="qbound_classical_vd" curve(v."gate",v."drain") outfile="qbound_classical_vd.dat"
+extract name="qbound_classical_vs" curve(v."gate",v."source") outfile="qbound_classical_vs.dat"
+extract init infile="qbound_schrodinger.log"
+extract name="qbound_schrodinger_n_avg" curve(v."gate",probe."qbound_n_avg") outfile="qbound_schrodinger_n_avg.dat"
+extract name="qbound_schrodinger_n_mid" curve(v."gate",probe."qbound_n_mid") outfile="qbound_schrodinger_n_mid.dat"
+extract name="qbound_schrodinger_vd" curve(v."gate",v."drain") outfile="qbound_schrodinger_vd.dat"
+extract name="qbound_schrodinger_vs" curve(v."gate",v."source") outfile="qbound_schrodinger_vs.dat"
+
+# 11. Native electron-density cutlines through x=12.037 um.
+# Electron Conc and material=All are documented native EXTRACT labels.
+# Retain the full native cutline; the IWO interval is -0.002 <= y <= 0 um.
+# A cutline integral over micrometre depth needs a 1e-4 factor for cm^-2.
+extract init infile="qbound_classical_vg0.str"
+extract name="qbound_classical_n_y_vg0" curve(depth,impurity="Electron Conc" material="All" x.val=12.037) outfile="qbound_classical_n_y_vg0.dat"
+extract init infile="qbound_classical_vg0p5.str"
+extract name="qbound_classical_n_y_vg0p5" curve(depth,impurity="Electron Conc" material="All" x.val=12.037) outfile="qbound_classical_n_y_vg0p5.dat"
+extract init infile="qbound_classical_vg1.str"
+extract name="qbound_classical_n_y_vg1" curve(depth,impurity="Electron Conc" material="All" x.val=12.037) outfile="qbound_classical_n_y_vg1.dat"
+extract init infile="qbound_classical_vg2.str"
+extract name="qbound_classical_n_y_vg2" curve(depth,impurity="Electron Conc" material="All" x.val=12.037) outfile="qbound_classical_n_y_vg2.dat"
+extract init infile="qbound_classical_vg3.str"
+extract name="qbound_classical_n_y_vg3" curve(depth,impurity="Electron Conc" material="All" x.val=12.037) outfile="qbound_classical_n_y_vg3.dat"
+extract init infile="qbound_schrodinger_vg0.str"
+extract name="qbound_schrodinger_n_y_vg0" curve(depth,impurity="Electron Conc" material="All" x.val=12.037) outfile="qbound_schrodinger_n_y_vg0.dat"
+extract init infile="qbound_schrodinger_vg0p5.str"
+extract name="qbound_schrodinger_n_y_vg0p5" curve(depth,impurity="Electron Conc" material="All" x.val=12.037) outfile="qbound_schrodinger_n_y_vg0p5.dat"
+extract init infile="qbound_schrodinger_vg1.str"
+extract name="qbound_schrodinger_n_y_vg1" curve(depth,impurity="Electron Conc" material="All" x.val=12.037) outfile="qbound_schrodinger_n_y_vg1.dat"
+extract init infile="qbound_schrodinger_vg2.str"
+extract name="qbound_schrodinger_n_y_vg2" curve(depth,impurity="Electron Conc" material="All" x.val=12.037) outfile="qbound_schrodinger_n_y_vg2.dat"
+extract init infile="qbound_schrodinger_vg3.str"
+extract name="qbound_schrodinger_n_y_vg3" curve(depth,impurity="Electron Conc" material="All" x.val=12.037) outfile="qbound_schrodinger_n_y_vg3.dat"
+
+quit

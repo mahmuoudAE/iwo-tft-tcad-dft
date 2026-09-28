@@ -1,0 +1,169 @@
+{
+  "status": "PASS_FINAL_PACKET_PRESEAL_REVIEW_WITH_EXPLICIT_13P2_DOS_GAP",
+  "reviewed_utc": "2026-09-12T14:03:41.304306+00:00",
+  "packet_relative": "deliveries\\priority_three_delivery_20260912",
+  "review_scope": "Content/evidence and final presentation audit before root adds this review, final packet manifest and ZIP; no ZIP or final seal is certified here.",
+  "simulator_launched": false,
+  "portable_integration_repeated": false,
+  "native_raw_modified": false,
+  "packet_files_modified_by_reviewer": false,
+  "manifest_checks": {
+    "priority": {
+      "files_verified": 152,
+      "sha256": "16798544aa7f181bccdd074aa5046fa9cb7449e8fab67876ddc81df36f9d1e46"
+    },
+    "base": {
+      "files_verified": 84,
+      "sha256": "58da0778abf31e8fef351027ee5776d558538ee1f111135bd5f91b7328264a3b"
+    },
+    "copy_stage_1": {
+      "files_verified_against_sources": 839,
+      "sha256": "4ae54fd065a0fc53a35eba8194df01082dc42b6de5cad23c3c5e4ebd08f7c699"
+    },
+    "frozen_staging": {
+      "files_verified_against_immutable_sources": 746,
+      "bytes_verified": 194988878,
+      "sha256": "8fb84a973a64f2fd44df42bc240be44d982070ca5dc7eb2f5af038678272ae0e"
+    },
+    "presentation": {
+      "additional_native_files_verified_against_sources": 36,
+      "sha256": "082d5abd55e3d0664a6fa6ecc60104a977f7d478f58337dfb1a24e4df579134c"
+    }
+  },
+  "selected_and_control_identities": {
+    "2p0": {
+      "reference": "20260912T074527_865393_fit_bulk_width04_2nm",
+      "controls": {
+        "width": "20260912T075145_706323_fit04_verify_width",
+        "xmesh": "20260912T075729_133091_fit04_verify_xmesh",
+        "ymesh": "20260912T080711_514586_fit04_verify_ymesh",
+        "dos": "20260912T081824_443496_fit04_verify_dos"
+      }
+    },
+    "6p3": {
+      "reference": "20260912T124657_803129_priority3_fit6_mu12_retry2",
+      "controls": {
+        "xmesh": "20260912T125515_583761_priority3_verify6_x",
+        "ymesh": "20260912T130613_869036_priority3_verify6_y",
+        "dos": "20260912T131716_348906_priority3_verify6_dos"
+      }
+    },
+    "13p2": {
+      "reference": "20260912T122359_458630_priority3_fit13_nd89",
+      "controls": {
+        "xmesh": "20260912T132642_597382_priority3_verify13_x",
+        "ymesh": "20260912T134058_082088_priority3_verify13_y",
+        "dos": null
+      }
+    }
+  },
+  "selected_native_and_control_execution_output_hashes_match_originals": true,
+  "mapped_completed_native_runs_verified": 12,
+  "copied_generator_reproduces_all_three_source_physics": true,
+  "combined_deck_exact_approved_block_reconstruction": true,
+  "combined_deck_executed": false,
+  "tonyplot_calls_cover_all_saved_str_and_logs": 15,
+  "portable_verification": {
+    "summary_relative": "audit\\verification\\20260912T135828_674097Z\\VERIFICATION_SUMMARY.json",
+    "summary_sha256": "a5e4ca417ce53f6332502732f2be3536326d525e5ab7904978ee887d39ec74fc",
+    "module_origins_and_hashes_checked": {
+      "rebuild_model": {
+        "path": "C:\\Users\\moham\\Downloads\\IWO_Local_Codex_Handoff (1)\\IWO_ATLAS_Model\\deliveries\\priority_three_delivery_20260912\\audit\\scripts\\rebuild_model.py",
+        "sha256": "151bb0c0f3d458d2b082e34d2ecb91e5a617b17558c0d6ce873626403738c2e9"
+      },
+      "rebuild_check": {
+        "path": "C:\\Users\\moham\\Downloads\\IWO_Local_Codex_Handoff (1)\\IWO_ATLAS_Model\\deliveries\\priority_three_delivery_20260912\\audit\\scripts\\rebuild_check.py",
+        "sha256": "306fef9ef6924db19d8af3a7e05990dfe5a3fee9983ffb49b7627a3deaae2174"
+      },
+      "rebuild_extension_check": {
+        "path": "C:\\Users\\moham\\Downloads\\IWO_Local_Codex_Handoff (1)\\IWO_ATLAS_Model\\deliveries\\priority_three_delivery_20260912\\audit\\scripts\\rebuild_extension_check.py",
+        "sha256": "1a2e94971229213b615d06de5daa68b1f6bda21f95a21667210ee9c9cc121e42"
+      }
+    },
+    "status": "INCOMPLETE",
+    "devices": {
+      "2p0": {
+        "status": "PASS",
+        "native_checker_status": "PASS",
+        "validated_scope": "DEVICE_WIDTH_X_Y_DOS",
+        "missing_controls": [],
+        "reference_run_id": "20260912T074527_865393_fit_bulk_width04_2nm",
+        "per_device_width_test_performed": true,
+        "measurement_fit_validated": false,
+        "predictive_validity_established": false
+      },
+      "6p3": {
+        "status": "PASS",
+        "native_checker_status": "PASS_SCOPED_EXTENSION_NUMERICS",
+        "validated_scope": "DEVICE_X_Y_DOS_WITH_TRANSFERRED_WIDTH_UNIT_CONVENTION",
+        "missing_controls": [],
+        "reference_run_id": "20260912T124657_803129_priority3_fit6_mu12_retry2",
+        "per_device_width_test_performed": false,
+        "measurement_fit_validated": false,
+        "predictive_validity_established": false
+      },
+      "13p2": {
+        "status": "INCOMPLETE",
+        "native_checker_status": "INCOMPLETE",
+        "validated_scope": "NONE",
+        "missing_controls": [
+          "dos"
+        ],
+        "reference_run_id": "20260912T122359_458630_priority3_fit13_nd89",
+        "per_device_width_test_performed": false,
+        "measurement_fit_validated": false,
+        "predictive_validity_established": false
+      }
+    },
+    "thresholds_unchanged": true
+  },
+  "thirteen_nm_original_partial_assessment_recomputed_exactly": true,
+  "thirteen_nm_portable_control_values_match_originals": true,
+  "sources_preserved": {
+    "original_workbook_paper_screenshot_hashes_match_handoff_and_copy": true,
+    "all_four_original_csv_hashes_match_copies": true
+  },
+  "presentation_documents": {
+    "00_START_HERE.md": {
+      "sha256": "3932ccad3e95b2655fa4dee0477f6f734566ba3ff62197848d489d873bdd97ef",
+      "local_markdown_links_verified": 6
+    },
+    "HANDOFF_STATUS.md": {
+      "sha256": "4aa487af8ebd6191ff6f97d6e91f40948069c6a4a176b582495cda508f5c37dd",
+      "local_markdown_links_verified": 0
+    },
+    "MODEL_AND_RESULTS.md": {
+      "sha256": "3685c90a7d33d396f789ce24e9f2e5a86afce9e0659630fafad4df88ab12b15d",
+      "local_markdown_links_verified": 1
+    },
+    "RUNS_THIS_EXTENSION.md": {
+      "sha256": "74da4b537225a9e5126bc15081e188e0ff4e7da1b9181b68258ca6c17efb263d",
+      "local_markdown_links_verified": 16
+    },
+    "RUN_BY_RUN_SUMMARY.md": {
+      "sha256": "9a1fe00e7d018f67da714fba6d43dfda02d4fb07a580edd61987429a48dfef1f",
+      "local_markdown_links_verified": 22
+    }
+  },
+  "resolved_findings": [
+    {
+      "finding": "Top-level copied report links escaped package or named absent files; model prose still described planned assembly.",
+      "resolution": "Root corrected top-level presentation copies, preserved historical audit files, documented before/after hashes and added hash-verified phase-one raw evidence; final reviewed links resolve inside packet."
+    }
+  ],
+  "remaining_limitations": [
+    "13.2 nm DOS control is absent; its numerical scope remains INCOMPLETE/NONE despite passing x/y comparisons.",
+    "6.3 nm has its own x/y/DOS controls and transferred 2 nm width-unit convention, not a repeated 6.3 nm width test.",
+    "Measured off-current plateaus remain unfitted; native zero counts are retained and active agreement is not whole-curve accuracy.",
+    "Gaussian and interface families are dormant in selected models; no unique oxygen-defect, quantum-transfer or sputter-chemistry validation is granted.",
+    "Separate lifecycle reconciliations describe subsequent no-overlap inspections, not retrospective complete identification of missed helpers.",
+    "Unbundled earlier historical artifacts are explicitly plain labels, while original historical records retain provenance paths.",
+    "Final PACKET_MANIFEST and ZIP must be produced and checked after adding this review."
+  ],
+  "installation_inventory": {
+    "no_installed_executables_or_libraries_found": true,
+    "no_license_file_candidates_found": true,
+    "no_licensed_manual_files_found": true,
+    "only_source_or_docs_pdf": "audit/sources/IWO_2026_main_paper.pdf"
+  }
+}

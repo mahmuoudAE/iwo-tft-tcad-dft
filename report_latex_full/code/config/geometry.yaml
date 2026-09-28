@@ -1,0 +1,23 @@
+# Device geometry (STAGE 1: locked). Sources: Januar2026 Sec.2.1; user schematic (inputs/device_and_transfer_curves.png, PPTX slide).
+stack_bottom_to_top:
+  - {layer: n+ Si support, role: screened by the continuous TiN gate; omitted from the electrical domain, label: MEASURED_TARGET_DEVICE}
+  - {layer: TiN gate, thickness_nm: 50, role: ideal equipotential boundary (reduced deck) / Conductor volume (full deck), label: MEASURED_TARGET_DEVICE}
+  - {layer: HfO2, thickness_nm: 15.0, eps_r: 19.57, eps_label: MEASURED_TARGET_DEVICE (SI Fig.S1), label: MEASURED_TARGET_DEVICE}
+  - {layer: Al2O3, thickness_nm: 2.0, eps_r: 9.0, eps_label: ASSUMED (not reported), label: MEASURED_TARGET_DEVICE}
+  - {layer: IWO channel, thickness_nm: [2.0, 6.3, 13.2, 31.8], label: MEASURED_TARGET_DEVICE}
+  - {layer: Pd source/drain, thickness_nm: 70, role: ideal contacts on the IWO top surface (reduced) / Palladium volumes (full), label: MEASURED_TARGET_DEVICE}
+  - {layer: top of channel, material: AIR, note: no cap layer is specified by the source; none is added}
+structure: full                 # 'full' = physical volumes: Air above the channel, Pd S/D volumes, Al2O3 + HfO2 regions, Conductor gate volume (TiN); 'reduced' = ideal boundaries (runs 0001-0009, electrically equivalent in DC)
+channel_length_um: 20.0
+physical_width_um: 290.0
+simulated_width_um: 1.0        # MESH WIDTH=1 -> logged currents are numerically A/um; I_total = 290 x I(A/um). Never divide by 290.
+contact_overlap_um: {value: 2.0, label: ASSUMED numerical contact geometry (overlap not reported); sensitivity test listed in LIMITATIONS}
+drain_bias_V: 0.7               # from the schematic (workbook has no units)
+gate_sweep_V: {start: -3.0, stop: 3.0, step: 0.05}
+mesh:
+  x_um: [[0, 0.3], [1.8, 0.05], [2.0, 0.01], [2.2, 0.05], [3.0, 0.2], [12.0, 0.7], [21.0, 0.2], [21.8, 0.05], [22.0, 0.01], [22.2, 0.05], [24.0, 0.3]]
+  interface_layer_nm: 0.25       # regularization layer for the interface sheet DOS (numerically verified: halving changes Id by 0.009 dec)
+  y_spacing_interface_nm: 0.0625
+  y_spacing_bulk_nm: "min(1.0, t/8)"   # 2 nm: 0.25 nm uniform; thick films graded (32-bit ATLAS memory limit ~30k nodes)
+  y_spacing_al2o3_nm: 0.25
+  y_spacing_hfo2_nm: 1.0

@@ -1,0 +1,10 @@
+{
+ "campaign": "C_6p3_nearEc_band",
+ "purpose": "Pre-registered test of specialist S4's hypothesis for the 6.3 nm ON-STATE SHAPE miss (tuned run_0015 / B2: Vth_lin-Vth_cc gap too small by ~0.35 V, gm_max -23 %): an extra ~2e12 cm^-2 of acceptor-like states within ~1 kT of Ec plus a higher band mobility. Deck: tuned 6.3 nm configuration at DOS 384/192 (baseline B2_dos384_6p3) with the bulk acceptor Gaussian replaced by NGA = 2e12/(6.3e-7 x 0.02 x sqrt(pi)) = 9.0e19 cm^-3 eV^-1, EGA = 0.03 eV below Ec, WGA = 0.02 eV, and mu_band 15.4 (S4 surrogate). Qf is NOT refitted in ATLAS: a Qf change is an exact rigid shift (runs 0001->0003, 0005->0007), so the shape metrics (gap, gm_max, SS_cc) are read directly and Vth_cc is corrected analytically. S4 PREDICTION recorded before the run (0-D surrogate, relative to run_0015): gap +0.28 V, gm_max +24 %, SS_cc +23 mV/dec. S1's competing expectation for gap-state bands (1-D): the gap does not open without SS_cc rising well above the measured 295 mV/dec. Approximation: in the 0.25 nm interface layer the band is moment-matched with the interface sheet (generator), and the assumed deep Gaussian (5e16 at Ec-0.6 eV, insensitive) is replaced. 2026-09-25.",
+ "runs": [
+  {"id": "C1_nearEc_band_6p3", "thickness": 6.3, "label": "hyp_S4_nearEc_band_2e12_mu15p4",
+   "purpose": "S4 near-Ec acceptor band (2e12 cm^-2 at Ec-0.03 eV, W 0.02 eV) + mu_band 15.4 on the tuned 6.3 nm configuration, DOS 384/192.",
+   "overrides": ["traps.fixed_interface_charge_Qf_cm2.value=8.7e10", "thickness_laws.mu0_cm2Vs.mu_band_fitted[6.3]=15.4", "solver.dos_levels.numa=384", "solver.dos_levels.numd=192",
+                 "traps.bulk_deep_acceptor_gaussian.NGA_cm3_eV=9.0e19", "traps.bulk_deep_acceptor_gaussian.EGA_from_Ec_eV=0.03", "traps.bulk_deep_acceptor_gaussian.WGA_eV=0.02"]}
+ ]
+}

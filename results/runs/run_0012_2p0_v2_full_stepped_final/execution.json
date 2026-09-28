@@ -1,0 +1,119 @@
+{
+  "run_id": "run_0012",
+  "thickness_nm": 2.0,
+  "label": "v2_full_stepped_final",
+  "elapsed_s": 125.26801299996441,
+  "returncode": 0,
+  "timed_out": false,
+  "scan": {
+    "warnings": [
+      "Warning: Projection cannot be done with"
+    ],
+    "convergence_flags": [],
+    "errors": [],
+    "banner": true,
+    "finished": true,
+    "static_solutions": 114,
+    "banner_present": true
+  },
+  "requested_points": 76,
+  "overrides": [
+    "traps.fixed_interface_charge_Qf_cm2.value=1.73e12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=18.13"
+  ],
+  "validation": {
+    "kcl_abs_limit_applied_A": 4.60552e-16,
+    "kcl_floor_basis": "max(1e-17 A, 0.1 x median measured Id over Vg in [-2,-0.5] V)",
+    "measured_floor_A_per_um": 4.60552e-15,
+    "max_kcl_abs_A": 9.999999999310304e-17,
+    "kcl_fail_count": 0,
+    "kcl_fail_vg": [],
+    "wrong_sign_count": 0,
+    "nonpositive_count": 12
+  },
+  "status": "REAL_ATLAS_SCORED",
+  "rescore": {
+    "reason": "KCL floor = 0.1 x measured off-band median (was 0.1 x single-point minimum)",
+    "timestamp_utc": "2026-09-20T23:15:02Z",
+    "previous_status": "KCL_FAILED"
+  },
+  "fit_metrics": {
+    "regions": {
+      "all": {
+        "count": 121,
+        "rmse_log10": 11.609272738416001,
+        "max_abs_log10": 25.74147778833044,
+        "mean_log10": -6.274615864482988,
+        "rmse_linear_A_per_um": 3.403232028987914e-09,
+        "median_abs_relative": 0.983572608060355
+      },
+      "active": {
+        "count": 57,
+        "rmse_log10": 0.037321313663768174,
+        "max_abs_log10": 0.07919863262853966,
+        "mean_log10": -0.009305567155742205,
+        "rmse_linear_A_per_um": 4.958460035092219e-09,
+        "median_abs_relative": 0.03957564050337936
+      },
+      "subthreshold": {
+        "count": 14,
+        "rmse_log10": 0.05005646332374072,
+        "max_abs_log10": 0.07919863262853966,
+        "mean_log10": -0.01193691002338339,
+        "rmse_linear_A_per_um": 2.4933365853325996e-10,
+        "median_abs_relative": 0.11049072236588742
+      },
+      "on": {
+        "count": 43,
+        "rmse_log10": 0.032102703127459026,
+        "max_abs_log10": 0.0787713574232427,
+        "mean_log10": -0.008448850873254378,
+        "rmse_linear_A_per_um": 5.707095207847405e-09,
+        "median_abs_relative": 0.03494773769840309
+      },
+      "low_current": {
+        "count": 64,
+        "rmse_log10": 15.962711158118115,
+        "max_abs_log10": 25.74147778833044,
+        "mean_log10": -11.854657848040066,
+        "rmse_linear_A_per_um": 4.048639819772478e-15,
+        "median_abs_relative": 0.9999648471040099
+      }
+    },
+    "on_error_3V_percent": 0.012378037039795231,
+    "nonpositive_pred_count": 24,
+    "off_band_median_A_per_um": 4.60552e-15,
+    "max_abs_log10_active": 0.07919863262853966,
+    "log_treatment": "log10(max(pred,1e-40)) - log10(meas)"
+  },
+  "device_metrics_sim": {
+    "Vth_cc_1e-9_V": 0.6763394315837288,
+    "Vth_lin_V": 1.558563176077476,
+    "SS_mV_dec": 73.20974962104236,
+    "SS_min_window_mV_dec": 73.20974962104236,
+    "SS_cc_1e-10_1e-8_mV_dec": 289.14931711107704,
+    "gm_max_A_V_um": 3.531399999999999e-07,
+    "mu_FE_cm2Vs": 11.266664018232323,
+    "Ion_A_per_um": 5.09029e-07,
+    "Ioff_A_per_um": 5.43327e-21,
+    "Ioff_definition": "min Id over sweep (min POSITIVE; native zeros counted)",
+    "native_zero_count": 24,
+    "Ion_over_Ioff": 93687411080251.84,
+    "off_band_median_A_per_um": null
+  },
+  "device_metrics_exp": {
+    "Vth_cc_1e-9_V": 0.6618205007741922,
+    "Vth_lin_V": 1.6630785395324494,
+    "SS_mV_dec": 84.45385574424456,
+    "SS_min_window_mV_dec": 84.45385574424456,
+    "SS_cc_1e-10_1e-8_mV_dec": 269.89862041948567,
+    "gm_max_A_V_um": 3.8070000000000266e-07,
+    "mu_FE_cm2Vs": 12.145944927623823,
+    "Ion_A_per_um": 5.08966e-07,
+    "Ioff_A_per_um": 1.07931e-16,
+    "Ioff_definition": "min Id over sweep",
+    "native_zero_count": 0,
+    "Ion_over_Ioff": 4715660931.521065,
+    "off_band_median_A_per_um": 4.60552e-15
+  }
+}

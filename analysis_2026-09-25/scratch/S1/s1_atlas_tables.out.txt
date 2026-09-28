@@ -1,0 +1,71 @@
+run      t    Qf        dEc    mu0   | Vth_cc  Vth_lin  gap   SSmin  SScc   gm_max    Ion      | active RMSE
+run_0012   2.0  1.73e+12  0.353  13.30 |  0.676   1.559 0.882   73.2  289.1 3.531e-07 5.090e-07 | 0.037  v2_full_stepped_final
+run_0016   2.0  1.73e+12  0.000  13.30 |  0.361   1.260 0.899   83.9  303.7 3.551e-07 6.179e-07 | 0.846  sens_no_confinement
+run_0014   6.3  1.73e+12  0.072  11.30 |  0.350   1.212 0.862  108.2  284.9 2.860e-07 5.114e-07 | 0.678  v2_full_stepped_validation_shared_params
+run_0015   6.3   8.7e+10  0.072  10.65 |  0.651   1.471 0.820  110.8  288.8 2.639e-07 4.034e-07 | 0.063  v2_full_stepped_tuned_qf8p7e10_mu11p69
+run_0030   6.3  1.73e+12  0.072  11.30 |  0.627   1.352 0.724   97.7  231.3 2.799e-07 4.614e-07 | 0.237  hyp_H3_backQ_m1p64e12
+run_0031   5.3  1.73e+12  0.092  11.09 |  0.386   1.265 0.879  117.3  290.5 2.810e-07 4.874e-07 | 0.613  hyp_H1_tphys_5p3
+run_0032   6.3  1.73e+12  0.072  11.30 |  0.380   1.227 0.847  114.7  280.7 2.831e-07 5.020e-07 | 0.634  hyp_H2_Nd0_1e16
+run_0033   6.3  1.73e+12  0.072  11.30 |  0.401   1.258 0.857  116.5  286.3 2.850e-07 4.966e-07 | 0.595  hyp_H4_front_Dit_x5
+run_0034   6.3  4.76e+10  0.000  11.30 |  0.587   1.426 0.839  117.7  287.7 2.798e-07 4.405e-07 | 0.211  hyp_H6_noQC_Qf_from_2nm
+run_0035   5.8  1.73e+12  0.081  11.20 |  0.565   1.336 0.771   97.3  249.5 2.760e-07 4.594e-07 | 0.246  hyp_H5_combo_t5p8_Nd1e16_backQ_m1e12
+run_0013  13.2  1.73e+12  0.026  59.24 |  0.053   0.999 0.946  151.3  192.5 1.534e-06 3.070e-06 | 0.081  v2_full_stepped_final
+run_0017  13.2  1.73e+12  0.000  59.24 |  0.030   0.979 0.949  138.6  193.3 1.533e-06 3.099e-06 | 0.114  sens_no_confinement
+run_0020   2.0  1.73e+12  0.353  13.30 |  0.776   1.649 0.873   73.2  289.1 3.506e-07 4.737e-07 | 0.463  sens_chi_m0p1
+run_0021   2.0  1.73e+12  0.353  13.30 |  0.576   1.467 0.891   73.2  289.1 3.553e-07 5.446e-07 | 0.361  sens_chi_p0p1
+run_0022   2.0  1.73e+12  0.353  13.30 |  0.667   1.550 0.883   74.8  289.8 3.535e-07 5.125e-07 | 0.054  sens_nd_x2
+run_0023   2.0  1.73e+12  0.353  13.30 |  0.758   1.841 1.083   76.4  357.8 3.292e-07 3.815e-07 | 0.263  sens_nt_x1p5
+run_0024   2.0  1.73e+12  0.353  13.30 |  0.696   1.557 0.861   85.6  290.0 3.543e-07 5.112e-07 | 0.063  sens_wta_p5meV
+run_0025   2.0  1.73e+12  0.353  13.30 |  0.701   1.582 0.881   82.6  289.7 3.525e-07 4.999e-07 | 0.098  sens_dit_x3
+
+Measured (from execution.json exp blocks):
+t=2.0: Vth_cc 0.662 Vth_lin 1.663 gap 1.001 SSmin 84.5 SScc 269.9 gm 3.807e-07 Ion 5.090e-07
+t=6.3: Vth_cc 0.644 Vth_lin 1.820 gap 1.176 SSmin 114.7 SScc 295.4 gm 3.431e-07 Ion 4.034e-07
+t=13.2: Vth_cc 0.083 Vth_lin 1.044 gap 0.962 SSmin 130.8 SScc 160.0 gm 1.572e-06 Ion 3.071e-06
+
+Campaign A (6.3 nm) deltas vs run_0014 | vs measured
+run_0015: dVcc +0.301 dSSmin +2.6 dSScc +3.9 dVlin +0.259 dgm -7.7% dIon -21.1% || vs meas: Vcc +0.007 SSmin -3.9 SScc -6.5 Vlin -0.349 gm -23.1% Ion -0.0%
+run_0030: dVcc +0.278 dSSmin -10.5 dSScc -53.6 dVlin +0.140 dgm -2.1% dIon -9.8% || vs meas: Vcc -0.017 SSmin -16.9 SScc -64.1 Vlin -0.468 gm -18.4% Ion +14.4%
+run_0031: dVcc +0.036 dSSmin +9.1 dSScc +5.5 dVlin +0.053 dgm -1.8% dIon -4.7% || vs meas: Vcc -0.258 SSmin +2.7 SScc -4.9 Vlin -0.555 gm -18.1% Ion +20.8%
+run_0032: dVcc +0.030 dSSmin +6.5 dSScc -4.2 dVlin +0.015 dgm -1.0% dIon -1.8% || vs meas: Vcc -0.264 SSmin +0.1 SScc -14.7 Vlin -0.593 gm -17.5% Ion +24.4%
+run_0033: dVcc +0.051 dSSmin +8.3 dSScc +1.3 dVlin +0.046 dgm -0.3% dIon -2.9% || vs meas: Vcc -0.243 SSmin +1.8 SScc -9.1 Vlin -0.562 gm -16.9% Ion +23.1%
+run_0034: dVcc +0.237 dSSmin +9.4 dSScc +2.8 dVlin +0.214 dgm -2.2% dIon -13.9% || vs meas: Vcc -0.057 SSmin +3.0 SScc -7.7 Vlin -0.394 gm -18.4% Ion +9.2%
+run_0035: dVcc +0.215 dSSmin -11.0 dSScc -35.5 dVlin +0.124 dgm -3.5% dIon -10.2% || vs meas: Vcc -0.079 SSmin -17.4 SScc -45.9 Vlin -0.484 gm -19.6% Ion +13.9%
+
+Horizontal offset Vg_meas(I) - Vg_sim(I) [V] at I (A/um) = [1e-10, 1e-09, 1e-08, 3e-08, 1e-07, 2e-07, 3e-07]
+run_0012 (2.0 nm): +0.004 -0.015 -0.035 -0.026 +0.005 +0.027 +0.030
+run_0014 (6.3 nm): +0.296 +0.294 +0.316 +0.358 +0.455 +0.484 +0.449
+run_0015 (6.3 nm): -0.003 -0.007 +0.011 +0.047 +0.132 +0.141 +0.087
+run_0030 (6.3 nm): -0.027 +0.017 +0.102 +0.167 +0.285 +0.316 +0.278
+run_0031 (5.3 nm): +0.263 +0.258 +0.273 +0.307 +0.395 +0.415 +0.373
+run_0032 (6.3 nm): +0.263 +0.264 +0.292 +0.335 +0.433 +0.459 +0.421
+run_0033 (6.3 nm): +0.247 +0.243 +0.265 +0.306 +0.403 +0.432 +0.397
+run_0034 (6.3 nm): +0.062 +0.057 +0.077 +0.117 +0.213 +0.239 +0.201
+run_0035 (5.8 nm): +0.051 +0.079 +0.143 +0.198 +0.302 +0.324 +0.280
+run_0013 (13.2 nm): +0.051 +0.030 -0.014 -0.028 -0.028 -0.025 -0.019
+run_0016 (2.0 nm): +0.334 +0.301 +0.267 +0.274 +0.310 +0.337 +0.341
+run_0017 (13.2 nm): +0.076 +0.053 +0.009 -0.005 -0.005 -0.003 +0.003
+
+CC-definition effect from MEASURED curves: Vth shift if the film had the 2 nm mobility
+t=6.3: mu_FE ratio 0.901 -> Vth_cc(if mu were the 2 nm value) - Vth_cc = -0.012 V  (log10 ratio -0.045)
+t=6.3: mu0_band_eff ratio 0.801 -> Vth_cc(if mu were the 2 nm value) - Vth_cc = -0.026 V  (log10 ratio -0.097)
+t=13.2: mu_FE ratio 4.129 -> Vth_cc(if mu were the 2 nm value) - Vth_cc = +0.108 V  (log10 ratio +0.616)
+t=13.2: mu0_band_eff ratio 4.454 -> Vth_cc(if mu were the 2 nm value) - Vth_cc = +0.115 V  (log10 ratio +0.649)
+
+ATLAS depth profiles at x=12 um (IWO only): Ec-EFn at back/front, band bending, sheet n
+run_0012 vth (Vg=0.7): Ec-Efn back -0.009 eV, front +0.050 eV, Ec(back)-Ec(front) +0.022 eV, n_s 5.030e+10 cm^-2, centroid from back 1.19 nm of 2.0
+run_0012 on (Vg=3.0): Ec-Efn back -0.397 eV, front -0.265 eV, Ec(back)-Ec(front) +0.176 eV, n_s 6.806e+12 cm^-2, centroid from back 1.32 nm of 2.0
+run_0014 vth (Vg=0.65): Ec-Efn back -0.036 eV, front -0.004 eV, Ec(back)-Ec(front) +0.087 eV, n_s 2.522e+11 cm^-2, centroid from back 4.86 nm of 6.3
+run_0014 on (Vg=3.0): Ec-Efn back -0.281 eV, front -0.326 eV, Ec(back)-Ec(front) +0.361 eV, n_s 8.210e+12 cm^-2, centroid from back 5.34 nm of 6.3
+run_0015 vth (Vg=0.65): Ec-Efn back +0.026 eV, front +0.059 eV, Ec(back)-Ec(front) +0.045 eV, n_s 5.423e+10 cm^-2, centroid from back 4.22 nm of 6.3
+run_0015 on (Vg=3.0): Ec-Efn back -0.272 eV, front -0.291 eV, Ec(back)-Ec(front) +0.329 eV, n_s 6.911e+12 cm^-2, centroid from back 5.34 nm of 6.3
+run_0030 vth (Vg=0.65): Ec-Efn back +0.166 eV, front +0.015 eV, Ec(back)-Ec(front) +0.215 eV, n_s 8.325e+10 cm^-2, centroid from back 5.57 nm of 6.3
+run_0030 on (Vg=3.0): Ec-Efn back -0.189 eV, front -0.323 eV, Ec(back)-Ec(front) +0.446 eV, n_s 7.450e+12 cm^-2, centroid from back 5.49 nm of 6.3
+run_0034 vth (Vg=0.65): Ec-Efn back +0.010 eV, front +0.043 eV, Ec(back)-Ec(front) +0.055 eV, n_s 7.564e+10 cm^-2, centroid from back 4.39 nm of 6.3
+run_0034 on (Vg=3.0): Ec-Efn back -0.276 eV, front -0.305 eV, Ec(back)-Ec(front) +0.341 eV, n_s 7.105e+12 cm^-2, centroid from back 5.32 nm of 6.3
+run_0035 vth (Vg=0.65): Ec-Efn back +0.082 eV, front +0.010 eV, Ec(back)-Ec(front) +0.150 eV, n_s 1.144e+11 cm^-2, centroid from back 4.91 nm of 5.8
+run_0035 on (Vg=3.0): Ec-Efn back -0.237 eV, front -0.320 eV, Ec(back)-Ec(front) +0.397 eV, n_s 7.507e+12 cm^-2, centroid from back 4.96 nm of 5.8
+run_0013 vth (Vg=0.1): Ec-Efn back +0.074 eV, front +0.116 eV, Ec(back)-Ec(front) +0.016 eV, n_s 2.248e+10 cm^-2, centroid from back 7.51 nm of 13.2
+run_0013 on (Vg=3.0): Ec-Efn back -0.232 eV, front -0.348 eV, Ec(back)-Ec(front) +0.435 eV, n_s 9.417e+12 cm^-2, centroid from back 12.09 nm of 13.2
+run_0017 vth (Vg=0.1): Ec-Efn back +0.067 eV, front +0.107 eV, Ec(back)-Ec(front) +0.023 eV, n_s 2.719e+10 cm^-2, centroid from back 7.78 nm of 13.2
+run_0017 on (Vg=3.0): Ec-Efn back -0.233 eV, front -0.354 eV, Ec(back)-Ec(front) +0.441 eV, n_s 9.502e+12 cm^-2, centroid from back 12.08 nm of 13.2

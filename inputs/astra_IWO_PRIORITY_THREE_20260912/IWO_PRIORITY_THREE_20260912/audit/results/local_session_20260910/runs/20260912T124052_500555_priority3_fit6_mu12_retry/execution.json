@@ -1,0 +1,218 @@
+{
+  "run_id": "20260912T124052_500555_priority3_fit6_mu12_retry",
+  "event": "finish",
+  "timestamp": "2026-09-12T12:40:58.503593+00:00",
+  "command": [
+    "C:/sedatools/exe/deckbuild.exe",
+    "-run",
+    "device.in",
+    "-outfile",
+    "deckbuild.out"
+  ],
+  "cwd": "C:\\Users\\moham\\Downloads\\IWO_Local_Codex_Handoff (1)\\IWO_ATLAS_Model\\results\\local_session_20260910\\runs\\20260912T124052_500555_priority3_fit6_mu12_retry",
+  "deck_sha256": "af274661c5dc74d3ec57000997ab821e466fdca2872b6912e423679336b2c3a1",
+  "config_sha256": "7411cf29426cd8048dd88586359c8f6b7f22ae995cf521ca7a2ec13d71cf73d4",
+  "declared_simulator": "atlas",
+  "version_evidence": "See fresh raw simulator banner; no version inferred from path",
+  "input_artifacts": {},
+  "parameters": {
+    "diagnostic": "priority3_fit6_mu12_retry",
+    "curves": {
+      "2p0": {
+        "thickness_nm": 2.0,
+        "data": "data/iwo_2p0nm.csv",
+        "nd_cm3": 2e+17,
+        "mu_band_cm2Vs": 13.3,
+        "gate_shift_V": 0.065,
+        "nta_cm3_eV": 5.5e+20,
+        "wta_eV": 0.04,
+        "nga_cm3_eV": 0,
+        "ega_eV_below_Ec": 0.3,
+        "wga_eV": 0.15,
+        "ngd_cm3_eV": 0,
+        "egd_eV_below_Ec": 0.2,
+        "wgd_eV": 0.1,
+        "interface_peak_cm2_eV": 200000000000.0,
+        "interface_center_eV_below_Ec": 0.3,
+        "interface_width_eV": 0.12
+      },
+      "6p3": {
+        "thickness_nm": 6.3,
+        "data": "data/iwo_6p3nm.csv",
+        "nd_cm3": 1e+17,
+        "mu_band_cm2Vs": 12.0,
+        "gate_shift_V": 0.065,
+        "nta_cm3_eV": 3.7142857142857145e+20,
+        "wta_eV": 0.04,
+        "nga_cm3_eV": 0,
+        "ega_eV_below_Ec": 0.3,
+        "wga_eV": 0.15,
+        "ngd_cm3_eV": 0,
+        "egd_eV_below_Ec": 0.2,
+        "wgd_eV": 0.1,
+        "interface_peak_cm2_eV": 0,
+        "interface_center_eV_below_Ec": 0.3,
+        "interface_width_eV": 0.12
+      },
+      "13p2": {
+        "thickness_nm": 13.2,
+        "data": "data/iwo_13p2nm.csv",
+        "nd_cm3": 1e+18,
+        "mu_band_cm2Vs": 55,
+        "gate_shift_V": 0.065,
+        "nta_cm3_eV": 4.761904761904762e+19,
+        "wta_eV": 0.035,
+        "nga_cm3_eV": 0,
+        "ega_eV_below_Ec": 0.3,
+        "wga_eV": 0.15,
+        "ngd_cm3_eV": 0,
+        "egd_eV_below_Ec": 0.2,
+        "wgd_eV": 0.1,
+        "interface_peak_cm2_eV": 0,
+        "interface_center_eV_below_Ec": 0.3,
+        "interface_width_eV": 0.12
+      },
+      "31p8": {
+        "thickness_nm": 31.8,
+        "data": "data/iwo_31p8nm.csv",
+        "nd_cm3": 4e+18,
+        "mu_band_cm2Vs": 55,
+        "gate_shift_V": 0.065,
+        "nta_cm3_eV": 2.7672955974842765e+19,
+        "wta_eV": 0.05,
+        "nga_cm3_eV": 0,
+        "ega_eV_below_Ec": 0.3,
+        "wga_eV": 0.15,
+        "ngd_cm3_eV": 0,
+        "egd_eV_below_Ec": 0.2,
+        "wgd_eV": 0.1,
+        "interface_peak_cm2_eV": 0,
+        "interface_center_eV_below_Ec": 0.3,
+        "interface_width_eV": 0.12
+      }
+    }
+  },
+  "timeout_seconds": 900.0,
+  "declared_simulators": [
+    "atlas"
+  ],
+  "reserved_simulator_launches": 1,
+  "deadline_monotonic": 82173.734,
+  "process_lifecycle": {
+    "launcher_returncode": 1,
+    "launcher_exit_observed_elapsed_seconds": null,
+    "observed_owned_processes": [
+      {
+        "pid": 33880,
+        "parent_pid": null,
+        "created_filetime": 134336904525363105,
+        "first_observed_elapsed_seconds": 0.0,
+        "still_running": true,
+        "exit_code": null
+      },
+      {
+        "pid": 23456,
+        "parent_pid": 33880,
+        "created_filetime": 134336904525581262,
+        "first_observed_elapsed_seconds": 0.031000000002677552,
+        "still_running": true,
+        "exit_code": null
+      },
+      {
+        "pid": 49284,
+        "parent_pid": 33880,
+        "created_filetime": 134336904526087961,
+        "first_observed_elapsed_seconds": 0.15600000000267755,
+        "still_running": false,
+        "exit_code": 0
+      },
+      {
+        "pid": 32784,
+        "parent_pid": 49284,
+        "created_filetime": 134336904526312033,
+        "first_observed_elapsed_seconds": 0.17100000000209548,
+        "still_running": false,
+        "exit_code": 0
+      },
+      {
+        "pid": 54108,
+        "parent_pid": 49284,
+        "created_filetime": 134336904526778494,
+        "first_observed_elapsed_seconds": 0.1870000000053551,
+        "still_running": false,
+        "exit_code": 0
+      },
+      {
+        "pid": 13240,
+        "parent_pid": 33880,
+        "created_filetime": 134336904527744995,
+        "first_observed_elapsed_seconds": 0.2960000000020955,
+        "still_running": true,
+        "exit_code": null
+      },
+      {
+        "pid": 24800,
+        "parent_pid": 13240,
+        "created_filetime": 134336904582278270,
+        "first_observed_elapsed_seconds": 5.73399999999674,
+        "still_running": true,
+        "exit_code": null
+      },
+      {
+        "pid": 49580,
+        "parent_pid": 24800,
+        "created_filetime": 134336904582719488,
+        "first_observed_elapsed_seconds": 5.875,
+        "still_running": true,
+        "exit_code": null
+      },
+      {
+        "pid": 30668,
+        "parent_pid": 24800,
+        "created_filetime": 134336904583807935,
+        "first_observed_elapsed_seconds": 5.889999999999418,
+        "still_running": false,
+        "exit_code": 0
+      },
+      {
+        "pid": 25032,
+        "parent_pid": 24800,
+        "created_filetime": 134336904583876089,
+        "first_observed_elapsed_seconds": 5.9060000000026776,
+        "still_running": true,
+        "exit_code": null
+      },
+      {
+        "pid": 29048,
+        "parent_pid": 30668,
+        "created_filetime": 134336904584386119,
+        "first_observed_elapsed_seconds": 5.937000000005355,
+        "still_running": true,
+        "exit_code": null
+      }
+    ],
+    "observed_owned_all_exited": false,
+    "tracking_scope": "Observed lineage pinned by process handles and native creation/exit times; short-lived unobserved descendants cannot be certified.",
+    "short_lived_processes_missed": 1,
+    "output_quiet_seconds_required": 0.75,
+    "output_quiet_seconds_observed": 0.0,
+    "output_drain_passed": false,
+    "cleanup_reserve_seconds": 2.0,
+    "original_deadline_monotonic": 82173.734,
+    "lifecycle_error": "Observed child disappeared before its lineage could be pinned; cleanup: [WinError 5] Access is denied.",
+    "native_completion_required_separately": true
+  },
+  "actual_started_simulator_stages": [
+    "atlas"
+  ],
+  "elapsed_seconds": 5.9689999999973224,
+  "returncode": null,
+  "status": "OWNED_PROCESS_CLEANUP_UNRESOLVED",
+  "outputs": {
+    "deckbuild.out": "826eb04fd610e23a4cf27d99229ef879ef46c1d97a9404b2530dd263d2b65a47",
+    "device.in": "af274661c5dc74d3ec57000997ab821e466fdca2872b6912e423679336b2c3a1",
+    "input_config.json": "7411cf29426cd8048dd88586359c8f6b7f22ae995cf521ca7a2ec13d71cf73d4",
+    "launcher_stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "launcher_stdout.txt": "ea2ff3527865d7a9ba5028f1c6a22d61ed2c62ffa426aa2967ebea42a3d4a1cf"
+  }
+}

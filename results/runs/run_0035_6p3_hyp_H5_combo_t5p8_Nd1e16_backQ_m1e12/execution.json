@@ -1,0 +1,117 @@
+{
+  "run_id": "run_0035",
+  "thickness_nm": 6.3,
+  "label": "hyp_H5_combo_t5p8_Nd1e16_backQ_m1e12",
+  "elapsed_s": 337.91020610000123,
+  "returncode": 0,
+  "timed_out": false,
+  "scan": {
+    "warnings": [
+      "Warning: Projection cannot be done with"
+    ],
+    "convergence_flags": [],
+    "errors": [],
+    "banner": true,
+    "finished": true,
+    "static_solutions": 114,
+    "banner_present": true
+  },
+  "requested_points": 76,
+  "overrides": [
+    "traps.fixed_interface_charge_Qf_cm2.value=1.73e12",
+    "geometry.film_thickness_override_nm=5.8",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[5.8]=12.4",
+    "thickness_laws.Nd_eff_cm3.Nd0=1e16",
+    "traps.back_surface_fixed_charge_cm2=-1.0e12"
+  ],
+  "validation": {
+    "kcl_abs_limit_applied_A": 1.5275900000000002e-14,
+    "kcl_floor_basis": "max(1e-17 A, 0.1 x median measured Id over Vg in [-2,-0.5] V)",
+    "measured_floor_A_per_um": 1.52759e-13,
+    "max_kcl_abs_A": 1.57004e-19,
+    "kcl_fail_count": 0,
+    "kcl_fail_vg": [],
+    "wrong_sign_count": 0,
+    "nonpositive_count": 13
+  },
+  "fit_metrics": {
+    "regions": {
+      "all": {
+        "count": 121,
+        "rmse_log10": 12.6169444968221,
+        "max_abs_log10": 27.327887940402526,
+        "mean_log10": -7.430838818215565,
+        "rmse_linear_A_per_um": 3.5629169732066845e-08,
+        "median_abs_relative": 0.999999989750485
+      },
+      "active": {
+        "count": 56,
+        "rmse_log10": 0.2463828220357489,
+        "max_abs_log10": 0.4326219629920356,
+        "mean_log10": 0.22838436163989959,
+        "rmse_linear_A_per_um": 5.237262882964946e-08,
+        "median_abs_relative": 0.7665531668077883
+      },
+      "subthreshold": {
+        "count": 12,
+        "rmse_log10": 0.3390500143963307,
+        "max_abs_log10": 0.4326219629920356,
+        "mean_log10": 0.33686554188214535,
+        "rmse_linear_A_per_um": 1.276255130262442e-09,
+        "median_abs_relative": 1.0933525261429597
+      },
+      "on": {
+        "count": 44,
+        "rmse_log10": 0.21426368485705075,
+        "max_abs_log10": 0.3134060820539126,
+        "mean_log10": 0.19879858521019622,
+        "rmse_linear_A_per_um": 5.9080534423878986e-08,
+        "median_abs_relative": 0.6254363154574801
+      },
+      "low_current": {
+        "count": 65,
+        "rmse_log10": 17.212813853469722,
+        "max_abs_log10": 27.327887940402526,
+        "mean_log10": -14.029554173167963,
+        "rmse_linear_A_per_um": 1.658052895997838e-13,
+        "median_abs_relative": 0.9999999975302606
+      }
+    },
+    "on_error_3V_percent": 13.871676151573432,
+    "nonpositive_pred_count": 23,
+    "off_band_median_A_per_um": 1.52759e-13,
+    "max_abs_log10_active": 0.4326219629920356,
+    "log_treatment": "log10(max(pred,1e-40)) - log10(meas)"
+  },
+  "device_metrics_sim": {
+    "Vth_cc_1e-9_V": 0.5646133482544878,
+    "Vth_lin_V": 1.3356410535086762,
+    "SS_mV_dec": 97.27605182165385,
+    "SS_min_window_mV_dec": 97.27605182165385,
+    "SS_cc_1e-10_1e-8_mV_dec": 249.4559560519251,
+    "gm_max_A_V_um": 2.7602999999999996e-07,
+    "mu_FE_cm2Vs": 8.806527917972105,
+    "Ion_A_per_um": 4.59413e-07,
+    "Ioff_A_per_um": 1.0993499999999456e-23,
+    "Ioff_definition": "min Id over sweep (min POSITIVE; native zeros counted)",
+    "native_zero_count": 23,
+    "Ion_over_Ioff": 4.1789511984356456e+16,
+    "off_band_median_A_per_um": null
+  },
+  "device_metrics_exp": {
+    "Vth_cc_1e-9_V": 0.6440037102307175,
+    "Vth_lin_V": 1.8199688146658495,
+    "SS_mV_dec": 114.6732332017215,
+    "SS_min_window_mV_dec": 114.6732332017215,
+    "SS_cc_1e-10_1e-8_mV_dec": 295.3670282761616,
+    "gm_max_A_V_um": 3.431099999999996e-07,
+    "mu_FE_cm2Vs": 10.946664471019112,
+    "Ion_A_per_um": 4.03448e-07,
+    "Ioff_A_per_um": 5.86207e-15,
+    "Ioff_definition": "min Id over sweep",
+    "native_zero_count": 0,
+    "Ion_over_Ioff": 68823470.2076229,
+    "off_band_median_A_per_um": 1.52759e-13
+  },
+  "status": "REAL_ATLAS_SCORED"
+}

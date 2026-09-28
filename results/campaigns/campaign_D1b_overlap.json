@@ -1,0 +1,62 @@
+{
+ "campaign": "D1b_overlap_rerun",
+ "purpose": "2026-09-27, user-approved. D1: corrected contact-overlap sensitivity (overlap 4 um with the x-mesh following the contacts; replaces the malformed run_0027) on the converged 2 nm configuration of run_0038. D2: 2 nm transfer at 358.15 K with an explicit constant-mobility temperature exponent tmun = 0 (T-independent band mobility); it must equal run_0045 x (358.15/300)^1.5 = x1.30441 if the exact-rescaling argument of the prediction register holds.",
+ "plan_file": "config\\campaign_D1b_overlap.json",
+ "placeholders": {},
+ "runs": [
+  {
+   "id": "D1b_overlap4_2p0_t2000",
+   "thickness": 2.0,
+   "label": "check_overlap_4um_meshfixed_dos384",
+   "purpose": "",
+   "mode": "transfer",
+   "overrides": [
+    "traps.fixed_interface_charge_Qf_cm2.value=1.73e12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=17.69",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "geometry.contact_overlap_um.value=4.0"
+   ],
+   "run_dir": "results/runs/run_0055_2p0_check_overlap_4um_meshfixed_dos384",
+   "run_id": "run_0055",
+   "status": "REAL_ATLAS_SCORED",
+   "elapsed_s": 612.1,
+   "active_rmse_dec": 0.04286232013281079,
+   "sub_rmse_dec": 0.05605373038558571,
+   "on_rmse_dec": 0.03758119399398801,
+   "Id3V_err_pct": 0.0017682910056660006,
+   "sim": {
+    "Vth_cc_1e-9_V": 0.6804217075938547,
+    "Vth_lin_V": 1.5365450415480624,
+    "SS_mV_dec": 83.13598955661053,
+    "SS_min_window_mV_dec": 83.13598955661053,
+    "SS_cc_1e-10_1e-8_mV_dec": 290.8781104010697,
+    "gm_max_A_V_um": 3.477900000000004e-07,
+    "mu_FE_cm2Vs": 11.095976323557302,
+    "Ion_A_per_um": 5.08975e-07,
+    "Ioff_A_per_um": 4.67733e-20,
+    "Ioff_definition": "min Id over sweep (min POSITIVE; native zeros counted)",
+    "native_zero_count": 38,
+    "Ion_over_Ioff": 10881742361560.975,
+    "off_band_median_A_per_um": null
+   },
+   "exp": {
+    "Vth_cc_1e-9_V": 0.6618205007741922,
+    "Vth_lin_V": 1.6630785395324494,
+    "SS_mV_dec": 84.45385574424456,
+    "SS_min_window_mV_dec": 84.45385574424456,
+    "SS_cc_1e-10_1e-8_mV_dec": 269.89862041948567,
+    "gm_max_A_V_um": 3.8070000000000266e-07,
+    "mu_FE_cm2Vs": 12.145944927623823,
+    "Ion_A_per_um": 5.08966e-07,
+    "Ioff_A_per_um": 1.07931e-16,
+    "Ioff_definition": "min Id over sweep",
+    "native_zero_count": 0,
+    "Ion_over_Ioff": 4715660931.521065,
+    "off_band_median_A_per_um": 4.60552e-15
+   },
+   "max_kcl_A": 9.999999999956538e-17,
+   "wall_s": 615.1
+  }
+ ]
+}

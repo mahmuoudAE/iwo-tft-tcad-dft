@@ -1,0 +1,10 @@
+{
+ "campaign": "D_checks",
+ "purpose": "2026-09-27, user-approved. D1: corrected contact-overlap sensitivity (overlap 4 um with the x-mesh following the contacts; replaces the malformed run_0027) on the converged 2 nm configuration of run_0038. D2: 2 nm transfer at 358.15 K with an explicit constant-mobility temperature exponent tmun = 0 (T-independent band mobility); it must equal run_0045 x (358.15/300)^1.5 = x1.30441 if the exact-rescaling argument of the prediction register holds.",
+ "runs": [
+  {"id": "D1_overlap4_2p0", "thickness": 2.0, "label": "check_overlap_4um_meshfixed_dos384",
+   "overrides": ["traps.fixed_interface_charge_Qf_cm2.value=1.73e12", "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=17.69", "solver.dos_levels.numa=384", "solver.dos_levels.numd=192", "geometry.contact_overlap_um.value=4.0"]},
+  {"id": "D2_tmun0_T358_2p0", "thickness": 2.0, "label": "check_T358K_tmun0_2p0", "timeout": 1500,
+   "overrides": ["traps.fixed_interface_charge_Qf_cm2.value=1.73e12", "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=17.6897", "solver.dos_levels.numa=384", "solver.dos_levels.numd=192", "solver.models=fermi srh temp=358.15 print", "temperature_K.value=358.15", "solver.tmun=0"]}
+ ]
+}

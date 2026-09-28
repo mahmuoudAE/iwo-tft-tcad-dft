@@ -1,0 +1,47 @@
+Cox/q = 5.590e+12 cm^-2/V ; q/Cox = 0.1789 V per 1e12 cm^-2
+
+1) Debye length L_D = sqrt(eps kT/(q^2 n)) [nm]
+   n = 1.0e+16: L_D =  36.45 nm
+   n = 2.5e+17: L_D =   7.29 nm
+   n = 3.0e+17: L_D =   6.65 nm
+   n = 1.0e+18: L_D =   3.65 nm
+   n = 3.0e+18: L_D =   2.10 nm
+   n = 1.0e+19: L_D =   1.15 nm
+   trap-screening length L_t = sqrt(eps WTA/(q n_t)), WTA = 0.040 V (exponential tail, E_F below the tail states)
+   n_t = 1.0e+18: L_t =  4.53 nm
+   n_t = 2.0e+18: L_t =  3.21 nm
+   n_t = 5.0e+18: L_t =  2.03 nm
+   n_t = 7.0e+18: L_t =  1.71 nm
+
+2) Depletion width W = Q_s/N_d [nm] (full depletion if W >= t)
+   Nd 2.5e+17: Qs 1e+11:     4.0, Qs 5e+11:    20.0, Qs 1e+12:    40.0, Qs 1.6e+12:    65.6, Qs 3e+12:   120.0
+   Nd 1.0e+18: Qs 1e+11:     1.0, Qs 5e+11:     5.0, Qs 1e+12:    10.0, Qs 1.6e+12:    16.4, Qs 3e+12:    30.0
+   Nd 3.0e+18: Qs 1e+11:     0.3, Qs 5e+11:     1.7, Qs 1e+12:     3.3, Qs 1.6e+12:     5.5, Qs 3e+12:    10.0
+   Donor sheet N_d*t (cm^-2) of the V1 law and its Vth weight q Nd t/Cox:
+   t 2.0: Nd 2.50e+17, Nd t = 5.00e+10 cm^-2, qNdt/Cox = 0.009 V, qNd t^2/(2 eps) = 0.001 V
+   t 6.3: Nd 2.52e+17, Nd t = 1.59e+11 cm^-2, qNdt/Cox = 0.028 V, qNd t^2/(2 eps) = 0.010 V
+   t 13.2: Nd 2.97e+17, Nd t = 3.93e+11 cm^-2, qNdt/Cox = 0.070 V, qNd t^2/(2 eps) = 0.050 V
+   t 31.8: Nd 1.85e+18, Nd t = 5.88e+12 cm^-2, qNdt/Cox = 1.051 V, qNd t^2/(2 eps) = 1.818 V
+
+3) Lever arm of a sheet charge [V per 1e12 cm^-2]: front 1/Cox ; back-surface referenced to the back (1/Cox + t/eps_s)
+   t 2.0: front 0.179 ; back 0.218 (x1.22) ; IWO 'EOT' t*3.9/9.3 = 0.84 nm vs stack EOT 3.86 nm
+   t 6.3: front 0.179 ; back 0.301 (x1.69) ; IWO 'EOT' t*3.9/9.3 = 2.64 nm vs stack EOT 3.86 nm
+   t 13.2: front 0.179 ; back 0.436 (x2.44) ; IWO 'EOT' t*3.9/9.3 = 5.54 nm vs stack EOT 3.86 nm
+   t 31.8: front 0.179 ; back 0.798 (x4.46) ; IWO 'EOT' t*3.9/9.3 = 13.34 nm vs stack EOT 3.86 nm
+
+4) Gate depletion capacity between Vth and Vg = -3 V: Cox (Vth+3)/q
+   t 2.0: 2.05e+13 cm^-2  (-> a neutral layer of sheet density above this is not depletable at -3 V)
+   t 6.3: 2.04e+13 cm^-2  (-> a neutral layer of sheet density above this is not depletable at -3 V)
+   t 13.2: 1.72e+13 cm^-2  (-> a neutral layer of sheet density above this is not depletable at -3 V)
+   31.8 nm always on: Id(-3 V) >= 2.6e-7 A/um needs free sheet n = I L/(q mu Vd):
+   mu 50.2: n_s = 9.24e+11 cm^-2
+   mu 82.5: n_s = 5.62e+11 cm^-2
+
+5) Measured Vth_cc steps expressed as sheet charge (q/Cox = 0.179 V per 1e12):
+   2 -> 6.3: dV -0.018 V = -1.01e+11 cm^-2 ; over 6.3 nm -1.60e+17 cm^-3 ; over 13.2 nm -7.62e+16 cm^-3
+   6.3 -> 13.2: dV -0.561 V = -3.14e+12 cm^-2 ; over 6.3 nm -4.98e+18 cm^-3 ; over 13.2 nm -2.38e+18 cm^-3
+   2 -> 13.2: dV -0.579 V = -3.24e+12 cm^-2 ; over 6.3 nm -5.14e+18 cm^-3 ; over 13.2 nm -2.45e+18 cm^-3
+   6.3 validation miss: dV +0.294 V = +1.64e+12 cm^-2 ; over 6.3 nm +2.61e+18 cm^-3 ; over 13.2 nm +1.24e+18 cm^-3
+   6.3 tuned Vth_lin miss: dV +0.349 V = +1.95e+12 cm^-2 ; over 6.3 nm +3.10e+18 cm^-3 ; over 13.2 nm +1.48e+18 cm^-3
+
+6) Confinement difference predicted between 2 and 6.3 nm: V1 law dEc(2)-dEc(6.3) = 0.281 eV; infinite well h^2/(8 m* t^2): 0.322 eV

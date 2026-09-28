@@ -1,0 +1,67 @@
+=== 1. Benchmark of the 1-D semi-analytic model against ATLAS (same V1 parameters; interface Gaussian, deep Gaussian and 2-D contact effects omitted) ===
+2.0 (run_0012): 1D Vcc=0.667 (ATLAS 0.676), Vlin=1.572 (1.559), mu_FE=11.56 (11.27), Ion=5.173e-07 (5.090e-07); partition mu_FE/mun=0.869
+      Vg=1.0: n_free=3.79e+11 cm-2, n_trap=2.65e+12 cm-2, free fraction=0.125
+      Vg=2.0: n_free=3.83e+12 cm-2, n_trap=3.92e+12 cm-2, free fraction=0.495
+      Vg=3.0: n_free=8.65e+12 cm-2, n_trap=3.99e+12 cm-2, free fraction=0.684
+6.3 (run_0015): 1D Vcc=0.639 (ATLAS 0.651), Vlin=1.481 (1.471), mu_FE=8.48 (8.42), Ion=4.039e-07 (4.030e-07); partition mu_FE/mun=0.796
+      Vg=1.0: n_free=5.50e+11 cm-2, n_trap=2.42e+12 cm-2, free fraction=0.185
+      Vg=2.0: n_free=3.95e+12 cm-2, n_trap=3.72e+12 cm-2, free fraction=0.515
+      Vg=3.0: n_free=8.34e+12 cm-2, n_trap=4.19e+12 cm-2, free fraction=0.666
+13.2 (run_0013): 1D Vcc=0.038 (ATLAS 0.053), Vlin=1.004 (0.999), mu_FE=49.44 (48.95), Ion=3.094e-06 (3.070e-06); partition mu_FE/mun=0.835
+      Vg=1.0: n_free=2.06e+12 cm-2, n_trap=2.60e+12 cm-2, free fraction=0.442
+      Vg=2.0: n_free=6.32e+12 cm-2, n_trap=3.13e+12 cm-2, free fraction=0.669
+      Vg=3.0: n_free=1.10e+13 cm-2, n_trap=3.38e+12 cm-2, free fraction=0.764
+2.0 Nt x1.5 (run_0023): 1D Vcc=0.749 (ATLAS 0.758), Vlin=1.882 (1.841), mu_FE=11.00 (10.5), Ion=3.852e-07 (3.815e-07); partition mu_FE/mun=0.827
+      Vg=1.0: n_free=1.75e+11 cm-2, n_trap=2.98e+12 cm-2, free fraction=0.055
+      Vg=2.0: n_free=2.35e+12 cm-2, n_trap=5.57e+12 cm-2, free fraction=0.296
+      Vg=3.0: n_free=6.82e+12 cm-2, n_trap=5.96e+12 cm-2, free fraction=0.534
+
+=== 2. Pre-registered 6.3 nm re-partition candidate (from part-1 Jacobian): Nt x2.05 & x1.43, mu_band 17.2, Qf 9.4e11 ===
+  Nt x1.43: 1D Vcc=0.498 Vlin=1.505 gap=1.007 mu_FE=11.92 Ion=5.586e-07  (meas 0.644 / 1.820 / 1.176 / 10.95 / 4.03e-7)
+  Nt x1.72: 1D Vcc=0.533 Vlin=1.592 gap=1.059 mu_FE=11.46 Ion=5.056e-07  (meas 0.644 / 1.820 / 1.176 / 10.95 / 4.03e-7)
+  Nt x2.05: 1D Vcc=0.570 Vlin=1.677 gap=1.107 mu_FE=10.94 Ion=4.536e-07  (meas 0.644 / 1.820 / 1.176 / 10.95 / 4.03e-7)
+  reference tuned (Nt law, mu 11.69, Qf 8.7e10): Vcc=0.639 Vlin=1.481 gap=0.841 mu_FE=8.48 Ion=4.039e-07
+
+=== 3. Trap-limited (MTR) temperature expectation, T-independent mu_band, Nc ~ T^1.5, tail/WTA fixed ===
+2.0 (run_0012): 300K Vcc=0.667 Vlin=1.572 mu_FE=11.56 Ion=5.173e-07 | 350K Vcc=0.602 Vlin=1.557 mu_FE=11.48 Ion=5.192e-07
+     dVcc=-0.064 V, dVlin=-0.015 V, mu_FE x0.993, Ion x1.004
+     apparent activation of Id at fixed Vg: Vg=0.0:Ea=504meV(Ec-EF_s=435meV), Vg=0.5:Ea=120meV(Ec-EF_s=78meV), Vg=1.0:Ea=56meV(Ec-EF_s=-23meV), Vg=1.5:Ea=23meV(Ec-EF_s=-106meV), Vg=2.0:Ea=7meV(Ec-EF_s=-179meV), Vg=2.5:Ea=2meV(Ec-EF_s=-244meV), Vg=3.0:Ea=1meV(Ec-EF_s=-304meV)
+13.2 (run_0013): 300K Vcc=0.038 Vlin=1.004 mu_FE=49.44 Ion=3.094e-06 | 350K Vcc=-0.028 Vlin=0.980 mu_FE=49.41 Ion=3.129e-06
+     dVcc=-0.066 V, dVlin=-0.024 V, mu_FE x0.999, Ion x1.011
+     apparent activation of Id at fixed Vg: Vg=0.0:Ea=156meV(Ec-EF_s=129meV), Vg=0.5:Ea=61meV(Ec-EF_s=-25meV), Vg=1.0:Ea=20meV(Ec-EF_s=-119meV), Vg=1.5:Ea=8meV(Ec-EF_s=-195meV), Vg=2.0:Ea=4meV(Ec-EF_s=-263meV), Vg=2.5:Ea=3meV(Ec-EF_s=-327meV), Vg=3.0:Ea=2meV(Ec-EF_s=-388meV)
+
+=== 4. Percolation / barrier (Kamiya-type, Gaussian barrier distribution) and phonon factors, 300 -> 350 K ===
+  phi_m=20 meV sigma=0 meV: mu(350)/mu(300) = 1.117; apparent Ea = 20.0 meV
+  phi_m=20 meV sigma=10 meV: mu(350)/mu(300) = 1.095; apparent Ea = 16.4 meV
+  phi_m=20 meV sigma=20 meV: mu(350)/mu(300) = 1.032; apparent Ea = 5.6 meV
+  phi_m=40 meV sigma=0 meV: mu(350)/mu(300) = 1.247; apparent Ea = 40.0 meV
+  phi_m=40 meV sigma=10 meV: mu(350)/mu(300) = 1.223; apparent Ea = 36.4 meV
+  phi_m=40 meV sigma=20 meV: mu(350)/mu(300) = 1.152; apparent Ea = 25.6 meV
+  phi_m=60 meV sigma=0 meV: mu(350)/mu(300) = 1.393; apparent Ea = 60.0 meV
+  phi_m=60 meV sigma=10 meV: mu(350)/mu(300) = 1.366; apparent Ea = 56.4 meV
+  phi_m=60 meV sigma=20 meV: mu(350)/mu(300) = 1.287; apparent Ea = 45.6 meV
+  phonon mu ~ T^-1.0: mu(350)/mu(300) = 0.857; if phonons are a fraction f of 1/mu: factor = 1/(1-f+f*(350/300)**1.0)
+  phonon mu ~ T^-1.5: mu(350)/mu(300) = 0.794; if phonons are a fraction f of 1/mu: factor = 1/(1-f+f*(350/300)**1.5)
+  phonon mu ~ T^-2.0: mu(350)/mu(300) = 0.735; if phonons are a fraction f of 1/mu: factor = 1/(1-f+f*(350/300)**2.0)
+  grain-boundary barrier needed for a x4.6 band-mobility step at 300 K: dPhi = kT ln 4.6 = 39 meV; then mu(350)/mu(300) differs between films by exp(dPhi*k1) = 1.24
+
+=== 5. Coulomb scattering from a charge sheet at distance d from a 2DEG (screened, Ando-Fowler-Stern form; zero-thickness 2DEG = upper bound on scattering) ===
+  n_s=3e+12: front Qf 1.73e12 at d=0: mu_C=283 cm2/Vs;  d=0.5 nm: 562
+     back-surface sheet 1.64e12 at d = t - 0.5 nm (t=2.0), eps_bar=(9.3+1)/2: mu_C=1.44e+03 cm2/Vs
+     back-surface sheet 1.64e12 at d = t - 0.5 nm (t=6.3), eps_bar=(9.3+1)/2: mu_C=4.68e+04 cm2/Vs
+     back-surface sheet 1.64e12 at d = t - 0.5 nm (t=13.2), eps_bar=(9.3+1)/2: mu_C=4.48e+05 cm2/Vs
+  n_s=1e+13: front Qf 1.73e12 at d=0: mu_C=515 cm2/Vs;  d=0.5 nm: 1685
+     back-surface sheet 1.64e12 at d = t - 0.5 nm (t=2.0), eps_bar=(9.3+1)/2: mu_C=7.65e+03 cm2/Vs
+     back-surface sheet 1.64e12 at d = t - 0.5 nm (t=6.3), eps_bar=(9.3+1)/2: mu_C=2.98e+05 cm2/Vs
+     back-surface sheet 1.64e12 at d = t - 0.5 nm (t=13.2), eps_bar=(9.3+1)/2: mu_C=2.75e+06 cm2/Vs
+  Required to make a x4.6 step from 6.3->13.2 with Matthiessen and mu_other = 62: mu_C(6.3) ~ 1/(1/13.5 - 1/62) = 17.3
+
+=== 6. Roughness scattering magnitudes ===
+  (1-Dsr/t)^2, Dsr=0.287 nm: t=2.0: 0.734
+  (1-Dsr/t)^2, Dsr=0.287 nm: t=6.3: 0.911
+  (1-Dsr/t)^2, Dsr=0.287 nm: t=13.2: 0.957
+  ratio 13.2/6.3 = 1.051 ; ratio 13.2/2 = 1.305
+  Thickness-fluctuation (Sakaki/Uchida) mu_SR ~ t^6: if mu_SR(6.3) = 16.7 cm2/Vs (needed for x4.6 with mu_other 62), mu_SR(2) = 0.0171 cm2/Vs (measured ~12-18 at 2 nm) -> 702 x contradiction
+  t=2.0: E1(inf. well)=365.8 meV, dE1 for a 0.287 nm thickness step = 104.97 meV
+  t=6.3: E1(inf. well)=43.5 meV, dE1 for a 0.287 nm thickness step = 3.96 meV
+  t=13.2: E1(inf. well)=10.2 meV, dE1 for a 0.287 nm thickness step = 0.44 meV

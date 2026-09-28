@@ -1,0 +1,379 @@
+% ===================================================================
+% chapters/09_mechanisms.tex -- owner R2a (written by W5)
+% Mechanism analysis of the thickness dependence
+% ASCII only.
+% Sources: analysis_2026-09-25/SYNTHESIS.md (sections A-D, B.6),
+%          S1..S5 verdict tables, figures/MANIFEST.md, digest/runs.csv.
+% ===================================================================
+\chapter{Mechanism analysis of the thickness dependence}\label{ch:mechanisms}
+
+The calibration of \cref{ch:calibration} and the hypothesis tests of \cref{ch:6p3} show that the V1 model can be made to reproduce the three transfer curves and where it fails when parameters are shared. They do not by themselves explain why the measured devices behave as they do. The measured pattern is unusual. In the single devices available, the \SI{2.0}{nm} and \SI{6.3}{nm} transistors are electrically similar ($\Vthcc$ = 0.662 and \SI{0.644}{V}; $\muFE$ = 12.15 and $10.95\cmVs$), whereas the \SI{13.2}{nm} device differs strongly ($\Vthcc = \SI{0.083}{V}$, $\muFE = 50.17\cmVs$). Since $\muFE(6.3) < \muFE(2)$, no monotonic thickness law passes through all three points (SYNTHESIS D1, \evDATA).
+
+This chapter examines, one mechanism class at a time, which physical effects can produce this pattern: electrostatics and the threshold charge budget (\cref{sec:mech-electrostatics}), transport and the mobility step (\cref{sec:mech-transport}), quantum confinement (\cref{sec:mech-confinement}), traps, donors and off-state floors (\cref{sec:mech-traps}) and contacts (\cref{sec:mech-contacts}). For each mechanism the following are given: (i) the expected dependence on the channel thickness $t$, (ii) its expected magnitude, (iii) a prediction that distinguishes it from its competitors, (iv) the comparison with the measured data and the ATLAS runs, (v) the evidence for and against, and (vi) the evidence class in the vocabulary of \cref{ch:nomenclature} (\evDATA, \evNUM, \evCAL, \evOOS, \evPOST, \evPRED, \evSURR, \evTHEORY, \evLIT, \evCORR). \Cref{sec:mech-couplings} then describes the couplings that make the mechanisms difficult to separate, \cref{sec:mech-identifiability} states which parameter combinations one ID--VG curve can and cannot fix, and \cref{sec:mech-verdict-summary} collects the verdicts in \cref{tab:mech-verdicts}.
+
+Three limitations apply to every statement below. First, each thickness is represented by one device ($N = 1$), and device-to-device spread, sweep history and ambient were not recorded. Second, many quantitative statements rest on one-dimensional specialist surrogates (\evSURR) that were checked against ATLAS but not independently re-run in ATLAS. Third, the verdict ``rejected'' is usually model-conditional: it holds within the V1 density of states (DOS) and electrostatics described in \cref{ch:derivations-es,ch:derivations-tr}. The source reports are \file{analysis_2026-09-25/S1_electrostatics_6p3nm.md} (S1), \file{S2_transport_mobility_powerlaw.md} (S2), \file{S3_quantum_confinement.md} (S3), \file{S4_defects_traps.md} (S4), \file{S5_contacts_experimental_validation.md} (S5) and the synthesis \file{analysis_2026-09-25/SYNTHESIS.md}, which resolves their disagreements from primary files and takes precedence where they differ.
+
+% -------------------------------------------------------------------
+\section{Electrostatics and the threshold charge budget}\label{sec:mech-electrostatics}
+
+\subsection{What the threshold measures}
+The constant-current threshold $\Vthcc$ (\cref{sec:der-metrics}) is the gate voltage at which the source-end sheet density reaches the value that gives the reference current. At that bias, Gauss's law splits $\Vthcc$ into a sum of charge and work-function terms (\cref{sec:der-vth-budget}): the metal--semiconductor alignment $\mathrm{WF} - \chi$, the confinement shift $\dEc$, the quasi-Fermi level position $E_{Fn} - \Ec$ that sets $n_s$, the fixed front charge $\Qf$, the donor sheet $q\Nd t/\Cox$, the filled acceptor tail, the filled interface traps, the free electrons and any deep Gaussian states. The S1 analysis implemented this budget in a 1-D Poisson surrogate that reproduces the ATLAS $\Vthcc$ within \SI{3}{mV} in every film (S1 section 1.1; runs \run{0012}, \run{0014}, \run{0015}, \run{0013}). \Cref{tab:mech-budget} reproduces the terms and \cref{fig:vth_budget} shows them as grouped bars.
+
+\begin{table}[tbp]
+\centering
+\caption{Threshold charge budget at $\Vthcc$ (volts; positive terms raise $\Vthcc$). Values from the S1 1-D surrogate (S1 section 1.1), which matches ATLAS within \SI{3}{mV}. Sheet densities of filled tail states and free electrons in parentheses ($\mathrm{cm^{-2}}$). ``Status'' is the provenance of the input that sets the term.}
+\label{tab:mech-budget}
+\footnotesize
+\begin{tabularx}{\linewidth}{@{}Xrrrrl@{}}
+\toprule
+term & 2.0 nm & 6.3 nm & 6.3 nm & 13.2 nm & status \\
+ & \run{0012} & \run{0014} (shared) & \run{0015} (tuned) & \run{0013} & \\
+\midrule
+$\mathrm{WF} - \chi_{\mathrm{bulk}}$ & $+0.400$ & $+0.400$ & $+0.400$ & $+0.400$ & assumed; degenerate with $\Qf$ \\
+confinement $\dEc$ & $+0.353$ & $+0.072$ & $+0.072$ & $+0.026$ & DFT proxy, extrapolated \\
+$E_{Fn}-\Ec$ at the front & $-0.038$ & $-0.039$ & $-0.037$ & $-0.111$ & model \\
+front $\Qf$ & $-0.310$ & $-0.310$ & $-0.016$ & $-0.310$ & fitted \\
+$q\Nd t/\Cox$ & $-0.009$ & $-0.028$ & $-0.028$ & $-0.070$ & fitted law \\
+filled tail & $+0.256$ (1.43e12) & $+0.226$ (1.27e12) & $+0.231$ (1.29e12) & $+0.098$ (5.5e11) & fitted $\Nt$, $\WTA$ \\
+interface traps & $+0.012$ & $+0.012$ & $+0.012$ & $+0.012$ & assumed $\Dit$ \\
+free electrons & $+0.014$ (7.6e10) & $+0.016$ (9.1e10) & $+0.017$ & $+0.005$ (2.6e10) & model \\
+deep Gaussian & $0.000$ & $+0.001$ & $+0.001$ & $+0.003$ & assumed \\
+\midrule
+$\Vthcc$ 1-D / ATLAS / measured & 0.679/0.676/0.662 & 0.351/0.350/0.644 & 0.652/0.651/0.644 & 0.052/0.053/0.083 & \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=\linewidth]{vth_budget}
+\caption{Threshold charge budget per film. Grouped bars give the Gauss-law terms at $\Vthcc$ from the S1 1-D surrogate ($\dEc$, filled tail, $q\Nd t/\Cox$, interface traps, $\Qf$, $E_{Fn}-\Ec$), which agrees with ATLAS within \SI{3}{mV} for runs \run{0012} (2 nm), \run{0014} (6.3 nm, shared parameters) and \run{0013} (13.2 nm); markers give the measured $\Vthcc$. The \SI{0.281}{V} fall of $\dEc$ from 2 to \SI{6.3}{nm} is not compensated by any other term in the shared-parameter model, which is why \run{0014} misses the measured \SI{6.3}{nm} threshold by $-\SI{0.294}{V}$.}
+\label{fig:vth_budget}
+\end{figure}
+
+\subsection{Expected thickness dependence of each term}
+The terms scale differently with $t$, and this difference is the basis of every discriminating experiment proposed in \cref{sec:mech-identifiability}. Front sheet charges ($\Qf$, filled $\Dit$) enter as $Q/\Cox$ and are independent of $t$ ($t^0$). Volume charges (donors, bulk tail states) give a sheet proportional to $t$ plus a lever-arm correction proportional to $t^2/\epsIWO$; with the $\Cox$ of the \HfO/\AlO{} stack the $t^2$ part is small below \SI{13.2}{nm} (S1). A back-surface sheet acts through the lever arm $1 + t\,\Cox/\varepsilon_s$ (\cref{sec:par-backq}). S1 found an effective back-referenced lever of 0.96--1.2 times the front value at threshold, not the 1.7--2.4 needed to make a thin-film-specific back charge behave differently (S1 verdicts, rejected). The confinement shift $\dEc(t)$ falls steeply with $t$; for an infinite well the scaling is $t^{-2}$, while the V1 law uses $0.9205\,t^{-1.3815}$ (\cref{sec:par-dec}). Finally, the CC definition converts mobility into threshold: a film with a larger mobility reaches the reference current at a lower $n_s$ and therefore at a lower $\Vthcc$.
+
+\subsection{Magnitudes and comparison with the data}
+\paragraph{The 2 versus 13.2 nm step.} The measured step is $\Vthcc(2) - \Vthcc(13.2) = \SI{0.579}{V}$. In the calibrated model the confinement term accounts for $0.3156 - 0.0234 = \SI{0.292}{V}$ of it, i.e.\ 50.4\,\% (SYNTHESIS D6, \evNUM). The CC-definition coupling also contributes: giving the \SI{13.2}{nm} curve the \SI{2}{nm} mobility moves $\Vthcc$ by $+0.108$ to $+\SI{0.115}{V}$, 19--20\,\% of the step (SYNTHESIS D6, \evDATA/\evNUM; S1 quotes $+0.11$ to \SI{0.14}{V}, strongly supported). The tail term changes by $0.256 - 0.098 = \SI{0.158}{V}$ between the two films and the donor sheet by $\SI{0.061}{V}$ (\cref{tab:mech-budget}); both are set by fitted laws ($\Nt(t)$ and $\Ndeff(t)$) and are therefore \evCAL.
+
+\paragraph{The 6.3 nm threshold.} With all laws shared, \run{0014} gives $\Vthcc = \SI{0.350}{V}$ against \SI{0.644}{V} measured, a miss of $-\SI{0.294}{V}$ (SYNTHESIS D4). Because the value $\muband = 12.4\cmVs$ used in \run{0014} is the V0 fit of the same curve, this is a failed out-of-sample test of the threshold only (\evOOS, failed). S1 attributes 0.281 of the 0.328\,V model-internal difference between 2 and \SI{6.3}{nm} (86\,\%) to the fall of $\dEc$; SYNTHESIS corrects this share to 77--86\,\%, depending on the decomposition.
+
+\paragraph{Tested electrostatic explanations of the 6.3 nm miss.} Campaign A (\cref{ch:6p3}) tested the physical charge candidates in ATLAS. The quantitative inconsistencies, taken from SYNTHESIS section D, are listed below.
+\begin{itemize}
+\item thickness error, A1 (\run{0031}, $t = \SI{5.3}{nm}$): $+\SI{0.036}{V}$ of the required $+\SI{0.294}{V}$ (12\,\%); closing the miss through $\dEc$ needs $t \approx \SI{2.1}{nm}$, a 67\,\% error (rejected, model-conditional);
+\item fewer donors, A2 (\run{0032}): $+\SI{0.030}{V}$, a factor of ten short (rejected);
+\item back-surface charge, A3 (\run{0030}): matches $\Vthcc$ ($-\SI{0.017}{V}$) but $\SScc$ is off by $-64.1\mVdec$ and the gap closes to \SI{0.724}{V} (rejected as the sole cause, model-conditional);
+\item front $\Dit$ $\times 5$, A4 (\run{0033}): $+\SI{0.051}{V}$ with the gap unchanged; the full miss would need $\times$23--24 ($\approx 7\times10^{12}\,\mathrm{cm^{-2}eV^{-1}}$) at \SI{6.3}{nm} only on a shared gate stack (rejected at plausible $\Dit$);
+\item combination A5 (\run{0035}): 0.215 of 0.294\,V (73\,\%) with $\SScc$ $-45.9\mVdec$ (rejected);
+\item a uniform donor density or neutral layer as the $6.3 \rightarrow 13.2$ step: the steepest possible slope ratio is 2.35 against $\approx$9--20 measured; $\Nd$ fitted to $6.3\rightarrow13.2$ ($2.2\times10^{18}\cmcu$) predicts $-\SI{0.25}{V}$ for $2\rightarrow6.3$ against $-\SI{0.018}{V}$ measured (S1, S4; \evSURR{}+\evDATA, rejected).
+\end{itemize}
+The only change that reproduces the 6.3\,nm threshold is a film-specific front charge: \run{0015} uses $\Qf = 8.7\times10^{10}\cmsq$ instead of the shared $1.73\times10^{12}\cmsq$, a difference of $1.64\times10^{12}\cmsq$ ($\SI{0.294}{V}$). This is a calibration (\evCAL), not an explanation.
+
+\paragraph{Small terms.} Two budget terms are shown to be small: the donor sheet $q\Nd t/\Cox$ = 0.009/0.028/\SI{0.070}{V} (\run{0022}, A2) and the interface-trap charge \SI{0.012}{V}, independent of thickness (\run{0025}, A4) (S1 verdicts, \evNUM).
+
+\subsection{Distinguishing predictions and verdict}
+Front sheets scale as $t^0$, volume charges as $t$ and $t^2$, and a back sheet as $t/\varepsilon_s$. A quasi-static C--V flat-band voltage $V_{FB}(t)$ measured for each thickness therefore separates them, and Kelvin-probe or UPS measurements fix WF and $\chi$ (SYNTHESIS Q4). A confinement shift, in contrast, is a band-edge property and changes the optical gap. None of these measurements is available for the present films.
+
+\begin{keyresult}[title={Electrostatics: verdict}]
+The threshold budget is fully accounted for within the model, but its thickness dependence is carried by fitted or assumed terms. The \SI{6.3}{nm} miss of $-\SI{0.294}{V}$ (\run{0014}) is rigid between $10^{-11}$ and $10^{-9}\Aum$ and equivalent to $1.64\times10^{12}\cmsq$. Every tested physical charge (A1--A5) fails in magnitude or in its SS signature (\evNUM, model-conditional). The origin of the rigid part is not determined, and device spread and sweep history are not excluded.
+\end{keyresult}
+
+% -------------------------------------------------------------------
+\section{Transport and the mobility step}\label{sec:mech-transport}
+
+\subsection{The observation}
+The linear field-effect mobility (\cref{sec:der-mufe}, \cref{fig:mufe_extraction}) is 12.15, 10.95 and $50.17\cmVs$ for 2, 6.3 and \SI{13.2}{nm}. It is flat or slightly falling up to \SI{6.3}{nm} and then rises by a factor of 4.58 to \SI{13.2}{nm} (SYNTHESIS D1, \evDATA). The published mobilities of 5.1 and $27.4\cmVs$ are reproduced as 5.09 and $27.40\cmVs$ when the saturation formula is applied to the same curves at $\Vd = \SI{0.7}{V}$, outside the regime of that formula; the same procedure predicts $3.86\cmVs$ at \SI{6.3}{nm} (SYNTHESIS D12; S2 and S5 verdicts, demonstrated, provenance evidence).
+
+\subsection{Decomposition of the apparent mobility}
+In the V1 model the apparent mobility is the product
+\begin{equation}
+\muFE = \muband \times R(t) \times P, \qquad R(t) = \left(1 - \frac{\Dsr}{t}\right)^{2},
+\label{eq:mech-mu-partition}
+\end{equation}
+where $\muband$ is the fitted band mobility (\cref{sec:par-mu}), $R(t)$ the roughness factor (\cref{sec:par-rough}) and $P$ the free/trapped partition factor at $\gmmax$ (\cref{sec:der-tlc}). S2 evaluated \cref{eq:mech-mu-partition} for the calibrated runs (\run{0012}, \run{0015}, \run{0013}) and decomposed $\ln(50.17/10.95)$, the $6.3\rightarrow13.2$ step, as follows: 109\,\% is carried by the fitted $\muband$, 3\,\% by the roughness factor, 3\,\% by the partition factor and $-16$\,\% is model residual (S2, \evCAL). The $\Nt(t)$ law changes $P$ at $\gmmax$ only between 0.79 and 0.85 across all films (0.791 $\rightarrow$ 0.826 for $6.3\rightarrow13.2$; SYNTHESIS B1). In the recalibrated DOS-384 state the band mobilities are 17.69/11.58/$61.60\cmVs$ (\run{0038}, \run{0039}, \run{0040}; SYNTHESIS D8).
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=\linewidth]{mobility_partition}
+\caption{Partition of the apparent mobility, $\muFE = \muband \times R(t) \times P$ (\cref{eq:mech-mu-partition}), per film. Left: the V1 calibration (runs \run{0012}, \run{0015}, \run{0013}); right: the S2 shape-consistent partition from the 1-D surrogate, $\muband$ = 19.3/19.6/$62.7\cmVs$ with $\Nt$ = 2.4e19/2.7e19/4.8e18 $\mathrm{cm^{-3}}$. In both partitions the roughness factor and the partition factor change by only a few per cent between 6.3 and \SI{13.2}{nm}, so the $\times 4.6$ step lies in $\muband$.}
+\label{fig:mobility_partition}
+\end{figure}
+
+\subsection{Candidate mechanisms}
+\paragraph{Trap-limited partition (Januar-type).} A denser tail in thinner films is expected to lower the free fraction. The partition factor $P$, however, changes by only $+4$\,\% between 6.3 and \SI{13.2}{nm}, and a $\times 4.6$ step would require $\Nt \times 6.7\times10^{3}$ (S2). This mechanism is therefore rejected as the cause of the step (\evSURR/\evCAL).
+
+\paragraph{Surface roughness.} The roughness factor $R(t) = (1-\Dsr/t)^2$ rises monotonically with $t$. Between 6.3 and \SI{13.2}{nm} it changes by a factor of 1.051, whereas a factor of 4.58 is needed (3\,\% of the logarithm). Roughness is therefore rejected as the cause of the step (\evCAL). The thickness-fluctuation form ($\propto t^6$) is rejected independently: $\mu(6.3) = 17\cmVs$ would imply $\mu(2) = 0.017\cmVs$, a factor of $\approx 700$ below the extracted value (S2, \evSURR).
+
+\paragraph{Coulomb scattering.} Front $\Qf$, back-surface and trapped charge give $\mu_C$ between 283 and $515\cmVs$ (front) and $4.7\times10^4\cmVs$ (back, 6.3 nm). All of these are monotonic in $t$ and too weak by orders of magnitude (S2; rejected as the step). Remote phonons are independent of $t$ to first order (S2; rejected as the step).
+
+\paragraph{Contacts, electrostatics and quantum capacitance.} Campaign A changes $\gm$ by at most 2\,\%, and the effective gate capacitance $C_{\mathrm{eff}}/\Cox$ changes by $\le 1$\,\% at \SI{2}{nm} and by 3--5\,\% at 6.3/13.2\,nm (S3, \evSURR). Contacts are treated in \cref{sec:mech-contacts} and cannot create the trend. Taken together, these results make the statement ``the $\times 4.6$ rise is a change in channel transport'' strongly supported within the model (SYNTHESIS B1).
+
+\paragraph{A structural transition between 6.3 and 13.2 nm.} Such a transition is expected to produce a step, not a continuous law, in $\muband$ at the thickness where crystallinity, grain coalescence or a percolation threshold changes. S2 estimates that a grain-boundary barrier difference of \SI{39}{meV} is sufficient. In favour of this reading, $\Vthcc$, $\muFE$, $\SScc$ and the off-floor change together between 6.3 and \SI{13.2}{nm} (\evCORR), and the target paper states that its ultrathin films lack long-range crystallinity (\cref{sec:lit-januar}). Against it, there are no structural data at 6.3 or \SI{13.2}{nm}, the Kim et al.\ study of IWO films from a different process (\cref{sec:lit-kim2024}) shows no step at 10--30\,nm, and $N = 1$. The distinguishing measurements are the GIXRD/TEM grain size, the gated Hall mobility at 6.3 and \SI{13.2}{nm}, and the temperature dependence of $\muFE(13.2)/\muFE(2)$, which is registered in \cref{sec:pred-temperature}. The verdict is plausible, unverified; this is the working hypothesis (SYNTHESIS C1). The value ``$\muFE$ = 49.2'' at 31.8\,nm that is sometimes quoted as support is not a mobility ($\gm$ has maxima at $-0.30$, 0.85, 1.15 and \SI{1.70}{V}) and is not used as evidence.
+
+\paragraph{Power laws in thickness.} Leave-one-out fits through 2 and \SI{13.2}{nm} predict $\muFE(6.3)$ = 28.8 (power law), 42.7 ($A + B/t$) and 20.9 (exponential) against $10.95\cmVs$ measured. The $\Ion$ power law with exponent 2.75 predicts $3.43\times10^{-5}\Aum$ at \SI{31.8}{nm} against $3.59\times10^{-6}\Aum$ measured (\cref{fig:powerlaw_loo}; S2, \evDATA). Power laws are therefore rejected. The ``step'' form fits three points by construction, so its leave-one-out success is circular (SYNTHESIS Q3).
+
+\paragraph{Artefact status of the non-monotonic $\muband$.} The calibrated relation $\muband(6.3) < \muband(2)$ is, with strong support, an artefact of the $\Nt(t)$ partition (S2). The \SI{6.3}{nm} on-state is not reproduced (gap $-\SI{0.36}{V}$, $\gm$ $-23$\,\%), and the S2 shape-consistent partition (19.3/19.6/62.7, \cref{fig:mobility_partition}) is flat up to \SI{6.3}{nm}. Its ATLAS implementation, run B0 (\run{0037}), met the on-state but failed the subthreshold ($\SScc$ 410.9 vs $295.4\mVdec$), so that partition is rejected in its tested form (SYNTHESIS D, \evOOS, failed).
+
+\begin{keyresult}[title={Transport: verdict}]
+Within the calibrated model, the $\times 4.6$ rise of the apparent mobility between 6.3 and \SI{13.2}{nm} cannot be attributed to contacts, roughness, electrostatics or tail filling, since 109\,\% of $\ln(\times 4.58)$ is in the fitted $\muband$ (strongly supported, model-conditional). Its physical origin is not determined; a structural transition is the plausible, unverified working hypothesis.
+\end{keyresult}
+
+% -------------------------------------------------------------------
+\section{Quantum confinement}\label{sec:mech-confinement}
+
+\subsection{Expected dependence and magnitude}
+Geometric confinement of the electrons in a film of thickness $t$ raises the lowest subband above the bulk conduction-band edge. For an infinite well the shift scales with $t^{-2}$ and depends on $\mstar$; a finite barrier, non-parabolicity and the gate field reduce it (\cref{sec:der-confinement}, \cref{fig:thickness_laws}). The V1 model implements $\dEc = 0.9205\,t^{-1.3815}$\,eV, i.e.\ \SI{0.353}{eV} at \SI{2}{nm}, 0.072 at 6.3 and \SI{0.026}{eV} at \SI{13.2}{nm} (\cref{tab:mech-budget}), together with the $\mstar(t)$ law that enters $\Nc$ (\cref{sec:par-mstar}). S3 solved a 1-D Schr\"odinger--Poisson problem anchored on PBE slab calculations of pure \InO{} (\cref{fig:sp_confinement}): the subthreshold-equivalent shift at \SI{2}{nm} is 0.26--\SI{0.30}{V} for $\mstar = 0.18$, bracket 0.14--\SI{0.38}{V} over effective mass and barrier treatment (S3 verdicts, strongly supported as \evTHEORY; not measured on IWO). Image-charge (dielectric) confinement adds an estimated $+0.02$ to \SI{0.03}{eV} at \SI{2}{nm} (S3, plausible, unverified).
+
+Above $t \approx \SI{2.98}{nm}$ the V1 law exceeds the infinite-well (effective-mass) upper bound: by $\times 1.59$ at \SI{6.3}{nm} and $\times 2.51$ at \SI{13.2}{nm} (SYNTHESIS Q3). Relative to the DFT-anchored effective-width estimate of S3 the same overshoot is $\times1.45$ and $\times2.15$ (\cref{tab:d1-e1}); the two pairs differ only in their reference. The $t^{-1.38}$ exponent is a local three-point slope and is rejected as physics beyond $\approx$\SI{3}{nm}; its impact on $\Vth$ is at most \SI{35}{mV}.
+
+\subsection{What one ID--VG curve can see}
+\paragraph{The pure band-edge shift is exactly rigid.} A shift of $\Ec$ moves the whole transfer curve along $\Vg$ in the same way as a change of WF, $\chi$ or $\Qf$: WF $+\SI{0.1}{eV}$ gives $+\SI{0.1000}{V}$ with SS unchanged (\run{0048}, \run{0049}), $\Qf$ is rigid within \SI{0.6}{mV} over $10^{-14}$ to $3\times10^{-7}\Aum$ (\run{0001}$\rightarrow$\run{0003}, \run{0002}$\rightarrow$\run{0004}, \run{0005}$\rightarrow$\run{0007}), and $\dEc(2\,\mathrm{nm}) = \SI{0.353}{eV}$ is equivalent to $1.97\times10^{12}\cmsq$ of fixed charge (SYNTHESIS D2, \evNUM).
+
+\paragraph{The confinement package is only near-rigid, and its signature is not unique.} Switching the V1 package ($\dEc$ plus $\mstar\rightarrow\Nc$) off at \SI{2}{nm} (\run{0012} vs \run{0016}) shifts the curve by \SI{0.345}{V} at $10^{-14}$, \SI{0.302}{V} at $10^{-8}$ and \SI{0.311}{V} at $3\times10^{-7}\Aum$, and $\SScc$ is 289.1 vs $303.7\mVdec$. The non-rigid part ($+38.8$\,mV between $10^{-11}$ and $10^{-8}\Aum$; $\SScc$ $+14.6\mVdec$) is nearly reproduced by $\mstar \times 0.8$ or by $\Nt \times 1.09$ (log-linear scaling of \run{0050} and \run{0023}; SYNTHESIS D2 and [SYN-d]). On the same metric, $\WTA$ $+\SI{5}{meV}$ moves $\SScc$ by only $+0.8$ and $\Dit\times3$ by $+0.5\mVdec$: the degeneracy is with $\mstar$ and $\Nt$, not with $\WTA$ (SYNTHESIS A.3).
+
+\paragraph{The subthreshold-slope argument is an artefact.} The earlier claim that removing confinement moves SS toward the data rests on $\SSmin$, which is 151.3 vs $138.6\mVdec$ for \run{0013} vs \run{0017}, whereas the fixed-current SS is 90.8 vs $92.0\mVdec$ (SYNTHESIS D7). The $\SSmin$ window is set by a current of $\approx 2.3\times10^{-14}\Aum$ at $\Vg = \SI{0.15}{V}$, and $\SSmin$ is therefore not a reliable metric (\cref{sec:der-metrics}); S3 obtains 76--82 and 136--137\,mV/dec from resampling alone (S3 verdicts, rejected as evidence).
+
+\subsection{Symmetric calibration: with and without confinement}
+The most direct test is to fit the three thresholds with one shared offset, once with the confinement law and once without it, and to compare the residuals. SYNTHESIS D3 re-derived this comparison from the \file{execution.json} files and the exact $\Qf$ identity (\evNUM{} on \evDATA). The one-offset rms is \SI{0.1363}{V} with confinement and \SI{0.1325}{V} without; the leave-one-out values are 0.2045 and \SI{0.1988}{V}. The preferred reading changes with the anchor: anchored on \SI{2}{nm} the values are 0.2205 vs \SI{0.1800}{V}, anchored on \SI{13.2}{nm} they are 0.1897 vs \SI{0.2782}{V}. Each reading needs one film-specific charge. With confinement, the \SI{6.3}{nm} film needs $\Qf = 0.086\times10^{12}\cmsq$ instead of the shared $1.73\times10^{12}$ ($1.64\times10^{12}\cmsq$ less positive, \SI{0.294}{V}). Without confinement, the \SI{13.2}{nm} film needs $1.434\times10^{12}$ instead of the $0.047\times10^{12}\cmsq$ fitted on \SI{2}{nm} ($1.39\times10^{12}$ more positive, \SI{0.248}{V}). \Cref{fig:symmetric_calibration} shows the required $\Qf$ per film in both readings and the single-offset residuals.
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=\linewidth]{symmetric_calibration}
+\caption{Symmetric calibration of the thresholds with and without the confinement law. (a) Front charge $\Qf$ required by each film to reproduce its measured $\Vthcc$: with confinement 1.81/0.09/1.56 and without 0.048/$-0.27$/1.43 (units of $10^{12}\cmsq$; 2/6.3/13.2\,nm). (b) Residuals of the best single shared $\Qf$: with confinement $\Qf = 1.153\times10^{12}\cmsq$, residuals $+0.117/-0.19/+0.073$\,V (rms \SI{0.1358}{V}); without, $0.403\times10^{12}\cmsq$, residuals $-0.063/-0.12/+0.184$\,V (rms \SI{0.1320}{V}) (figure data from S1 key numbers / SYNTHESIS D3; SYNTHESIS quotes 0.1363 and \SI{0.1325}{V} from its own re-derivation). The two readings fit equally well, and each needs one film with an anomalous charge: \SI{6.3}{nm} with confinement and \SI{13.2}{nm} without.}
+\label{fig:symmetric_calibration}
+\end{figure}
+
+\subsection{Comparison with the data and verdict}
+\paragraph{Necessity.} Confinement is not necessary (demonstrated), because the fit quality is equal with and without it (D3). The A6 run (\run{0034}, no confinement, $\Qf$ from \SI{2}{nm}) misses the \SI{6.3}{nm} threshold by only $-\SI{0.057}{V}$. However, configuration A was written after the \run{0014} miss was known, so this result is \evPOST{} and not a held-out test (SYNTHESIS A.3). The S1 verdict ``favoured'' and the S3 verdict ``mildly disfavoured'' are therefore both overstated; the thresholds are neutral.
+
+\paragraph{The pattern $2 \approx 6.3 \gg 13.2$.} Confinement does not explain this pattern (rejected, S3). The offsets needed are $+0.30/+0.36/+\SI{0.05}{V}$, whereas confinement at \SI{6.3}{nm} contributes at most \SI{0.05}{V}.
+
+\paragraph{Identifiability.} Confinement is not identifiable (rejected as identifiable, S3): on one curve, 0.301--\SI{0.315}{V} of shift is equivalent to $1.68$--$1.76\times10^{12}\cmsq$ of fixed charge.
+
+\paragraph{Physical expectation.} A shift of 0.26--\SI{0.30}{V} at \SI{2}{nm} is expected from theory (\evTHEORY). If this shift is present, the \SI{2}{nm} film must carry 0.8--$2.1\times10^{12}\cmsq$ more positive charge than the \SI{6.3}{nm} film, or the \SI{6.3}{nm} device must carry a coincident offset of that size (SYNTHESIS Q1).
+
+\paragraph{Tail-energy reference.} Whether the tail states follow the confined or the bulk edge changes the \SI{2}{nm} onset by 0.26 vs \SI{0.91}{V} in the S3 surrogate. This is the dominant model-form uncertainty at \SI{2}{nm} and is not determined.
+
+\paragraph{Field quantization at 6.3 and 13.2 nm.} The gate field produces a triangular-well subband of $\approx\SI{0.5}{eV}$ at \SI{3}{V} and lowers $C_{\mathrm{eff}}$ by 3--5\,\%. With local tails, $\Vg(n_s = 10^{12}\cmsq)$ rises by 0.15--\SI{0.19}{V} (S3: existence strongly supported, device impact plausible, unverified). Because the model already fits the \SI{13.2}{nm} film, this effect cannot be the sole cause of the \SI{6.3}{nm} shape miss.
+
+\paragraph{Distinguishing predictions.} The optical gap should widen by $+0.2$ to \SI{0.45}{eV} at \SI{2}{nm} relative to thick films ($<\SI{0.02}{eV}$ at \SI{13.2}{nm}); the confinement contribution to $\Vth$ changes by only $-\SI{6}{mV}$ between 300 and \SI{358}{K}, whereas tail filling produces the registered $\Vthlin$ shifts of \cref{sec:pred-temperature} (SYNTHESIS Q1). Falsified if the optical-gap shift between 2 and \SI{13.2}{nm} is below \SI{0.1}{eV} (SYNTHESIS C3).
+
+\begin{keyresult}[title={Confinement: verdict}]
+A shift of about \SI{0.3}{eV} at \SI{2}{nm} is theoretically expected (\evTHEORY, bracket 0.14--\SI{0.38}{V}), but the transfer data neither require nor identify it. On one ID--VG curve it is equivalent to $\approx 1.7\times10^{12}\cmsq$ of fixed charge, and one shared offset fits the three thresholds equally well with or without it (rms 0.136 vs \SI{0.133}{V}; \evNUM{} on \evDATA). It does not explain the similarity of the \SI{2}{nm} and \SI{6.3}{nm} thresholds.
+\end{keyresult}
+
+% -------------------------------------------------------------------
+\section{Traps, donors and off-state floors}\label{sec:mech-traps}
+
+\subsection{Near-conduction-band acceptor tail}
+The V1 model uses an exponential acceptor tail $\NTA\exp[(E-\Ec)/\WTA]$ with $\Nt(t) = 2\times10^{19}(2/t)^{0.75}\cmcu$ and a shared $\WTA = \SI{40}{meV}$ (\cref{sec:par-tail}). The filling of this tail sets both the threshold (0.256/0.226/\SI{0.098}{V} of the budget, \cref{tab:mech-budget}) and the subthreshold slope. One shared $\WTA$ reproduces the measured $\SSfix{10^{-11}}{10^{-10}}$ within \SI{2.3}{mV/dec} in all films (121.2/123.5, 124.5/124.5, 91.8/$90.9\mVdec$, measured/simulated; the \SI{13.2}{nm} value is floor-subtracted, raw 136.1; SYNTHESIS D8). Ideal-contact ATLAS runs reproduce the supralinear exponents $\alpha_H$ = 1.59/2.14/1.29 and the negative $\theta$ through trap filling alone (S5). A trap-DOS inversion validated on ATLAS curves (\cref{fig:trap_spectroscopy}) gives measured/ATLAS DOS ratios of 0.81--1.46 near $\Ec$ (S4; conditional on the mobility, because the energy axis moves by $\kT\ln$ of the mobility ratio). The tail-filling mechanism is therefore strongly supported (SYNTHESIS B2; \evCAL{} + inversion).
+
+The specific V1 DOS form, however, is not supported. The model is too soft in the $10^{-10}$ to $10^{-9}\Aum$ window by $+20/+6/+25\mVdec$ (SYNTHESIS D8), and deeper states near $\Ec - 0.15$ to $\Ec - \SI{0.2}{eV}$ are underestimated by $\times$2.2--2.8 at \SI{2}{nm} and $\times 2.6$ at \SI{6.3}{nm} (S4, strongly supported).
+
+\paragraph{The $\Nt(t)$ law.} This law has no identified physical origin. It is a two-point interpolation whose exponent comes from one qualitative ratio. The positive-bias-stress devices of the same paper imply an exponent of 1.71 instead of 0.75, and a surface + bulk form ($D_s \approx 8.5\times10^{12}\,\mathrm{cm^{-2}eV^{-1}}$ plus $g_b \approx 10^{19}\,\mathrm{cm^{-3}eV^{-1}}$ at $\Ec - \SI{0.1}{eV}$, sheet $\propto t^{0.38}$) differs by only 8\,\% at \SI{6.3}{nm} (S4; SYNTHESIS Q3). The law is kept as an interpolation and rejected as physics. Multi-frequency C--V measured for each thickness would separate surface and bulk trap densities (SYNTHESIS C6).
+
+\paragraph{Reading $\SScc(t)$ as a trap trend is biased.} The free-carrier capacitance puts $\approx 60\mVdec$ of mobility into the thin-film $\SScc$: a trap-free surrogate gives $\SScc$ = 122 at $\mu = 13$ vs $75\mVdec$ at $\mu = 59\cmVs$ (S4, rejected as a naive trap reading, \evSURR).
+
+\paragraph{States close to $\Ec$ and the 6.3 nm shape.} S4 proposed $2\times10^{12}\cmsq$ at $\Ec - \SI{0.03}{eV}$ together with a higher mobility, with a predicted gap change of $+\SI{0.28}{V}$, $\gm$ $+24$\,\% and $\SScc$ $+23\mVdec$. The ATLAS test C1 (\run{0052}), registered at 19:21Z before its outcome was known, gave a gap gain of $+\SI{0.119}{V}$ (33\,\% of the \SI{0.356}{V} miss), $\Ion$ $+16.0$\,\% against a $\pm3$\,\% requirement and $\gm$ $-16.8$\,\% at matched $\Ion$ (SYNTHESIS D, \evOOS, partly failed; \cref{sec:6p3-shape}). The near-Ec band remains a plausible partial contributor; the DOS resolution of the \SI{20}{meV} band was not checked.
+
+\subsection{Donors}
+A uniform effective donor density contributes $q\Nd t/\Cox$ to the budget, a term linear in $t$. Its magnitude is 0.009/0.028/\SI{0.070}{V} (\cref{tab:mech-budget}), and doubling $\Nd$ at \SI{2}{nm} moves $\Vthcc$ by only $-\SI{0.009}{V}$ (\run{0022}, \cref{fig:param_control_delta}). A low effective density ($\approx 2.5\times10^{17}\cmcu$, compensated) is consistent with the $4.3$--$4.5\times10^{17}\cmcu$ reported for related IWO films (\cref{sec:lit-kim2024}); it is not identifiable from these curves (S4, plausible, unverified). A thickness-independent donor density cannot explain the \SI{13.2}{nm} drop (it needs $2.2\times10^{18}\cmcu$ and then misses $2\rightarrow6.3$ by \SI{0.23}{V}; rejected). A donor or positive-charge step ($\approx 2.5\times10^{17}$ at $\le$\SI{6.3}{nm} to $\approx 10^{18}\cmcu$ at \SI{13.2}{nm}) is what the no-confinement reading requires ($+1.39\times10^{12}\cmsq$, \SI{0.248}{V}); it is degenerate with $\dEc$ on $\Vth(t)$ (SYNTHESIS C2, plausible, unverified). Falsified if C--V gives $V_{FB}(t)$ flat within \SI{50}{mV} across the three films.
+
+\paragraph{The fixed charge $\Qf$.} The fitted $1.73\times10^{12}\cmsq$ is electrostatically indistinguishable from an ionized oxygen-vacancy layer of $\approx1.7\times10^{19}\cmcu$ over \SI{1}{nm} (S4), but it also absorbs any error of the alignment: $\pm\SI{0.2}{eV}$ of work function equals $\pm1.12\times10^{12}\cmsq$ (SYNTHESIS C9). Its physical identity is plausible, unverified.
+
+\subsection{Off-state floors}
+Below threshold all three curves flatten to gate-independent plateaus (\cref{fig:measured_transfer}). The median plateau between $-2$ and $-\SI{0.5}{V}$ is $4.61\times10^{-15}$, $1.53\times10^{-13}$ and $6.60\times10^{-12}\Aum$ for 2, 6.3 and \SI{13.2}{nm}, which corresponds to a factor of 1432 from 2 to \SI{13.2}{nm}, with a log--log slope of 3.78 over the three films (\file{figures/MANIFEST.md}; S4 quotes $t^{3.85}$) (\evDATA). \Cref{fig:off_floors} shows the plateaus and the thickness scaling.
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=\linewidth]{off_floors}
+\caption{Off-state floors. (a) Measured $\Id$ between $\Vg = -3$ and \SI{0}{V} for 2, 6.3 and \SI{13.2}{nm} at $\Vd = \SI{0.7}{V}$: flat plateaus. (b) Plateau (median over $-2$ to $-\SI{0.5}{V}$) versus thickness: $4.61\times10^{-15}$, $1.53\times10^{-13}$, $6.60\times10^{-12}\Aum$; ratio 1432 between 13.2 and \SI{2}{nm}; log--log slope 3.78 (S4 quotes 3.85), with a $t^{3.85}$ guide. The floor rises by three orders of magnitude on an identical gate stack.}
+\label{fig:off_floors}
+\end{figure}
+
+Three candidate mechanisms were considered. Gate leakage is expected to depend on the gate--drain voltage and not on $t$. The \SI{13.2}{nm} floor, however, is flat within $\times1.06$ while $V_{gd}$ changes from 1.2 to \SI{3.7}{V}; the \SI{6.3}{nm} floor scatters by $\pm45$\,\% (max/min 3.0--3.5) with no trend ($-0.011$\,dec/V); and the $\times1432$ rise occurs on an identical stack. Gate leakage is therefore rejected as the dominant floor at 6.3 and \SI{13.2}{nm} (SYNTHESIS B4 and A.3, \evDATA; S4 had described the floors as flat to $\pm3$\,\%, which SYNTHESIS corrects for \SI{6.3}{nm}). Thermal (SRH) generation falls 13--17 decades short (calculation from the Astra audit; rejected). The third candidate is an ungated parallel IWO path. The corresponding sheet conductances, $1.3\times10^{-13}$, $4.4\times10^{-12}$ and $1.9\times10^{-10}$\,S/sq, scale as $t^{3.85}$, and the order of magnitude fits (S4, plausible, unverified). If this reading is correct, the $\times1432$ rise requires $E_{F0} - \Ec$ to move by only $\approx\SI{0.10}{eV}$ between 2 and \SI{13.2}{nm}, compared with the \SI{0.33}{eV} extrapolated $\dEc$ difference, so the floor would bound confinement and donor compensation jointly (SYNTHESIS Q5.6, conditional). An instrument floor or an unpatterned film is not excluded. The path hypothesis is falsified if $\Ig \approx \Id$ in the off state or if the floor shows no $1/L$ scaling on an L-series (SYNTHESIS C8).
+
+The floor also biases the extraction: the \SI{13.2}{nm} fixed-current SS is 136.1 raw vs $91.8\mVdec$ floor-subtracted, and the $\SSmin$ window depends on it (SYNTHESIS Q5.9).
+
+\subsection{Sweep history and bias stress}
+Positive-bias stress in the target paper roughly doubles $\Nt$ at \SI{2}{nm}. Extrapolated to the measurement sweep, this gives a threshold shift between 0.003 and \SI{0.24}{V} (S4 section 6), and the upper end is of the same order as the \SI{0.29}{V} offset at \SI{6.3}{nm}. Sweep direction, rate and dwell were not recorded, so this mechanism is not determined (SYNTHESIS C4).
+
+\begin{keyresult}[title={Traps, donors and floors: verdict}]
+Subthreshold conduction in all films is governed by the filling of a near-$\Ec$ exponential acceptor tail (strongly supported). The V1 DOS form, however, is not supported (too soft in $10^{-10}$--$10^{-9}\Aum$; deep states underestimated $\times$2.2--2.8), and the $\Nt(t)$ law has no physical origin. Donors are a small, non-identifiable term. The floors rise $\times1432$ ($t^{3.78}$ to $t^{3.85}$) and are due neither to gate leakage nor to thermal generation; their origin is not determined.
+\end{keyresult}
+
+% -------------------------------------------------------------------
+\section{Contacts}\label{sec:mech-contacts}
+
+The V1 deck uses ideal Ohmic Pd source/drain contacts (\cref{sec:par-contacts}). A contact resistance $\Rsd$ would lower the apparent mobility and could, in principle, create a thickness trend if it depended on $t$ or if the contact fraction of the total resistance did.
+
+\paragraph{Thickness-independent $\Rsd$ as the cause of the trend.} The required resistance is $\Rsd W \approx 1.15\times10^{6}\,\Omega\,\mu\mathrm{m}$ at \SI{2}{nm}, i.e.\ $\rho_c \approx \SI{0.26}{\ohm\centi\metre\squared}$ and a transfer length $L_T \approx \SI{45}{\micro\metre}$. Such a resistance would drop 83\,\% of $\Vd$ and is $\approx 5700$ times the contact resistance of related metal/\InO{} contacts (\cref{sec:lit-si2022}; S5). In addition, the mobility-degradation parameter $\theta_{\mathrm{net}}$ is $-0.10/-0.12/-0.046\,\mathrm{V^{-1}}$ in all films, which is the wrong sign for series resistance. Finally, at fixed $\rho_c$ the contact fraction scales as $R_{sh}^{-1/2}$, so a thickness-independent contact penalises the thick film, which is opposite to the observation. This mechanism is therefore rejected (SYNTHESIS B3 and D; \evCORR{} + \evLIT, related material).
+
+\paragraph{$\Rsd$ as a minor contributor.} Within the calibrated trap model, $\Rsd \lesssim 5\times10^{4}\,\Omega\,\mu\mathrm{m}$ ($\le4$\,\%) at \SI{2}{nm} and $\lesssim$1--$2\times10^{4}\,\Omega\,\mu\mathrm{m}$ (4--9\,\%) at \SI{13.2}{nm} (S5). These are calibration-class bounds, so a minor contribution is not determined.
+
+\paragraph{Confinement-raised Pd/IWO barrier at 2 nm.} Such a barrier would need $\Delta\phi \ge \SI{0.20}{eV}$, and $\dEc(6.3) = \SI{0.07}{eV}$ cannot give $\Ion(6.3) = 0.79\,\Ion(2)$. The barrier is plausible but unverified at \SI{2}{nm}, and it is rejected as the cause of the $2/6.3$ vs $13.2$ step (S5; \evCORR).
+
+\paragraph{Geometric effects.} Vertical access through the film gives $\rho t \le 5\times10^{-7}\,\Omega\,\mathrm{cm^2}$ ($<1$\,\% of $R_{\mathrm{on}}$) and grows with $t$ (rejected). Current crowding in the \SI{2}{nm} film gives $L_T \le \SI{0.35}{\micro\metre}$ at $\rho_c \le 10^{-4}\,\Omega\,\mathrm{cm^2}$ (rejected) (S5, order-of-magnitude estimates). The V0 31.8\,nm series resistance ($9.2\times10^{4}\,\Omega\,\mu\mathrm{m}$), if carried over to \SI{13.2}{nm}, would give $-27$\,\% $\Ion$ and $\theta = +0.17\,\mathrm{V^{-1}}$, against $-0.046\,\mathrm{V^{-1}}$ observed (rejected within the model).
+
+\paragraph{Extraction methods.} The Y-function (\cref{sec:der-yfunction}, \cref{fig:yfunction}) is invalid for these films: in ATLAS method checks with ideal contacts, $\alpha$ and $\theta$ correlate with $r = +1.00$ and $\mu_{0,Y}/\muband$ = 0.53--0.68 (S5, not determined). \run{0027}, originally intended as an overlap sensitivity test, is malformed and retracted, so the contact geometry was never tested (\cref{sec:cal-param-control}).
+
+The distinguishing measurements are a transfer-length-method or channel-length series, low-$\Vd$ output characteristics ($\Vd$ = 0--\SI{0.2}{V}) and the registered ID--VD ratios of \cref{sec:pred-idvd}. An S-shape or $\Id(0.1)/\Id(0.05) > 2.0$, especially at \SI{2}{nm} only, would indicate non-Ohmic injection.
+
+\begin{keyresult}[title={Contacts: verdict}]
+Contacts do not create the thickness trend. The required resistance would drop 83\,\% of $\Vd$, $\theta_{\mathrm{net}}$ has the wrong sign in all films, and a thickness-independent contact would penalise the thick film (strongly supported; \evCORR{} + \evLIT). A minor $\Rsd$ contribution is bounded only within the calibrated model; contact geometry and resistance were not tested in ATLAS.
+\end{keyresult}
+
+\section{Couplings between mechanisms}\label{sec:mech-couplings}
+
+The mechanisms discussed above are not independent. Several of them act on the same observable, and some change the way in which another is extracted. The following couplings, collected in SYNTHESIS Q5, explain why single-mechanism conclusions drawn from one curve per film are fragile.
+\begin{enumerate}
+\item \emph{Mobility $\rightarrow$ threshold.} The constant-current definition converts mobility into threshold: $+0.108$ to $+\SI{0.115}{V}$ of the 2 vs \SI{13.2}{nm} step (\cref{sec:mech-electrostatics}; SYNTHESIS D6).
+\item \emph{Mobility $\rightarrow$ $\SScc$.} The free-carrier capacitance puts $\approx 60\mVdec$ of mobility into the thin-film $\SScc$; $\SScc(t)$ read as a trap trend is biased (S4, \evSURR).
+\item \emph{Confinement $\leftrightarrow$ tail filling.} The energy reference of the tail under confinement changes the \SI{2}{nm} onset by \SI{0.65}{V} (0.26 vs \SI{0.91}{V}; S3, \evSURR); this is the dominant model-form uncertainty at \SI{2}{nm}.
+\item \emph{Confinement $\leftrightarrow$ $\Nc(\mstar)$ $\leftrightarrow$ SS.} $\mstar\times1.3$ gives $-\SI{44}{mV}$ and $-17.7\mVdec$ at \SI{2}{nm} (\run{0050}); confinement also raises the Pd/IWO barrier at \SI{2}{nm} (S5).
+\item \emph{Tail density $\leftrightarrow$ mobility $\leftrightarrow$ gap $\leftrightarrow$ SS.} B0 (\run{0037}) and C1 (\run{0052}) lie on one trade-off line of 3.2--8.5\,mV of gap per mV/dec of $\SScc$ (S6 section 3.3; \cref{sec:6p3-shape}).
+\item \emph{Donors / $E_{F0}$ $\leftrightarrow$ confinement $\leftrightarrow$ floor.} If the floor is an ungated IWO path, it bounds confinement and donor compensation jointly (\cref{sec:mech-traps}; conditional).
+\item \emph{$\Rsd$ $\leftrightarrow$ $\alpha$ $\leftrightarrow$ $\theta$.} Perfectly correlated ($r = +1.00$) in the Y-function analysis (S5).
+\item \emph{Bias stress $\leftrightarrow$ $\Nt$ and $\Vth$.} Stress doubles $\Nt$ at \SI{2}{nm} in the target paper, so sweep history can alter both the offset and the shape (\cref{sec:mech-traps}).
+\item \emph{Floor $\leftrightarrow$ SS extraction.} The $\SSmin$ window and the \SI{13.2}{nm} fixed-current SS (136.1 raw vs $91.8\mVdec$) depend on the floor.
+\item \emph{Numerics $\leftrightarrow$ thickness trend.} The DOS quadrature error of $\Ion$ scales roughly with $\Nt(t)$ (+2.48/+0.95/+0.50\,\% at equal mobility; SYNTHESIS D9). It is removed by recalibration (\run{0038}--\run{0040}), but it shows that numerics can mimic a thickness trend (\cref{sec:num-convergence}).
+\end{enumerate}
+
+The 6.3\,nm discrepancy illustrates these couplings. SYNTHESIS A.2 splits the horizontal offset $\Vg^{\mathrm{meas}}(I) - \Vg^{\mathrm{sim}}(I)$ into a rigid part (\SI{0.294}{V} with confinement, constant within \SI{3}{mV} from $10^{-11}$ to $10^{-9}\Aum$ in \run{0014}; \SI{0.057}{V} without it, \run{0034}) and a shape part (offset minus the offset at $10^{-9}\Aum$) of $+0.161/+\SI{0.190}{V}$ (\run{0014}), $+0.139/+\SI{0.148}{V}$ (\run{0015}) and $+0.156/+\SI{0.182}{V}$ (\run{0034}) at $10^{-7}/2\times10^{-7}\Aum$. The shape part is therefore independent of both the confinement law and $\Qf$; at 2 and \SI{13.2}{nm} the residual swing is only 0.07--\SI{0.08}{V}. The rigid part is an electrostatic question (\cref{sec:mech-electrostatics}). The shape part remains unexplained; the constant, density-independent mobility of the model is the leading candidate (SYNTHESIS C5, untested), with above-threshold trapping or sweep history as alternatives.
+
+% -------------------------------------------------------------------
+\section{Identifiability}\label{sec:mech-identifiability}
+
+One transfer curve per film constrains a small number of parameter combinations, not the individual parameters. The one-at-a-time runs of \cref{sec:cal-param-control} (\cref{fig:param_control_delta}) give the following leverages at \SI{2}{nm}: WF $+\SI{0.1}{eV}$ shifts $\Vthcc$ by $+\SI{0.100}{V}$ with $\Delta\mathit{SS} = 0$ (\run{0048}); $\chi \pm \SI{0.1}{eV}$ by $\pm\SI{0.100}{V}$ (\run{0020}, \run{0021}); $\Nt\times1.5$ by $+\SI{0.082}{V}$, $+49.0\mVdec$ and $-25.1$\,\% $\Ion$ (\run{0023}); $\WTA$ $+\SI{5}{meV}$ by $+\SI{0.020}{V}$ and $+4.6\mVdec$ (\run{0024}); $\Dit\times3$ by $+\SI{0.025}{V}$ (\run{0025}); $\Nd\times2$ by $-\SI{0.009}{V}$ (\run{0022}); $\epsIWO = 10.55$ by $-\SI{0.001}{V}$ (\run{0026}); $\mstar\times1.3$ by $-\SI{0.044}{V}$ and $-18.0\mVdec$ (\run{0050}); switching confinement off by $-\SI{0.316}{V}$, $+15.3\mVdec$ and $+21.4$\,\% $\Ion$ (\run{0016}) (SS in the $10^{-10}$--$10^{-9}\Aum$ window; \file{figures/MANIFEST.md}). \Cref{tab:mech-identifiability} lists the degenerate sets and the experiments that break each degeneracy, and \cref{fig:mech-identifiability-map} summarises them. This assessment rests on one-at-a-time perturbations only. A Jacobian or profile analysis over the fitted metrics has not been made (SYNTHESIS F.1, item 0.4), so the fitted parameter set is one member of a family of equivalent calibrations.
+
+\begin{table}[tbp]
+\centering
+\caption{Degenerate parameter sets on one ID--VG curve per film, the observable they share, and the independent experiment that separates them (SYNTHESIS Q4).}
+\label{tab:mech-identifiability}
+\footnotesize
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{0.17\linewidth}>{\raggedright\arraybackslash}X@{}}
+\toprule
+degenerate set & shared observable & experiment that breaks the degeneracy \\
+\midrule
+WF, $\chi$, $\Qf$, pure $\dEc$, filled $\Dit$, $\Nd t$ (rigid) & $\Vth$ offset & C--V $V_{FB}(t)$ (front sheet $t^0$; volume $t$, $t^2$; back sheet $t/\varepsilon_s$); KPFM/UPS for WF and $\chi$ \\
+$\dEc(t)$ vs a $t$-dependent fixed charge & $\Vth(t)$ & optical gap / IPES for $\Ec(t)$ with C--V; $\Vth(T)$ \\
+$\muband$ vs $\Nt$ ($\Nt\times1.5 \equiv \mu\times1.33$) & $\Ion$ & gap and $\gm$ (partial); split C--V $n_{\mathrm{total}}(\Vg)$; gated Hall \\
+$\Nt$, $\WTA$, $\Dit$, deep states, near-$\Ec$ band, back acceptors & SS, gap & temperature series (subthreshold $\Ea$ gives $\EF-\Ec$ without $\mu$); multi-frequency C--V; passivation; more thicknesses \\
+$\Rsd$, tail exponent $\alpha$, $\theta$ ($r = +1.00$) & $\gm$ roll-off & TLM or L-series; low-$\Vd$ ID--VD \\
+$\muband$ lumping $\Rsd$, $C_{\mathrm{eff}}/\Cox$ ($\approx0.87$), $\mstar$ Drude term ($-18$\,\% at 2 nm), roughness & $\gm$ & Hall; TLM; C--V \\
+6.3 nm offset: film property vs device spread vs sweep history & $\Vth(6.3)$ & 3--5 replicates ($n \approx 15.7\sigma^2/\Delta^2$); dual sweeps with dwell recorded \\
+charge location (front / back / bulk) & second-order SS, gap & $V_{FB}(t)$; vacuum vs air; passivation \\
+tail energy reference under confinement (0.26 vs 0.91 V at 2 nm) & 2 nm onset & split C--V + Hall at 2 nm; temperature series \\
+band vs percolation vs phonon transport & $\muFE(T)$ & temperature series (\cref{sec:pred-temperature}) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{figure}[tbp]
+\centering
+\begin{tikzpicture}[
+  node distance=4mm and 6mm,
+  par/.style={draw, rounded corners=2pt, fill=gray!8, align=center, font=\footnotesize, minimum height=7mm, text width=34mm},
+  obs/.style={draw, thick, fill=blue!6, align=center, font=\footnotesize\bfseries, minimum height=7mm, text width=24mm},
+  exp/.style={draw, dashed, align=center, font=\footnotesize, minimum height=7mm, text width=34mm},
+  arr/.style={-{Stealth[length=2mm]}}
+]
+\node[obs] (o1) {$\Vth$ offset};
+\node[obs, below=of o1] (o2) {$\Ion$, $\gm$};
+\node[obs, below=of o2] (o3) {SS, gap};
+\node[obs, below=of o3] (o4) {$\gm$ roll-off};
+\node[par, left=of o1] (p1) {WF, $\chi$, $\Qf$, $\dEc$, $\Dit$, $\Nd t$};
+\node[par, left=of o2] (p2) {$\muband$, $\Nt$, $\Rsd$, $C_{\mathrm{eff}}$, $\mstar$};
+\node[par, left=of o3] (p3) {$\Nt$, $\WTA$, $\Dit$, deep states, near-$\Ec$ band};
+\node[par, left=of o4] (p4) {$\Rsd$, $\alpha$, $\theta$};
+\node[exp, right=of o1] (e1) {C--V $V_{FB}(t)$; optical gap; KPFM/UPS};
+\node[exp, right=of o2] (e2) {split C--V; gated Hall; TLM};
+\node[exp, right=of o3] (e3) {temperature series; multi-frequency C--V};
+\node[exp, right=of o4] (e4) {L-series; low-$\Vd$ output};
+\foreach \i in {1,2,3,4} {\draw[arr] (p\i) -- (o\i); \draw[arr, dashed] (e\i) -- (o\i);}
+\end{tikzpicture}
+\caption{Identifiability map. Left: parameter sets that act on the same observable of one ID--VG curve (solid arrows); right: the independent measurements that separate them (dashed arrows). Summary of \cref{tab:mech-identifiability} (SYNTHESIS Q4).}
+\label{fig:mech-identifiability-map}
+\end{figure}
+
+% -------------------------------------------------------------------
+\section{Verdicts}\label{sec:mech-verdict-summary}
+
+\Cref{tab:mech-verdicts} collects the verdict for every mechanism discussed in this chapter, together with its evidence class and the main supporting number. The verdicts follow SYNTHESIS sections B--D, which resolve the disagreements between the specialist reports; where a specialist verdict was corrected, the table gives the corrected verdict.
+
+\begin{footnotesize}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.33\linewidth}>{\raggedright\arraybackslash}p{0.17\linewidth}>{\raggedright\arraybackslash}p{0.13\linewidth}>{\raggedright\arraybackslash}p{0.29\linewidth}@{}}
+\caption{Mechanism verdicts. Classes: \evDATA, \evNUM, \evCAL, \evOOS, \evPOST, \evSURR, \evTHEORY, \evLIT, \evCORR. ``Model-conditional'' means within the V1 DOS and electrostatics.}\label{tab:mech-verdicts}\\
+\toprule
+mechanism / claim & verdict & class & key number (source) \\
+\midrule
+\endfirsthead
+\toprule
+mechanism / claim & verdict & class & key number (source) \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\multicolumn{4}{@{}l}{\textit{Electrostatics (\cref{sec:mech-electrostatics})}}\\
+6.3 nm threshold miss with shared laws & demonstrated (failed OOS) & \evOOS & $-0.294$ V (\run{0014}) \\
+Tuned 6.3 nm-specific front charge & calibration only & \evCAL & $1.64\times10^{12}\cmsq$ (\run{0015}) \\
+Thickness error (A1) & rejected, model-cond. & \evNUM & $+0.036$ of $+0.294$ V (\run{0031}) \\
+Fewer donors (A2) & rejected & \evNUM & $+0.030$ V (\run{0032}) \\
+Back-surface charge as sole cause (A3) & rejected, model-cond. & \evNUM & $\SScc$ $-64.1\mVdec$ (\run{0030}) \\
+Front $\Dit$ (A4) & rejected at plausible $\Dit$ & \evNUM & $\times5$ gives $+0.051$ V; needs $\times$23--24 (\run{0033}) \\
+Combination (A5) & rejected & \evNUM & 73\,\% of miss, $\SScc$ $-45.9$ (\run{0035}) \\
+Uniform donors / neutral layer as $6.3\rightarrow13.2$ step & rejected & \evSURR{}+\evDATA & slope ratio $\le 2.35$ vs 9--20 (S1) \\
+CC-definition (mobility) share of the $\Vthcc$ step & strongly supported & \evDATA/\evNUM & $+0.108$ to $+0.115$ V of 0.579 V \\
+$q\Nd t/\Cox$; interface-trap charge & demonstrated small & \evNUM & $\le 0.070$ V; 0.012 V (\run{0022}, \run{0025}) \\
+Sweep history / device spread & not determined & -- & 0.003--0.24 V from PBS (S4) \\
+\midrule
+\multicolumn{4}{@{}l}{\textit{Transport (\cref{sec:mech-transport})}}\\
+$\times4.6$ $\muFE$ rise is a change in channel transport & strongly supported, model-cond. & \evCAL/\evSURR & 109\,\% of $\ln(\times4.58)$ in $\muband$ (S2) \\
+Trap partition as the step & rejected & \evSURR & needs $\Nt\times6.7\times10^3$ \\
+Roughness factor as the step & rejected & \evCAL & $\times1.051$ vs $\times4.58$ \\
+Thickness-fluctuation scattering ($t^6$) & rejected & \evSURR & $\times700$ contradiction at 2 nm \\
+Coulomb (front / back / trapped) & rejected as the step & \evSURR & back $\times2700$ short at 6.3 nm \\
+S2 re-partition (B0) & rejected & \evOOS, failed & $\SScc$ 410.9 vs 295.4 (\run{0037}) \\
+Structural transition 6.3--13.2 nm & plausible, unverified (working hypothesis) & \evCORR & 39 meV barrier suffices (S2) \\
+Power laws in $t$ ($\muFE$, $\Ion$, $\Vth$) & rejected & \evDATA & LOO miss $\times2.63$ / $\times3.76$ \\
+Paper $\mu$ = saturation formula & demonstrated (provenance) & \evDATA & 5.09 / 27.40 $\cmVs$ \\
+\midrule
+\multicolumn{4}{@{}l}{\textit{Confinement (\cref{sec:mech-confinement})}}\\
+Confinement at 2 nm & expected (theory); not identified from ID--VG & \evTHEORY & 0.26--0.30 V (0.14--0.38) (S3) \\
+Thresholds require or refute confinement & rejected & \evNUM{} on \evDATA & rms 0.136 vs 0.133 V (D3) \\
+Confinement explains $2 \approx 6.3 \gg 13.2$ & rejected & \evCORR/\evCAL & $\le$0.05 V at 6.3 nm vs 0.36 V needed \\
+$\dEc$ identifiable from one ID--VG & rejected & \evNUM & 0.353 eV $\equiv 1.97\times10^{12}\cmsq$ \\
+$\dEc\propto t^{-1.38}$ beyond 3 nm as physics & rejected & \evTHEORY & $\times1.59$ / $\times2.51$ above the infinite-well bound ($\times1.45$ / $\times2.15$ vs S3 effective width) \\
+``Removing confinement improves SS'' & rejected (artefact) & \evNUM & fixed-current SS 90.8 vs 92.0 (\run{0013}/\run{0017}) \\
+Tail-energy reference under confinement & not determined & \evSURR & 0.26 vs 0.91 V onset at 2 nm \\
+Gate-field quantization (device impact) & plausible, unverified & \evSURR & $+0.15$--0.19 V in $\Vg(10^{12})$ \\
+\midrule
+\multicolumn{4}{@{}l}{\textit{Traps, donors, floors (\cref{sec:mech-traps})}}\\
+Near-$\Ec$ exponential tail governs subthreshold & strongly supported & \evCAL{}+inversion & SS within 2.3 mV/dec; DOS ratio 0.81--1.17 (2, 13.2 nm), 0.90--1.46 (6.3 nm) \\
+V1 DOS form & not supported & \evNUM & too soft $+20/+6/+25\mVdec$; deep $\times$2.2--2.8 \\
+$\Nt\propto t^{-0.75}$ as physics & rejected (kept as interpolation) & \evCAL & exponents 0.75 vs 1.71 \\
+Surface + bulk trap DOS & plausible, unverified & \evCORR & $D_s\approx8.5\times10^{12}$, $g_b\approx10^{19}$ \\
+Naive $\SScc(t)$ trap reading & rejected & \evSURR & 122 vs 75 mV/dec trap-free \\
+Near-$\Ec$ band (C1) as full 6.3 nm explanation & rejected; partial contributor plausible & \evOOS, partly failed & gap $+0.119$ vs $+0.28$ V (\run{0052}) \\
+Donor step at 13.2 nm & plausible, unverified & \evCORR & $+1.39\times10^{12}\cmsq$ needed \\
+$\Qf$ = ionized V$_\mathrm{O}$ layer & plausible, unverified & -- & $1.73\times10^{12}\cmsq$ \\
+Floors = gate leakage (6.3, 13.2 nm) & rejected & \evDATA & $\le\times1.06$ over $V_{gd}$ 1.2--3.7 V \\
+Floors = thermal generation & rejected & calculation & 13--17 decades short \\
+Floors = ungated IWO path & plausible, unverified & \evCORR & $\times1432$, slope 3.78 (3.85 in S4) \\
+\midrule
+\multicolumn{4}{@{}l}{\textit{Contacts (\cref{sec:mech-contacts})}}\\
+Thickness-independent $\Rsd$ causes the trend & rejected & \evCORR{}+\evLIT & $\rho_c\approx0.26\,\Omega\,\mathrm{cm^2}$; $\theta_{\mathrm{net}}<0$ \\
+$\Rsd$ as minor contributor & not determined & \evCAL & $\lesssim5\times10^4$ / $\lesssim$1--$2\times10^4\,\Omega\,\mu$m \\
+Confinement-raised Pd/IWO barrier as the step & rejected & \evCORR & needs $\Delta\phi\ge0.20$ eV \\
+Vertical access; current crowding & rejected & estimate & $<1$\,\% of $R_{\mathrm{on}}$; $L_T\le0.35\,\mu$m \\
+Y-function $\Rsd$ / intrinsic $\mu$ & not determined (method invalid) & \evNUM & $r(\alpha,\theta)=+1.00$ \\
+\run{0027} as overlap test & retracted (malformed) & audit & ``Electrode shortened'' $\times3$ \\
+\end{longtable}
+\end{footnotesize}
+
+\begin{keyresult}[title={Chapter summary}]
+In these single devices and within the calibrated model, the dominant thickness effect is a change in channel transport and charge between 6.3 and \SI{13.2}{nm}, on top of trap-limited conduction through a near-$\Ec$ exponential tail present in all films. Contacts, roughness, electrostatics and tail filling cannot produce the $\times4.6$ mobility step within the calibrated model (strongly supported, model-conditional). Its physical origin is not determined, with a structural transition as the plausible, unverified working hypothesis. Quantum confinement of $\approx\SI{0.3}{eV}$ at \SI{2}{nm} is theoretically expected but neither required nor identified by the data. The \SI{6.3}{nm} discrepancy has a rigid part that cannot be assigned with $N = 1$ and an on-state shape part that no tested V1 change reproduces and that remains unexplained. Every mechanism verdict rests on one device per thickness; the experiments of \cref{tab:mech-identifiability} and the registered predictions of \cref{ch:predictions} are required before any mechanism claim can move beyond ``plausible''.
+\end{keyresult}
+
+Since the present data cannot decide between the remaining readings, the next chapter registers what the calibrated model predicts for measurements it has not seen, together with the rules by which those predictions will be judged.

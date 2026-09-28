@@ -1,0 +1,364 @@
+{
+  "reference": {
+    "run_id": "20260912T124657_803129_priority3_fit6_mu12_retry2",
+    "directory": "C:\\Users\\moham\\Downloads\\IWO_Local_Codex_Handoff (1)\\IWO_ATLAS_Model\\results\\local_session_20260910\\runs\\20260912T124657_803129_priority3_fit6_mu12_retry2",
+    "key": "6p3",
+    "width_um": 1.0,
+    "gate_points": 121,
+    "native_rows": 121,
+    "active_points": 56,
+    "realized_mesh": {
+      "grid_points": 5880,
+      "triangles": 11440
+    },
+    "raw_warning_lines": [
+      " Warning: Statement out of order. Structure ",
+      " Warning: Projection cannot be done with"
+    ],
+    "recovered_bias_reductions": 0,
+    "recovered_step_policy": "Allowed only with completion, all 121 targets, correct native biases and all-row signed KCL; exhausted retry/errors rejected.",
+    "kcl_recomputed_pass": true,
+    "kcl_failed_native_points": 0,
+    "max_kcl_A_per_um": 2.064699999992131e-21,
+    "terminal_voltages_recomputed_pass": true,
+    "native_probes": {
+      "channel_mobility": {
+        "positive_at_all_active_points": true,
+        "nonpositive_active_points": 0,
+        "minimum": 12.0,
+        "maximum": 12.0
+      },
+      "channel_electrons": {
+        "positive_at_all_active_points": true,
+        "nonpositive_active_points": 0,
+        "minimum": 1.396781039e-32,
+        "maximum": 1.177378501e+18
+      }
+    },
+    "native_probes_pass": true,
+    "active_signed_drain_positive": true,
+    "native_extra_probes": {
+      "bulk_free_electrons": {
+        "minimum": 784929947700.0,
+        "maximum": 9.956712484e+18
+      },
+      "bulk_ionized_acceptors": {
+        "minimum": 17350450940000.0,
+        "maximum": 7.896430439e+18
+      },
+      "bulk_ionized_donors": {
+        "minimum": 0.0,
+        "maximum": 0.0
+      },
+      "bulk_front_electrons": {
+        "minimum": 3.671779545e-33,
+        "maximum": 2.605930567e+19
+      },
+      "bulk_back_electrons": {
+        "minimum": 2.429130767e-32,
+        "maximum": 2.497920573e+17
+      }
+    },
+    "drain_signs": {
+      "positive": 67,
+      "zero": 54,
+      "negative": 0
+    },
+    "measurement_sha256": "1d1414542f7ee53ff34116bcbcd1c358f07b4b5ad1f5e8e302e00c62c0415042",
+    "evidence_sha256": {
+      "execution.json": "713a0f63b141f88b00faed82c5bd0932560e6d2e25c13065de1bf03166e96696",
+      "device.in": "af274661c5dc74d3ec57000997ab821e466fdca2872b6912e423679336b2c3a1",
+      "input_config.json": "7411cf29426cd8048dd88586359c8f6b7f22ae995cf521ca7a2ec13d71cf73d4",
+      "comparison_all_measurements.csv": "147f53922af56e484f3fb39f66adf043125437f64154de16e29c7d6eccb37b5c"
+    },
+    "raw_output_sha256": {
+      "bulk_acceptor.dat": "7b722c194d70a0d57ee21fbd024aefe97aeb7e5b8bb18da543e0c722ea1be645",
+      "bulk_back_electrons_vg.dat": "d3e22417e48b5eee22e5361d22b351204a896c71ddb6da124b9f46dbac678f4c",
+      "bulk_donor.dat": "f8cf1cf8057766d4f5d9bc72f7ad5f44ccc8784e1e53b2a140cbe9131f004521",
+      "bulk_free_electrons_vg.dat": "2b3ef3f995f8824f24673d52b3d7acdb362a6896cd2277720a83e40110a45c83",
+      "bulk_front_electrons_vg.dat": "2cb736ce1157901cd029dcc077f9fa9eda6af2e994eda59f63de497840190733",
+      "bulk_ionized_acceptors_vg.dat": "7140082113cb4cdd1c71adaa6127424a75e0082f761daf9d7ecda2d3a40b9a99",
+      "bulk_ionized_donors_vg.dat": "3b4a24a4b8fdfde7dc10dcfeda87a99089b07d5eded94f40ba33aa1e41d43c16",
+      "deckbuild.out": "25fbff98b6fe9d6054dbf3749650cbcefe5ed39ea046a7e0cca5b31bcdb9d741",
+      "device.in": "af274661c5dc74d3ec57000997ab821e466fdca2872b6912e423679336b2c3a1",
+      "electrons_vg.dat": "6d1dcd82e23c8361eb0e15e191b59491bb3797e8163c1d631b19528c124da39a",
+      "equilibrium.str": "51bbcdb89f3443cf5eec0805d5176f2207713d37088a44f1a4c22c3616b14c2d",
+      "final.str": "f34a8e0c7bafe0ea55f3b975ecd409f99b46eeeb80246e2cee106947e58e89ad",
+      "geometry.str": "93008b6efc57be79b12057ffb01b1dfb82f1d8d51835d741e1e2e9d1a878914d",
+      "idvg.dat": "58aa8132462c2b800ebe38d2c40e4b435e4ca1daf143a960bb6e32df6d0f8234",
+      "igvg.dat": "dca84bc52603c934e49e5ba0823d798f185df04d9fb77941cf54661ae6ccc434",
+      "input_config.json": "7411cf29426cd8048dd88586359c8f6b7f22ae995cf521ca7a2ec13d71cf73d4",
+      "isvg.dat": "4f81ae4b4f59f45b61576acd39b86be977a3c79d899bdc7791476d2860480383",
+      "launcher_stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "launcher_stdout.txt": "ea2ff3527865d7a9ba5028f1c6a22d61ed2c62ffa426aa2967ebea42a3d4a1cf",
+      "mobility_vg.dat": "e11603890397711dd4cc003ca6e010f571edceab77d9a60e65e335bbfdaf6347",
+      "off.str": "24709ef6602505361a423a47aa4ad3536ecdc018a3aed76c66cb9a59aba41bb0",
+      "transfer.log": "e4b3184b74004aaf222bc43afb77a2c4ff44f9b4fa9aec5b1650ff96f60d84b3",
+      "vdvg.dat": "154231266cde0ce3ded5060e04529f88867057ee588a6a99c5a7ea0839809830",
+      "vsvg.dat": "247fec9ef4aaccfbfd549f3172050e08e759ca861c9d93db54ede7fac2325402"
+    },
+    "run_acceptable": true
+  },
+  "thresholds": {
+    "active_max_log10_decades": 0.01,
+    "ion_relative": 0.01,
+    "low_absolute_A_per_um": 1e-18,
+    "low_relative": 0.01,
+    "kcl_absolute_A_per_um": 1e-18,
+    "kcl_relative": 0.01,
+    "export_relative": 5.1e-06,
+    "export_absolute": 1e-30
+  },
+  "check": {
+    "status": "PASS",
+    "pass_check": true,
+    "design": {
+      "pass_check": true,
+      "changed_config": {
+        "numerics.alumina_intervals": [
+          4,
+          8
+        ],
+        "numerics.channel_intervals": [
+          8,
+          16
+        ],
+        "numerics.hafnia_intervals": [
+          10,
+          20
+        ]
+      },
+      "dos_populations": [],
+      "realized_mesh_refinement": {
+        "reference": {
+          "grid_points": 5880,
+          "triangles": 11440
+        },
+        "candidate": {
+          "grid_points": 8505,
+          "triangles": 16640
+        },
+        "pass_check": true
+      },
+      "regenerated_contact_commands_match": null,
+      "reason": "Require isolated requested control change, distinct actual commands, refinement direction, and doubling of every enabled DOS population."
+    },
+    "candidate": {
+      "run_id": "20260912T130613_869036_priority3_verify6_y",
+      "directory": "C:\\Users\\moham\\Downloads\\IWO_Local_Codex_Handoff (1)\\IWO_ATLAS_Model\\results\\local_session_20260910\\runs\\20260912T130613_869036_priority3_verify6_y",
+      "key": "6p3",
+      "width_um": 1.0,
+      "gate_points": 121,
+      "native_rows": 121,
+      "active_points": 56,
+      "realized_mesh": {
+        "grid_points": 8505,
+        "triangles": 16640
+      },
+      "raw_warning_lines": [
+        " Warning: Statement out of order. Structure ",
+        " Warning: Projection cannot be done with"
+      ],
+      "recovered_bias_reductions": 0,
+      "recovered_step_policy": "Allowed only with completion, all 121 targets, correct native biases and all-row signed KCL; exhausted retry/errors rejected.",
+      "kcl_recomputed_pass": true,
+      "kcl_failed_native_points": 0,
+      "max_kcl_A_per_um": 1.0000006145003761e-20,
+      "terminal_voltages_recomputed_pass": true,
+      "native_probes": {
+        "channel_mobility": {
+          "positive_at_all_active_points": true,
+          "nonpositive_active_points": 0,
+          "minimum": 12.0,
+          "maximum": 12.0
+        },
+        "channel_electrons": {
+          "positive_at_all_active_points": true,
+          "nonpositive_active_points": 0,
+          "minimum": 1.39246942e-32,
+          "maximum": 1.161715476e+18
+        }
+      },
+      "native_probes_pass": true,
+      "active_signed_drain_positive": true,
+      "native_extra_probes": {
+        "bulk_free_electrons": {
+          "minimum": 611539650900.0,
+          "maximum": 9.931570357e+18
+        },
+        "bulk_ionized_acceptors": {
+          "minimum": 28230328920000.0,
+          "maximum": 7.901508773e+18
+        },
+        "bulk_ionized_donors": {
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "bulk_front_electrons": {
+          "minimum": 3.588505852e-33,
+          "maximum": 2.718656474e+19
+        },
+        "bulk_back_electrons": {
+          "minimum": 2.431048683e-32,
+          "maximum": 2.47661266e+17
+        }
+      },
+      "drain_signs": {
+        "positive": 67,
+        "zero": 54,
+        "negative": 0
+      },
+      "measurement_sha256": "1d1414542f7ee53ff34116bcbcd1c358f07b4b5ad1f5e8e302e00c62c0415042",
+      "evidence_sha256": {
+        "execution.json": "28072644f207c401f1f650d5fab585d2ca40eda608822770dcab13fdaa004482",
+        "device.in": "dca6a964c3202ec5e6432054c7dd6f6cd461a8ecc3d4453123d5c6778f01e47b",
+        "input_config.json": "bfcd2008be55dab55de0b2b888823bf1a7af1efb5b8d67dc5b640f9225debe7c",
+        "comparison_all_measurements.csv": "c6048f4b4ceb741105ccedaccd30f9c6d706281d41a6a24759feedc0f26a2385"
+      },
+      "raw_output_sha256": {
+        "bulk_acceptor.dat": "fcf7cff06d4694f59e56d77963551297b5c4aeaa2a43c8b2493f0fe85e77c6c9",
+        "bulk_back_electrons_vg.dat": "854d03cdd1780fef95c40d4b78b486cbd793b9adeba5ed23e0978dd93652679f",
+        "bulk_donor.dat": "29e83bf83aa169b9c4888fbc57efe2e0608376c31ad9e53a4257c3ddf59c7735",
+        "bulk_free_electrons_vg.dat": "0e2c55ac825a3f992e1751fecaea341566c6b8df500ac581a526a68d22a35fdd",
+        "bulk_front_electrons_vg.dat": "aa248c33cb9a5a6e8d4b01655710a638893f4f22e62171e99bfc4f69572fee73",
+        "bulk_ionized_acceptors_vg.dat": "4d63835a7cd87281141ed34229659a5c86e6f1d0036e8a10b64089c0c5c87dc0",
+        "bulk_ionized_donors_vg.dat": "3b4a24a4b8fdfde7dc10dcfeda87a99089b07d5eded94f40ba33aa1e41d43c16",
+        "deckbuild.out": "1f3be9b51e1eca89f630dbf341a88accdf1e1b1ac6e86b8d6af8c8b9b0d15ddb",
+        "device.in": "dca6a964c3202ec5e6432054c7dd6f6cd461a8ecc3d4453123d5c6778f01e47b",
+        "electrons_vg.dat": "0fce28a945f5b342ebb43f3eb0747c4d27779d69a0c5ac51d6467c9745bd2cc4",
+        "equilibrium.str": "6e321d3aabe9346a9fe9a5e6f8a666492841a2f0a92abaaa8462c44d555f54c3",
+        "final.str": "63b56c8f9eb28d5c0b0ec214d2456cc75c6c4d7cc8b6769a7a491990e0ee5e9f",
+        "geometry.str": "33d81e351e3d05cbf3865be4b0f866a56b292568499597ca6d306387e8dfa7ca",
+        "idvg.dat": "4a0afa50379f5ab16f60df340fffc098100e04139bdd49d40da7dfe85afc7902",
+        "igvg.dat": "dca84bc52603c934e49e5ba0823d798f185df04d9fb77941cf54661ae6ccc434",
+        "input_config.json": "bfcd2008be55dab55de0b2b888823bf1a7af1efb5b8d67dc5b640f9225debe7c",
+        "isvg.dat": "3c1330fb216a79c2f50e828c2cf63b9e0f99a89ae880f462ea97af39da2005dc",
+        "launcher_stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "launcher_stdout.txt": "ea2ff3527865d7a9ba5028f1c6a22d61ed2c62ffa426aa2967ebea42a3d4a1cf",
+        "mobility_vg.dat": "e11603890397711dd4cc003ca6e010f571edceab77d9a60e65e335bbfdaf6347",
+        "off.str": "4b9e9435fb35015e4bca41ab8a4577501dffd42fde7ab2557aef264d3cc91750",
+        "transfer.log": "5d0a38e2e6e2135db377d06e1e0c5f203e86e4a463a31279beb45321ec273794",
+        "vdvg.dat": "154231266cde0ce3ded5060e04529f88867057ee588a6a99c5a7ea0839809830",
+        "vsvg.dat": "247fec9ef4aaccfbfd549f3172050e08e759ca861c9d93db54ede7fac2325402"
+      },
+      "run_acceptable": true
+    },
+    "active_max_log10_difference_decades": 0.001522058115279279,
+    "ion_relative_difference": 0.002592755626753207,
+    "low_current_signed_terminal_comparison": {
+      "ig": {
+        "points": 65,
+        "pass_check": true,
+        "failed_points": 0,
+        "max_absolute_difference_A_per_um": 0.0,
+        "low_sign_changes": 0
+      },
+      "is": {
+        "points": 65,
+        "pass_check": true,
+        "failed_points": 0,
+        "max_absolute_difference_A_per_um": 5.135280000001876e-17,
+        "low_sign_changes": 0
+      },
+      "id": {
+        "points": 65,
+        "pass_check": true,
+        "failed_points": 0,
+        "max_absolute_difference_A_per_um": 5.135039999999395e-17,
+        "low_sign_changes": 0
+      }
+    },
+    "all_point_signed_drain_linear_rmse_A_per_um": 3.6751399488344934e-10
+  },
+  "candidate_fit_metrics": {
+    "regions": {
+      "all": {
+        "target_count": 121,
+        "linear_denominator": 121,
+        "rmse_linear_A_per_um": 9.618707591861396e-09,
+        "mean_signed_linear_residual_A_per_um": 4.307152381467996e-09,
+        "max_absolute_linear_residual_A_per_um": 2.7053051599999968e-08,
+        "positive_log_denominator": 67,
+        "excluded_nonpositive_log_count": 54,
+        "positive_log_complete": false,
+        "rmse_positive_log10_decades": 1.813460383617639,
+        "mean_positive_log10_residual": -0.5837905654492188,
+        "max_absolute_positive_log10_residual": 7.900364929836202,
+        "native_positive_count": 67,
+        "native_zero_count": 54,
+        "native_negative_count": 0
+      },
+      "active": {
+        "target_count": 56,
+        "linear_denominator": 56,
+        "rmse_linear_A_per_um": 1.4138892550290168e-08,
+        "mean_signed_linear_residual_A_per_um": 9.306695701622216e-09,
+        "max_absolute_linear_residual_A_per_um": 2.7053051599999968e-08,
+        "positive_log_denominator": 56,
+        "excluded_nonpositive_log_count": 0,
+        "positive_log_complete": true,
+        "rmse_positive_log10_decades": 0.04891050629278929,
+        "mean_positive_log10_residual": 0.005527921189317981,
+        "max_absolute_positive_log10_residual": 0.0843200122705241,
+        "native_positive_count": 56,
+        "native_zero_count": 0,
+        "native_negative_count": 0
+      },
+      "low_current": {
+        "target_count": 65,
+        "linear_denominator": 65,
+        "rmse_linear_A_per_um": 1.53979615787873e-13,
+        "mean_signed_linear_residual_A_per_um": -1.464789725637987e-13,
+        "max_absolute_linear_residual_A_per_um": 2.456330128e-13,
+        "positive_log_denominator": 11,
+        "excluded_nonpositive_log_count": 54,
+        "positive_log_complete": false,
+        "rmse_positive_log10_decades": 4.474217233831338,
+        "mean_positive_log10_residual": -3.5839574065181328,
+        "max_absolute_positive_log10_residual": 7.900364929836202,
+        "native_positive_count": 11,
+        "native_zero_count": 54,
+        "native_negative_count": 0
+      },
+      "subthreshold": {
+        "target_count": 12,
+        "linear_denominator": 12,
+        "rmse_linear_A_per_um": 2.1228941134208372e-10,
+        "mean_signed_linear_residual_A_per_um": -1.2330131442966664e-10,
+        "max_absolute_linear_residual_A_per_um": 5.36623339e-10,
+        "positive_log_denominator": 12,
+        "excluded_nonpositive_log_count": 0,
+        "positive_log_complete": true,
+        "rmse_positive_log10_decades": 0.05572382067589873,
+        "mean_positive_log10_residual": -0.039485613366850636,
+        "max_absolute_positive_log10_residual": 0.0843200122705241,
+        "native_positive_count": 12,
+        "native_zero_count": 0,
+        "native_negative_count": 0
+      },
+      "on": {
+        "target_count": 44,
+        "linear_denominator": 44,
+        "rmse_linear_A_per_um": 1.595043674323288e-08,
+        "mean_signed_linear_residual_A_per_um": 1.1878513069636366e-08,
+        "max_absolute_linear_residual_A_per_um": 2.7053051599999968e-08,
+        "positive_log_denominator": 44,
+        "excluded_nonpositive_log_count": 0,
+        "positive_log_complete": true,
+        "rmse_positive_log10_decades": 0.04688079097734688,
+        "mean_positive_log10_residual": 0.017804339704636695,
+        "max_absolute_positive_log10_residual": 0.07313263023199212,
+        "native_positive_count": 44,
+        "native_zero_count": 0,
+        "native_negative_count": 0
+      }
+    },
+    "endpoint": {
+      "vg_V": 3.0,
+      "measured_A_per_um": 4.03448e-07,
+      "native_signed_A_per_um": 4.103159274e-07,
+      "signed_relative_error": 0.017023079554242537,
+      "signed_error_percent": 1.7023079554242537
+    }
+  }
+}

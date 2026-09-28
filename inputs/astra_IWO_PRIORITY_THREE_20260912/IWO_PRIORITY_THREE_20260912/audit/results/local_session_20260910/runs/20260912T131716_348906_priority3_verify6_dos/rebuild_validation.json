@@ -1,0 +1,137 @@
+{
+  "status": "REAL_ATLAS_DIAGNOSTIC_NOT_CALIBRATED",
+  "gate_points": 121,
+  "kcl_pass": true,
+  "kcl_absolute_limit_A_per_um": 1e-18,
+  "kcl_relative_limit": 0.01,
+  "kcl_failed_points": 0,
+  "max_kcl_absolute_A": 1.999999999985044e-21,
+  "terminal_count": 3,
+  "terminal_voltages_pass": true,
+  "nonpositive_drain_points": 54,
+  "structures_present": true,
+  "native_interface_DOS_export_present": false,
+  "mesh_width_DOS_sensitivity_complete": false,
+  "recovered_step_warnings_allowed": true,
+  "bias_cutback_warning_count": 0,
+  "cutback_acceptance_basis": "All original gate targets and terminal voltages exported, no unrecovered Cannot trap/fatal error; successful intermediate points may be present",
+  "native_probes": {
+    "mobility_vg.dat": {
+      "positive_points": 121,
+      "positive_at_all_active_points": true,
+      "minimum": 12.0,
+      "maximum": 12.0,
+      "sha256": "e11603890397711dd4cc003ca6e010f571edceab77d9a60e65e335bbfdaf6347"
+    },
+    "electrons_vg.dat": {
+      "positive_points": 121,
+      "positive_at_all_active_points": true,
+      "minimum": 1.39668e-32,
+      "maximum": 1.17911e+18,
+      "sha256": "54f13839a8c47aa99a5c554ec2b688c0b942d0b61ff2a3e9a090139980154218"
+    }
+  },
+  "native_probes_pass": true,
+  "independent_native_checks": {
+    "run_id": "20260912T131716_348906_priority3_verify6_dos",
+    "directory": "C:\\Users\\moham\\Downloads\\IWO_Local_Codex_Handoff (1)\\IWO_ATLAS_Model\\results\\local_session_20260910\\runs\\20260912T131716_348906_priority3_verify6_dos",
+    "key": "6p3",
+    "width_um": 1.0,
+    "gate_points": 121,
+    "native_rows": 121,
+    "active_points": 56,
+    "realized_mesh": {
+      "grid_points": 5880,
+      "triangles": 11440
+    },
+    "raw_warning_lines": [
+      " Warning: Statement out of order. Structure ",
+      " Warning: Projection cannot be done with"
+    ],
+    "recovered_bias_reductions": 0,
+    "recovered_step_policy": "Allowed only with completion, all 121 targets, correct native biases and all-row signed KCL; exhausted retry/errors rejected.",
+    "kcl_recomputed_pass": true,
+    "kcl_failed_native_points": 0,
+    "max_kcl_A_per_um": 3.99999987306209e-21,
+    "terminal_voltages_recomputed_pass": true,
+    "native_probes": {
+      "channel_mobility": {
+        "positive_at_all_active_points": true,
+        "nonpositive_active_points": 0,
+        "minimum": 12.0,
+        "maximum": 12.0
+      },
+      "channel_electrons": {
+        "positive_at_all_active_points": true,
+        "nonpositive_active_points": 0,
+        "minimum": 1.396678612e-32,
+        "maximum": 1.179109989e+18
+      }
+    },
+    "native_probes_pass": true,
+    "active_signed_drain_positive": true,
+    "native_extra_probes": {
+      "bulk_free_electrons": {
+        "minimum": 784929932400.0,
+        "maximum": 9.97451865e+18
+      },
+      "bulk_ionized_acceptors": {
+        "minimum": 17352444630000.0,
+        "maximum": 7.877072761e+18
+      },
+      "bulk_ionized_donors": {
+        "minimum": 0.0,
+        "maximum": 0.0
+      },
+      "bulk_front_electrons": {
+        "minimum": 3.671496831e-33,
+        "maximum": 2.611921881e+19
+      },
+      "bulk_back_electrons": {
+        "minimum": 2.428954665e-32,
+        "maximum": 2.497793248e+17
+      }
+    },
+    "drain_signs": {
+      "positive": 67,
+      "zero": 54,
+      "negative": 0
+    },
+    "measurement_sha256": "1d1414542f7ee53ff34116bcbcd1c358f07b4b5ad1f5e8e302e00c62c0415042",
+    "evidence_sha256": {
+      "execution.json": "94a5d954d3a497e911c7f47e69a7530c8e70543ec0b9558f49bc2edd0a0516be",
+      "device.in": "d5931aa8592b04f6b7fc6084272faae5aac1d1d9213fa7790eb93dceef3a4514",
+      "input_config.json": "34b50639018de8643ef3b09615465b4b75131fe94fbdb244a42b88ae2d581748",
+      "comparison_all_measurements.csv": "563dbf2dc3ecc94916bc28a4c9ea284b341c1fe365ad920a3c81505ac3df5342"
+    },
+    "raw_output_sha256": {
+      "bulk_acceptor.dat": "6c69445eae21ad6e1ade5ccd5cc2c435ec0837351eab490dc79799520ed27a8c",
+      "bulk_back_electrons_vg.dat": "18d0a1ed27ecba3699540e5f69fe4f9064180cfd8640e05ff8484aba133c9b24",
+      "bulk_donor.dat": "4a1b68892d3aabd6ae7688c43dea305f322b82b5c305adb046fdbe95707ac466",
+      "bulk_free_electrons_vg.dat": "a40bffe27103db6be1be2566a2b799472934c5fe35ba980a20f08e698b1deca6",
+      "bulk_front_electrons_vg.dat": "06d19c53458d2f6b7351da7749cca6438ba08d1fb1669c30dcb4a2a2f0a7399a",
+      "bulk_ionized_acceptors_vg.dat": "af004b6c173d2d0c681fb6b6359d35c080b4e9e59de117452115a5f47b53ad82",
+      "bulk_ionized_donors_vg.dat": "3b4a24a4b8fdfde7dc10dcfeda87a99089b07d5eded94f40ba33aa1e41d43c16",
+      "deckbuild.out": "b8e1d1ab98cd2d3d6a910faba0c3b1d11d30060b314b96141d29f87b5a57cea2",
+      "device.in": "d5931aa8592b04f6b7fc6084272faae5aac1d1d9213fa7790eb93dceef3a4514",
+      "electrons_vg.dat": "54f13839a8c47aa99a5c554ec2b688c0b942d0b61ff2a3e9a090139980154218",
+      "equilibrium.str": "3548b3bd511ff245fda3d4dcef9286aedacbbf62754b76cb27eccd22a0be06a6",
+      "final.str": "b3876d61125e0aff30347f9bdc9880100b25694438792ecad4ba39745c2e3988",
+      "geometry.str": "10480c3f961498bf5290a6a7372e79758f1dccfc8fb49dbc338a186e832e4bcf",
+      "idvg.dat": "c078f2f4bf86d227f73450bb0accc15d6884ba6c4c196e34d1a163f03b293156",
+      "igvg.dat": "dca84bc52603c934e49e5ba0823d798f185df04d9fb77941cf54661ae6ccc434",
+      "input_config.json": "34b50639018de8643ef3b09615465b4b75131fe94fbdb244a42b88ae2d581748",
+      "isvg.dat": "2824015499947151b7a9f04d0dbd62026ce5be10b2662bdb429c633e863cc7c2",
+      "launcher_stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "launcher_stdout.txt": "ea2ff3527865d7a9ba5028f1c6a22d61ed2c62ffa426aa2967ebea42a3d4a1cf",
+      "mobility_vg.dat": "e11603890397711dd4cc003ca6e010f571edceab77d9a60e65e335bbfdaf6347",
+      "off.str": "b3a00b7171814b45be38de3f4fcd28fba7dfd6e95edd212352d8731c458c998a",
+      "transfer.log": "d10a48035dfb4e32d919af770e8404f19ede0410fced738a8c8fd4e7bb671e36",
+      "vdvg.dat": "154231266cde0ce3ded5060e04529f88867057ee588a6a99c5a7ea0839809830",
+      "vsvg.dat": "247fec9ef4aaccfbfd549f3172050e08e759ca861c9d93db54ede7fac2325402"
+    },
+    "run_acceptable": true
+  },
+  "native_evidence_pass": true,
+  "calibration_eligible": false
+}

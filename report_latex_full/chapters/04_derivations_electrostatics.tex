@@ -1,0 +1,1345 @@
+% ===================================================================
+% chapters/04_derivations_electrostatics.tex  (writer D1)
+% Physical model I: electrostatics, band structure, density of states and charges
+% ASCII only.
+% ===================================================================
+\chapter{Physical model I: electrostatics, band structure, density of states and charges}
+\label{ch:derivations-es}
+
+This chapter documents, one input at a time, every parameter that determines the electrostatics of the
+simulated IWO thin-film transistor: the gate stack, the dielectric constant and band structure of the
+channel, the thickness-dependent conduction-band shift attributed to quantum confinement, the effective
+masses and effective densities of states, the localized-state (trap) spectrum, and the fixed and
+interface charges. It closes with three derivations that relate these inputs to the measured quantities:
+the threshold charge budget, the subthreshold-slope relations (including the trap-density inversion
+used in the analysis), and the Debye and depletion length scales that decide whether a film is fully depleted.
+For each electrostatic input the chapter states the number that enters the ATLAS deck, its origin, the way in
+which it could be derived or measured, the strength of its control over the simulated transfer curve, and the
+confidence that it deserves.
+
+Every section has the same internal structure: definition and role, values per thickness, source,
+derivation, ATLAS implementation, sensitivity evidence and status. Status labels follow the provenance
+vocabulary (\prov{MEASURED\_TARGET\_DEVICE}, \prov{LITERATURE\_IWO}, \prov{MEASURED\_RELATED\_MATERIAL},
+\prov{DFT\_PURE\_IN2O3\_PROXY}, \prov{FITTED}, \prov{ASSUMED}, \prov{CALCULATED}); evidence classes use
+\evDATA, \evNUM, \evCAL, \evOOS, \evPOST, \evPRED, \evSURR, \evTHEORY, \evLIT{} as defined in the nomenclature.
+The configuration values are those of \file{config/iwo_material_model.yaml}. The analysis reports of
+2026-09-25 are abbreviated as S1 (\file{analysis_2026-09-25/S1_electrostatics_6p3nm.md}), S3
+(\file{S3_quantum_confinement.md}), S4 (\file{S4_defects_traps.md}), S6
+(\file{S6_tcad_numerics_predictions.md}), the evidence brief (\file{EVIDENCE_BRIEF.md}), REVIEW and
+SYNTHESIS, all in \file{analysis_2026-09-25/}. Sensitivity numbers at 2~nm are one-at-a-time
+perturbations of the calibrated deck \run{0012} (DOS 96/48) or, for the isolation tests, of \run{0038}
+(DOS 384/192); they are summarised graphically in \cref{fig:param_control_2nm,fig:param_control_delta}
+and discussed as a whole in \cref{sec:cal-param-control}. Three standing corrections of SYNTHESIS
+section~K apply throughout: \run{0027} (contact overlap) is malformed and retracted and is never used
+here; $\SSmin$ is not a reliable metric (\cref{sec:der-metrics}), so slopes are quoted at fixed current; and the confinement shift
+is not identified by the transfer curves, because it is degenerate with a fixed charge
+(\cref{sec:par-dec,sec:par-qf}).
+
+Throughout, $q$ is the elementary charge, $\kT = \SI{25.85}{meV}$ ($T = \SI{300}{K}$ assumed; the
+measurement temperature was not recorded), $\tIWO$ (or $t$) the nominal channel thickness, and energies of
+localized states are referenced to the local conduction-band edge $\Ec$ unless stated otherwise.
+
+% -------------------------------------------------------------------
+\section{Gate stack: thicknesses, permittivities, oxide capacitance and EOT}
+\label{sec:par-stack}
+
+\paragraph{Definition and role.}
+The bottom gate is a TiN electrode (\SI{50}{nm}) under a bilayer dielectric of \HfO{} (\SI{15}{nm}) and
+\AlO{} (\SI{2}{nm}); the IWO channel sits on the \AlO{}, Pd source/drain contacts (\SI{70}{nm}) are on top,
+and the channel is exposed to air (no passivation); $W/L = 290/20~\mu$m, $\Vd = \SI{0.7}{V}$
+(\cref{fig:stack_schematic}, \cref{sec:inp-geometry}). The gate-stack capacitance $\Cox$ converts every sheet
+charge into a gate-voltage shift and is therefore the most important electrostatic constant of the
+model; the ratio $q/\Cox$ converts charge into threshold voltage in every section below.
+
+\paragraph{Values used.}
+Thickness-independent (the same stack for all films): $t_{\mathrm{HfO_2}} = \SI{15}{nm}$,
+$\varepsilon_{\mathrm{HfO_2}} = 19.57$, $t_{\mathrm{Al_2O_3}} = \SI{2}{nm}$,
+$\varepsilon_{\mathrm{Al_2O_3}} = 9.0$; hence $\EOT = \SI{3.86}{nm}$,
+$\Cox = \SI{8.955e-7}{\farad\per\centi\metre\squared}$ and $q/\Cox = \SI{0.179}{V}$ per
+$10^{12}\cmsq$ (evidence brief).
+
+\paragraph{Source.}
+Layer thicknesses and device geometry: the device schematic \citep{DeviceSchematic}. The \HfO{}
+permittivity 19.57 is the C--V value of the target process in the supporting information of the target
+paper \citep[SI Fig.~S1b]{JanuarSI2026}; the SI is not bundled and the value was taken over from the Astra
+audit (\file{digest/used_items.csv}). The \AlO{} permittivity 9.0 is \prov{ASSUMED} (not measured on the
+target process).
+
+\paragraph{Derivation.}
+The two dielectrics are capacitors in series,
+\begin{equation}
+  \frac{1}{\Cox} = \frac{t_{\mathrm{HfO_2}}}{\varepsilon_0\varepsilon_{\mathrm{HfO_2}}}
+                 + \frac{t_{\mathrm{Al_2O_3}}}{\varepsilon_0\varepsilon_{\mathrm{Al_2O_3}}},
+  \qquad
+  \EOT = 3.9\,\varepsilon_0/\Cox
+       = t_{\mathrm{HfO_2}}\frac{3.9}{\varepsilon_{\mathrm{HfO_2}}} + t_{\mathrm{Al_2O_3}}\frac{3.9}{\varepsilon_{\mathrm{Al_2O_3}}}.
+  \label{eq:d1-cox}
+\end{equation}
+With the values above, $\EOT = 15\times 3.9/19.57 + 2\times 3.9/9.0 = 2.989 + 0.867 = \SI{3.856}{nm}$ and
+$\Cox = 3.9\times\SI{8.854e-14}{F/cm}/\SI{3.856e-7}{cm} = \SI{8.955e-7}{\farad\per\centi\metre\squared}$.
+A sheet charge $\Delta Q$ (in cm$^{-2}$) placed at the channel/dielectric interface shifts the gate voltage by
+\begin{equation}
+  \Delta V = \frac{q\,\Delta Q}{\Cox} = \SI{0.1789}{V}\times\frac{\Delta Q}{10^{12}\cmsq}.
+  \label{eq:d1-qcox}
+\end{equation}
+The dominant uncertainty is $\varepsilon_{\mathrm{Al_2O_3}}$: evaluating \cref{eq:d1-cox} with 8.0 gives
+$\EOT = \SI{3.96}{nm}$ (+2.8\,\%) and with 7.0 gives \SI{4.10}{nm} (+6.4\,\%). REVIEW quotes ``about 3\,\%''
+for the range 7--9; the calculation above shows that this holds for the upper half of the range, and that
+the lower end reaches about 6\,\%. Every charge derived through $q/\Cox$ in this report (e.g.\ $\Qf$) scales with it.
+An accumulation C--V measurement on a MIM capacitor of the same stack (TiN/\HfO/\AlO/metal)
+would fix $\Cox$ directly, independently of both permittivities.
+
+\paragraph{ATLAS implementation.}
+The \HfO{} and \AlO{} layers are insulator REGIONs whose permittivity is set with the PERMITTIVITY parameter of
+the MATERIAL statement \citep[p.~1340]{AtlasManual}; the TiN gate is an electrode with a work function
+(\cref{sec:par-gatewf}). The full statement list is reproduced in \cref{ch:app-decks}.
+
+\paragraph{Sensitivity evidence.}
+No run varies $\Cox$; its effect enters analytically through \cref{eq:d1-qcox}. The rigid-shift property of
+$\Cox$-weighted charges was verified in ATLAS: a change of $\Qf$ reproduces $\Delta\Vth = -q\Delta\Qf/\Cox$
+to \SI{1}{mV} (runs \run{0001}$\rightarrow$\run{0003} and \run{0005}$\rightarrow$\run{0007}, evidence brief).
+
+\paragraph{Status.}
+Thicknesses \prov{MEASURED\_TARGET\_DEVICE} (nominal); $\varepsilon_{\mathrm{HfO_2}}$
+\prov{MEASURED\_TARGET\_DEVICE}; $\varepsilon_{\mathrm{Al_2O_3}}$ \prov{ASSUMED}; $\Cox$, $\EOT$
+\prov{CALCULATED}. Caveat: the thickness-measurement method is not reported, and 3--6\,\% of $\Cox$
+uncertainty propagates into every fitted charge.
+
+% -------------------------------------------------------------------
+\section{Relative permittivity of the IWO channel}
+\label{sec:par-eps-iwo}
+
+\paragraph{Definition and role.}
+$\epsIWO$ is the static relative permittivity of the channel. It enters Poisson's equation inside the film
+and therefore only the \emph{internal} potential drop across the film: the back-surface lever arm
+$t/\varepsilon_s$ (\cref{sec:par-backq}), the donor term $q\Nd t^2/2\varepsilon_s$ (\cref{sec:par-nd}), the
+Debye and trap-screening lengths (\cref{sec:der-depletion}) and the image-charge correction to
+confinement (\cref{sec:der-confinement}).
+
+\paragraph{Values used.}
+$\epsIWO = 9.3$ for all thicknesses; no thickness dependence is imposed (no evidence for one).
+
+\paragraph{Source.}
+C--V of IWO of the target process, $9.30\pm0.04$ \citep[SI Fig.~S1b]{JanuarSI2026} (SI not bundled; value
+recorded by the Astra audit). The same SI gives 9.03 for \InO{} of the target process. Alternatives: the
+static (DC) permittivity of single-crystal \InO{}, 10.55 \citep[p.~225102-12]{Stokey2021}, and 8.9 for
+\InO{} as quoted by \citet[p.~501]{Si2021} (their source, Hamberg and Granqvist, concerns evaporated Sn-doped \InO{}
+films; reference list p.~506).
+
+\paragraph{Derivation (how it is measured).}
+For a MIM or MIS structure with a film of thickness $t$, $\varepsilon_r = C t/(\varepsilon_0 A)$ in
+depletion/insulating conditions; for a semiconducting film it is extracted from the series combination
+with the known dielectric. A THz/Lyddane--Sachs--Teller route gives the crystal value,
+$\varepsilon_{DC} = \varepsilon_\infty\prod(\omega_{LO}/\omega_{TO})^2$, used by \citet[p.~225102-12]{Stokey2021}.
+The model uses the device-process C--V value because it contains the actual film microstructure.
+
+\paragraph{ATLAS implementation.}
+MATERIAL \ldots\ PERMITTIVITY=9.3 on the IWO region(s) \citep[p.~1340]{AtlasManual}.
+
+\paragraph{Sensitivity evidence.}
+\run{0026} ($\epsIWO = 10.55$ vs \run{0012}, 2~nm): $\Delta\Vthcc = -0.001$~V, fixed-current SS
+($10^{-10}$--$10^{-9}\Aum$) $-0.4\mVdec$, $\Delta\Ion = +0.7$\,\% (\file{figures/MANIFEST.md}, param\_control\_delta).
+At 2~nm the permittivity is electrostatically irrelevant (SYNTHESIS: ``donors and permittivity change the 2~nm
+result by $<2$\,\%'', runs \run{0022}, \run{0026}). The internal term grows with $t$ (it is $\propto t/\varepsilon_s$),
+so the insensitivity is not established at 13.2~nm, where no permittivity run exists.
+
+\paragraph{Status.}
+\prov{MEASURED\_TARGET\_DEVICE} (via an unbundled SI; page-level verification of the SI not possible here);
+\evNUM{} for the insensitivity at 2~nm.
+
+% -------------------------------------------------------------------
+\section{Band gap}
+\label{sec:par-eg}
+
+\paragraph{Definition and role.}
+$\Eg(t) = \Eg^{\mathrm{bulk}} + \dEg(t)$ is the fundamental gap of the channel. In the electrons-only
+drift--diffusion model holes are not solved, so $\Eg$ enters only (i) the intrinsic density
+$n_i = \sqrt{\Nc\Nv}\exp(-\Eg/2\kT)$, which is negligible, and (ii) the energy range over which the tail and
+Gaussian defect distributions are integrated (\cref{sec:par-tail,sec:par-deep}). The thickness dependence is
+carried entirely by the conduction band (\cref{sec:par-dec}).
+
+\paragraph{Values used.}
+$\Eg^{\mathrm{bulk}} = \SI{3.05}{eV}$ ($\pm\SI{0.2}{eV}$). With $\dEg = \dEc$ from \cref{eq:dec-law}:
+$\Eg = 3.403$ / 3.122 / 3.076~eV at 2.0 / 6.3 / 13.2~nm (evaluated from the configuration law).
+
+\paragraph{Source.}
+Sputtered amorphous IWO of a different device, \citet[Sec.~3]{Fan2021} (not bundled; value taken over
+from the Astra audit, \file{digest/used_items.csv}). PBE absolute gaps (0.94~eV bulk \InO{}; 1.27 and 1.88~eV
+for 1.98 and 0.95~nm slabs, \citealp[p.~21542]{Lin2022}) are \emph{not} used because semi-local DFT
+underestimates absolute gaps; only slab-minus-bulk differences enter (\cref{sec:par-dec}). The partition
+$\dEc/\dEg = 1$ follows the observation that the valence-band edge is almost unchanged under confinement in
+the \InO/\AlO{} slabs \citep[p.~504]{Si2021}.
+
+\paragraph{Derivation (how it could be measured).}
+Optical absorption (Tauc analysis), spectroscopic ellipsometry or REELS on films of each thickness would
+give $\Eg(t)$; S3 lists the expected signature: $\Eg(2)-\Eg(13.2) \approx 0.2$--$0.45$~eV if the film
+confinement is real, $<0.02$~eV if not (S3 falsification table).
+
+\paragraph{ATLAS implementation.}
+MATERIAL EG300 on each IWO region \citep[p.~1338]{AtlasManual}, set per thickness by the deck builder.
+
+\paragraph{Sensitivity evidence.}
+No run varies $\Eg$ alone. Since holes are not solved and $n_i \lesssim 10^{-7}\cmcu$ (evaluated from the
+formula with the values of \cref{sec:par-nc,sec:par-nv}), $\Eg$ has no first-order effect on the transfer
+curve; its only role is the integration range of the defect distributions, whose integrands are negligible
+at mid-gap.
+
+\paragraph{Status.}
+$\Eg^{\mathrm{bulk}}$ \prov{LITERATURE\_IWO} (different device, not bundled); $\dEg(t)$
+\prov{DFT\_PURE\_IN2O3\_PROXY}; the transfer curves are insensitive to it (\evTHEORY).
+
+% -------------------------------------------------------------------
+\section{Electron affinity}
+\label{sec:par-chi}
+
+\paragraph{Definition and role.}
+$\chiIWO(t) = \chi^{\mathrm{bulk}} - \dEc(t)$ places the conduction-band edge relative to the vacuum level and
+thereby relative to the gate work function $\phi_M$. The combination $\phi_M - \chiIWO$ is the flat-band
+offset of the gate with respect to the channel conduction band; it enters the threshold voltage one-to-one
+(\cref{sec:der-vth-budget}).
+
+\paragraph{Values used.}
+$\chi^{\mathrm{bulk}} = \SI{4.3}{eV}$ ($\pm\SI{0.3}{eV}$); $\chiIWO = 3.947$ / 4.228 / 4.274~eV at
+2.0 / 6.3 / 13.2~nm (configuration law).
+
+\paragraph{Source.}
+\citet[Sec.~3]{Fan2021}, a composition-mixing (96/4) estimate for IWO (not bundled; recorded by the Astra
+audit). Consistency check: the charge-neutrality level of \InO{} lies about 0.4~eV \emph{above} $\Ec$
+\citep[pp.~503--504]{Si2021}, which is why low-barrier contacts and electron accumulation at \InO{} surfaces are
+expected; the thin film's $\Ec$ rises by $\dEc$, so the neutrality level appears deeper relative to $\Ec$ in
+the thinnest film.
+
+\paragraph{Derivation (how it could be measured).}
+UPS (work function and $E_F-\Ev$) combined with the optical gap, or IPES directly, gives $\chi$; an
+alternative electrical route is the flat-band voltage of a MIS capacitor with a known gate metal, which
+measures $\phi_M - \chi$ plus fixed charge -- exactly the degenerate combination discussed in
+\cref{sec:par-qf}.
+
+\paragraph{ATLAS implementation.}
+MATERIAL AFFINITY on each IWO region \citep[p.~1337]{AtlasManual}; the confinement shift is imposed by
+lowering AFFINITY by $\dEc(t)$ and raising EG300 by the same amount (\cref{sec:par-dec}).
+
+\paragraph{Sensitivity evidence.}
+\run{0020} ($\chi-0.1$~eV) and \run{0021} ($\chi+0.1$~eV) vs \run{0012}: $\Delta\Vthcc = +0.100$ / $-0.100$~V,
+fixed-current SS unchanged ($+0.0\mVdec$), $\Delta\Ion = -6.9$ / $+7.0$\,\%. S6 shows that work function,
+electron affinity and $\Qf$ are each an exact rigid shift at every thickness tested (max
+$|\Delta\log_{10}\Id| \le 1.6\times10^{-5}$ after a 0.100~V shift), hence they cannot alter the thickness
+dependence. The $\Ion$ change is the rigid shift evaluated at fixed $\Vg = 3$~V.
+
+\paragraph{Status.}
+\prov{LITERATURE\_IWO} (bulk) + \prov{DFT\_PURE\_IN2O3\_PROXY} (thickness dependence). Not identifiable from
+$\Id$--$\Vg$: degenerate with $\phi_M$ and $\Qf$ (1~V $\leftrightarrow$ $5.6\times10^{12}\cmsq$, S3).
+
+% -------------------------------------------------------------------
+\section{Confinement shift of the conduction-band edge: the thickness law}
+\label{sec:par-dec}
+
+\paragraph{Definition and role.}
+$\dEc(t)$ is the upward shift of the conduction-band edge of a film of thickness $t$ relative to the bulk,
+attributed to geometric quantum confinement. In the classical drift--diffusion model it is inserted as a
+rigid shift of the band edge (and of the gap, since $\dEc/\dEg = 1$). Because all localized-state distributions
+are referenced to $\Ec$ (\cref{sec:par-tail,sec:par-deep,sec:par-dit}), the whole DOS moves with it, and the
+shift acts on the transfer curve as an almost exact rigid translation in $\Vg$.
+
+\paragraph{Values used.}
+\begin{equation}
+  \dEc(t) = \dEg(t) = a\,t_{\mathrm{nm}}^{-p},\qquad a = \SI{0.9205}{eV},\quad p = 1.3815,
+  \label{eq:dec-law}
+\end{equation}
+giving $\dEc = 0.353$ / 0.072 / 0.026~eV at 2.0 / 6.3 / 13.2~nm (evidence brief).
+
+\paragraph{Source.}
+Least-squares fit of $\ln\dEc$ vs $\ln t$ through three PBE slab-minus-bulk shifts of pure \InO{}:
+$0.94$~eV at 0.95~nm and $0.33$~eV at 1.98~nm (\citealp[p.~21542]{Lin2022}: slab gaps 1.88 and 1.27~eV
+minus the bulk 0.94~eV), and $\dEc = 0.6$~eV for a 1.5~nm \InO{} layer on \AlO{} with $\Ev$ almost unchanged
+\citep[p.~504]{Si2021}. The fit reproduces the points to $+5$ / $-12$ / $+8$\,\% (0.988, 0.526, 0.358~eV at
+0.95, 1.5, 1.98~nm). The stated uncertainty is $\pm50$\,\%.
+
+\paragraph{Derivation.} The full derivation, including the effective-mass, finite-barrier and
+Schr\"odinger--Poisson cross-checks, is given in \cref{sec:der-confinement}. Two properties of the law matter
+for its use. (i) It is a \emph{local} power law of three points below 2~nm; the effective-mass limit is
+$t^{-2}$, so the fitted exponent 1.38 necessarily overestimates the shift when extrapolated to thicker films
+($\times1.45$ at 6.3~nm and $\times2.15$ at 13.2~nm relative to the DFT-anchored effective-width estimate $E_1$ of S3,
+\cref{tab:d1-e1}; $\times1.59$ / $\times2.51$ relative to the infinite-well upper bound, SYNTHESIS Q3). The two pairs
+of factors describe the same overshoot against different references and do not conflict.
+(ii) The law describes a subband energy, whereas a classical model needs the \emph{subthreshold-equivalent}
+shift, which is smaller by the 2-D density-of-states gain (\cref{eq:d1-dec-eq}).
+
+\paragraph{ATLAS implementation.}
+MATERIAL AFFINITY$=\chi^{\mathrm{bulk}}-\dEc(t)$ and EG300$=\Eg^{\mathrm{bulk}}+\dEc(t)$ on the IWO region
+\citep[pp.~1337--1338]{AtlasManual}; no Schr\"odinger or quantum-correction model is enabled in V1 (the MODELS
+statement offers a Schr\"odinger--Poisson solver whose quantization direction and masses are set by SP.DIR
+and the band masses, \citealp[p.~1469]{AtlasManual}; it was not used in the V1 decks).
+
+\paragraph{Sensitivity evidence.}
+Removing confinement at 2~nm (\run{0016} vs \run{0012}, same $\Qf$ and mobility) shifts $\Vthcc$ by $-0.315$~V
+(0.676 $\rightarrow$ 0.361~V), $\Vthlin$ by $-0.299$~V and raises $\Ion$ by 21.4\,\%; at 13.2~nm
+(\run{0017} vs \run{0013}) the shift is $-0.023$~V (evidence brief; S3). The shift is rigid: the horizontal
+offset is constant at 0.345~V from $10^{-14}$ to $10^{-11}\Aum$, equal to $\dEc - \kT\ln(\Nc$ ratio$)$
+$= 0.3451$~V, and the local SS vs $\log\Id$ profiles of the on/off pairs agree within 1--2$\mVdec$ (S3). The
+apparent change of $\SSmin$ (73 $\rightarrow$ 84 and 151 $\rightarrow$ 139$\mVdec$) is an extraction artefact of
+the floor-dependent window (\cref{sec:der-metrics}). At 6.3~nm the confinement contribution is 0.064~V
+(\run{0034} minus \run{0014}, corrected for the exact $\Qf$ shift; S1).
+
+\paragraph{Status and caveats.}
+\prov{DFT\_PURE\_IN2O3\_PROXY}, extrapolated beyond 2~nm. Verdicts (S3, SYNTHESIS): film confinement at 2~nm
+is physically expected (\evTHEORY; not measured on these films, and not identified from $\Id$--$\Vg$); the ATLAS value 0.353~eV (realised 0.315--0.345~V) is
+\emph{plausible, unverified} and high relative to Schr\"odinger--Poisson (by 0.09~V against the central SP
+case); the $t^{-1.38}$ law beyond 3~nm is \emph{rejected as physics} (kept as a numerical interpolation, its
+Vth impact at 6.3~nm is $\le 0.035$~V); ``the transfer data require confinement'' is \emph{rejected}
+(held-out \run{0034}, \evPOST); and $\dEc$ is \emph{not identifiable} from one $\Id$--$\Vg$ per thickness: at 2~nm
+it is equivalent to $1.68$--$1.76\times10^{12}\cmsq$ of fixed negative charge (S3), i.e.\ it trades one-to-one
+against $\Qf$ (\cref{sec:par-qf}; \cref{fig:symmetric_calibration}).
+
+\begin{figure}[tbp]
+  \centering
+  \includegraphics[width=\linewidth]{thickness_laws}
+  \caption{Thickness laws of the V1 model. (a) $\dEc(t)$: the ATLAS law $0.9205\,t^{-1.3815}$~eV
+  (\cref{eq:dec-law}) against the infinite-well effective-mass $E_1$ for $\mstar = 0.18$, 0.26 and 0.35~$m_0$,
+  the PBE slab points of \citet[p.~21542]{Lin2022} and \citet[p.~504]{Si2021}, and the Schr\"odinger--Poisson
+  subthreshold-equivalent shifts of S3 (case Q1 at $n_s = 10^{10}\cmsq$). Above 3~nm the power law diverges
+  from the $t^{-2}$ limit. (b) $\mstar(t)$ law with the PBE slab points. (c) $\Nt(t)$ power law
+  against the surface\,+\,bulk alternative through the same anchors. (d) $\Ndeff(t)$. (e) Roughness factor
+  $(1-\Dsr/t)^2$ (used in \cref{sec:par-rough}). Laws from \file{config/iwo_material_model.yaml}; DFT points
+  from \file{tables/THICKNESS_LAW_EVIDENCE.csv}; SP shifts from \file{scratch/S3/s3_sp1d_notraps_out.txt}.}
+  \label{fig:thickness_laws}
+\end{figure}
+
+% -------------------------------------------------------------------
+\section{Derivation of the confinement shift}
+\label{sec:der-confinement}
+
+This section derives $\dEc(t)$ from first principles at increasing levels of realism and compares each level
+with the law of \cref{eq:dec-law}. All numbers are from S3 (\file{S3_quantum_confinement.md} and its scripts
+in \file{scratch/S3/}), which is a specialist 1-D surrogate (\evSURR) checked against ATLAS.
+
+\paragraph{(1) Infinite square well, parabolic band.}
+An electron with isotropic effective mass $\mstar$ confined between impenetrable walls at $z=0$ and $z=t$
+obeys $-(\hbar^2/2\mstar)\,\psi''(z) = E\psi(z)$ with $\psi(0)=\psi(t)=0$, so $\psi_j \propto \sin(j\pi z/t)$ and
+\begin{equation}
+  E_j = \frac{\hbar^2\pi^2 j^2}{2\mstar t^2}
+  \quad\Rightarrow\quad
+  E_1 = \frac{\SI{0.376}{eV}}{(\mstar/m_0)\,t_{\mathrm{nm}}^2}.
+  \label{eq:e1-infinite}
+\end{equation}
+For $t = 2$~nm this gives 0.522 / 0.452 / 0.366 / 0.269~eV for $\mstar = 0.18$ / 0.208 / 0.257 / 0.35~$m_0$
+(S3), bracketing the ATLAS value 0.353~eV. The $t^{-2}$ scaling is exact in this limit; any fitted exponent
+smaller than 2 is a sign of finite barriers and band non-parabolicity at small $t$.
+
+\paragraph{(2) Non-parabolicity.}
+In a Kane-type band $E(1+\alpha E) = \hbar^2k^2/2\mstar$ the effective mass grows with energy,
+$m(E) = \mstar(1+2\alpha E)$, so a large confinement energy is partly self-limiting. Replacing $k = \pi/t$ gives
+$E_1 = [-1+\sqrt{1+4\alpha E_1^{(0)}}]/(2\alpha)$ with $E_1^{(0)}$ from \cref{eq:e1-infinite}; S3 finds
+0.430 / 0.380 / 0.316 / 0.240~eV at 2~nm for the same four masses. The same physics explains why the PBE slab
+masses rise as the slab thins (\cref{sec:par-mstar}).
+
+\paragraph{(3) Finite barriers.}
+The film is bounded by \AlO{} (below) and air (above). With BenDaniel--Duke boundary conditions
+($\psi$ and $\psi'/m$ continuous) the wave function penetrates the barriers and $E_1$ falls: S3 obtains
+0.231--0.252~eV at 2~nm for a heavy barrier mass and 0.305~eV for equal masses ($\mstar = 0.18$, with
+non-parabolicity), 0.039--0.040~eV at 6.3~nm and 0.010--0.011~eV at 13.2~nm.
+
+\paragraph{(4) DFT anchoring.}
+PBE slab calculations include the true band structure, the surface termination and the non-parabolicity, but
+not the device environment; they underestimate absolute gaps, so only the slab-minus-bulk difference is used.
+S3 constructs an ``effective width'' anchored on the slab shifts and obtains $E_1 \approx 0.35$~eV at 2~nm,
+i.e.\ agreement with \cref{eq:dec-law} at 2~nm by construction (\cref{tab:d1-e1}, ratio 0.99). The slab
+terminations (H-passivated/vacuum in \citealp[p.~21542]{Lin2022}; \InO{} on one \AlO{} layer with an H-terminated top surface in
+\citealp[pp.~504--505]{Si2021})
+differ from the device (\AlO{} below, air above), and W is absent from the slabs; hence the $\pm50$\,\%
+uncertainty.
+
+\begin{table}[tbp]
+  \centering\small
+  \caption{Effective-mass ground-state energy $E_1$ of the S3 effective-width model anchored on the PBE slab
+  shifts, vs the ATLAS law (S3). The ratios are relative to this DFT-anchored effective-width estimate; relative to the
+  infinite-well upper bound they are $\times1.59$ / $\times2.51$ at 6.3 / 13.2~nm (SYNTHESIS Q3). The law agrees at 2~nm by construction and overestimates increasingly with
+  thickness because its exponent (1.38) is flatter than the effective-mass limit (2).}
+  \label{tab:d1-e1}
+  \begin{tabular}{lcccccc}
+    \toprule
+    $t$ (nm) & 2 & 3 & 4 & 5 & 6.3 & 13.2 \\
+    \midrule
+    $E_1$ (eV) & 0.357 & 0.187 & 0.114 & 0.076 & 0.050 & 0.012 \\
+    ATLAS law, \cref{eq:dec-law} (eV) & 0.353 & 0.202 & 0.136 & 0.100 & 0.072 & 0.026 \\
+    ratio law/EM & 0.99 & 1.08 & 1.19 & 1.30 & 1.45 & 2.15 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\paragraph{(5) From a subband energy to a classical band-edge shift.}
+A classical 3-D model with band edge $\Ec+\dEc$ has an electron sheet density
+$n_s^{\mathrm{cl}} = \Nc t\,e^{-(\Ec+\dEc-\EF)/\kT}$ (non-degenerate), whereas the quantized film has
+$n_s^{\mathrm{Q}} = \sum_i g_{2D,i}\kT\,e^{-(\Ec+E_i-\EF)/\kT}$ with $g_{2D} = \mstar/\pi\hbar^2$ per subband
+(spin included). Equating the two gives the shift that a classical model must use to reproduce the
+subthreshold charge,
+\begin{equation}
+  \dEc^{\mathrm{eq}} = -\kT\,\ln\!\left[\frac{\sum_i g_{2D,i}\,\kT\,e^{-E_i/\kT}}{\Nc\,t}\right].
+  \label{eq:d1-dec-eq}
+\end{equation}
+Because a 2-D subband carries more states near its edge than $\Nc t$ does, $\dEc^{\mathrm{eq}} < E_1$: at 2~nm
+($\mstar = 0.18$, non-parabolic, finite barrier) $\dEc^{\mathrm{eq}} = 0.207$--0.215~eV while $E_1 = 0.248$~eV;
+the 2-D DOS term subtracts about 0.04~V at 2~nm and 0.01~V at 6.3~nm (S3). This is the first reason the ATLAS
+rigid shift (which uses $E_1$-like DFT shifts) is on the high side.
+
+\paragraph{(6) Self-consistent Schr\"odinger--Poisson.}
+S3 solves the 1-D Schr\"odinger and Poisson equations across gate stack and film with Fermi--Dirac filling,
+$\Qf = 1.73\times10^{12}\cmsq$ and the V1 $\Ndeff(t)$, trap-free (Gauss-law error $\le 2\times10^{-18}$~C/cm$^2$).
+The onset shifts relative to the classical no-confinement case (C0) at $n_s = 10^{10}\cmsq$ are listed in
+\cref{tab:d1-sp}; they are shown with the $n_s(\Vg)$ curves in \cref{fig:sp_confinement}. The surrogate
+reproduces the ATLAS relative shifts within 11~mV (0.326~V at $10^{10}$ vs ATLAS $\Delta\Vthcc = 0.315$~V at 2~nm,
+\run{0012}$-$\run{0016}; 0.023~V at 13.2~nm, \run{0013}$-$\run{0017}). The central SP case Q1 gives 0.256~V at
+2~nm, the DFT-anchored width about 0.30~V and the hard wall 0.384~V; if W raises $\mstar$ to 0.26--0.35 the shift
+falls to 0.14--0.20~V. The resulting bracket is 0.14--0.38~V, with 0.26--0.30~V central for $\mstar = 0.18$.
+
+\begin{table}[tbp]
+  \centering\small
+  \caption{Schr\"odinger--Poisson onset shifts (V) relative to the classical no-confinement case at
+  $n_s = 10^{10}\cmsq$, trap-free (S3, \file{scratch/S3/s3_sp1d_notraps.json}). C1: classical with the ATLAS law;
+  Q1: central quantum case ($\mstar = 0.18$, finite barriers, non-parabolic); Q2: hard wall; Q3: BenDaniel--Duke
+  with heavy barrier mass; Q4/Q5: $\mstar = 0.257$ / 0.35.}
+  \label{tab:d1-sp}
+  \begin{tabular}{lcccccc}
+    \toprule
+    $t$ (nm) & C1 & Q1 & Q2 & Q3 & Q4 & Q5 \\
+    \midrule
+    2.0  & 0.345 & 0.256 & 0.384 & 0.202 & 0.205 & 0.139 \\
+    3.0  & 0.197 & 0.131 & 0.179 & 0.105 & 0.090 & 0.052 \\
+    4.0  & 0.133 & 0.078 & 0.102 & 0.065 & 0.047 & 0.021 \\
+    5.0  & 0.097 & 0.052 & 0.065 & 0.045 & 0.028 & 0.007 \\
+    6.3  & 0.070 & 0.036 & 0.043 & 0.031 & 0.016 & $-0.002$ \\
+    13.2 & 0.026 & 0.016 & 0.018 & 0.015 & 0.001 & $-0.012$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{figure}[tbp]
+  \centering
+  \includegraphics[width=\linewidth]{sp_confinement}
+  \caption{S3 1-D Schr\"odinger--Poisson surrogate (trap-free, \file{scratch/S3/s3_sp1d_notraps.json}): electron
+  sheet density $n_s(\Vg)$, quantum vs classical, at 2~nm and 6.3~nm, with the onset shift and the electron
+  centroid. Shifts vs the classical case C0 at $10^{10}\cmsq$: C1 (ATLAS law) 0.345 / 0.070 / 0.026~V and
+  Q1 0.256 / 0.036 / 0.016~V at 2 / 6.3 / 13.2~nm. The shift is rigid at 2~nm, and at 6.3~nm the
+  law exceeds the quantum shift by about a factor 2.}
+  \label{fig:sp_confinement}
+\end{figure}
+
+\paragraph{(7) Field quantization and capacitance.}
+Above threshold the gate field $F$ forms a triangular well at the front interface, whose ground state in the
+triangular-well approximation is $E_1^{\mathrm{tri}} \simeq (\hbar^2/2\mstar)^{1/3}(9\pi qF/8)^{2/3}$. S3 finds
+$E_1^{\mathrm{tri}} = 0.10$~eV and centroid 3.45~nm at $n_s = 10^{12}\cmsq$ ($F = 1.95\times10^5$~V/cm), and
+0.56~eV with centroid 1.47~nm at $n_s = 1.3\times10^{13}\cmsq$ (the bound $\Cox(3-\Vthcc)/q$ at $\Vg = 3$~V). The
+2~nm film is never field-quantized (centroid 0.94--0.98~nm $\approx t/2$ up to $1.3\times10^{13}\cmsq$); the 6.3 and
+13.2~nm films are, above about $2$--$3\times10^{12}$ and $1$--$3\times10^{11}\cmsq$ respectively. The effective
+capacitance $C_{\mathrm{eff}}/\Cox$ over 2--3~V is already 0.87--0.88 classically (centroid and degenerate DOS),
+and quantum dark space lowers it by $<1$\,\% at 2~nm and 3--5\,\% at 6.3 and 13.2~nm (S3). This on-state
+field quantization is not represented in V1; its implication for the mobility is discussed in
+\cref{sec:par-mu}.
+
+\paragraph{(8) Two neglected corrections.}
+\emph{Image (dielectric) confinement}: the air side ($\varepsilon = 1$) against IWO ($\varepsilon = 9.3$) adds
+about +31~meV at 1~nm from the surface, roughly +0.02--0.03~eV at 2~nm (S3 estimate; \emph{plausible,
+unverified}). \emph{Energy reference of the tail}: if the localized tail states follow the confined edge the
+2~nm onset shift is 0.26~V (Q1 with traps); if they stay at the bulk edge (localization length shorter than $t$)
+the whole $4\times10^{12}\cmsq$ tail must fill before the subband populates and the onset moves by 0.91~V (S3).
+This is the dominant model-form uncertainty of the confinement treatment and is \emph{not determined} from the
+available data. With local tails, field quantization at 6.3 and 13.2~nm raises $\Vg(n_s = 10^{12})$ by
+0.15--0.19~V relative to classical while $\Vg(10^{10})$ moves by $\le 0.04$~V -- a change of curve shape the rigid
+law cannot represent (S3; \evSURR, registered as a prediction).
+
+\paragraph{Summary of the derivation.}
+The law of \cref{eq:dec-law} is consistent with effective-mass theory at 2~nm (inside the 0.14--0.38~V bracket)
+but on its high side, and it overestimates the S3 subthreshold-equivalent shift by about $2\times$ at 6.3~nm (0.070 vs 0.036~V) and $1.6\times$ at
+13.2~nm (0.026 vs 0.016~V). The shift could be measured through the thickness dependence of the optical gap
+(expected +0.2--0.45~eV at 2~nm vs 13.2~nm), through IPES or UPS/XPS for the CBM, and through a denser thickness series
+(2$\rightarrow$3~nm: $\Delta\Vthcc$ +0.125--0.205~V predicted; S3 falsification table).
+
+% -------------------------------------------------------------------
+\section{Conduction-band effective mass}
+\label{sec:par-mstar}
+
+\paragraph{Definition and role.}
+$\mstar(t)$ is the density-of-states effective mass of the conduction band. In the V1 decks (no
+Schr\"odinger solver, constant mobility) it enters \emph{only} through the effective density of states
+$\Nc \propto \mstar{}^{3/2}$ (\cref{sec:par-nc}); its influence on the mobility (Drude $\mu = q\tau/\mstar$) is absorbed
+into the fitted band mobility (\cref{sec:par-mu}), and its influence on the confinement energy is already
+contained in the DFT-based $\dEc$ law.
+
+\paragraph{Values used.}
+\begin{equation}
+  \mstar(t) = m_{\mathrm{bulk}} + b\,t_{\mathrm{nm}}^{-q},\qquad m_{\mathrm{bulk}} = 0.208\,m_0,\quad
+  b = 0.1311\,m_0,\quad q = 1.4121,
+  \label{eq:d1-mstar}
+\end{equation}
+giving $\mstar = 0.257$ / 0.218 / 0.211~$m_0$ at 2.0 / 6.3 / 13.2~nm (evidence brief).
+
+\paragraph{Source.}
+Bulk value: optical-Hall measurement on a single \InO{} crystal ($n = 2.8\times10^{17}\cmcu$),
+$0.208\,m_0$ \citep[p.~225102-1, abstract]{Stokey2021}; the zero-density extrapolation quoted there is $0.18\,m_0$
+\citep[p.~225102-2]{Stokey2021}. Thickness increment: PBE slab masses of pure \InO{}, 0.17 (bulk), 0.19
+(3.52~nm), 0.23 (1.98~nm) and 0.30~$m_0$ (0.95~nm) \citep[p.~21540]{Lin2022}. The effect of W on $\mstar$ is
+reported only qualitatively in the target paper (flatter CBM, heavier mass; text lines 238--241 as quoted in S3);
+it is \emph{not determined} numerically and is not included.
+
+\paragraph{Derivation.}
+Only PBE \emph{differences} are used, as for $\dEc$: $\Delta m(t) = m_{\mathrm{slab}}(t) - m_{\mathrm{PBE,bulk}}$
+$= 0.13$, 0.06 and 0.02~$m_0$ at 0.95, 1.98 and 3.52~nm. A least-squares fit of $\ln\Delta m$ vs $\ln t$ gives
+$b$ and $q$ of \cref{eq:d1-mstar}; the fitted increments are 0.141 / 0.050 / 0.022~$m_0$ at the three slab
+thicknesses. The increment is added to the \emph{experimental} bulk mass. Physically the increase is the
+non-parabolicity of \cref{sec:der-confinement}: a confined electron sits at a higher kinetic energy, where
+$m(E) = \mstar(1+2\alpha E)$ is heavier. The mass could be measured by optical Hall or infrared
+ellipsometry (plasma frequency with known $n$) on films of each thickness, or from the temperature dependence of
+Shubnikov--de Haas oscillations in thick films.
+
+\paragraph{ATLAS implementation.}
+Not a direct deck parameter in V1: $\mstar$ is converted into NC300 of the MATERIAL statement
+\citep[p.~1340]{AtlasManual} (\cref{sec:par-nc}). The band masses of the MATERIAL statement would matter only if
+the Schr\"odinger model (SP.DIR masses, \citealp[p.~1469]{AtlasManual}) were enabled, which it is not.
+
+\paragraph{Sensitivity evidence.}
+$\mstar\times1.3$ (isolation tests, DOS 384/192, vs the same-mobility baselines): $\Delta\Vthcc = -0.044$~V
+(2~nm, \run{0050} vs \run{0038}) and $-0.029$~V (13.2~nm, \run{0051} vs \run{0040}); $\SScc$ $-17.7$ / $-13.2\mVdec$;
+$\Delta\Ion = +4.1$ / $+5.8$\,\% (S6; SYNTHESIS). The shift is \emph{not} rigid (0.17~dec change of shape at
+2~nm, S6), in contrast to the work-function and affinity shifts. The evidence brief quotes $-0.028$~V and
+$+3.7$\,\% for \run{0051}; S6 and SYNTHESIS, which are later and state the baseline explicitly, are used here. In
+the budget, $\mstar(t)$ contributes $+14.9$~mV to the 2$\rightarrow$13.2~nm $\Vthcc$ step (S6). The reason a
+30\,\% heavier mass (only $\kT\ln 1.3^{3/2} = \SI{10}{mV}$ of Fermi-level shift at fixed free density) moves
+$\Vthcc$ by 44~mV is the tail: at fixed free density a lower $\EF$ empties part of the tail charge, and the
+tail term is ten times larger than the free-carrier term at threshold (\cref{tab:d1-budget}).
+
+\paragraph{Status.}
+\prov{MEASURED\_RELATED\_MATERIAL} (bulk, pure \InO{}) + \prov{DFT\_PURE\_IN2O3\_PROXY} (increment).
+Non-parabolicity is otherwise ignored; W-induced mass change \emph{not determined}.
+
+% -------------------------------------------------------------------
+\section{Effective density of states of the conduction band}
+\label{sec:par-nc}
+
+\paragraph{Definition and role.}
+$\Nc$ sets the free-electron density for a given $\EF - \Ec$,
+$n = \Nc\,\mathcal{F}_{1/2}[(\EF-\Ec)/\kT]$ (Fermi--Dirac statistics, $\mathcal{F}_{1/2}$ the normalised
+Fermi integral). It fixes where the Fermi level sits at threshold and therefore the partition between free
+and trapped electrons.
+
+\paragraph{Values used.}
+\begin{equation}
+  \Nc = 2\left(\frac{2\pi\mstar\kT}{h^2}\right)^{3/2}
+      = \SI{2.51e19}{cm^{-3}}\left(\frac{\mstar}{m_0}\right)^{3/2}\left(\frac{T}{\SI{300}{K}}\right)^{3/2},
+  \label{eq:d1-nc}
+\end{equation}
+which with \cref{eq:d1-mstar} evaluates to $3.28$ / $2.55$ / $2.44\times10^{18}\cmcu$ at 2.0 / 6.3 / 13.2~nm
+($2.38\times10^{18}\cmcu$ for the bulk mass 0.208).
+
+\paragraph{Source and derivation.}
+\Cref{eq:d1-nc} is the standard result for a parabolic 3-D band: the number of states per volume below
+energy $E$ above the edge is $(1/3\pi^2)(2\mstar E/\hbar^2)^{3/2}$ per spin, so $g(E) = (1/2\pi^2)(2\mstar/\hbar^2)^{3/2}\sqrt{E}$
+including spin; integrating $g(E)e^{-E/\kT}$ gives $\Nc$. At 2~nm the film is quasi-2D and $\Nc$ is an
+effective continuum parameter; the correct 2-D occupation is the subject of \cref{eq:d1-dec-eq}. The ratio
+$\Nc(2\,\mathrm{nm})/\Nc(\mathrm{bulk}) = 1.376$ corresponds to $\kT\ln 1.376 = \SI{8}{mV}$ of Fermi-level shift, the
+value S1 quotes for the analytic $\kT\ln\Nc$ term at 2~nm. The same ratio explains why removing confinement
+(which also removes the mass increment) shifts the 2~nm curve by $\dEc - \kT\ln(\Nc$ ratio$) = 0.345$~V rather
+than 0.353~V (S3).
+
+\paragraph{ATLAS implementation.}
+MATERIAL NC300 per IWO region \citep[p.~1340]{AtlasManual}; Fermi--Dirac statistics are enabled on the MODELS
+statement (FERMIDIRAC, \citealp[p.~1433]{AtlasManual}). NC300 is the 300~K value; its temperature scaling in the
+elevated-temperature predictions is treated in \cref{sec:par-temperature}.
+
+\paragraph{Sensitivity evidence.}
+Through $\mstar$: runs \run{0050}/\run{0051} (\cref{sec:par-mstar}). In the 1-D surrogate, ``$\mstar$ through $\Nc$
+only'' contributes $-0.039$ / $-0.008$ / $-0.002$~V to $\Vthcc$ at 2 / 6.3 / 13.2~nm (S1). REVIEW (O2) notes that the
+$\Nc$ part of the confinement removal gives 43~mV and $14.6\mVdec$, so the confinement degeneracy with $\Qf$ is
+near-exact, not exact.
+
+\paragraph{Status.}
+\prov{CALCULATED} from $\mstar$ (itself a proxy). Caveat: continuum 3-D DOS used for a quasi-2-D film.
+
+% -------------------------------------------------------------------
+\section{Effective density of states of the valence band}
+\label{sec:par-nv}
+
+\paragraph{Definition and role.}
+$\Nv$ enters only the intrinsic density $n_i = \sqrt{\Nc\Nv}\,e^{-\Eg/2\kT}$, because the model solves
+electrons only (holes are not transported).
+
+\paragraph{Values used.}
+$\Nv = 1.0\times10^{19}\cmcu$ at 300~K, all thicknesses; hole mobility $0.01\cmVs$ (both \prov{ASSUMED}).
+
+\paragraph{Source and derivation (how it could be derived).}
+No source; the value is a generic placeholder. With the values of \cref{sec:par-eg,sec:par-nc},
+$n_i \approx 2\times10^{-10}$ (2~nm) to $7\times10^{-8}\cmcu$ (13.2~nm) (evaluated from the formula), so no
+physically plausible $\Nv$ ($10^{18}$--$10^{20}\cmcu$) can influence an $n$-type transfer curve. If needed,
+$\Nv$ would follow from \cref{eq:d1-nc} with the valence-band DOS mass, which for \InO{} is large and poorly
+known; DFT hole masses of the slabs could supply it.
+
+\paragraph{ATLAS implementation.}
+MATERIAL NV300 \citep[p.~1340]{AtlasManual}.
+
+\paragraph{Sensitivity evidence.}
+None run; insensitive by construction (\evTHEORY).
+
+\paragraph{Status.}
+\prov{ASSUMED}; irrelevant to the fitted curves.
+
+% -------------------------------------------------------------------
+\section{Acceptor-like band-tail states}
+\label{sec:par-tail}
+
+\paragraph{Definition and role.}
+The exponential tail of localized, acceptor-like states below the conduction-band edge is the dominant
+charge reservoir of the model near threshold. When filled, the states are negatively charged; they pin the
+Fermi level, set the subthreshold slope in the $10^{-10}$--$10^{-8}\Aum$ window and the trapped/free partition
+above threshold. The density of states is
+\begin{equation}
+  g_{\mathrm{TA}}(E) = \NTA\,\exp\!\left(\frac{E-\Ec}{\WTA}\right),\quad E<\Ec,
+  \qquad
+  \int_{\Ec-\Eg}^{\Ec} g_{\mathrm{TA}}\,dE = \NTA\WTA\left(1-e^{-\Eg/\WTA}\right) \simeq \NTA\WTA \equiv \Nt .
+  \label{eq:tail-dos}
+\end{equation}
+The model is parameterised by the integral $\Nt(t)$ and the width $\WTA$, and $\NTA = \Nt/\WTA$.
+
+\paragraph{Values used.}
+$\Nt(t) = \Nt^{(2)}(2/t_{\mathrm{nm}})^{\alpha}$ with $\Nt^{(2)} = 2\times10^{19}\cmcu$ and $\alpha = 0.75$;
+$\WTA = \SI{0.040}{eV}$ shared (tail temperature $T_t = \WTA/\kB = \SI{464}{K}$). Per film:
+\begin{center}\small
+\begin{tabular}{lccc}
+  \toprule
+  $t$ (nm) & 2.0 & 6.3 & 13.2 \\
+  \midrule
+  $\Nt$ ($\cmcu$) & $2.0\times10^{19}$ & $8.5\times10^{18}$ & $4.9\times10^{18}$ \\
+  $\NTA = \Nt/\WTA$ ($\si{cm^{-3}.eV^{-1}}$) & $5.0\times10^{20}$ & $2.1\times10^{20}$ & $1.2\times10^{20}$ \\
+  sheet $\Nt t$ ($\cmsq$) & $4.0\times10^{12}$ & $5.3\times10^{12}$ & $6.4\times10^{12}$ \\
+  filled at $\Vthcc$ ($\cmsq$; S1, 1-D) & $1.43\times10^{12}$ & $1.27\times10^{12}$ & $5.5\times10^{11}$ \\
+  $q n_t/\Cox$ at $\Vthcc$ (V; S1) & 0.256 & 0.226 & 0.098 \\
+  \bottomrule
+\end{tabular}
+\end{center}
+(6.3~nm columns for the validation configuration \run{0014}.)
+
+\paragraph{Source.}
+$\Nt^{(2)}$ is \prov{FITTED}: the product $\NTA\WTA$ of the 2~nm calibration in ATLAS (\cref{ch:calibration}).
+The exponent comes from a two-point ratio of about 4 between the 13.2 and 2~nm trap densities of the target
+paper's thickness series \citep[Sec.~2.8, Fig.~5a, p.~7]{Januar2026}: $\alpha = \ln 4/\ln(13.2/2) = 0.73 \approx 0.75$.
+The same paper's compact-model values for its bias-stress devices, $5.3\times10^{19}$ (2~nm) and
+$3.39\times10^{18}\cmcu$ (10~nm) \citep[p.~9]{Januar2026}, use a different ($\theta_t$) convention and different
+devices; they imply a ratio 15.6 and a sheet density that \emph{decreases} with $t$, which forces a negative
+bulk term and is unphysical for this series (S4), so they are not used as anchors. Context: the conductance-method
+bulk DOS of ALD \InO{} is $3.3\times10^{20}\si{cm^{-3}.eV^{-1}}$ at $\Nd \approx 10^{20}\cmcu$
+\citep[pp.~4--5]{Wang2022}. $\WTA$ is fitted on the 2~nm subthreshold slope; the target paper reports only the
+stress-induced change of the tail temperature, so the absolute $T_t$ is \emph{not determined} from the literature.
+
+\paragraph{Derivation.}
+\emph{Occupation.} The trapped density at quasi-Fermi level $u = E_{Fn}-\Ec$ is
+$n_t(u) = \int g_{\mathrm{TA}}(E)\,f(E-u)\,dE$ with the Fermi function $f$ (\cref{sec:par-capture} shows why the
+steady-state occupancy is Fermi--Dirac regardless of capture cross sections). For $u$ several $\kT$ below $\Ec$
+and $\WTA > \kT$, extending the integral to $+\infty$ gives
+\begin{equation}
+  n_t(u) \simeq \NTA\WTA\,e^{u/\WTA}\;\frac{\pi\kT/\WTA}{\sin(\pi\kT/\WTA)},
+  \label{eq:d1-nt-occ}
+\end{equation}
+where the last factor is the thermal enhancement over a step-function occupation; for $\WTA = 40$~meV it is
+2.26 (the value used by S4). Near $\Ec$ the truncation of the tail at $\Ec$ reduces it. \Cref{eq:d1-nt-occ} shows
+the two regimes of the subthreshold: when $\WTA > \kT$ the trapped charge grows more slowly with $u$ than the
+free charge ($e^{u/\WTA}$ vs $e^{u/\kT}$), so it dominates at low current and yields to the free charge at high
+current. Its trap capacitance $C_t = q^2 t\,\partial n_t/\partial u = q^2 t\,n_t/\WTA$ enters the slope
+(\cref{eq:ss-dit}).
+\emph{Thickness law.} The power law is an interpolation. S4 shows that the surface\,+\,bulk form
+$\Nt t = N_s + N_b t$ through the same anchors ($N_s = 3.57\times10^{12}\cmsq$, $N_b = 2.15\times10^{18}\cmcu$)
+predicts $\Nt(6.3) = 7.8\times10^{18}$, 8\,\% below the power law, and diverges only beyond the fitted range
+(31.8~nm: $3.3$ vs $2.5\times10^{18}\cmcu$). The trap-DOS inversion (\cref{sec:der-ss}) supports the surface\,+\,bulk
+form: $D(\Ec-0.1\,\mathrm{eV}) = 1.05$ / 1.67 / $2.16\times10^{13}\si{cm^{-2}.eV^{-1}}$, i.e.\ $\propto t^{0.38\pm0.15}$,
+consistent with $D_s \approx 8.5\times10^{12}\si{cm^{-2}.eV^{-1}}$ plus $g_b \approx 10^{19}\si{cm^{-3}.eV^{-1}}$ (S4).
+Suitable measurements are temperature-dependent transfer curves (activation energy vs $u$), quasi-static
+C--V (free/trapped partition), photo-excited charge collection, and Hall measurements on unpatterned films.
+
+\paragraph{ATLAS implementation.}
+DEFECTS CONTINUOUS with NTA (the density at the conduction-band edge, \citealp[p.~1171]{AtlasManual}) and WTA
+(the characteristic decay energy of the acceptor tail, \citealp[p.~1173]{AtlasManual}); the DEFECTS statement
+admits one exponential and one Gaussian distribution per state type \citep[p.~1169]{AtlasManual}. The continuous
+distribution is discretised on NUMA/NUMD energy levels (default 12, \citealp[p.~1168]{AtlasManual}); the V1 decks
+use 96/48 and, from campaign~B, 384/192 (\cref{sec:der-dos-discretization}). The tail capture cross section is
+$10^{-15}\si{cm^2}$ (\cref{sec:par-capture}).
+
+\paragraph{Sensitivity evidence.}
+$\Nt\times1.5$ (\run{0023} vs \run{0012}): $\Delta\Vthcc = +0.082$~V, fixed-current SS ($10^{-10}$--$10^{-9}\Aum$)
+$+49.0\mVdec$, $\Delta\Ion = -25.1$\,\%. $\WTA + 5$~meV (\run{0024}): $+0.020$~V, $+4.6\mVdec$ in the same window
+($\SScc$ $+12\mVdec$, evidence brief), $\Delta\Ion = +0.4$\,\%. The tail is the largest non-confinement term of the
+threshold budget (0.10--0.26~V, 25\,\% of the 2$\rightarrow$13.2~nm step; S1). The pre-registered S2
+re-partition with $\Nt(6.3) = 2.66\times10^{19}\cmcu$ (B0, \run{0037}) met the on-state targets but gave
+$\SScc = 410.9$ vs $295.4\mVdec$ measured and was \emph{rejected} (\evOOS, failed; SYNTHESIS). A broader tail
+($\WTA$ 60~meV) was disfavoured in the S4 surrogate ($\SScc$ +126$\mVdec$).
+
+\paragraph{Status.}
+\prov{FITTED} ($\Nt^{(2)}$, $\WTA$) with a \prov{LITERATURE\_IWO} trend. Verdicts (S4): an exponential acceptor tail
+near $\Ec$ controls threshold and $\SScc$ in all films -- \emph{strongly supported} (inversion ratio
+measured/ATLAS 0.81--1.17 for $u = -0.125$ to $-0.025$~eV at 2 and 13.2~nm); $\Nt\propto t^{-0.75}$ as physics --
+\emph{rejected} (kept as interpolation); surface\,+\,bulk -- \emph{plausible, unverified} (preferred form).
+Caveat: $\Nt$, $\WTA$ and $\Qf$ trade off on a single curve.
+
+% -------------------------------------------------------------------
+\section{Deep acceptor Gaussian}
+\label{sec:par-deep}
+
+\paragraph{Definition and role.}
+A Gaussian band of acceptor-like states deep in the gap,
+\begin{equation}
+  g_{\mathrm{GA}}(E) = \NGA\exp\!\left[-\left(\frac{E - (\Ec-\EGA)}{\WGA}\right)^{2}\right],\qquad
+  \int g_{\mathrm{GA}}\,dE = \sqrt{\pi}\,\NGA\WGA,
+  \label{eq:d1-gauss}
+\end{equation}
+representing deep (e.g.\ oxygen-vacancy related) states. Below threshold these states are full, so they act as
+a fixed negative charge; they matter only through their total number.
+
+\paragraph{Values used.}
+$\NGA = 5\times10^{16}\si{cm^{-3}.eV^{-1}}$, $\EGA = 0.6$~eV below $\Ec$, $\WGA = 0.15$~eV, all thicknesses. Total
+density $\sqrt{\pi}\NGA\WGA = 1.33\times10^{16}\cmcu$, i.e.\ sheets of $2.7\times10^{9}$ / $8.4\times10^{9}$ /
+$1.75\times10^{10}\cmsq$ at 2.0 / 6.3 / 13.2~nm and threshold contributions $\le 0.003$~V (\cref{eq:d1-qcox}),
+matching S1's 0.000 / 0.001 / 0.003~V.
+
+\paragraph{Source.}
+\prov{ASSUMED}; the magnitude is within the order of the range $2.5$--$3.7\times10^{16}$ reported by \citet{Fan2021}
+for a different IWO device (not bundled; value recorded in the configuration). Donor-like tail and donor Gaussian
+are set to zero (valence tail negligible for $n$-type transfer curves; the donor background is represented by
+$\Ndeff$, \cref{sec:par-nd}).
+
+\paragraph{Derivation (how it could be measured).}
+Photo-excited C--V or sub-gap photocurrent spectroscopy resolve deep states; the transfer curve is blind to them
+because they never change occupancy in the swept range. The trap-DOS inversion of \cref{sec:der-ss} does see the
+states at $\Ec-0.15$ to $-0.2$~eV and finds that V1 underestimates them by $\times2.2$--2.8 (2~nm) and $\times2.6$
+(6.3~nm) (S4), consistent with the model slope being too soft in the $10^{-10}$--$10^{-9}\Aum$ window
+(\cref{sec:cal-final}); the lower $\SSmin$ of \run{0012} (73 vs 84.5$\mVdec$) is not used as evidence, because
+$\SSmin$ is not reliable (\cref{sec:der-metrics}).
+
+\paragraph{ATLAS implementation.}
+DEFECTS NGA, EGA, WGA (acceptor Gaussian; NGA is the density of acceptor-like states in the Gaussian,
+\citealp[p.~1171]{AtlasManual}; defaults NGA $5\times10^{17}\si{cm^{-3}.eV^{-1}}$, WGA 0.1~eV,
+\citealp[pp.~1168--1169]{AtlasManual}).
+
+\paragraph{Sensitivity evidence.}
+No run varies the deep Gaussian (insensitive by the estimate above). A \emph{near-edge} acceptor Gaussian was tested
+as a hypothesis for the 6.3~nm on-state shape (campaign C, \run{0052}): $2\times10^{12}\cmsq$ at $\Ec-0.03$~eV,
+$\WGA = 0.02$~eV (i.e.\ $\NGA = 2\times10^{12}/(6.3\times10^{-7}\cdot0.02\sqrt{\pi}) = 9.0\times10^{19}\si{cm^{-3}.eV^{-1}}$
+by \cref{eq:d1-gauss}), with $\muband = 15.4\cmVs$. Against the S4 prediction (gap $+0.28$~V, $\gm$ $+24$\,\%, $\SScc$
+$+23\mVdec$, $\Ion \pm3$\,\%) it gave gap $+0.119$~V, $\gm$ $+25.5$\,\%, $\SScc$ $+15.6\mVdec$ and $\Ion$ $+16.0$\,\%:
+\emph{partly failed} (\evOOS; S6, SYNTHESIS), recovering only 33\,\% of the gap (\cref{ch:6p3}).
+
+\paragraph{Status.}
+\prov{ASSUMED}; insensitive (\evTHEORY). Deeper states are underestimated (\emph{strongly supported}, S4).
+
+% -------------------------------------------------------------------
+\section{Front interface acceptor sheet and its regularisation}
+\label{sec:par-dit}
+
+\paragraph{Definition and role.}
+Acceptor-like interface states at the IWO/\AlO{} interface, described as a Gaussian in energy per unit area,
+$\Dit(E) = D_{\mathrm{it}}^{\mathrm{pk}}\exp\{-[(E-(\Ec-E_0))/W_{\mathrm{it}}]^2\}$. They add a sheet charge that is
+full below threshold and a capacitance $C_{\mathrm{it}} = q^2\Dit$ where they cross the Fermi level.
+
+\paragraph{Values used.}
+$D_{\mathrm{it}}^{\mathrm{pk}} = 3\times10^{11}\si{cm^{-2}.eV^{-1}}$, $E_0 = 0.3$~eV, $W_{\mathrm{it}} = 0.12$~eV, shared across
+thickness. Total sheet $\sqrt{\pi}D_{\mathrm{it}}^{\mathrm{pk}}W_{\mathrm{it}} = 6.4\times10^{10}\cmsq$.
+
+\paragraph{Source.}
+\prov{ASSUMED}. Literature for the \HfO/\InO{} interface: $6\times10^{11}\si{cm^{-2}.eV^{-1}}$ from an SS of
+63.5$\mVdec$ \citep[p.~21539]{Lin2022} and $6.3\times10^{11}$ from the subthreshold method \citep[pp.~4--5]{Wang2022}.
+The device interface here is IWO/\AlO, for which no value is available; the assumed peak is half the \HfO/\InO{}
+proxy.
+
+\paragraph{Derivation: regularisation of a sheet.}
+ATLAS defect distributions are volumetric (per cm$^3$). A sheet density is represented by a thin IWO layer of
+thickness $d_{\mathrm{reg}}$ adjacent to the interface carrying the volume density
+\begin{equation}
+  N_{\mathrm{GA}}^{\mathrm{vol}} = \frac{D_{\mathrm{it}}^{\mathrm{pk}}}{d_{\mathrm{reg}}},\qquad
+  d_{\mathrm{reg}} = \SI{0.25}{nm}\;\Rightarrow\;
+  N_{\mathrm{GA}}^{\mathrm{vol}} = \frac{3\times10^{11}}{2.5\times10^{-8}} = 1.2\times10^{19}\,\si{cm^{-3}.eV^{-1}}.
+  \label{eq:dit-regularization}
+\end{equation}
+The representation is exact in the limit $d_{\mathrm{reg}}\rightarrow0$, and its error is of order the potential drop
+across the layer, $\Delta\psi \approx q N_{\mathrm{it}} d_{\mathrm{reg}}/2\varepsilon_s$, which must be small compared
+with $\kT/q$: with the full sheet $6.4\times10^{10}\cmsq$, $\Delta\psi \approx 1.6\times10^{-19}\cdot6.4\times10^{10}\cdot2.5\times10^{-8}/(2\cdot8.2\times10^{-13})
+\approx 0.2$~mV. The condition is equivalently $d_{\mathrm{reg}} \ll L_D$ (\cref{sec:der-depletion}). Numerical check:
+halving the layer changes $\Id$ by $\le 0.009$~dec and $-0.06$\,\% (S6 check E; configuration note). At threshold
+($\EF$ about 0.04~eV below $\Ec$, S1) the whole Gaussian at $\Ec-0.3$~eV is full, giving
+$q\cdot6.4\times10^{10}/\Cox = 0.011$~V, consistent with S1's 0.012~V.
+The interface-state density could be measured by conductance or charge-pumping methods on the target stack, or by the trap-DOS
+inversion of \cref{sec:der-ss} at energies where the tail is small; the SS formula (\cref{eq:ss-dit}) gives only an
+upper bound when bulk traps are present.
+
+\paragraph{ATLAS implementation.}
+A 0.25~nm IWO region at the \AlO{} interface with a DEFECTS acceptor Gaussian (NGA, EGA, WGA;
+\citealp[p.~1171]{AtlasManual}) of amplitude \cref{eq:dit-regularization}.
+
+\paragraph{Sensitivity evidence.}
+$\Dit\times3$ (\run{0025} vs \run{0012}): $\Delta\Vthcc = +0.025$~V, fixed-current SS $+0.1\mVdec$ ($10^{-10}$--$10^{-9}$;
+$\SScc$ $+9\mVdec$, evidence brief), $\Delta\Ion = -1.8$\,\%. $\Dit\times5$ at 6.3~nm (A4, \run{0033} vs \run{0014}):
+$+0.051$~V, gap $\Vthlin-\Vthcc$ unchanged (0.857 vs 0.862~V; the $\SSmin$ change, $+8.3\mVdec$, is quoted for
+history only). About 0.012--0.013~V per multiple of the assumed value; closing the 0.29~V 6.3~nm miss would need a
+peak of about $7\times10^{12}$ ($\times23$--24) at 6.3~nm only, on a gate stack shared with the other films, so front
+$\Dit$ is \emph{rejected} as that cause (S1, S4; SYNTHESIS~D; \evPOST).
+
+\paragraph{Status.}
+\prov{ASSUMED} (value), \prov{CALCULATED} (regularisation, \evNUM-verified). Interface-trap charge
+\emph{demonstrated small} (0.012~V, thickness-independent).
+
+% -------------------------------------------------------------------
+\section{Fixed interface charge}
+\label{sec:par-qf}
+
+\paragraph{Definition and role.}
+$\Qf$ is a fixed positive sheet charge (per cm$^2$) at the front IWO/\AlO{} interface. It is the model's
+alignment parameter: it shifts the whole transfer curve rigidly along $\Vg$ and absorbs every other rigid offset
+(gate work function, affinity, $\Cox$ uncertainty, fixed oxide charge, ionised donors within about 1~nm of the
+interface).
+
+\paragraph{Values used.}
+$\Qf = 1.73\times10^{12}\cmsq$, shared by 2.0 and 13.2~nm (and by the 6.3~nm validation configuration
+\run{0014}); $8.7\times10^{10}\cmsq$ for the device-specific ``tuned'' 6.3~nm configuration (\run{0015}, and the
+DOS~384/192 recalibration \run{0039}) (evidence brief; predictions register).
+
+\paragraph{Source.}
+\prov{FITTED}: stage~3 of the calibration (\cref{sec:cal-history}), one value shared across thickness. No
+literature value exists for this interface.
+
+\paragraph{Derivation.}
+Gauss's law across the gate dielectric, with the sheet at the semiconductor side of the interface, requires the
+gate to image $-q\Qf$; for fixed channel potential this is a flat-band shift
+\begin{equation}
+  \Delta V_{\mathrm{FB}} = -\frac{q\,\Qf}{\Cox},
+  \label{eq:flatband-shift}
+\end{equation}
+i.e.\ $-0.310$~V for $1.73\times10^{12}$ and $-0.016$~V for $8.7\times10^{10}\cmsq$ (\cref{eq:d1-qcox}). Because the
+charge sits at the interface it does not alter the potential profile inside the film, so the shift is exact at every
+$\Vg$ (confirmed to 1~mV in ATLAS, \cref{sec:par-stack}). The charge is modelled as a sheet rather than a volume for the following reason. Spread through the film,
+$1.73\times10^{12}\cmsq$ corresponds to $8.7\times10^{18}$ / $2.7\times10^{18}$ / $1.3\times10^{18}\cmcu$; a
+\emph{volumetric} donor of $8.7\times10^{18}$ would add about $-2.0$~V at 13.2~nm (\cref{eq:d1-nd-shift}), so the shared
+fit requires the charge to be sheet-like at the front. It is electrostatically identical to a layer of ionised oxygen
+vacancies of about $1.7\times10^{19}\cmcu$ within 1~nm of the \AlO{} (S4) -- the two are indistinguishable on
+$\Id$--$\Vg$. The required $\Qf$ is degenerate with, and therefore depends on, the confinement assumption. Per film, with confinement
+the values that would fit each device alone are $1.81$ / $0.09$ / $1.56\times10^{12}\cmsq$ and without confinement
+$0.047$ / $-0.27$ / $1.43\times10^{12}\cmsq$ (S1; SYNTHESIS D3; \cref{fig:symmetric_calibration}); the best single $\Qf$ over the
+three films is $1.153\times10^{12}$ (rms residual 0.136~V) with and $0.403\times10^{12}$ (0.133~V) without confinement
+(SYNTHESIS D3). Both readings need one film-specific charge of about $1.4$--$1.6\times10^{12}\cmsq$. The charge could
+be measured through the flat-band voltage of MIS capacitors with several EOTs of the same stack, $V_{\mathrm{FB}} =
+(\phi_M-\chi-\ldots)/q - q\Qf\,\EOT/(3.9\varepsilon_0)$, separates $\Qf$ (slope) from the work-function difference
+(intercept).
+
+\paragraph{ATLAS implementation.}
+INTERFACE QF$=1.73\times10^{12}$ at the IWO/\AlO{} interface; QF is given in electronic charges per cm$^2$, a positive
+value introduces positive charge \citep[p.~1260]{AtlasManual}; the statement applies by default to
+semiconductor--insulator interfaces \citep[p.~1264]{AtlasManual} (example of use, \citealp[p.~1263]{AtlasManual}).
+
+\paragraph{Sensitivity evidence.}
+$\Qf$ $0\rightarrow1.73\times10^{12}$ at 2~nm (\run{0001}$\rightarrow$\run{0003}): $\Delta\Vthcc = -0.309$~V,
+fixed-current SS $+0.4\mVdec$, $\Delta\Ion = +27.1$\,\%; at 13.2~nm \run{0002}$\rightarrow$\run{0004}. S6: an exact
+rigid shift (max $|\Delta\log_{10}\Id| \le 1.6\times10^{-5}$ for the equivalent 0.1~V work-function shift). At 6.3~nm
+the tuned $\Qf$ (\run{0015}) fixes $\Vthcc$ ($+0.007$~V) and $\Ion$ but leaves $\Vthlin$ $-0.35$~V and $\gmmax$ $-23$\,\%
+(\cref{ch:6p3}).
+
+\paragraph{Status.}
+\prov{FITTED}, classified as an effective electrostatic correction. REVIEW: with $\phi_M$, $\chi$, $\Dit$, the deep
+Gaussian and $\varepsilon_{\mathrm{Al_2O_3}}$ all inside degenerate sets, $\Qf$ is ``an alignment absorber, not a
+charge''; $\pm0.2$~eV of TiN work function is equivalent to $\pm1.12\times10^{12}\cmsq$. The 6.3~nm device-specific
+value is \emph{plausible, unverified} (calibration; no independent observable).
+
+% -------------------------------------------------------------------
+\section{Effective donor density}
+\label{sec:par-nd}
+
+\paragraph{Definition and role.}
+$\Ndeff(t)$ is the effective density of electrically active, ionised shallow donors in the channel (the net of
+oxygen vacancies, W donors and compensating acceptors). It is \emph{not} the W concentration: the target paper
+gives ``$\sim$2\,\% W'' without specifying atomic, cation or molar basis, so the composition is treated as a label and
+never converted into a donor density.
+
+\paragraph{Values used.}
+\begin{equation}
+  \Ndeff(t) = N_{d0}\left[1+\left(\frac{t}{t_c}\right)^{k}\right],\qquad N_{d0} = 2.5\times10^{17}\cmcu,\;
+  t_c = \SI{20}{nm},\; k = 4,
+  \label{eq:d1-nd}
+\end{equation}
+i.e.\ $2.50$ / $2.52$ / $2.97\times10^{17}\cmcu$ at 2.0 / 6.3 / 13.2~nm and $1.85\times10^{18}\cmcu$ at 31.8~nm.
+
+\paragraph{Source.}
+\prov{FITTED} law. The configuration cites as support the bulk/border trap densities 2.37 / 3.12 /
+$14.6\times10^{18}\si{cm^{-3}.eV^{-1}}$ at 10 / 20 / 30~nm of a different IWO process \citep[p.~173507-6]{Kim2024}. S4 corrects
+this: those numbers are gate-oxide \emph{border traps} from the carrier-number-fluctuation noise model, not donors or
+IWO tail states, and the configuration ``support'' conflates the two. The credible support is S4's reading of the
+same paper's turn-on voltage, which shifts linearly with $t$ by about $-2$~V per 10~nm and implies
+$\Nd \approx 4.3$--$4.5\times10^{17}\cmcu$, within a factor 2 of V1. The target paper attributes electron densities
+above $10^{19}\cmcu$ to undoped \InO{} and the suppression of vacancies to W \citep[p.~2]{Januar2026}; ALD \InO{}
+reaches about $10^{20}\cmcu$ \citep[pp.~4--5]{Wang2022}.
+
+\paragraph{Derivation.}
+For a fully depleted film (\cref{sec:der-depletion}) with uniform donors, Poisson's equation
+$d^2\psi/dz^2 = -q\Nd/\varepsilon_s$ with zero field at the free back surface ($z = t$) gives a parabolic potential
+whose maximum (the conduction-band minimum) is at the back surface, $q\Nd t^2/2\varepsilon_s$ above the front value.
+The gate must image the sheet $\Nd t$. Keeping the band minimum at the threshold position therefore requires
+\begin{equation}
+  \Delta\Vth = -\frac{q\Nd t}{\Cox} - \frac{q\Nd t^{2}}{2\varepsilon_s},
+  \label{eq:d1-nd-shift}
+\end{equation}
+which is $-0.040$ / $-0.151$ / $-0.406$ / $-1.55$~V per $10^{18}\cmcu$ at 2 / 6.3 / 13.2 / 31.8~nm (S4; e.g.\ at 13.2~nm
+$0.236 + 0.170$~V). With the V1 law the first term is only $0.009$ / $0.028$ / $0.070$~V (S1). Consequently the
+donor density is \emph{unidentifiable} at 2~nm (0.036~V per $10^{18}\cmcu$, S4) and the steep $k = 4$ law matters only
+above about 20~nm. The donor density could be measured by Hall or capacitance--voltage profiling on thick unpatterned films,
+or from the slope of $V_{\mathrm{on}}(t)$ over a dense thickness series, which is \cref{eq:d1-nd-shift} in differential form.
+
+\paragraph{ATLAS implementation.}
+A uniform $n$-type DOPING statement on the IWO region (DOPING UNIFORM, \citealp[p.~1189]{AtlasManual}); the donor
+Gaussian of DEFECTS (NGD, \citealp[p.~1171]{AtlasManual}) is zero in V1 and is the V2 candidate for a donor band at
+fixed absolute energy.
+
+\paragraph{Sensitivity evidence.}
+$\Nd\times2$ (\run{0022} vs \run{0012}): $\Delta\Vthcc = -0.009$~V, fixed-current SS $+0.7\mVdec$, $\Delta\Ion = +0.7$\,\%.
+A2 at 6.3~nm ($N_{d0} = 10^{16}$, \run{0032} vs \run{0014}): $+0.030$~V (analytic 0.028~V), $\SSmin$ $+6.5\mVdec$,
+$\Ion$ $-1.8$\,\% -- donors are electrostatically irrelevant at 6.3~nm and reduced donors are \emph{rejected} as the
+cause of the 6.3~nm miss (S1, S4). A thickness-independent donor density fitted to the 6.3$\rightarrow$13.2~nm drop
+needs $2.2\times10^{18}\cmcu$ and then predicts $-0.25$~V from 2 to 6.3~nm against $-0.02$~V measured (S4). With the
+V1 law, 31.8~nm gives $\Vth = -2.71$~V and $\Id(-3\,\mathrm{V}) = 1.2\times10^{-12}\Aum$, i.e.\ not always-on (S1 1-D);
+its always-on state needs $\Nd \gtrsim 3\times10^{18}\cmcu$ or a back donor sheet (\cref{sec:par-backq}).
+
+\paragraph{Status.}
+\prov{FITTED}. Low $\Ndeff \approx 2.5\times10^{17}\cmcu$: \emph{plausible, unverified} (correlation with Kim2024);
+a donor \emph{step} ($\approx2.5\times10^{17}$ for $t\le6.3$~nm, $\approx10^{18}$ at 13.2~nm, $\gtrsim2\times10^{18}$ at
+31.8~nm) is \emph{plausible, unverified} and degenerate with $\dEc$ (S4).
+
+% -------------------------------------------------------------------
+\section{Back-surface charge and its lever arm}
+\label{sec:par-backq}
+
+\paragraph{Definition and role.}
+The top surface of the channel is exposed to air. Adsorbates (O$_2$, H$_2$O) can form acceptor-like (negative) or
+donor-like (positive) surface states. A sheet $\Qb$ at the back surface acts on the threshold through a larger lever
+arm than a front charge, because its field crosses the film as well as the dielectric.
+
+\paragraph{Values used.}
+$\Qb = 0$ for 2.0, 6.3 and 13.2~nm in the calibrated decks. Hypothesis tests at 6.3~nm: $-1.64\times10^{12}\cmsq$
+(A3, \run{0030}) and $-1.0\times10^{12}\cmsq$ within the combination A5 (\run{0035}). At 31.8~nm a donor-like back
+sheet was a V0 device-specific hypothesis (configuration: centre $\Ec-0.02$~eV, width 0.05~eV, amplitude zero in V1).
+
+\paragraph{Source.}
+\prov{ASSUMED} zero; the $-1.64\times10^{12}\cmsq$ magnitude is the charge that closes the 6.3~nm $\Vthcc$ miss and
+has no independent source (``adsorbate scale'' is an assumption, S1).
+
+\paragraph{Derivation: the lever arm.}
+A sheet $\Qb$ is assumed at $z = t$ and a front sheet $Q_f$ at $z = 0$, with a fully depleted film free of other charge.
+The gate images $-(\Qb+Q_f)$; the field in the film between the two sheets is $q\Qb/\varepsilon_s$. Holding the
+potential at the back surface fixed, a back sheet shifts the gate voltage by
+\begin{equation}
+  \Delta V_{\mathrm{b}} = -q\Qb\left(\frac{1}{\Cox} + \frac{t}{\varepsilon_s}\right),
+  \label{eq:backq-lever}
+\end{equation}
+while a front sheet gives only $-q Q_f/\Cox$. The ratio $1 + \Cox t/\varepsilon_s$ is 1.22 / 1.68 / 2.44 at
+2 / 6.3 / 13.2~nm (analytic back lever 0.218 / 0.301 / 0.436~V per $10^{12}\cmsq$ vs 0.179 front). \Cref{eq:backq-lever}
+holds for the potential \emph{at the back surface}. The threshold current, however, flows where the electrons are:
+at threshold the electron centroid is 0.8 / 2.1 / 5.7~nm from the front (S1), and the filled tail screens the back
+field over the trap-screening length $L_t = 1.7$ / 3.2 / 7~nm (\cref{sec:der-depletion}). The realised lever is
+therefore close to the front value: in the 1-D model with the full DOS it is 0.185 / 0.172 / 0.215~V per $10^{12}$ on
+$\Vthcc$ (0.195 / 0.220 / 0.261 without the tail) and only 0.168 / 0.077 / 0.064 on $\Vthlin$, where the front
+accumulation layer dominates; the back charge also lowers $\SScc$ by 11 / 38 / 47$\mVdec$ (S1).
+
+\paragraph{ATLAS implementation.}
+For A3/A5 a fixed sheet charge on the exposed IWO/air surface was added (campaign~A configuration
+\file{config/campaign_A_6p3_hypotheses.json}; statement in \cref{ch:app-decks}). The V0 donor-like back sheet is a
+regularised DEFECTS donor Gaussian (NGD, EGD; \citealp[pp.~1170--1171]{AtlasManual}) in a 0.25~nm IWO layer, analogous to
+\cref{eq:dit-regularization}.
+
+\paragraph{Sensitivity evidence.}
+A3 (\run{0030}): $-1.64\times10^{12}\cmsq$ at the back gives $+0.278$~V against $+0.293$~V for the same charge at the
+front (ratio 0.95, S1): the thick-film lever of \cref{eq:backq-lever} is \emph{not} realised at threshold. A3 reproduces
+$\Vthcc$ (error $-0.017$~V) but moves $\SScc$ by $-64.1\mVdec$ and $\Vthlin$ by $-0.47$~V away from the data; the gap
+$\Vthlin-\Vthcc$ becomes 0.72~V vs 1.176~V measured. A5 (\run{0035}) gives $\Vthcc$ $-0.079$~V and $\SScc$
+$-45.9\mVdec$. The same charge at 2 or 13.2~nm would shift those films by 0.30 or 0.35~V, so it cannot be specific
+to 6.3~nm without a sample-specific cause. At 31.8~nm the always-on state would need a back donor sheet
+$\gtrsim4\times10^{12}\cmsq$ (0.80~V per $10^{12}$ at 31.8~nm; S4).
+
+\paragraph{Status.}
+\prov{ASSUMED} zero. Back-surface negative charge as the sole cause of the 6.3~nm miss: \emph{rejected}
+(model-conditional, \evPOST); back-referenced lever arm at threshold: \emph{rejected} (0.96--1.2$\times$ front, not
+1.7--2.4$\times$). The air-side charge of the real devices is \emph{not determined} (measurement ambient not recorded).
+
+% -------------------------------------------------------------------
+\section{Gate work function}
+\label{sec:par-gatewf}
+
+\paragraph{Definition and role.}
+$\phi_M$ of the TiN gate. Together with $\chiIWO$ it sets the flat-band offset $\phi_M-\chiIWO$, which enters
+$\Vthcc$ one-to-one; with the bulk affinity it contributes $+0.400$~V to every film's budget (S1).
+
+\paragraph{Values used.}
+$\phi_M = 4.70$~eV, all thicknesses.
+
+\paragraph{Source.}
+\prov{ASSUMED}, centre of a TiN literature range 4.5--4.9~eV quoted in the configuration (TiN work functions depend on
+stoichiometry, deposition and the dielectric underneath); no measurement on the target stack.
+
+\paragraph{Derivation (how it could be measured).}
+The terraced-oxide (multi-EOT) flat-band method of \cref{sec:par-qf} gives $\phi_M-\chi$ as intercept; Kelvin-probe or
+UPS on the TiN gives $\phi_M$ directly (with the caveat of interface dipoles). On the transfer curve it is exactly
+degenerate with $\chi$ and $\Qf$: $\pm0.2$~eV $\equiv \pm1.12\times10^{12}\cmsq$ (\cref{eq:d1-qcox}; REVIEW).
+
+\paragraph{ATLAS implementation.}
+CONTACT NAME=gate WORKFUN=4.7 (the CONTACT statement specifies the physical attributes of an electrode; without it an
+electrode is charge-neutral/Ohmic, \citealp[p.~1145]{AtlasManual}; WORKFUN, default 0,
+\citealp[p.~1148]{AtlasManual}). The Pd source/drain are left Ohmic (\cref{sec:par-contacts}).
+
+\paragraph{Sensitivity evidence.}
+$\phi_M + 0.1$~eV: $\Delta\Vthcc = +0.100$~V at 2~nm (\run{0048} vs \run{0038}) and 13.2~nm (\run{0049} vs \run{0040}),
+exact rigid shift (max $|\Delta\log_{10}\Id| = 1.6\times10^{-5}$ and $4.1\times10^{-6}$), SS unchanged ($0.0\mVdec$),
+$\Delta\Ion = -6.8$ / $-5.0$\,\% at fixed $\Vg = 3$~V (S6, REVIEW).
+
+\paragraph{Status.}
+\prov{ASSUMED}; held fixed because it is degenerate with $\Qf$ and $\chi$ (\evNUM).
+
+% -------------------------------------------------------------------
+\section{Capture cross sections and recombination lifetimes}
+\label{sec:par-capture}
+
+\paragraph{Definition and role.}
+Capture cross sections $\sigma_n$, $\sigma_p$ of the defect distributions and the Shockley--Read--Hall (SRH)
+lifetimes of the background recombination set the \emph{rates} of trapping and generation. In a DC transfer
+simulation they would matter only if trap occupancy departed from equilibrium with the electron quasi-Fermi level,
+or if generation current were significant.
+
+\paragraph{Values used.}
+Tail capture cross section $10^{-15}\si{cm^2}$; background SRH lifetime $\tau = 10^{-6}$~s; both \prov{ASSUMED}, all
+thicknesses (configuration). Other cross sections are those listed in the decks (\cref{ch:app-decks}); the ATLAS
+defaults are, e.g., SIGTAE $10^{-16}$ and SIGTAH $10^{-14}\si{cm^2}$ \citep[p.~1169]{AtlasManual}.
+
+\paragraph{Derivation: why DC results are independent of $\sigma$.}
+For a trap level $E$ with capture coefficients $c_n = \sigma_n v_{\mathrm{th}}$, $c_p$ and emission rates
+$e_n = c_n n_1$, $e_p = c_p p_1$ (detailed balance, $n_1 = \Nc e^{(E-\Ec)/\kT}$), the steady-state occupancy is
+\begin{equation}
+  f = \frac{c_n n + e_p}{c_n n + e_n + c_p p + e_p}
+    \;\xrightarrow{\;p,\,p_1\,\rightarrow\,0\;}\;
+    \frac{n}{n+n_1} = \frac{1}{1+e^{(E-E_{Fn})/\kT}} .
+  \label{eq:d1-srh-occ}
+\end{equation}
+In the electrons-only, wide-gap $n$-type channel the hole terms vanish, $\sigma_n$ cancels, and the occupancy is the
+Fermi function of the electron quasi-Fermi level. The cross sections therefore set only time constants,
+$\tau_{\mathrm{trap}} = [\sigma_n v_{\mathrm{th}}(n+n_1)]^{-1}$, which matter for hysteresis, frequency dispersion and
+transients -- none of which is simulated. Likewise, thermal SRH generation $q n_i t/\tau$ with $n_i\lesssim10^{-7}\cmcu$
+is negligible: as an origin of the measured off-state floors it falls 13--17 decades short (Astra audit, quoted by S4).
+The cross sections could be measured by transient (pulsed-$\Vg$) current recovery, deep-level transient spectroscopy,
+frequency-dependent C--V or the time dependence of bias-stress shifts.
+
+\paragraph{ATLAS implementation.}
+DEFECTS SIGTAE/SIGTAH (tail) and SIGGAE/SIGGAH (Gaussian) \citep[pp.~1168--1169]{AtlasManual}; MATERIAL TAUN0
+\citep[p.~1349]{AtlasManual} with SRH on the MODELS statement.
+
+\paragraph{Sensitivity evidence.}
+None run: by \cref{eq:d1-srh-occ} the DC results are invariant (\evTHEORY). The bias-stress literature for the same
+material family (a threshold shift of 0.72--1.2~V after 1200~s at 6~V, as summarised by S1/S4 from the target paper)
+shows that slow trapping exists; extrapolated to one $-3\ldots+3$~V sweep it gives 0.003--0.24~V, a \emph{not
+determined} confounder of the 6.3~nm offset (S4).
+
+\paragraph{Status.}
+\prov{ASSUMED}; not identifiable from DC data.
+
+% -------------------------------------------------------------------
+\section{Threshold charge budget}
+\label{sec:der-vth-budget}
+
+\paragraph{Purpose.}
+This derivation decomposes the simulated constant-current threshold $\Vthcc$ (at $10^{-9}\Aum$, $\Vd = 0.7$~V;
+\cref{sec:der-metrics}) into additive electrostatic terms, so that every input of this chapter has a quantified weight
+and the thickness dependence can be attributed term by term.
+
+\paragraph{Derivation.}
+At threshold the film is fully depleted and nearly flat-band inside (band bending across the film 0.022 / 0.045 /
+0.016~eV in the ATLAS profiles of \run{0012} / \run{0015} / \run{0013}, S1). Gauss's law across the dielectric, with
+the gate Fermi level at $-q\Vg$ relative to the source electron quasi-Fermi level, gives
+\begin{equation}
+  \Vthcc = \underbrace{\frac{\phi_M-\chi^{\mathrm{bulk}}}{q}}_{\text{alignment}}
+         + \underbrace{\frac{\dEc}{q}}_{\text{confinement}}
+         + \underbrace{\frac{(E_{Fn}-\Ec)_{\mathrm{cc}}}{q}}_{\text{sets }n_s}
+         - \frac{q\Qf}{\Cox}
+         - \frac{q\Nd t}{\Cox}
+         + \frac{q\,(n_t + N_{\mathrm{it}}^{-} + n_{\mathrm{GA}}^{-} + n_s)}{\Cox},
+  \label{eq:d1-vth-budget}
+\end{equation}
+where $n_t$, $N_{\mathrm{it}}^{-}$, $n_{\mathrm{GA}}^{-}$ are the ionised tail, interface and deep-Gaussian sheets
+(\cref{eq:d1-nt-occ,eq:d1-gauss,eq:dit-regularization}), $n_s$ the free sheet at the source, and
+$(E_{Fn}-\Ec)_{\mathrm{cc}}$ the Fermi-level position at which the constant-current criterion is met. The last term
+depends on mobility: a film with higher $\muband$ reaches $10^{-9}\Aum$ at a lower $n_s$ and hence a lower $\EF$, which
+also empties part of the tail. S1 evaluates \cref{eq:d1-vth-budget} with a 1-D Poisson surrogate that matches ATLAS
+$\Vthcc$ within 3~mV (runs \run{0015}, \run{0030}, \run{0013}); its closure is exact to $10^{-6}$~V.
+
+\begin{table}[tbp]
+  \centering\footnotesize\setlength{\tabcolsep}{3pt}
+  \caption{Threshold charge budget at $\Vthcc$ (V), S1 1-D surrogate (\file{s1_poisson1d.out.txt}); \cref{fig:vth_budget}
+  shows the same terms graphically. Sheet densities in parentheses (cm$^{-2}$). Columns: 2.0~nm \run{0012}; 6.3~nm
+  validation \run{0014}; 6.3~nm tuned \run{0015}; 13.2~nm \run{0013}.}
+  \label{tab:d1-budget}
+  \begin{tabular}{lcccc l}
+    \toprule
+    term & 2.0 nm & 6.3 nm val. & 6.3 nm tuned & 13.2 nm & status \\
+    \midrule
+    $(\phi_M-\chi^{\mathrm{bulk}})/q$ & $+0.400$ & $+0.400$ & $+0.400$ & $+0.400$ & assumed \\
+    $\dEc/q$ & $+0.353$ & $+0.072$ & $+0.072$ & $+0.026$ & DFT proxy \\
+    $(E_{Fn}-\Ec)_{\mathrm{cc}}/q$ & $-0.038$ & $-0.039$ & $-0.037$ & $-0.111$ & model \\
+    $-q\Qf/\Cox$ & $-0.310$ & $-0.310$ & $-0.016$ & $-0.310$ & fitted \\
+    $-q\Nd t/\Cox$ & $-0.009$ & $-0.028$ & $-0.028$ & $-0.070$ & fitted law \\
+    tail $q n_t/\Cox$ & \makecell{$+0.256$\\($1.43\times10^{12}$)} & \makecell{$+0.226$\\($1.27\times10^{12}$)} & \makecell{$+0.231$\\($1.29\times10^{12}$)} & \makecell{$+0.098$\\($5.5\times10^{11}$)} & fitted \\
+    interface traps & $+0.012$ & $+0.012$ & $+0.012$ & $+0.012$ & assumed \\
+    free electrons & \makecell{$+0.014$\\($7.6\times10^{10}$)} & \makecell{$+0.016$\\($9.1\times10^{10}$)} & $+0.017$ & \makecell{$+0.005$\\($2.6\times10^{10}$)} & model \\
+    deep Gaussian & $0.000$ & $+0.001$ & $+0.001$ & $+0.003$ & assumed \\
+    \midrule
+    $\Vthcc$ 1-D / ATLAS / measured & 0.679 / 0.676 / 0.662 & 0.351 / 0.350 / 0.644 & 0.652 / 0.651 / 0.644 & 0.052 / 0.053 / 0.083 & \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\paragraph{Attribution of the thickness dependence.}
+Differencing \cref{tab:d1-budget} between films gives the model's thickness steps (S1): 2$\rightarrow$13.2~nm,
+$-0.627$~V in total, of which confinement $-0.327$ (52\,\%), tail $-0.158$ (25\,\%), $(E_{Fn}-\Ec)$ $-0.073$ (12\,\%) and
+donors $-0.061$ (10\,\%), against $-0.579$~V measured; 2$\rightarrow$6.3~nm, $-0.328$~V, of which confinement $-0.281$
+(86\,\%), tail $-0.030$, $(E_{Fn}-\Ec)$ $-0.001$ and donors $-0.019$, against $-0.018$~V measured. Hence the V1 6.3~nm
+miss (\run{0014}: $-0.294$~V) is essentially the confinement difference $\dEc(2)-\dEc(6.3)$ (\emph{demonstrated within
+the model}, S1). Only two analytic terms are fixed by laws rather than fitted: $q\Nd t/\Cox$ and $\dEc$. The
+constant-current definition itself contributes: if the 13.2~nm film had the 2~nm mobility its $\Vthcc$ would be
+0.108--0.115~V higher (analytic on data), so 0.11--0.14~V of the measured $-0.58$~V step is a consequence of the
+threshold definition, not of charge (\emph{strongly supported}, S1; naive estimate $\SScc\log_{10}(\mu$ ratio$) = 0.10$~V
+at $160\mVdec$). One-at-a-time removal in the 1-D model confirms the weights: confinement ($\dEc$ and $\mstar$) 0.315 /
+0.064 / 0.023~V, tail 0.221 / 0.215 / 0.112~V, $\mstar$ via $\Nc$ only $-0.039$ / $-0.008$ / $-0.002$~V, $\Nd$ $-0.009$ /
+$-0.031$ / $-0.094$~V, $\Dit$ 0.012 / 0.012 / 0.011~V (2 / 6.3 tuned / 13.2~nm), consistent with the ATLAS differences
+\run{0012}$-$\run{0016} (0.315~V), \run{0013}$-$\run{0017} (0.023~V), \run{0022} and \run{0025}.
+
+\paragraph{Degenerate rigid shifts.}
+$\phi_M$, $\chi$, $\Qf$, $\dEc$ (to within the $\Nc$ term), $\Dit$ charge, deep-Gaussian charge and $\Cox$ errors all enter
+\cref{eq:d1-vth-budget} as rigid offsets at first order; on one $\Id$--$\Vg$ curve only their weighted sum is identified
+(at 6.3~nm about $1.64\times10^{12}\cmsq \equiv 0.29$~V; S1). This is the formal statement of the non-identifiability of
+the confinement shift.
+
+\paragraph{Band diagrams.}
+\Cref{fig:band_2p0_eq,fig:band_2p0_vth,fig:band_2p0_on,fig:band_13p2_on} show the ATLAS band diagrams of the calibrated
+decks, on which the budget is based: the film is nearly flat inside at threshold, so the budget terms are additive, and
+the gate field bends the bands only in the on-state.
+
+\begin{figure}[tbp]
+  \centering
+  \begin{subfigure}[t]{0.49\linewidth}
+    \includegraphics[width=\linewidth]{band_2p0_eq}
+    \caption{2.0~nm, equilibrium.}
+    \label{fig:band_2p0_eq}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.49\linewidth}
+    \includegraphics[width=\linewidth]{band_2p0_vth}
+    \caption{2.0~nm, at threshold.}
+    \label{fig:band_2p0_vth}
+  \end{subfigure}\\[4pt]
+  \begin{subfigure}[t]{0.49\linewidth}
+    \includegraphics[width=\linewidth]{band_2p0_on}
+    \caption{2.0~nm, on-state.}
+    \label{fig:band_2p0_on}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.49\linewidth}
+    \includegraphics[width=\linewidth]{band_13p2_on}
+    \caption{13.2~nm, on-state.}
+    \label{fig:band_13p2_on}
+  \end{subfigure}
+  \caption{Energy-band diagrams of the calibrated decks \run{0012} (2.0~nm, panels a--c) and \run{0013} (13.2~nm, panel d),
+  as exported by the package plotting scripts (\file{plots/2p0/band_diagram_{eq,vth,on}.png},
+  \file{plots/13p2/band_diagram_on.png}). The panels show the conduction-band edge of the 2~nm film raised by confinement;
+  the almost flat bands inside the film at threshold (ATLAS band bending across the film 0.022~eV at 2~nm and 0.016~eV
+  at 13.2~nm, S1), which justifies the additive budget of \cref{tab:d1-budget}; and the front-interface band bending in
+  the on-state.}
+\end{figure}
+
+\paragraph{Status.}
+\evSURR{} checked against \evNUM{} (3~mV). The budget explains the model, not the device: the measured 2 $\approx$ 6.3
+$\gg$ 13.2~nm pattern of $\Vthcc$ is not reproduced by any single-material law (\cref{ch:mechanisms}).
+
+% -------------------------------------------------------------------
+\section{Subthreshold slope relations and trap-DOS inversion}
+\label{sec:der-ss}
+
+\paragraph{Charge-control derivation.}
+Below threshold the current is proportional to the free sheet density at the source, $\Id\propto n_s\propto
+e^{u/\kT}$ with $u = E_{Fn}-\Ec$ (non-degenerate). Differentiating the Gauss law
+$\Cox(\Vg - V_{\mathrm{FB}} - u/q) = q(n_s + n_t + N_{\mathrm{it}}^{-} + \ldots)$ gives
+$\Cox\,d\Vg = (\Cox/q)\,du + q\,dn_s + q\,dn_t + q\,dN_{\mathrm{it}}^{-}$, so
+\begin{equation}
+  SS \equiv \frac{d\Vg}{d\log_{10}\Id}
+     = \ln 10\,\frac{\kT}{q}\left[1 + \frac{C_{\mathrm{it}} + C_{t} + C_{\mathrm{free}}}{\Cox}\right],\qquad
+  C_{\mathrm{it}} = q^{2}\Dit,\quad C_t = q^{2}t\,\frac{\partial n_t^{\mathrm{vol}}}{\partial u},\quad
+  C_{\mathrm{free}} = q^{2}\frac{\partial n_s}{\partial u} = \frac{q^{2}n_s}{\kT}.
+  \label{eq:ss-dit}
+\end{equation}
+For the exponential tail, $C_t = q^2 t\,n_t^{\mathrm{vol}}/\WTA$ (\cref{eq:d1-nt-occ}), so the tail contribution grows
+exponentially as $\EF$ approaches $\Ec$; the free-carrier term takes over once $n_s/\kT$ exceeds $\Cox/q^2$, the
+crossover ``$C_{\mathrm{free}} = \Cox$''. The textbook inversion of \cref{eq:ss-dit},
+\begin{equation}
+  D_{\mathrm{tot}} = \frac{\Cox}{q^{2}}\left(\frac{SS}{\ln 10\,\kT/q} - 1\right),
+  \label{eq:d1-ss-naive}
+\end{equation}
+attributes the whole excess slope to traps. It is the method used by the literature values of
+\cref{sec:par-dit} (e.g.\ the \HfO/\InO{} $\Dit$ from an SS of 63.5$\mVdec$, \citealp[p.~21539]{Lin2022}).
+
+\paragraph{Why the naive inversion fails here.}
+Applied to the measured slopes, \cref{eq:d1-ss-naive} gives $2.35$ / $5.18$ / $6.69\times10^{12}\si{cm^{-2}.eV^{-1}}$
+from $\SSmin$ and $1.98$ / $2.22$ / $0.94\times10^{13}$ from $\SScc$ (2 / 6.3 / 13.2~nm; S4). Two confounders make these
+numbers unreliable (S4): (i) \emph{mobility}: the crossover $C_{\mathrm{free}} = \Cox$ sits at $3.2\times10^{-10}$ /
+$4.0\times10^{-10}$ / $1.8\times10^{-9}\Aum$ for $\mu = 10.7$ / 13.3 / 59$\cmVs$, so the $10^{-10}$--$10^{-8}$ window
+straddles it; a trap-free 2~nm film already gives $\SScc = 122\mVdec$ at $\mu = 13.3$ against 75 at $\mu = 59$, i.e.\
+about 60$\mVdec$ of the thin films' $\SScc$ (about 15 at 13.2~nm) is mobility, not traps. (ii) \emph{energy window}:
+the low 13.2~nm $\SScc$ reflects a window about $\kT\ln4.5 \approx 39$~meV deeper in energy, not fewer traps. The naive
+formula therefore ranks 13.2~nm lowest ($9.4\times10^{12}$ vs $2.0\times10^{13}$), whereas the proper inversion ranks it
+highest. The floor-dependent $\SSmin$ window (\cref{sec:der-metrics}) adds a further artefact: it reaches $u\approx-0.21$ / $-0.17$ / $-0.13$~eV
+for 2 / 6.3 / 13.2~nm because the off-floors rise $\times1432$ (\cref{fig:off_floors}).
+
+\paragraph{Charge-sheet trap-DOS inversion.}
+S4 removes both confounders with an exact identity. In the gradual-channel approximation
+$\Id = (W/L)\,q\mu\int_0^{\Vd} n_s(\Vg - V)\,dV$, hence $\gm = (W/L)\,q\mu\,[n_s(\Vg) - n_s(\Vg-\Vd)]$ and, by telescoping,
+\begin{equation}
+  n_{s0}(\Vg) = \frac{L}{q\mu W}\sum_{k\ge0}\gm(\Vg - k\Vd),
+  \label{eq:d1-ns-sum}
+\end{equation}
+which removes the drain term. With $u$ obtained from $n_{s0}$ through $\Nc$ and Fermi--Dirac statistics, differentiating
+the Gauss law gives the trapped DOS
+\begin{equation}
+  D_{\mathrm{trap}}(u) = \frac{\Cox}{q^{2}}\left(q\,\frac{d\Vg}{du} - 1\right) - \frac{dn_f}{du},
+  \label{eq:d1-dtrap}
+\end{equation}
+in which $V_{\mathrm{FB}}$ cancels. The method was validated on ATLAS curves before use (measured/ATLAS DOS ratio 0.81--1.17
+for $u = -0.125$ to $-0.025$~eV at 2 and 13.2~nm) and requires the mobility, which shifts the energy axis by $\kT\ln(\mu$
+ratio$)$, $\pm10$--15~meV between the V1 and S2 mobilities (S4). Results: near $\Ec$ the sheet DOS grows sub-linearly with
+thickness, $D(\Ec-0.1\,\mathrm{eV}) = 1.05$ / 1.67 / $2.16\times10^{13}\si{cm^{-2}.eV^{-1}}$ ($\propto t^{0.38\pm0.15}$), a
+surface\,+\,bulk signature (\cref{sec:par-tail}); V1 underestimates the states at $\Ec-0.15$ to $-0.2$~eV by $\times2.2$--2.8
+(\cref{sec:par-deep}); and the 6.3~nm film carries more states in the last $\sim$50~meV below $\Ec$ (ratios 1.25 / 1.46 /
+1.72 at $-0.05$ / $-0.025$ / 0~eV relative to \run{0015}), which fill by $\Vthlin$ and then saturate -- a later, steeper
+turn-on, as measured (S4; \cref{ch:6p3}).
+
+\begin{figure}[tbp]
+  \centering
+  \includegraphics[width=\linewidth]{trap_spectroscopy}
+  \caption{Trap-DOS spectroscopy by the charge-sheet inversion (\cref{eq:d1-ns-sum,eq:d1-dtrap}) of S4 (copied from
+  \file{scratch/S4/s4_trap_spectroscopy.png}): trapped-state density vs $u = E_{Fn}-\Ec$ from the measured curves and from
+  the simulated curves of the calibrated decks. The figure shows the agreement of measured and ATLAS DOS within 0.81--1.17 for
+  $u = -0.125$ to $-0.025$~eV (2 and 13.2~nm); the sub-linear growth of the near-edge sheet DOS with thickness; the
+  underestimate of the deeper states by V1.}
+  \label{fig:trap_spectroscopy}
+\end{figure}
+
+\paragraph{Sensitivity evidence.}
+Slope-changing inputs at 2~nm (vs \run{0012}; fixed-current SS in $10^{-10}$--$10^{-9}\Aum$): $\Nt\times1.5$ $+49.0$,
+$\WTA+5$~meV $+4.6$, $\Dit\times3$ $+0.1$, $\mstar\times1.3$ $-18.0\mVdec$ (\run{0050} vs \run{0038}); rigid inputs
+($\chi$, $\phi_M$, $\Qf$) change it by $0.0$. The surrogate reproduces ATLAS $\SScc$ as 294 / 303 / 165 vs
+289 / 289 / 193$\mVdec$ (S4 part C).
+
+\paragraph{Status.}
+\evTHEORY{} (\cref{eq:ss-dit,eq:d1-ns-sum,eq:d1-dtrap}); inversion \evSURR{} validated against \evNUM. $\SScc(t)$ read as a trap
+trend with \cref{eq:d1-ss-naive}: \emph{rejected} (S4). $\SSmin$ is retired as a metric (\cref{sec:der-metrics}).
+
+% -------------------------------------------------------------------
+\section{Debye length, depletion width and full depletion}
+\label{sec:der-depletion}
+
+\paragraph{Debye and trap-screening lengths.}
+Linearising Poisson's equation about a uniform electron density $n$ gives the screening length
+\begin{equation}
+  L_D = \sqrt{\frac{\varepsilon_s\,\kT}{q^{2}n}},\qquad
+  L_t = \sqrt{\frac{\varepsilon_s\,\WTA}{q^{2}n_t^{\mathrm{vol}}}},
+  \label{eq:d1-debye}
+\end{equation}
+the second for screening by the exponential tail ($\partial n_t/\partial u = n_t/\WTA$). With $\varepsilon_s = 9.3$:
+$L_D = 7.3$ / 6.7 / 3.7 / 2.1~nm at $n = 2.5\times10^{17}$ / $3\times10^{17}$ / $10^{18}$ / $3\times10^{18}\cmcu$, and
+$L_t = 1.7$ / 3.2 / 7~nm at the threshold trapped densities of 2 / 6.3 / 13.2~nm ($7.2\times10^{18}$ / $2.0\times10^{18}$ /
+$4.2\times10^{17}\cmcu$) (S1). The regularisation layer of \cref{eq:dit-regularization} (0.25~nm) is well below both.
+
+\paragraph{Depletion width and full depletion.}
+A surface sheet $Q_s$ is compensated by depleting donors over $W = Q_s/\Nd$; the maximum depletion width for a band
+bending $\psi$ is $W_{\max} = \sqrt{2\varepsilon_s\psi/(q\Nd)}$. At the V1 $\Nd$ ($2.5$--$3\times10^{17}\cmcu$) a sheet of
+$10^{12}\cmsq$ depletes 40~nm, so every film $\le31.8$~nm is fully depleted (S1). A neutral (ungated) layer between 6.3
+and 13.2~nm would require $7.6\times10^{17} < \Nd < 1.6\times10^{18}\cmcu$ (with $Q_s\approx10^{12}$). The data exclude
+it at 13.2~nm: the off-band current $6.6\times10^{-12}\Aum$ bounds any ungated free sheet to
+$n_s = I L/(q\mu\Vd W) \le 2\times10^{7}\cmsq$ ($\mu = 59\cmVs$), whereas a neutral sheet of only $10^{10}\cmsq$ would
+carry $3.3\times10^{-9}\Aum$ (S1). The always-on 31.8~nm film needs at least $5.6$--$9.2\times10^{11}\cmsq$ ungated,
+i.e.\ uniform $\Nd\ge3\times10^{18}\cmcu$, which would put 13.2~nm at $-1.0$~V; the 13.2$\rightarrow$31.8~nm transition
+therefore requires a $\ge10\times$ change of effective donor density or a surface donor layer -- a material step, not
+dimensional electrostatics (S1).
+
+\paragraph{Where the electrons are.}
+Subthreshold conduction is volumetric: the electron centroid at threshold is 0.8 / 2.1 / 5.7~nm from the front
+(2 / 6.3 / 13.2~nm). In the on-state at 3~V all films carry a 0.7--1.1~nm front accumulation layer (ATLAS profiles; S1),
+which is where the field quantization of \cref{sec:der-confinement} acts. \Cref{fig:edens_2p0_vs_vg,fig:edens_13p2_vs_vg}
+show the evolution of the electron density with gate voltage in the calibrated decks.
+
+\begin{figure}[tbp]
+  \centering
+  \begin{subfigure}[t]{0.49\linewidth}
+    \includegraphics[width=\linewidth]{edens_2p0_vs_vg}
+    \caption{2.0~nm (\run{0012}).}
+    \label{fig:edens_2p0_vs_vg}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.49\linewidth}
+    \includegraphics[width=\linewidth]{edens_13p2_vs_vg}
+    \caption{13.2~nm (\run{0013}).}
+    \label{fig:edens_13p2_vs_vg}
+  \end{subfigure}
+  \caption{Electron density vs gate voltage in the calibrated decks, as exported by the package plotting scripts
+  (\file{plots/2p0/electron_density_vs_vg.png}, \file{plots/13p2/electron_density_vs_vg.png}). The
+  thin film fills uniformly (volumetric conduction, centroid $\approx t/2$), whereas the 13.2~nm film develops a front
+  accumulation layer of about 1~nm at high $\Vg$ (S1).}
+\end{figure}
+
+\paragraph{Status.}
+\evTHEORY{} with \evSURR/\evNUM{} values. Full depletion of all films $\le31.8$~nm at the V1 $\Nd$: \emph{demonstrated within
+the model}; a neutral bulk layer as the 6.3$\rightarrow$13.2~nm step: \emph{rejected} (S1).
+
+% -------------------------------------------------------------------
+\section{Summary}
+\label{sec:d1-summary}
+
+\begin{table}[tbp]
+  \centering\footnotesize
+  \caption{Electrostatic inputs of the V1 model: values, status and controlling runs.}
+  \label{tab:d1-summary}
+  \begin{tabularx}{\linewidth}{l l X l}
+    \toprule
+    input & 2.0 / 6.3 / 13.2 nm & sensitivity (runs) & status \\
+    \midrule
+    $\Cox$, EOT & \SI{8.955e-7}{F/cm^2}, 3.86~nm & analytic, $q/\Cox = 0.179$~V per $10^{12}$ & \prov{CALCULATED} \\
+    $\epsIWO$ & 9.3 & $<1$\,\% at 2~nm (\run{0026}) & \prov{MEASURED\_TARGET\_DEVICE} \\
+    $\Eg$ & 3.403 / 3.122 / 3.076~eV & none (holes not solved) & \prov{LITERATURE\_IWO} + proxy \\
+    $\chiIWO$ & 3.947 / 4.228 / 4.274~eV & $\mp0.100$~V rigid (\run{0020}/\run{0021}) & \prov{LITERATURE\_IWO} + proxy \\
+    $\dEc$ & 0.353 / 0.072 / 0.026~eV & $-0.315$ / $-0.023$~V if removed (\run{0016}, \run{0017}) & \prov{DFT\_PURE\_IN2O3\_PROXY} \\
+    $\mstar$ & 0.257 / 0.218 / 0.211~$m_0$ & $\times1.3$: $-0.044$ / $-0.029$~V (\run{0050}/\run{0051}) & proxy \\
+    $\Nc$ & 3.28 / 2.55 / $2.44\times10^{18}\cmcu$ & via $\mstar$ & \prov{CALCULATED} \\
+    $\Nv$ & $10^{19}\cmcu$ & none & \prov{ASSUMED} \\
+    $\Nt$, $\WTA$ & 2.0 / 0.85 / $0.49\times10^{19}\cmcu$; 40~meV & $\times1.5$: $+0.082$~V, $-25$\,\% $\Ion$ (\run{0023}); $+5$~meV: $+0.020$~V (\run{0024}) & \prov{FITTED} \\
+    deep Gaussian & $5\times10^{16}$, $\Ec-0.6$, 0.15~eV & $\le0.003$~V (analytic) & \prov{ASSUMED} \\
+    $\Dit$ & $3\times10^{11}$ at $\Ec-0.3$, 0.12~eV & $\times3$: $+0.025$~V (\run{0025}); $\times5$: $+0.051$~V (\run{0033}) & \prov{ASSUMED} \\
+    $\Qf$ & $1.73\times10^{12}$ (6.3 tuned $8.7\times10^{10}$) & exact rigid $-0.309$~V (\run{0001}$\rightarrow$\run{0003}) & \prov{FITTED} \\
+    $\Ndeff$ & 2.50 / 2.52 / $2.97\times10^{17}\cmcu$ & $\times2$: $-0.009$~V (\run{0022}); A2 $+0.030$~V (\run{0032}) & \prov{FITTED} \\
+    $\Qb$ & 0 & A3 $-1.64\times10^{12}$: $+0.278$~V, SS $-64$ (\run{0030}) & \prov{ASSUMED} \\
+    $\phi_M$ & 4.70~eV & $+0.1$~eV: $+0.100$~V rigid (\run{0048}/\run{0049}) & \prov{ASSUMED} \\
+    $\sigma$, $\tau_{\mathrm{SRH}}$ & $10^{-15}\si{cm^2}$, $10^{-6}$~s & none (DC-invariant) & \prov{ASSUMED} \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\Cref{tab:d1-summary} collects the inputs. Only the gate stack (geometry and $\varepsilon_{\mathrm{HfO_2}}$, hence most
+of $\Cox$) and $\epsIWO$ are measured on the target process; the band-structure inputs are literature values of other IWO devices or pure-\InO{} DFT proxies; the
+charge-and-trap inputs are fitted or assumed. The model is nonetheless well conditioned for what it is used for,
+because the inputs separate into two classes with different signatures: \emph{rigid shifts} ($\phi_M$, $\chi$, $\Qf$,
+$\dEc$ within the $\Nc$ term, $\Dit$ and deep-Gaussian charge, $\Cox$ errors), of which only a weighted sum is identified
+per curve; and \emph{shape parameters} ($\Nt$, $\WTA$, $\mstar$ through $\Nc$, near-edge bands), which the slope and the
+$\Vthlin-\Vthcc$ gap constrain.
+
+\begin{keyresult}
+The electrostatics of the V1 IWO model is fixed by a measured gate stack ($\Cox = \SI{8.955e-7}{F/cm^2}$, so
+$0.179$~V per $10^{12}\cmsq$), a DFT-proxy confinement law ($\dEc = 0.353$ / 0.072 / 0.026~eV) and a fitted exponential
+acceptor tail ($\Nt = 2\times10^{19}(2/t)^{0.75}\cmcu$, $\WTA = 40$~meV) with a shared fixed charge
+$\Qf = 1.73\times10^{12}\cmsq$. The threshold budget (1-D surrogate within 3~mV of ATLAS) attributes 52\,\% of the model's
+2$\rightarrow$13.2~nm step and 86\,\% of its 2$\rightarrow$6.3~nm step to $\dEc$, and 25\,\% of the former to the tail
+(\evSURR/\evNUM). Confinement at 2~nm is theoretically expected (Schr\"odinger--Poisson 0.14--0.38~V, central 0.26--0.30~V),
+but it is exactly the kind of rigid shift that one transfer curve cannot distinguish from $\approx1.7\times10^{12}\cmsq$ of
+fixed charge, and the $t^{-1.38}$ law overestimates the subthreshold-equivalent shift by $\approx2\times$ at 6.3~nm. $\phi_M$, $\chi$ and $\Qf$ are one
+parameter (exact rigid shifts, runs \run{0020}, \run{0021}, \run{0048}, \run{0049}); donors, permittivity, interface traps and
+the deep Gaussian are electrostatically small at $t\le6.3$~nm (runs \run{0022}, \run{0026}, \run{0025}, \run{0032}); the tail
+controls slope and threshold. Status: \emph{calibrated, not validated}.
+\end{keyresult}
+
+The electrostatics fixes where the Fermi level sits for a given gate voltage; how much current flows then depends on the
+mobility, the contacts and the extraction of the metrics, which are derived in the next chapter.

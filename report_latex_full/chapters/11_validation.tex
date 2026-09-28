@@ -1,0 +1,138 @@
+% chapters/11_validation.tex -- writer R3 (W6).
+\chapter{Validation status, peer-review assessment and required work}\label{ch:validation}
+
+A calibrated model reproduces the curves to which it was fitted, whereas a validated model predicts curves it has not seen. This chapter applies that distinction to every model claim of the report (\cref{sec:val-status}) and answers the eight questions of the internal adversarial review with the evidence of \cref{ch:calibration,ch:6p3,ch:mechanisms,ch:predictions} (\cref{sec:val-review}). It then lists the minimum work required before submission in the order of scientific dependency, together with the limitation sentence to be printed if an item cannot be done (\cref{sec:val-checklist}), and identifies the topics that belong in a second study (\cref{sec:val-second-paper}). The sources are \file{analysis_2026-09-25/SYNTHESIS.md} \S E, F, H and I and \file{analysis_2026-09-25/REVIEW.md}.
+
+\section{Calibration versus validation status of every model claim}\label{sec:val-status}
+
+\begin{table}[tbp]
+  \centering
+  \footnotesize
+  \caption{Status of every major model claim (\file{SYNTHESIS.md} \S E). Evidence classes as in \cref{ch:nomenclature}.}
+  \label{tab:val-status}
+  \begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{0.38\linewidth}>{\raggedright\arraybackslash}p{0.22\linewidth}>{\raggedright\arraybackslash}X}
+    \toprule
+    claim & status & evidence \\
+    \midrule
+    2 and 13.2~nm fits ($\Vthcc$ $+19$/$-29$~mV; $\Ion$ 0.00\,\%) & \evCAL & \run{0038}, \run{0040} \\
+    6.3~nm tuned fit & \evCAL{} (device-specific $\Qf$, $\mu$) & \run{0015}, \run{0039} \\
+    Shared laws predict the 6.3~nm threshold & \evOOS, \textbf{failed} ($-0.294$~V) & \run{0014} \\
+    6.3~nm ``reproduced in shape'' & SS yes; on-state \textbf{no} (gap $-0.314$~V, $\gm$ $-16.6$\,\%) & \cref{sec:6p3-shape} \\
+    Confinement accounts for the 2 vs 13.2~nm step & \textbf{not supported}: realises 50.4\,\%; data neutral & \cref{sec:concl-demonstrated} \\
+    No confinement + $\Qf$ from 2~nm predicts 6.3~nm & \evPOST, threshold only ($-0.057$~V) & A6, \run{0034} \\
+    Subthreshold follows $\Nt(t)$, $\WTA$, $\Dit$ ``without tuning'' & \evCAL{} ($\Nt$ anchor and $\WTA$ fitted) & \cref{sec:cal-final} \\
+    $\muband$ per film; no mobility law & \evCAL & \cref{sec:par-mu} \\
+    $\Qf$ rigid; WF/$\chi$/$\Qf$ one number; $\Id$ linear in $\mu$; $\mstar$ second-order & \evNUM & \run{0048}--\run{0051}; \run{0029}/\run{0038} \\
+    300~K transfer convergence (where checked) & \evNUM & \run{0019}, \run{0029}, \run{0036}, \run{0028} \\
+    V1 2~nm mesh; DOS order at 6.3/13.2~nm; $T$ and ID-VD convergence & \textbf{not demonstrated} & \cref{sec:num-convergence} \\
+    Physical deck $\equiv$ reduced deck; donors, $\varepsilon$ irrelevant at 2~nm & \evNUM & \run{0008}/\run{0012}, \run{0009}/\run{0013}, \run{0022}, \run{0026} \\
+    Contact geometry irrelevant & \textbf{retracted} & \run{0027} malformed \\
+    A1--A5 rejected as sole cause & \evNUM, model-conditional & \run{0030}--\run{0035} \\
+    B0 re-partition & \evOOS, \textbf{failed} ($\SScc$ $+115.6$) & \run{0037} \\
+    C1 near-$\Ec$ band & \evOOS: passed on $\gm$, SS; \textbf{failed} on gap, $\Ion$ & \run{0052} \\
+    $\Rsd$ cannot create the trend & \evCORR{} + \evLIT; bounds \evCAL & \cref{sec:mech-contacts} \\
+    Paper $\mu$ = saturation formula & \evDATA{} (provenance) & \cref{sec:der-mufe} \\
+    Structural step & \evCORR & hypothesis C1 \\
+    Confinement 0.26--0.30~V at 2~nm (expected; not identified from ID-VG) & \evTHEORY & \cref{sec:der-confinement} \\
+    MTR surrogate vs ATLAS P-MTR & numerical cross-check & \cref{sec:pred-temperature} \\
+    ID-VD and 338/358~K predictions & \evPRED & \run{0041}--\run{0047} \\
+    Ideal Ohmic contacts, constant mobility, T-independent tails & assumed & register \S 6 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\Cref{tab:val-status} contains no entry of class ``validated''. The strongest positive statements are numerical (\evNUM) or rest on the measured data themselves (\evDATA), and every genuinely out-of-sample test run so far (\run{0014}, B0 \run{0037}, C1 \run{0052}) failed or partly failed. Two tests that were described as pre-registered in specialist reports (A6 and the B0 value of $\SScc$ given by specialist S1) are post hoc. The S1 code was saved at 19:18:00Z, during \run{0037} (19:16--19:21Z), and configuration A was written days after the \run{0014} miss was known.
+
+\section{Adversarial review: objections and responses}\label{sec:val-review}
+
+An independent referee pass (\file{REVIEW.md}) posed eight required questions. \Cref{tab:val-review} gives the answer supported by the evidence of this report. In five of the eight cases the objection is conceded or agreed.
+
+\begin{table}[tbp]
+  \centering
+  \footnotesize
+  \caption{The eight required review questions and the strongest defensible response (\file{SYNTHESIS.md} \S H.1).}
+  \label{tab:val-review}
+  \begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{0.22\linewidth}>{\raggedright\arraybackslash}X}
+    \toprule
+    question & response and evidence \\
+    \midrule
+    (a) Are the parameters unique? & \textbf{Conceded.} WF, $\chi$, $\Qf$ and $\dEc$ are one number (\run{0048}, \run{0049}, \run{0001}$\rightarrow$\run{0003}); $\muband$ trades with $\Nt$ ($\Nt\times1.5\equiv\mu\times1.33$), $\Rsd$ with the tail exponent. The report speaks of a ``calibrated, non-unique parameter set''; checklist item 0.4 identifies the combinations; C-V, split C-V/Hall and TLM pin three of them (\cref{sec:mech-identifiability}). \\
+    (b) Validated or calibrated? & \textbf{Conceded: calibrated.} \run{0014} is a failed out-of-sample threshold test; A6 is post hoc; B0 failed and C1 partly failed; the $\mu_{\mathrm{sat}}$ reproduction is provenance evidence. The first validation is the register against the SI temperature data (\cref{ch:predictions}). \\
+    (c) Could the power law be accidental? & \textbf{Conceded.} All thickness laws are two-point laws or extrapolations; the leave-one-out miss of a power law in $\muFE$ is $\times2.63$ (exponent 0.7516). The step form is equally unsupported; no functional form in $t$ is claimed (\cref{sec:der-powerlaw}). \\
+    (d) Is the 6.3~nm miss understood? & \textbf{Partly.} The decomposition is demonstrated: rigid 0.294~V plus a shape part of $+0.16$ to $+0.19$~V at $10^{-7}$--\SI{2e-7}{}~\Aum{} that is independent of confinement (\run{0014}, \run{0015}, \run{0034}). Eight electrostatic variants, B0 and C1 are excluded quantitatively; the cause is not assigned and the shape part remains unexplained (\cref{sec:6p3-verdict}). \\
+    (e) Converged? & \textbf{Agreed: partially.} Converged where checked for 300~K transfer (DOS order 2.03 at 2~nm, residual $+0.16$\,\%; mesh $\times0.7$ at 6.3 and 13.2~nm). Open: V1 2~nm mesh, DOS order at 6.3/13.2~nm, $T\neq300$~K and ID-VD checks, the $-5$ to $-12$~mV $\Vthlin$ grid bias (Tiers 2--3). \\
+    (f) Is confinement demonstrated? & \textbf{Conceded: assumed} and theoretically expected, not identifiable. The residual signature of the confinement package is degenerate with $\mstar$ ($\times0.8$) and $\Nt$ ($\times1.09$), not with $\WTA$ as the referee argued (on $\SScc$, $\WTA$ $+5$~meV moves $+0.8$ and $\Dit\times3$ $+0.5$~\mVdec{} against $+14.6$ for the package). ``It was tested'' is deleted. \\
+    (g) Are contacts and interfaces separated? & \textbf{Agreed: partially.} The trend argument stands (\cref{sec:concl-supported}, S3). $\Rsd$ magnitude, charge location and interface vs bulk traps are not separated (Tiers 6--7). \\
+    (h) Is the preferred mechanism falsifiable? & \textbf{Answered.} Hypothesis C1 and the auxiliaries C3, C4, C5 and C10 have pre-declared falsifiers (\cref{tab:concl-plausible}); the ID-VD register items test auxiliary assumptions only. \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\paragraph{Further objections.} The review raised sixteen further points (REVIEW \S 2) and lists of overstatements (O1--O9) and understatements (U1--U7); all are accepted. The most consequential points are the following. The drain bias and current normalisation come from the device schematic (the $\mu_{\mathrm{sat}}$ reproduction fixes $L/(W\Cox)$ and the A/$\mu$m normalisation jointly, but not $\Vd$). Since $N = 1$, no film-specific mechanism is claimed, and sweep history remains an open confounder of offset and shape. The 31.8~nm curve is a documented model failure ($\Id(-3~\mathrm{V}) = \SI{3.0e-7}{}$~\Aum) and is never used as support. The origin of the off-floor is not determined, and the 13.2~nm SS is given both raw (136.1) and floor-subtracted (91.8~\mVdec). The value tmu = 1.5 is a configuration-control failure that is handled by two exact variants. \run{0027} is retracted and $\SSmin$ is retired. The log-RMSE is not comparable across films (active spans 6.57/5.25/4.59 decades), and the constant-current threshold is confounded by mobility. $\muFE$(2~nm) is a lower bound because $\gmmax$ falls at the last sweep point. Finally, a value of $\varepsilon$(\AlO) between 7 and 9 moves the EOT by about 3\,\%, and every $q/\Cox$ charge with it.
+
+\paragraph{Further expected criticisms.} A first expected criticism is that three curves and about ten fitted numbers teach little. The contribution of the study, however, lies in the degeneracy map, the anomaly decomposition, the quantitative exclusions and the registered predictions, not in the parameter values. A second concerns the continuity of a 2~nm film; this is not determined, and the AFM roughness is higher at 2~nm than at 10~nm \citep[p.~8]{Januar2026}. A third concerns the validity of drift-diffusion at 2~nm. For trap-free electrostatics, Schrodinger-Poisson agrees within 11~mV and $C_{\mathrm{eff}}$ within 1\,\% (\evSURR); with traps, the tail energy reference (0.26 vs 0.91~V at 2~nm) is a stated model-form uncertainty. A fourth concerns the absence of a density-dependent mobility. This ATLAS version ignores MOBILITY updates between SOLVE statements, and no IWO-calibrated model exists locally, so C5 remains plausible and is deferred. A fifth is that the temperature data come from another device. Device identity is not determined, and only changes relative to that device's own 300~K curve are compared.
+
+\section{Minimum work before submission}\label{sec:val-checklist}
+
+\paragraph{Completed in this study.} The following work was completed: the 6.3~nm hypothesis study (A1--A6 \run{0030}--\run{0035}, B0 \run{0037}, C1 \run{0052}), in which no tested mechanism explains the miss; the DOS 384/192 recalibration (\run{0038}--\run{0040}; refinement series \run{0019}, \run{0029}); the 6.3~nm mesh check (A7 \run{0036}, pass); the WF/$\mstar$ isolation (\run{0048}--\run{0051}); the ID-VD predictions (\run{0041}--\run{0043}, registered); and the temperature predictions (\run{0044}--\run{0047}, registered in two variants). The launch budget of 52 is exhausted (52 recorded launches, of which 49 produced scored currents; \cref{sec:app-runs-composition}). The following items were not done: explicit TMUN, Schrodinger-Poisson/BQP, a corrected overlap run, the V1 2~nm mesh check, the DOS order at 6.3 and 13.2~nm, DOS/mesh checks at $T\neq300$~K and for ID-VD, and the C1 DOS resolution. Together these require about 10--11 launches.
+
+\paragraph{Checklist.} The items are ordered by scientific dependency and labelled ANALYSIS, ATLAS or LAB. The italic sentence is the limitation to be printed if the item cannot be done.
+
+\begin{description}
+  \item[Tier 0 (analysis; no dependency).]
+  \begin{itemize}
+    \item 0.1 [ANALYSIS] Correct the package documents (\cref{sec:concl-corrections}): retract \run{0027}, re-tabulate with fixed-current metrics instead of $\SSmin$, give the 13.2~nm SS raw and floor-subtracted. Mandatory; no limitation sentence is acceptable. \emph{Done in this report.}
+    \item 0.2 [ANALYSIS] Freeze the register externally before any comparison data are requested. \emph{``Predictions were registered internally with SHA-256 hashes; no third-party timestamp exists.''}
+    \item 0.3 [ANALYSIS] Audit ATLAS defaults from one 300~K and one 358~K \file{deckbuild.out} (tmu 1.5, vsat \SI{9.78e6}{cm/s}, SRH/Auger, lattice constant). \emph{``Unset ATLAS material parameters took silicon defaults; the constant-mobility temperature exponent (1.5) was active in the elevated-temperature runs and is reported as a separate prediction variant.''}
+    \item 0.4 [ANALYSIS] Identifiability: Jacobian or profile over the fitted metrics from the one-at-a-time pairs (2~nm: \run{0012}, \run{0020}--\run{0026}, \run{0048}, \run{0050}; 13.2~nm: \run{0049}, \run{0051}). \emph{``Identifiability was assessed only by one-at-a-time perturbations; the fitted parameter set is one member of a family of equivalent calibrations.''}
+  \end{itemize}
+  \item[Tier 1 (records; everything below depends on these).]
+  \begin{itemize}
+    \item 1.1 [LAB/records] $\Vd$, current normalisation, sweep direction, rate and dwell, ranges, temperature, ambient, device IDs, $\Ig$/$\Is$, thickness method. \emph{``Drain bias (0.7 V), current normalisation and geometry were taken from the device schematic; sweep direction, hysteresis, temperature and gate current were not recorded; one device per thickness was measured.''}
+    \item 1.2 [LAB/records] Target-paper SI: Fig.~S12 (2~nm at 338/358~K with its own 300~K curve), Fig.~5a $\mu_{\mathrm{sat}}$(6.3~nm), MIM/MISM C-V, ID-VD S7b, PBS of Fig.~6; establish device identity. Needs 0.2 and 2.1--2.2 first. \emph{``No measurement independent of the calibration curves was available; the model is calibrated, not validated, and its registered predictions are untested.''}
+  \end{itemize}
+  \item[Tier 2 (ATLAS; before a registered prediction is compared).] 2.1 explicit TMUN = 0 re-run of B12 (expected: P-MTR within $\pm0.2$\,\%); 2.2 DOS check at 358~K; 2.3 ID-VD mesh $\times0.7$ near the drain. One launch each. \emph{``Elevated-temperature predictions were computed with the ATLAS default constant-mobility exponent (T\textsuperscript{-1.5}) and, by exact rescaling, for a temperature-independent band mobility; discretization convergence was verified at 300 K for transfer curves only.''}
+  \item[Tier 3 (ATLAS numerical closure).] 3.1 V1 2~nm mesh $\times0.7$; 3.2 DOS 192/96 at 6.3 and 13.2~nm (two launches); 3.3 C1 at 768/384 levels; 3.4 corrected overlap run (x.mesh beyond the electrodes, reject any log with ``Electrode shortened''). \emph{``Mesh convergence of the 2 nm deck is inherited from an earlier deck of the same generator; discretization order was established only at 2 nm; contact geometry and resistance were not tested.''}
+  \item[Tier 4 (replicates; before any film-specific claim).] 4.1 [LAB] 3--5 devices per thickness, same process run, dual sweeps with rate and dwell recorded; decides C4. \emph{``Each thickness is represented by a single device; device-to-device variation was not quantified, so the 6.3 nm threshold offset cannot be distinguished from process variation or sweep history.''}
+  \item[Tier 5 (thickness metrology; before any $t$-law).] 5.1 [LAB] XRR or ellipsometry, cross-sectional TEM, XPS/RBS for W. \emph{``Channel thicknesses are nominal, without measured uncertainty; `\textasciitilde 2 \% W' is undefined; all thickness laws are evaluated at nominal t.''}
+  \item[Tier 6 (contacts and parasitic paths; needs 1, 5).] 6.1 [LAB] TLM or L-series; low-$\Vd$ output (0--0.2~V); transfer at $\Vd$ = 0.05--0.1~V; $\Ig$, $\Is$ recorded; mesa vs unpatterned devices. Tests the registered ID-VD shape and the floor path. \emph{``Contacts were not characterised; extracted mobilities include any source/drain resistance, which is not identifiable from one transfer curve at one channel length; off-state currents are not attributed to the channel.''}
+  \item[Tier 7 (electrostatics; needs 5, 6).] 7.1 [LAB] quasi-static, multi-frequency and split C-V per thickness ($V_{FB}(t)$, $n_{\mathrm{total}}(\Vg)$, charge-referenced threshold); 7.2 passivated vs air-exposed. \emph{``Flat-band voltage and the free/trapped partition were not measured; work function, electron affinity, fixed charge and any confinement shift enter as one fitted offset per curve, and the charge location is not identified.''}
+  \item[Tier 8 (band edge and confinement; needs 5, 7).] 8.1 [ATLAS] Schrodinger-Poisson/BQP with the V1 DOS at the three thicknesses (register before 8.2; two to three launches); 8.2 [LAB] optical gap vs $t$, UPS/XPS, IPES. \emph{``The confinement shift is an assumed input taken from PBE calculations on pure In2O3 slabs of 0.95--1.98 nm; it was not measured on IWO and cannot be distinguished from a fixed-charge offset of about 1.7e12 cm\textsuperscript{-2} with the present data.''}
+  \item[Tier 9 (transport mechanism; needs 6, 7).] 9.1 [LAB] temperature series ($\ge$3--4 temperatures, 300--360~K) on all films; 9.2 [LAB] gated Hall; GIXRD/HRTEM/SEM grain size at 6.3 and 13.2~nm. \emph{``Only room-temperature data were used; band mobility and tail-state density form a calibrated pair; the origin of the mobility increase between 6.3 and 13.2 nm is not determined.''}
+  \item[Tier 10 (functional form in $t$; needs all above).] 10.1 [LAB] at least two more thicknesses (3--5 and 8--11~nm), predicted blind with the frozen model. \emph{``No functional form in thickness is identified; the thickness laws are interpolations between two anchors.''}
+\end{description}
+
+\paragraph{Submission thresholds.} A calibration or methods paper without a mechanism claim requires Tier 0, items 1.1 and 1.2 with the S12 comparison, and Tiers 2--3 (about 8 launches). A mechanism paper additionally requires Tiers 4, 5, 7 and 8.2.
+
+\section{What to leave for a second paper}\label{sec:val-second-paper}
+
+\begin{table}[tbp]
+  \centering
+  \footnotesize
+  \caption{Topics deferred to a second study and the reason (\file{SYNTHESIS.md} \S I).}
+  \label{tab:val-second}
+  \begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{0.33\linewidth}>{\raggedright\arraybackslash}X}
+    \toprule
+    topic & why not now \\
+    \midrule
+    QE/DFT for W:\InO{} (W substitution, surfaces, tail localisation vs $t$) & no QE installation; even a correct $\dEc$ is not identifiable from these data; useful only with an optical gap vs $t$ \\
+    31.8~nm and thicker films & needs a different mechanism ($\Nd\ge$\SI{3e18}{cm^{-3}} or a back donor sheet); reported here only as a failure \\
+    Schrodinger-Poisson/BQP with traps & changes the model form; only the single check 8.1 belongs here \\
+    Density-dependent/percolation mobility & leading candidate for the shape miss (C5); needs $T$ and split C-V/Hall data; cannot be emulated within a sweep in this ATLAS version \\
+    Off-state floor physics & needs $\Ig$/$\Is$, an L-series and mesa devices \\
+    Bias-stress and hysteresis dynamics & needs dual sweeps and PBS/NBS on replicates \\
+    Denser thickness series; functional form in $t$ & needs Tiers 4--5; a step and a steep sigmoid cannot be separated with three points \\
+    Contact physics with measured $\rho_c$ & needs TLM (6.1) \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\begin{keyresult}[title={Key result: validation status}]
+\begin{itemize}
+  \item No model claim is validated; every out-of-sample test so far (\run{0014}, \run{0037}, \run{0052}) failed or partly failed. The fits are calibrations of a non-unique parameter set.
+  \item Of the eight review questions, (a), (b), (c), (f) are conceded, (e), (g) agreed as partial, (d) partly answered, (h) answered with pre-declared falsifiers.
+  \item The first validation test is the registered temperature prediction against the existing 2~nm SI data, after external timestamping and the three Tier-2 launches. A methods paper needs Tiers 0--3 (about 8 launches); a mechanism paper additionally Tiers 4, 5, 7 and 8.2.
+\end{itemize}
+\end{keyresult}
+
+The final chapter collects the conclusions of the study, ordered by strength of evidence, together with the corrections that they imply for the earlier package documents.

@@ -1,0 +1,146 @@
+% ===================================================================
+% chapters/02d_provenance.tex -- writer L3
+% Master provenance table of every TCAD input (section only).
+% ASCII only.
+% ===================================================================
+
+\section{Master provenance table}
+\label{sec:lit-provenance}
+
+\Cref{tab:provenance-master} lists every input of the V1 ATLAS model: the material description
+(\file{config/iwo_material_model.yaml}), the geometry, the numerical settings, and the per-film
+fitted values, including the DOS 384/192 recalibration. For each input the table gives the value(s)
+per film (2.0 / 6.3 / 13.2 / 31.8\,nm where they differ), the status label, the source with its
+printed page or the run that fixed the value, the section in which the input is derived, and the runs
+that test its sensitivity. Run identifiers refer to \file{results/RUN_INDEX.csv} (catalogue in
+\cref{tab:run-catalogue}). Three conventions apply. (i) ``Seed'' denotes the value written in the
+YAML before calibration.
+(ii) The fitted values were set in stages: $\Qf$ in stage~3 (\run{0003}, \run{0004}), $\muband$ in
+stage~6 (\run{0008}, \run{0009}), the 6.3\,nm device-specific pair in \run{0007}/\run{0015}, and the
+DOS 384/192 recalibration in \run{0038}--\run{0040}; because $\Id$ is linear in a uniform constant
+mobility (\cref{sec:der-mu-linear}), the recalibrated $\muband$ of 6.3 and 13.2\,nm were finally
+rescaled exactly by $\times1.015074$ and $\times1.020113$, and these rescaled values
+(17.6897 / 11.582 / 61.6046) are the ones used in the prediction runs \run{0041}--\run{0047}.
+(iii) The retracted run \run{0027} (malformed mesh, contact overlap) is listed but is not evidence.
+
+\begingroup
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}p{3.1cm}>{\raggedright\arraybackslash}p{1.7cm}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{1.6cm}>{\raggedright\arraybackslash}p{2.2cm}@{}}
+\caption{Master provenance of every model input. Values per film are given as 2.0 / 6.3 / 13.2 /
+31.8\,nm where they differ. Status labels as in \cref{sec:lit-convention}.}
+\label{tab:provenance-master}\\
+\toprule
+Input & Value(s) & Status & Source (page) or run & Derivation & Sensitivity runs \\
+\midrule
+\endfirsthead
+\multicolumn{6}{@{}l}{\emph{\Cref{tab:provenance-master} continued}}\\
+\toprule
+Input & Value(s) & Status & Source (page) or run & Derivation & Sensitivity runs \\
+\midrule
+\endhead
+\midrule
+\multicolumn{6}{r@{}}{\emph{continued on next page}}\\
+\endfoot
+\bottomrule
+\endlastfoot
+%
+\multicolumn{6}{@{}l}{\textbf{Geometry and gate stack}}\\
+Channel length, width & $L = 20$\,$\mu$m, $W = 290$\,$\mu$m; simulated width 1\,$\mu$m (A/$\mu$m) & \prov{MEASURED\_TARGET\_DEVICE} & schematic \citep{DeviceSchematic} & \cref{sec:inp-geometry} & -- \\
+Film thickness $\tIWO$ & 2.0 / 6.3 / 13.2 / 31.8\,nm & \prov{MEASURED\_TARGET\_DEVICE} & workbook headers \citep{ExperimentalWorkbook} & \cref{sec:inp-data} & 6.3\,nm as 5.3\,nm (\run{0031}), 5.8\,nm (\run{0035}) \\
+Gate electrode & TiN, 50\,nm & \prov{MEASURED\_TARGET\_DEVICE} & \citet[p.~2]{Januar2026} & \cref{sec:par-stack} & -- \\
+\HfO{} thickness, permittivity & 15\,nm; 19.57 & \prov{MEASURED\_TARGET\_DEVICE} & schematic; SI Fig.~S1b \citep{JanuarSI2026} via Astra (caption \citealp[p.~11]{Januar2026}) & \cref{sec:par-stack} & -- \\
+\AlO{} thickness, permittivity & 2\,nm; 9.0 & thickness \prov{MEASURED\_TARGET\_DEVICE}; $\varepsilon$ \prov{ASSUMED} & schematic; -- & \cref{sec:par-stack} & -- \\
+Gate capacitance $\Cox$, EOT & $8.955\times10^{-7}$\,F\,cm$^{-2}$; 3.86\,nm; $\Cox/q = 5.59\times10^{12}$\,cm$^{-2}$V$^{-1}$ & \prov{CALCULATED} & $\varepsilon_0/(15/19.57 + 2/9.0)$\,nm & \cref{sec:par-stack} & -- \\
+S/D contacts & Pd 70\,nm; overlap 2\,$\mu$m & metal \prov{MEASURED\_TARGET\_DEVICE}; overlap \prov{ASSUMED} & \citet[p.~3]{Januar2026}; -- & \cref{sec:par-contacts} & overlap 4\,$\mu$m \run{0027} (malformed, retracted) \\
+Top of channel & air, no cap & \prov{MEASURED\_TARGET\_DEVICE} & schematic & \cref{sec:inp-geometry} & -- \\
+Composition & ``$\sim$2\% W'', label only & not determined & \citet[p.~2]{Januar2026} & \cref{sec:par-nd} & -- \\
+%
+\midrule
+\multicolumn{6}{@{}l}{\textbf{Band structure and electrostatics}}\\
+Bulk band gap $\Eg$ & 3.05\,eV ($\pm$0.2) & \prov{LITERATURE\_IWO} & \citet{Fan2021} Sec.~3 via Astra & \cref{sec:par-eg} & through confinement off (\run{0016}, \run{0017}) \\
+Bulk affinity $\chi$ & 4.30\,eV ($\pm$0.3) & \prov{LITERATURE\_IWO} & \citet{Fan2021} Sec.~3 via Astra & \cref{sec:par-chi} & $\pm$0.1\,eV: \run{0020}, \run{0021} \\
+Confinement $\dEg(t)$ & $0.9205\,t^{-1.3815}$\,eV: 0.353 / 0.072 / 0.026 / 0.008\,eV & \prov{DFT\_PURE\_IN2O3\_PROXY} & \citet[p.~21542]{Lin2022}; \citet[p.~504]{Si2021} & \cref{sec:par-dec,sec:der-confinement} & off: \run{0016}, \run{0017}; 6.3\,nm off with $\Qf$ from 2\,nm: \run{0034} \\
+Partition $\dEc/\dEg$ & 1.0 & \prov{DFT\_PURE\_IN2O3\_PROXY} & \citet[p.~504]{Si2021} & \cref{sec:par-chi} & -- \\
+$\Eg(t)$, $\chi(t)$ & $3.05 + \dEg(t)$; $4.30 - \dEc(t)$ & \prov{CALCULATED} & from the two rows above & \cref{sec:par-eg,sec:par-chi} & as above \\
+Effective mass $\mstar(t)$ & $0.208 + 0.1311\,t^{-1.4121}$\,$m_0$ & \prov{MEASURED\_RELATED\_MATERIAL} + DFT increment & \citet[pp.~225102-12--13]{Stokey2021}; \citet[p.~21540]{Lin2022} & \cref{sec:par-mstar} & $\times1.3$: \run{0050} (2\,nm), \run{0051} (13.2\,nm) \\
+$\Nc(t)$ (300\,K) & 3.27 / 2.55 / 2.44 / 2.40 $\times10^{18}\cmcu$ & \prov{CALCULATED} & $2(2\pi\mstar kT/h^2)^{3/2}$ & \cref{sec:par-nc} & coupled to $\mstar$ in \run{0050}, \run{0051} \\
+$\Nv$ & $10^{19}\cmcu$ & \prov{ASSUMED} & -- (holes not solved) & \cref{sec:par-nv} & -- \\
+Channel permittivity $\epsIWO$ & 9.30 & \prov{MEASURED\_TARGET\_DEVICE} & SI Fig.~S1b \citep{JanuarSI2026} via Astra & \cref{sec:par-eps-iwo} & 10.55: \run{0026} \\
+Gate work function & 4.70\,eV & \prov{ASSUMED} (TiN 4.5--4.9\,eV) & -- & \cref{sec:par-gatewf} & $+0.1$\,eV: \run{0048} (2\,nm), \run{0049} (13.2\,nm) \\
+%
+\midrule
+\multicolumn{6}{@{}l}{\textbf{Charges and traps}}\\
+Tail density $\Nt(t)$ & $2.0\times10^{19}(2/t)^{0.75}$\,cm$^{-3}$; $\NTA$ = 5.0 / 2.1 / 1.2 / 0.63 $\times10^{20}$\,cm$^{-3}$eV$^{-1}$ & \prov{FITTED} law (anchor \evCAL{} at 2\,nm; trend \evLIT) & trend \citet[p.~7]{Januar2026}; anchor from real-ATLAS lineages & \cref{sec:par-tail} & $\times1.5$: \run{0023}; 6.3\,nm $\Nt = 2.66\times10^{19}$: \run{0037} \\
+Tail width $\WTA$ & 0.040\,eV ($T_t = 464$\,K), shared & \prov{FITTED} & V0/Astra calibrations & \cref{sec:par-tail} & $+5$\,meV: \run{0024} \\
+Deep acceptor Gaussian & $\NGA = 5\times10^{16}$\,cm$^{-3}$eV$^{-1}$, $\EGA = \Ec - 0.6$\,eV, $\WGA = 0.15$\,eV & \prov{ASSUMED} & range of \citet{Fan2021} via Astra & \cref{sec:par-deep} & -- (insensitive) \\
+Donor tail, donor Gaussian & NTD $= 0$, NGD $= 0$ & \prov{ASSUMED} & \citet{Fan2021} via Astra; V2 option \citet[p.~2391]{WangX2025} & \cref{sec:par-nd} & -- \\
+Interface acceptor sheet $\Dit$ & $3\times10^{11}$\,cm$^{-2}$eV$^{-1}$ at $\Ec-0.3$\,eV, width 0.12\,eV; volume $1.2\times10^{19}$\,cm$^{-3}$eV$^{-1}$ in 0.25\,nm & \prov{ASSUMED} & bracket \citet[p.~21539]{Lin2022}, \citet[pp.~4--5]{Wang2022} & \cref{sec:par-dit} & $\times3$: \run{0025}; $\times5$ at 6.3\,nm: \run{0033}; near-$\Ec$ band at 6.3\,nm: \run{0052} \\
+Fixed charge $\Qf$ (shared) & seed 0; fitted $1.73\times10^{12}$\,cm$^{-2}$ ($\Delta V_{fb} = -0.310$\,V) for 2.0, 13.2 (and 31.8) nm & \prov{FITTED} & \run{0003}, \run{0004}; kept in \run{0012}, \run{0013}, \run{0038}, \run{0040} & \cref{sec:par-qf} & 0 vs $1.73\times10^{12}$: \run{0001}/\run{0003}, \run{0002}/\run{0004} \\
+Fixed charge $\Qf$ (6.3\,nm) & $8.7\times10^{10}$\,cm$^{-2}$ ($\Delta V_{fb} = -0.016$\,V) & \prov{FITTED} device-specific & \run{0007}, \run{0015}, \run{0039} & \cref{sec:par-qf,sec:6p3-verdict} & shared value held out: \run{0005}, \run{0014}; $4.76\times10^{10}$: \run{0034}; $9.8\times10^{11}$: \run{0037} \\
+Required $\Qf$ per film (analysis) & with confinement 1.81 / 0.09 / 1.56 $\times10^{12}$; without 0.047 / $-0.27$ / 1.43 $\times10^{12}$\,cm$^{-2}$ & analysis (\evPOST) & SYNTHESIS D3 & \cref{sec:mech-electrostatics} & -- \\
+Background donors $\Ndeff(t)$ & $2.5\times10^{17}[1+(t/20)^4]$: 2.5 / 2.5 / 3.0 / 18.5 $\times10^{17}\cmcu$ & \prov{FITTED} law & trend support \citet[p.~173507-6]{Kim2024} & \cref{sec:par-nd} & $\times2$: \run{0022}; $10^{16}$ at 6.3\,nm: \run{0032}, \run{0035} \\
+Back-surface charge / donors & 0 for thin films; 6.3\,nm hypotheses $-1.64\times10^{12}$, $-1.0\times10^{12}$\,cm$^{-2}$; 31.8\,nm donor sheet hypothesis & HYPOTHESIS & -- & \cref{sec:par-backq} & \run{0030}, \run{0035}; 31.8\,nm \run{0010} (aborted) \\
+Capture cross sections & $10^{-15}$\,cm$^2$ & \prov{ASSUMED} & -- & \cref{sec:par-capture} & not identifiable from DC \\
+SRH lifetime & $10^{-6}$\,s & \prov{ASSUMED} & -- & \cref{sec:par-capture} & -- \\
+%
+\midrule
+\multicolumn{6}{@{}l}{\textbf{Transport}}\\
+Roughness $\Dsr$ & 0.287\,nm; factor $(1-\Dsr/t)^2$ = 0.734 / 0.911 / 0.957 / 0.982 & \prov{LITERATURE\_IWO} & \citet[p.~8, Fig.~5f]{Januar2026} & \cref{sec:par-rough} & -- \\
+Band mobility $\muband$, seed & 16.8 / 12.4 / 57.6 / 84 $\cmVs$ & \prov{FITTED} (V0) & YAML seed; 31.8\,nm run \run{0006} & \cref{sec:par-mu} & -- \\
+$\muband$, stage 6 (DOS 96/48) & 18.13 / 11.69 / 61.9 / -- $\cmVs$ & \prov{FITTED} & \run{0008}, \run{0015}, \run{0009}; final \run{0012}, \run{0013} & \cref{sec:par-mu,sec:cal-final} & \run{0003} vs \run{0008}; \run{0004} vs \run{0009} \\
+$\muband$, DOS 384/192 & 17.69 / 11.41 / 60.39 $\cmVs$; rescaled 17.6897 / 11.582 / 61.6046 & \prov{FITTED} & \run{0038}, \run{0039} ($\times1.015074$), \run{0040} ($\times1.020113$); rescaled values used in the predictions \run{0041}--\run{0047}; the isolation runs \run{0048}--\run{0051} keep 17.69 / 60.39 as their baselines \run{0038} / \run{0040} & \cref{sec:par-mu,sec:der-mu-linear} & -- \\
+$\muband$, 6.3\,nm hypotheses & 19.6 (S2 re-partition); 15.4 (S4 near-$\Ec$ band) & HYPOTHESIS & \run{0037}; \run{0052} & \cref{sec:6p3-hypotheses} & -- \\
+Gate-dependent roll-off & not inserted & approximation gap & form: \citet[p.~7]{Januar2026} & \cref{sec:der-mu-linear} & -- \\
+Hole mobility & 0.01 $\cmVs$ & \prov{ASSUMED} & -- & \cref{sec:par-nv} & -- \\
+Temperature, tmu & 300\,K; predictions 338.15 / 358.15\,K with tmu = 1.5 & \prov{ASSUMED} & \citep[p.~179]{AtlasManual} & \cref{sec:par-temperature} & \run{0044}--\run{0047} \\
+%
+\midrule
+\multicolumn{6}{@{}l}{\textbf{Contacts}}\\
+S/D model & ideal Ohmic & \prov{ASSUMED} & context \citet[p.~167]{Si2022}, \citet[p.~21538]{Lin2022} & \cref{sec:par-contacts} & Y-function check (\cref{sec:der-yfunction}) \\
+Series resistance & 0 / 0 / 0 / 92000\,$\Omega\,\mu$m & \prov{FITTED} hypothesis (31.8\,nm only) & bound: total device 672\,$\Omega$ at 3\,V (Astra measurement constraints) & \cref{sec:par-contacts} & -- \\
+%
+\midrule
+\multicolumn{6}{@{}l}{\textbf{Numerics}}\\
+DOS discretisation NUMA/NUMD & 96/48 (\run{0012}--\run{0015}); 384/192 (\run{0038}--\run{0052}) & numerical choice & \citep[pp.~1168--1174]{AtlasManual} & \cref{sec:der-dos-discretization} & 192/96 \run{0019}; 384/192 \run{0029} \\
+Mesh & spacing factor 1.0 & numerical choice & \citep[pp.~1373--1377]{AtlasManual} & \cref{sec:num-mesh} & 0.7: \run{0028} (13.2\,nm), \run{0036} (6.3\,nm); \run{0018} timed out \\
+Interface-layer regularisation & 0.25\,nm layer & numerical choice & -- & \cref{sec:par-dit} & layer/2 changes $\Id$ by 0.009\,dec (V0) \\
+Bias sweep & $\Vg = -3 \rightarrow +3$\,V (measured grid 0.05\,V); $\Vd = 0.7$\,V; stepped VSTEP/VFINAL (0.2 / 0.05 / 0.1\,V) & \prov{MEASURED\_TARGET\_DEVICE} (bias); numerical (stepping) & workbook; \citep[pp.~1593--1611]{AtlasManual} & \cref{sec:num-sweep} & -- \\
+Solver & Newton, electrons only & numerical choice & \citep[pp.~1383--1389]{AtlasManual} & \cref{sec:num-solver} & -- \\
+\end{longtable}
+\endgroup
+
+\paragraph{Reading the table.}
+Among the inputs that control the transfer curves most strongly (\cref{sec:cal-param-control}), only
+the gate stack was measured on the target device. The confinement law and the effective mass are
+pure-\InO{} proxies, the tail density follows a literature trend but has a fitted anchor, and $\Qf$ and
+$\muband$ are fitted per film (with one $\Qf$ shared by 2.0 and 13.2\,nm). The model is therefore
+calibrated, but not validated, on the three thin films. The held-out test at 6.3\,nm with shared
+parameters (\run{0014}) failed in threshold and could be repaired only by a device-specific $\Qf$
+(\cref{sec:6p3-verdict}).
+
+\begin{keyresult}
+\textbf{Literature basis: what the sources do and do not fix.}
+\begin{itemize}
+\item Measured on the target process: gate stack (TiN 50\,nm and Pd S/D, \citealp[pp.~2--3]{Januar2026};
+  \HfO{} 15\,nm and \AlO{} 2\,nm from the device schematic), the \HfO{} permittivity 19.57 and the channel
+  permittivity 9.30; the two permittivities come from the non-bundled SI (Fig.~S1b, caption printed in
+  \citealp[p.~11]{Januar2026}) via the Astra audit.
+\item Pure-\InO{} proxies: the confinement shift $\dEg(t)$ from PBE slabs \citep[p.~21542]{Lin2022},
+  \citep[p.~504]{Si2021}, and the mass $0.208\,m_0$ plus a PBE increment
+  (\citealp[p.~225102-12]{Stokey2021}; \citealp[p.~21540]{Lin2022}).
+\item Literature trends and brackets, not values: $\Nt(t)$ ($\times4$, \citealp[p.~7]{Januar2026}),
+  $\Dit \approx 6\times10^{11}$ (\citealp[p.~21539]{Lin2022}; \citealp[pp.~4--5]{Wang2022}), the rise of
+  defect densities in thick \IWO{} \citep[p.~173507-6]{Kim2024}, the CNL above $\Ec$.
+\item Fitted to the measured curves: $\Qf$ ($1.73\times10^{12}$ shared; $8.7\times10^{10}$\,cm$^{-2}$ at
+  6.3\,nm), $\muband$ (17.69 / 11.58 / 61.60$\cmVs$ at DOS 384/192: \run{0038}, \run{0039} $\times1.015074$,
+  \run{0040} $\times1.020113$), the
+  $\Nt$ anchor, $\WTA$ and $\Ndeff(t)$.
+\item Not determined from the available data: the absolute electron affinity of \IWO, the W
+  composition basis, the absolute tail temperature, the contact resistance of the thin films, and
+  the effect of W on $\mstar$.
+\end{itemize}
+\end{keyresult}
+
+With the source of every input established, the next chapter considers the measured devices
+themselves: their geometry, the transfer curves and the metrics extracted from them.

@@ -1,0 +1,12 @@
+% appendices/D_register.tex -- writer R2b (W6).
+\chapter{Prediction register: files and hashes}\label{ch:app-register}
+
+This appendix documents the integrity record of the prediction register discussed in \cref{ch:predictions}. The register \file{analysis_2026-09-25/PREDICTIONS_REGISTER.md} was written at 2026-09-24T23:24:53Z (UTC) by specialist S6. Every number in it was read from the real ATLAS runs \run{0038}--\run{0047} or derived from them by exact operations (linear mobility rescaling, the $(T/300)^{1.5}$ factor, metric extraction with the unchanged \file{scripts/extract_metrics.py}). None of the predicted quantities was used in calibration, and no measurement of them was in the project's possession at registration time.
+
+\paragraph{Registration statement.} At registration, the SHA-256 hashes of 44 files were computed with Python \texttt{hashlib}: the measured data, the extractor, the material model and campaign configuration, the input deck, execution record and output of every reference and prediction run (\run{0038}--\run{0047}), the S6 analysis scripts and outputs, and the canonical machine-readable prediction file \file{analysis_2026-09-25/predictions_canonical.csv} (1917 rows; columns film, T\_K, variant, Vg, Vd, quantity, value, unit, run\_id). On 2026-09-25 the synthesis re-computed all 44 hashes (\file{scratch/SYNTHESIS/syn_checks.py}, check [SYN-c]); all 44 are identical to the registered values (\cref{tab:register-hashes}). The SHA-256 of the register file itself is \texttt{836ead1f731745f95e339dedff351c2cc4dae5c6cdd3979d5c992e8e3030a681}.
+
+\paragraph{Known textual error.} The register prose misprints the exact P-MTR multipliers 1.19669 and 1.30441 as 1.19665 and 1.30426 while the code, tables and canonical CSV are exact; following \cref{sec:pred-falsification} the register is not edited, and the details are in \cref{sec:par-temperature}.
+
+\paragraph{Limitations.} The timestamp is internal. No third-party timestamp (repository commit, OSF/Zenodo deposit, or e-mail to the supervisor) exists yet; checklist item 0.2 (\cref{sec:val-checklist}) requires one before the comparison data are requested or opened. Any later change to the registered files, the extraction definitions or the model state invalidates the prospective status; a revised register must be a new, separately timestamped file.
+
+\input{appendices/D_hashes_table}

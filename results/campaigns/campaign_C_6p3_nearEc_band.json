@@ -1,0 +1,64 @@
+{
+ "campaign": "C_6p3_nearEc_band",
+ "purpose": "Pre-registered test of specialist S4's hypothesis for the 6.3 nm ON-STATE SHAPE miss (tuned run_0015 / B2: Vth_lin-Vth_cc gap too small by ~0.35 V, gm_max -23 %): an extra ~2e12 cm^-2 of acceptor-like states within ~1 kT of Ec plus a higher band mobility. Deck: tuned 6.3 nm configuration at DOS 384/192 (baseline B2_dos384_6p3) with the bulk acceptor Gaussian replaced by NGA = 2e12/(6.3e-7 x 0.02 x sqrt(pi)) = 9.0e19 cm^-3 eV^-1, EGA = 0.03 eV below Ec, WGA = 0.02 eV, and mu_band 15.4 (S4 surrogate). Qf is NOT refitted in ATLAS: a Qf change is an exact rigid shift (runs 0001->0003, 0005->0007), so the shape metrics (gap, gm_max, SS_cc) are read directly and Vth_cc is corrected analytically. S4 PREDICTION recorded before the run (0-D surrogate, relative to run_0015): gap +0.28 V, gm_max +24 %, SS_cc +23 mV/dec. S1's competing expectation for gap-state bands (1-D): the gap does not open without SS_cc rising well above the measured 295 mV/dec. Approximation: in the 0.25 nm interface layer the band is moment-matched with the interface sheet (generator), and the assumed deep Gaussian (5e16 at Ec-0.6 eV, insensitive) is replaced. 2026-09-25.",
+ "plan_file": "config\\campaign_C_6p3_nearEc_band.json",
+ "placeholders": {},
+ "runs": [
+  {
+   "id": "C1_nearEc_band_6p3",
+   "thickness": 6.3,
+   "label": "hyp_S4_nearEc_band_2e12_mu15p4",
+   "purpose": "S4 near-Ec acceptor band (2e12 cm^-2 at Ec-0.03 eV, W 0.02 eV) + mu_band 15.4 on the tuned 6.3 nm configuration, DOS 384/192.",
+   "mode": "transfer",
+   "overrides": [
+    "traps.fixed_interface_charge_Qf_cm2.value=8.7e10",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[6.3]=15.4",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "traps.bulk_deep_acceptor_gaussian.NGA_cm3_eV=9.0e19",
+    "traps.bulk_deep_acceptor_gaussian.EGA_from_Ec_eV=0.03",
+    "traps.bulk_deep_acceptor_gaussian.WGA_eV=0.02"
+   ],
+   "run_dir": "results/runs/run_0052_6p3_hyp_S4_nearEc_band_2e12_mu15p4",
+   "run_id": "run_0052",
+   "status": "REAL_ATLAS_SCORED",
+   "elapsed_s": 537.6,
+   "active_rmse_dec": 0.0812121726059436,
+   "sub_rmse_dec": 0.061944356534479286,
+   "on_rmse_dec": 0.08571863475765243,
+   "Id3V_err_pct": 15.973557930637906,
+   "sim": {
+    "Vth_cc_1e-9_V": 0.6482597831098118,
+    "Vth_lin_V": 1.586980944040107,
+    "SS_mV_dec": 116.46705657651829,
+    "SS_min_window_mV_dec": 116.46705657651829,
+    "SS_cc_1e-10_1e-8_mV_dec": 304.44995044187493,
+    "gm_max_A_V_um": 3.311300000000005e-07,
+    "mu_FE_cm2Vs": 10.564451651915038,
+    "Ion_A_per_um": 4.67893e-07,
+    "Ioff_A_per_um": 5.18364e-22,
+    "Ioff_definition": "min Id over sweep (min POSITIVE; native zeros counted)",
+    "native_zero_count": 15,
+    "Ion_over_Ioff": 902634056377371.9,
+    "off_band_median_A_per_um": null
+   },
+   "exp": {
+    "Vth_cc_1e-9_V": 0.6440037102307175,
+    "Vth_lin_V": 1.8199688146658495,
+    "SS_mV_dec": 114.6732332017215,
+    "SS_min_window_mV_dec": 114.6732332017215,
+    "SS_cc_1e-10_1e-8_mV_dec": 295.3670282761616,
+    "gm_max_A_V_um": 3.431099999999996e-07,
+    "mu_FE_cm2Vs": 10.946664471019112,
+    "Ion_A_per_um": 4.03448e-07,
+    "Ioff_A_per_um": 5.86207e-15,
+    "Ioff_definition": "min Id over sweep",
+    "native_zero_count": 0,
+    "Ion_over_Ioff": 68823470.2076229,
+    "off_band_median_A_per_um": 1.52759e-13
+   },
+   "max_kcl_A": 6.34825523e-17,
+   "wall_s": 542.2
+  }
+ ]
+}

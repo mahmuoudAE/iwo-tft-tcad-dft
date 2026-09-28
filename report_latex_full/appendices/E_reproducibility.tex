@@ -1,0 +1,217 @@
+% ===================================================================
+% appendices/E_reproducibility.tex -- Reproducibility (writer C2; filled by W4). ASCII only.
+% ===================================================================
+\chapter{Reproducibility}\label{ch:app-repro}
+
+A simulation study is reproducible only if a reader can regenerate every deck, rerun every launch, recompute every
+metric and rebuild every figure from archived inputs, and can check that the archived inputs are the ones that were used.
+This appendix states the software environment, the commands for each stage, the launch budget that constrained the
+study, the layout of the archive, the hashes of the data files and the integrity rules that governed the work. Paths
+prefixed \file{PKG/} are relative to the package root \file{IWO_PHYSICS_CONSTRAINED_MODEL_V1}; paths prefixed
+\file{REPORT/} are relative to \file{PKG/report_latex_full}.
+
+\section{Software environment}\label{sec:repro-env}
+
+The device simulator is Silvaco ATLAS 5.28.1.R, driven in batch mode by DeckBuild
+(\file{C:/sedatools/exe/deckbuild.exe}); the manual is \file{C:/sedatools/lib/atlas/5.28.1.R/docs/atlas_users1.pdf}
+\citep{AtlasManual}. One 32-bit licence is available, so launches are strictly sequential, and the memory of the
+executable limits the mesh to about 30\,000 nodes (\cref{sec:num-mesh}). The batch recipe is
+\texttt{deckbuild.exe -run <deck> -outfile <stdout>}, executed with the run directory as working directory and with
+relative file names (\texttt{runner.argv} in \file{config/solver.yaml}). Python is used from the virtual environment
+\file{IWO_ATLAS_Model_claude/.venv} (with numpy, scipy, matplotlib, pyyaml and pypdf), in which every script of
+\cref{ch:app-code} runs. Two tools are not available: Quantum ESPRESSO is not installed (the workflow of
+\file{scripts/qe_build_inputs.py} is unexecuted), and no TeX installation exists on the project machine, so the report is
+checked statically by \file{tools/lint_latex.py} and compiled elsewhere with pdflatex and BibTeX. The operating system is
+Windows, and all paths in the configuration use forward slashes.
+
+\section{Regenerating the simulation campaigns}\label{sec:repro-campaigns}
+
+All commands are run from \file{PKG/} with the Python of the environment above. The three stages are independent: decks
+can be generated and inspected without launching, and a launched run can be re-scored without relaunching.
+
+\paragraph{1. Decks.}
+\begin{lstlisting}[language={},numbers=none]
+python scripts/build_iwo_decks.py                       # decks/iwo_{2p0,6p3,13p2,31p8}nm.in
+python scripts/build_iwo_decks.py --thickness 6.3 \
+    --override traps.fixed_interface_charge_Qf_cm2.value=8.7e10 \
+    --structure full --sweep stepped
+\end{lstlisting}
+
+\paragraph{2. Single launches.} One launch per call; the run is validated, scored and appended to
+\file{results/RUN_INDEX.csv}. The overrides of every run are those of \cref{tab:run-catalogue}; for example, \run{0038}
+corresponds to
+\begin{lstlisting}[language={},numbers=none]
+python scripts/run_atlas.py --thickness 2.0 --label recal_dos384_2p0 \
+    --override traps.fixed_interface_charge_Qf_cm2.value=1.73e12 \
+    --override "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=17.69" \
+    --override solver.dos_levels.numa=384 --override solver.dos_levels.numd=192
+python scripts/run_atlas.py --rescore results/runs/<run folder> --reason "<why>"   # no launch
+\end{lstlisting}
+Prediction runs of output characteristics add \texttt{--output-vgs "1,1.5,2,2.5,3"} (drain segments
+\texttt{--vd-segments 0.5:0.05,3:0.1} by default); thick films need \texttt{--timeout 1500}.
+
+\paragraph{3. Campaigns of 2026-09-25.}
+\begin{lstlisting}[language={},numbers=none]
+python scripts/run_campaign.py config/campaign_A_6p3_hypotheses.json      # run_0030-0036
+python scripts/run_campaign.py config/campaign_B_recal_predictions.json   # run_0037-0051
+python scripts/run_campaign.py config/campaign_C_6p3_nearEc_band.json     # run_0052
+\end{lstlisting}
+A campaign launches its entries one after another and writes \file{results/campaigns/<name>.json}. Rerunning a campaign
+creates \emph{new} run identifiers; the archived runs are never overwritten.
+
+\paragraph{4. Tables and plots of the package.}
+\begin{lstlisting}[language={},numbers=none]
+python scripts/extract_metrics.py --thickness 2.0            # measured metrics of one film
+python scripts/compare_experiment_simulation.py              # tables/EXPERIMENTAL_VS_SIMULATION.*
+python scripts/make_provenance_tables.py                     # tables/PARAMETER_PROVENANCE.csv etc.
+python scripts/plot_results.py
+python scripts/plot_sensitivity.py
+\end{lstlisting}
+
+\section{Regenerating the analysis, the figures and the report}\label{sec:repro-figures}
+
+\paragraph{Specialist analyses.} The scripts of \cref{sec:code-analysis} live in
+\file{PKG/analysis_2026-09-25/scratch/<S1..S6, REVIEW, SYNTHESIS>/} and are run from \file{PKG/} with the same Python;
+they read run outputs and the measured data and write their outputs next to themselves
+(e.g.\ \file{scratch/SYNTHESIS/syn_checks_out.txt}). None of them launches ATLAS.
+
+\paragraph{Report assets.} From \file{REPORT/}:
+\begin{lstlisting}[language={},numbers=none]
+python tools/build_digest.py           # digest/: papers by printed page, manual pages, runs.csv, numbers
+python tools/make_figures.py           # figures/<stem>.pdf, figures/png/<stem>.png, figures/MANIFEST.md
+python tools/make_figures.py measured_transfer numerics_convergence    # selected stems only
+python tools/make_appendix_assets.py   # code/, data/ copies; appendices/A_runs_table.tex, D_hashes_table.tex
+python tools/lint_latex.py             # static check; exit code 1 on any error
+\end{lstlisting}
+
+\paragraph{Report build.} \file{main.tex} with \file{preamble.tex} and \file{references.bib} compiles with the standard
+sequence (Overleaf default):
+\begin{lstlisting}[language={},numbers=none]
+pdflatex main
+bibtex main
+pdflatex main
+pdflatex main
+\end{lstlisting}
+
+\section{Launch budget}\label{sec:repro-budget}
+
+The number of ATLAS launches was capped by the user (\texttt{runner.max\_launches} in \file{config/solver.yaml}). The cap
+was 30 and was raised to 52 on 2026-09-25 at the user's explicit request, for the \SI{6.3}{nm} hypothesis study, the DOS
+384/192 recalibration, the mesh and sensitivity checks and the predictions. All 52 launches were used (52/52), and 49
+of the 52 recorded launches produced scored currents (\cref{sec:app-runs-composition}). The one remaining numerical item
+that would have required a launch, the \SI{31.8}{nm} mesh refinement (check K), was closed because the film was
+excluded. Because of the cap, several questions are answered with exact rescaling (linearity of $\Id$ in MUN,
+\cref{sec:num-convergence}) or with surrogates (\evSURR) instead of new runs, and only one sensitivity per parameter
+exists. A launch takes between about 2 and 32 minutes (\run{0012}: \SI{125}{s};
+\run{0043}: \SI{1926}{s}); the default timeout is \SI{900}{s}, \SI{1500}{s} for thick films.
+
+\section{File map of the archive}\label{sec:repro-filemap}
+
+{\small
+\begin{longtable}{@{}p{0.38\linewidth}p{0.56\linewidth}@{}}
+\caption{Where to find each kind of evidence.}\label{tab:repro-filemap}\\
+\toprule
+Path & Content \\
+\midrule
+\endfirsthead
+\toprule
+Path & Content \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\file{PKG/config/} & material model, geometry, solver (YAML); campaign plans A, B, C (JSON) \\
+\file{PKG/scripts/} & generator, runner, campaign driver, extractor, table and plot scripts (\cref{sec:code-package}) \\
+\file{PKG/data/experimental_clean.csv} & the measured transfer curves (\texttt{thickness\_nm}, \texttt{source\_row}, \texttt{vg\_V}, \texttt{id\_A\_per\_um}); \file{data_summary.json} \\
+\file{PKG/results/RUN_INDEX.csv} & launch record of all 52 recorded launches (49 with scored currents) \\
+\file{PKG/results/runs/run_NNNN_*/} & per run: \file{device.in}, \file{execution.json} (simulated and measured metrics, fit metrics, validation), \file{comparison.csv}, \file{idvg.dat}, \file{terminal_currents.csv}, \file{output_characteristics.csv} ($\Id$--$\Vd$ runs), \file{deckbuild.out}, band-profile and probe exports \\
+\file{PKG/results/campaigns/} & per-campaign metric summaries \\
+\file{PKG/results/BEST_RUNS_V1.json} & runs designated as best per film \\
+\file{PKG/tables/} & provenance, material parameters, thickness-law evidence, sensitivity and experiment-vs-simulation tables \\
+\file{PKG/docs/} & physics model, parameter extraction and provenance, device structure, numerical convergence, limitations, earlier reports \\
+\file{PKG/plots/} & package plots per film (overlays, band diagrams, electron density) \\
+\file{PKG/inputs/papers_text/} & literature texts with page markers \\
+\file{PKG/inputs/astra_IWO_PRIORITY_THREE_20260912/} & the Astra package and its audit (cross-checks only) \\
+\file{PKG/analysis_2026-09-25/} & evidence brief, specialist reports S1--S6, review, synthesis, prediction register and \file{scratch/} scripts \\
+\file{REPORT/chapters/}, \file{REPORT/appendices/} & the \LaTeX{} sources of this report \\
+\file{REPORT/figures/} & registry figures (PDF, PNG) and \file{MANIFEST.md} \\
+\file{REPORT/digest/} & writer digest: papers by printed page, manual pages, run table, numbers \\
+\file{REPORT/code/}, \file{REPORT/data/} & ASCII-sanitised copies of scripts, analysis scripts, decks, configuration and data used in the appendices \\
+\file{REPORT/tools/} & report tools (digest, figures, appendix assets, lint) \\
+\file{IWO_ATLAS_Model_claude/} (sibling folder) & the V0 package (34 launches) and the Python environment \\
+\end{longtable}}
+
+\section{SHA-256 of the data files}\label{sec:repro-hashes}
+
+\Cref{tab:repro-hashes} gives the leading 16 hexadecimal digits of the SHA-256 digest of the data and configuration files
+as copied into the report (computed on 2026-09-25 with PowerShell \texttt{Get-FileHash}). Because the copies were made
+ASCII-safe for typesetting, a copy's digest can differ from that of the package original; the digests of the package
+files registered with the predictions are given in \cref{tab:register-hashes} (\cref{ch:app-register}), and those are
+the reference for integrity checks.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{SHA-256 (first 16 hex digits) and size of the report copies of the data and configuration files.}
+\label{tab:repro-hashes}
+\begin{tabular}{@{}llr@{}}
+\toprule
+File (in \texttt{REPORT/}) & SHA-256 (first 16) & Bytes \\
+\midrule
+\texttt{data/experimental\_clean.csv} & \texttt{e27a53e8c72169d5} & 12362 \\
+\texttt{data/data\_summary.json} & \texttt{027f14cfebb77642} & 1349 \\
+\texttt{data/RUN\_INDEX.csv} & \texttt{d281afb916883703} & 41866 \\
+\texttt{data/runs\_catalogue.csv} & \texttt{ba4d4a27dc43c27c} & 19251 \\
+\texttt{data/BEST\_RUNS\_V1.json} & \texttt{72b931f71676be01} & 2201 \\
+\texttt{data/campaign\_A\_6p3\_hypotheses.json} & \texttt{725e49b715886544} & 15010 \\
+\texttt{data/campaign\_B\_recal\_predictions.json} & \texttt{8b9be148cd9b6fb5} & 28133 \\
+\texttt{data/campaign\_C\_6p3\_nearEc\_band.json} & \texttt{2103b7ca98e69fda} & 3479 \\
+\texttt{data/predictions\_canonical.csv} & \texttt{5c9950be9a390921} & 142801 \\
+\texttt{data/PREDICTIONS\_REGISTER.md} & \texttt{836ead1f731745f9} & 24985 \\
+\texttt{code/config/iwo\_material\_model.yaml} & \texttt{8cbd89968f5b8695} & 6892 \\
+\texttt{code/config/geometry.yaml} & \texttt{9ac32b09a1570e02} & 2231 \\
+\texttt{code/config/solver.yaml} & \texttt{e315bad35ff021c1} & 2436 \\
+\texttt{code/config/campaign\_A\_6p3\_hypotheses.json} & \texttt{32b9b4dbbe4793cc} & 3948 \\
+\texttt{code/config/campaign\_B\_recal\_predictions.json} & \texttt{6c426538bd1a2382} & 10310 \\
+\texttt{code/config/campaign\_C\_6p3\_nearEc\_band.json} & \texttt{a42c0a6b4b74186a} & 1816 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The files \texttt{data/campaign\_*.json} are the campaign result summaries (\file{results/campaigns/}), whereas
+\texttt{code/config/campaign\_*.json} are the campaign plans; the two sets have the same names but different content.
+
+\section{Integrity rules}\label{sec:repro-integrity}
+
+The following rules, set by the user and the supervisor, governed the study and this report.
+\begin{enumerate}
+  \item \emph{Real solver only.} Every simulated number comes from a real ATLAS run listed in
+        \file{results/RUN_INDEX.csv}. No Python model is substituted for the solver; surrogate results are labelled
+        \evSURR{} and never shown as ATLAS curves.
+  \item \emph{Nothing invented.} No parameter, source or run is invented. Where evidence is missing, the report states
+        ``not determined from the available data''.
+  \item \emph{Labels.} Every parameter carries a provenance label, ``calibrated'' and ``validated'' are kept distinct,
+        and every claim carries an evidence class (\cref{ch:nomenclature}).
+  \item \emph{No manufactured agreement.} Native numerical zeros are never replaced by a floor; the measured off-state
+        plateaus remain a limitation of the model.
+  \item \emph{Complete record.} Failed, timed-out and malformed runs remain in the catalogue with their status
+        (\cref{sec:app-runs-notes}); a re-scored run keeps its original \file{execution.json}, and retracted results
+        (e.g.\ \run{0027}) are stated as retracted, together with the correction.
+  \item \emph{Exact rescaling only.} A curve is rescaled without a new launch only where the operation is exact (linearity
+        of $\Id$ in the constant uniform mobility; the $(T/300)^{1.5}$ factor of the temperature variants), and the
+        factor is stated wherever the rescaled curve is used.
+  \item \emph{Sequential launches by the main session.} With a single 32-bit licence, only the main session launched
+        ATLAS, one run at a time; the specialist agents worked read-only on existing outputs.
+  \item \emph{Registration before testing.} Predictions were registered with a timestamp (2026-09-24T23:24:53Z) and file
+        hashes before any comparison with measurement; none of the predicted quantities was used in calibration
+        (\cref{ch:app-register}).
+  \item \emph{Page-exact literature.} Every statement taken from a paper or the manual carries the printed page.
+\end{enumerate}
+
+\begin{keyresult}
+Every stage can be rerun from the archive: decks from three YAML files and the recorded overrides, launches with one
+command per run (ATLAS 5.28.1.R, DeckBuild batch, one 32-bit licence), campaigns from three JSON plans, analysis and
+figures from read-only scripts, and the report from its sources. The launch budget (52/52) is exhausted, which is why
+exact rescaling and surrogates were used where a launch was not available. Hashes of the archived data and the integrity
+rules allow a reader to verify that the archived inputs are those used.
+\end{keyresult}

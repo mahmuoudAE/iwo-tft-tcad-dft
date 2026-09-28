@@ -1,0 +1,17 @@
+&CONTROL
+  calculation = 'scf', prefix = 'w_bcc', outdir = './tmp', pseudo_dir = './',
+  tstress = .true., tprnfor = .true.
+/
+&SYSTEM
+  ibrav = 3, celldm(1) = 5.98, nat = 1, ntyp = 1,
+  ecutwfc = 40, ecutrho = 320, occupations = 'smearing', smearing = 'mv', degauss = 0.02
+/
+&ELECTRONS
+  conv_thr = 1.0d-8
+/
+ATOMIC_SPECIES
+W 183.84 W.pbe-spn-kjpaw_psl.1.0.0.UPF
+ATOMIC_POSITIONS alat
+W 0.0 0.0 0.0
+K_POINTS automatic
+6 6 6 0 0 0

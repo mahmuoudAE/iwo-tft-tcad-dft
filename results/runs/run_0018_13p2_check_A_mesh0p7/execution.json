@@ -1,0 +1,25 @@
+{
+  "run_id": "run_0018",
+  "thickness_nm": 13.2,
+  "label": "check_A_mesh0p7",
+  "elapsed_s": 900.3697174000001,
+  "returncode": 1,
+  "timed_out": true,
+  "scan": {
+    "warnings": [
+      "Warning: Projection cannot be done with"
+    ],
+    "convergence_flags": [],
+    "errors": [],
+    "banner": false,
+    "finished": false,
+    "static_solutions": 84
+  },
+  "requested_points": 76,
+  "overrides": [
+    "traps.fixed_interface_charge_Qf_cm2.value=1.73e12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[13.2]=61.9",
+    "geometry.mesh.spacing_factor=0.7"
+  ],
+  "status": "TIMEOUT"
+}
