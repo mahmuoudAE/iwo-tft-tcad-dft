@@ -24,6 +24,9 @@ MASS = {'In': 114.818, 'O': 15.999, 'W': 183.84, 'H': 1.008}          # IUPAC st
 UPF = {'In': 'In.pbe-dn-kjpaw_psl.1.0.0.UPF', 'O': 'O.pbe-n-kjpaw_psl.1.0.0.UPF',
        'W': 'W.pbe-spn-kjpaw_psl.1.0.0.UPF', 'H': 'H.pbe-kjpaw_psl.1.0.0.UPF'}
 ZVAL = {'In': 13, 'O': 6, 'W': 14, 'H': 1}                           # valence charges of these data sets
+# SG15 ONCV norm-conserving v1.2 (M. Schlipf, F. Gygi, Comput. Phys. Commun. 196, 36 (2015); D. R. Hamann,
+# Phys. Rev. B 88, 085117 (2013)); used only for the HSE06 check, where exact exchange with PAW proved too slow
+UPF_NC = {'In': 'In_ONCV_PBE-1.2.upf', 'O': 'O_ONCV_PBE-1.2.upf', 'W': 'W_ONCV_PBE-1.2.upf', 'H': 'H_ONCV_PBE-1.2.upf'}
 ORDER = ['In', 'O', 'W', 'H']
 BOHR = 0.529177210903
 NUM = {'In': 49, 'O': 8, 'W': 74, 'H': 1}
@@ -52,10 +55,42 @@ JOBS += [('gpu_bench_v15', 'slab1_v15', 'bench_scf', 8, 32000, 20000000, 'workda
 JOBS += [('slab1_relax_gpu', 'slab1_v25', 'slab_relax', 8, 32000, 30000000, 'testmatch', 259200, 1),
          ('slab2_relax_gpu', 'slab2_v25', 'slab_relax', 16, 64000, 40000000, 'testmatch', 259200, 2),
          # 2-GPU request idle 2.5 h (17:50Z); 1-GPU jobs start within minutes
-         ('slab2_relax_gpu1', 'slab2_v25', 'slab_relax', 8, 48000, 40000000, 'testmatch', 259200, 1)]
+         ('slab2_relax_gpu1', 'slab2_v25', 'slab_relax', 8, 48000, 40000000, 'testmatch', 259200, 1),
+         # 2026-09-30: continue the 32-CPU relaxation on 1 GPU with 8 CPUs from its latest geometry
+         ('slab2_relax_gpu8', 'slab2_v25', 'slab_relax', 8, 32000, 60000000, 'testmatch', 259200, 1),
+         # 2026-09-30: band edges of the relaxed pure 1 nm slab on CPU (EA/IP lost to the pp.x version clash), and
+         # the 1 nm IWO slab: W on the central 24d site of the relaxed slab (In23 W O48 H24), atoms relaxed on GPU,
+         # final SCF + planar average + PDOS + bands on the CPU environment
+         ('slab1r_final_cpu', 'slab1r_pure', 'slab_scf', 16, 32000, 20000000, 'tomorrow', 86400),
+         ('iwo_slab1_W24d', 'slab1r_W24d', 'iwo_slab', 8, 32000, 60000000, 'testmatch', 259200, 1),
+         # 2026-09-30 HSE06 check of the PBE confinement (single points at the PBE geometries, GPU):
+         # dEg(HSE) vs dEg(PBE); bulk with EXX q-grid 1x1x1 and 3x3x3 (sensitivity), slab with 1x1x1
+         ('hse_bulk_nq1', 'bulk_prim', 'hse_scf', 8, 32000, 30000000, 'tomorrow', 86400, 1),
+         ('hse_bulk_nq3', 'bulk_prim', 'hse_scf', 8, 32000, 30000000, 'tomorrow', 86400, 1),
+         ('hse_slab1', 'slab1r_pure', 'hse_scf', 8, 32000, 60000000, 'testmatch', 259200, 1),
+         # chained after the relaxed 2 nm slab (dft_flow.sh chains.txt): its CPU band edges and the 2 nm IWO slab
+         # 2026-10-01 HSE06 check moved to SG15 norm-conserving (PAW exact exchange ran on the CPU at 0 % GPU):
+         # ratio [dEg(HSE)/dEg(PBE)] in one NC setup at the PAW-PBE geometries; bulk cutoff check 80 vs 100 Ry
+         ('nc_pbe_bulk_e80', 'bulk_prim', 'nc_scf', 8, 32000, 20000000, 'workday', 28800, 1),
+         ('nc_pbe_bulk_e100', 'bulk_prim', 'nc_scf', 8, 32000, 20000000, 'workday', 28800, 1),
+         ('nc_hse_bulk_e80', 'bulk_prim', 'nc_scf', 8, 32000, 20000000, 'tomorrow', 86400, 1),
+         ('nc_hse_bulk_q3_e80', 'bulk_prim', 'nc_scf', 8, 32000, 20000000, 'tomorrow', 86400, 1),   # EXX q-grid check
+         # ecutfock 160 Ry set (same names + '_f160'): bulk q1, bulk q3, slab q1
+         ('nc_hse_bulk_f160_e80', 'bulk_prim', 'nc_scf', 8, 32000, 20000000, 'tomorrow', 86400, 1),
+         ('nc_hse_bulk_q3_f160_e80', 'bulk_prim', 'nc_scf', 8, 32000, 20000000, 'tomorrow', 86400, 1),
+         ('nc_hse_slab1_f160_e80', 'slab1r_pure', 'nc_scf', 8, 64000, 60000000, 'testmatch', 259200, 1),
+         ('nc_pbe_slab1_e80', 'slab1r_pure', 'nc_scf', 8, 32000, 30000000, 'tomorrow', 86400, 1),
+         ('nc_hse_slab1_e80', 'slab1r_pure', 'nc_scf', 8, 64000, 60000000, 'testmatch', 259200, 1),
+         # 2026-10-02: memory set from the measured 2 nm demand (vc-relax 31.4 GB with occupied+8 bands on 1 GPU; the final
+         # SCF with occupied+16 bands 66 GB, which held slab2_relax_x1); CPU run limited to 2 pools (~24 GB per pool)
+         ('slab2r_final_cpu', 'slab2r_pure', 'slab_scf', 16, 72000, 20000000, 'tomorrow', 86400),
+         ('iwo_slab2_W24d', 'slab2r_W24d', 'iwo_slab', 8, 100000, 80000000, 'testmatch', 259200, 1),
+         # 2026-10-02 (user request): the same final SCF + planar average + bands of the relaxed 2 nm slab also on
+         # 1 GPU (~8x faster than 16 CPUs); its GPU save is converted to HDF5 for the CPU pp.x (common/dat2h5.py)
+         ('slab2r_final_gpu', 'slab2r_pure', 'slab_scf', 8, 100000, 60000000, 'tomorrow', 86400, 1)]
 # memory: every pool holds complete wavefunctions of its k-points. slab2_v25 with 4 pools used 95.8 GB
 # (held at a 48 GB limit, 2026-09-27), i.e. ~24 GB per pool, so slab 2 runs with at most 2 pools.
-MAXPOOL = {'slab2_v25': 2, 'slab2_relax': 2}
+MAXPOOL = {'slab2_v25': 2, 'slab2_relax': 2, 'slab2r_final_cpu': 2}
 TOY_JOBS = [
     ('toy_bulk', 'toy_bulk', 'iwo_bulk', 2, 0, 0, 'espresso', 3600 * 3),
     ('toy_slab', 'toy_slab', 'slab_relax', 2, 0, 0, 'espresso', 3600 * 3),
@@ -89,28 +124,31 @@ def pw_input(st, calc, prefix, p, kgrid=None, kpts=None, nbnd=None, nspin=1, ver
     species = [s for s in ORDER if s in st['symbols']]
     L = ['&CONTROL',
          f"  calculation = '{calc}', prefix = '{prefix}', outdir = './tmp', pseudo_dir = './'",
-         f"  verbosity = '{verbosity}', tprnfor = .true., tstress = .true., max_seconds = 1.0d8"]
+         # stress off for hybrids: the exact-exchange stress took 81 % of the 1 nm HSE06 run (review 2026-10-03)
+         f"  verbosity = '{verbosity}', tprnfor = .true., tstress = {'.false.' if 'hse' in p.get('extra_sys', '') else '.true.'}, max_seconds = 1.0d8"]
     if calc in ('relax', 'vc-relax'):
         L.append('  nstep = 300, etot_conv_thr = 1.0d-4, forc_conv_thr = 1.0d-3')
     L += ['/', '&SYSTEM',
-          f"  ibrav = 0, nat = {len(st['symbols'])}, ntyp = {len(species)}, ecutwfc = {p['ecut']}, ecutrho = {8 * p['ecut']}"]
+          f"  ibrav = 0, nat = {len(st['symbols'])}, ntyp = {len(species)}, ecutwfc = {p['ecut']}, ecutrho = {p.get('rho_factor', 8) * p['ecut']}"]
     L.append("  occupations = 'fixed'" if p['occ'] == 'fixed'
              else f"  occupations = 'smearing', smearing = 'mv', degauss = {p.get('degauss', 0.01)}")
     if nbnd:
         L.append(f'  nbnd = {nbnd}')
+    if p.get('extra_sys'):
+        L.append('  ' + p['extra_sys'])
     if nspin == 2:
         L.append(f"  nspin = 2, starting_magnetization({species.index('W') + 1}) = 0.5")
     L += ['/', '&ELECTRONS',
           f"  conv_thr = {p['conv']}, mixing_beta = {p['beta']}, electron_maxstep = {p.get('maxstep', 300)}"
           + (", mixing_mode = 'local-TF'" if p.get('localtf') else '')
           # non-SCF bands: Davidson aborted locally for bulk In2O3 (2026-09-27); CG is robust
-          + (", diagonalization = 'cg'" if calc == 'bands' else ''), '/']
+          + (", diagonalization = 'cg'" if calc == 'bands' and p.get('bands_cg', True) else ''), '/']
     if calc in ('relax', 'vc-relax'):
         L += ['&IONS', "  ion_dynamics = 'bfgs'", '/']
     if calc == 'vc-relax':
         L += ['&CELL', "  cell_dynamics = 'bfgs', cell_dofree = '2Dxy', press_conv_thr = 0.5", '/']
     L.append('ATOMIC_SPECIES')
-    L += [f'  {s} {MASS[s]} {UPF[s]}' for s in species]
+    L += [f'  {s} {MASS[s]} {(UPF_NC if p.get("nc") else UPF)[s]}' for s in species]
     L.append('CELL_PARAMETERS angstrom')
     L += ['  %.10f %.10f %.10f' % tuple(v) for v in st['cell_A']]
     L.append('ATOMIC_POSITIONS crystal')
@@ -152,6 +190,20 @@ STEPS_SLAB_RELAX = """steps() {{
 """
 
 
+STEPS_IWO_SLAB = """steps() {{
+  run_pw relax 1
+  python qeio.py converged relax.out || {{ log "relaxation did not finish; later steps skipped"; return 0; }}
+  for t in scf bands; do python qeio.py newgeom $t.tmpl relax.out > $t.in; done
+  clean_tmp
+  export FORCE_CPU=1   # one QE version (CPU 7.5) for SCF, pp.x and projwfc.x; one pool (NCPU may be odd)
+  run_pw scf 1 || return 0
+  run_ppavg slab "$JOB" {awin:.4f}
+  run_pdos slab "$JOB" "$(python qeio.py fermi scf.out)" 1
+  run_pw bands 1
+}}
+"""
+
+
 def make_job(name, st, kind, ncpu, out, p):
     d = out / name
     d.mkdir(parents=True, exist_ok=True)
@@ -159,6 +211,30 @@ def make_job(name, st, kind, ncpu, out, p):
     minr = p['min_ranks']
     nelec = sum(ZVAL[s] for s in st['symbols'])
     info = {'job': name, 'kind': kind, 'n_atoms': len(st['symbols']), 'n_electrons': nelec}
+    if kind == 'nc_scf':   # norm-conserving PBE or HSE06 single point (name contains 'hse' -> HSE06)
+        bulk = len(st['symbols']) == 40
+        kg = [3, 3, 3] if bulk else p['k_slab']
+        occ = nelec // 2
+        q = dict(p, nc=True, rho_factor=4, ecut=int(name.split('_e')[-1]) if '_e' in name else 80)
+        if 'hse' in name:
+            nq = 3 if '_q3' in name else 1
+            # ecutfock = 2 x ecutwfc: with the default (ecutrho = 320 Ry) the slab's real-space EXX buffers ran the
+            # 94 GB H100 out of memory (nc_hse_slab1_e80, 2026-09-30); bulk and slab use the same value
+            q['extra_sys'] = f"input_dft = 'hse', nqx1 = {nq}, nqx2 = {nq}, nqx3 = {nq if bulk else 1}, ecutfock = {2 * q['ecut']}"
+        (d / 'scf.in').write_text(pw_input(st, 'scf', 'nc', q, kgrid=kg, nbnd=occ + 16, verbosity='high'))
+        (d / 'steps.sh').write_text('steps() {\n  run_pw scf 1\n}\n')
+        info.update(k=kg, occupied_bands=occ, ecut=q['ecut'])
+        return info
+    if kind == 'hse_scf':
+        bulk = len(st['symbols']) == 40
+        kg = [3, 3, 3] if bulk else p['k_slab']
+        nq = 3 if name.endswith('nq3') else 1
+        occ = nelec // 2
+        q = dict(p, extra_sys=f"input_dft = 'hse', nqx1 = {nq}, nqx2 = {nq}, nqx3 = {nq if bulk else 1}, ecutfock = {4 * p['ecut']}")
+        (d / 'scf.in').write_text(pw_input(st, 'scf', 'hse', q, kgrid=kg, nbnd=occ + 16, verbosity='high'))
+        (d / 'steps.sh').write_text('steps() {\n  run_pw scf 1\n}\n')
+        info.update(k=kg, nq=nq, occupied_bands=occ)
+        return info
     if kind == 'iwo_bulk':
         k3, k4 = p['k_bulk']
         n3, n4 = n_irr(st, k3), n_irr(st, k4)
@@ -178,7 +254,14 @@ def make_job(name, st, kind, ncpu, out, p):
         kb = klist(a, [[1, 0, 0], [1, 1, 0]])
         awin = a / 4 / BOHR
         nk = dict(nk=npool(ncpu, n, minr), nk_bands=npool(ncpu, len(kb), minr), awin=awin)
-        if kind == 'bench_scf':
+        if kind == 'iwo_slab':
+            # nbnd explicit (2026-10-03): the QE default for smearing (~1.2 x occupied, ~798 bands at 2 nm) would exceed the
+            # 94 GB H100 NVL; the 2 nm vc-relax with occupied+8 = 672 bands already used 86 GB of GPU memory
+            (d / 'relax.in').write_text(pw_input(st, 'relax', 'rel', p, kgrid=ks, nbnd=(nelec + 1) // 2 + 12))
+            (d / 'scf.tmpl').write_text(pw_input(st, 'scf', 'slab', p, kgrid=ks, nbnd=occ + 24, verbosity='high'))
+            (d / 'bands.tmpl').write_text(pw_input(st, 'bands', 'slab', p, kpts=kb, nbnd=occ + 24, verbosity='high'))
+            (d / 'steps.sh').write_text(STEPS_IWO_SLAB.format(**nk))
+        elif kind == 'bench_scf':
             (d / 'scf.in').write_text(pw_input(st, 'scf', 'slab', p, kgrid=ks, nbnd=occ + 16, verbosity='high'))
             (d / 'steps.sh').write_text('steps() {\n  run_pw scf 1\n}\n')
         elif kind == 'slab_scf':
@@ -216,8 +299,9 @@ def main():
                     degauss=0.02)
     else:
         sdir = Path(sys.argv[1])
-        structs = {j[1]: json.loads((sdir / f'{j[1]}.json').read_text()) for j in JOBS}
         jobs = [j for j in JOBS if len(sys.argv) < 4 or j[0] in sys.argv[3].split(',')]
+        # only the selected jobs' structures are loaded (later structures, e.g. the 2 nm IWO slab, may not exist yet)
+        structs = {j[1]: json.loads((sdir / f'{j[1]}.json').read_text()) for j in jobs}
         base = dict(ecut=71, conv='1.0d-9', min_ranks=4, k_bulk=([3, 3, 3], [4, 4, 4]), k_slab=[3, 3, 1])
     table, infos = [], []
     for name, sname, kind, ncpu, mem, disk, flav, limit, *g in jobs:
@@ -226,9 +310,16 @@ def main():
         # electron_maxstep bounds the cost of an SCF that does not converge (normal: 15-40 iterations)
         if kind == 'iwo_bulk':
             p.update(occ='smearing', beta=0.3, maxstep=100)
+        elif kind in ('hse_scf', 'nc_scf'):    # insulating, fixed occupations; beta 0.3 bulk-like
+            p.update(occ='fixed', beta=0.3, localtf=len(structs[sname]['symbols']) != 40, maxstep=150)
+        elif kind == 'iwo_slab':   # W donates 3 electrons: metallic slab -> smearing; Davidson bands (CG ~14 h on slabs)
+            p.update(occ='smearing', beta=0.2, localtf=True, maxstep=150, bands_cg=False)
         else:
-            p.update(occ='smearing' if toy else 'fixed', beta=0.2, localtf=True, maxstep=150)
+            p.update(occ='smearing' if toy else 'fixed', beta=0.2, localtf=True, maxstep=150, bands_cg=False)
         infos.append(make_job(name, structs[sname], kind, ncpu, out, p))
+        # GPU-save -> HDF5 converter for pp.x; inside the job directory, so continuations and CPU twins
+        # (dft_flow.sh copies whole job directories) carry it without a change to jobs.sub
+        (out / name / 'dat2h5.py').write_bytes((here / 'common' / 'dat2h5.py').read_bytes().replace(b'\r\n', b'\n'))
         table.append(f'{name} {ncpu} {mem} {disk} {flav} {limit} {gpus}')
     (out / 'jobs.txt').write_text('\n'.join(table) + '\n')
     (out / 'jobs_info.json').write_text(json.dumps(infos, indent=1))
@@ -236,7 +327,7 @@ def main():
         (out / f).write_bytes((here / 'common' / f).read_bytes().replace(b'\r\n', b'\n'))
     pseudo = out / 'pseudo'
     pseudo.mkdir(exist_ok=True)
-    for f in UPF.values():
+    for f in list(UPF.values()) + list(UPF_NC.values()):
         shutil.copy(here.parent.parent / 'pseudo' / f, pseudo / f)
     print(json.dumps(infos, indent=1))
 

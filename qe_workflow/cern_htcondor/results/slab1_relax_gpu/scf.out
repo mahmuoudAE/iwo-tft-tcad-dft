@@ -1,0 +1,2806 @@
+WARNING: Skipping mount /tmp [tmp]: /tmp doesn't exist in container
+
+     Program PWSCF v.7.3.1 starts on 29Sep2026 at  8:47:27 
+
+     This program is part of the open-source Quantum ESPRESSO suite
+     for quantum simulation of materials; please cite
+         "P. Giannozzi et al., J. Phys.:Condens. Matter 21 395502 (2009);
+         "P. Giannozzi et al., J. Phys.:Condens. Matter 29 465901 (2017);
+         "P. Giannozzi et al., J. Chem. Phys. 152 154105 (2020);
+          URL http://www.quantum-espresso.org", 
+     in publications or presentations arising from this work. More details at
+     http://www.quantum-espresso.org/quote
+
+     Parallel version (MPI & OpenMP), running on       1 processor cores
+     Number of MPI processes:                 1
+     Threads/MPI process:                     1
+
+     MPI processes distributed on     1 nodes
+     68788 MiB available memory on the printing compute node when the environment starts
+ 
+     Reading input from scf.in
+
+     Current dimensions of program PWSCF are:
+     Max number of different atomic species (ntypx) = 10
+     Max number of k-points (npk) =  40000
+     Max angular momentum in pseudopotentials (lmaxx) =  4
+     file In.pbe-dn-kjpaw_psl.1.0.0.UPF: wavefunction(s)  5S 5P 4D renormalized
+     file O.pbe-n-kjpaw_psl.1.0.0.UPF: wavefunction(s)  2S 2P renormalized
+     file H.pbe-kjpaw_psl.1.0.0.UPF: wavefunction(s)  1S renormalized
+     Message from routine setup:
+     using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead
+ 
+     Subspace diagonalization in iterative solution of the eigenvalue problem:
+     a serial algorithm will be used
+
+ 
+     G-vector sticks info
+     --------------------
+     sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
+     Sum       17241    8621   2233              5746731  2031701  268019
+ 
+     Using Slab Decomposition
+ 
+
+
+     bravais-lattice index     =            0
+     lattice parameter (alat)  =      19.5330  a.u.
+     unit-cell volume          =   25140.0035 (a.u.)^3
+     number of atoms/cell      =           96
+     number of atomic types    =            3
+     number of electrons       =       624.00
+     number of Kohn-Sham states=          328
+     kinetic-energy cutoff     =      71.0000  Ry
+     charge density cutoff     =     568.0000  Ry
+     scf convergence threshold =      1.0E-09
+     mixing beta               =       0.2000
+     number of iterations used =            8  local-TF  mixing
+     Exchange-correlation= SLA  PW   PBX  PBC
+                           (   1   4   3   4   0   0   0)
+
+     GPU acceleration is ACTIVE.  1 visible GPUs per MPI rank
+     GPU-aware MPI enabled
+
+
+     GPU used by master process:
+
+        Device Number: 0
+        Device name: NVIDIA A100-PCIE-40GB
+        Compute capability : 80
+        Ratio of single to double precision performance  : 2
+        Memory Clock Rate (KHz): 1215000
+        Memory Bus Width (bits): 5120
+        Peak Memory Bandwidth (GB/s): ******
+
+     celldm(1)=  19.533024  celldm(2)=   0.000000  celldm(3)=   0.000000
+     celldm(4)=   0.000000  celldm(5)=   0.000000  celldm(6)=   0.000000
+
+     crystal axes: (cart. coord. in units of alat)
+               a(1) = (   1.000000   0.000000   0.000000 )  
+               a(2) = (   0.000000   0.999814   0.000000 )  
+               a(3) = (   0.000000   0.000000   3.373944 )  
+
+     reciprocal axes: (cart. coord. in units 2 pi/alat)
+               b(1) = (  1.000000  0.000000  0.000000 )  
+               b(2) = (  0.000000  1.000186  0.000000 )  
+               b(3) = (  0.000000  0.000000  0.296389 )  
+
+
+     PseudoPot. # 1 for In read from file:
+     ./In.pbe-dn-kjpaw_psl.1.0.0.UPF
+     MD5 check sum: 235b15e6a7fdfd96486e0ecdcb5b12c6
+     Pseudo is Projector augmented-wave + core cor, Zval = 13.0
+     Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.3
+     Shape of augmentation charge: PSQ
+     Using radial grid of 1241 points,  6 beta functions with: 
+                l(1) =   0
+                l(2) =   0
+                l(3) =   1
+                l(4) =   1
+                l(5) =   2
+                l(6) =   2
+     Q(r) pseudized with 0 coefficients 
+
+
+     PseudoPot. # 2 for O  read from file:
+     ./O.pbe-n-kjpaw_psl.1.0.0.UPF
+     MD5 check sum: e99d9cef9b487d1ca56f5b95ecd0fd7a
+     Pseudo is Projector augmented-wave + core cor, Zval =  6.0
+     Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.3
+     Shape of augmentation charge: PSQ
+     Using radial grid of 1095 points,  4 beta functions with: 
+                l(1) =   0
+                l(2) =   0
+                l(3) =   1
+                l(4) =   1
+     Q(r) pseudized with 0 coefficients 
+
+
+     PseudoPot. # 3 for H  read from file:
+     ./H.pbe-kjpaw_psl.1.0.0.UPF
+     MD5 check sum: d81a744832360e4a8af0b0b5b123bc2a
+     Pseudo is Projector augmented-wave, Zval =  1.0
+     Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.3MaX
+     Shape of augmentation charge: PSQ
+     Using radial grid of  929 points,  2 beta functions with: 
+                l(1) =   0
+                l(2) =   0
+     Q(r) pseudized with 0 coefficients 
+
+
+     atomic species   valence    mass     pseudopotential
+     In               13.00   114.81800     In( 1.00)
+     O                 6.00    15.99900     O ( 1.00)
+     H                 1.00     1.00800     H ( 1.00)
+
+      8 Sym. Ops., with inversion, found ( 6 have fractional translation)
+
+
+                                    s                        frac. trans.
+
+      isym =  1     identity                                     
+
+ cryst.   s( 1) = (     1          0          0      )
+                  (     0          1          0      )
+                  (     0          0          1      )
+
+ cart.    s( 1) = (  1.0000000  0.0000000  0.0000000 )
+                  (  0.0000000  1.0000000  0.0000000 )
+                  (  0.0000000  0.0000000  1.0000000 )
+
+
+      isym =  2     180 deg rotation - cart. axis [0,0,1]        
+
+ cryst.   s( 2) = (    -1          0          0      )    f =(  0.0000000 )
+                  (     0         -1          0      )       (  0.5000000 )
+                  (     0          0          1      )       (  0.0000000 )
+
+ cart.    s( 2) = ( -1.0000000  0.0000000  0.0000000 )    f =(  0.0000000 )
+                  (  0.0000000 -1.0000000  0.0000000 )       (  0.4999068 )
+                  (  0.0000000  0.0000000  1.0000000 )       (  0.0000000 )
+
+
+      isym =  3     180 deg rotation - cart. axis [0,1,0]        
+
+ cryst.   s( 3) = (    -1          0          0      )    f =(  0.5000000 )
+                  (     0          1          0      )       (  0.0000000 )
+                  (     0          0         -1      )       ( -0.0000000 )
+
+ cart.    s( 3) = ( -1.0000000  0.0000000  0.0000000 )    f =(  0.5000000 )
+                  (  0.0000000  1.0000000  0.0000000 )       (  0.0000000 )
+                  (  0.0000000  0.0000000 -1.0000000 )       ( -0.0000000 )
+
+
+      isym =  4     180 deg rotation - cart. axis [1,0,0]        
+
+ cryst.   s( 4) = (     1          0          0      )    f =( -0.5000000 )
+                  (     0         -1          0      )       (  0.5000000 )
+                  (     0          0         -1      )       ( -0.0000000 )
+
+ cart.    s( 4) = (  1.0000000  0.0000000  0.0000000 )    f =( -0.5000000 )
+                  (  0.0000000 -1.0000000  0.0000000 )       (  0.4999068 )
+                  (  0.0000000  0.0000000 -1.0000000 )       ( -0.0000000 )
+
+
+      isym =  5     inversion                                    
+
+ cryst.   s( 5) = (    -1          0          0      )
+                  (     0         -1          0      )
+                  (     0          0         -1      )
+
+ cart.    s( 5) = ( -1.0000000  0.0000000  0.0000000 )
+                  (  0.0000000 -1.0000000  0.0000000 )
+                  (  0.0000000  0.0000000 -1.0000000 )
+
+
+      isym =  6     inv. 180 deg rotation - cart. axis [0,0,1]   
+
+ cryst.   s( 6) = (     1          0          0      )    f =(  0.0000000 )
+                  (     0          1          0      )       ( -0.5000000 )
+                  (     0          0         -1      )       ( -0.0000000 )
+
+ cart.    s( 6) = (  1.0000000  0.0000000  0.0000000 )    f =(  0.0000000 )
+                  (  0.0000000  1.0000000  0.0000000 )       ( -0.4999068 )
+                  (  0.0000000  0.0000000 -1.0000000 )       ( -0.0000000 )
+
+
+      isym =  7     inv. 180 deg rotation - cart. axis [0,1,0]   
+
+ cryst.   s( 7) = (     1          0          0      )    f =( -0.5000000 )
+                  (     0         -1          0      )       (  0.0000000 )
+                  (     0          0          1      )       (  0.0000000 )
+
+ cart.    s( 7) = (  1.0000000  0.0000000  0.0000000 )    f =( -0.5000000 )
+                  (  0.0000000 -1.0000000  0.0000000 )       (  0.0000000 )
+                  (  0.0000000  0.0000000  1.0000000 )       (  0.0000000 )
+
+
+      isym =  8     inv. 180 deg rotation - cart. axis [1,0,0]   
+
+ cryst.   s( 8) = (    -1          0          0      )    f =(  0.5000000 )
+                  (     0          1          0      )       ( -0.5000000 )
+                  (     0          0          1      )       (  0.0000000 )
+
+ cart.    s( 8) = ( -1.0000000  0.0000000  0.0000000 )    f =(  0.5000000 )
+                  (  0.0000000  1.0000000  0.0000000 )       ( -0.4999068 )
+                  (  0.0000000  0.0000000  1.0000000 )       (  0.0000000 )
+
+
+   Cartesian axes
+
+     site n.     atom                  positions (alat units)
+         1        In     tau(   1) = (   0.2477884   0.2524314   1.4377810  )
+         2        In     tau(   2) = (   0.7522116   0.2474754   1.4377810  )
+         3        In     tau(   3) = (   0.2522116   0.2524314   1.9361629  )
+         4        In     tau(   4) = (   0.2522116   0.7523382   1.4377810  )
+         5        In     tau(   5) = (   0.4644838   0.5018987   1.9353099  )
+         6        In     tau(   6) = (   0.0355162   0.5018987   1.4386341  )
+         7        In     tau(   7) = (   0.7500000   0.4645322   1.6869720  )
+         8        In     tau(   8) = (   0.2500000   0.0353746   1.6869720  )
+         9        In     tau(   9) = (   0.5000000   0.7498602   1.6545612  )
+        10        In     tau(  10) = (   0.0355162   0.0019919   1.9353099  )
+        11        In     tau(  11) = (   0.4644838   0.0019919   1.4386341  )
+        12        In     tau(  12) = (   0.0000000   0.2499534   1.6545612  )
+        13        O      tau(  13) = (   0.3895937   0.1566307   1.5661185  )
+        14        O      tau(  14) = (   0.6104063   0.3432761   1.5661185  )
+        15        O      tau(  15) = (   0.1104063   0.1566307   1.8078254  )
+        16        O      tau(  16) = (   0.8895937   0.3432761   1.8078254  )
+        17        O      tau(  17) = (   0.3807926   0.3940382   1.3430988  )
+        18        O      tau(  18) = (   0.3835283   0.6107629   1.5355577  )
+        19        O      tau(  19) = (   0.6192074   0.1058686   1.3430988  )
+        20        O      tau(  20) = (   0.6164717   0.8889575   1.5355577  )
+        21        O      tau(  21) = (   0.1543779   0.3833719   1.5788707  )
+        22        O      tau(  22) = (   0.3456221   0.3833719   1.7950732  )
+        23        O      tau(  23) = (   0.1844690   0.6022275   1.3059819  )
+        24        O      tau(  24) = (   0.3155310   0.6022275   2.0679621  )
+        25        O      tau(  25) = (   0.0987520   0.3418824   1.3159406  )
+        26        O      tau(  26) = (   0.9012480   0.1580244   1.3159406  )
+        27        O      tau(  27) = (   0.4012480   0.3418824   2.0580033  )
+        28        O      tau(  28) = (   0.5987520   0.1580244   2.0580033  )
+        29        O      tau(  29) = (   0.1164717   0.1108561   1.5355577  )
+        30        O      tau(  30) = (   0.1192074   0.8939450   1.3430988  )
+        31        O      tau(  31) = (   0.8835283   0.3890507   1.5355577  )
+        32        O      tau(  32) = (   0.8807926   0.6057754   1.3430988  )
+        33        O      tau(  33) = (   0.3155310   0.1023207   1.3059819  )
+        34        O      tau(  34) = (   0.1844690   0.1023207   2.0679621  )
+        35        O      tau(  35) = (   0.3456221   0.8832787   1.5788707  )
+        36        O      tau(  36) = (   0.1543779   0.8832787   1.7950732  )
+        37        In     tau(  37) = (   0.7522116   0.7473822   1.9361629  )
+        38        In     tau(  38) = (   0.2477884   0.7523382   1.9361629  )
+        39        In     tau(  39) = (   0.7477884   0.7473822   1.4377810  )
+        40        In     tau(  40) = (   0.7477884   0.2474754   1.9361629  )
+        41        In     tau(  41) = (   0.9644838  -0.0019919   1.4386341  )
+        42        In     tau(  42) = (   0.5355162  -0.0019919   1.9353099  )
+        43        In     tau(  43) = (   0.0000000   0.7498602   1.7193827  )
+        44        In     tau(  44) = (   0.5355162   0.4979149   1.4386341  )
+        45        In     tau(  45) = (   0.9644838   0.4979149   1.9353099  )
+        46        In     tau(  46) = (   0.2500000   0.5352814   1.6869720  )
+        47        In     tau(  47) = (   0.7500000   0.9644390   1.6869720  )
+        48        In     tau(  48) = (   0.5000000   0.2499534   1.7193827  )
+        49        O      tau(  49) = (   0.9012480   0.6579312   2.0580033  )
+        50        O      tau(  50) = (   0.0987520   0.8417892   2.0580033  )
+        51        O      tau(  51) = (   0.5987520   0.6579312   1.3159406  )
+        52        O      tau(  52) = (   0.4012480   0.8417892   1.3159406  )
+        53        O      tau(  53) = (   0.8835283   0.8889575   1.8383862  )
+        54        O      tau(  54) = (   0.8807926   0.1058686   2.0308451  )
+        55        O      tau(  55) = (   0.1164717   0.6107629   1.8383862  )
+        56        O      tau(  56) = (   0.1192074   0.3940382   2.0308451  )
+        57        O      tau(  57) = (   0.6844690   0.8974929   2.0679621  )
+        58        O      tau(  58) = (   0.8155310   0.8974929   1.3059819  )
+        59        O      tau(  59) = (   0.6543779   0.1165349   1.7950732  )
+        60        O      tau(  60) = (   0.8456221   0.1165349   1.5788707  )
+        61        O      tau(  61) = (   0.6104063   0.8431829   1.8078254  )
+        62        O      tau(  62) = (   0.3895937   0.6565375   1.8078254  )
+        63        O      tau(  63) = (   0.8895937   0.8431829   1.5661185  )
+        64        O      tau(  64) = (   0.1104063   0.6565375   1.5661185  )
+        65        O      tau(  65) = (   0.6192074   0.6057754   2.0308451  )
+        66        O      tau(  66) = (   0.6164717   0.3890507   1.8383862  )
+        67        O      tau(  67) = (   0.3807926   0.8939450   2.0308451  )
+        68        O      tau(  68) = (   0.3835283   0.1108561   1.8383862  )
+        69        O      tau(  69) = (   0.8456221   0.6164417   1.7950732  )
+        70        O      tau(  70) = (   0.6543779   0.6164417   1.5788707  )
+        71        O      tau(  71) = (   0.8155310   0.3975861   2.0679621  )
+        72        O      tau(  72) = (   0.6844690   0.3975861   1.3059819  )
+        73        H      tau(  73) = (   0.3217590   0.4630756   1.3138608  )
+        74        H      tau(  74) = (   0.6782410   0.0368312   1.3138608  )
+        75        H      tau(  75) = (   0.1367869   0.6459755   1.2374682  )
+        76        H      tau(  76) = (   0.3632131   0.6459755   2.1364757  )
+        77        H      tau(  77) = (   0.1355230   0.3772115   1.2369454  )
+        78        H      tau(  78) = (   0.8644770   0.1226953   1.2369454  )
+        79        H      tau(  79) = (   0.3644770   0.3772115   2.1369985  )
+        80        H      tau(  80) = (   0.6355230   0.1226953   2.1369985  )
+        81        H      tau(  81) = (   0.1782410   0.9629824   1.3138608  )
+        82        H      tau(  82) = (   0.8217590   0.5367379   1.3138608  )
+        83        H      tau(  83) = (   0.3632131   0.1460687   1.2374682  )
+        84        H      tau(  84) = (   0.1367869   0.1460687   2.1364757  )
+        85        H      tau(  85) = (   0.8644770   0.6226021   2.1369985  )
+        86        H      tau(  86) = (   0.1355230   0.8771183   2.1369985  )
+        87        H      tau(  87) = (   0.6355230   0.6226021   1.2369454  )
+        88        H      tau(  88) = (   0.3644770   0.8771183   1.2369454  )
+        89        H      tau(  89) = (   0.8217590   0.0368312   2.0600832  )
+        90        H      tau(  90) = (   0.1782410   0.4630756   2.0600832  )
+        91        H      tau(  91) = (   0.6367869   0.8537449   2.1364757  )
+        92        H      tau(  92) = (   0.8632131   0.8537449   1.2374682  )
+        93        H      tau(  93) = (   0.6782410   0.5367379   2.0600832  )
+        94        H      tau(  94) = (   0.3217590   0.9629824   2.0600832  )
+        95        H      tau(  95) = (   0.8632131   0.3538381   2.1364757  )
+        96        H      tau(  96) = (   0.6367869   0.3538381   1.2374682  )
+
+   Crystallographic axes
+
+     site n.     atom                  positions (cryst. coord.)
+         1        In     tau(   1) = (  0.2477884  0.2524785  0.4261425  )
+         2        In     tau(   2) = (  0.7522116  0.2475215  0.4261425  )
+         3        In     tau(   3) = (  0.2522116  0.2524785  0.5738575  )
+         4        In     tau(   4) = (  0.2522116  0.7524785  0.4261425  )
+         5        In     tau(   5) = (  0.4644838  0.5019922  0.5736046  )
+         6        In     tau(   6) = (  0.0355162  0.5019922  0.4263954  )
+         7        In     tau(   7) = (  0.7500000  0.4646188  0.5000000  )
+         8        In     tau(   8) = (  0.2500000  0.0353812  0.5000000  )
+         9        In     tau(   9) = (  0.5000000  0.7500000  0.4903938  )
+        10        In     tau(  10) = (  0.0355162  0.0019922  0.5736046  )
+        11        In     tau(  11) = (  0.4644838  0.0019922  0.4263954  )
+        12        In     tau(  12) = (  0.0000000  0.2500000  0.4903938  )
+        13        O      tau(  13) = (  0.3895937  0.1566599  0.4641804  )
+        14        O      tau(  14) = (  0.6104063  0.3433401  0.4641804  )
+        15        O      tau(  15) = (  0.1104063  0.1566599  0.5358196  )
+        16        O      tau(  16) = (  0.8895937  0.3433401  0.5358196  )
+        17        O      tau(  17) = (  0.3807926  0.3941117  0.3980798  )
+        18        O      tau(  18) = (  0.3835283  0.6108768  0.4551225  )
+        19        O      tau(  19) = (  0.6192074  0.1058883  0.3980798  )
+        20        O      tau(  20) = (  0.6164717  0.8891232  0.4551225  )
+        21        O      tau(  21) = (  0.1543779  0.3834434  0.4679600  )
+        22        O      tau(  22) = (  0.3456221  0.3834434  0.5320400  )
+        23        O      tau(  23) = (  0.1844690  0.6023397  0.3870787  )
+        24        O      tau(  24) = (  0.3155310  0.6023397  0.6129213  )
+        25        O      tau(  25) = (  0.0987520  0.3419461  0.3900304  )
+        26        O      tau(  26) = (  0.9012480  0.1580539  0.3900304  )
+        27        O      tau(  27) = (  0.4012480  0.3419461  0.6099696  )
+        28        O      tau(  28) = (  0.5987520  0.1580539  0.6099696  )
+        29        O      tau(  29) = (  0.1164717  0.1108768  0.4551225  )
+        30        O      tau(  30) = (  0.1192074  0.8941117  0.3980798  )
+        31        O      tau(  31) = (  0.8835283  0.3891232  0.4551225  )
+        32        O      tau(  32) = (  0.8807926  0.6058883  0.3980798  )
+        33        O      tau(  33) = (  0.3155310  0.1023397  0.3870787  )
+        34        O      tau(  34) = (  0.1844690  0.1023397  0.6129213  )
+        35        O      tau(  35) = (  0.3456221  0.8834434  0.4679600  )
+        36        O      tau(  36) = (  0.1543779  0.8834434  0.5320400  )
+        37        In     tau(  37) = (  0.7522116  0.7475215  0.5738575  )
+        38        In     tau(  38) = (  0.2477884  0.7524785  0.5738575  )
+        39        In     tau(  39) = (  0.7477884  0.7475215  0.4261425  )
+        40        In     tau(  40) = (  0.7477884  0.2475215  0.5738575  )
+        41        In     tau(  41) = (  0.9644838 -0.0019922  0.4263954  )
+        42        In     tau(  42) = (  0.5355162 -0.0019922  0.5736046  )
+        43        In     tau(  43) = (  0.0000000  0.7500000  0.5096062  )
+        44        In     tau(  44) = (  0.5355162  0.4980078  0.4263954  )
+        45        In     tau(  45) = (  0.9644838  0.4980078  0.5736046  )
+        46        In     tau(  46) = (  0.2500000  0.5353812  0.5000000  )
+        47        In     tau(  47) = (  0.7500000  0.9646188  0.5000000  )
+        48        In     tau(  48) = (  0.5000000  0.2500000  0.5096062  )
+        49        O      tau(  49) = (  0.9012480  0.6580539  0.6099696  )
+        50        O      tau(  50) = (  0.0987520  0.8419461  0.6099696  )
+        51        O      tau(  51) = (  0.5987520  0.6580539  0.3900304  )
+        52        O      tau(  52) = (  0.4012480  0.8419461  0.3900304  )
+        53        O      tau(  53) = (  0.8835283  0.8891232  0.5448775  )
+        54        O      tau(  54) = (  0.8807926  0.1058883  0.6019202  )
+        55        O      tau(  55) = (  0.1164717  0.6108768  0.5448775  )
+        56        O      tau(  56) = (  0.1192074  0.3941117  0.6019202  )
+        57        O      tau(  57) = (  0.6844690  0.8976603  0.6129213  )
+        58        O      tau(  58) = (  0.8155310  0.8976603  0.3870787  )
+        59        O      tau(  59) = (  0.6543779  0.1165566  0.5320400  )
+        60        O      tau(  60) = (  0.8456221  0.1165566  0.4679600  )
+        61        O      tau(  61) = (  0.6104063  0.8433401  0.5358196  )
+        62        O      tau(  62) = (  0.3895937  0.6566599  0.5358196  )
+        63        O      tau(  63) = (  0.8895937  0.8433401  0.4641804  )
+        64        O      tau(  64) = (  0.1104063  0.6566599  0.4641804  )
+        65        O      tau(  65) = (  0.6192074  0.6058883  0.6019202  )
+        66        O      tau(  66) = (  0.6164717  0.3891232  0.5448775  )
+        67        O      tau(  67) = (  0.3807926  0.8941117  0.6019202  )
+        68        O      tau(  68) = (  0.3835283  0.1108768  0.5448775  )
+        69        O      tau(  69) = (  0.8456221  0.6165566  0.5320400  )
+        70        O      tau(  70) = (  0.6543779  0.6165566  0.4679600  )
+        71        O      tau(  71) = (  0.8155310  0.3976603  0.6129213  )
+        72        O      tau(  72) = (  0.6844690  0.3976603  0.3870787  )
+        73        H      tau(  73) = (  0.3217590  0.4631620  0.3894139  )
+        74        H      tau(  74) = (  0.6782410  0.0368380  0.3894139  )
+        75        H      tau(  75) = (  0.1367869  0.6460959  0.3667720  )
+        76        H      tau(  76) = (  0.3632131  0.6460959  0.6332280  )
+        77        H      tau(  77) = (  0.1355230  0.3772818  0.3666171  )
+        78        H      tau(  78) = (  0.8644770  0.1227182  0.3666171  )
+        79        H      tau(  79) = (  0.3644770  0.3772818  0.6333829  )
+        80        H      tau(  80) = (  0.6355230  0.1227182  0.6333829  )
+        81        H      tau(  81) = (  0.1782410  0.9631620  0.3894139  )
+        82        H      tau(  82) = (  0.8217590  0.5368380  0.3894139  )
+        83        H      tau(  83) = (  0.3632131  0.1460959  0.3667720  )
+        84        H      tau(  84) = (  0.1367869  0.1460959  0.6332280  )
+        85        H      tau(  85) = (  0.8644770  0.6227182  0.6333829  )
+        86        H      tau(  86) = (  0.1355230  0.8772818  0.6333829  )
+        87        H      tau(  87) = (  0.6355230  0.6227182  0.3666171  )
+        88        H      tau(  88) = (  0.3644770  0.8772818  0.3666171  )
+        89        H      tau(  89) = (  0.8217590  0.0368380  0.6105861  )
+        90        H      tau(  90) = (  0.1782410  0.4631620  0.6105861  )
+        91        H      tau(  91) = (  0.6367869  0.8539041  0.6332280  )
+        92        H      tau(  92) = (  0.8632131  0.8539041  0.3667720  )
+        93        H      tau(  93) = (  0.6782410  0.5368380  0.6105861  )
+        94        H      tau(  94) = (  0.3217590  0.9631620  0.6105861  )
+        95        H      tau(  95) = (  0.8632131  0.3539041  0.6332280  )
+        96        H      tau(  96) = (  0.6367869  0.3539041  0.3667720  )
+
+     number of k points=     4
+                       cart. coord. in units 2pi/alat
+        k(    1) = (   0.0000000   0.0000000   0.0000000), wk =   0.2222222
+        k(    2) = (   0.0000000   0.3333955   0.0000000), wk =   0.4444444
+        k(    3) = (   0.3333333   0.0000000   0.0000000), wk =   0.4444444
+        k(    4) = (   0.3333333   0.3333955   0.0000000), wk =   0.8888889
+
+                       cryst. coord.
+        k(    1) = (   0.0000000   0.0000000   0.0000000), wk =   0.2222222
+        k(    2) = (   0.0000000   0.3333333   0.0000000), wk =   0.4444444
+        k(    3) = (   0.3333333   0.0000000   0.0000000), wk =   0.4444444
+        k(    4) = (   0.3333333   0.3333333   0.0000000), wk =   0.8888889
+
+     Dense  grid:  5746731 G-vectors     FFT dimensions: ( 150, 150, 500)
+
+     Smooth grid:  2031701 G-vectors     FFT dimensions: ( 108, 108, 360)
+
+     Dynamical RAM for                 wfc:    1271.15 MB
+
+     Dynamical RAM for     wfc (w. buffer):    6355.73 MB
+
+     Dynamical RAM for           str. fact:     263.06 MB
+
+     Dynamical RAM for           local pot:       0.00 MB
+
+     Dynamical RAM for          nlocal pot:    3348.38 MB
+
+     Dynamical RAM for                qrad:       5.74 MB
+
+     Dynamical RAM for          rho,v,vnew:     520.56 MB
+
+     Dynamical RAM for               rhoin:     173.52 MB
+
+     Dynamical RAM for            rho*nmix:    1403.01 MB
+
+     Dynamical RAM for           G-vectors:     344.33 MB
+
+     Dynamical RAM for          h,s,v(r/c):      19.70 MB
+
+     Dynamical RAM for          <psi|beta>:       4.32 MB
+
+     Dynamical RAM for                 psi:    2542.29 MB
+
+     Dynamical RAM for                hpsi:    2542.29 MB
+
+     Dynamical RAM for                spsi:    2542.29 MB
+
+     Dynamical RAM for      wfcinit/wfcrot:    3352.66 MB
+
+     Dynamical RAM for           addusdens:   20519.03 MB
+
+     Dynamical RAM for          addusforce:   28805.75 MB
+
+     Dynamical RAM for         addusstress:   17625.32 MB
+
+     Estimated static dynamical RAM per process >      11.51 GB
+
+     Estimated max dynamical RAM per process >      41.02 GB
+
+     Initial potential from superposition of free atoms
+
+     starting charge     623.9105, renormalised to     624.0000
+
+     negative rho (up, down):  1.460E-03 0.000E+00
+     Starting wfcs are  432 randomized atomic wfcs
+     Checking if some PAW data can be deallocated... 
+
+     total cpu time spent up to now is       69.1 secs
+
+     Self-consistent Calculation
+[tb_dev] Currently allocated     1.82E+01 Mbytes, locked:    0 /   6
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration #  1     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         12690 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         56241 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 36720 / 3742 / 40463
+------------------
+     ethr =  1.00E-02,  avg # of iterations =  2.0
+
+     negative rho (up, down):  1.086E-04 0.000E+00
+
+     total cpu time spent up to now is      162.4 secs
+
+     total energy              =  -11890.41736267 Ry
+     estimated scf accuracy    <      23.26834377 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration #  2     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13038 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55569 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 34472 / 5990 / 40463
+------------------
+     ethr =  3.73E-03,  avg # of iterations =  1.0
+
+     negative rho (up, down):  5.003E-05 0.000E+00
+
+     total cpu time spent up to now is      181.7 secs
+
+     total energy              =  -11883.47581458 Ry
+     estimated scf accuracy    <      14.93343636 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration #  3     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13103 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55526 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38584 / 1878 / 40463
+------------------
+     ethr =  2.39E-03,  avg # of iterations =  7.0
+
+     negative rho (up, down):  1.395E-06 0.000E+00
+
+     total cpu time spent up to now is      421.1 secs
+
+     total energy              =  -11887.66806672 Ry
+     estimated scf accuracy    <       0.66838136 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration #  4     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13227 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         56699 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 39610 / 852 / 40463
+------------------
+     ethr =  1.07E-04,  avg # of iterations =  8.3
+
+     negative rho (up, down):  1.597E-07 0.000E+00
+
+     total cpu time spent up to now is      703.7 secs
+
+     total energy              =  -11888.64407274 Ry
+     estimated scf accuracy    <       2.61261658 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration #  5     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13320 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55922 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 37730 / 2732 / 40463
+------------------
+     ethr =  1.07E-04,  avg # of iterations =  5.5
+
+     negative rho (up, down):  2.389E-07 0.000E+00
+
+     total cpu time spent up to now is      727.0 secs
+
+     total energy              =  -11888.69476008 Ry
+     estimated scf accuracy    <       0.59486544 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration #  6     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13429 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55786 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 37830 / 2632 / 40463
+------------------
+     ethr =  9.53E-05,  avg # of iterations =  6.0
+
+     negative rho (up, down):  8.553E-08 0.000E+00
+
+     total cpu time spent up to now is      753.2 secs
+
+     total energy              =  -11888.79275013 Ry
+     estimated scf accuracy    <       1.33304513 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration #  7     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13553 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55712 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 37834 / 2628 / 40463
+------------------
+     ethr =  9.53E-05,  avg # of iterations =  2.0
+
+     negative rho (up, down):  1.193E-07 0.000E+00
+
+     total cpu time spent up to now is      773.3 secs
+
+     total energy              =  -11888.87086833 Ry
+     estimated scf accuracy    <       0.51738638 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration #  8     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13678 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55585 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 37834 / 2628 / 40463
+------------------
+     ethr =  8.29E-05,  avg # of iterations =  1.0
+
+     negative rho (up, down):  1.102E-07 0.000E+00
+
+     total cpu time spent up to now is      792.9 secs
+
+     total energy              =  -11888.89773210 Ry
+     estimated scf accuracy    <       0.56535297 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration #  9     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13802 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55475 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 37834 / 2628 / 40463
+------------------
+     ethr =  8.29E-05,  avg # of iterations =  1.0
+
+     negative rho (up, down):  1.691E-05 0.000E+00
+
+     total cpu time spent up to now is      812.5 secs
+
+     total energy              =  -11889.00418006 Ry
+     estimated scf accuracy    <       0.50500726 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 10     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13926 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55368 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 37834 / 2628 / 40463
+------------------
+     ethr =  8.09E-05,  avg # of iterations =  1.0
+
+     negative rho (up, down):  2.850E-02 0.000E+00
+
+     total cpu time spent up to now is      832.1 secs
+
+     total energy              =  -11888.91791726 Ry
+     estimated scf accuracy    <       0.70545757 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 11     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13926 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55262 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 37834 / 2628 / 40463
+------------------
+     ethr =  8.09E-05,  avg # of iterations =  2.0
+
+     negative rho (up, down):  5.606E-03 0.000E+00
+
+     total cpu time spent up to now is      852.2 secs
+
+     total energy              =  -11888.87518511 Ry
+     estimated scf accuracy    <       0.51667049 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 12     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13926 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55271 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38016 / 2446 / 40463
+------------------
+     ethr =  8.09E-05,  avg # of iterations =  1.0
+
+     negative rho (up, down):  1.602E-04 0.000E+00
+
+     total cpu time spent up to now is      871.5 secs
+
+     total energy              =  -11888.81106117 Ry
+     estimated scf accuracy    <       0.33298204 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 13     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13926 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55221 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38016 / 2446 / 40463
+------------------
+     ethr =  5.34E-05,  avg # of iterations =  2.5
+
+     negative rho (up, down):  5.675E-05 0.000E+00
+
+     total cpu time spent up to now is      891.7 secs
+
+     total energy              =  -11888.79394948 Ry
+     estimated scf accuracy    <       0.14865250 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 14     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13927 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55208 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38200 / 2262 / 40463
+------------------
+     ethr =  2.38E-05,  avg # of iterations =  4.5
+
+     negative rho (up, down):  2.999E-02 0.000E+00
+
+     total cpu time spent up to now is      913.5 secs
+
+     total energy              =  -11888.81792699 Ry
+     estimated scf accuracy    <       0.06060535 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 15     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13927 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55221 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38200 / 2262 / 40463
+------------------
+     c_bands:  2 eigenvalues not converged
+     c_bands:  1 eigenvalues not converged
+     ethr =  9.71E-06,  avg # of iterations = 14.5
+
+     negative rho (up, down):  2.782E-02 0.000E+00
+
+     total cpu time spent up to now is      942.4 secs
+
+     total energy              =  -11888.83782425 Ry
+     estimated scf accuracy    <       0.33550767 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 16     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13927 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55202 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38208 / 2254 / 40463
+------------------
+     ethr =  9.71E-06,  avg # of iterations =  6.3
+
+     negative rho (up, down):  3.119E-02 0.000E+00
+
+     total cpu time spent up to now is      964.5 secs
+
+     total energy              =  -11888.73052505 Ry
+     estimated scf accuracy    <       0.18228819 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 17     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13927 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55196 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38208 / 2254 / 40463
+------------------
+     ethr =  9.71E-06,  avg # of iterations =  6.0
+
+     negative rho (up, down):  4.694E-02 0.000E+00
+
+     total cpu time spent up to now is      992.2 secs
+
+     total energy              =  -11888.86986238 Ry
+     estimated scf accuracy    <       0.34721591 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 18     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13927 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55227 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     ethr =  9.71E-06,  avg # of iterations =  1.0
+
+     negative rho (up, down):  4.975E-02 0.000E+00
+
+     total cpu time spent up to now is     1011.9 secs
+
+     total energy              =  -11888.85653891 Ry
+     estimated scf accuracy    <       0.24514646 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 19     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13927 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55179 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     ethr =  9.71E-06,  avg # of iterations =  1.8
+
+     negative rho (up, down):  4.402E-02 0.000E+00
+
+     total cpu time spent up to now is     1032.0 secs
+
+     total energy              =  -11888.80060229 Ry
+     estimated scf accuracy    <       0.19731522 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 20     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13927 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55190 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     ethr =  9.71E-06,  avg # of iterations =  5.0
+
+     negative rho (up, down):  4.869E-02 0.000E+00
+
+     total cpu time spent up to now is     1054.3 secs
+
+     total energy              =  -11888.79324537 Ry
+     estimated scf accuracy    <       0.06530136 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 21     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13927 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55162 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     ethr =  9.71E-06,  avg # of iterations =  5.5
+
+     negative rho (up, down):  5.067E-02 0.000E+00
+
+     total cpu time spent up to now is     1078.1 secs
+
+     total energy              =  -11888.81605332 Ry
+     estimated scf accuracy    <       0.01747856 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 22     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13927 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55128 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     c_bands:  1 eigenvalues not converged
+     ethr =  2.80E-06,  avg # of iterations = 12.0
+
+     negative rho (up, down):  6.715E-02 0.000E+00
+
+     total cpu time spent up to now is     1100.8 secs
+
+     total energy              =  -11888.82747859 Ry
+     estimated scf accuracy    <       0.01304379 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 23     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13927 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55156 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     c_bands:  1 eigenvalues not converged
+     c_bands:  1 eigenvalues not converged
+     ethr =  2.09E-06,  avg # of iterations = 17.8
+
+     negative rho (up, down):  7.224E-02 0.000E+00
+
+     total cpu time spent up to now is     1130.2 secs
+
+     total energy              =  -11888.82863709 Ry
+     estimated scf accuracy    <       0.14234673 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 24     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13927 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55143 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     c_bands:  3 eigenvalues not converged
+     c_bands:  1 eigenvalues not converged
+     c_bands:  3 eigenvalues not converged
+     ethr =  2.09E-06,  avg # of iterations = 15.5
+
+     negative rho (up, down):  6.440E-02 0.000E+00
+
+     total cpu time spent up to now is     1153.7 secs
+
+     total energy              =  -11888.80835531 Ry
+     estimated scf accuracy    <       0.09034541 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 25     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13927 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55167 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     c_bands:  1 eigenvalues not converged
+     ethr =  2.09E-06,  avg # of iterations = 18.0
+
+     negative rho (up, down):  3.471E-02 0.000E+00
+
+     total cpu time spent up to now is     1182.0 secs
+
+     total energy              =  -11888.81703881 Ry
+     estimated scf accuracy    <       0.01737228 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 26     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13927 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55172 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     ethr =  2.09E-06,  avg # of iterations =  9.8
+
+     negative rho (up, down):  2.314E-02 0.000E+00
+
+     total cpu time spent up to now is     1204.0 secs
+
+     total energy              =  -11888.81512591 Ry
+     estimated scf accuracy    <       0.01716186 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 27     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13927 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55209 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     ethr =  2.09E-06,  avg # of iterations =  2.8
+
+     negative rho (up, down):  4.785E-02 0.000E+00
+
+     total cpu time spent up to now is     1224.2 secs
+
+     total energy              =  -11888.80582210 Ry
+     estimated scf accuracy    <       0.01470726 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 28     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13927 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55232 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     c_bands:  1 eigenvalues not converged
+     c_bands:  1 eigenvalues not converged
+     ethr =  2.09E-06,  avg # of iterations = 20.0
+
+     negative rho (up, down):  3.467E-02 0.000E+00
+
+     total cpu time spent up to now is     1253.0 secs
+
+     total energy              =  -11888.80712964 Ry
+     estimated scf accuracy    <       0.01732286 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 29     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13927 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55275 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     ethr =  2.09E-06,  avg # of iterations = 10.8
+
+     negative rho (up, down):  2.321E-02 0.000E+00
+
+     total cpu time spent up to now is     1275.5 secs
+
+     total energy              =  -11888.80884828 Ry
+     estimated scf accuracy    <       0.00233053 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 30     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13927 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55291 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     ethr =  3.73E-07,  avg # of iterations =  7.3
+
+     negative rho (up, down):  1.237E-02 0.000E+00
+
+     total cpu time spent up to now is     1302.8 secs
+
+     total energy              =  -11888.80932826 Ry
+     estimated scf accuracy    <       0.01036866 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 31     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13928 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55308 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     ethr =  3.73E-07,  avg # of iterations =  6.0
+
+     negative rho (up, down):  9.475E-03 0.000E+00
+
+     total cpu time spent up to now is     1327.8 secs
+
+     total energy              =  -11888.81070252 Ry
+     estimated scf accuracy    <       0.00067342 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 32     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13928 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55278 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     ethr =  1.08E-07,  avg # of iterations =  5.3
+
+     negative rho (up, down):  2.370E-03 0.000E+00
+
+     total cpu time spent up to now is     1348.6 secs
+
+     total energy              =  -11888.81101274 Ry
+     estimated scf accuracy    <       0.00032172 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 33     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13928 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55309 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     ethr =  5.16E-08,  avg # of iterations =  2.8
+
+     negative rho (up, down):  5.112E-03 0.000E+00
+
+     total cpu time spent up to now is     1369.5 secs
+
+     total energy              =  -11888.81100917 Ry
+     estimated scf accuracy    <       0.00034630 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 34     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13928 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55239 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     ethr =  5.16E-08,  avg # of iterations = 14.3
+
+     negative rho (up, down):  2.924E-03 0.000E+00
+
+     total cpu time spent up to now is     1392.1 secs
+
+     total energy              =  -11888.81102714 Ry
+     estimated scf accuracy    <       0.00010209 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 35     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13928 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55199 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     ethr =  1.64E-08,  avg # of iterations =  5.5
+
+     negative rho (up, down):  1.501E-03 0.000E+00
+
+     total cpu time spent up to now is     1416.0 secs
+
+     total energy              =  -11888.81106210 Ry
+     estimated scf accuracy    <       0.00007196 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 36     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13928 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55144 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     ethr =  1.15E-08,  avg # of iterations =  2.0
+
+     negative rho (up, down):  1.858E-03 0.000E+00
+
+     total cpu time spent up to now is     1436.2 secs
+
+     total energy              =  -11888.81105943 Ry
+     estimated scf accuracy    <       0.00004338 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 37     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13928 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55029 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     ethr =  6.95E-09,  avg # of iterations =  7.0
+
+     negative rho (up, down):  2.893E-03 0.000E+00
+
+     total cpu time spent up to now is     1462.9 secs
+
+     total energy              =  -11888.81103589 Ry
+     estimated scf accuracy    <       0.00034319 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 38     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13928 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55031 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     ethr =  6.95E-09,  avg # of iterations =  6.0
+
+     negative rho (up, down):  2.645E-03 0.000E+00
+
+     total cpu time spent up to now is     1488.3 secs
+
+     total energy              =  -11888.81106534 Ry
+     estimated scf accuracy    <       0.00004490 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 39     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13928 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55054 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     ethr =  6.95E-09,  avg # of iterations =  2.0
+
+     negative rho (up, down):  2.550E-03 0.000E+00
+
+     total cpu time spent up to now is     1507.9 secs
+
+     total energy              =  -11888.81105975 Ry
+     estimated scf accuracy    <       0.00003092 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 40     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13928 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55080 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     ethr =  4.95E-09,  avg # of iterations =  2.0
+
+     negative rho (up, down):  2.468E-03 0.000E+00
+
+     total cpu time spent up to now is     1527.8 secs
+
+     total energy              =  -11888.81105513 Ry
+     estimated scf accuracy    <       0.00001491 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 41     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13928 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55129 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     ethr =  2.39E-09,  avg # of iterations =  5.5
+
+     negative rho (up, down):  2.215E-03 0.000E+00
+
+     total cpu time spent up to now is     1552.2 secs
+
+     total energy              =  -11888.81106174 Ry
+     estimated scf accuracy    <       0.00000582 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 42     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13928 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55146 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     ethr =  9.33E-10,  avg # of iterations =  2.0
+
+     negative rho (up, down):  1.915E-03 0.000E+00
+
+     total cpu time spent up to now is     1572.0 secs
+
+     total energy              =  -11888.81106116 Ry
+     estimated scf accuracy    <       0.00000162 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 43     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13928 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55216 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     ethr =  2.59E-10,  avg # of iterations =  6.0
+
+     negative rho (up, down):  1.966E-03 0.000E+00
+
+     total cpu time spent up to now is     1598.5 secs
+
+     total energy              =  -11888.81106066 Ry
+     estimated scf accuracy    <       0.00000500 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 44     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13928 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55268 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     ethr =  2.59E-10,  avg # of iterations =  6.0
+
+     negative rho (up, down):  1.883E-03 0.000E+00
+
+     total cpu time spent up to now is     1624.7 secs
+
+     total energy              =  -11888.81106187 Ry
+     estimated scf accuracy    <       0.00000121 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 45     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13928 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55332 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     ethr =  1.94E-10,  avg # of iterations =  5.8
+
+     negative rho (up, down):  1.847E-03 0.000E+00
+
+     total cpu time spent up to now is     1647.3 secs
+
+     total energy              =  -11888.81106211 Ry
+     estimated scf accuracy    <       0.00000029 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 46     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13928 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55344 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     ethr =  4.66E-11,  avg # of iterations =  5.5
+
+     negative rho (up, down):  1.817E-03 0.000E+00
+
+     total cpu time spent up to now is     1669.4 secs
+
+     total energy              =  -11888.81106216 Ry
+     estimated scf accuracy    <       0.00000006 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 47     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13928 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55364 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     ethr =  9.99E-12,  avg # of iterations =  5.3
+
+     negative rho (up, down):  1.826E-03 0.000E+00
+
+     total cpu time spent up to now is     1691.7 secs
+
+     total energy              =  -11888.81106217 Ry
+     estimated scf accuracy    <       0.00000003 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 48     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13928 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55376 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     ethr =  5.47E-12,  avg # of iterations =  2.0
+
+     negative rho (up, down):  1.818E-03 0.000E+00
+
+     total cpu time spent up to now is     1711.7 secs
+
+     total energy              =  -11888.81106214 Ry
+     estimated scf accuracy    <       0.00000003 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 49     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13928 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55380 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38216 / 2246 / 40463
+------------------
+     ethr =  4.10E-12,  avg # of iterations =  6.0
+
+     negative rho (up, down):  1.804E-03 0.000E+00
+
+     total cpu time spent up to now is     1738.7 secs
+
+     total energy              =  -11888.81106208 Ry
+     estimated scf accuracy    <       0.00000025 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 50     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13928 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55346 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38224 / 2238 / 40463
+------------------
+     ethr =  4.10E-12,  avg # of iterations =  6.0
+
+     negative rho (up, down):  1.803E-03 0.000E+00
+
+     total cpu time spent up to now is     1765.1 secs
+
+     total energy              =  -11888.81106214 Ry
+     estimated scf accuracy    <          5.7E-09 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 51     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13928 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55382 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38224 / 2238 / 40463
+------------------
+     ethr =  9.08E-13,  avg # of iterations =  5.0
+
+     negative rho (up, down):  1.797E-03 0.000E+00
+
+     total cpu time spent up to now is     1785.8 secs
+
+     total energy              =  -11888.81106216 Ry
+     estimated scf accuracy    <          4.4E-09 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 52     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13928 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55380 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38226 / 2236 / 40463
+------------------
+     ethr =  7.03E-13,  avg # of iterations =  5.5
+
+     negative rho (up, down):  1.792E-03 0.000E+00
+
+     total cpu time spent up to now is     1807.6 secs
+
+     total energy              =  -11888.81106215 Ry
+     estimated scf accuracy    <          3.0E-09 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 53     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13928 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55364 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38226 / 2236 / 40463
+------------------
+     ethr =  4.81E-13,  avg # of iterations =  3.0
+
+     negative rho (up, down):  1.792E-03 0.000E+00
+
+     total cpu time spent up to now is     1828.8 secs
+
+     total energy              =  -11888.81106215 Ry
+     estimated scf accuracy    <          1.1E-09 Ry
+[tb_dev] Currently allocated     7.32E-04 Mbytes, locked:    0 /   2
+[tb_pin] Currently allocated     0.00E+00 Mbytes, locked:    0 /   0
+
+     iteration # 54     ecut=    71.00 Ry     beta= 0.20
+     Davidson diagonalization with overlap
+
+---- Real-time Memory Report at c_bands before calling an iterative solver
+         13928 MiB given to the printing process from OS
+             0 MiB allocation reported by mallinfo(arena+hblkhd)
+         55398 MiB available memory on the node where the printing process lives
+     GPU memory used/free/total (MiB): 38226 / 2236 / 40463
+------------------
+     ethr =  1.71E-13,  avg # of iterations =  5.8
+
+     negative rho (up, down):  1.790E-03 0.000E+00
+
+     total cpu time spent up to now is     1853.3 secs
+
+     End of self-consistent calculation
+
+          k = 0.0000 0.0000 0.0000 (253973 PWs)   bands (ev):
+
+   -20.5980 -20.5882 -20.4802 -20.4783 -20.4519 -20.4510 -20.4074 -20.4071
+   -20.2527 -20.2522 -20.1888 -20.1887 -20.1611 -20.1604 -20.1285 -20.1278
+   -20.1276 -20.1270 -20.0838 -20.0832 -20.0409 -20.0399 -20.0316 -20.0316
+   -19.4106 -19.2341 -19.1395 -19.1348 -19.1330 -19.1026 -19.0847 -18.9695
+   -18.9630 -18.9519 -18.9412 -18.8612 -18.8597 -18.8315 -18.8275 -18.8223
+   -18.7606 -18.7577 -18.7551 -18.7324 -18.6837 -18.6742 -18.6689 -18.5961
+   -14.7234 -14.7194 -14.7118 -14.7096 -14.6968 -14.6909 -14.6871 -14.6759
+   -14.6727 -14.6719 -14.6639 -14.6609 -14.6599 -14.6501 -14.6452 -14.6444
+   -14.6421 -14.6402 -14.6395 -14.6320 -14.6226 -14.6182 -14.6158 -14.6154
+   -14.6020 -14.6010 -14.5974 -14.5967 -14.5925 -14.5874 -14.5846 -14.5838
+   -14.5808 -14.5793 -14.5741 -14.5733 -14.5662 -14.5653 -14.5621 -14.5572
+   -14.5379 -14.5364 -14.5263 -14.5242 -14.5219 -14.5194 -14.5115 -14.5102
+   -14.5067 -14.5044 -14.5017 -14.5000 -14.4946 -14.4842 -14.4791 -14.4791
+   -14.4788 -14.4780 -14.4713 -14.4661 -14.4617 -14.4580 -14.4561 -14.4532
+   -14.4486 -14.4484 -14.4447 -14.4415 -14.4315 -14.4290 -14.4262 -14.4248
+   -14.4228 -14.4195 -14.4190 -14.4129 -14.4127 -14.4001 -14.3952 -14.3908
+   -14.3814 -14.3814 -14.3779 -14.3772 -14.3674 -14.3647 -14.3632 -14.3581
+   -14.3565 -14.3519 -14.3467 -14.3455 -14.3336 -14.3290 -14.3220 -14.3097
+   -14.3046 -14.2908 -14.2862 -14.2689 -14.2527 -14.2450 -14.2302 -14.2137
+   -14.1050 -14.0614 -14.0291 -13.9874 -13.9541 -13.9363 -13.8876 -13.8744
+   -13.8374 -13.7362 -13.6946 -13.6911 -13.6448 -13.5694 -13.5592 -13.5124
+    -8.1754  -8.1593  -8.0692  -8.0377  -8.0079  -7.9919  -7.9853  -7.9170
+    -7.8715  -7.8369  -7.8197  -7.7826  -7.7755  -7.7454  -7.7046  -7.6215
+    -7.5821  -7.3169  -7.2806  -7.2279  -7.0976  -7.0606  -7.0558  -6.9812
+    -6.9625  -6.9434  -6.8915  -6.7935  -6.7430  -6.7129  -6.6911  -6.6463
+    -6.4919  -6.4311  -6.3703  -6.2573  -6.1918  -6.1703  -6.1562  -6.0392
+    -6.0154  -5.9208  -5.9145  -5.8252  -5.8151  -5.7039  -5.5680  -5.5299
+    -5.4975  -5.4157  -5.3688  -5.3222  -5.2086  -5.1070  -5.0877  -5.0850
+    -5.0767  -5.0151  -4.9991  -4.9301  -4.9085  -4.8902  -4.8694  -4.8291
+    -4.6820  -4.6569  -4.5449  -4.4260  -4.3850  -4.3704  -4.3569  -4.3424
+    -4.3404  -4.3077  -4.3033  -4.2195  -4.2155  -4.2027  -4.1530  -4.1291
+    -4.1188  -4.0449  -4.0333  -4.0298  -4.0197  -3.9811  -3.9544  -3.9429
+    -3.9363  -3.8622  -3.8286  -3.8284  -3.7384  -3.7119  -3.6730  -3.6415
+    -3.6331  -3.5696  -3.5219  -3.4568  -3.4380  -3.3956  -3.3831  -3.3558
+    -3.3398  -3.3341  -3.3185  -3.2516  -3.1744  -3.1628  -3.1611  -3.1552
+    -3.1423  -3.0382  -3.0042  -2.8924  -2.8675  -2.8672  -2.8229  -2.8198
+    -2.8101  -2.8038  -2.8022  -2.8014  -2.7197  -2.7180  -2.7140  -2.7107
+    -2.6828  -2.6473  -2.6428  -2.6133  -2.5746  -2.5718  -2.5565  -2.5506
+    -2.5425  -2.5251  -2.5062  -2.4641  -2.4279  -2.3624  -2.3435  -2.3402
+    -0.5517   0.9471   1.8967   1.9016   1.9171   1.9474   2.1532   2.5509
+     2.6714   2.7540   2.8171   2.8465   2.9279   2.9826   3.0028   3.0427
+
+     occupation numbers 
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     0.0000   0.0000   0.0000   0.0000   0.0000   0.0000   0.0000   0.0000
+     0.0000   0.0000   0.0000   0.0000   0.0000   0.0000   0.0000   0.0000
+
+          k = 0.0000 0.3334 0.0000 (254028 PWs)   bands (ev):
+
+   -20.5697 -20.5619 -20.5005 -20.4971 -20.4646 -20.4633 -20.4284 -20.4283
+   -20.2163 -20.2162 -20.1760 -20.1758 -20.1714 -20.1707 -20.1379 -20.1368
+   -20.1150 -20.1144 -20.0934 -20.0930 -20.0429 -20.0419 -20.0372 -20.0370
+   -19.3822 -19.3047 -19.1457 -19.1374 -19.1211 -19.0970 -19.0016 -18.9690
+   -18.9663 -18.9460 -18.9411 -18.8957 -18.8542 -18.8313 -18.8292 -18.8283
+   -18.7702 -18.7644 -18.7599 -18.7572 -18.6726 -18.6700 -18.6417 -18.6073
+   -14.7132 -14.7080 -14.7079 -14.6895 -14.6883 -14.6852 -14.6798 -14.6775
+   -14.6770 -14.6762 -14.6709 -14.6594 -14.6538 -14.6500 -14.6480 -14.6457
+   -14.6362 -14.6331 -14.6303 -14.6266 -14.6259 -14.6198 -14.6170 -14.6088
+   -14.6083 -14.6021 -14.6017 -14.5980 -14.5953 -14.5877 -14.5838 -14.5806
+   -14.5801 -14.5799 -14.5796 -14.5775 -14.5714 -14.5651 -14.5565 -14.5498
+   -14.5466 -14.5441 -14.5440 -14.5346 -14.5322 -14.5319 -14.5317 -14.5310
+   -14.5172 -14.5112 -14.5049 -14.5024 -14.5005 -14.5000 -14.4923 -14.4886
+   -14.4820 -14.4764 -14.4672 -14.4656 -14.4625 -14.4586 -14.4506 -14.4472
+   -14.4439 -14.4438 -14.4418 -14.4367 -14.4341 -14.4282 -14.4274 -14.4261
+   -14.4254 -14.4149 -14.4130 -14.3987 -14.3962 -14.3942 -14.3877 -14.3847
+   -14.3839 -14.3756 -14.3755 -14.3753 -14.3688 -14.3678 -14.3676 -14.3581
+   -14.3559 -14.3558 -14.3475 -14.3437 -14.3410 -14.3322 -14.3293 -14.3134
+   -14.3079 -14.3017 -14.2968 -14.2666 -14.2338 -14.2289 -14.2023 -14.1942
+   -14.1299 -14.0392 -14.0181 -14.0006 -13.9273 -13.8981 -13.8840 -13.8710
+   -13.8211 -13.7659 -13.7609 -13.7378 -13.5835 -13.5645 -13.5595 -13.5308
+    -8.1619  -8.1284  -8.1175  -8.0511  -8.0247  -8.0172  -7.9931  -7.9681
+    -7.8852  -7.8570  -7.8125  -7.7973  -7.6802  -7.6780  -7.6320  -7.6078
+    -7.4689  -7.2723  -7.2649  -7.2356  -7.1713  -7.1500  -7.1387  -7.0213
+    -6.9637  -6.9262  -6.8209  -6.8185  -6.7547  -6.7245  -6.7216  -6.6534
+    -6.6016  -6.5589  -6.4135  -6.2150  -6.2039  -6.1037  -6.0942  -6.0766
+    -6.0354  -6.0141  -5.9700  -5.8198  -5.6312  -5.5696  -5.5278  -5.4403
+    -5.3819  -5.3768  -5.3233  -5.2659  -5.2542  -5.1754  -5.1580  -5.0978
+    -4.9595  -4.9541  -4.9312  -4.9199  -4.8599  -4.8257  -4.7508  -4.7206
+    -4.7014  -4.6761  -4.6741  -4.6399  -4.6103  -4.5686  -4.5544  -4.4291
+    -4.3760  -4.3238  -4.2773  -4.2734  -4.2540  -4.2010  -4.1614  -4.1026
+    -4.0834  -4.0324  -4.0298  -3.9890  -3.9393  -3.9362  -3.9313  -3.8678
+    -3.8675  -3.8513  -3.7861  -3.7662  -3.7163  -3.6701  -3.6436  -3.5727
+    -3.5588  -3.5486  -3.5409  -3.5138  -3.4833  -3.4268  -3.4060  -3.3585
+    -3.2971  -3.2703  -3.2319  -3.2016  -3.1862  -3.1724  -3.1718  -3.1477
+    -3.1146  -3.0633  -3.0362  -3.0162  -3.0080  -2.9501  -2.9130  -2.8764
+    -2.8561  -2.8316  -2.8086  -2.7440  -2.7328  -2.7241  -2.7057  -2.6884
+    -2.6797  -2.6589  -2.6411  -2.5959  -2.5933  -2.5863  -2.5714  -2.5710
+    -2.5495  -2.5119  -2.4400  -2.4323  -2.4216  -2.3814  -2.3712  -2.3702
+    -0.0770   0.8845   1.2216   1.8670   2.0942   2.0977   2.3420   2.4845
+     2.5370   2.7225   2.8121   2.8199   2.9243   2.9837   3.0223   3.0491
+
+     occupation numbers 
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     0.0000   0.0000   0.0000   0.0000   0.0000   0.0000   0.0000   0.0000
+     0.0000   0.0000   0.0000   0.0000   0.0000   0.0000   0.0000   0.0000
+
+          k = 0.3333 0.0000 0.0000 (254038 PWs)   bands (ev):
+
+   -20.5738 -20.5658 -20.5168 -20.5127 -20.4411 -20.4405 -20.4181 -20.4181
+   -20.2367 -20.2363 -20.2070 -20.2068 -20.1403 -20.1401 -20.1186 -20.1183
+   -20.1178 -20.1169 -20.1019 -20.1015 -20.0423 -20.0423 -20.0377 -20.0373
+   -19.3757 -19.2767 -19.2185 -19.1772 -19.0922 -19.0758 -19.0008 -18.9694
+   -18.9557 -18.9394 -18.9347 -18.8585 -18.8428 -18.8392 -18.8267 -18.8066
+   -18.7929 -18.7888 -18.7803 -18.7534 -18.6778 -18.6726 -18.6358 -18.6038
+   -14.7114 -14.7113 -14.7076 -14.7033 -14.6849 -14.6839 -14.6832 -14.6790
+   -14.6702 -14.6657 -14.6612 -14.6607 -14.6604 -14.6595 -14.6584 -14.6548
+   -14.6460 -14.6351 -14.6348 -14.6232 -14.6229 -14.6204 -14.6158 -14.6124
+   -14.6010 -14.5975 -14.5951 -14.5949 -14.5922 -14.5911 -14.5859 -14.5842
+   -14.5811 -14.5779 -14.5756 -14.5729 -14.5711 -14.5666 -14.5586 -14.5546
+   -14.5508 -14.5437 -14.5407 -14.5400 -14.5386 -14.5291 -14.5261 -14.5249
+   -14.5115 -14.5061 -14.5042 -14.4938 -14.4894 -14.4881 -14.4873 -14.4858
+   -14.4837 -14.4666 -14.4662 -14.4611 -14.4605 -14.4569 -14.4559 -14.4536
+   -14.4481 -14.4459 -14.4432 -14.4421 -14.4373 -14.4275 -14.4233 -14.4220
+   -14.4185 -14.4185 -14.4176 -14.4069 -14.4050 -14.3949 -14.3944 -14.3836
+   -14.3820 -14.3803 -14.3745 -14.3682 -14.3656 -14.3647 -14.3623 -14.3571
+   -14.3559 -14.3545 -14.3422 -14.3416 -14.3317 -14.3308 -14.3252 -14.3183
+   -14.3142 -14.3037 -14.3013 -14.2845 -14.2424 -14.1930 -14.1833 -14.1824
+   -14.1681 -14.0811 -14.0734 -14.0224 -13.9108 -13.8965 -13.8910 -13.8418
+   -13.7895 -13.7874 -13.7008 -13.6954 -13.6153 -13.5743 -13.5655 -13.5495
+    -8.1420  -8.1351  -8.0841  -8.0600  -8.0337  -8.0163  -7.9877  -7.9593
+    -7.8859  -7.8743  -7.8250  -7.7986  -7.6809  -7.6781  -7.6754  -7.6108
+    -7.4413  -7.3218  -7.2776  -7.1654  -7.1544  -7.1533  -7.0881  -7.0118
+    -6.9674  -6.9577  -6.9422  -6.8502  -6.7537  -6.6705  -6.6125  -6.5752
+    -6.5036  -6.4128  -6.4040  -6.3712  -6.3420  -6.2935  -6.2697  -6.2332
+    -5.9571  -5.9151  -5.8389  -5.7938  -5.6139  -5.5449  -5.5307  -5.4738
+    -5.3883  -5.3193  -5.3107  -5.2807  -5.2111  -5.1482  -5.1292  -5.0540
+    -5.0313  -5.0094  -4.9394  -4.9381  -4.9272  -4.9268  -4.8443  -4.7124
+    -4.7009  -4.6431  -4.6121  -4.5549  -4.4827  -4.4701  -4.4302  -4.3309
+    -4.3067  -4.2719  -4.2651  -4.2502  -4.2300  -4.2036  -4.1464  -4.1359
+    -4.1123  -4.0992  -4.0950  -4.0805  -3.9309  -3.9252  -3.9071  -3.8813
+    -3.8467  -3.8370  -3.8355  -3.8342  -3.7875  -3.7442  -3.6644  -3.6497
+    -3.6429  -3.6207  -3.5448  -3.4294  -3.4245  -3.3954  -3.3877  -3.3533
+    -3.3065  -3.3047  -3.2903  -3.2351  -3.2131  -3.2008  -3.1486  -3.1258
+    -3.0782  -3.0476  -3.0340  -2.9672  -2.9593  -2.9050  -2.8705  -2.8567
+    -2.8537  -2.8097  -2.8033  -2.7833  -2.7549  -2.7468  -2.7402  -2.7273
+    -2.6675  -2.6674  -2.6549  -2.6127  -2.6118  -2.6104  -2.5732  -2.5359
+    -2.5276  -2.4962  -2.4606  -2.4532  -2.3997  -2.3646  -2.3610  -2.3475
+    -0.0766   0.8803   1.2218   1.8720   2.0828   2.1582   2.3235   2.5399
+     2.5604   2.6686   2.7046   2.8121   2.9565   2.9645   3.0442   3.1137
+
+     occupation numbers 
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     0.0000   0.0000   0.0000   0.0000   0.0000   0.0000   0.0000   0.0000
+     0.0000   0.0000   0.0000   0.0000   0.0000   0.0000   0.0000   0.0000
+
+          k = 0.3333 0.3334 0.0000 (253973 PWs)   bands (ev):
+
+   -20.5477 -20.5415 -20.4967 -20.4937 -20.4844 -20.4819 -20.4487 -20.4477
+   -20.2008 -20.2005 -20.1791 -20.1786 -20.1541 -20.1539 -20.1336 -20.1327
+   -20.1167 -20.1165 -20.1089 -20.1089 -20.0429 -20.0426 -20.0392 -20.0391
+   -19.3497 -19.2800 -19.2584 -19.2135 -19.0507 -19.0170 -19.0131 -18.9757
+   -18.9439 -18.9348 -18.9322 -18.8855 -18.8472 -18.8470 -18.8217 -18.8151
+   -18.7961 -18.7885 -18.7818 -18.7728 -18.6628 -18.6470 -18.6441 -18.6153
+   -14.7129 -14.7106 -14.7028 -14.7021 -14.6981 -14.6885 -14.6864 -14.6797
+   -14.6733 -14.6732 -14.6729 -14.6696 -14.6571 -14.6565 -14.6473 -14.6450
+   -14.6372 -14.6344 -14.6322 -14.6276 -14.6227 -14.6214 -14.6197 -14.6093
+   -14.6030 -14.5984 -14.5955 -14.5936 -14.5911 -14.5882 -14.5872 -14.5827
+   -14.5797 -14.5789 -14.5743 -14.5716 -14.5666 -14.5653 -14.5609 -14.5547
+   -14.5542 -14.5482 -14.5466 -14.5442 -14.5369 -14.5367 -14.5269 -14.5218
+   -14.5136 -14.5081 -14.4942 -14.4941 -14.4889 -14.4854 -14.4846 -14.4802
+   -14.4791 -14.4721 -14.4717 -14.4696 -14.4604 -14.4542 -14.4530 -14.4523
+   -14.4503 -14.4386 -14.4377 -14.4354 -14.4301 -14.4282 -14.4231 -14.4195
+   -14.4142 -14.4120 -14.4102 -14.4086 -14.4056 -14.3975 -14.3922 -14.3838
+   -14.3793 -14.3738 -14.3718 -14.3656 -14.3656 -14.3614 -14.3604 -14.3595
+   -14.3579 -14.3544 -14.3467 -14.3455 -14.3423 -14.3300 -14.3298 -14.3281
+   -14.3108 -14.2959 -14.2937 -14.2776 -14.2456 -14.1959 -14.1950 -14.1669
+   -14.1664 -14.0976 -14.0779 -14.0390 -13.9322 -13.9290 -13.8745 -13.8595
+   -13.7488 -13.7438 -13.6906 -13.6581 -13.6342 -13.5915 -13.5791 -13.5724
+    -8.1368  -8.1185  -8.1088  -8.0787  -8.0388  -8.0187  -8.0173  -7.9928
+    -7.8733  -7.8393  -7.8384  -7.8138  -7.6408  -7.6407  -7.6219  -7.6005
+    -7.3598  -7.2751  -7.2702  -7.2455  -7.1223  -7.1007  -7.0665  -7.0611
+    -6.9832  -6.9487  -6.9394  -6.8587  -6.7822  -6.7562  -6.6062  -6.5934
+    -6.5669  -6.5657  -6.4572  -6.4327  -6.4062  -6.3272  -6.3065  -6.2776
+    -5.8893  -5.8282  -5.7559  -5.7549  -5.5245  -5.4654  -5.4572  -5.3745
+    -5.2973  -5.2969  -5.2692  -5.2440  -5.2306  -5.2099  -5.1140  -5.0479
+    -5.0037  -4.9785  -4.9180  -4.9154  -4.8849  -4.8686  -4.8519  -4.7567
+    -4.7014  -4.6538  -4.6208  -4.6138  -4.5724  -4.5357  -4.5033  -4.4237
+    -4.3564  -4.3416  -4.3063  -4.3050  -4.2323  -4.1977  -4.1453  -4.1232
+    -4.0792  -4.0589  -4.0269  -4.0231  -3.9792  -3.9740  -3.9532  -3.9037
+    -3.8960  -3.8039  -3.7850  -3.7316  -3.6809  -3.6396  -3.6370  -3.6247
+    -3.5489  -3.5153  -3.4939  -3.4642  -3.4591  -3.4405  -3.4379  -3.3939
+    -3.3514  -3.3233  -3.2682  -3.2639  -3.2444  -3.1947  -3.1902  -3.1711
+    -3.1636  -3.0734  -3.0534  -3.0299  -2.9911  -2.9698  -2.9226  -2.8895
+    -2.8884  -2.8630  -2.8312  -2.8269  -2.7500  -2.7398  -2.7357  -2.7018
+    -2.6672  -2.6638  -2.6321  -2.6320  -2.5994  -2.5742  -2.5724  -2.5648
+    -2.4462  -2.4264  -2.4263  -2.4189  -2.3950  -2.3764  -2.3643  -2.3627
+     0.3084   1.1496   1.1539   1.4624   1.7923   2.0461   2.0586   2.4085
+     2.5774   2.9060   2.9219   2.9851   3.0305   3.0738   3.1750   3.2082
+
+     occupation numbers 
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000   1.0000
+     0.0000   0.0000   0.0000   0.0000   0.0000   0.0000   0.0000   0.0000
+     0.0000   0.0000   0.0000   0.0000   0.0000   0.0000   0.0000   0.0000
+
+     highest occupied, lowest unoccupied level (ev):    -2.3402   -0.5517
+
+!    total energy              =  -11888.81106216 Ry
+     total all-electron energy =   -289578.062985 Ry
+     estimated scf accuracy    <          4.3E-10 Ry
+
+     The total energy is the sum of the following terms:
+     one-electron contribution =  -78759.35203550 Ry
+     hartree contribution      =   39691.25649261 Ry
+     xc contribution           =   -1487.94939565 Ry
+     ewald contribution        =   35670.75711453 Ry
+     one-center paw contrib.   =   -7003.52323816 Ry
+      -> PAW hartree energy AE =    3588.39744999 Ry
+      -> PAW hartree energy PS =   -3576.92220484 Ry
+      -> PAW xc energy AE      =   -8469.20584046 Ry
+      -> PAW xc energy PS      =    1454.20735715 Ry
+      -> total E_H with PAW    =   39702.73173776 Ry
+      -> total E_XC with PAW   =   -8502.94787896 Ry
+
+     convergence has been achieved in  54 iterations
+
+     negative rho (up, down):  1.790E-03 0.000E+00
+
+     Forces acting on atoms (cartesian axes, Ry/au):
+
+     atom    1 type  1   force =    -0.00019281    0.00038313    0.00010363
+     atom    2 type  1   force =     0.00019281   -0.00038313    0.00010363
+     atom    3 type  1   force =     0.00019281    0.00038313   -0.00010363
+     atom    4 type  1   force =     0.00019281    0.00038313    0.00010363
+     atom    5 type  1   force =    -0.00068202    0.00030600   -0.00017926
+     atom    6 type  1   force =     0.00068202    0.00030600    0.00017926
+     atom    7 type  1   force =     0.00000000   -0.00048396    0.00000000
+     atom    8 type  1   force =     0.00000000    0.00048396    0.00000000
+     atom    9 type  1   force =     0.00000000    0.00000000    0.00071360
+     atom   10 type  1   force =     0.00068202    0.00030600   -0.00017926
+     atom   11 type  1   force =    -0.00068202    0.00030600    0.00017926
+     atom   12 type  1   force =     0.00000000    0.00000000    0.00071360
+     atom   13 type  2   force =    -0.00042868   -0.00010920    0.00075809
+     atom   14 type  2   force =     0.00042868    0.00010920    0.00075809
+     atom   15 type  2   force =     0.00042868   -0.00010920   -0.00075809
+     atom   16 type  2   force =    -0.00042868    0.00010920   -0.00075809
+     atom   17 type  2   force =     0.00044003    0.00012751   -0.00014379
+     atom   18 type  2   force =    -0.00011313   -0.00028290    0.00066936
+     atom   19 type  2   force =    -0.00044003   -0.00012751   -0.00014379
+     atom   20 type  2   force =     0.00011313    0.00028290    0.00066936
+     atom   21 type  2   force =    -0.00076798   -0.00007642   -0.00040809
+     atom   22 type  2   force =     0.00076798   -0.00007642    0.00040809
+     atom   23 type  2   force =    -0.00004173    0.00012158    0.00027081
+     atom   24 type  2   force =     0.00004173    0.00012158   -0.00027081
+     atom   25 type  2   force =     0.00015408    0.00024480    0.00002915
+     atom   26 type  2   force =    -0.00015408   -0.00024480    0.00002915
+     atom   27 type  2   force =    -0.00015408    0.00024480   -0.00002915
+     atom   28 type  2   force =     0.00015408   -0.00024480   -0.00002915
+     atom   29 type  2   force =     0.00011313   -0.00028290    0.00066936
+     atom   30 type  2   force =    -0.00044003    0.00012751   -0.00014379
+     atom   31 type  2   force =    -0.00011313    0.00028290    0.00066936
+     atom   32 type  2   force =     0.00044003   -0.00012751   -0.00014379
+     atom   33 type  2   force =     0.00004173    0.00012158    0.00027081
+     atom   34 type  2   force =    -0.00004173    0.00012158   -0.00027081
+     atom   35 type  2   force =     0.00076798   -0.00007642   -0.00040809
+     atom   36 type  2   force =    -0.00076798   -0.00007642    0.00040809
+     atom   37 type  1   force =     0.00019281   -0.00038313   -0.00010363
+     atom   38 type  1   force =    -0.00019281    0.00038313   -0.00010363
+     atom   39 type  1   force =    -0.00019281   -0.00038313    0.00010363
+     atom   40 type  1   force =    -0.00019281   -0.00038313   -0.00010363
+     atom   41 type  1   force =    -0.00068202   -0.00030600    0.00017926
+     atom   42 type  1   force =     0.00068202   -0.00030600   -0.00017926
+     atom   43 type  1   force =     0.00000000    0.00000000   -0.00071360
+     atom   44 type  1   force =     0.00068202   -0.00030600    0.00017926
+     atom   45 type  1   force =    -0.00068202   -0.00030600   -0.00017926
+     atom   46 type  1   force =     0.00000000    0.00048396    0.00000000
+     atom   47 type  1   force =     0.00000000   -0.00048396    0.00000000
+     atom   48 type  1   force =     0.00000000    0.00000000   -0.00071360
+     atom   49 type  2   force =    -0.00015408   -0.00024480   -0.00002915
+     atom   50 type  2   force =     0.00015408    0.00024480   -0.00002915
+     atom   51 type  2   force =     0.00015408   -0.00024480    0.00002915
+     atom   52 type  2   force =    -0.00015408    0.00024480    0.00002915
+     atom   53 type  2   force =    -0.00011313    0.00028290   -0.00066936
+     atom   54 type  2   force =     0.00044003   -0.00012751    0.00014379
+     atom   55 type  2   force =     0.00011313   -0.00028290   -0.00066936
+     atom   56 type  2   force =    -0.00044003    0.00012751    0.00014379
+     atom   57 type  2   force =    -0.00004173   -0.00012158   -0.00027081
+     atom   58 type  2   force =     0.00004173   -0.00012158    0.00027081
+     atom   59 type  2   force =    -0.00076798    0.00007642    0.00040809
+     atom   60 type  2   force =     0.00076798    0.00007642   -0.00040809
+     atom   61 type  2   force =     0.00042868    0.00010920   -0.00075809
+     atom   62 type  2   force =    -0.00042868   -0.00010920   -0.00075809
+     atom   63 type  2   force =    -0.00042868    0.00010920    0.00075809
+     atom   64 type  2   force =     0.00042868   -0.00010920    0.00075809
+     atom   65 type  2   force =    -0.00044003   -0.00012751    0.00014379
+     atom   66 type  2   force =     0.00011313    0.00028290   -0.00066936
+     atom   67 type  2   force =     0.00044003    0.00012751    0.00014379
+     atom   68 type  2   force =    -0.00011313   -0.00028290   -0.00066936
+     atom   69 type  2   force =     0.00076798    0.00007642    0.00040809
+     atom   70 type  2   force =    -0.00076798    0.00007642   -0.00040809
+     atom   71 type  2   force =     0.00004173   -0.00012158   -0.00027081
+     atom   72 type  2   force =    -0.00004173   -0.00012158    0.00027081
+     atom   73 type  3   force =     0.00013577   -0.00000537    0.00041587
+     atom   74 type  3   force =    -0.00013577    0.00000537    0.00041587
+     atom   75 type  3   force =     0.00012094   -0.00061750   -0.00034058
+     atom   76 type  3   force =    -0.00012094   -0.00061750    0.00034058
+     atom   77 type  3   force =     0.00033238    0.00034159   -0.00030444
+     atom   78 type  3   force =    -0.00033238   -0.00034159   -0.00030444
+     atom   79 type  3   force =    -0.00033238    0.00034159    0.00030444
+     atom   80 type  3   force =     0.00033238   -0.00034159    0.00030444
+     atom   81 type  3   force =    -0.00013577   -0.00000537    0.00041587
+     atom   82 type  3   force =     0.00013577    0.00000537    0.00041587
+     atom   83 type  3   force =    -0.00012094   -0.00061750   -0.00034058
+     atom   84 type  3   force =     0.00012094   -0.00061750    0.00034058
+     atom   85 type  3   force =    -0.00033238   -0.00034159    0.00030444
+     atom   86 type  3   force =     0.00033238    0.00034159    0.00030444
+     atom   87 type  3   force =     0.00033238   -0.00034159   -0.00030444
+     atom   88 type  3   force =    -0.00033238    0.00034159   -0.00030444
+     atom   89 type  3   force =     0.00013577    0.00000537   -0.00041587
+     atom   90 type  3   force =    -0.00013577   -0.00000537   -0.00041587
+     atom   91 type  3   force =     0.00012094    0.00061750    0.00034058
+     atom   92 type  3   force =    -0.00012094    0.00061750   -0.00034058
+     atom   93 type  3   force =    -0.00013577    0.00000537   -0.00041587
+     atom   94 type  3   force =     0.00013577   -0.00000537   -0.00041587
+     atom   95 type  3   force =    -0.00012094    0.00061750    0.00034058
+     atom   96 type  3   force =     0.00012094    0.00061750   -0.00034058
+     The non-local contrib.  to forces
+     atom    1 type  1   force =     0.02739836    0.02331608   -0.00424097
+     atom    2 type  1   force =    -0.02739836   -0.02331608   -0.00424097
+     atom    3 type  1   force =    -0.02739836    0.02331608    0.00424097
+     atom    4 type  1   force =    -0.02739836    0.02331608   -0.00424097
+     atom    5 type  1   force =    -0.01301387    0.05590826    0.02223702
+     atom    6 type  1   force =     0.01301387    0.05590826   -0.02223702
+     atom    7 type  1   force =     0.00000000   -0.04424762    0.00000000
+     atom    8 type  1   force =     0.00000000    0.04424762    0.00000000
+     atom    9 type  1   force =     0.00000000    0.00000000   -0.00292720
+     atom   10 type  1   force =     0.01301387    0.05590826    0.02223702
+     atom   11 type  1   force =    -0.01301387    0.05590826   -0.02223702
+     atom   12 type  1   force =     0.00000000    0.00000000   -0.00292720
+     atom   13 type  2   force =    -0.05837179   -0.07288169    0.01508399
+     atom   14 type  2   force =     0.05837179    0.07288169    0.01508399
+     atom   15 type  2   force =     0.05837179   -0.07288169   -0.01508399
+     atom   16 type  2   force =    -0.05837179    0.07288169   -0.01508399
+     atom   17 type  2   force =    -0.91410160    1.25064833    0.06473207
+     atom   18 type  2   force =     0.04129843    0.09046718    0.10349084
+     atom   19 type  2   force =     0.91410160   -1.25064833    0.06473207
+     atom   20 type  2   force =    -0.04129843   -0.09046718    0.10349084
+     atom   21 type  2   force =    -0.02672142    0.06667618   -0.10247252
+     atom   22 type  2   force =     0.02672142    0.06667618    0.10247252
+     atom   23 type  2   force =    -0.98851694    1.05874399   -0.76223496
+     atom   24 type  2   force =     0.98851694    1.05874399    0.76223496
+     atom   25 type  2   force =     1.08389905    1.00555341   -0.88873461
+     atom   26 type  2   force =    -1.08389905   -1.00555341   -0.88873461
+     atom   27 type  2   force =    -1.08389905    1.00555341    0.88873461
+     atom   28 type  2   force =     1.08389905   -1.00555341    0.88873461
+     atom   29 type  2   force =    -0.04129843    0.09046718    0.10349084
+     atom   30 type  2   force =     0.91410160    1.25064833    0.06473207
+     atom   31 type  2   force =     0.04129843   -0.09046718    0.10349084
+     atom   32 type  2   force =    -0.91410160   -1.25064833    0.06473207
+     atom   33 type  2   force =     0.98851694    1.05874399   -0.76223496
+     atom   34 type  2   force =    -0.98851694    1.05874399    0.76223496
+     atom   35 type  2   force =     0.02672142    0.06667618   -0.10247252
+     atom   36 type  2   force =    -0.02672142    0.06667618    0.10247252
+     atom   37 type  1   force =    -0.02739836   -0.02331608    0.00424097
+     atom   38 type  1   force =     0.02739836    0.02331608    0.00424097
+     atom   39 type  1   force =     0.02739836   -0.02331608   -0.00424097
+     atom   40 type  1   force =     0.02739836   -0.02331608    0.00424097
+     atom   41 type  1   force =    -0.01301387   -0.05590826   -0.02223702
+     atom   42 type  1   force =     0.01301387   -0.05590826    0.02223702
+     atom   43 type  1   force =     0.00000000    0.00000000    0.00292720
+     atom   44 type  1   force =     0.01301387   -0.05590826   -0.02223702
+     atom   45 type  1   force =    -0.01301387   -0.05590826    0.02223702
+     atom   46 type  1   force =     0.00000000    0.04424762    0.00000000
+     atom   47 type  1   force =     0.00000000   -0.04424762    0.00000000
+     atom   48 type  1   force =     0.00000000    0.00000000    0.00292720
+     atom   49 type  2   force =    -1.08389905   -1.00555341    0.88873461
+     atom   50 type  2   force =     1.08389905    1.00555341    0.88873461
+     atom   51 type  2   force =     1.08389905   -1.00555341   -0.88873461
+     atom   52 type  2   force =    -1.08389905    1.00555341   -0.88873461
+     atom   53 type  2   force =     0.04129843   -0.09046718   -0.10349084
+     atom   54 type  2   force =    -0.91410160   -1.25064833   -0.06473207
+     atom   55 type  2   force =    -0.04129843    0.09046718   -0.10349084
+     atom   56 type  2   force =     0.91410160    1.25064833   -0.06473207
+     atom   57 type  2   force =    -0.98851694   -1.05874399    0.76223496
+     atom   58 type  2   force =     0.98851694   -1.05874399   -0.76223496
+     atom   59 type  2   force =    -0.02672142   -0.06667618    0.10247252
+     atom   60 type  2   force =     0.02672142   -0.06667618   -0.10247252
+     atom   61 type  2   force =     0.05837179    0.07288169   -0.01508399
+     atom   62 type  2   force =    -0.05837179   -0.07288169   -0.01508399
+     atom   63 type  2   force =    -0.05837179    0.07288169    0.01508399
+     atom   64 type  2   force =     0.05837179   -0.07288169    0.01508399
+     atom   65 type  2   force =     0.91410160   -1.25064833   -0.06473207
+     atom   66 type  2   force =    -0.04129843   -0.09046718   -0.10349084
+     atom   67 type  2   force =    -0.91410160    1.25064833   -0.06473207
+     atom   68 type  2   force =     0.04129843    0.09046718   -0.10349084
+     atom   69 type  2   force =     0.02672142   -0.06667618    0.10247252
+     atom   70 type  2   force =    -0.02672142   -0.06667618   -0.10247252
+     atom   71 type  2   force =     0.98851694   -1.05874399    0.76223496
+     atom   72 type  2   force =    -0.98851694   -1.05874399   -0.76223496
+     atom   73 type  3   force =     0.06287308   -0.07329137    0.03217356
+     atom   74 type  3   force =    -0.06287308    0.07329137    0.03217356
+     atom   75 type  3   force =     0.05302309   -0.04848816    0.07697436
+     atom   76 type  3   force =    -0.05302309   -0.04848816   -0.07697436
+     atom   77 type  3   force =    -0.04012797   -0.03916282    0.08986863
+     atom   78 type  3   force =     0.04012797    0.03916282    0.08986863
+     atom   79 type  3   force =     0.04012797   -0.03916282   -0.08986863
+     atom   80 type  3   force =    -0.04012797    0.03916282   -0.08986863
+     atom   81 type  3   force =    -0.06287308   -0.07329137    0.03217356
+     atom   82 type  3   force =     0.06287308    0.07329137    0.03217356
+     atom   83 type  3   force =    -0.05302309   -0.04848816    0.07697436
+     atom   84 type  3   force =     0.05302309   -0.04848816   -0.07697436
+     atom   85 type  3   force =     0.04012797    0.03916282   -0.08986863
+     atom   86 type  3   force =    -0.04012797   -0.03916282   -0.08986863
+     atom   87 type  3   force =    -0.04012797    0.03916282    0.08986863
+     atom   88 type  3   force =     0.04012797   -0.03916282    0.08986863
+     atom   89 type  3   force =     0.06287308    0.07329137   -0.03217356
+     atom   90 type  3   force =    -0.06287308   -0.07329137   -0.03217356
+     atom   91 type  3   force =     0.05302309    0.04848816   -0.07697436
+     atom   92 type  3   force =    -0.05302309    0.04848816    0.07697436
+     atom   93 type  3   force =    -0.06287308    0.07329137   -0.03217356
+     atom   94 type  3   force =     0.06287308   -0.07329137   -0.03217356
+     atom   95 type  3   force =    -0.05302309    0.04848816   -0.07697436
+     atom   96 type  3   force =     0.05302309    0.04848816    0.07697436
+     The ionic contribution  to forces
+     atom    1 type  1   force =     3.12492330    1.27106607 -111.00425144
+     atom    2 type  1   force =    -3.12492332   -1.27106608 -111.00425142
+     atom    3 type  1   force =    -3.12492322    1.27106609  111.00425151
+     atom    4 type  1   force =    -3.12492333    1.27106612 -111.00425144
+     atom    5 type  1   force =     4.09770806    3.11918874  110.41244931
+     atom    6 type  1   force =    -4.09770813    3.11918885 -110.41244924
+     atom    7 type  1   force =     0.00000003    3.67201589    0.00000002
+     atom    8 type  1   force =    -0.00000005   -3.67201591    0.00000003
+     atom    9 type  1   force =    -0.00000005   -0.00000001   -9.53970487
+     atom   10 type  1   force =    -4.09770809    3.11918876  110.41244932
+     atom   11 type  1   force =     4.09770810    3.11918887 -110.41244924
+     atom   12 type  1   force =     0.00000001   -0.00000002   -9.53970486
+     atom   13 type  2   force =     2.90633729    2.24264570  -25.44920281
+     atom   14 type  2   force =    -2.90633729   -2.24264571  -25.44920281
+     atom   15 type  2   force =    -2.90633733    2.24264574   25.44920285
+     atom   16 type  2   force =     2.90633735   -2.24264577   25.44920282
+     atom   17 type  2   force =     2.17358281   -2.19213441  -70.13266206
+     atom   18 type  2   force =    -0.03239977   -2.82039954  -32.67562360
+     atom   19 type  2   force =    -2.17358283    2.19213446  -70.13266204
+     atom   20 type  2   force =     0.03239972    2.82039956  -32.67562362
+     atom   21 type  2   force =     1.78843101   -0.04835479  -19.38369840
+     atom   22 type  2   force =    -1.78843099   -0.04835481   19.38369837
+     atom   23 type  2   force =     2.33298091   -1.89901014  -75.73147371
+     atom   24 type  2   force =    -2.33298097   -1.89901020   75.73147370
+     atom   25 type  2   force =    -3.67642464   -3.25987986  -74.70396183
+     atom   26 type  2   force =     3.67642467    3.25987988  -74.70396185
+     atom   27 type  2   force =     3.67642463   -3.25987986   74.70396182
+     atom   28 type  2   force =    -3.67642465    3.25987986   74.70396182
+     atom   29 type  2   force =     0.03239973   -2.82039958  -32.67562363
+     atom   30 type  2   force =    -2.17358285   -2.19213441  -70.13266200
+     atom   31 type  2   force =    -0.03239975    2.82039953  -32.67562360
+     atom   32 type  2   force =     2.17358282    2.19213440  -70.13266206
+     atom   33 type  2   force =    -2.33298092   -1.89901016  -75.73147371
+     atom   34 type  2   force =     2.33298095   -1.89901019   75.73147370
+     atom   35 type  2   force =    -1.78843102   -0.04835477  -19.38369841
+     atom   36 type  2   force =     1.78843099   -0.04835481   19.38369837
+     atom   37 type  1   force =    -3.12492320   -1.27106606  111.00425155
+     atom   38 type  1   force =     3.12492319    1.27106606  111.00425151
+     atom   39 type  1   force =     3.12492331   -1.27106613 -111.00425147
+     atom   40 type  1   force =     3.12492319   -1.27106612  111.00425149
+     atom   41 type  1   force =     4.09770830   -3.11918883 -110.41244925
+     atom   42 type  1   force =    -4.09770811   -3.11918873  110.41244932
+     atom   43 type  1   force =     0.00000006   -0.00000001    9.53970482
+     atom   44 type  1   force =    -4.09770815   -3.11918887 -110.41244925
+     atom   45 type  1   force =     4.09770827   -3.11918875  110.41244933
+     atom   46 type  1   force =     0.00000002   -3.67201593    0.00000007
+     atom   47 type  1   force =    -0.00000004    3.67201609    0.00000008
+     atom   48 type  1   force =     0.00000000   -0.00000002    9.53970481
+     atom   49 type  2   force =     3.67642467    3.25987988   74.70396184
+     atom   50 type  2   force =    -3.67642466   -3.25987985   74.70396178
+     atom   51 type  2   force =    -3.67642465    3.25987985  -74.70396183
+     atom   52 type  2   force =     3.67642464   -3.25987983  -74.70396179
+     atom   53 type  2   force =    -0.03239969    2.82039954   32.67562356
+     atom   54 type  2   force =     2.17358278    2.19213437   70.13266191
+     atom   55 type  2   force =     0.03239970   -2.82039956   32.67562357
+     atom   56 type  2   force =    -2.17358281   -2.19213438   70.13266186
+     atom   57 type  2   force =     2.33298093    1.89901021   75.73147374
+     atom   58 type  2   force =    -2.33298089    1.89901016  -75.73147375
+     atom   59 type  2   force =     1.78843102    0.04835479   19.38369833
+     atom   60 type  2   force =    -1.78843104    0.04835479  -19.38369832
+     atom   61 type  2   force =    -2.90633737   -2.24264573   25.44920288
+     atom   62 type  2   force =     2.90633731    2.24264573   25.44920285
+     atom   63 type  2   force =     2.90633735   -2.24264573  -25.44920282
+     atom   64 type  2   force =    -2.90633728    2.24264571  -25.44920281
+     atom   65 type  2   force =    -2.17358280    2.19213443   70.13266191
+     atom   66 type  2   force =     0.03239971    2.82039950   32.67562352
+     atom   67 type  2   force =     2.17358277   -2.19213437   70.13266192
+     atom   68 type  2   force =    -0.03239972   -2.82039951   32.67562353
+     atom   69 type  2   force =    -1.78843097    0.04835483   19.38369834
+     atom   70 type  2   force =     1.78843100    0.04835477  -19.38369841
+     atom   71 type  2   force =    -2.33298094    1.89901020   75.73147373
+     atom   72 type  2   force =     2.33298088    1.89901016  -75.73147375
+     atom   73 type  3   force =    -1.48050952    2.15169411  -13.25884361
+     atom   74 type  3   force =     1.48050954   -2.15169416  -13.25884364
+     atom   75 type  3   force =    -1.75097034    1.57430288  -15.93948864
+     atom   76 type  3   force =     1.75097038    1.57430291   15.93948866
+     atom   77 type  3   force =     1.08858763    0.99405681  -16.43045878
+     atom   78 type  3   force =    -1.08858763   -0.99405681  -16.43045878
+     atom   79 type  3   force =    -1.08858764    0.99405681   16.43045878
+     atom   80 type  3   force =     1.08858763   -0.99405681   16.43045878
+     atom   81 type  3   force =     1.48050954    2.15169416  -13.25884363
+     atom   82 type  3   force =    -1.48050952   -2.15169411  -13.25884361
+     atom   83 type  3   force =     1.75097034    1.57430288  -15.93948864
+     atom   84 type  3   force =    -1.75097038    1.57430292   15.93948866
+     atom   85 type  3   force =    -1.08858763   -0.99405681   16.43045878
+     atom   86 type  3   force =     1.08858765    0.99405680   16.43045881
+     atom   87 type  3   force =     1.08858763   -0.99405681  -16.43045878
+     atom   88 type  3   force =    -1.08858765    0.99405680  -16.43045881
+     atom   89 type  3   force =    -1.48050950   -2.15169409   13.25884364
+     atom   90 type  3   force =     1.48050952    2.15169414   13.25884366
+     atom   91 type  3   force =    -1.75097036   -1.57430292   15.93948863
+     atom   92 type  3   force =     1.75097032   -1.57430291  -15.93948865
+     atom   93 type  3   force =     1.48050952   -2.15169414   13.25884366
+     atom   94 type  3   force =    -1.48050950    2.15169409   13.25884364
+     atom   95 type  3   force =     1.75097036   -1.57430295   15.93948867
+     atom   96 type  3   force =    -1.75097032   -1.57430288  -15.93948861
+     The local contribution  to forces
+     atom    1 type  1   force =    -3.15111603   -1.29268187  111.00893878
+     atom    2 type  1   force =     3.15111577    1.29268160  111.00893881
+     atom    3 type  1   force =     3.15111574   -1.29268188 -111.00893922
+     atom    4 type  1   force =     3.15111577   -1.29268191  111.00893877
+     atom    5 type  1   force =    -4.08651875   -3.17196140 -110.43411242
+     atom    6 type  1   force =     4.08651849   -3.17196141  110.43411201
+     atom    7 type  1   force =    -0.00000016   -3.63104798    0.00000009
+     atom    8 type  1   force =    -0.00000015    3.63104771    0.00000008
+     atom    9 type  1   force =    -0.00000015   -0.00000015    9.54308620
+     atom   10 type  1   force =     4.08651846   -3.17196141 -110.43411243
+     atom   11 type  1   force =    -4.08651872   -3.17196141  110.43411202
+     atom   12 type  1   force =    -0.00000013   -0.00000013    9.54308625
+     atom   13 type  2   force =    -2.84863215   -2.17029110   25.43494299
+     atom   14 type  2   force =     2.84863202    2.17029096   25.43494298
+     atom   15 type  2   force =     2.84863201   -2.17029112  -25.43494321
+     atom   16 type  2   force =    -2.84863217    2.17029097  -25.43494322
+     atom   17 type  2   force =    -1.26608813    0.95156349   70.06866207
+     atom   18 type  2   force =    -0.00866818    2.73019489   32.57351245
+     atom   19 type  2   force =     1.26608800   -0.95156363   70.06866205
+     atom   20 type  2   force =     0.00866802   -2.73019506   32.57351242
+     atom   21 type  2   force =    -1.76249356   -0.01786422   19.48513163
+     atom   22 type  2   force =     1.76249342   -0.01786422  -19.48513089
+     atom   23 type  2   force =    -1.35242342    0.84905821   76.48784255
+     atom   24 type  2   force =     1.35242329    0.84905821  -76.48784277
+     atom   25 type  2   force =     2.60156421    2.26275546   75.58567231
+     atom   26 type  2   force =    -2.60156433   -2.26275559   75.58567229
+     atom   27 type  2   force =    -2.60156434    2.26275545  -75.58567248
+     atom   28 type  2   force =     2.60156420   -2.26275560  -75.58567249
+     atom   29 type  2   force =     0.00866804    2.73019491   32.57351246
+     atom   30 type  2   force =     1.26608800    0.95156349   70.06866207
+     atom   31 type  2   force =    -0.00866817   -2.73019504   32.57351243
+     atom   32 type  2   force =    -1.26608814   -0.95156364   70.06866207
+     atom   33 type  2   force =     1.35242330    0.84905822   76.48784259
+     atom   34 type  2   force =    -1.35242343    0.84905822  -76.48784275
+     atom   35 type  2   force =     1.76249343   -0.01786424   19.48513161
+     atom   36 type  2   force =    -1.76249357   -0.01786422  -19.48513091
+     atom   37 type  1   force =     3.15111578    1.29268161 -111.00893920
+     atom   38 type  1   force =    -3.15111605   -1.29268189 -111.00893918
+     atom   39 type  1   force =    -3.15111607    1.29268161  111.00893877
+     atom   40 type  1   force =    -3.15111604    1.29268157 -111.00893922
+     atom   41 type  1   force =    -4.08651753    3.17196109  110.43411203
+     atom   42 type  1   force =     4.08651849    3.17196110 -110.43411243
+     atom   43 type  1   force =    -0.00000013   -0.00000013   -9.54308477
+     atom   44 type  1   force =     4.08651846    3.17196111  110.43411203
+     atom   45 type  1   force =    -4.08651749    3.17196109 -110.43411244
+     atom   46 type  1   force =    -0.00000016    3.63104768    0.00000009
+     atom   47 type  1   force =    -0.00000015   -3.63104672    0.00000008
+     atom   48 type  1   force =    -0.00000015   -0.00000015   -9.54308481
+     atom   49 type  2   force =    -2.60156432   -2.26275558  -75.58567244
+     atom   50 type  2   force =     2.60156420    2.26275545  -75.58567246
+     atom   51 type  2   force =     2.60156419   -2.26275559   75.58567226
+     atom   52 type  2   force =    -2.60156433    2.26275544   75.58567225
+     atom   53 type  2   force =    -0.00866817   -2.73019503  -32.57351171
+     atom   54 type  2   force =    -1.26608814   -0.95156362  -70.06866134
+     atom   55 type  2   force =     0.00866804    2.73019491  -32.57351174
+     atom   56 type  2   force =     1.26608799    0.95156347  -70.06866134
+     atom   57 type  2   force =    -1.35242341   -0.84905835  -76.48784273
+     atom   58 type  2   force =     1.35242329   -0.84905835   76.48784257
+     atom   59 type  2   force =    -1.76249357    0.01786406  -19.48513090
+     atom   60 type  2   force =     1.76249342    0.01786409   19.48513159
+     atom   61 type  2   force =     2.84863203    2.17029099  -25.43494319
+     atom   62 type  2   force =    -2.84863217   -2.17029113  -25.43494320
+     atom   63 type  2   force =    -2.84863217    2.17029097   25.43494297
+     atom   64 type  2   force =     2.84863201   -2.17029112   25.43494296
+     atom   65 type  2   force =     1.26608800   -0.95156362  -70.06866134
+     atom   66 type  2   force =     0.00866803   -2.73019506  -32.57351172
+     atom   67 type  2   force =    -1.26608813    0.95156349  -70.06866136
+     atom   68 type  2   force =    -0.00866819    2.73019489  -32.57351175
+     atom   69 type  2   force =     1.76249344    0.01786408  -19.48513087
+     atom   70 type  2   force =    -1.76249358    0.01786409   19.48513162
+     atom   71 type  2   force =     1.35242330   -0.84905837  -76.48784277
+     atom   72 type  2   force =    -1.35242343   -0.84905837   76.48784255
+     atom   73 type  3   force =     1.41777176   -2.07840739   13.22708514
+     atom   74 type  3   force =    -1.41777175    2.07840742   13.22708516
+     atom   75 type  3   force =     1.69806787   -1.52643190   15.86217275
+     atom   76 type  3   force =    -1.69806790   -1.52643192  -15.86217272
+     atom   77 type  3   force =    -1.04812716   -0.95455232   16.34028465
+     atom   78 type  3   force =     1.04812715    0.95455231   16.34028465
+     atom   79 type  3   force =     1.04812715   -0.95455231  -16.34028466
+     atom   80 type  3   force =    -1.04812715    0.95455231  -16.34028465
+     atom   81 type  3   force =    -1.41777175   -2.07840742   13.22708516
+     atom   82 type  3   force =     1.41777177    2.07840739   13.22708516
+     atom   83 type  3   force =    -1.69806788   -1.52643191   15.86217274
+     atom   84 type  3   force =     1.69806790   -1.52643193  -15.86217273
+     atom   85 type  3   force =     1.04812715    0.95455230  -16.34028466
+     atom   86 type  3   force =    -1.04812716   -0.95455226  -16.34028468
+     atom   87 type  3   force =    -1.04812716    0.95455231   16.34028466
+     atom   88 type  3   force =     1.04812716   -0.95455226   16.34028468
+     atom   89 type  3   force =     1.41777176    2.07840738  -13.22708516
+     atom   90 type  3   force =    -1.41777174   -2.07840742  -13.22708516
+     atom   91 type  3   force =     1.69806788    1.52643196  -15.86217271
+     atom   92 type  3   force =    -1.69806782    1.52643195   15.86217276
+     atom   93 type  3   force =    -1.41777175    2.07840741  -13.22708518
+     atom   94 type  3   force =     1.41777175   -2.07840739  -13.22708516
+     atom   95 type  3   force =    -1.69806785    1.52643198  -15.86217273
+     atom   96 type  3   force =     1.69806786    1.52643194   15.86217273
+     The core correction contribution to forces
+     atom    1 type  1   force =    -0.00139373   -0.00131738   -0.00034354
+     atom    2 type  1   force =     0.00139371    0.00131735   -0.00034354
+     atom    3 type  1   force =     0.00139371   -0.00131738    0.00034350
+     atom    4 type  1   force =     0.00139371   -0.00131738   -0.00034354
+     atom    5 type  1   force =     0.00114577   -0.00282514   -0.00075227
+     atom    6 type  1   force =    -0.00114579   -0.00282514    0.00075223
+     atom    7 type  1   force =    -0.00000001    0.00279966    0.00000000
+     atom    8 type  1   force =    -0.00000001   -0.00279968    0.00000000
+     atom    9 type  1   force =    -0.00000001   -0.00000001    0.00026729
+     atom   10 type  1   force =    -0.00114579   -0.00282514   -0.00075227
+     atom   11 type  1   force =     0.00114577   -0.00282514    0.00075223
+     atom   12 type  1   force =    -0.00000001   -0.00000001    0.00026729
+     atom   13 type  2   force =     0.00023959    0.00041931   -0.00006905
+     atom   14 type  2   force =    -0.00023959   -0.00041931   -0.00006905
+     atom   15 type  2   force =    -0.00023959    0.00041931    0.00006905
+     atom   16 type  2   force =     0.00023959   -0.00041931    0.00006905
+     atom   17 type  2   force =     0.00704793   -0.00994973   -0.00087743
+     atom   18 type  2   force =    -0.00034361   -0.00054753   -0.00071276
+     atom   19 type  2   force =    -0.00704793    0.00994973   -0.00087743
+     atom   20 type  2   force =     0.00034361    0.00054753   -0.00071276
+     atom   21 type  2   force =     0.00001745   -0.00053337    0.00063177
+     atom   22 type  2   force =    -0.00001745   -0.00053337   -0.00063177
+     atom   23 type  2   force =     0.00791838   -0.00867016    0.00613505
+     atom   24 type  2   force =    -0.00791838   -0.00867016   -0.00613505
+     atom   25 type  2   force =    -0.00888466   -0.00818402    0.00704857
+     atom   26 type  2   force =     0.00888466    0.00818402    0.00704857
+     atom   27 type  2   force =     0.00888466   -0.00818402   -0.00704857
+     atom   28 type  2   force =    -0.00888466    0.00818402   -0.00704857
+     atom   29 type  2   force =     0.00034361   -0.00054753   -0.00071276
+     atom   30 type  2   force =    -0.00704793   -0.00994973   -0.00087743
+     atom   31 type  2   force =    -0.00034361    0.00054753   -0.00071276
+     atom   32 type  2   force =     0.00704793    0.00994973   -0.00087743
+     atom   33 type  2   force =    -0.00791838   -0.00867016    0.00613505
+     atom   34 type  2   force =     0.00791838   -0.00867016   -0.00613505
+     atom   35 type  2   force =    -0.00001745   -0.00053337    0.00063177
+     atom   36 type  2   force =     0.00001745   -0.00053337   -0.00063177
+     atom   37 type  1   force =     0.00139371    0.00131735    0.00034350
+     atom   38 type  1   force =    -0.00139373   -0.00131738    0.00034350
+     atom   39 type  1   force =    -0.00139374    0.00131735   -0.00034354
+     atom   40 type  1   force =    -0.00139373    0.00131735    0.00034350
+     atom   41 type  1   force =     0.00114588    0.00282511    0.00075223
+     atom   42 type  1   force =    -0.00114579    0.00282511   -0.00075227
+     atom   43 type  1   force =    -0.00000001   -0.00000001   -0.00026720
+     atom   44 type  1   force =    -0.00114579    0.00282511    0.00075223
+     atom   45 type  1   force =     0.00114588    0.00282511   -0.00075227
+     atom   46 type  1   force =    -0.00000001   -0.00279968    0.00000000
+     atom   47 type  1   force =    -0.00000001    0.00279977    0.00000000
+     atom   48 type  1   force =    -0.00000001   -0.00000001   -0.00026720
+     atom   49 type  2   force =     0.00888466    0.00818402   -0.00704857
+     atom   50 type  2   force =    -0.00888466   -0.00818402   -0.00704857
+     atom   51 type  2   force =    -0.00888466    0.00818402    0.00704857
+     atom   52 type  2   force =     0.00888466   -0.00818402    0.00704857
+     atom   53 type  2   force =    -0.00034361    0.00054753    0.00071276
+     atom   54 type  2   force =     0.00704793    0.00994973    0.00087743
+     atom   55 type  2   force =     0.00034361   -0.00054753    0.00071276
+     atom   56 type  2   force =    -0.00704793   -0.00994973    0.00087742
+     atom   57 type  2   force =     0.00791838    0.00867016   -0.00613504
+     atom   58 type  2   force =    -0.00791838    0.00867016    0.00613505
+     atom   59 type  2   force =     0.00001745    0.00053337   -0.00063177
+     atom   60 type  2   force =    -0.00001745    0.00053337    0.00063177
+     atom   61 type  2   force =    -0.00023959   -0.00041931    0.00006905
+     atom   62 type  2   force =     0.00023959    0.00041931    0.00006905
+     atom   63 type  2   force =     0.00023959   -0.00041931   -0.00006905
+     atom   64 type  2   force =    -0.00023959    0.00041931   -0.00006905
+     atom   65 type  2   force =    -0.00704793    0.00994973    0.00087742
+     atom   66 type  2   force =     0.00034361    0.00054753    0.00071276
+     atom   67 type  2   force =     0.00704793   -0.00994973    0.00087742
+     atom   68 type  2   force =    -0.00034361   -0.00054753    0.00071276
+     atom   69 type  2   force =    -0.00001745    0.00053337   -0.00063177
+     atom   70 type  2   force =     0.00001745    0.00053337    0.00063177
+     atom   71 type  2   force =    -0.00791838    0.00867016   -0.00613505
+     atom   72 type  2   force =     0.00791838    0.00867016    0.00613504
+     atom   73 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   74 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   75 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   76 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   77 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   78 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   79 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   80 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   81 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   82 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   83 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   84 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   85 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   86 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   87 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   88 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   89 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   90 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   91 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   92 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   93 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   94 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   95 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   96 type  3   force =     0.00000000    0.00000000    0.00000000
+     The Hubbard contrib.    to forces
+     atom    1 type  1   force =     0.00000000    0.00000000    0.00000000
+     atom    2 type  1   force =     0.00000000    0.00000000    0.00000000
+     atom    3 type  1   force =     0.00000000    0.00000000    0.00000000
+     atom    4 type  1   force =     0.00000000    0.00000000    0.00000000
+     atom    5 type  1   force =     0.00000000    0.00000000    0.00000000
+     atom    6 type  1   force =     0.00000000    0.00000000    0.00000000
+     atom    7 type  1   force =     0.00000000    0.00000000    0.00000000
+     atom    8 type  1   force =     0.00000000    0.00000000    0.00000000
+     atom    9 type  1   force =     0.00000000    0.00000000    0.00000000
+     atom   10 type  1   force =     0.00000000    0.00000000    0.00000000
+     atom   11 type  1   force =     0.00000000    0.00000000    0.00000000
+     atom   12 type  1   force =     0.00000000    0.00000000    0.00000000
+     atom   13 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   14 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   15 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   16 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   17 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   18 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   19 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   20 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   21 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   22 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   23 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   24 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   25 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   26 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   27 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   28 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   29 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   30 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   31 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   32 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   33 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   34 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   35 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   36 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   37 type  1   force =     0.00000000    0.00000000    0.00000000
+     atom   38 type  1   force =     0.00000000    0.00000000    0.00000000
+     atom   39 type  1   force =     0.00000000    0.00000000    0.00000000
+     atom   40 type  1   force =     0.00000000    0.00000000    0.00000000
+     atom   41 type  1   force =     0.00000000    0.00000000    0.00000000
+     atom   42 type  1   force =     0.00000000    0.00000000    0.00000000
+     atom   43 type  1   force =     0.00000000    0.00000000    0.00000000
+     atom   44 type  1   force =     0.00000000    0.00000000    0.00000000
+     atom   45 type  1   force =     0.00000000    0.00000000    0.00000000
+     atom   46 type  1   force =     0.00000000    0.00000000    0.00000000
+     atom   47 type  1   force =     0.00000000    0.00000000    0.00000000
+     atom   48 type  1   force =     0.00000000    0.00000000    0.00000000
+     atom   49 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   50 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   51 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   52 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   53 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   54 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   55 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   56 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   57 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   58 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   59 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   60 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   61 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   62 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   63 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   64 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   65 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   66 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   67 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   68 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   69 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   70 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   71 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   72 type  2   force =     0.00000000    0.00000000    0.00000000
+     atom   73 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   74 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   75 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   76 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   77 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   78 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   79 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   80 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   81 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   82 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   83 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   84 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   85 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   86 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   87 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   88 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   89 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   90 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   91 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   92 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   93 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   94 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   95 type  3   force =     0.00000000    0.00000000    0.00000000
+     atom   96 type  3   force =     0.00000000    0.00000000    0.00000000
+     The SCF correction term to forces
+     atom    1 type  1   force =    -0.00000481    0.00000006    0.00000062
+     atom    2 type  1   force =     0.00000481   -0.00000006    0.00000062
+     atom    3 type  1   force =     0.00000480    0.00000006   -0.00000059
+     atom    4 type  1   force =     0.00000479    0.00000006    0.00000062
+     atom    5 type  1   force =    -0.00000382   -0.00000468   -0.00000107
+     atom    6 type  1   force =     0.00000382   -0.00000468    0.00000110
+     atom    7 type  1   force =     0.00000000   -0.00000447    0.00000001
+     atom    8 type  1   force =    -0.00000000    0.00000447    0.00000001
+     atom    9 type  1   force =    -0.00000000   -0.00000000   -0.00000710
+     atom   10 type  1   force =     0.00000382   -0.00000469   -0.00000107
+     atom   11 type  1   force =    -0.00000382   -0.00000468    0.00000110
+     atom   12 type  1   force =     0.00000000   -0.00000000   -0.00000711
+     atom   13 type  2   force =    -0.00000171   -0.00000149    0.00000291
+     atom   14 type  2   force =     0.00000171    0.00000149    0.00000291
+     atom   15 type  2   force =     0.00000171   -0.00000150   -0.00000289
+     atom   16 type  2   force =    -0.00000170    0.00000149   -0.00000289
+     atom   17 type  2   force =    -0.00000104   -0.00000024    0.00000184
+     atom   18 type  2   force =    -0.00000013    0.00000202    0.00000279
+     atom   19 type  2   force =     0.00000104    0.00000024    0.00000184
+     atom   20 type  2   force =     0.00000013   -0.00000202    0.00000279
+     atom   21 type  2   force =    -0.00000151   -0.00000028   -0.00000021
+     atom   22 type  2   force =     0.00000151   -0.00000028    0.00000022
+     atom   23 type  2   force =    -0.00000075   -0.00000037    0.00000180
+     atom   24 type  2   force =     0.00000074   -0.00000037   -0.00000178
+     atom   25 type  2   force =     0.00000008   -0.00000026    0.00000465
+     atom   26 type  2   force =    -0.00000008    0.00000026    0.00000465
+     atom   27 type  2   force =    -0.00000008   -0.00000026   -0.00000464
+     atom   28 type  2   force =     0.00000008    0.00000025   -0.00000464
+     atom   29 type  2   force =     0.00000012    0.00000202    0.00000279
+     atom   30 type  2   force =     0.00000104   -0.00000024    0.00000184
+     atom   31 type  2   force =    -0.00000012   -0.00000202    0.00000279
+     atom   32 type  2   force =    -0.00000103    0.00000024    0.00000184
+     atom   33 type  2   force =     0.00000074   -0.00000037    0.00000179
+     atom   34 type  2   force =    -0.00000074   -0.00000037   -0.00000178
+     atom   35 type  2   force =     0.00000151   -0.00000028   -0.00000021
+     atom   36 type  2   force =    -0.00000151   -0.00000028    0.00000022
+     atom   37 type  1   force =     0.00000480   -0.00000006   -0.00000059
+     atom   38 type  1   force =    -0.00000480    0.00000006   -0.00000059
+     atom   39 type  1   force =    -0.00000479   -0.00000006    0.00000062
+     atom   40 type  1   force =    -0.00000480   -0.00000006   -0.00000059
+     atom   41 type  1   force =    -0.00000381    0.00000468    0.00000110
+     atom   42 type  1   force =     0.00000381    0.00000468   -0.00000107
+     atom   43 type  1   force =     0.00000000    0.00000000    0.00000712
+     atom   44 type  1   force =     0.00000381    0.00000468    0.00000110
+     atom   45 type  1   force =    -0.00000381    0.00000469   -0.00000107
+     atom   46 type  1   force =    -0.00000000    0.00000447    0.00000001
+     atom   47 type  1   force =     0.00000001   -0.00000447    0.00000001
+     atom   48 type  1   force =    -0.00000000   -0.00000000    0.00000713
+     atom   49 type  2   force =    -0.00000008    0.00000026   -0.00000464
+     atom   50 type  2   force =     0.00000008   -0.00000026   -0.00000464
+     atom   51 type  2   force =     0.00000008    0.00000026    0.00000465
+     atom   52 type  2   force =    -0.00000008   -0.00000026    0.00000465
+     atom   53 type  2   force =    -0.00000012   -0.00000202   -0.00000277
+     atom   54 type  2   force =    -0.00000104    0.00000024   -0.00000183
+     atom   55 type  2   force =     0.00000013    0.00000202   -0.00000277
+     atom   56 type  2   force =     0.00000104   -0.00000024   -0.00000183
+     atom   57 type  2   force =    -0.00000075    0.00000037   -0.00000178
+     atom   58 type  2   force =     0.00000075    0.00000037    0.00000179
+     atom   59 type  2   force =    -0.00000151    0.00000028    0.00000022
+     atom   60 type  2   force =     0.00000152    0.00000028   -0.00000021
+     atom   61 type  2   force =     0.00000171    0.00000149   -0.00000289
+     atom   62 type  2   force =    -0.00000171   -0.00000149   -0.00000289
+     atom   63 type  2   force =    -0.00000170    0.00000150    0.00000290
+     atom   64 type  2   force =     0.00000171   -0.00000149    0.00000290
+     atom   65 type  2   force =     0.00000104    0.00000025   -0.00000183
+     atom   66 type  2   force =     0.00000012   -0.00000202   -0.00000277
+     atom   67 type  2   force =    -0.00000104   -0.00000025   -0.00000183
+     atom   68 type  2   force =    -0.00000013    0.00000202   -0.00000277
+     atom   69 type  2   force =     0.00000151    0.00000028    0.00000022
+     atom   70 type  2   force =    -0.00000151    0.00000028   -0.00000021
+     atom   71 type  2   force =     0.00000074    0.00000037   -0.00000178
+     atom   72 type  2   force =    -0.00000074    0.00000037    0.00000179
+     atom   73 type  3   force =     0.00000046   -0.00000072    0.00000079
+     atom   74 type  3   force =    -0.00000046    0.00000072    0.00000079
+     atom   75 type  3   force =     0.00000033   -0.00000031    0.00000097
+     atom   76 type  3   force =    -0.00000033   -0.00000031   -0.00000097
+     atom   77 type  3   force =    -0.00000013   -0.00000010    0.00000106
+     atom   78 type  3   force =     0.00000013    0.00000010    0.00000106
+     atom   79 type  3   force =     0.00000013   -0.00000010   -0.00000105
+     atom   80 type  3   force =    -0.00000013    0.00000010   -0.00000105
+     atom   81 type  3   force =    -0.00000046   -0.00000072    0.00000079
+     atom   82 type  3   force =     0.00000046    0.00000072    0.00000079
+     atom   83 type  3   force =    -0.00000033   -0.00000031    0.00000097
+     atom   84 type  3   force =     0.00000033   -0.00000031   -0.00000097
+     atom   85 type  3   force =     0.00000013    0.00000010   -0.00000105
+     atom   86 type  3   force =    -0.00000013   -0.00000010   -0.00000105
+     atom   87 type  3   force =    -0.00000013    0.00000010    0.00000105
+     atom   88 type  3   force =     0.00000013   -0.00000010    0.00000106
+     atom   89 type  3   force =     0.00000046    0.00000072   -0.00000079
+     atom   90 type  3   force =    -0.00000046   -0.00000072   -0.00000079
+     atom   91 type  3   force =     0.00000033    0.00000031   -0.00000097
+     atom   92 type  3   force =    -0.00000033    0.00000031    0.00000097
+     atom   93 type  3   force =    -0.00000046    0.00000072   -0.00000079
+     atom   94 type  3   force =     0.00000046   -0.00000072   -0.00000079
+     atom   95 type  3   force =    -0.00000033    0.00000031   -0.00000097
+     atom   96 type  3   force =     0.00000033    0.00000031    0.00000097
+
+     Total force =     0.006105     Total SCF correction =     0.000036
+
+
+     Computing stress (Cartesian axis) and pressure
+
+
+     negative rho (up, down):  1.790E-03 0.000E+00
+          total   stress  (Ry/bohr**3)                   (kbar)     P=       -0.32
+  -0.00000039   0.00000000   0.00000000           -0.06        0.00        0.00
+   0.00000000  -0.00000088   0.00000000            0.00       -0.13        0.00
+   0.00000000   0.00000000  -0.00000520            0.00        0.00       -0.77
+
+     kinetic stress (kbar)   7562.29      0.00      0.00
+                                0.00   7549.65      0.00
+                                0.00      0.00   7515.29
+
+     local   stress (kbar)-453681.96     -0.00     -0.00
+                               -0.00-454288.92     -0.00
+                               -0.00     -0.00 451393.22
+
+     nonloc. stress (kbar)   -526.82      0.00      0.00
+                                0.00   -525.11      0.00
+                                0.00      0.00   -528.60
+
+     hartree stress (kbar) 227412.71     -0.00      0.00
+                               -0.00 227654.75      0.00
+                                0.00      0.00-222816.68
+
+     exc-cor stress (kbar)   2459.88      0.00      0.00
+                                0.00   2460.45     -0.00
+                                0.00     -0.00   2459.67
+
+     corecor stress (kbar)  -4275.30     -0.00     -0.00
+                               -0.00  -4275.40     -0.00
+                               -0.00     -0.00  -4275.16
+
+     ewald   stress (kbar) 221049.15      0.00      0.00
+                                0.00 221424.45     -0.00
+                                0.00     -0.00-233748.51
+
+     hubbard stress (kbar)      0.00      0.00      0.00
+                                0.00      0.00      0.00
+                                0.00      0.00      0.00
+
+     DFT-D   stress (kbar)      0.00      0.00      0.00
+                                0.00      0.00      0.00
+                                0.00      0.00      0.00
+
+     XDM     stress (kbar)      0.00      0.00      0.00
+                                0.00      0.00      0.00
+                                0.00      0.00      0.00
+
+     dft-nl  stress (kbar)      0.00      0.00      0.00
+                                0.00      0.00      0.00
+                                0.00      0.00      0.00
+
+     TS-vdW  stress (kbar)      0.00      0.00      0.00
+                                0.00      0.00      0.00
+                                0.00      0.00      0.00
+
+     MDB     stress (kbar)      0.00      0.00      0.00
+                                0.00      0.00      0.00
+                                0.00      0.00      0.00
+
+     3D-RISM stress (kbar)      0.00      0.00      0.00
+                                0.00      0.00      0.00
+                                0.00      0.00      0.00
+
+
+     Writing all to output data dir ./tmp/slab.save/ :
+     XML data file, charge density, pseudopotentials, collected wavefunctions
+ 
+     init_run     :     18.93s CPU     68.73s WALL (       1 calls)
+     electrons    :    618.91s CPU   1784.66s WALL (       1 calls)
+     forces       :      3.66s CPU      5.88s WALL (       1 calls)
+     stress       :      3.27s CPU     21.91s WALL (       1 calls)
+
+     Called by init_run:
+     wfcinit      :      1.70s CPU     35.81s WALL (       1 calls)
+     wfcinit:atom :      0.04s CPU      0.07s WALL (       4 calls)
+     wfcinit:wfcr :      0.51s CPU     33.61s WALL (       4 calls)
+     potinit      :     12.13s CPU     24.24s WALL (       1 calls)
+     hinit0       :      2.79s CPU      2.97s WALL (       1 calls)
+
+     Called by electrons:
+     c_bands      :    159.19s CPU   1090.24s WALL (      54 calls)
+     sum_band     :     64.29s CPU    165.62s WALL (      54 calls)
+     v_of_rho     :      5.59s CPU      9.36s WALL (      55 calls)
+     v_h          :      3.01s CPU      4.97s WALL (      55 calls)
+     v_xc         :      2.66s CPU      4.55s WALL (      57 calls)
+     newd         :      2.54s CPU     11.88s WALL (      55 calls)
+                                       11.88s GPU  (      55 calls)
+     PAW_pot      :    361.95s CPU    468.94s WALL (      55 calls)
+     mix_rho      :     17.08s CPU     30.93s WALL (      54 calls)
+
+     Called by c_bands:
+     init_us_2    :      1.61s CPU      5.42s WALL (     444 calls)
+     cegterg      :     59.16s CPU    945.20s WALL (     216 calls)
+
+     Called by sum_band:
+     sum_band:wei :      0.00s CPU      0.00s WALL (      54 calls)
+                                        0.00s GPU  (      54 calls)
+     sum_band:loo :     41.33s CPU     93.83s WALL (      54 calls)
+                                       93.82s GPU  (      54 calls)
+     sum_band:buf :     33.78s CPU     44.98s WALL (     216 calls)
+                                       44.98s GPU  (     216 calls)
+     sum_band:ini :      0.82s CPU      2.62s WALL (     216 calls)
+                                        2.62s GPU  (     216 calls)
+     sum_band:cal :      0.03s CPU      8.75s WALL (     216 calls)
+                                        8.57s GPU  (     216 calls)
+     sum_band:bec :      1.13s CPU      1.61s WALL (     216 calls)
+                                        1.61s GPU  (     216 calls)
+     addusdens    :      3.28s CPU     14.41s WALL (      54 calls)
+                                       14.41s GPU  (      54 calls)
+     addusd:skk   :      0.16s CPU      0.90s WALL (     162 calls)
+                                        0.90s GPU  (     162 calls)
+
+     Called by *egterg:
+     cdiaghg      :      4.06s CPU     18.47s WALL (    1498 calls)
+                                       18.45s GPU  (    1498 calls)
+     cegterg:over :      5.13s CPU     56.66s WALL (    1282 calls)
+     cegterg:upda :      4.28s CPU     21.33s WALL (    1282 calls)
+     cegterg:last :      3.52s CPU     36.05s WALL (     565 calls)
+     h_psi        :     34.55s CPU    812.71s WALL (    1502 calls)
+                                      812.27s GPU  (    1502 calls)
+     s_psi        :      5.56s CPU      9.77s WALL (    1502 calls)
+     g_psi        :      0.01s CPU      3.08s WALL (    1282 calls)
+                                        3.07s GPU  (    1282 calls)
+
+     Called by h_psi:
+     h_psi:calbec :      0.09s CPU     30.23s WALL (    1502 calls)
+                                       30.20s GPU  (    1502 calls)
+     vloc_psi     :     23.34s CPU    744.19s WALL (    1502 calls)
+                                      744.16s GPU  (    1502 calls)
+     add_vuspsi   :      5.64s CPU     36.12s WALL (    1502 calls)
+                                       36.10s GPU  (    1502 calls)
+
+     General routines
+     calbec       :      0.09s CPU      0.24s WALL (    1738 calls)
+     fft          :      9.29s CPU     13.54s WALL (     738 calls)
+                                        0.95s GPU  (     683 calls)
+     ffts         :      3.87s CPU     49.07s WALL (    6628 calls)
+                                       38.72s GPU  (    6573 calls)
+     fftw         :      2.32s CPU    716.11s WALL (   32922 calls)
+                                      715.55s GPU  (   32922 calls)
+     interpolate  :     14.67s CPU     26.04s WALL (      55 calls)
+ 
+     Parallel routines
+
+     PAW routines
+     PAW_pot      :    361.95s CPU    468.94s WALL (      55 calls)
+     PAW_symme    :      0.11s CPU      0.12s WALL (     109 calls)
+ 
+     PWSCF        :  10m46.87s CPU  31m30.21s WALL
+
+ 
+   This run was terminated on:   9:18:57  29Sep2026            
+
+=------------------------------------------------------------------------------=
+   JOB DONE.
+=------------------------------------------------------------------------------=
+Warning: ieee_invalid is signaling
+Warning: ieee_divide_by_zero is signaling
+Warning: ieee_inexact is signaling
+FORTRAN STOP

@@ -27,9 +27,10 @@ def one(d):
         return None
     vbm, cbm = map(float, m[-1])
     avg = next(d.glob('*_avg.dat'), None)
+    it, fo = re.findall(r'convergence has been achieved in\s+(\d+)', scf), re.findall(r'Total force =\s+([\d.]+)', scf)
     rec = {'job': d.name, 'VBM_eV': vbm, 'CBM_eV': cbm, 'gap_eV': round(cbm - vbm, 4),
-           'scf_iterations': int(re.findall(r'convergence has been achieved in\s+(\d+)', scf)[-1]),
-           'total_force_Ry_bohr': float(re.findall(r'Total force =\s+([\d.]+)', scf)[-1])}
+           'scf_iterations': int(it[-1]) if it else None,
+           'total_force_Ry_bohr': float(fo[-1]) if fo else None}   # None: SCF run without forces (GPU final, 2026-10-04)
     if avg:
         z, v = np.loadtxt(avg, usecols=(0, 1), unpack=True)
         c = z.max() + (z[1] - z[0])

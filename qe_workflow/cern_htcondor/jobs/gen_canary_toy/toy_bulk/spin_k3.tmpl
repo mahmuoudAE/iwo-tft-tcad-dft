@@ -1,0 +1,23 @@
+&CONTROL
+  calculation = 'scf', prefix = 'spin', outdir = './tmp', pseudo_dir = './'
+  verbosity = 'low', tprnfor = .true., tstress = .true., max_seconds = 1.0d8
+/
+&SYSTEM
+  ibrav = 0, nat = 2, ntyp = 1, ecutwfc = 40, ecutrho = 320
+  occupations = 'smearing', smearing = 'mv', degauss = 0.02
+  nspin = 2, starting_magnetization(1) = 0.5
+/
+&ELECTRONS
+  conv_thr = 1.0d-6, mixing_beta = 0.2, electron_maxstep = 100
+/
+ATOMIC_SPECIES
+  W 183.84 W.pbe-spn-kjpaw_psl.1.0.0.UPF
+CELL_PARAMETERS angstrom
+  3.1700000000 0.0000000000 0.0000000000
+  0.0000000000 3.1700000000 0.0000000000
+  0.0000000000 0.0000000000 3.1700000000
+ATOMIC_POSITIONS crystal
+  W   0.0000000000 0.0000000000 0.0000000000
+  W   0.5157728707 0.5000000000 0.5000000000
+K_POINTS automatic
+  4 4 4 0 0 0

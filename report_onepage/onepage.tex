@@ -1,0 +1,93 @@
+\documentclass[9pt]{extarticle}
+\usepackage[a4paper,margin=1.35cm,top=1.1cm,bottom=1.1cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{newtxtext,newtxmath}
+\usepackage{booktabs,tabularx,array,multicol}
+\usepackage[hidelinks]{hyperref}
+\setlength{\parindent}{0pt}\setlength{\parskip}{2pt}
+\setlength{\tabcolsep}{3.5pt}\renewcommand{\arraystretch}{1.02}
+\newcommand{\sect}[1]{\par\vspace{3pt}{\bfseries #1}\par\vspace{1pt}}
+\newcommand{\InO}{In$_2$O$_3$}
+\pagestyle{empty}
+\begin{document}
+
+\begin{center}
+{\large\bfseries First-principles inputs for thickness-dependent TCAD of ultrathin IWO thin-film transistors}\\[2pt]
+Mahmoud Elrasheedy \quad PI: Chao-Hsin Wu \quad Mentor: Mukul Kumar \quad Status report, 1 October 2026
+\end{center}
+
+\sect{1. Aim and method}
+The Silvaco ATLAS model of W-doped \InO{} (IWO) TFTs (channel 2.0/6.3/13.2/31.8\,nm) uses pure-\InO{} DFT proxies for the
+confinement shift $\Delta E_g(t)$ and mass increase $\Delta m^*(t)$ \cite{lin}. These are recomputed here, consistently and
+specifically for IWO. Quantum ESPRESSO \cite{qe}, PBE, PAW (pslibrary 1.0.0 \cite{dc}), 71/568\,Ry; bixbyite Ia$\bar 3$
+\cite{mar}; slabs built with the recipe of Lin et al.\ (p.~21542): In layer removed, one H per surface O, 25\,\AA{} vacuum,
+3$\times$3$\times$1 $k$-points. All acceptance criteria were fixed before the results; every deviation is recorded.
+Values are \emph{computed}, not \emph{validated}.
+
+\sect{2. Results}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{4.3cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{4.4cm}@{}}
+\toprule
+Quantity & This work & Reference / check \\
+\midrule
+Bulk lattice constant (PBE) & $a = 10.306$\,\AA{} (+1.87\,\%) & exp.\ 10.117\,\AA{} \cite{mar}; Lin 10.30\,\AA \\
+Bulk gap / CB mass (PBE) & 0.889\,eV / $0.159\,m_0$ ($\alpha \approx 0.6$\,eV$^{-1}$) & Lin 0.94\,eV / $0.17\,m_0$ \\
+Vacuum convergence (1\,nm slab) & $\le 0.1$\,meV change, 15--35\,\AA & criterion 10\,meV: passed \\
+\textbf{Relaxed 1\,nm slab} (67 BFGS steps) & \textbf{$\Delta E_g = +0.90$\,eV}, $m^* = 0.281\,m_0$ (\textbf{$\Delta m^* = +0.122\,m_0$}) & Lin +0.94\,eV, $+0.13\,m_0$: reproduced \\
+Unrelaxed 1\,nm slab & $\Delta E_g = +0.07$\,eV & relaxation is essential \\
+Band edges, relaxed 1\,nm slab & EA 3.93\,eV, IP 5.72\,eV (PBE) & CPU 7.5 and GPU 7.3.1 runs identical \\
+\textbf{HSE06 check} \cite{hse} (SG15 NC \cite{sg15}) & $\Delta E_g$: PBE 0.886, HSE 0.940\,eV; \textbf{ratio 1.06} (1.06--1.11) & criterion $<$10\,\%: PBE accepted \\
+\textbf{W site} (80-atom cell, 3.1\,\% W) & \textbf{24d preferred by 0.258\,eV} ($k$-converged, 0.3\,meV) & --- \\
+W valence & W--O 1.97--1.98\,\AA{} $\Rightarrow$ \textbf{W$^{6+}$} & Shannon W$^{6+}$ 1.98\,\AA{} \cite{sh} \\
+W 5d states (bulk and 1\,nm slab) & $E_F$ in W-5d-rich states ($\sim$50--56\,\% W); in the slab a W state $\sim$0.19\,eV below the host CB & preliminary (PBE; moments 0.6--0.7\,$\mu_B$, coarse $k$) \\
+\bottomrule
+\end{tabularx}
+
+\sect{3. Computing resources}
+\begin{multicols}{2}
+\begin{tabularx}{\columnwidth}{@{}>{\raggedright\arraybackslash}X r@{}}
+\toprule
+Resource & Amount \\
+\midrule
+CERN HTCondor CPU (weighted) & $\sim$8{,}300 core-h \\
+CERN GPU (A100, H100 NVL) & $\sim$85--90 GPU-h \\
+\quad of which productive & $\sim$35 GPU-h \\
+Laptop (WSL, 10 MPI) & $\sim$190 core-h \\
+EOS storage (QE env, GPU container) & 0.34 + 1.6\,GB \\
+Largest job (2\,nm slab, 176 atoms) & 30--100\,GB RAM \\
+\bottomrule
+\end{tabularx}
+\columnbreak
+
+\textbf{Speed-ups measured.} H100 vs 16 CPU cores: \textbf{8.2$\times$}, identical energy ($\Delta E = 5\times10^{-7}$\,Ry);
+norm-conserving HSE06 bulk 37\,min on GPU vs no progress in 10\,h with PAW.
+\textbf{Laptop equivalent.} $\sim$9{,}900 useful core-h $\approx$ 6 weeks of 24/7 running (realistically 2--3 months);
+the 2\,nm slab and HSE slab exceed its 15\,GB memory and cannot run at all. On CERN: $\sim$5 days.
+\textbf{Losses} ($\sim$3{,}000 core-h, $\sim$50 GPU-h, $\sim$2 days): thread oversubscription, wall-time kill,
+MPI/InfiniBand error loops, PAW-HSE on host CPU, workflow-rule bugs. All fixed and logged.
+\end{multicols}
+
+\sect{4. Workflow}
+One documented tool (\texttt{dft\_flow.sh}): automatic CPU/GPU allocation, CPU-twin/upgrade races, watchdog
+(memory holds, idle and stuck jobs), EOS checkpoints, automatic continuation and job chaining, keepalive and a live
+dashboard; tested by fault-injection (canary) jobs, which exposed and fixed three bugs.
+
+\sect{5. Implications and next steps}
+(i) The 1\,nm confinement point used in the TCAD model is independently confirmed (+0.90\,eV PBE; +0.95--1.00\,eV
+HSE-corrected). (ii) PBE's gap error barely affects the confinement \emph{shift} (ratio 1.06), supporting the
+slab-minus-bulk approach. (iii) W is a W$^{6+}$ donor whose electrons partly occupy W-5d states (PBE), consistent with
+treating the channel donor density as a fitted, film-specific parameter. \textbf{Pending}: relaxed 2\,nm slab (BFGS step 28,
+expected 2 Oct), $\Delta E_c/\Delta E_v$ partition, 2\,nm IWO slab (automatic chain), then the ATLAS update.
+
+\vspace{-4pt}
+\renewcommand{\refname}{\normalsize References}
+{\footnotesize
+\begin{thebibliography}{9}\setlength{\itemsep}{-2pt}
+\bibitem{lin} Lin et al., ACS Nano 16, 21536 (2022).
+\bibitem{qe} P. Giannozzi et al., J. Phys.: Condens. Matter 21, 395502 (2009); 29, 465901 (2017).
+\bibitem{dc} A. Dal Corso, Comput. Mater. Sci. 95, 337 (2014).
+\bibitem{mar} M. Marezio, Acta Crystallogr. 20, 723 (1966).
+\bibitem{sh} R. D. Shannon, Acta Crystallogr. A 32, 751 (1976).
+\bibitem{hse} J. Heyd, G. E. Scuseria, M. Ernzerhof, J. Chem. Phys. 118, 8207 (2003).
+\bibitem{sg15} M. Schlipf, F. Gygi, Comput. Phys. Commun. 196, 36 (2015).
+\end{thebibliography}}
+\end{document}

@@ -1,0 +1,1706 @@
+% Chapter: first-principles (density-functional) inputs of the device model.
+% Writer-local environment (plain style, as the report's other note environments).
+\newenvironment{dftplain}{\par\medskip\noindent\textit{In plain words.}\ }{\par\medskip}
+
+\chapter{First-principles inputs: density-functional calculations of \texorpdfstring{\InO}{In2O3} and IWO films}
+\label{ch:dft}
+
+The device model of the previous chapters needs to know how the electronic properties of an \IWO{} film change when
+the film becomes only one or two nanometres thick: by how much the band gap opens, how the opening is shared between
+the conduction and the valence band, and how heavy the electrons become. It also needs to know what a tungsten atom
+does inside indium oxide. None of these quantities has been measured for the target films. Until this chapter they
+were taken over from published calculations on pure \InO{} and carried the provenance label
+\prov{DFT\_PURE\_IN2O3\_PROXY} with an assigned uncertainty of $\pm50$\,\% (\cref{sec:par-dec,sec:par-mstar}).
+
+This chapter describes a first-principles study carried out to replace those proxies by values computed in one
+consistent setup, and to add what the literature does not give for \IWO. Because the method is far from the device
+physics of the other chapters, the chapter is written so that it can be read without prior knowledge of
+density-functional theory (DFT). It proceeds in the order in which the work was done: why the calculations are
+needed (\cref{sec:dft-motivation}); the vocabulary (\cref{sec:dft-glossary}); how a DFT calculation works
+(\cref{sec:dft-theory}); how the material is defined for the computer (\cref{sec:dft-material}); every calculation
+with its settings and result (\cref{sec:dft-calcs}); how the calculations were run on the CERN batch system and on
+GPUs (\cref{sec:dft-compute}); how the numbers and figures are obtained from the output files
+(\cref{sec:dft-analysis}); and what changes in the device model (\cref{sec:dft-pending}). Each idea is first
+explained in plain words and then stated precisely. All numbers are read from the output files of the calculations
+by scripts; the dated log of every value is \file{qe_workflow/cern_htcondor/results/RESULTS_LOG.md}.
+
+Method references that are not bundled with the package (marked by the absence of a page number) are cited for the
+method as a whole; no page-specific statement is taken from them. Statements about Quantum ESPRESSO, Lin et al.\ and
+Si et al.\ carry the printed page of the bundled text.
+
+% =====================================================================================================================
+\section{Why first-principles calculations are needed}
+\label{sec:dft-motivation}
+
+\begin{dftplain}
+A transistor channel that is only 2~nm thick is a few atomic layers of oxide. In such a thin film the electrons are
+squeezed between the two surfaces, and quantum mechanics then raises the lowest energy they can have (the band gap
+opens) and changes how easily they move (their effective mass grows). The device simulator cannot work this out by
+itself; it must be told. The numbers can come from measurements on the films, which do not exist, or from a
+calculation that starts from the atoms alone. Such a calculation is called ``first-principles'' or ``ab initio'',
+because it uses no adjustable parameters fitted to the material, only the laws of quantum mechanics and the positions
+of the atoms.
+\end{dftplain}
+
+The thickness dependence enters the device model through two laws, the confinement shift of the conduction-band edge
+$\dEc(t) = 0.9205\,t^{-1.3815}$~eV ($t$ in nm, \cref{eq:dec-law}), fitted to the slab-minus-bulk gaps of
+\citet[p.~21542]{Lin2022} and the conduction-band shift of \citet[p.~504]{Si2021}, and an increment of the effective mass
+based on the slab masses of \citet[p.~21540]{Lin2022}. Three weaknesses motivated new calculations:
+\begin{enumerate}
+\item The proxies describe pure \InO; the channel is W-doped, and the role of W was unknown.
+\item The published values come from different codes and settings, and their uncertainty could only be assigned
+($\pm50$\,\%), not estimated.
+\item The semi-local functional used in all of them is known to fail for band gaps (\cref{sec:dft-xc}); whether it is
+adequate for the \emph{change} of the gap with thickness had not been tested.
+\end{enumerate}
+
+The study therefore asks five questions:
+\begin{description}[leftmargin=1.2em]
+\item[Q1] Does an independent calculation reproduce the published confinement of a 1~nm film?
+\item[Q2] What are the confinement shift and the mass at 2~nm, the thinnest device?
+\item[Q3] How is the gap opening shared between conduction and valence band ($\dEc$ versus $\Delta E_{\mathrm{v}}$)?
+\item[Q4] Is the semi-local functional adequate for the shift, as opposed to the gap itself?
+\item[Q5] Where does W sit in the lattice, which valence does it take, and what happens to its electrons?
+\end{description}
+\Cref{fig:dft-pipeline} shows how the answers travel from the atoms to the device model.
+
+\begin{figure}[htbp]\centering
+\begin{tikzpicture}[node distance=4mm and 5mm, every node/.style={font=\footnotesize},
+  box/.style={draw, rounded corners=2pt, align=center, minimum height=11mm, text width=24mm, fill=lightbg},
+  arr/.style={-{Stealth[length=2mm]}, thick}]
+\node[box] (s) {Atomic structure\\(crystal, film, W)\\\cref{sec:dft-material}};
+\node[box, right=of s] (d) {DFT calculation\\(Quantum ESPRESSO)\\\cref{sec:dft-theory,sec:dft-calcs}};
+\node[box, right=of d] (o) {Energies, bands,\\electrostatic potential\\(output files)};
+\node[box, right=of o] (n) {$\Delta E_{\mathrm{g}}$, $\dEc$, $\mstar$,\\W site, valence\\\cref{sec:dft-analysis}};
+\node[box, below=7mm of n] (t) {Thickness laws of\\the TCAD model\\\cref{sec:dft-pending}};
+\node[box, left=of t, text width=50mm] (c) {CERN batch system (CPU, GPU), workflow\\\cref{sec:dft-compute}};
+\draw[arr] (s) -- (d); \draw[arr] (d) -- (o); \draw[arr] (o) -- (n); \draw[arr] (n) -- (t);
+\draw[arr, dashed] (c.north) -- ++(0,3.5mm) -| (d.south);
+\end{tikzpicture}
+\caption{From atoms to device inputs: the path of this chapter. The structure is defined, the DFT calculation
+produces energies, bands and potentials, analysis scripts turn them into the quantities the device model uses, and
+these replace the literature proxies of the thickness laws.}
+\label{fig:dft-pipeline}
+\end{figure}
+
+What the calculations can and cannot deliver must be stated at the start. They describe ideal crystalline films with
+hydrogen-terminated surfaces in vacuum, whereas the device channels are sputtered, largely amorphous or nanocrystalline
+films on \AlO{} with an air-exposed top. The results are therefore \emph{computed} inputs that describe trends and
+give physical grounding; they are not \emph{validated} against measurements of the target films (\cref{sec:dft-limits}).
+
+% =====================================================================================================================
+\section{Terms used in this chapter}
+\label{sec:dft-glossary}
+
+\Cref{tab:dft-glossary} explains every technical term of the chapter in plain words, roughly in the order in which the
+terms appear. \Cref{tab:dft-units} lists the units: DFT codes work in ``atomic'' units (Rydberg, bohr), the device
+model in eV and nm.
+
+\begin{small}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}p{9.0cm}>{\raggedright\arraybackslash}p{1.6cm}@{}}
+\caption{Glossary of the terms used in this chapter.}\label{tab:dft-glossary}\\
+\toprule
+Term & Meaning in plain words & Section \\
+\midrule
+\endfirsthead
+\multicolumn{3}{@{}l}{\textit{\Cref{tab:dft-glossary}, continued}}\\
+\toprule
+Term & Meaning in plain words & Section \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\multicolumn{3}{@{}l}{\textit{Physics of electrons in solids}}\\
+Band, band structure & In a crystal the allowed electron energies form continuous ranges called bands. The band
+structure is the plot of these energies against the electron's wave vector $k$. & \ref{sec:dft-bloch} \\
+Valence band (VB), conduction band (CB) & The highest band filled with electrons, and the lowest empty band above it.
+Current in an n-type oxide is carried by electrons in the CB. & \ref{sec:dft-bloch} \\
+VBM, CBM & Valence-band maximum and conduction-band minimum: the top of the VB and the bottom of the CB. & \ref{sec:dft-readout} \\
+Band gap $\Eg$ & The energy distance CBM $-$ VBM. ``Fundamental'' gap: smallest distance anywhere in $k$;
+``direct'' gap: distance at one $k$ (here $\Gamma$). & \ref{sec:dft-readout} \\
+Confinement shift $\Delta E_{\mathrm{g}}(t)$ & How much the gap of a film of thickness $t$ exceeds the gap of the thick
+(bulk) crystal, because the film squeezes the electrons. & \ref{sec:dft-readout} \\
+$\dEc$, $\Delta E_{\mathrm{v}}$ & The parts of $\Delta E_{\mathrm{g}}$ that come from the CB moving up and the VB moving
+down. & \ref{sec:dft-readout} \\
+Effective mass $\mstar$ & How heavy an electron appears when it moves in the crystal; read from the curvature of the
+CB near its minimum. Given in units of the free-electron mass $m_0$. & \ref{sec:dft-readout} \\
+Non-parabolicity $\alpha$ & How much the CB deviates from a parabola away from its minimum (the mass grows with energy). & \ref{sec:dft-readout} \\
+Wave vector $k$, $\Gamma$ & A label of an electron state in a crystal (its momentum divided by $\hbar$). $\Gamma$ is
+$k = 0$. & \ref{sec:dft-bloch} \\
+Brillouin zone (BZ) & The set of all distinct wave vectors of a crystal. Calculations sum over points of this zone. & \ref{sec:dft-bloch} \\
+$k$-point grid & The finite set of $k$ points used for those sums, e.g.\ 3$\times$3$\times$3. Denser grids are more
+accurate and more expensive. & \ref{sec:dft-bloch} \\
+Fermi level $E_F$ & The energy up to which states are filled. In a metal it lies inside a band. & \ref{sec:dft-occ} \\
+Density of states (DOS), projected DOS (PDOS) & How many electron states exist per energy interval; the PDOS
+splits this into contributions of each atom and orbital (e.g.\ the W 5d orbitals). & \ref{sec:dft-readout} \\
+Vacuum level $E_{\mathrm{vac}}$ & The energy of an electron at rest just outside the material; the common reference that
+lets band edges of different films be compared. & \ref{sec:dft-readout} \\
+Electron affinity (EA), ionization potential (IP) & $E_{\mathrm{vac}} - $ CBM and $E_{\mathrm{vac}} - $ VBM: the depths
+of the band edges below the vacuum level. & \ref{sec:dft-readout} \\
+Spin polarization, magnetic moment & Whether spin-up and spin-down electrons are distributed differently; the
+difference, in Bohr magnetons ($\mu_{\mathrm{B}}$), is the magnetic moment. & \ref{sec:dft-calc-w} \\
+\midrule
+\multicolumn{3}{@{}l}{\textit{The DFT method}}\\
+Density-functional theory (DFT) & A way to compute the ground state of many interacting electrons from the electron
+density alone, instead of the many-electron wave function. & \ref{sec:dft-ks} \\
+Electron density $n(\mathbf{r})$ & The number of electrons per volume at each point in space. & \ref{sec:dft-ks} \\
+Kohn--Sham equations, orbitals, eigenvalues & The one-electron equations that DFT actually solves. Their solutions
+(orbitals) and energies (eigenvalues) are used as the band structure. & \ref{sec:dft-ks} \\
+Exchange--correlation (xc) functional & The one approximate ingredient of DFT: the quantum-mechanical part of the
+electron--electron interaction. & \ref{sec:dft-xc} \\
+PBE & The semi-local (generalized-gradient) xc functional used for all main results. Good for structures and
+energy differences, but gives band gaps that are far too small. & \ref{sec:dft-xc} \\
+Hybrid functional, HSE06 & An xc functional that mixes in 25\,\% of exact (Fock) exchange at short range. Gives much
+better gaps, at much higher cost. Used here as a check. & \ref{sec:dft-xc} \\
+Plane waves, cutoff (\texttt{ecutwfc}, \texttt{ecutrho}) & The orbitals are written as sums of plane waves; the cutoff
+is the highest kinetic energy kept. A higher cutoff means more plane waves and more accuracy. & \ref{sec:dft-pw} \\
+Pseudopotential, PAW, norm-conserving (NC) & Replacing the tightly bound core electrons and the steep nuclear potential
+by a smooth effective potential, so that few plane waves suffice. PAW (projector augmented wave) and NC are two kinds. & \ref{sec:dft-pp} \\
+Self-consistent field (SCF) & The iterative loop: guess the density, compute the potential, solve for the orbitals,
+build a new density, repeat until input and output agree. & \ref{sec:dft-scf} \\
+Mixing, \texttt{mixing\_beta}, local-TF & How the next input density is formed from previous ones; a small
+\texttt{mixing\_beta} is a cautious step; local-TF is a variant designed for slabs. & \ref{sec:dft-scf} \\
+Convergence threshold & The tolerance at which an iteration is declared finished (e.g.\ \texttt{conv\_thr} for the SCF). & \ref{sec:dft-scf} \\
+Occupations: fixed, smearing & Insulators: every band either full or empty. Metals: occupations smeared over a small
+energy width so that sums over $k$ converge. & \ref{sec:dft-occ} \\
+Total energy, force, stress, pressure & The ground-state energy of the whole cell; its derivatives with respect to atom
+positions (forces) and cell shape (stress; pressure is its mean). & \ref{sec:dft-relax} \\
+Relaxation (\texttt{relax}, \texttt{vc-relax}), BFGS & Moving the atoms (and in vc-relax also the cell) step by step
+downhill in energy until the forces vanish. BFGS is the step algorithm. & \ref{sec:dft-relax} \\
+Non-SCF (``bands'') calculation & A run that keeps the converged density fixed and only computes orbitals at
+chosen $k$ points, e.g.\ along lines for a band-structure plot. & \ref{sec:dft-readout} \\
+Planar / macroscopic average & The electrostatic potential averaged over each plane parallel to the film, and then
+over one atomic-layer period, to remove atomic wiggles. & \ref{sec:dft-readout} \\
+\midrule
+\multicolumn{3}{@{}l}{\textit{Describing the material}}\\
+Unit cell, conventional / primitive cell, supercell & The repeating box of a crystal. The conventional cubic cell of
+\InO{} has 80 atoms; the smallest (primitive) cell has 40. A supercell is several cells stacked. & \ref{sec:dft-bulkstruct} \\
+Bixbyite, space group Ia$\bar{3}$ & The crystal structure of \InO{} and its symmetry group (number 206). & \ref{sec:dft-bulkstruct} \\
+Wyckoff site (8b, 24d, 48e) & A class of symmetry-equivalent positions in the cell; the number is how many there are.
+In \InO{} indium occupies 8b and 24d, oxygen 48e. & \ref{sec:dft-bulkstruct} \\
+Symmetry operation & A rotation, reflection or shift that maps the crystal onto itself; their number is a quick check
+that a structure is correct. & \ref{sec:dft-bulkstruct} \\
+Slab, vacuum layer & A film model: a few atomic layers, repeated periodically with empty space (vacuum) between the
+copies so that they do not interact. & \ref{sec:dft-slabstruct} \\
+Passivation & Saturating the broken bonds of the surface oxygen atoms with hydrogen so that no spurious surface states
+appear in the gap. & \ref{sec:dft-slabstruct} \\
+Surface dipole & An electric dipole across the film when its two surfaces differ; it would tilt the vacuum potential.
+The slabs here have equivalent surfaces and no dipole. & \ref{sec:dft-slabstruct} \\
+Substitution, cation fraction & Replacing one In atom by W; the cation fraction W/(W+In) is the W content. & \ref{sec:dft-wstruct} \\
+\midrule
+\multicolumn{3}{@{}l}{\textit{Computing}}\\
+Quantum ESPRESSO (QE), \texttt{pw.x}, \texttt{pp.x}, \texttt{projwfc.x} & The open-source DFT package used; \texttt{pw.x}
+solves the equations, \texttt{pp.x} extracts potentials, \texttt{projwfc.x} computes the PDOS. & \ref{sec:dft-calcs} \\
+MPI rank, pool (\texttt{-nk}) & The parallel processes of one calculation, and groups of them that each handle a subset
+of the $k$ points. & \ref{sec:dft-driver} \\
+CPU, GPU, core-hour & Processor types; GPUs (graphics processors) run QE several times faster for large cells. A
+core-hour is one CPU core used for one hour. & \ref{sec:dft-gpu} \\
+HTCondor, job, flavour, wall time & CERN's batch system; a job is one queued calculation; the flavour sets its maximum
+run time (wall time). & \ref{sec:dft-cern} \\
+lxplus, EOS, Kerberos ticket & CERN's login computers, its disk storage, and the time-limited login credential. & \ref{sec:dft-cern} \\
+Container (Apptainer) & A packaged software environment; used to run NVIDIA's GPU build of QE. & \ref{sec:dft-gpu} \\
+Checkpoint, continuation & A saved copy of a job's results after each step, and a resubmission that restarts an
+unfinished relaxation from its last geometry. & \ref{sec:dft-flow} \\
+\end{longtable}
+\end{small}
+
+\begin{table}[htbp]\centering\small
+\caption{Units used by the DFT code and their conversion (CODATA 2018 values, as in the analysis scripts).}
+\label{tab:dft-units}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Unit & Value & Used for \\
+\midrule
+Rydberg (Ry) & 1~Ry $= 13.605693$~eV & energies, cutoffs, convergence thresholds \\
+bohr & 1~bohr $= 0.529177$~\AA & lengths, forces (Ry/bohr) \\
+kbar & 1~kbar $= 0.1$~GPa & stress and pressure \\
+$\hbar^2/2m_0$ & $3.80998$~eV\,\AA$^2$ & effective-mass fits \\
+$\mu_{\mathrm{B}}$ & Bohr magneton & magnetic moments \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% =====================================================================================================================
+\section{How a density-functional calculation works}
+\label{sec:dft-theory}
+
+This section explains the method from the beginning. The textbook treatment is \citet{Martin2004}; the
+implementation used is Quantum ESPRESSO \citep{Giannozzi2009,Giannozzi2017}.
+
+\subsection{The problem: many interacting electrons}
+\label{sec:dft-problem}
+
+\begin{dftplain}
+All properties of a solid follow from its electrons, which move around the much heavier nuclei and repel each other.
+Quantum mechanics describes them exactly by one equation, but that equation couples every electron to every other one.
+For the 176-atom film of this study, which has 1328 electrons, it cannot be solved directly. DFT is the standard way
+around this.
+\end{dftplain}
+
+Because nuclei are thousands of times heavier than electrons, the electrons can be treated as moving in the field of
+fixed nuclei at positions $\{\mathbf{R}_I\}$ \citep{Born1927}. The electrons then obey
+\begin{equation}
+\Big[\sum_i -\frac{\hbar^2}{2m_0}\nabla_i^2 + \sum_i V_{\mathrm{ext}}(\mathbf{r}_i)
++ \frac{1}{2}\sum_{i\neq j}\frac{e^2}{4\pi\varepsilon_0|\mathbf{r}_i-\mathbf{r}_j|}\Big]\Psi = E\,\Psi ,
+\label{eq:dft-manybody}
+\end{equation}
+where $V_{\mathrm{ext}}$ is the attraction of the nuclei and $\Psi(\mathbf{r}_1,\ldots,\mathbf{r}_N)$ depends on all $N$
+electron coordinates at once. Storing $\Psi$ on even a coarse grid is impossible for $N$ in the hundreds.
+
+\subsection{The density instead of the wave function: Kohn--Sham equations}
+\label{sec:dft-ks}
+
+\begin{dftplain}
+DFT rests on a theorem: the ground-state energy is fully determined by the electron density $n(\mathbf{r})$, a function
+of only three coordinates. Kohn and Sham then showed how to get that density by solving one-electron equations: each
+electron moves in an average potential created by the nuclei and by all the other electrons. Everything that is hard
+about the interaction is collected in one term, the exchange--correlation energy, which has to be approximated.
+\end{dftplain}
+
+\citet{Hohenberg1964} proved that the ground-state energy is a functional $E[n]$ of the density and is minimal for the
+true density. \citet{Kohn1965} wrote the density as that of fictitious non-interacting electrons in orbitals $\psi_i$,
+\begin{equation}
+n(\mathbf{r}) = \sum_i f_i\,|\psi_i(\mathbf{r})|^2 ,
+\label{eq:dft-density}
+\end{equation}
+with occupations $f_i$, and obtained the Kohn--Sham equations
+\begin{equation}
+\Big[-\frac{\hbar^2}{2m_0}\nabla^2 + V_{\mathrm{ext}}(\mathbf{r}) + V_{\mathrm{H}}[n](\mathbf{r})
++ V_{\mathrm{xc}}[n](\mathbf{r})\Big]\psi_i(\mathbf{r}) = \varepsilon_i\,\psi_i(\mathbf{r}) .
+\label{eq:dft-ks}
+\end{equation}
+$V_{\mathrm{H}}$ is the classical (Hartree) repulsion of the density with itself and
+$V_{\mathrm{xc}} = \delta E_{\mathrm{xc}}/\delta n$ the exchange--correlation potential. The total energy is
+\begin{equation}
+E[n] = T_{\mathrm{s}}[n] + \int V_{\mathrm{ext}}\,n\,d\mathbf{r} + E_{\mathrm{H}}[n] + E_{\mathrm{xc}}[n] + E_{\mathrm{II}} ,
+\label{eq:dft-energy}
+\end{equation}
+with $T_{\mathrm{s}}$ the kinetic energy of the orbitals and $E_{\mathrm{II}}$ the repulsion between nuclei. Because
+$V_{\mathrm{H}}$ and $V_{\mathrm{xc}}$ depend on $n$, which depends on the orbitals, \cref{eq:dft-ks} must be solved
+self-consistently (\cref{sec:dft-scf}). The eigenvalues $\varepsilon_i$ are used as the band energies; strictly they
+are auxiliary quantities, which is the origin of the band-gap problem discussed next.
+
+\subsection{The approximation: exchange--correlation functionals}
+\label{sec:dft-xc}
+
+\begin{dftplain}
+The exchange--correlation term is the only approximation in DFT, and the choice of approximation decides what the
+calculation gets right. The common choice (PBE) gives good crystal structures and energy differences, but it places the
+conduction band too low: band gaps come out about half or less of the measured value. More expensive ``hybrid''
+functionals (HSE06) correct most of this. This study uses PBE for everything and checks with HSE06 that the
+\emph{change} of the gap with film thickness is reliable, even though the gap itself is not.
+\end{dftplain}
+
+All main calculations use the generalized-gradient approximation of \citet{Perdew1996} (PBE), in which $E_{\mathrm{xc}}$
+depends on $n$ and $|\nabla n|$ at each point. Semi-local functionals underestimate band gaps, partly because the
+Kohn--Sham gap lacks the discontinuity of the exact exchange--correlation potential at integer electron number
+\citep{PerdewLevy1983,ShamSchluter1983}. For \InO{} the PBE gap of \citet[p.~21542]{Lin2022} is 0.94~eV, against
+experimental values of 2.7--3.25~eV quoted on the same page; the device model uses 3.05~eV. Lattice constants are
+typically overestimated by 1--2\,\% with PBE (\cref{sec:dft-calc-relax}).
+
+The hybrid functional HSE06 \citep{Heyd2003,Heyd2006,Krukau2006} splits the Coulomb interaction into a short-range and a
+long-range part with a screening parameter $\omega$ and replaces a quarter of the short-range PBE exchange by exact
+(Fock) exchange:
+\begin{equation}
+E_{\mathrm{xc}}^{\mathrm{HSE}} = \tfrac{1}{4}E_{\mathrm{x}}^{\mathrm{HF,SR}}(\omega) + \tfrac{3}{4}E_{\mathrm{x}}^{\mathrm{PBE,SR}}(\omega)
++ E_{\mathrm{x}}^{\mathrm{PBE,LR}}(\omega) + E_{\mathrm{c}}^{\mathrm{PBE}} .
+\label{eq:dft-hse}
+\end{equation}
+The output of the HSE06 runs confirms the exact-exchange fraction of 0.25. Exact exchange couples every occupied orbital
+at $\mathbf{k}$ with every orbital at $\mathbf{k}' = \mathbf{k}+\mathbf{q}$; Quantum ESPRESSO evaluates these terms with
+fast Fourier transforms, at a cost at least an order of magnitude above a semi-local calculation, and allows the sum
+over $\mathbf{q}$ to run over a coarser auxiliary grid whose adequacy must be checked
+\citep[pp.~16--17]{Giannozzi2009}. The implementation in the versions used applies the exchange operator in the
+adaptively compressed form of \citet{LinL2016}.
+
+\subsection{Crystals: Bloch states, wave vectors and k-point sampling}
+\label{sec:dft-bloch}
+
+\begin{dftplain}
+A crystal repeats itself, so the computer only needs one repeating box (the unit cell). The price is that each electron
+state carries a label $k$, its wave vector, and the properties of the crystal are averages over all $k$ in a finite
+region called the Brillouin zone. In practice the average is taken over a grid of $k$ points. Plotting the energies
+against $k$ along lines through this zone gives the familiar band-structure diagram.
+\end{dftplain}
+
+In a periodic potential every orbital can be written as a plane wave times a cell-periodic function
+\citep{Bloch1929}, $\psi_{n\mathbf{k}}(\mathbf{r}) = e^{i\mathbf{k}\cdot\mathbf{r}}\,u_{n\mathbf{k}}(\mathbf{r})$, with
+band index $n$ and wave vector $\mathbf{k}$ in the first Brillouin zone. Densities and energies become averages over
+$\mathbf{k}$, evaluated on Monkhorst--Pack grids \citep{Monkhorst1976}: an $N_1\times N_2\times N_3$ grid samples the
+zone uniformly; for slabs the grid is $3\times3\times1$, because there is no dispersion across the vacuum. Quantum
+ESPRESSO detects the crystal symmetries and restricts the sum to the irreducible wedge of the zone with appropriate
+weights, then symmetrizes the density, forces and stress \citep[pp.~7, 16]{Giannozzi2009}. The bulk primitive cell has
+4 irreducible points at $3\times3\times3$ and 8 at $4\times4\times4$; the 1~nm slab has 4 at $3\times3\times1$
+(output files of the runs).
+
+\subsection{Plane waves and the cutoff energy}
+\label{sec:dft-pw}
+
+\begin{dftplain}
+To put the orbitals into a computer, each one is written as a sum of simple waves of different wavelengths. Short
+wavelengths are needed to describe sharp features; the cutoff energy decides how short the shortest wave is. A higher
+cutoff gives a more accurate answer and costs more. The cutoff is therefore chosen by testing: it is raised until the
+results stop changing (\cref{sec:dft-calc-conv}).
+\end{dftplain}
+
+The periodic part of each orbital is expanded in plane waves with reciprocal-lattice vectors $\mathbf{G}$,
+\begin{equation}
+\psi_{n\mathbf{k}}(\mathbf{r}) = \sum_{\mathbf{G}} c_{n,\mathbf{k}+\mathbf{G}}\,e^{i(\mathbf{k}+\mathbf{G})\cdot\mathbf{r}},
+\qquad \frac{\hbar^2}{2m_0}|\mathbf{k}+\mathbf{G}|^2 \le E_{\mathrm{cut}} ,
+\label{eq:dft-pw}
+\end{equation}
+where $E_{\mathrm{cut}}$ is \texttt{ecutwfc}. In Rydberg units $\hbar^2/2m_0 = 1$, so the condition reads
+$|\mathbf{k}+\mathbf{G}|^2 \le E_{\mathrm{cut}}$ in bohr$^{-2}$, and the number of plane waves is close to the number of
+lattice points in a sphere of radius $\sqrt{E_{\mathrm{cut}}}$,
+\begin{equation}
+N_{\mathrm{PW}} \approx \frac{\Omega\,E_{\mathrm{cut}}^{3/2}}{6\pi^2} ,
+\label{eq:dft-npw}
+\end{equation}
+with $\Omega$ the cell volume in bohr$^3$. For the relaxed bulk primitive cell ($\Omega = 3693.6$~bohr$^3$) and
+71~Ry this gives 37\,315, against 37\,359 plane waves at $\Gamma$ in the output; for the relaxed 1~nm slab
+($\Omega = 25\,140$~bohr$^3$) it gives 253\,982, against 253\,973. The density, a product of orbitals, needs a higher
+cutoff \texttt{ecutrho}: for PAW and ultrasoft data sets typically 6--12 times \texttt{ecutwfc}, for norm-conserving
+pseudopotentials 4 times \citep[p.~7]{Giannozzi2009}. This work uses 8 (568~Ry) with PAW and 4 (320~Ry) with the
+norm-conserving set of the hybrid check. The density of the 1~nm slab is then represented by 5\,746\,731 plane waves on
+a $150\times150\times500$ fast-Fourier-transform grid.
+
+\subsection{Pseudopotentials and the projector augmented-wave method}
+\label{sec:dft-pp}
+
+\begin{dftplain}
+Near a nucleus the orbitals oscillate rapidly, which would need an enormous number of plane waves. The core electrons
+there do not take part in bonding. Pseudopotentials replace the nucleus and its core electrons by a smooth effective
+potential that acts on the outer (valence) electrons only. The PAW method does this while keeping a way to reconstruct
+the true orbitals near the nucleus, so it is accurate at a moderate cutoff.
+\end{dftplain}
+
+The atomic cores are described by the projector augmented-wave (PAW) method \citep{Bloechl1994,Kresse1999} with the
+pslibrary 1.0.0 data sets \citep{DalCorso2014}; Quantum ESPRESSO supports norm-conserving, ultrasoft and PAW
+descriptions \citep[pp.~5, 7]{Giannozzi2009}. \Cref{tab:dft-pp} lists the data sets. The valence configuration decides
+how many electrons the calculation contains and therefore how many bands are occupied. For the hybrid-functional check,
+optimized norm-conserving Vanderbilt pseudopotentials \citep{Hamann2013} of the SG15 library \citep{Schlipf2015} were
+used instead (\cref{sec:dft-hse}).
+
+\begin{table}[htbp]\centering\small
+\caption{Pseudopotential data sets (PAW, pslibrary 1.0.0). Valence charge and suggested cutoffs from the file headers;
+the calculations use 71/568~Ry, above every suggestion.}
+\label{tab:dft-pp}
+\begin{tabular}{@{}llrr@{}}
+\toprule
+Element & File & Valence electrons & Suggested cutoffs (Ry) \\
+\midrule
+In & \file{In.pbe-dn-kjpaw_psl.1.0.0.UPF} & 13 (4d$^{10}$5s$^2$5p$^1$) & 41 / 212 \\
+O  & \file{O.pbe-n-kjpaw_psl.1.0.0.UPF}  & 6 (2s$^2$2p$^4$) & 47 / 323 \\
+W  & \file{W.pbe-spn-kjpaw_psl.1.0.0.UPF} & 14 (5s$^2$5p$^6$5d$^4$6s$^2$) & 50 / 475 \\
+H  & \file{H.pbe-kjpaw_psl.1.0.0.UPF}    & 1 & 46 / 221 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Counting electrons is a useful check of every structure. The bulk primitive cell In$_{16}$O$_{24}$ has
+$16\times13 + 24\times6 = 352$ electrons and therefore 176 occupied bands; the 1~nm slab In$_{24}$O$_{48}$H$_{24}$ has
+624 (312 occupied bands); the 2~nm slab In$_{56}$O$_{96}$H$_{24}$ has 1328 (664). A W atom carries one electron more
+than In in these data sets (14 against 13), but the chemically relevant count is different: In gives three electrons
+to oxygen (In$^{3+}$), whereas W in its highest oxidation state gives six (W$^{6+}$), so each W substituted for In adds
+three electrons that oxygen cannot take. The doped 80-atom cell has 705 electrons, an odd number, and is a metal in
+the calculation.
+
+\subsection{The self-consistent field loop}
+\label{sec:dft-scf}
+
+\begin{dftplain}
+The potential in the Kohn--Sham equation depends on the density, and the density depends on the solutions. The
+calculation therefore guesses a density, computes the potential, solves the equations, builds the new density, and
+repeats. Each round is one ``SCF iteration''. To avoid oscillations, the new guess is a careful blend of the previous
+ones (``mixing''). The loop stops when the density no longer changes by more than a tiny tolerance.
+\end{dftplain}
+
+\Cref{fig:dft-scf} shows the loop. Self-consistency is recast as a fixed-point problem $x = F[x]$ for the Fourier
+components of the density, and Quantum ESPRESSO solves it with the modified Broyden method of \citet{Johnson1988}: the
+next input density is the optimal combination of the inputs of a few previous iterations, plus a step along the
+residual \citep[pp.~7, 13--14]{Giannozzi2009}. The step can be preconditioned by an approximate model of electronic
+screening: simple, Thomas--Fermi, or local Thomas--Fermi (local-TF) mixing \citep[p.~14]{Giannozzi2009}
+\citep{Raczkowski2001}. Local-TF accounts for the strongly inhomogeneous density of a slab with vacuum, and is used for
+all slabs here; \texttt{mixing\_beta} sets the size of the step (0.4 bulk, 0.2 slabs, 0.3 doped bulk).
+
+The convergence measure is an estimate of the error of the total energy built from the density residual,
+$\|\rho^{\mathrm{out}}-\rho^{\mathrm{in}}\|^2 \propto \sum_{\mathbf{G}} |\Delta\rho(\mathbf{G})|^2/G^2$
+\citep[p.~14]{Giannozzi2009}, printed as ``estimated scf accuracy''. The loop stops when it falls below
+\texttt{conv\_thr} $= 10^{-9}$~Ry for every calculation of this study. Within each iteration the Kohn--Sham equations
+are solved iteratively for the lowest bands only, by the block Davidson method or by band-by-band conjugate-gradient
+minimization \citep[pp.~14--15]{Giannozzi2009} \citep{Davidson1975,Payne1992}. Davidson is faster; conjugate gradient
+(CG) is slower but more robust (\cref{sec:dft-calc-bands}).
+
+\begin{figure}[htbp]\centering
+\begin{tikzpicture}[node distance=5mm, every node/.style={font=\footnotesize},
+  box/.style={draw, rounded corners=2pt, align=center, fill=lightbg, minimum height=9mm, text width=44mm},
+  dec/.style={draw, diamond, aspect=2.6, align=center, inner sep=1pt, text width=26mm},
+  arr/.style={-{Stealth[length=2mm]}, thick}]
+\node[box] (g) {Start: density from overlapping atoms\\(or from the previous geometry)};
+\node[box, below=of g] (v) {Potential $V_{\mathrm{ext}} + V_{\mathrm{H}}[n] + V_{\mathrm{xc}}[n]$};
+\node[box, below=of v] (k) {Solve Kohn--Sham equations at every $k$\\(Davidson or CG), lowest \texttt{nbnd} bands};
+\node[box, below=of k] (o) {Occupy bands (fixed or smearing),\\new density $n^{\mathrm{out}}$, total energy};
+\node[dec, below=6mm of o] (c) {estimated error\\$<$ \texttt{conv\_thr}?};
+\node[box, right=14mm of v, text width=34mm] (m) {Mix: $n^{\mathrm{in}}$ from\\previous $n^{\mathrm{in}}$, $n^{\mathrm{out}}$\\(Broyden, local-TF)};
+\node[box, below=6mm of c] (e) {Converged: energies, eigenvalues,\\forces, stress, density saved};
+\draw[arr] (g) -- (v); \draw[arr] (v) -- (k); \draw[arr] (k) -- (o); \draw[arr] (o) -- (c);
+\draw[arr] (c.east) -| node[pos=0.25, above] {no: next iteration} (m.south);
+\draw[arr] (m.west) -- (v.east);
+\draw[arr] (c) -- node[right] {yes} (e);
+\end{tikzpicture}
+\caption{The self-consistent field (SCF) loop of a Kohn--Sham calculation, as implemented in Quantum ESPRESSO
+\citep[pp.~13--15]{Giannozzi2009}. In this study the loop stops at an estimated energy error of $10^{-9}$~Ry; it
+takes 25 iterations for the bulk cell and 47 for the relaxed 1~nm slab.}
+\label{fig:dft-scf}
+\end{figure}
+
+\subsection{Insulators and metals: occupations}
+\label{sec:dft-occ}
+
+\begin{dftplain}
+In an insulator every band is either completely full or completely empty, and the program simply fills the lowest ones.
+In a metal a band is partly filled, and the boundary between filled and empty states (the Fermi level) cuts through it.
+Sums over a finite $k$ grid then converge badly, so the occupations are smoothed over a small energy window.
+\end{dftplain}
+
+Pure \InO{} cells and slabs are insulators and use fixed occupations. The W-doped cells and slabs have three extra
+electrons per W in the conduction band and are metallic in the calculation; they use the cold smearing of
+\citet{Marzari1999} with a width of 0.01~Ry, one of the smearing schemes of Quantum ESPRESSO \citep[p.~7]{Giannozzi2009}.
+The Fermi level $E_F$ is then determined by the electron count.
+
+\subsection{Forces, stress and relaxation}
+\label{sec:dft-relax}
+
+\begin{dftplain}
+Once the electrons are in their ground state, the program can compute the force on every atom and the stress on the
+cell. If the forces are not zero, the atoms are not where they want to be. A relaxation moves them step by step
+downhill in energy, recomputing the electrons at each step, until the forces are negligible. In a variable-cell
+relaxation the size and shape of the box are adjusted as well.
+\end{dftplain}
+
+Forces are the derivatives of the total energy with respect to the atomic positions, obtained from the ground state by
+the Hellmann--Feynman theorem \citep{Feynman1939}, and the stress tensor follows from the derivative with respect to a
+strain of the cell \citep{Nielsen1985}; the pressure is minus one third of its trace. Quantum ESPRESSO computes both
+and uses them for structural optimizations of atomic coordinates and cell \citep[p.~5]{Giannozzi2009}. The
+optimization uses the Broyden--Fletcher--Goldfarb--Shanno (BFGS) quasi-Newton algorithm
+\citep[p.~7]{Giannozzi2009}: each step moves along $-\mathbf{H}^{-1}\nabla E$, where the inverse
+Hessian $\mathbf{H}^{-1}$ is built up from the change of the gradients between steps. Variable-cell runs (\texttt{vc-relax})
+use the invariant formulation of \citet{Wentzcovitch1991}. For slabs only the in-plane cell vectors are allowed to change
+(\texttt{cell\_dofree = '2Dxy'}), so that the vacuum stays fixed. A relaxation ends when the energy change between steps
+and the largest force component fall below \texttt{etot\_conv\_thr} and \texttt{forc\_conv\_thr}, and, for vc-relax,
+the pressure below \texttt{press\_conv\_thr} (values in \cref{tab:dft-settings}). At the end, pw.x repeats the SCF with
+the plane-wave basis of the final cell, which removes the error of a basis set that was defined for the starting cell
+(Pulay stress).
+
+\subsection{What is read from a calculation}
+\label{sec:dft-readout}
+
+\begin{dftplain}
+A finished calculation gives a list of energies at each $k$ point. The highest filled and lowest empty ones are the
+band edges, and their difference is the gap. The curvature of the conduction band near its minimum gives the effective
+mass. The average electrostatic potential far out in the vacuum is the vacuum level, which serves as a common zero, so
+that band edges of different films can be compared. \Cref{fig:dft-levels} shows how these quantities are defined.
+\end{dftplain}
+
+\paragraph{Band edges and gaps.} pw.x prints the highest occupied and lowest unoccupied eigenvalue of every SCF; their
+difference is the Kohn--Sham gap on the $k$ grid (which contains $\Gamma$). For the bulk the fundamental gap is taken
+from a separate non-self-consistent (``bands'') run along a path through the Brillouin zone, which uses the converged
+density and computes orbitals at the requested $k$ points only.
+
+\paragraph{Effective mass.} Near the conduction-band minimum at $\Gamma$ the band is fitted with a parabola,
+\begin{equation}
+E(k) = E_{\mathrm{CBM}} + \frac{\hbar^2 k^2}{2\mstar} , \qquad
+\frac{\mstar}{m_0} = \frac{\hbar^2/2m_0}{c_2} = \frac{3.80998~\mathrm{eV}\,\text{\AA}^{2}}{c_2} ,
+\label{eq:dft-mass}
+\end{equation}
+where $c_2$ is the slope of $E - E_{\mathrm{CBM}}$ against $k^2$ in a least-squares fit over $|k| \le 0.05$~\AA$^{-1}$.
+Over a wider range the band is described by the non-parabolic (Kane-type) dispersion \citep{Kane1957}
+\begin{equation}
+E\,(1 + \alpha E) = \frac{\hbar^2 k^2}{2\mstar} ,
+\label{eq:dft-kane}
+\end{equation}
+which is linear in the two unknowns $1/\mstar$ and $\alpha$ for known $E$ and $k$ and is solved by linear least squares.
+
+\paragraph{Density of states and its projections.} projwfc.x projects the orbitals on atomic orbitals (L\"owdin
+projections, \citealp{Lowdin1950}; \citealp[p.~10]{Giannozzi2009}) and gives the density of states resolved by atom and
+orbital, here used for the W 5d share of the states near $E_F$.
+
+\paragraph{Vacuum level, EA and IP.} pp.x computes the electrostatic potential felt by an electron (bare ionic plus
+Hartree; \texttt{plot\_num = 11}), and average.x forms its planar average over each plane parallel to the film,
+\begin{equation}
+\bar V(z) = \frac{1}{A}\iint_A V(x,y,z)\,dx\,dy ,
+\label{eq:dft-planar}
+\end{equation}
+and the macroscopic average $\bar{\bar V}(z)$, a further running average over one structural period $L$ that removes the
+atomic oscillations \citep{Baldereschi1988}\citep[p.~10]{Giannozzi2009}; here $L = a/4$, the distance between cation
+layers along [001]. In the middle of the vacuum the potential is flat and defines $E_{\mathrm{vac}}$. Then
+\begin{equation}
+\mathrm{EA} = E_{\mathrm{vac}} - E_{\mathrm{CBM}}, \qquad \mathrm{IP} = E_{\mathrm{vac}} - E_{\mathrm{VBM}}, \qquad
+\Eg = \mathrm{IP} - \mathrm{EA} .
+\label{eq:dft-eaip}
+\end{equation}
+Because both surfaces of the slabs are equivalent by symmetry, the potential is the same in the vacuum on both sides and
+no dipole correction \citep{Neugebauer1992} is needed. The confinement shift and its partition between two films $t_1$
+and $t_2$ follow as
+\begin{equation}
+\begin{gathered}
+\Delta E_{\mathrm{g}}(t) = \Eg(t) - \Eg^{\mathrm{bulk}}, \\
+\dEc(t_1) - \dEc(t_2) = \mathrm{EA}(t_2) - \mathrm{EA}(t_1), \qquad
+\Delta E_{\mathrm{v}}(t_1) - \Delta E_{\mathrm{v}}(t_2) = \mathrm{IP}(t_1) - \mathrm{IP}(t_2) .
+\end{gathered}
+\label{eq:dft-partition}
+\end{equation}
+The bulk crystal has no vacuum, so its band edges cannot be placed on the vacuum scale directly. The partition relative
+to bulk requires aligning the bulk band edges, measured from the macroscopic average potential of a bulk calculation,
+with the macroscopic average inside the slab (the two-step method of \citealp{VandeWalle1987,Baldereschi1988}). This
+step has not yet been done (\cref{sec:dft-pending}).
+
+\begin{figure}[htbp]\centering
+\begin{tikzpicture}[x=1cm, y=1cm, every node/.style={font=\footnotesize}, arr/.style={{Stealth[length=1.6mm]}-{Stealth[length=1.6mm]}}]
+\draw[thick] (0,5.0) -- (8.6,5.0) node[right] {$E_{\mathrm{vac}}$};
+% bulk
+\fill[accent!25] (0.6,2.6) rectangle (2.6,3.0); \draw[thick, accent] (0.6,2.6) -- (2.6,2.6);
+\fill[accent2!25] (0.6,0.6) rectangle (2.6,1.0); \draw[thick, accent2] (0.6,1.0) -- (2.6,1.0);
+\node at (1.6,3.25) {CB}; \node at (1.6,0.35) {VB}; \node[font=\footnotesize\bfseries] at (1.6,5.35) {bulk};
+\draw[arr] (1.0,2.6) -- node[left] {$\Eg^{\mathrm{bulk}}$} (1.0,1.0);
+\draw[arr] (2.2,5.0) -- node[right] {EA} (2.2,2.6);
+% slab
+\fill[accent!25] (5.0,3.1) rectangle (7.0,3.5); \draw[thick, accent] (5.0,3.1) -- (7.0,3.1);
+\fill[accent2!25] (5.0,0.2) rectangle (7.0,0.6); \draw[thick, accent2] (5.0,0.6) -- (7.0,0.6);
+\node at (6.0,3.75) {CB}; \node at (6.0,-0.05) {VB}; \node[font=\footnotesize\bfseries] at (6.0,5.35) {thin film (slab)};
+\draw[arr] (5.4,3.1) -- node[left] {$\Eg(t)$} (5.4,0.6);
+\draw[arr] (6.6,5.0) -- node[right] {EA$(t)$} (6.6,3.1);
+\draw[arr] (7.6,5.0) -- node[right] {IP$(t)$} (7.6,0.6);
+% shifts
+\draw[densely dashed, accent] (2.6,2.6) -- (4.6,2.6); \draw[densely dashed, accent2] (2.6,1.0) -- (4.6,1.0);
+\draw[arr, accent] (4.4,2.6) -- node[left] {$\dEc$} (4.4,3.1); \draw[accent, thin] (4.4,3.1) -- (5.0,3.1);
+\draw[arr, accent2] (4.4,1.0) -- node[left] {$\Delta E_{\mathrm{v}}$} (4.4,0.6); \draw[accent2, thin] (4.4,0.6) -- (5.0,0.6);
+\end{tikzpicture}
+\caption{Definitions used throughout the chapter (schematic, not to scale). Confinement in a thin film raises the
+conduction-band minimum by $\dEc$ and lowers the valence-band maximum by $\Delta E_{\mathrm{v}}$, so the gap opens by
+$\Delta E_{\mathrm{g}} = \dEc + \Delta E_{\mathrm{v}}$. Measured from the vacuum level, the electron affinity (EA) and
+ionization potential (IP) of films of different thickness give the partition, \cref{eq:dft-partition}. The device model
+so far assumes $\Delta E_{\mathrm{g}} = \dEc$.}
+\label{fig:dft-levels}
+\end{figure}
+
+% =====================================================================================================================
+\section{Defining the material}
+\label{sec:dft-material}
+
+\begin{dftplain}
+Before anything can be computed, the computer needs a precise list of atoms: the box (cell) and the position of every
+atom in it. For bulk \InO{} this comes from the measured crystal structure. A thin film is modelled as a slab: a few
+layers of the crystal, cut parallel to a crystal plane, with the broken bonds at the surfaces closed by hydrogen, and
+with empty space above and below. Doping is modelled by replacing one indium atom by tungsten. Every structure is
+checked automatically before it is used, because a single wrong coordinate gives meaningless results.
+\end{dftplain}
+
+{\sloppy
+All structures were built with the Atomic Simulation Environment \citep{Larsen2017} and checked with spglib
+\citep{Togo2018} by three scripts of the package: \file{build_structure.py} for the bulk crystal, and
+\file{build_structures.py} and \file{build_iwo_slab.py} for the films and the doped cells.
+\Cref{tab:dft-structures} summarizes them.\par}
+
+\subsection{Bulk \texorpdfstring{\InO}{In2O3}: the bixbyite crystal}
+\label{sec:dft-bulkstruct}
+
+Cubic \InO{} has the bixbyite structure, space group Ia$\bar{3}$ (No.~206). The conventional cubic cell, with
+$a = 10.117$~\AA, contains 80 atoms on three Wyckoff sites \citep{Marezio1966}: In1 on 8b at $(\frac14,\frac14,\frac14)$,
+In2 on 24d at $(u, 0, \frac14)$ with $u = -0.0336$, and O on 48e at $(0.3905, 0.1529, 0.3832)$. Each In is surrounded by
+six O. The 8b site has the higher symmetry ($\bar{3}$, six equal In--O bonds); the 24d site has only a twofold axis and
+three pairs of different bonds. Because the cubic cell is body-centred, the same crystal can be described by a primitive
+cell of 40 atoms (16 In, 24 O), which halves the cost and is used for all bulk calculations.
+
+The structure was generated from these crystallographic data and verified before use: space group 206 with 48
+symmetry operations in the conventional cell and 24 in the primitive cell, 80 and 40 atoms, In--O bond lengths of
+2.123, 2.191 and 2.208~\AA. The verification was introduced after a recorded failure: an inherited 80-atom input that
+had never been checked gave only two symmetry operations, a total force of 2.86~Ry/bohr, a pressure of 765~kbar and a
+negative ``gap''. A second defect followed when spglib's primitive coordinates were combined with Quantum ESPRESSO's
+built-in body-centred lattice (\texttt{ibrav = 3}), whose basis vectors differ; since then all inputs give the cell
+vectors explicitly (\texttt{ibrav = 0}), and pw.x reports the expected 24 operations, 18 of them with a fractional
+translation (\file{PROTOCOL.md}, section 7a).
+
+\subsection{Thin films: the slab model}
+\label{sec:dft-slabstruct}
+
+\begin{dftplain}
+A plane-wave code always works with a repeating box. To describe a film, the box contains the film plus a thick layer of
+empty space, so that the film does not feel its periodic copies above and below (\cref{fig:dft-slabmodel}). The
+surface oxygen atoms lose bonds when the film is cut; one hydrogen atom on each of them restores a closed electronic
+shell, as in a hydroxylated oxide surface.
+\end{dftplain}
+
+The slabs follow the recipe of \citet[p.~21542]{Lin2022}, which was chosen so that the results can be compared with
+theirs directly:
+\begin{enumerate}
+\item take the conventional cell (for the 1~nm film) or a $1\times1\times2$ supercell stacked along [001] (for the 2~nm
+film) of the relaxed bulk crystal;
+\item remove the In layer at the cell boundary (8 cations; the layer is corrugated by about $\pm0.35$~\AA, so all
+cations within 0.6~\AA{} of the boundary are removed);
+\item put one H on every O that lost In neighbours, 0.97~\AA{} from the O, along the mean direction of the two removed
+In--O bonds;
+\item add 25~\AA{} of vacuum and centre the slab in the cell.
+\end{enumerate}
+The script checks the result: every one of the 24 surface O atoms has lost exactly two In neighbours; 12 H atoms sit on
+each surface; the electron count closes, $3n_{\mathrm{In}} + n_{\mathrm{H}} = 2n_{\mathrm{O}}$ (In$^{3+}$, H$^+$,
+O$^{2-}$), so the slab should be an insulator; no non-bonded atoms come closer than 2.61~\AA; and the space group is
+Pcca (8 operations), which contains an operation that maps the top surface onto the bottom one. The slab therefore has no
+dipole. Applied to the PBE-relaxed bulk ($a = 10.306$~\AA), the recipe gives In$_{24}$O$_{48}$H$_{24}$ (96 atoms,
+9.875~\AA{} from the lowest to the highest H, 8.03~\AA{} between the outermost O layers) and In$_{56}$O$_{96}$H$_{24}$
+(176 atoms, 20.18~\AA{} and 18.34~\AA). The films are called ``1~nm'' and ``2~nm''; Lin et al.\ quote 0.95 and 1.98~nm
+for their versions \citep[p.~21540]{Lin2022}. After relaxation the 1~nm slab measures 9.30~\AA{} from H to H and
+7.88~\AA{} between the outer O layers (\cref{fig:dft_structures}). For the vacuum test the 1~nm slab was also built with
+15 and 35~\AA.
+
+\begin{figure}[htbp]\centering
+\begin{tikzpicture}[x=1cm, y=1cm, every node/.style={font=\footnotesize}]
+\foreach \k in {0,1,2} {
+  \pgfmathsetmacro{\y}{\k*2.4}
+  \draw[dashed, gray] (0,\y) rectangle (3.2,\y+2.4);
+  \fill[accent!35] (0,\y+0.85) rectangle (3.2,\y+1.55);
+  \foreach \x in {0.2,0.6,...,3.0} { \fill[white, draw=gray] (\x,\y+1.62) circle (0.05); \fill[white, draw=gray] (\x,\y+0.78) circle (0.05); }
+}
+\node[right] at (3.3,3.6) {slab (film), here 1 or 2~nm};
+\node[right] at (3.3,4.3) {H on the surface O atoms};
+\node[right] at (3.3,2.65) {vacuum, 25~\AA};
+\draw[{Stealth[length=1.5mm]}-{Stealth[length=1.5mm]}] (-0.3,2.4) -- node[left] {one cell} (-0.3,4.8);
+\node[right] at (3.3,1.2) {periodic copy};
+\node[right] at (3.3,6.0) {periodic copy};
+\end{tikzpicture}
+\caption{The slab model (schematic). The calculation repeats the cell (dashed) in all directions; along $z$ the film
+alternates with 25~\AA{} of vacuum, which separates the periodic copies. Hydrogen atoms (open circles) terminate the
+surface oxygen atoms.}
+\label{fig:dft-slabmodel}
+\end{figure}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{dft_structures}
+\caption{Side views ($x$--$z$ projection) of the film models. (a) Relaxed 1~nm slab; (b) 2~nm slab as built from the
+relaxed bulk (relaxed geometry: \cref{sec:dft-calc-slab2}); (c) 1~nm IWO slab as built, with W (circled) on the
+central cation site of the relaxed pure slab. Dashed: the periodic cell, with vacuum above and below the film. Atoms
+are drawn back to front; the arrows give the distance between the outermost H atoms.}
+\label{fig:dft_structures}
+\end{figure}
+
+\subsection{Tungsten doping}
+\label{sec:dft-wstruct}
+
+\begin{dftplain}
+To learn where tungsten goes, one In atom of the 80-atom cell is replaced by W, once on each of the two kinds of In
+site. Comparing the energies of the two relaxed cells shows which site W prefers. One W in 32 cations is 3.1\,\%,
+the same order as the ``about 2\,\% W'' of the target films.
+\end{dftplain}
+
+In the conventional 80-atom cell, one In was replaced by W on an 8b site and, in a second cell, on a 24d site, giving
+In$_{31}$WO$_{48}$ with W/(W+In) $= 1/32 = 3.1$\,\%. Substitution lowers the symmetry; the number of remaining operations
+is 48 divided by the multiplicity of the site, which the build script checks: 6 operations (space group R$\bar{3}$) for
+W on 8b, 2 (P2) for W on 24d. Relative to In$^{3+}$, W$^{6+}$ releases three electrons; in this cell of 1095~\AA$^3$
+that corresponds to about $2.8\times10^{21}$\cmcu{}, far above the carrier density of the transistor channel. The cell
+therefore describes the fully ionized, degenerate limit, and band-edge quantities are read from the dispersion and the
+projected states, not from the position of $E_F$ alone.
+
+For the doped film, one In of the central cation layer of the relaxed 1~nm slab was replaced by W
+(\file{build_iwo_slab.py}). In the conventional-cell slabs this layer holds only 24d cations, the site preferred in
+bulk (\cref{sec:dft-calc-w}). The result is In$_{23}$WO$_{48}$H$_{24}$ (W/(W+In) $= 4.2$\,\%), with W exactly at the slab
+centre; the space group is P2, and its twofold operation still maps $z$ to $-z$, so the slab has no dipole. Three
+electrons in a 1~nm slab of $10.34^2$~\AA$^2$ correspond to about $2.8\times10^{14}$\cmsq.
+
+\begin{table}[htbp]\centering\footnotesize
+\caption{Structures of the study. ``Electrons'' counts valence electrons of the data sets (\cref{tab:dft-pp}); ops:
+symmetry operations found by spglib.}
+\label{tab:dft-structures}
+\begin{tabularx}{\linewidth}{@{}l>{\raggedright\arraybackslash}Xrrl>{\raggedright\arraybackslash}p{3.6cm}@{}}
+\toprule
+Name & Composition, cell & Atoms & Electrons & Symmetry & Purpose \\
+\midrule
+bulk (primitive) & In$_{16}$O$_{24}$, bcc primitive cell & 40 & 352 & Ia$\bar{3}$, 24 ops & convergence, relaxation, bands, mass \\
+bulk\_conv & In$_{32}$O$_{48}$, cubic, $a = 10.306$~\AA & 80 & 704 & Ia$\bar{3}$, 48 ops & host of all other structures \\
+iwo\_W8b & In$_{31}$WO$_{48}$, W on 8b & 80 & 705 & R$\bar{3}$, 6 ops & W site, valence, states \\
+iwo\_W24d & In$_{31}$WO$_{48}$, W on 24d & 80 & 705 & P2, 2 ops & W site, valence, states \\
+slab1\_v15/v25/v35 & In$_{24}$O$_{48}$H$_{24}$, 15/25/35~\AA{} vacuum & 96 & 624 & Pcca, 8 ops & vacuum test \\
+slab1 (relaxed) & In$_{24}$O$_{48}$H$_{24}$, $10.336\times10.335\times34.87$~\AA & 96 & 624 & Pcca, 8 ops & 1~nm confinement \\
+slab2\_v25 & In$_{56}$O$_{96}$H$_{24}$, $c = 45.18$~\AA & 176 & 1328 & Pcca, 8 ops & 2~nm confinement \\
+slab1r\_W24d & In$_{23}$WO$_{48}$H$_{24}$ & 96 & 625 & P2, 2 ops & W in a 1~nm film \\
+slab2r\_W24d & In$_{55}$WO$_{96}$H$_{24}$ & 176 & 1329 & -- & W in a 2~nm film (submitted 4 Oct.) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% =====================================================================================================================
+\section{The calculations, step by step}
+\label{sec:dft-calcs}
+
+\begin{dftplain}
+The work was done in stages, each building on the previous one (\cref{fig:dft-stages}). First the numerical settings
+were tested on the bulk crystal; then the crystal was relaxed and its bands computed; the relaxed crystal became the
+starting point for every film and doped cell. Before each stage the criteria for accepting its result were written down,
+so that a result could not be accepted just because it looked good.
+\end{dftplain}
+
+\begin{figure}[htbp]\centering
+\begin{tikzpicture}[node distance=4mm and 6mm, every node/.style={font=\scriptsize},
+  st/.style={draw, rounded corners=2pt, align=center, fill=lightbg, text width=27mm, minimum height=9mm},
+  pend/.style={st, fill=white, dashed},
+  arr/.style={-{Stealth[length=1.6mm]}, thick}]
+\node[st] (c) {1. Convergence\\cutoff, $k$ grid (laptop)};
+\node[st, below=of c] (r) {2. Bulk vc-relax\\$a = 10.306$~\AA{} (laptop)};
+\node[st, below=of r] (b) {3. Bulk bands, mass\\gap, $\mstar$ (laptop)};
+\node[st, right=of c] (s) {Structures built\\from relaxed bulk};
+\node[st, right=of s] (v) {4a. Vacuum test\\1~nm, 15/25/35~\AA};
+\node[st, below=of v] (s1) {4b. 1~nm vc-relax\\(CPU, then GPU)};
+\node[st, below=of s1] (f1) {1~nm final SCF\\EA, IP, bands};
+\node[st, below=of f1] (h) {5. HSE06 check\\NC, bulk + 1~nm};
+\node[st, right=of v] (w) {6. W on 8b, 24d\\relax, PDOS, spin};
+\node[st, below=of w] (iw) {7. 1~nm IWO slab\\relax (GPU), final};
+\node[st, below=of iw] (s2) {4c. 2~nm vc-relax\\final SCF, bands (GPU)};
+\node[pend, below=of s2] (c2) {2~nm final on CPU\\(PDOS), 2~nm IWO};
+\draw[arr] (c) -- (r); \draw[arr] (r) -- (b); \draw[arr] (r.east) -- ++(2mm,0) |- (s.west);
+\draw[arr] (s) -- (v); \draw[arr] (v) -- (s1); \draw[arr] (s1) -- (f1); \draw[arr] (f1) -- (h);
+\draw[arr] (s.north) -- ++(0,3mm) -| (w.north); \draw[arr] (w) -- (iw); \draw[arr] (s1.east) -- (iw.west);
+\draw[arr] (iw) -- (s2); \draw[arr] (s2) -- (c2);
+\end{tikzpicture}
+\caption{Stages of the study and their dependencies. Solid: finished; dashed: running or queued at the time of
+writing. Stages 1--3 ran on the author's laptop, all others on the CERN batch system.}
+\label{fig:dft-stages}
+\end{figure}
+
+\subsection{Protocol and acceptance criteria}
+\label{sec:dft-method}
+
+The criteria were fixed in two protocols written before the corresponding results existed
+(\file{PROTOCOL.md} of the bulk stages, 2026-09-26, and \file{PROTOCOL_CERN.md} of the CERN stages,
+2026-09-27, both in \file{qe_workflow}); every later deviation is recorded there with its reason. \Cref{tab:dft-criteria} collects them.
+
+\begin{table}[htbp]\centering\footnotesize
+\caption{Acceptance criteria, fixed before the results, and their outcome.}
+\label{tab:dft-criteria}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{3.2cm}@{}}
+\toprule
+Item & Criterion & Outcome \\
+\midrule
+Cutoff, $k$ grid & a further increase changes the energy by $<1$~mRy/atom, the pressure by $<1$~kbar and the gap by $<10$~meV & met at 71~Ry and 2$\times$2$\times$2; 3$\times$3$\times$3 used \\
+Bulk relaxation & forces $<10^{-4}$~Ry/bohr, pressure $<0.2$~kbar; lattice constant within 3\,\% of experiment & met; $+1.87$\,\% \\
+$k$ grid of doped cells & 3$\times$3$\times$3 vs 4$\times$4$\times$4: energy $<1$~mRy/atom, site energy $<10$~meV & met (0.3~meV) \\
+Vacuum & EA and IP change by $<10$~meV from 15 to 25 and 25 to 35~\AA & met ($\le0.1$~meV) \\
+Reproduction & $\Delta E_{\mathrm{g}}$ of the 1 and 2~nm slabs within 0.1~eV of Lin et al. & met (0.04 and 0.005~eV) \\
+Functional & $|\Delta E_{\mathrm{g}}^{\mathrm{HSE}}/\Delta E_{\mathrm{g}}^{\mathrm{PBE}} - 1| < 10$\,\% & met (6\,\%; 11\,\% worst case) \\
+Magnetism & $|M| < 0.05\,\mu_{\mathrm{B}}$ and spin energy gain $<1$~mRy & not met; preliminary \\
+Status & proxies replaced only after the $k$ and vacuum tests; ``computed'', not ``validated'' & applied \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Anatomy of an input file}
+\label{sec:dft-input}
+
+\begin{dftplain}
+A calculation is described by a short text file. It says what to compute (an SCF, a relaxation, bands), how accurately
+(cutoffs, thresholds), with which atoms (pseudopotentials, cell, positions) and on which $k$ points. All input files of
+this study are written by scripts, never by hand, so that every job uses exactly the intended settings.
+\end{dftplain}
+
+\Cref{lst:dft-input} shows the input of the final SCF of the relaxed 1~nm slab, as written by the job
+generator \file{make_jobs.py}; \cref{tab:dft-settings} lists the settings of every type of
+calculation.
+
+\begin{lstlisting}[numbers=none, caption={Input of the final SCF of the relaxed 1~nm slab (\texttt{slab1r\_final\_cpu/scf.in}); the 96 atomic positions are shortened to three.}, label={lst:dft-input}]
+&CONTROL
+  calculation = 'scf', prefix = 'slab', outdir = './tmp', pseudo_dir = './'
+  verbosity = 'high', tprnfor = .true., tstress = .true., max_seconds = 1.0d8
+/
+&SYSTEM
+  ibrav = 0, nat = 96, ntyp = 3, ecutwfc = 71, ecutrho = 568
+  occupations = 'fixed'
+  nbnd = 328
+/
+&ELECTRONS
+  conv_thr = 1.0d-9, mixing_beta = 0.2, electron_maxstep = 150, mixing_mode = 'local-TF'
+/
+ATOMIC_SPECIES
+  In 114.818 In.pbe-dn-kjpaw_psl.1.0.0.UPF
+  O 15.999 O.pbe-n-kjpaw_psl.1.0.0.UPF
+  H 1.008 H.pbe-kjpaw_psl.1.0.0.UPF
+CELL_PARAMETERS angstrom
+  10.3364310600 0.0000000000 0.0000000000
+  0.0000000000 10.3345042100 0.0000000000
+  0.0000000000 0.0000000000 34.8745389300
+ATOMIC_POSITIONS crystal
+  In  0.2477884238 0.2524784941 0.4261425288
+  ...
+  H   0.6367869492 0.3539040563 0.3667720191
+K_POINTS automatic
+  3 3 1 0 0 0
+\end{lstlisting}
+
+Line by line: \texttt{calculation} selects the task; \texttt{prefix} and \texttt{outdir} name the directory where the
+density and orbitals are saved (later read by pp.x and by the bands run); \texttt{tprnfor} and \texttt{tstress} request
+forces and stress; \texttt{max\_seconds} is overwritten by the job driver so that pw.x stops cleanly before the batch
+time limit (\cref{sec:dft-driver}). \texttt{ibrav = 0} means that the cell is given explicitly in
+\texttt{CELL\_PARAMETERS}; \texttt{nat} and \texttt{ntyp} count atoms and species; \texttt{ecutwfc} and \texttt{ecutrho}
+are the cutoffs of \cref{sec:dft-pw}; \texttt{nbnd} is the number of bands computed, here the 312 occupied plus 16
+empty ones (the empty ones give the conduction-band minimum). The \texttt{\&ELECTRONS} block sets the SCF threshold, the
+mixing and the maximum number of SCF iterations. \texttt{ATOMIC\_SPECIES} gives each element its mass (IUPAC standard
+atomic weight) and data set; \texttt{ATOMIC\_POSITIONS crystal} gives fractional coordinates; \texttt{K\_POINTS
+automatic 3 3 1 0 0 0} requests an unshifted $3\times3\times1$ Monkhorst--Pack grid.
+
+\begin{table}[htbp]\centering\footnotesize
+\caption{Settings per type of calculation (\file{make_jobs.py}; bulk stages 1--3: \file{make_inputs.py},
+\file{make_stage3.py}). All use PBE, PAW, 71/568~Ry and \texttt{conv\_thr} $= 10^{-9}$~Ry, except the hybrid check.}
+\label{tab:dft-settings}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{2.5cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{2.0cm}>{\raggedright\arraybackslash}p{4.4cm}@{}}
+\toprule
+Type & Occupations, mixing & $k$ points & Other settings \\
+\midrule
+Bulk SCF / vc-relax & fixed; $\beta = 0.4$ & 2$^3$, 3$^3$, 4$^3$ & \texttt{nbnd} 190; relax: forces $10^{-4}$~Ry/bohr, energy $10^{-5}$~Ry, pressure 0.2~kbar \\
+Bulk bands & fixed; CG diagonalization & path (80), $\Gamma$ set (31) & non-SCF on the vc-relax density \\
+Slab SCF & fixed; $\beta = 0.2$, local-TF; max.\ 150 iterations & 3$\times$3$\times$1 & \texttt{nbnd} = occupied + 16 \\
+Slab vc-relax & as slab SCF & 3$\times$3$\times$1 & BFGS; forces $10^{-3}$~Ry/bohr, energy $10^{-4}$~Ry; \texttt{cell\_dofree = '2Dxy'}, pressure 0.5~kbar; \texttt{nbnd} = occupied + 8 \\
+Slab bands & Davidson & $\Gamma$ + 10 along [100], [110] & $|k| \le 0.15$~\AA$^{-1}$ \\
+Doped bulk & MV smearing 0.01~Ry; $\beta = 0.3$; max.\ 100 iterations & relax 3$^3$, SCF 4$^3$ & PDOS; bands near $\Gamma$; spin-polarized SCF 3$^3$ ($\beta = 0.2$, starting moment 0.5 on W) \\
+Doped slab & MV smearing 0.01~Ry; $\beta = 0.2$, local-TF & 3$\times$3$\times$1 & relax at fixed cell; \texttt{nbnd} = occupied + 24; PDOS \\
+Hybrid check & fixed; $\beta = 0.3$ (local-TF for the slab) & 3$^3$ / 3$\times$3$\times$1 & SG15 NC, 80/320~Ry; \texttt{input\_dft = 'hse'}, EXX $q$ grid 1 (bulk also 3), \texttt{ecutfock} 160~Ry \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Stage 1: convergence of the numerical settings}
+\label{sec:dft-calc-conv}
+
+\begin{dftplain}
+A calculation is only meaningful if its answer does not depend on the numerical settings. The cutoff and the $k$ grid
+were therefore raised step by step until energy, pressure and gap no longer changed by more than the criteria.
+\end{dftplain}
+
+\Cref{tab:dft-conv,fig:dft_convergence} summarize the tests on the 40-atom primitive cell at the experimental lattice
+constant (laptop, 10 MPI processes; one SCF at 71~Ry and 3$\times$3$\times$3 took 12~min). A cutoff of 71~Ry is the lowest
+that meets all three criteria against 85~Ry (0.32~mRy/atom, 0.47~kbar, 0.5~meV); 60~Ry fails the energy and pressure
+criteria. The 2$\times$2$\times$2 grid already meets the criteria against 4$\times$4$\times$4; the 3$\times$3$\times$3
+grid was nevertheless used for the relaxation (a recorded deviation in favour of accuracy, at almost no cost).
+
+\begin{table}[htbp]\centering\small
+\caption{Convergence of bulk \InO{} at $a = 10.117$~\AA{} (40-atom primitive cell, PAW, PBE). Energies relative to the
+best-converged run of each series.}
+\label{tab:dft-conv}
+\begin{tabular}{lrrrr}
+\toprule
+Run & $E$ (Ry) & $\Delta E$/atom (mRy) & $P$ (kbar) & KS gap (eV) \\
+\midrule
+50~Ry, 3$\times$3$\times$3 & $-7573.24296524$ & 3.17 & 84.28 & 1.1897 \\
+60~Ry, 3$\times$3$\times$3 & $-7573.32959316$ & 1.00 & 89.87 & 1.1894 \\
+71~Ry, 3$\times$3$\times$3 & $-7573.35691861$ & 0.32 & 96.57 & 1.1897 \\
+85~Ry, 3$\times$3$\times$3 & $-7573.36970781$ & 0 & 97.04 & 1.1902 \\
+71~Ry, 2$\times$2$\times$2 & $-7573.35524852$ & $+0.044$ vs 4$\times$4$\times$4 & 96.27 & 1.1886 \\
+71~Ry, 4$\times$4$\times$4 & $-7573.35701116$ & reference & 96.61 & 1.1898 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{dft_convergence}
+\caption{Convergence of total energy, pressure and Kohn--Sham gap of bulk \InO{} with the plane-wave cutoff (left,
+3$\times$3$\times$3) and the $k$-point grid (right, 71~Ry). The grey band marks the energy criterion of 1~mRy per atom;
+the dotted lines on the right mark the gap criterion of 10~meV.}
+\label{fig:dft_convergence}
+\end{figure}
+
+\subsection{Stage 2: the relaxed bulk crystal}
+\label{sec:dft-calc-relax}
+\label{sec:dft-bulk}
+
+At the experimental lattice constant PBE gives a pressure of +97~kbar: the crystal ``wants'' to expand, the expected
+behaviour of this functional. The variable-cell relaxation (71~Ry, 3$\times$3$\times$3, BFGS, 1~h~47~min on the laptop)
+converged in 11 BFGS steps to a primitive volume of 547.333~\AA$^3$, i.e.\ $a = 10.306$~\AA, 1.87\,\% above the
+experimental 10.117~\AA{} \citep{Marezio1966} and within 0.06\,\% of the PBE value of 10.30~\AA{} reported by
+\citet[p.~21542]{Lin2022}. The final SCF with the plane-wave basis of the new cell gives $P = 0.41$~kbar, inside the
+1~kbar criterion. Space group Ia$\bar{3}$ is preserved; the In--O bonds become 2.215~\AA{} (8b) and 2.167/2.240/2.256~\AA{}
+(24d). All later structures are built from this relaxed cell.
+
+\subsection{Stage 3: bulk band structure and effective mass}
+\label{sec:dft-calc-bands}
+
+Two non-SCF runs use the density of the relaxed crystal: one along the high-symmetry path
+$\Gamma$--H--N--$\Gamma$--P--H$|$P--N of the body-centred cubic Brillouin zone \citep{Setyawan2010} (80 $k$ points,
+about 15 per $2\pi/a$; 11~h~16~min), and one on $\Gamma$ plus 10 points along each of [100], [110] and [111] up to
+$|k| = 0.15$~\AA$^{-1}$ (31 points; 4~h~21~min). The first attempt with Davidson diagonalization aborted after 9 of 16
+$k$ points with unconverged eigenvalues; both runs therefore use conjugate-gradient diagonalization.
+
+\Cref{fig:dft_bulk_bands} shows the bands. The conduction-band minimum lies at $\Gamma$; the valence band is very flat,
+with its maximum on $\Gamma$--H at $k = (0,0,0.196)\,2\pi/a$, only 4.4~meV above the highest valence state at $\Gamma$.
+The fundamental gap is 0.889~eV and the direct gap at $\Gamma$ 0.893~eV, against 0.94~eV in
+\citet[p.~21542]{Lin2022}; the bulk gap of 3.05~eV adopted in the device model is, as expected, strongly underestimated
+by PBE (\cref{sec:dft-xc}). The bulk reference for all confinement shifts is the fundamental gap, 0.8887~eV.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.75\linewidth]{dft_bulk_bands}
+\caption{PBE band structure of bulk \InO{} at the relaxed lattice constant, energies relative to the valence-band
+maximum. Occupied bands blue, empty bands red. Path after \citet{Setyawan2010}.}
+\label{fig:dft_bulk_bands}
+\end{figure}
+
+\Cref{fig:dft_mass_fit}(a) shows how the mass is obtained. Within $|k| \le 0.05$~\AA$^{-1}$ the parabolic fit
+(\cref{eq:dft-mass}) gives $\mstar = 0.1588$, 0.1587 and 0.1587~$m_0$ along [100], [110] and [111]: an isotropic
+$\mstar = 0.159\,m_0$, as expected for the s-like conduction-band minimum of a cubic crystal. Further from $\Gamma$ the
+points fall below the parabola: the band is non-parabolic. The Kane fit (\cref{eq:dft-kane}) over $|k| \le 0.153$~\AA$^{-1}$
+gives $\alpha = 0.63$, 0.57 and 0.55~eV$^{-1}$. For comparison, \citet[p.~21540]{Lin2022} report $0.17\,m_0$ with PBE, and
+the device model uses the measured $0.208\,m_0$ \citep[p.~225102-12]{Stokey2021}. PBE underestimates the mass because
+the gap is too small (the conduction-band curvature is coupled to the gap); as for the gap, only differences between
+films and bulk computed in the same setup are transferred to the device model.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{dft_mass_fit}
+\caption{How the effective mass is obtained. Symbols: conduction-band energies from the non-SCF runs, relative to the
+minimum at $\Gamma$; dashed: parabola from the fit over $|k| \le 0.05$~\AA$^{-1}$ (shaded). (a) Bulk, three directions;
+(b) relaxed 1~nm slab, two in-plane directions. The departure from the parabola at larger $k$ is the non-parabolicity.}
+\label{fig:dft_mass_fit}
+\end{figure}
+
+\subsection{Stage 4a: vacuum thickness}
+\label{sec:dft-calc-vac}
+
+\begin{dftplain}
+The vacuum layer must be thick enough that the film does not ``see'' its periodic copies. This was tested by computing
+the same film with 15, 25 and 35~\AA{} of vacuum: if EA and IP do not change, the vacuum is sufficient.
+\end{dftplain}
+
+The unrelaxed 1~nm slab was computed with the three vacuum thicknesses (16 CPUs each; the 35~\AA{} SCF took 1~h~48~min
+and 77 iterations). EA and IP change by at most 0.1~meV and the vacuum plateau of the potential is flat to 0.01~meV
+(\cref{tab:dft-vac}), far inside the 10~meV criterion; the symmetric, dipole-free slab converges fast. The 25~\AA{} of
+\citet[p.~21542]{Lin2022} is therefore sufficient and is used for all slabs.
+
+\begin{table}[htbp]\centering\small
+\caption{Vacuum convergence of the unrelaxed 1~nm slab (In$_{24}$O$_{48}$H$_{24}$).}
+\label{tab:dft-vac}
+\begin{tabular}{lrrrr}
+\toprule
+Vacuum & Gap (eV) & EA (eV) & IP (eV) & SCF iterations \\
+\midrule
+15~\AA & 0.9586 & 3.4331 & 4.3917 & 46 \\
+25~\AA & 0.9586 & 3.4332 & 4.3918 & 64 \\
+35~\AA & 0.9586 & 3.4332 & 4.3918 & 77 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Stage 4b: relaxation and confinement of the 1~nm film}
+\label{sec:dft-calc-slab1}
+\label{sec:dft-slab1}
+
+\begin{dftplain}
+A freshly cut film is not in equilibrium: the surface atoms and the added hydrogens are pulled into new positions. The
+relaxation lets them move. For the 1~nm film this changed the result completely: the gap of the unrelaxed film was only
+0.07~eV above the bulk gap, the relaxed one 0.90~eV.
+\end{dftplain}
+
+The relaxation (all atoms and the in-plane cell) started on 16 CPU cores; after 13 BFGS steps and the successful GPU
+benchmark (\cref{sec:dft-gpu}) it was continued on one A100 GPU from the latest geometry, where it converged after 54
+further steps (15~h~31~min). \Cref{fig:dft_relaxation_history} shows the 72 SCF cycles: the total energy fell by
+7.05~eV (73~meV per atom), the residual force by a factor of 40, and the gap rose from 0.959 to 1.789~eV, most of it in
+the first ten steps. The final in-plane cell is
+$10.336\times10.335$~\AA{} (bulk 10.306; Lin et al.\ 10.26 and 10.36~\AA, \citealp[p.~21542]{Lin2022}). The total
+residual force of 0.0061~Ry/bohr is the norm over all 96 atoms; BFGS ended with the criteria as Quantum ESPRESSO applies
+them.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{dft_relaxation_history}
+\caption{Relaxation of the 1~nm slab: total energy relative to the final value, Kohn--Sham gap and total force at every
+SCF cycle (one per geometry). Dotted: continuation of the CPU run on a GPU from its latest geometry. The gap of the
+relaxed film is the one used.}
+\label{fig:dft_relaxation_history}
+\end{figure}
+
+The confinement shift is
+\begin{equation}
+\Delta E_{\mathrm{g}}(\SI{0.99}{nm}) = 1.7885 - 0.8887 = \SI{0.900}{eV},
+\label{eq:dft-deg1}
+\end{equation}
+against $+0.94$~eV for the 0.95~nm slab of \citet[p.~21542]{Lin2022}. The in-plane mass is $0.281\,m_0$ along [100] and
+$0.282\,m_0$ along [110] (\cref{fig:dft_mass_fit}b), an increment of $+0.122\,m_0$ over the bulk value, against
+$+0.13\,m_0$ in \citet[p.~21540]{Lin2022}. Both agree within the pre-registered tolerance: the published confinement of a
+1~nm film is reproduced independently, with a different pseudopotential type and cutoff (PAW at 71~Ry versus
+norm-conserving at 140~Ry, \citealp[p.~21542]{Lin2022}).
+
+\begin{dftplain}
+\Cref{fig:dft_lin_parity} puts every quantity that both studies computed side by side. A point on the vertical line
+would mean perfect agreement; the grey band is $\pm5$\,\%. All our energies and masses lie a few per cent below theirs,
+and our lattice constants agree to 0.2\,\%.
+\end{dftplain}
+
+The lattice constants agree within 0.2\,\%. Gaps and masses are uniformly 4--7\,\% lower than those of
+\citet[pp.~21540, 21542]{Lin2022}: bulk gap $-5.5$\,\%, 1~nm gap $-4.9$\,\%, bulk mass $-6.6$\,\%, 1~nm mass $-6.3$\,\%.
+The quantities transferred to the device model, the differences between film and bulk, show the same small offset
+($\Delta E_{\mathrm{g}}$ $-4.3$\,\%, $\Delta\mstar$ $-5.8$\,\%), well inside the pre-registered tolerance of 0.1~eV for the
+shift. An offset of the same sign and size for every quantity points to a systematic difference between the two
+numerical setups (pseudopotential type and cutoff) rather than to a difference between the films.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.92\linewidth]{dft_lin_parity}
+\caption{This work against the PBE calculations of \citet[pp.~21540, 21542]{Lin2022}, which used the same slab recipe:
+relative difference of each quantity (dots) with both values written out. Grey: $\pm5$\,\%; green: the pre-registered
+tolerance of the confinement shift ($\pm0.1$~eV; at 2~nm this is $\pm30$\,\% and the bar is clipped). For the in-plane
+lattice constant of the 1~nm film, Lin et al.\ give 10.26 and 10.36~\AA; their mean is compared with ours. Below the
+dotted line: the 2~nm film (\cref{sec:dft-calc-slab2}); no criterion was set for the masses. The increments of Lin et
+al.\ are differences of their rounded values (1.27 $-$ 0.94~eV and 0.23 $-$ 0.17\,$m_0$).}
+\label{fig:dft_lin_parity}
+\end{figure}
+
+\begin{dftplain}
+\Cref{fig:dft_levels} shows the allowed electron energies at the centre of the Brillouin zone ($\Gamma$) as horizontal
+lines, for the bulk crystal and for the 1~nm film before and after relaxation. Below zero are the filled (valence)
+levels, above the gap the empty (conduction) ones. Two things change in the film: the gap opens, and new, separate
+conduction levels appear above the lowest one. They are the signature of confinement: an electron that can move freely
+through the crystal can only take certain energies when it is trapped between two surfaces, like a wave on a string of
+fixed length.
+\end{dftplain}
+
+At $\Gamma$ the gap is 0.893~eV in bulk, 1.015~eV in the film as built (whose valence-band maximum lies away from
+$\Gamma$, so its fundamental gap is 0.959~eV) and 1.788~eV after relaxation. In the bulk crystal the next conduction
+level at $\Gamma$ lies 4.28~eV above the minimum; in the film there are further levels 1.57 and 2.43~eV (as built) and
+1.50 and 2.45~eV (relaxed) above the lowest one. This is consistent with the conduction band splitting into separate
+sub-bands when the motion across the film is confined. The valence levels are denser in the film because its cell
+contains more atoms.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.72\linewidth]{dft_levels}
+\caption{Kohn--Sham levels at $\Gamma$ near the gap, relative to the highest occupied level at $\Gamma$: bulk \InO{}
+(40-atom cell), the 1~nm film as built, and the relaxed 1~nm and 2~nm films (PBE). Blue: occupied; red: empty. Arrows:
+gap at $\Gamma$.}
+\label{fig:dft_levels}
+\end{figure}
+
+The pp.x step of the GPU job failed to read the density written by the GPU build (\cref{sec:dft-gpu}), so the final
+geometry was recomputed on 16 CPU cores (SCF 2~h~19~min, 47 iterations; bands 4~h~38~min), which reproduced the gap and
+mass to the last printed digit and gave the potential of \cref{fig:dft_planar_potential}: EA $=3.93$~eV and IP
+$=5.72$~eV (PBE). \Cref{fig:dft_confinement_vs_thickness} places the result next to the literature points and the
+thickness laws of the device model.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.8\linewidth]{dft_planar_potential}
+\caption{Planar (grey) and macroscopic (blue) averages of the electrostatic potential of the relaxed 1~nm slab along the
+film normal, relative to the vacuum level, with the conduction- and valence-band edges (PBE). The flat regions near
+$z = 0$ and $z = c$ are the vacuum.}
+\label{fig:dft_planar_potential}
+\end{figure}
+
+\begin{dftplain}
+\Cref{fig:dft_alignment} draws the band edges of three 1~nm films on one common scale: the energy of an electron at
+rest outside the film (the vacuum level) is zero, and every edge is placed below it. This is the computed version of
+the schematic \cref{fig:dft-levels}.
+\end{dftplain}
+
+On the vacuum scale, relaxation lowers the conduction-band minimum of the 1~nm film from $-3.43$ to $-3.93$~eV and the
+valence-band maximum from $-4.39$ to $-5.72$~eV. Both edges move down, by different amounts. Besides the film interior,
+relaxation changes the surface O--H bonds, and any change of their electric dipole shifts the potential step between
+film and vacuum; absolute EA and IP of a single film therefore contain a contribution of the surface termination, which
+this calculation does not separate. Only differences between films with the
+same termination (here the relaxed 1 and 2~nm films) isolate the confinement shift of each band edge
+(\cref{eq:dft-partition}). The third column is discussed in \cref{sec:dft-calc-iwoslab}.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.78\linewidth]{dft_alignment}
+\caption{Band edges of the films on the vacuum scale, computed from the SCF eigenvalues and the planar-averaged
+potential (PBE): 1~nm film as built and relaxed, relaxed 2~nm film, and 1~nm film with one W on the central 24d site.
+For the pure films, the band edges are taken
+over the whole $k$ grid, as in \cref{tab:dft-vac}. For the W-doped film, the levels at $\Gamma$ are shown: the top
+valence level, the W-5d-derived level (purple, $E_F$ dashed) and the host conduction band (red). That column is
+preliminary.}
+\label{fig:dft_alignment}
+\end{figure}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{dft_confinement_vs_thickness}
+\caption{Confinement shift (left) and mass increment (right) versus film thickness: thickness laws of the device model,
+PBE slab values of \citet[pp.~21540, 21542]{Lin2022}, the conduction-band shift of \citet[p.~504]{Si2021} (corundum
+\InO{} on \AlO, PBE), and this work (PBE, and the HSE06-corrected range of \cref{sec:dft-hse}, drawn slightly offset in
+thickness for visibility). Thickness of this work: H--H distance of the slab as built (0.99 and 2.02~nm). The
+HSE06 correction measured at 1~nm is applied unchanged at 2~nm (an assumption, not a calculation).}
+\label{fig:dft_confinement_vs_thickness}
+\end{figure}
+
+\subsection{Stage 5: is PBE adequate for the shift? The hybrid-functional check}
+\label{sec:dft-hse}
+
+\begin{dftplain}
+PBE puts the gap far too low. If it also got the \emph{change} of the gap wrong, the confinement values would be
+useless. The check repeats the bulk and the 1~nm film with the much more accurate HSE06 functional and compares the two
+shifts. They differ by only 6\,\%.
+\end{dftplain}
+
+The check uses HSE06 single points at the PBE geometries. It was first run with PAW; after more than 4.5~h on an H100
+GPU at 0\,\% utilization (and more than 5.5~h on 16 CPU cores before) the first exact-exchange step had not finished,
+the PAW exact exchange of the GPU build evidently running on the host. Following a recorded deviation the check was
+moved to SG15 norm-conserving pseudopotentials \citep{Hamann2013,Schlipf2015} (In, O, H at 80~Ry, a cutoff verified
+against 100~Ry: gap change 0.1~meV), with PBE and HSE06 computed in the same setup and the ratio of the shifts
+transferred. The exact-exchange cutoff \texttt{ecutfock} was set to twice the wave-function cutoff after the default ran
+the GPU out of memory for the slab (the output reports 40.6~GB for the exchange arrays at this setting); for the bulk
+this changes the HSE06 gap by less than 0.1~meV.
+
+A hybrid calculation is a loop within a loop: pw.x first converges a PBE SCF (34 iterations for the slab), then
+repeatedly fixes the exchange operator, converges the density in it (23, 14, 9, 5, 3, 3, 1 iterations), and updates the
+operator, until the estimated exchange error falls from 0.013~Ry to $1.4\times10^{-9}$~Ry. The slab took 4.0~h and the
+bulk 12~min on one H100 NVL GPU.
+
+\begin{table}[htbp]\centering\small
+\caption{PBE versus HSE06 (norm-conserving, same geometries): Kohn--Sham gaps at $\Gamma$ and the confinement shift.}
+\label{tab:dft-hse}
+\begin{tabular}{lrrr}
+\toprule
+ & Bulk gap (eV) & 1~nm slab gap (eV) & $\Delta E_{\mathrm{g}}$ (eV) \\
+\midrule
+PBE & 0.9204 & 1.8068 & 0.8864 \\
+HSE06 ($q = 1$) & 2.1080 & 3.0475 & 0.9395 \\
+\midrule
+Ratio HSE06/PBE & & & 1.060 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+HSE06 raises both gaps by about 1.2~eV but changes the shift by only 6\,\% (\cref{tab:dft-hse,fig:dft_pbe_vs_hse}): the
+ratio 1.060 is inside the pre-registered 10\,\% criterion, so the PBE confinement is accepted. The reduced
+exact-exchange $q$ grid is the dominant numerical uncertainty: with $q = 3\times3\times3$ the bulk HSE06 gap is 42~meV
+lower (2.0662~eV); if the slab gap did not shift by the same amount, the ratio would be 1.107, so it lies between 1.06
+and 1.11. The norm-conserving PBE shift (0.886~eV) agrees with the PAW value (0.900~eV) within 1.6\,\%, which justifies
+applying the ratio to the PAW result: the HSE-corrected 1~nm shift is 0.95--1.00~eV. The semi-local functional,
+inadequate for the absolute gap, is adequate for the confinement \emph{shift} to within about 10\,\%, which supports the
+slab-minus-bulk construction of the device model (\cref{sec:der-confinement}) with evidence rather than assumption.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.62\linewidth]{dft_pbe_vs_hse}
+\caption{Kohn--Sham gaps at $\Gamma$ of bulk \InO{} and of the relaxed 1~nm slab with PBE and HSE06 (norm-conserving,
+same geometries) and the resulting confinement shifts.}
+\label{fig:dft_pbe_vs_hse}
+\end{figure}
+
+\subsection{Stage 6: tungsten in bulk \texorpdfstring{\InO}{In2O3}}
+\label{sec:dft-calc-w}
+\label{sec:dft-w}
+
+\begin{dftplain}
+Three questions were asked about W: which of the two In sites it takes, which charge state (valence) it has, and
+whether its extra electrons become free carriers. The site follows from comparing energies, the valence from the
+length of the W--O bonds, and the fate of the electrons from where their states sit in energy and on which atoms.
+\end{dftplain}
+
+Each doped cell was relaxed at the PBE lattice constant (3$\times$3$\times$3, 32 CPU cores; 10 and 24~h), followed by an
+SCF on 4$\times$4$\times$4 (30 irreducible points for W on 24d), a PDOS, bands near $\Gamma$ and a spin-polarized SCF
+(\cref{tab:dft-settings}). \Cref{tab:dft-w} gives the results.
+
+\begin{table}[htbp]\centering\small
+\caption{W in the 80-atom \InO{} cell (In$_{31}$WO$_{48}$, 3.1\,\% W).}
+\label{tab:dft-w}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{5.4cm}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{3.6cm}@{}}
+\toprule
+Quantity & W on 8b & W on 24d \\
+\midrule
+$E$, relaxed, 3$\times$3$\times$3 (Ry) & $-15496.3476466$ & $-15496.3666037$ \\
+$E$, SCF 4$\times$4$\times$4 (Ry) & $-15496.34766084$ & $-15496.36660308$ \\
+W--O bonds (\AA) & 6 $\times$ 1.972 & 1.892, 1.902, 2.152 (each $\times$2; mean 1.982) \\
+$E_F$ (eV), 4$\times$4$\times$4 & 10.758 & 10.794 \\
+Spin-polarized: moment ($\mu_{\mathrm{B}}$/cell); $E_{\mathrm{spin}} - E$ & 0.74; $-1.67$~mRy & 0.62; $-1.43$~mRy \\
+W 5d weight of the three bands at and above $E_F$ (first $k$ point) & 0.50, 0.50, 0.58 & 0.55, 0.48, 0.30 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Site.} The energy difference
+\begin{equation}
+E(\mathrm{8b}) - E(\mathrm{24d}) = +0.258~\mathrm{eV}\ (3\times3\times3),\qquad +0.2577~\mathrm{eV}\ (4\times4\times4),
+\label{eq:dft-site}
+\end{equation}
+is converged to 0.3~meV against the 10~meV criterion: W prefers the 24d site. With the multiplicity ratio of three, the
+equilibrium occupation ratio is $N_{24d}/N_{8b} = 3\exp(\Delta E/k_{\mathrm{B}}T)$, about 430:1 at 600~K.
+
+\paragraph{Valence.} The W--O bonds are about 0.2~\AA{} shorter than In--O. Bond lengths expected from the sums of the
+Shannon radii \citep{Shannon1976} (O$^{2-}$ 1.38~\AA, six-coordinated cations) are 1.98~\AA{} for W$^{6+}$, 2.00 for
+W$^{5+}$, 2.04 for W$^{4+}$ and 2.18 for In$^{3+}$; the computed means of 1.97--1.98~\AA{} identify W$^{6+}$. Relative to
+In$^{3+}$, each W can therefore release three electrons.
+
+\paragraph{The electrons of W (preliminary).} The projected densities of states (\cref{fig:dft_w_pdos}) show that the
+states at and just above $E_F$ carry about half of their weight on W 5d orbitals (\cref{tab:dft-w}), while the
+valence-band top carries 1.5\,\%. A spin-polarized calculation finds weak moments of 0.6--0.7~$\mu_{\mathrm{B}}$ per cell,
+1.4--1.7~mRy below the non-magnetic state; this does not meet the pre-registered non-magnetic criterion and is treated
+as preliminary, because coarse sampling of a degenerate electron gas can produce spurious moments. Within PBE and for
+one W per cell, the donated electrons are therefore not all released into the host band but partly occupy
+W-5d-derived states.
+
+\subsection{Stage 7: tungsten in the 1~nm film}
+\label{sec:dft-calc-iwoslab}
+
+The W-doped 1~nm slab (\cref{sec:dft-wstruct}) was relaxed at the cell of the pure relaxed slab on one H100 NVL GPU
+(27 BFGS steps, 4~h~29~min; $E = -12238.28910896$~Ry); the final SCF, potential and PDOS ran on 16 CPU cores
+(2~h~55~min), and its bands run aborted, so no mass is available. The W--O bonds are 1.880, 1.907 and 2.212~\AA{}
+(each twice). At the first $k$ point, band 313 (the lowest band above the 312 bands of the pure slab) lies at 0.576~eV
+and carries about 56\,\% W 5d weight, whereas band 314 (0.766~eV) is the delocalized host conduction band (no atomic
+component above 3\,\%); $E_F$ lies 5~meV above band 313. A W-5d-derived state thus forms about 0.19~eV below the host
+conduction band, and $E_F$ is pinned in it. Together with the bulk result, this indicates (PBE, one W position,
+preliminary) that W acts in the film as a localized donor rather than releasing all its electrons into the band.
+On the vacuum scale (\cref{fig:dft_alignment}, third column) all levels of the doped film lie higher than those of the
+pure film: the top valence level by 1.65~eV, the host conduction band by 1.27~eV, and the W level is 1.08~eV above
+the pure film's conduction-band minimum. The cause of this shift is not determined from the available data, and the
+absolute positions of the doped film are not used.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{dft_w_pdos}
+\caption{Total density of states (grey, scaled) and W 5d projected density of states (red, scaled) relative to $E_F$:
+bulk 80-atom cell with W on 24d (left) and 1~nm slab with W on the central 24d site (right). PBE, preliminary.}
+\label{fig:dft_w_pdos}
+\end{figure}
+
+\paragraph{Consequence for the device model (inference).} Full activation of about 2\,\% W would give of the order of
+$10^{21}$\cmcu{} electrons, orders of magnitude more than the channels of transistors that switch off can carry. The
+calculations offer one mechanism for the difference (electrons retained in W 5d states) besides compensation by other
+defects; they do not determine the effective donor density. They support, but do not replace, the treatment of the
+channel donor density as a fitted, film-specific parameter. The W content of the target films is known only as ``about
+2\,\% W'' without a stated basis (\cref{ch:device}); the W fractions of the cells (3.1 and 4.2\,\% of the cations) are of
+the same order.
+
+\subsection{Stage 4c: the 2~nm film}
+\label{sec:dft-calc-slab2}
+
+\begin{dftplain}
+The 2~nm film is the thickness of the thinnest measured device, so it is the most important single calculation for the
+device model. It answers three questions: how much does the gap open at 2~nm, how much heavier do the electrons
+become, and is the change in the conduction band or in the valence band? The answers: the gap opens by 0.34~eV (Lin et
+al.\ found 0.33~eV), the mass rises by about 30\,\%, and, going from 2 to 1~nm, the whole additional opening is in the
+conduction band.
+\end{dftplain}
+
+The 176-atom slab is the largest calculation of the study: 1328 electrons, a $45.18$~\AA{} cell, and about 24~GB of
+memory per $k$-point pool on CPUs (it was held at a 48~GB limit with four pools). Its variable-cell relaxation ran on one
+H100 NVL GPU with the settings of the 1~nm slab. A first run converged after 68 BFGS steps (2 October 2026) but was
+lost: its final SCF, with more bands than the relaxation, needed 66~GB of memory against the 32~GB requested, the job
+was held by the batch system, and no checkpoint of it had reached EOS (\cref{tab:dft-failures}). The relaxation was
+resubmitted from the same starting geometry with 100~GB and performed the final SCF, the planar average (with the
+density converted for pp.x, \cref{sec:dft-gpu}) and the bands on the GPU itself.
+
+\paragraph{Relaxation.} The second run converged after 70 BFGS steps (72 SCF cycles, 41.5~h; final enthalpy
+$-27035.66548$~Ry, total residual force 0.0072~Ry/bohr). The relaxed in-plane cell is $10.318\times10.309$~\AA{} (1~nm
+film: $10.336\times10.335$; bulk 10.306~\AA). The film contracts in thickness: the H--H distance falls from 20.18 to
+19.62~\AA{} and the O--O distance from 18.34 to 18.21~\AA{} (1~nm film: H--H 9.87 to 9.30~\AA). The final SCF took
+56~min and the bands run 8~h~22~min on the GPU; the whole job ran for 50.8~h.
+
+\paragraph{Gap and mass.} The gap of the relaxed film is 1.2239~eV, at $\Gamma$ like that of the 1~nm film, so
+\begin{equation}
+\Delta E_{\mathrm{g}}(\SI{2.02}{nm}) = 1.2239 - 0.8887 = \SI{0.335}{eV},
+\label{eq:dft-deg2}
+\end{equation}
+against $+0.33$~eV for the 1.98~nm slab of \citet[p.~21542]{Lin2022} (difference 0.005~eV, inside the pre-registered
+0.1~eV). The in-plane mass is $0.206\,m_0$ along both [100] and [110] (0.2064 and 0.2059), an increment of
+$+0.047\,m_0$ over bulk. Lin et al.\ give $0.23\,m_0$ \citep[p.~21540]{Lin2022}: our mass is 10\,\% lower, against
+6\,\% lower at 1~nm, so the increment ($+0.047$ versus $+0.06\,m_0$) is 20\,\% lower; for the increment the rounding of
+their values (two digits) is of the same order as the difference. At $\Gamma$, the next empty level lies 0.72~eV above
+the conduction-band minimum (1.50~eV in the 1~nm film, \cref{fig:dft_levels}): the confinement levels move closer
+together as the film gets thicker.
+
+\paragraph{Comparison with the device model.} The thickness laws of the device model (\cref{eq:dec-law}), fitted to
+the published proxies, give 0.348~eV and $0.049\,m_0$ at 2.02~nm; the computed values are 4\,\% and 3\,\% lower
+(\cref{fig:dft_confinement_vs_thickness}). At 0.99~nm the laws give 0.933~eV and $0.133\,m_0$, against the computed 0.900~eV
+and $0.122\,m_0$. A refit to the computed points will therefore change the laws by a few per cent.
+
+\paragraph{Where the change sits.} On the vacuum scale (\cref{fig:dft_alignment}) the relaxed 2~nm film has EA = 4.495~eV
+and IP = 5.719~eV, with a flat vacuum plateau. Both films have the same termination and the same read-out, so their
+difference partitions the change of the gap between 1 and 2~nm:
+\begin{equation}
+\begin{gathered}
+\dEc(1) - \dEc(2) = \mathrm{EA}(2) - \mathrm{EA}(1) = +0.567~\mathrm{eV}, \\
+\Delta E_{\mathrm{v}}(1) - \Delta E_{\mathrm{v}}(2) = \mathrm{IP}(1) - \mathrm{IP}(2) = -0.002~\mathrm{eV},
+\end{gathered}
+\end{equation}
+whose sum, $+0.565$~eV, equals $\Delta E_{\mathrm{g}}(1) - \Delta E_{\mathrm{g}}(2)$. Between 1 and 2~nm the whole change of
+the gap is thus in the conduction band, and the ionization potential is independent of thickness within 2~meV. Two
+checks are open before this is used. First, a top valence level that does not move at all may belong to the surface
+(O--H) rather than to the film interior; a projection of that state onto the atoms will decide this. Second, the shares
+relative to bulk, $\dEc(t)$ and $\Delta E_{\mathrm{v}}(t)$ themselves, need the bulk potential at the slab's in-plane
+lattice constant (two-step alignment, \cref{sec:dft-readout}). The CPU cross-check of the final SCF (which also gives
+the projected density of states) and the 2~nm IWO slab were submitted on 4 October 2026.
+
+% =====================================================================================================================
+\section{How the calculations were run: the workflow}
+\label{sec:dft-compute}
+
+\begin{dftplain}
+The bulk stages fit on a laptop; the films do not. A single 2~nm calculation needs tens of gigabytes of memory and days
+of computing. The film and doping calculations therefore ran on CERN's batch system, which distributes jobs over
+thousands of processor cores and a pool of GPUs. A collection of scripts prepares the jobs, sends them, watches them,
+repairs common failures, collects the results and analyses them, so that the calculations could run day and night
+without manual intervention. Logging in remained a manual step done by the author: no script stores or types a
+password.
+\end{dftplain}
+
+\subsection{Computers and software}
+\label{sec:dft-cern}
+
+Stages 1--3 ran on the author's laptop under Windows Subsystem for Linux with Quantum ESPRESSO 7.5 (conda-forge build)
+and 10 MPI processes. All later calculations ran on the CERN batch system, which uses HTCondor \citep{Thain2005}: jobs
+are submitted from the login service lxplus, wait in a queue and are matched to free worker nodes; each job declares its
+CPUs, memory, disk, GPUs and a ``flavour'' that sets its maximum wall time (here 8~h, 1, 3 or 7 days). Files are
+exchanged through EOS, CERN's disk storage. Access used a Kerberos ticket and an SSH connection that the author opened
+and authenticated manually; the scripts reuse this connection and never handle credentials.
+
+The CPU jobs run Quantum ESPRESSO 7.5 from a relocatable copy of the conda environment stored on EOS and unpacked on the
+worker. The GPU jobs run NVIDIA's GPU build of Quantum ESPRESSO 7.3.1 \citep{NvidiaQE} from a container image on EOS,
+executed with Apptainer \citep{Kurtzer2017}. Structure building and analysis use Python with ASE, spglib, NumPy
+\citep{Harris2020} and Matplotlib \citep{Hunter2007}.
+
+\subsection{Anatomy of a job}
+\label{sec:dft-driver}
+
+\file{make_jobs.py} turns the list of calculations into a job directory (\file{jobs/gen_<name>/}) containing: one
+sub-directory per job with its input files (\file{*.in}, templates \file{*.tmpl} that receive the relaxed geometry
+later, and \file{steps.sh}, the list of steps); the pseudopotentials; \file{jobs.txt} (one line per job: name, CPUs,
+memory, disk, flavour, time limit, GPUs); \file{jobs_info.json} (atoms, electrons, irreducible $k$ points); the submit
+description \file{jobs.sub}; the worker script \file{driver.sh}; and two helpers, \file{qeio.py} (geometry transfer,
+convergence test, Fermi level) and \file{dat2h5.py} (density conversion, \cref{sec:dft-gpu}).
+
+On the worker, \file{driver.sh}:
+\begin{enumerate}
+\item unpacks Quantum ESPRESSO from EOS (and, for GPU jobs, copies the container image);
+\item forces one thread per MPI process (the variables \texttt{OMP\_NUM\_THREADS},
+\texttt{OPENBLAS\_NUM\_THREADS} and \texttt{MKL\_NUM\_THREADS} are set to 1) and restricts MPI to shared-memory communication on one node;
+\item runs the steps of \file{steps.sh}. Each pw.x step receives \texttt{max\_seconds} = time left $-$ 30~min, so that
+it stops cleanly and writes its results before the batch limit; a guard stops a run whose output exceeds 2~GB (a sign
+of a looping error);
+\item after every step copies the outputs so far to EOS (a checkpoint), and at the end packs all outputs into one
+archive that HTCondor returns.
+\end{enumerate}
+A typical slab job (\file{steps.sh} of \file{slab1r_final_cpu}) is three lines: \texttt{run\_pw scf 4}, \texttt{run\_ppavg
+slab \$JOB 4.8833}, \texttt{run\_pw bands 4}. The number after \texttt{run\_pw} is the number of $k$-point pools: the
+MPI processes are split into groups that each handle some of the $k$ points, which is efficient but multiplies the
+memory. \file{make_jobs.py} chooses the largest number of pools that divides the CPUs, does not exceed the irreducible $k$
+points and leaves at least four processes per pool; the 2~nm slab is limited to two pools by memory. A relaxation step
+is followed by \texttt{qeio.py converged} (did it finish?) and \texttt{qeio.py newgeom}, which copies the final cell and
+positions into the templates of the following SCF and bands runs.
+
+\subsection{GPU acceleration}
+\label{sec:dft-gpu}
+
+Before any GPU result was used, a finished CPU calculation (the unrelaxed 1~nm slab) was repeated on one H100 NVL GPU
+with identical input: total energies $-11888.29271202$ and $-11888.29271155$~Ry ($5\times10^{-7}$~Ry apart), the same
+gap and the same 46 SCF iterations, in 9~min~16~s against 1~h~16~min on 16 CPU cores, a factor of 8.2
+(\cref{fig:dft_computing}). The difference of QE versions (7.3.1 on GPU, 7.5 on CPU) has no effect at the protocol
+tolerances. GPU jobs request one GPU and 8 CPU cores; one MPI process drives the GPU and the remaining cores serve as
+OpenMP threads; only H100 NVL and H200 nodes are accepted (A100 nodes ran about two times slower).
+
+Two incompatibilities had to be solved. First, the PAW exact exchange of the GPU build runs on the host
+(\cref{sec:dft-hse}). Second, the GPU build saves the density as a plain Fortran file (\file{charge-density.dat}), whereas
+the CPU build used for pp.x and projwfc.x, compiled with HDF5, reads only \file{charge-density.hdf5}; pp.x aborted on the
+first GPU save, and the band edges of GPU runs were lost. The converter \file{dat2h5.py} rewrites the density in the HDF5
+layout of QE 7.5 (header attributes, Miller indices with the reciprocal vectors, the complex density as interleaved real
+numbers), using the h5py library of CERN's software distribution on the worker. It was tested by a round trip: a QE 7.5
+density converted to the plain format and back gave identical HDF5 headers and data and a byte-identical planar average
+from pp.x and average.x. The 2~nm final calculation is the first production use.
+
+\subsection{The automated workflow}
+\label{sec:dft-flow}
+
+All operations are commands of one documented script, \file{qe_workflow/dft_flow.sh} (\cref{tab:dft-flow}), also available
+as tasks in Visual Studio Code. \Cref{fig:dft-workflow} shows the flow of data.
+
+\begin{table}[htbp]\centering\footnotesize
+\caption{Commands of \file{dft_flow.sh}.}
+\label{tab:dft-flow}
+\begin{tabularx}{\linewidth}{@{}>{\ttfamily}p{3.4cm}X@{}}
+\toprule
+\normalfont Command & What it does \\
+\midrule
+login, check, keepalive & print the login command for the author to type; test the SSH session; keep it alive and renew the Kerberos ticket every 6~h, warning 24~h before the ticket can no longer be renewed \\
+build & build and verify all structures from the relaxed bulk \\
+generate, plan, submit & write job directories; show the resources each job would get; upload and submit, skipping jobs already queued or finished \\
+status, resources, hw & queue and live progress (step, SCF iterations, BFGS steps, energy); free CPU slots and GPUs by model; hardware under each job \\
+fetch, analyze & download finished results (and checkpoints of jobs that died); collect all numbers into \file{summary.json} \\
+auto & every 5--10~min: status, resources, fetch, watchdog, chains, analysis \\
+dashboard & live web page of the whole study \\
+local & run one job on the laptop with the same driver \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{figure}[htbp]\centering
+\begin{tikzpicture}[node distance=5mm and 7mm, every node/.style={font=\scriptsize},
+  box/.style={draw, rounded corners=2pt, align=center, fill=lightbg, text width=27mm, minimum height=9mm},
+  arr/.style={-{Stealth[length=1.6mm]}, thick}]
+\node[box] (b) at (0,0) {1. Laptop (WSL)\\build structures,\\generate jobs};
+\node[box] (l) at (4.4,0) {2. lxplus: submit\\(SSH session opened\\by the author)};
+\node[box] (q) at (8.8,0) {3. HTCondor queue\\matches CPU / GPU};
+\node[box] (w) at (8.8,-2.0) {4. Worker node\\\file{driver.sh} runs\\the QE steps};
+\node[box] (e) at (4.4,-2.0) {5. EOS storage\\QE software, GPU image,\\checkpoints, results};
+\node[box] (f) at (0,-2.0) {6. Laptop: fetch,\\analyse, \file{summary.json}};
+\node[box] (r) at (0,-3.9) {7. Figures, report,\\dashboard};
+\node[box, text width=36mm] (a) at (8.8,-3.9) {\texttt{auto} loop: watchdog,\\race/upgrade, continuation,\\chains};
+\draw[arr] (b) -- (l); \draw[arr] (l) -- (q); \draw[arr] (q) -- (w);
+\draw[arr] ([yshift=2mm]e.east) -- node[above, font=\tiny] {software} ([yshift=2mm]w.west);
+\draw[arr] ([yshift=-2mm]w.west) -- node[below, font=\tiny] {outputs} ([yshift=-2mm]e.east);
+\draw[arr] (e) -- node[above, font=\tiny] {fetch} (f);
+\draw[arr] (f) -- (r);
+\draw[arr, dashed] (a) -- node[right, font=\tiny] {supervises} (w);\end{tikzpicture}
+\caption{Data flow of the workflow. Jobs are generated on the laptop, submitted through the author's lxplus session,
+matched to CPU or GPU workers by HTCondor, and run by \file{driver.sh}, which takes the software from EOS and writes
+checkpoints there. Results return to the laptop for analysis. The \texttt{auto} loop supervises the queue.}
+\label{fig:dft-workflow}
+\end{figure}
+
+\paragraph{Allocation.} \texttt{submit} decides each job's resources from its size and the free resources at that
+moment: films with 90 or more atoms get one H100 NVL or H200 GPU with 8 CPU cores if one is free, otherwise 16 CPU
+cores; smaller jobs get 16 CPU cores (32 only when more than 20 such slots are free, because jobs of 32 or more cores go
+to a small pool of 10 slots and waited 6~h on the first day).
+
+\paragraph{Supervision.} The \texttt{auto} loop applies fixed rules:
+\begin{itemize}
+\item \emph{race and upgrade}: copies of the same calculation (a GPU job and its CPU twin) form a group; the first copy
+that runs removes queued copies of equal or lower rank, and a GPU copy that starts removes a running CPU copy;
+\item \emph{idle}: a GPU job queued for more than 3~h gets a CPU twin; a CPU job queued for more than 3~h is resubmitted
+with a smaller request;
+\item \emph{stuck}: a job that runs for 60~min in an SCF step without a single SCF iteration is resubmitted (at most
+twice); a job without progress for 30~min is reported;
+\item \emph{memory}: a job held for exceeding its memory is released with 1.5 times the memory;
+\item \emph{continuation}: a relaxation that ends unfinished (time limit, eviction) is resubmitted from its last
+geometry as \texttt{JOB\_c}$N$ (at most five times);
+\item \emph{chains}: a command attached to a relaxation runs once its finished result has been fetched; the 2~nm
+relaxation is chained to its final runs and to the 2~nm IWO slab.
+\end{itemize}
+These rules were tested with deliberate fault-injection jobs (``canaries'' that simulate an unfinished relaxation, a
+stuck start and a race), which exposed and fixed several rule errors before the rules acted on production jobs.
+
+\subsection{Failures and what they taught}
+\label{sec:dft-failures}
+
+\Cref{tab:dft-failures} lists the failures in the order they occurred. Each is recorded in the protocols and logs; none
+affected a reported number, because every result comes from a run that finished cleanly and passed its checks.
+
+\begin{table}[htbp]\centering\footnotesize
+\caption{Failures, causes and fixes.}
+\label{tab:dft-failures}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{3.8cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{4.0cm}@{}}
+\toprule
+Symptom & Cause & Fix \\
+\midrule
+2 symmetry operations, 765~kbar, negative gap & inherited, never-checked bulk input & rebuilt from crystallographic data, automatic checks \\
+again 2 operations & spglib coordinates with QE's \texttt{ibrav = 3} basis & cell given explicitly (\texttt{ibrav = 0}) \\
+32-core jobs stopped after 18~s & MPI launcher counted physical cores, slots expose hardware threads & \texttt{--map-by :OVERSUBSCRIBE} \\
+2~nm slab held at 95.8~GB & four $k$-point pools, about 24~GB each & at most two pools \\
+bulk bands aborted (Davidson) & unconverged eigenvalues in a non-SCF run & CG for bulk bands; Davidson kept for slabs (CG took 13.7~h instead of 1.5~h) \\
+jobs 17--30 times too slow & batch system set thread counts to the core count; 65 threads per process & one thread per process, all jobs resubmitted \\
+large jobs waiting for hours & 32+ cores go to a 10-slot pool & 16-core CPU jobs, 8-core GPU jobs \\
+2~nm unrelaxed SCF lost at 24~h & killed at the limit in the bands step & checkpoint to EOS after every step \\
+GPU job wrote 324~GB of errors & MPI tried InfiniBand on GPU nodes & transport restricted to shared memory and CUDA; 2~GB output guard \\
+hybrid functional at 0\,\% GPU & PAW exact exchange on the host in the GPU build & norm-conserving pseudopotentials \\
+GPU out of memory (hybrid, slab) & default exact-exchange cutoff & \texttt{ecutfock} = 2 $\times$ \texttt{ecutwfc} \\
+pp.x could not read GPU saves & plain vs HDF5 density format & \file{dat2h5.py} converter \\
+converged 2~nm relaxation lost & final SCF needed 66~GB (32~GB requested); job held, no checkpoint on EOS (cause not determined) & memory from measured demand; no automatic release after $>1$~h of running; re-run \\
+workflow rule errors & logic errors found by canary jobs & fixed before production use \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Computing resources}
+\label{sec:dft-resources}
+
+The usage to date is about 8\,300 weighted CPU core-hours and 85--90 GPU-hours at CERN, of which about 3\,000
+core-hours and 50 GPU-hours were lost to the failures above, and about 190 core-hours on the laptop
+(\cref{fig:dft_computing}). Run on the laptop, the useful work would take about six weeks of continuous computing, and
+the 2~nm slab and the hybrid slab calculation (30--100~GB of memory) could not run at all. \Cref{tab:dft-timing}
+gives the wall times of representative steps.
+
+\begin{table}[htbp]\centering\footnotesize
+\caption{Wall times of representative steps (from the output files and driver logs).}
+\label{tab:dft-timing}
+\begin{tabular}{@{}lllr@{}}
+\toprule
+Calculation & Size & Hardware & Wall time \\
+\midrule
+bulk SCF, 71~Ry, 3$\times$3$\times$3 & 40 atoms & laptop, 10 MPI & 12~min \\
+bulk vc-relax (11 BFGS steps) & 40 atoms & laptop, 10 MPI & 1~h~47~min \\
+bulk bands, path (80 $k$, CG) & 40 atoms & laptop, 10 MPI & 11~h~16~min \\
+1~nm slab SCF, unrelaxed & 96 atoms & 16 CPU cores & 1~h~48~min \\
+same, GPU benchmark & 96 atoms & 1 H100 NVL & 9~min \\
+1~nm vc-relax, 54 BFGS steps & 96 atoms & 1 A100 & 15~h~31~min \\
+1~nm final SCF / bands & 96 atoms & 16 CPU cores & 2~h~19~min / 4~h~38~min \\
+W on 24d: relax / SCF 4$^3$ / bands & 80 atoms & 32 CPU cores & 23~h~48~min / 3~h~3~min / 18~h~36~min \\
+HSE06 bulk / 1~nm slab & 40 / 96 atoms & 1 H100 NVL & 12~min / 4.0~h \\
+IWO 1~nm relax (27 BFGS steps) & 96 atoms & 1 H100 NVL & 4~h~29~min \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{dft_computing}
+\caption{Left: CERN CPU usage (approximate weighted core-hours), productive and lost to faults that were fixed. Right:
+GPU benchmark, the same 96-atom SCF on 16 CPU cores and on one H100 NVL.}
+\label{fig:dft_computing}
+\end{figure}
+
+\begin{dftplain}
+\Cref{fig:dft_timeline} is the diary of the CERN work: one row per calculation, coloured by what the calculation was
+doing at each moment (waiting in the queue, running on CPUs, running on a GPU). It shows the long CPU phase of the
+first two days, the move to GPUs once they were validated, and the many short checks that ran in parallel on
+30 September.
+\end{dftplain}
+
+The timeline combines three records: the exact start and end times written by \file{driver.sh} for every job that
+returned output; the queue snapshots of the monitor script every 30~min from 27 September 09:02Z; and the 5--10~min
+status records of the workflow from 28 September 14:20Z. Runs of the first submission that were removed without output
+before 09:02Z on 27 September (the thread problem, \cref{tab:dft-failures}) are not shown, apart from the failed
+18-second starts. White gaps within a row mean that no copy of that calculation was recorded as queued or running (between a
+removal and a resubmission, or while the monitoring was interrupted).
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{dft_timeline}
+\caption{Timeline of the CERN calculations, 27 September to 1 October 2026 (UTC). Blue: running on CPUs; red: running
+on a GPU; grey: queued; amber: held; hatched: failed at the first step. Dotted lines: the thread fix, the GPU
+validation, and the move of the hybrid check to norm-conserving pseudopotentials. Several copies of a calculation (CPU
+twin, GPU variants, continuations) share one row.}
+\label{fig:dft_timeline}
+\end{figure}
+
+% =====================================================================================================================
+\section{From output files to numbers and figures}
+\label{sec:dft-analysis}
+
+\begin{dftplain}
+A finished calculation leaves text files of thousands of lines. Small Python scripts read the few lines that matter
+(energies, eigenvalues, forces, the averaged potential), compute the derived quantities with the formulas of
+\cref{sec:dft-readout}, and draw the figures. Nothing is copied by hand, so every number in this chapter can be
+regenerated from the raw outputs by running the scripts again.
+\end{dftplain}
+
+\subsection{Reading the outputs}
+\label{sec:dft-parsing}
+
+\Cref{tab:dft-parsing} lists each quantity, the line of the output it comes from and the script that reads it. The
+eigenvalues of non-SCF runs are read block by block (one block per $k$ point, \cref{lst:dft-eig}); $k$ is converted from
+units of $2\pi/a_{\mathrm{lat}}$ to \AA$^{-1}$ with the lattice parameter printed in the same output. This matters after
+a vc-relax: pw.x keeps the initial \texttt{alat} as its unit, so the largest $k$ of the bulk $\Gamma$ set is 0.153 and
+not 0.15~\AA$^{-1}$.
+
+\begin{table}[htbp]\centering\footnotesize
+\caption{Where each quantity comes from.}
+\label{tab:dft-parsing}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{3.4cm}@{}}
+\toprule
+Quantity & Source in the output & Script \\
+\midrule
+total energy & line starting with ``\texttt{!}'' (last one); ``Final energy/enthalpy'' after a relaxation & \file{collect_results.py}, \file{make_dft_figures.py} \\
+pressure, force & ``\texttt{P=}'' in the stress block; ``\texttt{Total force =}'' & same \\
+VBM, CBM, gap (SCF) & ``highest occupied, lowest unoccupied level (ev)'' & \file{analyze_slabs.py} \\
+bulk fundamental gap & minimum of band 177 minus maximum of band 176 over the path run & \file{analyze_path.py}, \file{collect_results.py} \\
+$\mstar$, $\alpha$ & eigenvalue blocks of the $\Gamma$-set bands run, fits \cref{eq:dft-mass,eq:dft-kane} & \file{analyze_mass.py}, \file{collect_results.py} \\
+$E_{\mathrm{vac}}$, EA, IP & \file{<job>_avg.dat} of average.x: mean of the planar average within 2~\AA{} of the cell boundary; its spread as a flatness check & \file{analyze_slabs.py} \\
+$E_F$ & ``the Fermi energy is'' & \file{qeio.py fermi} \\
+W--O bonds & final geometry, neighbours within 2.6~\AA{} (ASE) & \file{analyze_iwo.py} \\
+W 5d share & projwfc.x output and \file{pdos/*(W)_wfc#*(d)} files & \file{analyze_iwo_slab.py} \\
+site energy & $[E(\mathrm{8b}) - E(\mathrm{24d})] \times 13.6057$~eV/Ry & \file{collect_results.py} \\
+HSE ratio & gaps of the four NC runs & \file{collect_results.py} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{lstlisting}[language=Python, caption={Reading eigenvalues and fitting the effective mass (\texttt{make\_dft\_figures.py}, shortened).}, label={lst:dft-eig}]
+def eig(path, nocc, extra=8):
+    t = Path(path).read_text(errors='replace')
+    alat = float(re.search(r'lattice parameter \(alat\)\s+=\s+([\d.]+)', t).group(1)) * BOHR
+    bl = re.findall(r'k =\s*([-\d. ]+?)\s*\(\s*\d+ PWs\)\s+bands \(ev\):\s+(.*?)(?=...)', t, re.S)
+    ks = np.array([...]) * 2 * np.pi / alat          # k in 1/A
+    ev = np.array([...])                              # eigenvalues (eV), bands 1..nocc+extra
+    return ks, ev
+
+k = np.linalg.norm(ks[idx], axis=1); e = ev[idx, nocc] - ev[0, nocc]   # CB relative to its minimum
+sel = k <= 0.0501                                     # fit window |k| <= 0.05 1/A
+c2 = np.polyfit(k[sel] ** 2, e[sel], 1)[0]            # slope of E against k^2
+m_star = H2M / c2                                     # H2M = hbar^2/(2 m0) = 3.80998 eV A^2
+\end{lstlisting}
+
+All numbers are collected by \file{collect_results.py} into the file \file{summary.json} of the results
+directory, which feeds the live dashboard; values that are missing stay empty and are never estimated. Every value used in this chapter is also entered,
+with its date and context, in \file{RESULTS_LOG.md}.
+
+\subsection{Drawing the figures}
+\label{sec:dft-figures}
+
+All figures of this chapter are produced by one script of the report, \file{tools/make_dft_figures.py}
+(Matplotlib, Times font, PDF output), run with \file{python tools/make_dft_figures.py}. Each figure is one function
+that reads the output files directly (\cref{tab:dft-figures}). The plotting choices follow the purpose of each figure:
+energies are always shown relative to a physical reference (the VBM, the CBM, $E_F$ or $E_{\mathrm{vac}}$), never as raw
+eigenvalues, because absolute Kohn--Sham energies have no meaning; acceptance criteria are drawn as shaded bands so that
+a reader sees at once whether a point passes; literature values are open symbols and values of this work filled.
+
+\begin{table}[htbp]\centering\footnotesize
+\caption{The figure functions of \file{make_dft_figures.py}: data and processing.}
+\label{tab:dft-figures}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}p{4.1cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Figure & Data read & Processing and plotting \\
+\midrule
+\cref{fig:dft_structures} & structure files (\file{*.json}) of the relaxed and built slabs & $x$--$z$ projection; atoms drawn back to front by $y$, radius per element; cell outline; H--H distance \\
+\cref{fig:dft_convergence} & \file{scf_ecut*_k*.out} & differences to the most converged run, per atom (40 atoms) in mRy; pressure and gap differences; criteria shaded \\
+\cref{fig:dft_bulk_bands} & \file{bands_path.out}, \file{bands_path.in} & distance along the path from successive $|\Delta k|$, no distance across the H$|$P jump; tick positions from the points per segment of the input; energies minus the VBM \\
+\cref{fig:dft_mass_fit} & \file{bands_gamma.out}, slab \file{bands.out} & $|k|$ from $\Gamma$, $E - E_{\mathrm{CBM}}$; least-squares slope against $k^2$ in the window; parabola drawn over the full range \\
+\cref{fig:dft_relaxation_history} & vc-relax outputs of the CPU run and the GPU continuation & energy (log scale), gap and total force for each SCF cycle; the switch marked \\
+\cref{fig:dft_planar_potential} & \file{slab1r_final_cpu_avg.dat}, \file{scf.out} & columns $z$ (bohr), planar and macroscopic average (Ry) converted to \AA{} and eV; $E_{\mathrm{vac}}$ from the vacuum window; band edges as lines \\
+\cref{fig:dft_confinement_vs_thickness} & gap of \file{slab1r_final_cpu}; literature values; law coefficients & $\Delta E_{\mathrm{g}} = \Eg(t) - 0.8887$~eV; HSE-corrected point $\times1.085\pm0.025$ (midpoint and half-range of 1.06--1.11); laws of the device model as curves \\
+\cref{fig:dft_pbe_vs_hse} & four NC \file{scf.out} & gaps as bars, shifts and ratio in the panel \\
+\cref{fig:dft_w_pdos} & \file{pdos_tot}, W 5d PDOS files, Fermi energy & energies relative to $E_F$; each curve scaled to its maximum (shapes, not absolute weights) \\
+\cref{fig:dft_computing} & resource accounting of the logs; benchmark wall times & stacked bar; bar chart of the benchmark \\
+\cref{fig:dft_lin_parity} & bulk and slab outputs (as above); values of Lin et al.\ with page & relative difference per quantity; $\pm5$\,\% band; tolerance of the shift \\
+\cref{fig:dft_levels} & eigenvalue block at $\Gamma$ of \file{bands_gamma.out} and of the two slab \file{scf.out} & levels as horizontal lines relative to the highest occupied level at $\Gamma$; occupied/empty by band index \\
+\cref{fig:dft_alignment} & \file{scf.out} and \file{*_avg.dat} of three slabs & $E_{\mathrm{vac}}$ from the vacuum window; band edges (pure films: whole $k$ grid; doped film: $\Gamma$ levels 312--314 and $E_F$) placed below it \\
+\cref{fig:dft_timeline} & \file{monitor.log}, \file{status_history.jsonl}, all \file{*_driver.log} & samples converted to bars of one sampling interval per row (copies merged); driver-log intervals drawn exactly \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% =====================================================================================================================
+\section{Pending results and changes to the device model}
+\label{sec:dft-pending}
+
+\begin{table}[htbp]\centering\small
+\caption{Status of the first-principles inputs of the device model.}
+\label{tab:dft-status}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{3.3cm}@{}}
+\toprule
+Input & This work & Status \\
+\midrule
+$\Delta E_{\mathrm{g}}$ at about 1~nm & +0.90~eV (PBE); 0.95--1.00~eV (HSE-corrected) & computed; reproduces Lin et al. \\
+$\Delta\mstar$ at about 1~nm & $+0.122\,m_0$ & computed \\
+$\Delta E_{\mathrm{g}}$ at about 2~nm & +0.335~eV (PBE); 0.36--0.37~eV (HSE ratio of 1~nm assumed) & computed; reproduces Lin et al. \\
+$\Delta\mstar$ at about 2~nm & $+0.047\,m_0$ & computed \\
+$\dEc/\Delta E_{\mathrm{v}}$ partition & between 1 and 2~nm: all in $\dEc$ ($+0.567$ vs $-0.002$~eV); relative to bulk \textit{[to be completed: bulk alignment]} & partly computed; surface-state check open \\
+W site, valence & 24d, W$^{6+}$ & computed, converged \\
+W 5d states at $E_F$, moments & see \cref{sec:dft-calc-w,sec:dft-calc-iwoslab} & preliminary (PBE) \\
+W effect on confinement & \textit{[to be completed: 2~nm IWO slab; 1~nm IWO slab mass]} & pending \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The 1 and 2~nm points are now computed. They lie 3--8\,\% below the present laws (\cref{sec:dft-calc-slab2}). The next
+step is to refit the confinement and mass laws of the device model (\cref{eq:dec-law}) to the computed points (with the
+HSE-corrected range as uncertainty), to change the provenance label of the two inputs from
+\prov{DFT\_PURE\_IN2O3\_PROXY} to computed values of this work, and to repeat the ATLAS campaign of the four thicknesses
+with the new laws. That campaign needs new simulator runs and has not been done; until then the device model is
+unchanged and the present chapter documents inputs, not a new calibration.
+
+% =====================================================================================================================
+\section{Limitations}
+\label{sec:dft-limits}
+
+\begin{caveat}
+The films are idealized crystalline (001) slabs with hydrogen-passivated surfaces in vacuum; the device channels are
+sputtered, largely amorphous or nanocrystalline IWO on \AlO{} with an air-exposed top surface. The results describe
+trends and provide physically grounded inputs; they do not predict the measured devices directly. PBE is adequate for
+the confinement shift within about 10\,\% (\cref{sec:dft-hse}) but not for absolute gaps, masses or the position of W 5d
+states. The W cells contain one W at 3.1--4.2\,\%; other positions, concentrations, complexes with oxygen defects and
+charge states were not computed. The hybrid check uses a reduced exact-exchange $q$ grid, whose effect is bounded but
+not eliminated. The relaxations stop at forces of $10^{-3}$~Ry/bohr (a recorded deviation from the $10^{-4}$ of Lin et
+al.).
+\end{caveat}
+
+\begin{keyresult}
+An independent PAW-PBE calculation reproduces the published confinement of 1 and 2~nm \InO{} films ($\Delta
+E_{\mathrm{g}} = +0.90$ and $+0.335$~eV, $\Delta\mstar = +0.122$ and $+0.047\,m_0$, against $+0.94$ and $+0.33$~eV and
+$+0.13$ and $+0.06\,m_0$). Between 1 and 2~nm the change of the gap lies entirely in the conduction band (surface-state
+check open). A hybrid-functional check shows that the
+semi-local functional gives the confinement shift to within 6--11\,\%, so the slab-minus-bulk construction of the device
+model rests on evidence. Tungsten substitutes on the 24d site as W$^{6+}$; within PBE its donated electrons partly
+occupy W 5d states (preliminary). Every structure, setting, run and number is traceable to scripts and output files,
+and the workflow that produced them is documented. The computed points lie 3--8\,\% below the thickness laws of the
+device model; the refit of the laws, the partition relative to bulk and the W effect on confinement are pending.
+\end{keyresult}

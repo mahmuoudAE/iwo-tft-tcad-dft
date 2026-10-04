@@ -1,5 +1,145 @@
 # CERN results log
 
+## 2026-10-04 (13:30Z): 2 nm bands finished; mass; chain submitted by hand
+
+- **Job end.** slab2_relax_c2 finished all steps after 182892 s (50.8 h); bands run 8 h 22 min on the GPU, rc 0. Fetched 10:03Z.
+- **Mass.** In-plane CB mass of the relaxed 2 nm slab: 0.2064 m0 [100], 0.2059 m0 [110] (fit |k| <= 0.05 1/A, 4 points, same as 1 nm). Increment over bulk (0.159): +0.047 m0. Lin et al. p. 21540: 0.23 m0 (increment 0.06 from rounded values). Ours is 10 % lower (6 % at 1 nm). No criterion was set for the mass.
+- **Sub-band spacing at Gamma.** Next empty level 0.719 eV above the CBM (1 nm: 1.499 eV).
+- **Against the V1 laws at 2.02 nm.** dEg 0.335 vs 0.348 eV (-4 %); dm* 0.047 vs 0.049 m0 (-3 %). At 0.99 nm: 0.900 vs 0.933 eV, 0.122 vs 0.133 m0.
+- **Chain failure.** The chain slab2_relax fired but failed: `wsl.exe: cannot execute binary file: Exec format error`. Windows interop does not work inside the WSL distro "Ubuntu", where the automation now runs. The three steps were run by hand: the structure build and generate in Ubuntu-22.04, then submit from Ubuntu. Cluster 12827176: slab2r_final_cpu (16 CPUs, 72 GB), iwo_slab2_W24d (1 GPU, 100 GB) and its CPU twin.
+- **Fix in analyze_slabs.py.** A missing "Total force" no longer aborts collect_results.py. This affected HSE runs without forces.
+- **Report.** 13_dft.tex now has the 2 nm results. Figures updated: confinement, levels, alignment, Lin parity. The PDF has 403 pages.
+
+## 2026-10-04: relaxed 2 nm slab (slab2_relax_c2, H100 NVL; read from the live snapshot, bands still running)
+
+**Relaxation.** The vc-relax converged: 70 BFGS steps, 72 SCF cycles, 41.5 h wall time.
+- Final enthalpy: -27035.66548 Ry.
+- Total force: 0.0072 Ry/bohr.
+- In-plane cell: 10.318 x 10.309 A.
+- Thickness: H to H 19.62 A, O to O 18.21 A.
+
+**Final SCF.** The final SCF ran on the GPU in 56 min. The density was converted with dat2h5.py, and the planar average ran (first production use; it worked).
+
+**Band edges.**
+- Gap: 1.2239 eV. Bulk gap 0.8887 eV, so **dEg(2 nm) = +0.335 eV**. Lin et al.: +0.33 eV at 1.98 nm, so criterion 7 is met. The V1 law gives 0.348 eV at 2.02 nm.
+- EA = 4.495 eV, IP = 5.719 eV. The vacuum plateau is flat.
+
+**Partition between 1 and 2 nm** (same termination; the 1 nm values come from slab1r_final_cpu with the same read-out):
+- dEc(1) - dEc(2) = EA(2) - EA(1) = +0.567 eV.
+- dEv(1) - dEv(2) = IP(1) - IP(2) = -0.002 eV.
+- The sum, +0.565 eV, equals dEg(1) - dEg(2).
+- So the whole 1 -> 2 nm change of the gap is in the conduction band.
+
+**Open checks.**
+- Is the VBM a surface (O-H) state? That would also make the IP thickness-independent; to be checked with a projection.
+- The partition relative to bulk needs the two-step alignment (plan item 1.3).
+- The mass comes from the bands run, which is running.
+## 2026-10-03: cause of the missing checkpoints found; laptop-side snapshots added
+
+- **Running job.** slab2_relax_c2 (H100 NVL) is at 40 BFGS steps after 23 h. Its CPU twin had done 2 steps and was removed by the upgrade rule.
+- **The job's Kerberos ticket was not renewed.** Inside the job (condor_ssh_to_job), the ticket is valid from 10/02 04:41 to 10/03 05:41 CEST, renewable until 10/07, yet it was never renewed. A test xrdcp to EOS from the job failed with "[3010] ... unauthorized identity used: Permission denied". The same copy from the author's lxplus session succeeds. EOS checkpoints of jobs running longer than about 25 h therefore fail silently. This is the most likely reason why slab2_relax_x1 left no checkpoint; it is plausible, not proven for that job.
+- **Safety net.** `cern_htcondor/snapshot_jobs.sh` copies the text outputs of the running 2 nm job to `results/live_snapshots/<job>/` every 15 min, through the author's session. An interrupted relaxation can continue from its last geometry, because qeio.py newgeom reads the last printed geometry.
+## 2026-10-02: 2 nm relaxation lost after convergence; re-run submitted
+
+**What happened.** slab2_relax_x1 (cluster 12788377, 1 x H100 NVL, 8 CPUs, 32 GB) finished its vc-relax: 68 BFGS steps, last energy change below 0.2 mRy per step. The gap at the last steps was 1.22 eV, about +0.33 eV above bulk; this is provisional and not used. The following final SCF (occupied + 16 bands, verbosity high) needed 65.9 GB. The vc-relax itself had run at 31.4 GB. The job was held for memory (code 34). A held job's working directory is deleted, and no EOS checkpoint of this job exists, so the relaxed geometry is lost. The held job was removed before the watchdog could release it, because a release would have restarted it from its first step.
+
+**Why no checkpoint.** NOT DETERMINED FROM AVAILABLE DATA. The driver copies to EOS after every step and checkpoints of other GPU jobs exist. A possible cause is that the job's stored credentials expired before the copy, but this was not verified.
+
+**Fixes.**
+- dft_flow.sh: the memory in jobs.txt is now a floor for every allocation, including FORCE_GPU.
+- dft_flow.sh: memory-held jobs that ran for more than 1 h are no longer released; they are reported for a resubmission from their checkpoint.
+- make_jobs.py: 2 nm jobs now request 100 GB on GPU and 72 GB on 16 CPUs, and the CPU final run uses at most 2 pools.
+
+**Re-run.** slab2_relax_c2 (cluster 12806569) uses the same input as slab2_relax_x1 (the same starting geometry), 100 GB, and the new driver, which converts the GPU density for pp.x. Its own final SCF, planar average and bands therefore give gap, mass, EA and IP. The chain now adds only the CPU final run and the 2 nm IWO slab.
+## 2026-10-01: HSE06 check of the PBE confinement (SG15 NC, 80 Ry, PAW-PBE geometries)
+
+| | bulk gap (Gamma) | 1 nm slab gap | dEg |
+|---|---|---|---|
+| PBE | 0.9204 eV | 1.8068 eV | 0.8864 eV |
+| HSE06 (q = 1, ecutfock 160 Ry) | 2.1080 eV | 3.0475 eV | 0.9395 eV |
+
+**Ratio dEg(HSE)/dEg(PBE) = 1.060**, so criterion met (< 10 %) and the PBE confinement is accepted.
+
+**Settings checks.**
+- ecutfock 160 vs 320 Ry: bulk HSE gap unchanged (2.1080 eV).
+- EXX q = 3x3x3: bulk HSE gap 2.0662 eV (-42 meV). If the slab gap does not shift equally (worst case), the ratio becomes 1.107, so **ratio range 1.06-1.11**.
+- NC-PBE dEg (0.886 eV) vs PAW-PBE (0.900 eV): 1.6 % difference.
+
+**Result.** 1 nm dEg = +0.90 eV (PBE, PAW), +0.95-1.00 eV HSE-corrected; Lin et al. +0.94 eV.
+
+## 2026-09-30: 1 nm IWO slab (W on central 24d site; relax on GPU 27 BFGS steps, E = -12238.28910896 Ry)
+
+**Run.** Final SCF, planar average and PDOS on CPU (iwo_slab1_final_cpu). The bands run aborted (Davidson, rc 161), so no mass is available.
+
+**W-O bonds.** 1.880 x 2, 1.907 x 2, 2.212 x 2 A.
+
+**Comparison with the pure relaxed 1 nm slab** (same cell and settings; analyze_iwo_slab.py). Band numbering: nocc = 312 (band indices in the table are 1-based).
+
+| quantity | pure | IWO |
+|---|---|---|
+| band 313 - band 312 at Gamma | 1.7885 eV | 1.2228 eV |
+| E_vac - band 313 | 3.93 eV | 2.85 eV |
+| E_F - band 313 | insulating | +0.005 eV |
+
+**Projection** (projwfc, first k-point).
+- Band 313 of the IWO slab, at 0.576 eV, is **~56 % W 5d** (W states #62-66).
+- Band 314, at 0.766 eV, is delocalized host CB (each atomic component <= 3 %).
+
+**Interpretation (PBE, preliminary).**
+- W forms a W-5d-derived state about 0.19 eV below the host CB, and E_F is pinned in it. The 3 donated electrons stay largely at W, so W acts as a localized/deep donor in the 1 nm film.
+- This is consistent with the weak moments in bulk (0.6-0.7 muB), and with the inference that W electrons are largely not free carriers in the TFT channel.
+
+**Caveats.**
+- One W position, 4.2 % W, PBE (which usually under-localizes).
+- **Bulk check (done 2026-09-30).** In the 80-atom cells (4x4x4 SCF, projwfc, first k-point), band 352 (VB top) has 1.5 % W weight, while the bands at and just above E_F carry about half their weight on W 5d:
+  - 24d: bands 353-355 have 0.55 / 0.48 / 0.30 W weight; E_F = 10.794 eV.
+  - 8b: bands 353-355 have 0.50 / 0.50 / 0.58 W weight; E_F = 10.758 eV.
+
+  **The W-5d character at E_F is therefore a W property (PBE), not a confinement effect.**
+- **Next check.** An HSE06 (NC) calculation of the W cell would test the d-state position.
+- The large shift of both edges relative to E_vac with W (about 1.1-1.6 eV) needs checking before any use.
+
+## 2026-09-29: relaxed 1 nm slab (slab1_relax_gpu, finished 11:58Z)
+
+**Run.** vc-relax (atoms + in-plane cell) on a GPU: A100 for 54 BFGS steps, after 13 CPU steps.
+- Final enthalpy -11888.81122571 Ry.
+- Residual force 0.0061 Ry/bohr, which does not meet the 1e-3 criterion. See the note below.
+- In-plane cell 10.336 x 10.335 A (bulk 10.306). Lin et al.: 10.26 / 10.36 A.
+
+| quantity | this work | Lin et al. 2022 (p. 21540, 21542) |
+|---|---|---|
+| gap, relaxed 1 nm slab | 1.7885 eV | 1.88 eV (0.95 nm) |
+| **dEg = slab - bulk** | **+0.900 eV** (bulk 0.889 eV) | **+0.94 eV** |
+| in-plane CB mass | 0.281 m0 (bulk 0.159) | 0.30 m0 (bulk 0.17) |
+| mass increment | +0.122 m0 | +0.13 m0 |
+
+- **Criterion 7: the recipe is reproduced.** dEg agrees with Lin et al. within 0.04 eV (criterion 0.1 eV), and the mass increment within 0.01 m0.
+- **Relaxation matters.** The unrelaxed slab opened the gap by only +0.07 eV, so the relaxed value is the one to use.
+- **Residual force.** The total force of 0.0061 Ry/bohr is the norm over all 96 atoms. BFGS reported convergence, i.e. the energy and force criteria as QE applies them per component.
+- **EA/IP missing.** The planar-average step (CPU pp.x reading the GPU 7.3.1 save) aborted, so EA and IP of the relaxed slab are missing. A CPU SCF of the final geometry with pp.x is needed for the band-edge partition.
+
+## 2026-09-29: IWO bulk complete (iwo_W24d finished 08:57Z; iwo_W8b 2026-09-28 17:10Z)
+
+| quantity | W on 8b | W on 24d |
+|---|---|---|
+| E relax, 3x3x3 (Ry) | -15496.3476466 | -15496.3666037 |
+| E SCF, 4x4x4 (Ry) | -15496.34766084 | -15496.36660308 |
+| W-O (A) | 6 x 1.972 | 1.892 x 2, 1.902 x 2, 2.152 x 2 (mean 1.982) |
+| spin-polarized, 3x3x3: E (Ry), M | -15496.34931870, 0.74 muB | -15496.36803594, 0.62 muB |
+| E(spin) - E(no spin) | -1.67 mRy (-22.7 meV) | -1.43 mRy (-19.5 meV) |
+
+- **Criterion 1 (k-points) is met.**
+  - The site preference is dE = E(8b) - E(24d) = +0.2580 eV at 3x3x3 and +0.2577 eV at 4x4x4; the change of 0.3 meV is below 10 meV.
+  - Energy changes between the grids are below 1 microRy per atom.
+- **Result: W prefers the 24d site by 0.258 eV.** At 600 K (kT = 52 meV), the occupation ratio 24d:8b is 3 exp(4.96), about 430:1, so 8b is practically empty.
+- **Criterion 3 (oxidation state).** The mean W-O bond of 1.97-1.98 A matches W6+ (Shannon 1.98 A), not W4+ (2.04 A).
+- **Criterion 4 (magnetism) is not met at 3x3x3.** Both sites develop a weak moment (0.6-0.7 muB per cell, about 20 meV lower in energy). Coarse sampling of a degenerate electron gas can produce spurious Stoner moments, so this is **preliminary**; a spin-polarized check at 4x4x4 is needed before any claim.
+- The PDOS (W 5d versus CBM) is in `iwo_W24d/pdos`; its analysis is pending.
+
+## 2026-09-29: slab2_relax_gpu1 removed
+
+Cluster 12759807 was removed by CERN's SYSTEM_PERIODIC_REMOVE ("disk usage exceeded") at 05:58Z. The job's memory use stayed at about 156 MB for about 12 h, so pw.x never reached the SCF. No step finished, so no checkpoint exists. It was resubmitted as cluster 12772910, with an inspection after 12 min to find the cause.
+
 ## 2026-09-28 notes
 - **slab2_v25 lost.** Removed at the 24 h wall-time limit during its CG bands step: a single k-point outran the 30 min max_seconds margin, and the job ended without a results tarball. It is not resubmitted; slab2_relax (running since about 09:00Z, Davidson bands, 7-day limit) supersedes it.
 - **W site (preliminary).** The relax outputs were copied from the running jobs into `iwo_*_partial/`. At the 3x3x3 k-point grid, both cells relaxed and BFGS converged.

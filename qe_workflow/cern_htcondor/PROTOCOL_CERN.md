@@ -144,6 +144,49 @@ Properties of these slabs:
   - Each CPU job is removed only once its GPU replacement runs.
 - *Post-processing.* pp.x and projwfc.x remain on the CPU environment inside the same job.
 
+**IWO slab design, recorded 2026-09-30 before the run** (`structures_v2/build_iwo_slab.py`).
+
+*Structure.* The relaxed pure 1 nm slab (slab1_relax_gpu) with one In of the central cation layer replaced by W:
+- the central layer holds only 24d cations, the site preferred in bulk by 0.258 eV;
+- composition In23 W O48 H24, W/(W+In) = 4.2 %;
+- W sits exactly at the slab centre;
+- the space group is P2 and a 2-fold operation maps z to -z, so there is no slab dipole and no dipole correction.
+
+*Calculation.*
+- Atoms are relaxed at the pure slab's relaxed in-plane cell, on 1 GPU (H100 NVL / H200), with MV smearing 0.01 Ry (W gives 3 electrons, so the slab is metallic).
+- The final SCF, planar potential, PDOS and bands run on the CPU QE 7.5 in the same job (FORCE_CPU).
+
+*Read-out.*
+- The change of dEc and m* relative to the pure slab.
+- E_F - CBM (band filling).
+- The position of W 5d relative to the CBM (resonant or not).
+- Local W-O bonds.
+
+*The pure slab re-run.* The relaxed pure 1 nm slab is re-run on CPU (slab1r_final_cpu) for its EA/IP.
+
+*Caveat.* Carrier density: 3 electrons in a 1 nm slab of 10.34^2 A^2 is about 2.8e14 cm^-2, far above the TFT channel. As in bulk, band-edge quantities are read from the dispersion.
+
+**HSE06 check of the PBE confinement, recorded 2026-09-30 before the run.**
+- *Method.* HSE06 single points (input_dft = 'hse'; J. Heyd, G. E. Scuseria, M. Ernzerhof, J. Chem. Phys. 118, 8207 (2003); 124, 219906 (2006)) at the PBE geometries: the relaxed bulk primitive cell (3x3x3 k-points) and the relaxed pure 1 nm slab (3x3x1).
+- *Settings.* ecutfock = 284 Ry (4 x ecutwfc), EXX q-grid 1x1x1. The bulk is repeated with q = 3x3x3 to measure the q-grid error.
+- *Criterion.*
+  - If |dEg(HSE) / dEg(PBE) - 1| < 10 %, the PBE confinement values are accepted as TCAD inputs.
+  - Otherwise the HSE/PBE ratio is reported and applied to dEg(t), and the ratio's uncertainty includes the q-grid sensitivity.
+- *Mass.* Hybrid band dispersions (m*) are not computed: non-SCF 'bands' runs are not available for hybrids in pw.x.
+
+**Deviation, 2026-09-30 16:45Z: the HSE06 check moves to norm-conserving pseudopotentials.**
+
+*Why.* With PAW, the first exact-exchange step did not finish after more than 4.5 h on H100 GPUs, whose utilization stayed at 0 %; before that, it had run more than 5.5 h on 16 CPUs. The PAW exact exchange of the QE 7.3.1 GPU build evidently runs on the host. The three PAW-HSE jobs were removed.
+
+*New setup.* SG15 ONCV v1.2 pseudopotentials (In, O, H, W; files and SHA-256 in qe_workflow/pseudo; M. Schlipf and F. Gygi, Comput. Phys. Commun. 196, 36 (2015)), downloaded from quantum-simulation.org with the user's approval.
+- Cutoff 80 Ry (ecutrho 320 Ry), with a bulk PBE check at 100 Ry.
+- Geometries: the same PAW-PBE ones.
+- Single points: PBE and HSE06 (EXX q = 1) for the bulk and for the relaxed 1 nm slab.
+
+*Read-out.* The ratio [dEg(HSE)/dEg(PBE)] is computed within this one NC setup. It is applied to the PAW-PBE dEg under the same 10 % criterion as before.
+
+*Accepted limitation.* The NC-PBE dEg may differ slightly from the PAW-PBE dEg; the difference is reported.
+
 ## 4. Execution
 
 **How the jobs run:**
@@ -167,3 +210,16 @@ Two findings from the toy runs changed the production settings:
   - electron_maxstep is capped at 100 for the doped cells and 150 for the slabs;
   - the spin run uses mixing_beta 0.2;
   - a non-converged spin run is reported as such and never read as a result.
+
+## Addition (2026-10-02): band edges of GPU runs (user request: final 2 nm calculation also on a GPU)
+
+*Why.* The planar average (EA/IP) of every GPU run was lost: the GPU build (QE 7.3.1 container) writes `charge-density.dat`, while the CPU pp.x (QE 7.5, built with HDF5) reads only `charge-density.hdf5` and aborted in read_rhog (slab1_relax_gpu, 2026-09-29). The container itself has no pp.x or average.x.
+
+*Change.* `jobs/common/dat2h5.py` converts the plain Fortran density to the HDF5 layout of QE 7.5 (h5py from the LCG_107 view on CVMFS, present on lxplus and the GPU workers). driver.sh calls it in run_ppavg only when a save has a `.dat` and no `.hdf5`; CPU runs are unchanged.
+
+*Test.* Round trip on a QE 7.5 density (H2, 69911 G-vectors): HDF5 -> Fortran records -> dat2h5.py on lxplus -> HDF5. Header and attributes identical (h5dump), data identical (h5diff), and the pp.x (plot_num 11) + average.x planar averages byte-identical. The header of the real 2 nm GPU file (gamma_only false, ngm_g 7431975, nspin 1; 208095416 bytes = 116 + 28 ngm_g) matches the layout.
+
+*Job.* slab2r_final_gpu (1 GPU, 8 CPUs): SCF, planar average and bands of the relaxed 2 nm slab, submitted by the slab2_relax chain together with slab2r_final_cpu, which stays as the reference and fallback. Accepted if gap, EA and IP agree with the CPU run within the protocol tolerances (10 meV), as in the GPU benchmark.
+## Deviation (2026-10-02): 2 nm relaxation re-run
+
+slab2_relax_x1 converged (68 BFGS steps) but was held for memory in its final SCF: 65.9 GB used, 33 GB limit. No EOS checkpoint existed, so the relaxed geometry was lost (details in results/RESULTS_LOG.md). The relaxation was resubmitted unchanged from the same starting geometry, as slab2_relax_c2 (cluster 12806569) with 100 GB. The settings and acceptance criteria are unchanged. The final SCF, planar average and bands of the re-run use the GPU density converted by dat2h5.py.

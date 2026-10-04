@@ -1,0 +1,8 @@
+# GROUP|command  (run once by dft_flow.sh auto when a finished relaxation of GROUP is fetched; $OUT = its output)
+# 2 nm slab relaxed -> build the 2 nm IWO slab (W on the central 24d site) + CPU band edges of the pure slab. The GPU
+# final SCF, planar average (density converted by dat2h5.py) and bands run inside the relaxation job itself (2026-10-02);
+# FORCE_GPU keeps the IWO relaxation on a GPU even if no fast GPU is free at that moment
+# WARNING (2026-10-04): the automation runs in the WSL distro "Ubuntu", where wsl.exe (Windows interop) fails with
+# "Exec format error"; the slab2_relax chain failed for this reason and was run by hand. New chains must not call wsl.exe.
+slab2_relax|wsl.exe -d Ubuntu-22.04 --cd "$PWD/structures_v2" -e /home/mahmoud/miniforge3/envs/qe/bin/python build_iwo_slab.py "$OUT" slab2r relaxed_pbe && wsl.exe -d Ubuntu-22.04 --cd "$PWD" -e bash ./dft_flow.sh generate iwoslab2 slab2r_final_cpu,iwo_slab2_W24d && FORCE_GPU=1 bash ./dft_flow.sh submit iwoslab2
+canary_cont|echo "chain fired for $OUT" > cern_htcondor/results/canary_chain_marker.txt

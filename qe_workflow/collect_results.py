@@ -112,10 +112,65 @@ def iwo():
     return res
 
 
+def gap_of(f):
+    t = f.read_text(errors='replace') if f.exists() else ''
+    m = re.findall(r'highest occupied, lowest unoccupied level \(ev\):\s+(-?[\d.]+)\s+(-?[\d.]+)', t)
+    return (round(float(m[-1][1]) - float(m[-1][0]), 4), 'JOB DONE' in t) if m else (None, False)
+
+
+def hse(slab_rows):
+    """HSE06 single points (protocol: dEg(HSE)/dEg(PBE) within 10 % -> PBE confinement accepted)."""
+    res = {}
+    for d in sorted(R.glob('hse_*')):
+        if d.is_dir() and not d.name.endswith('_x4'):
+            g, done = gap_of(d / 'scf.out')
+            res[d.name] = {'gap_eV': g, 'finished': done}
+    b, s = res.get('hse_bulk_nq1', {}).get('gap_eV'), res.get('hse_slab1', {}).get('gap_eV')
+    pbe = next((r.get('dEg_eV') for r in slab_rows if r['job'] == 'slab1r_final_cpu'), None)
+    if b and s:
+        res['dEg_HSE_eV'] = round(s - b, 4)
+        if pbe:
+            res['dEg_PBE_eV'] = pbe; res['ratio_HSE_PBE'] = round((s - b) / pbe, 3)
+            res['criterion_10pct_met'] = abs((s - b) / pbe - 1) < 0.10
+    if res.get('hse_bulk_nq3', {}).get('gap_eV') and b:
+        res['bulk_gap_q_sensitivity_eV'] = round(res['hse_bulk_nq3']['gap_eV'] - b, 4)
+    return res
+
+
+def iwo_slabs():
+    """W-doped slabs (metallic): relaxed W-O bonds, E_F, work function E_vac - E_F, CB mass at Gamma."""
+    from ase.io import read
+    from ase.neighborlist import neighbor_list
+    out = {}
+    for d in sorted(R.glob('iwo_slab*')):
+        if not d.is_dir() or not (d / 'relax.out').exists():
+            continue
+        rec = {}
+        t = (d / 'relax.out').read_text(errors='replace')
+        if 'End final coordinates' in t:
+            at = read(d / 'relax.out', format='espresso-out', index=-1)
+            w = [i for i, s in enumerate(at.get_chemical_symbols()) if s == 'W'][0]
+            i, j, dist = neighbor_list('ijd', at, 2.6)
+            rec['W_O_A'] = np.round(np.sort(dist[(i == w) & (at.numbers[j] == 8)]), 3).tolist()
+            rec['E_final_Ry'] = float(re.findall(r'Final energy\s+=\s+([-\d.]+)', t)[-1])
+        s = (d / 'scf.out').read_text(errors='replace') if (d / 'scf.out').exists() else ''
+        ef = re.findall(r'the Fermi energy is\s+(-?[\d.]+)', s)
+        if ef:
+            rec['E_F_eV'] = float(ef[-1])
+            avg = next(d.glob('*_avg.dat'), None)
+            if avg:
+                z, v = np.loadtxt(avg, usecols=(0, 1), unpack=True); c = z.max() + (z[1] - z[0])
+                rec['work_function_eV'] = round(float(v[np.minimum(z, c - z) * BOHR < 2.0].mean() * RY - rec['E_F_eV']), 4)
+        rec['mstar_m0'] = slab_mass(d)
+        out[d.name] = rec
+    return out
+
+
 def main():
     b = bulk()
+    sl = slabs(b.get('gap_fundamental_eV'))
     summary = {'updated': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'), 'bulk': b,
-               'slabs': slabs(b.get('gap_fundamental_eV')), 'iwo': iwo(), 'lin2022': LIN}
+               'slabs': sl, 'iwo': iwo(), 'hse': hse(sl), 'iwo_slabs': iwo_slabs(), 'lin2022': LIN}
     (R / 'summary.json').write_text(json.dumps(summary, indent=1))
     print(json.dumps(summary, indent=1)[:3000])
 
