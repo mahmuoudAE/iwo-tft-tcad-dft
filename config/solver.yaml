@@ -15,7 +15,7 @@ output: "con.band val.band e.mobility"
 runner:
   argv: ["C:/sedatools/exe/deckbuild.exe", "-run", "{deck}", "-outfile", "{stdout}"]   # verified batch recipe (cwd = run dir, relative names)
   timeout_seconds: {default: 900, thick: 1500}
-  max_launches: 57                          # +2 on 2026-09-28 for the parallel pilot (user-approved); raised to 54 on 2026-09-27 (overlap redo + explicit tmun check, user-approved); earlier raised from 30 on 2026-09-25 at the user's explicit request (6.3 nm hypothesis study, DOS 384/192 recalibration, mesh, sensitivity, predictions: ~20 launches)
+  max_launches: 71                          # +14 on 2026-10-05 for model V2 (user-approved "approved, go ahead with all steps": off-current path, DFT inputs, predictive 6.3 nm test, 1/0.7/0.5 nm); +2 on 2026-09-28 for the parallel pilot (user-approved); raised to 54 on 2026-09-27 (overlap redo + explicit tmun check, user-approved); earlier raised from 30 on 2026-09-25 at the user's explicit request (6.3 nm hypothesis study, DOS 384/192 recalibration, mesh, sensitivity, predictions: ~20 launches)
   kcl_absolute_limit_A: 1.0e-17
   kcl_floor_fraction: 0.1                   # applied absolute limit = max(1e-17 A, 0.1 x smallest measured current of the device)
   kcl_relative_limit: 0.01

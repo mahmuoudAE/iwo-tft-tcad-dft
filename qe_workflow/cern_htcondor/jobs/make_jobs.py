@@ -95,7 +95,13 @@ JOBS += [('slab1_relax_gpu', 'slab1_v25', 'slab_relax', 8, 32000, 30000000, 'tes
          # ~1e-8 Ry (conv_thr 1e-9, 86 iterations) and the job was removed by a faulty stuck rule. Final SCF + planar
          # average + PDOS of the relaxed geometry on CPU, conv_thr 1e-8 Ry (energy precision far below what the
          # eigenvalues and projections need) and mixing_beta 0.1; no bands
-         ('iwo_slab2_final_cpu', 'slab2r_W24d_relaxed', 'iwo_slab_final', 24, 100000, 30000000, 'tomorrow', 86400)]
+         ('iwo_slab2_final_cpu', 'slab2r_W24d_relaxed', 'iwo_slab_final', 24, 100000, 30000000, 'tomorrow', 86400),
+         # 2026-10-05 (user-approved): thinner films for the 1/0.7/0.5 nm TCAD scenarios, built by
+         # structures_v2/build_thin_slabs.py (Lin recipe with 1 or 2 cation planes; H-to-H 0.51 / 0.75 nm before
+         # relaxation). vc-relax (2Dxy) on 1 GPU as slab1_relax_gpu, then SCF + planar average + PDOS (surface-state
+         # check of the band edges) + bands on the CPU environment with one pool, as iwo_slab1_W24d
+         ('slabL1_relax_gpu', 'slabL1_v25', 'thin_slab', 8, 32000, 30000000, 'testmatch', 259200, 1),
+         ('slabL2_relax_gpu', 'slabL2_v25', 'thin_slab', 8, 32000, 30000000, 'testmatch', 259200, 1)]
 # memory: every pool holds complete wavefunctions of its k-points. slab2_v25 with 4 pools used 95.8 GB
 # (held at a 48 GB limit, 2026-09-27), i.e. ~24 GB per pool, so slab 2 runs with at most 2 pools.
 MAXPOOL = {'slab2_v25': 2, 'slab2_relax': 2, 'slab2r_final_cpu': 2, 'slab2r_pdos_cpu': 2, 'iwo_slab2_final_cpu': 2}
@@ -212,6 +218,20 @@ STEPS_SLAB_RELAX = """steps() {{
 """
 
 
+STEPS_THIN_SLAB = """steps() {{
+  run_pw vcrelax 1
+  python qeio.py converged vcrelax.out || {{ log "relaxation did not finish; later steps skipped"; return 0; }}
+  for t in scf bands; do python qeio.py newgeom $t.tmpl vcrelax.out > $t.in; done
+  clean_tmp
+  export FORCE_CPU=1   # one QE version (CPU 7.5) for SCF, pp.x, projwfc.x and bands; one pool (NCPU may be odd)
+  run_pw scf 1 || return 0
+  run_ppavg slab "$JOB" {awin:.4f}
+  run_pdos slab "$JOB" "$(python qeio.py fermi scf.out)" 1
+  run_pw bands 1
+}}
+"""
+
+
 STEPS_IWO_SLAB = """steps() {{
   run_pw relax 1
   python qeio.py converged relax.out || {{ log "relaxation did not finish; later steps skipped"; return 0; }}
@@ -296,6 +316,11 @@ def make_job(name, st, kind, ncpu, out, p):
         elif kind == 'slab_pdos':
             (d / 'scf.in').write_text(pw_input(st, 'scf', 'slab', p, kgrid=ks, nbnd=occ + 16, verbosity='high'))
             (d / 'steps.sh').write_text(STEPS_SLAB_PDOS.format(**nk))
+        elif kind == 'thin_slab':
+            (d / 'vcrelax.in').write_text(pw_input(st, 'vc-relax', 'vcr', p, kgrid=ks, nbnd=occ + 8))
+            (d / 'scf.tmpl').write_text(pw_input(st, 'scf', 'slab', p, kgrid=ks, nbnd=occ + 16, verbosity='high'))
+            (d / 'bands.tmpl').write_text(pw_input(st, 'bands', 'slab', p, kpts=kb, nbnd=occ + 16, verbosity='high'))
+            (d / 'steps.sh').write_text(STEPS_THIN_SLAB.format(**nk))
         else:
             (d / 'vcrelax.in').write_text(pw_input(st, 'vc-relax', 'vcr', p, kgrid=ks, nbnd=occ + 8))
             (d / 'scf.tmpl').write_text(pw_input(st, 'scf', 'slab', p, kgrid=ks, nbnd=occ + 16, verbosity='high'))

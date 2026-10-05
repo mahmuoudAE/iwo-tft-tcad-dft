@@ -109,11 +109,13 @@ def parse_segments(text):
     if text is None or str(text).lower() in ('none', 'off', ''): return None
     return [(float(a), float(b)) for a, b in (seg.split(':') for seg in str(text).split(','))]
 
-def execute(t, label, overrides, stride=1, vg_min=None, timeout=None, smoke=False, vstep=None, segments='config', full='config'):
+def execute(t, label, overrides, stride=1, vg_min=None, timeout=None, smoke=False, vstep=None, segments='config', full='config', predict=False):
     """segments: [(end V, step V), ...] for ATLAS stepped SOLVE VSTEP/VFINAL/NAME=gate blocks ('config' = solver.yaml
     sweep.segments; None = one SOLVE per 0.05 V point). vstep: single-step shorthand. full: physical structure
     (Air / Pd volumes / Al2O3 / HfO2 / Conductor gate; 'config' = geometry.yaml structure == 'full').
-    Steps must be multiples of the 0.05 V measured grid; the run is scored at the solved points only."""
+    Steps must be multiples of the 0.05 V measured grid; the run is scored at the solved points only.
+    predict (2026-10-06): no measured curve (any thickness); the Vg grid comes from geometry.yaml, KCL is validated with
+    the 1e-17 A absolute limit, nothing is scored, and the curve is written to prediction.csv."""
     m, g, s = load_configs()
     for o in overrides:
         k, v = o.split('=', 1)   # 'solver.' / 'geometry.' prefixes address solver.yaml / geometry.yaml (numerical checks); else the material model
@@ -123,7 +125,11 @@ def execute(t, label, overrides, stride=1, vg_min=None, timeout=None, smoke=Fals
     if full == 'config': full = str(g.get('structure', 'reduced')).lower() == 'full'
     if segments == 'config': segments = [tuple(x) for x in s['sweep']['segments']] if str(s.get('sweep', {}).get('mode', 'pointwise')) == 'stepped' else None
     if vstep: segments = [(float(g['gate_sweep_V']['stop']), float(vstep))]
-    vg, meas = read_meas(t); base = vg[vg >= vg_min - 1e-9] if vg_min is not None else vg
+    if predict:
+        sw = g['gate_sweep_V']; vg = np.round(np.arange(sw['start'], sw['stop'] + 1e-9, sw['step']), 6); meas = None
+    else:
+        vg, meas = read_meas(t)
+    base = vg[vg >= vg_min - 1e-9] if vg_min is not None else vg
     if segments:
         pts = [float(base[0])]; a = float(base[0])
         for e, st_ in segments:
@@ -135,12 +141,13 @@ def execute(t, label, overrides, stride=1, vg_min=None, timeout=None, smoke=Fals
         if stride > 1 and targets[-1] != vg[-1]: targets = np.append(targets, vg[-1])
     r = s['runner']
     rid, dest = reserve(r, t, label)
-    text, meta = build_deck(t, m, g, s, meas=(vg, meas), targets=targets, smoke=smoke, full=full, segments=segments); (dest / 'device.in').write_text(text, encoding='ascii')
+    text, meta = build_deck(t, m, g, s, meas=None if predict else (vg, meas), targets=targets, smoke=smoke, full=full, segments=segments); (dest / 'device.in').write_text(text, encoding='ascii')
     mtxt = json.dumps(m, indent=2, default=float); (dest / 'material_model_used.json').write_text(mtxt); (dest / 'metadata.json').write_text(json.dumps(meta, indent=2, default=float))
     argv = [z.replace('{deck}', 'device.in').replace('{stdout}', 'deckbuild.out') for z in r['argv']]
     if not Path(argv[0]).is_file() and shutil.which(argv[0]) is None: raise RuntimeError(f'executable not found: {argv[0]}')
     to = timeout or (r['timeout_seconds']['thick'] if t > 20 else r['timeout_seconds']['default'])
-    row = {'run_id': rid, 'timestamp_utc': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'), 'thickness_nm': t, 'label': label, 'deck_sha256': sha(text), 'model_sha256': sha(mtxt), 'command': ' '.join(argv), 'simulator': 'DeckBuild 5.0.10.R + ATLAS 5.28.1.R', 'output_dir': str(dest.relative_to(ROOT)).replace('\\', '/'), 'notes': f'STARTED points={len(targets)} timeout={to}s launch {launches() + 1}/{r["max_launches"]}'}
+    import build_iwo_decks as _b
+    row = {'run_id': rid, 'timestamp_utc': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'), 'thickness_nm': t, 'label': label, 'deck_sha256': sha(text), 'model_sha256': sha(mtxt), 'command': ' '.join(argv), 'simulator': 'DeckBuild 5.0.10.R + ATLAS 5.28.1.R', 'output_dir': str(dest.relative_to(ROOT)).replace('\\', '/'), 'notes': f'STARTED points={len(targets)} timeout={to}s launch {launches() + 1}/{r["max_launches"]}' + ('' if _b.MODEL_FILE == 'config/iwo_material_model.yaml' else f' model={_b.MODEL_FILE}') + (' PREDICTION (no measurement)' if predict else '')}
     append(row); t0 = time.monotonic()
     p = subprocess.Popen(argv, cwd=dest, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     try: out, err = p.communicate(timeout=to); timed_out = False
@@ -155,8 +162,16 @@ def execute(t, label, overrides, stride=1, vg_min=None, timeout=None, smoke=Fals
     if not (dest / 'idvg.dat').exists(): finish('TIMEOUT' if timed_out else 'NO_EXPORT', 'no', 'no idvg.dat'); raise RuntimeError(f'{rid}: no export (timeout={timed_out}); inspect {dest}')
     xv, idr = read_xy(dest / 'idvg.dat'); xg, igr = read_xy(dest / 'igvg.dat'); xs, isr = read_xy(dest / 'isvg.dat'); igr = np.interp(xv, xg, igr); isr = np.interp(xv, xs, isr)
     if np.min(abs(xv[:, None] - targets[None, :]), axis=0).max() > 1e-6: finish('INCOMPLETE_EXPORT', 'partial', 'missing requested gate points'); raise RuntimeError(f'{rid}: incomplete export')
-    signed, v, verdict = validate(dest, xv, idr, isr, igr, meas_floor(vg, meas), s); ex['validation'] = v; ex['scan']['banner_present'] = sc['banner']
+    signed, v, verdict = validate(dest, xv, idr, isr, igr, 0.0 if predict else meas_floor(vg, meas), s); ex['validation'] = v; ex['scan']['banner_present'] = sc['banner']
     if verdict != 'OK': finish(verdict, 'yes', f'{verdict}: max KCL {v["max_kcl_abs_A"]:.2g} A'); raise RuntimeError(f'{rid}: {verdict}; inspect {dest}/terminal_currents.csv')
+    if predict:
+        ex['device_metrics_sim'] = metrics(xv, signed, True, None)
+        with (dest / 'prediction.csv').open('w', newline='') as f:
+            w = csv.writer(f); w.writerow(['vg_V', 'atlas_A_per_um']); w.writerows(zip(xv, signed))
+        dm = ex['device_metrics_sim']
+        finish('REAL_ATLAS_PREDICTION', 'yes' if not sc['convergence_flags'] else 'yes-with-flags', f'PREDICTION Vth_cc {dm["Vth_cc_1e-9_V"]}; Id(3V) {dm["Ion_A_per_um"]:.3e}; maxKCL {v["max_kcl_abs_A"]:.1e}')
+        print(json.dumps({'run_id': rid, 'Vth_cc': dm['Vth_cc_1e-9_V'], 'Ion': dm['Ion_A_per_um'], 'maxKCL_A': v['max_kcl_abs_A'], 'flags': len(sc['convergence_flags']), 'elapsed_s': round(el)}, indent=1))
+        return dest
     if vg_min is None:
         pred = np.interp(vg, xv, signed); met, active, le = score(vg, meas, pred, t, s); ex['fit_metrics'] = met
         ex['device_metrics_sim'] = metrics(vg, pred, True, t); ex['device_metrics_exp'] = metrics(vg, meas, False, t)
@@ -243,7 +258,8 @@ def rescore(run_dir, reason):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--rescore', help='existing run directory: redo validation/scoring from its exported currents (no launch)'); ap.add_argument('--reason', default='rescore')
-    ap.add_argument('--thickness', type=float, choices=[2.0, 6.3, 13.2, 31.8]); ap.add_argument('--label', default='run'); ap.add_argument('--override', action='append', default=[])
+    ap.add_argument('--thickness', type=float); ap.add_argument('--label', default='run'); ap.add_argument('--override', action='append', default=[])
+    ap.add_argument('--predict', action='store_true', help='PREDICTION transfer run (2026-10-06): any thickness, no measured curve, nothing scored')
     ap.add_argument('--stride', type=int, default=1); ap.add_argument('--vg-min', type=float); ap.add_argument('--timeout', type=int); ap.add_argument('--smoke', action='store_true')
     ap.add_argument('--vstep', type=float, help='single-step ATLAS stepped sweep, e.g. 0.1 (overrides --segments)')
     ap.add_argument('--segments', default='config', help="stepped sweep 'end:step,end:step,...' e.g. '-1:0.2,1.5:0.05,3:0.1'; 'none' = per-point; default from solver.yaml")
@@ -252,10 +268,12 @@ def main():
     ap.add_argument('--vd-segments', default='0.5:0.05,3:0.1', help="drain sweep 'end:step,...' from 0 V for --output-vgs"); a = ap.parse_args()
     if a.rescore: rescore(a.rescore, a.reason); return
     if a.thickness is None: ap.error('--thickness required')
+    if not a.predict and a.thickness not in (2.0, 6.3, 13.2, 31.8): ap.error('no measured curve for this thickness: use --predict')
     if a.output_vgs:
         execute_output(a.thickness, a.label, a.override, [float(v) for v in a.output_vgs.split(',')], parse_segments(a.vd_segments), a.timeout); return
     execute(a.thickness, a.label, a.override, a.stride, a.vg_min, a.timeout, a.smoke, a.vstep,
-            segments=('config' if a.segments == 'config' else parse_segments(a.segments)), full=('config' if a.structure == 'config' else a.structure == 'full'))
+            segments=('config' if a.segments == 'config' else parse_segments(a.segments)), full=('config' if a.structure == 'config' else a.structure == 'full'),
+            predict=a.predict)
 
 if __name__ == '__main__':
     try: main()
