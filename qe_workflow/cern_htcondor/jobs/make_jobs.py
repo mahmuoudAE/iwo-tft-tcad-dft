@@ -90,10 +90,15 @@ JOBS += [('slab1_relax_gpu', 'slab1_v25', 'slab_relax', 8, 32000, 30000000, 'tes
          ('slab2r_final_gpu', 'slab2r_pure', 'slab_scf', 8, 100000, 60000000, 'tomorrow', 86400, 1),
          # 2026-10-05: slab2r_final_cpu finished SCF + planar average but was held for memory in its bands step (-nk 4 at
          # 72 GB); the projection (surface-state check of the VBM) needs SCF + projwfc only, with 2 pools, no bands
-         ('slab2r_pdos_cpu', 'slab2r_pure', 'slab_pdos', 16, 72000, 20000000, 'tomorrow', 86400)]
+         ('slab2r_pdos_cpu', 'slab2r_pure', 'slab_pdos', 16, 72000, 20000000, 'tomorrow', 86400),
+         # 2026-10-05: iwo_slab2_W24d relaxed (28 BFGS steps) but its final CPU SCF stalled at an estimated accuracy of
+         # ~1e-8 Ry (conv_thr 1e-9, 86 iterations) and the job was removed by a faulty stuck rule. Final SCF + planar
+         # average + PDOS of the relaxed geometry on CPU, conv_thr 1e-8 Ry (energy precision far below what the
+         # eigenvalues and projections need) and mixing_beta 0.1; no bands
+         ('iwo_slab2_final_cpu', 'slab2r_W24d_relaxed', 'iwo_slab_final', 24, 100000, 30000000, 'tomorrow', 86400)]
 # memory: every pool holds complete wavefunctions of its k-points. slab2_v25 with 4 pools used 95.8 GB
 # (held at a 48 GB limit, 2026-09-27), i.e. ~24 GB per pool, so slab 2 runs with at most 2 pools.
-MAXPOOL = {'slab2_v25': 2, 'slab2_relax': 2, 'slab2r_final_cpu': 2, 'slab2r_pdos_cpu': 2}
+MAXPOOL = {'slab2_v25': 2, 'slab2_relax': 2, 'slab2r_final_cpu': 2, 'slab2r_pdos_cpu': 2, 'iwo_slab2_final_cpu': 2}
 TOY_JOBS = [
     ('toy_bulk', 'toy_bulk', 'iwo_bulk', 2, 0, 0, 'espresso', 3600 * 3),
     ('toy_slab', 'toy_slab', 'slab_relax', 2, 0, 0, 'espresso', 3600 * 3),
@@ -182,6 +187,13 @@ STEPS_SLAB_SCF = """steps() {{
 }}
 """
 STEPS_SLAB_PDOS = """steps() {{
+  run_pw scf {nk} || return 0
+  run_ppavg slab "$JOB" {awin:.4f}
+  run_pdos slab "$JOB" "$(python qeio.py fermi scf.out)" {nk}
+}}
+"""
+STEPS_IWO_FINAL = """steps() {{
+  export FORCE_CPU=1   # one QE version (CPU 7.5) for SCF, pp.x and projwfc.x
   run_pw scf {nk} || return 0
   run_ppavg slab "$JOB" {awin:.4f}
   run_pdos slab "$JOB" "$(python qeio.py fermi scf.out)" {nk}
@@ -277,6 +289,9 @@ def make_job(name, st, kind, ncpu, out, p):
             (d / 'scf.in').write_text(pw_input(st, 'scf', 'slab', p, kgrid=ks, nbnd=occ + 16, verbosity='high'))
             (d / 'bands.in').write_text(pw_input(st, 'bands', 'slab', p, kpts=kb, nbnd=occ + 16, verbosity='high'))
             (d / 'steps.sh').write_text(STEPS_SLAB_SCF.format(**nk))
+        elif kind == 'iwo_slab_final':
+            (d / 'scf.in').write_text(pw_input(st, 'scf', 'slab', p, kgrid=ks, nbnd=occ + 24, verbosity='high'))
+            (d / 'steps.sh').write_text(STEPS_IWO_FINAL.format(**nk))
         elif kind == 'slab_pdos':
             (d / 'scf.in').write_text(pw_input(st, 'scf', 'slab', p, kgrid=ks, nbnd=occ + 16, verbosity='high'))
             (d / 'steps.sh').write_text(STEPS_SLAB_PDOS.format(**nk))
@@ -326,6 +341,8 @@ def main():
             p.update(occ='fixed', beta=0.3, localtf=len(structs[sname]['symbols']) != 40, maxstep=150)
         elif kind == 'iwo_slab':   # W donates 3 electrons: metallic slab -> smearing; Davidson bands (CG ~14 h on slabs)
             p.update(occ='smearing', beta=0.2, localtf=True, maxstep=150, bands_cg=False)
+        elif kind == 'iwo_slab_final':   # see the JOBS comment of iwo_slab2_final_cpu (2026-10-05)
+            p.update(occ='smearing', beta=0.1, localtf=True, maxstep=200, conv='1.0d-8')
         else:
             p.update(occ='smearing' if toy else 'fixed', beta=0.2, localtf=True, maxstep=150, bands_cg=False)
         infos.append(make_job(name, structs[sname], kind, ncpu, out, p))

@@ -1,5 +1,18 @@
 # CERN results log
 
+## 2026-10-05 (12:50Z): 2 nm IWO final SCF lost to a faulty stuck rule; recovery job submitted
+
+- **What happened.**
+  - iwo_slab2_W24d (relax converged, 28 BFGS steps) ran its final SCF on the CPU (QE 7.5, 33 MPI, 1 pool, conv_thr 1e-9). At 09:21Z it was at iteration 86, about 80-110 s per iteration. The estimated accuracy had stalled at 8e-9 to 1e-8 Ry since about iteration 80, so it might not have reached 1e-9 within electron_maxstep 150.
+  - At 09:23Z the watchdog removed it as "STUCK (no SCF iteration after 60 min)". A single status sample read scf_it = 0, and the rule's 60 min counts from the job start.
+  - The resubmission it reported is not in the queue. Its fate is NOT DETERMINED FROM AVAILABLE DATA; the condor_history query timed out.
+- **Nothing of the relaxation was lost.** relax.out is in iwo_slab2_W24d_checkpoint/ and live_snapshots/. Relaxed structure: structures_v2/relaxed_pbe/slab2r_W24d_relaxed.json. Max displacement 0.43 A (W 0.09 A). W-O 1.866, 1.874, 2.19 A, each twice, mean 1.977 A (W6+).
+- **Fix in dft_flow.sh.** A job counts as stuck only after 3 consecutive cycles with scf_it = 0, and the counter resets otherwise. The auto loop was restarted (bsrximyfh), because a running bash loop keeps the old function definitions.
+- **Recovery.** iwo_slab2_final_cpu (cluster 12835131; 24 CPUs requested, 33 allocated, 100 GB) runs SCF + planar average + projwfc on the relaxed geometry, without bands.
+  - Deviation: conv_thr 1e-8 Ry instead of 1e-9 (5.7e-11 Ry per atom), and mixing_beta 0.1 instead of 0.2.
+  - Reason: the 1e-9 SCF stalled, and the eigenvalues and projections need far less precision than 1e-8 Ry.
+- **slab2r_pdos_cpu** (cluster 12834125) is running its SCF: 38 iterations at 12:53Z, about 8 min per iteration. The pure 2 nm needed 70 iterations, so the projections are expected around 18-19Z.
+
 ## 2026-10-05: CORRECTION of the IWO band assignment; 2 nm IWO relaxed; 2 nm CPU cross-check
 
 **Correction (my analysis error, found today).**

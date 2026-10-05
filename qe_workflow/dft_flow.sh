@@ -345,16 +345,24 @@ watchdog() {   # held -> 1.5x memory; idle > 3 h -> smaller allocation; stuck at
     elif [ -n "${best[$g]:-}" ] && [ "$st" = 1 ] && [ "$r" -le "${best[$g]}" ]; then $S "condor_rm $cl.$pr" > /dev/null && event "RACE $job removed (a copy of $g runs)"
     elif [ -n "${best[$g]:-}" ] && [ "$st" = 2 ] && [ "$r" -lt "${best[$g]}" ]; then $S "condor_rm $cl.$pr" > /dev/null && event "UPGRADE $job (CPU) removed: a GPU copy of $g runs"; fi
   done 3<<< "$Q"
-  # stuck at start: running > 60 min in an SCF-type step without a single SCF iteration (or without output)
-  while read -r job id <&3; do
-    local f="$CH/.stuck_$job" k=0; [ -f "$f" ] && k=$(cat "$f"); [ "$k" -ge 2 ] && continue; echo $((k + 1)) > "$f"
-    local gen; gen=$(gen_of_job "$job")
-    $S "condor_rm $id" > /dev/null && [ -n "$gen" ] && cmd_submit "$gen" "$job" > /dev/null 2>&1 && event "STUCK $job (no SCF iteration after 60 min running) -> removed and resubmitted"
-  done 3< <(python3 -c "
+  # stuck at start: running > 60 min in an SCF-type step without a single SCF iteration (or without output).
+  # 2026-10-05: one status sample with scf_it = 0 removed iwo_slab2_W24d, which was at SCF iteration 86 after 20 h of
+  # running (a transient read of 0). A job now counts as stuck only after 3 consecutive cycles with that reading;
+  # the counter of a job that is no longer a candidate is reset.
+  local cand; cand=$(python3 -c "
 import json,time
 for j in json.load(open('$RES/status.json'))['jobs']:
     if j['state']==2 and j['scf_it']==0 and j['step'] in ('NA','relax','vcrelax','scf','scf_k4','spin_k3') and time.time()-j.get('since',time.time())>3600:
         print(j['job'], j['id'])" 2>/dev/null)
+  for f in "$CH"/.stuckseen_*; do [ -e "$f" ] || continue; echo "$cand" | awk '{print $1}' | grep -qx "${f##*/.stuckseen_}" || rm -f "$f"; done
+  while read -r job id <&3; do
+    [ -n "$job" ] || continue
+    local sf="$CH/.stuckseen_$job" n=0; [ -f "$sf" ] && n=$(cat "$sf"); n=$((n + 1)); echo "$n" > "$sf"
+    [ "$n" -ge 3 ] || continue; rm -f "$sf"
+    local f="$CH/.stuck_$job" k=0; [ -f "$f" ] && k=$(cat "$f"); [ "$k" -ge 2 ] && continue; echo $((k + 1)) > "$f"
+    local gen; gen=$(gen_of_job "$job")
+    $S "condor_rm $id" > /dev/null && [ -n "$gen" ] && cmd_submit "$gen" "$job" > /dev/null 2>&1 && event "STUCK $job (no SCF iteration in 3 consecutive checks after 60 min running) -> removed and resubmitted"
+  done 3<<< "$cand"
   while read -r cl pr job st cpu gpu since hold <&3; do
     [ -n "$cl" ] || continue
     local gen; gen=$(gen_of_job "$job")
