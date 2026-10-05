@@ -1,0 +1,82 @@
+{
+ "note": "Corrected exact-transformation predictions AT THE PARAMETERS OF THE V2 RUNS (registered V2 yaml: Qf 1.38345e12,\nmu_band 17.6897 / 63.2597, T3 mu_P 38.3893), after the end-of-sweep clipping fix in t0_prechecks.transform.\nWritten before the T3 (6.3 nm) ATLAS result existed. Output: t0_correction.json.",
+ "dvq_V": 0.06200000000000007,
+ "mu_as_run": {
+  "2.0": 17.689687194852386,
+  "13.2": 63.25970569525813,
+  "6.3": 38.389319847412885
+ },
+ "films": {
+  "2.0": {
+   "corrected_prediction_at_run_parameters": {
+    "rmse_active_dec": 0.060048752961222245,
+    "Vth_cc": 0.668051188999587,
+    "Vth_lin": 1.5440215768944066,
+    "SS_cc": 291.0641568459482,
+    "Ion": 5.133617972881575e-07,
+    "mu_FE": 11.249080859938855
+   },
+   "registered_prediction": {
+    "rmse_active_dec": 0.06004671532118333,
+    "Vth_cc": 0.668051188999587,
+    "Vth_lin": 1.521798367914551,
+    "SS_cc": 291.0641568459482,
+    "Ion": 5.089659999999999e-07,
+    "mu_FE": 11.076783111246046
+   }
+  },
+  "13.2": {
+   "corrected_prediction_at_run_parameters": {
+    "rmse_active_dec": 0.09725669979292345,
+    "Vth_cc": 0.10343776484918242,
+    "Vth_lin": 1.0429772446328975,
+    "SS_cc": 191.81759996614767,
+    "Ion": 3.07069e-06,
+    "mu_FE": 50.07271233687635
+   },
+   "registered_prediction": {
+    "rmse_active_dec": 0.09725669979292345,
+    "Vth_cc": 0.10343776484918242,
+    "Vth_lin": 1.0429772446328975,
+    "SS_cc": 191.81759996614767,
+    "Ion": 3.07069e-06,
+    "mu_FE": 50.07271233687635
+   }
+  },
+  "6.3": {
+   "P_corrected": {
+    "rmse_active_dec": 1.0383013739782108,
+    "Vth_cc": 0.27065623048663456,
+    "Vth_lin": 1.2179220817074605,
+    "SS_cc": 220.14342359655632,
+    "Ion": 1.5589828479216313e-06,
+    "mu_FE": 27.94462526481823
+   },
+   "E_corrected": {
+    "rmse_active_dec": 0.547277932085389,
+    "Vth_cc": 0.4169915950573709,
+    "Vth_lin": 1.2179220817074603,
+    "SS_cc": 300.05854545651664,
+    "Ion": 4.0344800000000003e-07,
+    "mu_FE": 7.231768578384723
+   },
+   "mu_E_corrected": 9.93474324265151,
+   "P_registered": {
+    "rmse_active_dec": 1.0362515464172273,
+    "Vth_cc": 0.27065623048663456,
+    "Vth_lin": 1.2061373714252848,
+    "SS_cc": 220.14342359655632,
+    "Ion": 1.3372571339696038e-06,
+    "mu_FE": 27.725061301951676
+   },
+   "E_registered": {
+    "rmse_active_dec": 0.5939858791844199,
+    "Vth_cc": 0.3975649763848535,
+    "Vth_lin": 1.2061373714252863,
+    "SS_cc": 289.4750400168862,
+    "Ion": 4.0344800000000003e-07,
+    "mu_FE": 8.364599633090508
+   }
+  }
+ }
+}

@@ -90,15 +90,8 @@ def transform(t, dv, mu_new, vg_out):
     """ATLAS curve of the run, shifted right by dv (V) and scaled to mu_new; log-linear interpolation."""
     vg, i = native(t)
     li = np.log10(np.clip(i, 1e-40, None))
-    x = vg_out - dv
-    y = 10 ** np.interp(np.clip(x, vg[0], vg[-1]), vg, li)
-    # CORRECTION 2026-10-05 ~18:25Z (T0_CORRECTION.md): the registered version clipped x at the end of the sweep, so a
-    # curve moved to the left (negative net shift) was flat above 3 V - dv. Beyond the last solved point the on-state
-    # is now extrapolated linearly in current from the last three solved points (Id is near-linear in Vg there).
-    hi = x > vg[-1]
-    if hi.any():
-        y[hi] = np.polyval(np.polyfit(vg[-3:], i[-3:], 1), x[hi])
-    return (mu_new / MU_RUN[t]) * y
+    x = np.clip(vg_out - dv, vg[0], vg[-1])
+    return (mu_new / MU_RUN[t]) * 10 ** np.interp(x, vg, li)
 
 
 def score(t, isim):
