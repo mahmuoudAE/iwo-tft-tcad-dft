@@ -65,20 +65,28 @@
 \contentsline {table}{\numberline {12.13}{\ignorespaces Wall times of representative steps (from the output files and driver logs).}}{192}{table.caption.471}%
 \contentsline {table}{\numberline {12.14}{\ignorespaces Where each quantity comes from.}}{194}{table.caption.474}%
 \contentsline {table}{\numberline {12.15}{\ignorespaces The figure functions of \file {make_dft_figures.py}: data and processing.}}{195}{table.caption.475}%
-\contentsline {table}{\numberline {12.16}{\ignorespaces Status of the first-principles inputs of the device model.}}{195}{table.caption.476}%
+\contentsline {table}{\numberline {12.16}{\ignorespaces Band-edge shifts relative to bulk (PBE). $\Delta E_{\mathrm {c}}- \Delta E_{\mathrm {v}} = \Delta E_{\mathrm {g}}$ in every case.}}{196}{table.caption.479}%
+\contentsline {table}{\numberline {12.17}{\ignorespaces Status of the first-principles inputs of the device model.}}{197}{table.caption.483}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {13.1}{\ignorespaces Plausible but unverified hypotheses with their pre-declared falsifiers (\file {SYNTHESIS.md} \S C).}}{200}{table.caption.477}%
-\contentsline {table}{\numberline {13.2}{\ignorespaces Rejected explanations and the quantitative inconsistency (\file {SYNTHESIS.md} \S D).}}{201}{table.caption.478}%
-\contentsline {table}{\numberline {13.3}{\ignorespaces Principal corrections to earlier package documents.}}{203}{table.caption.479}%
+\contentsline {table}{\numberline {13.1}{\ignorespaces Measured off-state floors (median over $V_G=-2\ldots -0.5$~V; device width 290~\textmu m) and their shape (\file {analysis_2026-10-06_V2/t0_floor_data.py}).}}{200}{table.caption.487}%
+\contentsline {table}{\numberline {13.2}{\ignorespaces Ungated-strip variants against the measured floors (one geometric factor fitted on 13.2~nm). Criterion set in the plan: both predicted floors within a factor of 3.}}{201}{table.caption.490}%
+\contentsline {table}{\numberline {13.3}{\ignorespaces DFT values behind \cref {eq:v2-laws} (PBE, relative to bulk).}}{203}{table.caption.494}%
+\contentsline {table}{\numberline {13.4}{\ignorespaces Conduction-band shift V1\,$\to $\,V2 and the resulting rigid shift of each calibrated curve.}}{203}{table.caption.496}%
+\contentsline {table}{\numberline {13.5}{\ignorespaces T2: ATLAS V2 anchors against the exact transformations of the V1 runs. Registered tolerance: $V_{th,cc}$ within 5~mV, $I_{on}$ within 1\,\%, active RMSE within 0.005~dec. Predictions after the correction of \cref {sec:v2-correction}; the registered $I_{on}$ of the 2~nm film was $5.090\times 10^{-7}$~A/\textmu m.}}{204}{table.caption.498}%
+\contentsline {table}{\numberline {13.6}{\ignorespaces T3: held-out 6.3~nm prediction (run 0060). Pass requires all of: $|\Delta V_{th,cc}|\le 0.10$~V, $|\Delta V_{th,lin}|\le 0.10$~V, $SS_{cc}$ within 20\,\%, active RMSE $\le 0.15$~dec, and for P also $I_{on}$ within 30\,\%.}}{205}{table.caption.501}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {A.1}{\ignorespaces Runs by purpose (categories of \file {results/RUN_INDEX.csv}).}}{205}{table.caption.480}%
-\contentsline {table}{\numberline {A.2}{\ignorespaces Catalogue of all V1 ATLAS launches and the measured references. $\mathit {SS}_{[-11,\,-10]}$: fixed-current slope between $10^{-11}$ and $10^{-10}$\ensuremath {\,\mathrm {A}/\mu \mathrm {m}}{} (mV/dec); RMSE: active-region log10 error (dec). Metrics of elevated-temperature runs are compared with the 300\,K data only for reference.}}{206}{table.A.2}%
+\contentsline {table}{\numberline {14.1}{\ignorespaces Plausible but unverified hypotheses with their pre-declared falsifiers (\file {SYNTHESIS.md} \S C).}}{211}{table.caption.511}%
+\contentsline {table}{\numberline {14.2}{\ignorespaces Rejected explanations and the quantitative inconsistency (\file {SYNTHESIS.md} \S D).}}{212}{table.caption.512}%
+\contentsline {table}{\numberline {14.3}{\ignorespaces Principal corrections to earlier package documents.}}{214}{table.caption.513}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {A.1}{\ignorespaces Runs by purpose (categories of \file {results/RUN_INDEX.csv}).}}{216}{table.caption.514}%
+\contentsline {table}{\numberline {A.2}{\ignorespaces Catalogue of all V1 ATLAS launches and the measured references. $\mathit {SS}_{[-11,\,-10]}$: fixed-current slope between $10^{-11}$ and $10^{-10}$\ensuremath {\,\mathrm {A}/\mu \mathrm {m}}{} (mV/dec); RMSE: active-region log10 error (dec). Metrics of elevated-temperature runs are compared with the 300\,K data only for reference.}}{217}{table.A.2}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {C.1}{\ignorespaces The eleven decks reproduced in this appendix (files in \file {code/decks/}; run metrics in \cref {tab:run-catalogue}).}}{317}{table.caption.490}%
-\contentsline {table}{\numberline {C.2}{\ignorespaces Overrides of the reproduced decks ($Q_{\mathrm {f}}$ in \si {cm^{-2}}, $\mu _{\mathrm {band}}$ in \si {cm^2/(V.s)}).}}{318}{table.C.2}%
+\contentsline {table}{\numberline {C.1}{\ignorespaces The eleven decks reproduced in this appendix (files in \file {code/decks/}; run metrics in \cref {tab:run-catalogue}).}}{328}{table.caption.524}%
+\contentsline {table}{\numberline {C.2}{\ignorespaces Overrides of the reproduced decks ($Q_{\mathrm {f}}$ in \si {cm^{-2}}, $\mu _{\mathrm {band}}$ in \si {cm^2/(V.s)}).}}{329}{table.C.2}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {D.1}{\ignorespaces Files of the prediction register with their SHA-256 as registered on 2026-09-24T23:24:53Z (UTC) and re-verified at 2026-09-26T19:39:46Z.}}{366}{table.D.1}%
+\contentsline {table}{\numberline {D.1}{\ignorespaces Files of the prediction register with their SHA-256 as registered on 2026-09-24T23:24:53Z (UTC) and re-verified at 2026-09-26T19:39:46Z.}}{377}{table.D.1}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {E.1}{\ignorespaces Where to find each kind of evidence.}}{370}{table.E.1}%
-\contentsline {table}{\numberline {E.2}{\ignorespaces SHA-256 (first 16 hex digits) and size of the report copies of the data and configuration files.}}{371}{table.caption.501}%
+\contentsline {table}{\numberline {E.1}{\ignorespaces Where to find each kind of evidence.}}{381}{table.E.1}%
+\contentsline {table}{\numberline {E.2}{\ignorespaces SHA-256 (first 16 hex digits) and size of the report copies of the data and configuration files.}}{382}{table.caption.535}%

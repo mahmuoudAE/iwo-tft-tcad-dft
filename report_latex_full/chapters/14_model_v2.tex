@@ -238,11 +238,122 @@ before the 6.3~nm result existed (\file{T0_CORRECTION.md}, \file{T0_CORRECTION_R
 % =====================================================================================================================
 \section{ATLAS V2 anchors (T2)}
 \label{sec:v2-anchors}
-\textit{[filled in from \file{T2_T3_RESULTS.md} after runs 0058--0060]}
 
+\begin{v2plain}
+We ran the two calibration films again with the new numbers. ATLAS reproduced the predicted thresholds to within half
+a millivolt and the on-currents to within 0.1\,\%. One of the three agreement criteria was missed by a hair at 2~nm,
+for a reason we could trace.
+\end{v2plain}
+
+Runs 0058 (2.0~nm) and 0059 (13.2~nm) use the V2 model file with the registered parameters. Both pass the
+current-balance validation (largest imbalance $1.0\times10^{-16}$~A) without convergence flags.
+\Cref{tab:v2-t2} compares them with the exact transformations.
+
+\begin{table}[htbp]\centering\small
+\caption{T2: ATLAS V2 anchors against the exact transformations of the V1 runs. Registered tolerance: $V_{th,cc}$ within
+5~mV, $I_{on}$ within 1\,\%, active RMSE within 0.005~dec. Predictions after the correction of
+\cref{sec:v2-correction}; the registered $I_{on}$ of the 2~nm film was $5.090\times10^{-7}$~A/\textmu m.}\label{tab:v2-t2}
+\begin{tabular}{lccccc}\toprule
+Film (run) & & $V_{th,cc}$ (V) & $I_{on}$ (A/\textmu m) & active RMSE (dec) & verdict\\\midrule
+2.0~nm (0058) & ATLAS & 0.6677 & $5.132\times10^{-7}$ & 0.0661 & FAIL (RMSE)\\
+ & predicted & 0.6681 & $5.134\times10^{-7}$ & 0.0600 & \\
+13.2~nm (0059) & ATLAS & 0.1033 & $3.073\times10^{-6}$ & 0.0968 & PASS\\
+ & predicted & 0.1034 & $3.071\times10^{-6}$ & 0.0973 & \\\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Why the 2~nm RMSE criterion was missed.} The difference is not scatter. ATLAS lies smoothly above the
+transformation at the lowest currents of the active region: $+0.026$~dec at $10^{-13}$~A/\textmu m, falling to zero at
+the threshold and in the on-state.
+
+The transformation treated the small mass change at 2~nm ($-1.1$\,\%, i.e.\ $N_c$ lower by 1.7\,\%) as a rigid
++2~mV shift. A change of $N_c$ also changes the subthreshold slope slightly (isolation runs 0050/0051). About
+0.6~mV/dec over four decades below the threshold current amounts to about 0.024~dec, which is the observed size.
+
+The registered criterion is therefore missed by 0.0011~dec. The cause is an approximation in the transformation, not
+a defect of the V2 decks.
+
+\paragraph{Final V2 calibration.} As in V1, the anchor mobilities are scaled exactly to the measured on-current:
+$\mu_{\mathrm{band}} = 17.544$ (2.0~nm) and 63.208~cm$^2$/Vs (13.2~nm), factors 0.9918 and 0.9992 on runs 0058 and
+0059. Against V1:
+\begin{itemize}
+\item \textbf{Active RMSE:} 0.065~dec at 2~nm (V1 0.043) and 0.097~dec at 13.2~nm (V1 0.081).
+\item \textbf{Constant-current threshold:} 0.668 against 0.662~V measured at 2~nm, and 0.103 against 0.083~V at
+13.2~nm.
+\end{itemize}
+The first-principles laws thus cost a little accuracy at the anchors. The reason is that V1's literature law had put
+about 60~mV more of the 2--13.2~nm threshold difference into confinement than the computed band split supports.
+
+% =====================================================================================================================
 \section{The held-out 6.3~nm test (T3)}
 \label{sec:v2-test}
-\textit{[filled in from \file{T2_T3_RESULTS.md}]}
+
+\begin{v2plain}
+This is the real test: can the model, calibrated on the 2 and 13.2~nm films, predict the 6.3~nm film it has never
+seen? It cannot. The predicted transistor switches on about a quarter of a volt too early, exactly as forecast before
+the run. Swapping in the first-principles numbers made the miss smaller by only about 0.04~V.
+\end{v2plain}
+
+Run 0060 uses the V2 model with nothing adjusted to 6.3~nm. The band mobility comes from the pre-registered rule
+$\mu_{\mathrm{band}}(t) = \mu_{\mathrm{band}}(2\,\mathrm{nm})\,(t/2)^{0.675}$, i.e.\ 38.39~cm$^2$/Vs (variant P). For
+variant E the same run is scaled exactly to the measured on-current ($\mu_{\mathrm{band}} = 9.90$), so that only the
+electrostatics is tested. \Cref{tab:v2-t3} and \cref{fig:v2-overlays} show the outcome.
+
+\begin{table}[htbp]\centering\small
+\caption{T3: held-out 6.3~nm prediction (run 0060). Pass requires all of: $|\Delta V_{th,cc}|\le0.10$~V,
+$|\Delta V_{th,lin}|\le0.10$~V, $SS_{cc}$ within 20\,\%, active RMSE $\le0.15$~dec, and for P also $I_{on}$ within
+30\,\%.}\label{tab:v2-t3}
+\begin{tabular}{lcccccc}\toprule
+ & $V_{th,cc}$ (V) & $V_{th,lin}$ (V) & $SS_{cc}$ (mV/dec) & $I_{on}$ (A/\textmu m) & RMSE (dec) & verdict\\\midrule
+measured & 0.644 & 1.820 & 295.4 & $4.03\times10^{-7}$ & -- & --\\
+P (predicted $\mu$) & 0.270 & 1.240 & 220.1 & $1.56\times10^{-6}$ & 1.039 & \textbf{FAIL}\\
+E ($\mu$ to $I_{on}$) & 0.417 & 1.240 & 300.2 & $4.03\times10^{-7}$ & 0.547 & \textbf{FAIL}\\
+\midrule
+V1, shared $Q_f$ (for comparison) & 0.359 & 1.180 & 289.7 & -- & 0.656 & --\\\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Outcome.} Both variants fail, as predicted before the run.
+\begin{itemize}
+\item \textbf{The threshold is too low:} by 0.37~V (P) and 0.23~V (E).
+\item \textbf{The on-state shape is wrong:} $V_{th,lin}$ is 0.58~V too low in both variants.
+\item \textbf{Only the subthreshold slope} of variant E meets its criterion.
+\item \textbf{The mobility rule over-predicts} the on-current fourfold: the 6.3~nm film has a lower apparent mobility
+than the 2~nm film, which no monotonic thickness law can produce.
+\end{itemize}
+
+\paragraph{Agreement with the pre-registered numbers.} ATLAS agrees with the corrected predictions to within 0.3~mV in
+$V_{th,cc}$, 0.1~mV/dec in $SS_{cc}$ and 0.001~dec in RMSE. The largest difference is 22~mV in $V_{th,lin}$, which
+depends on where the transconductance peaks. So the outcome of the test was fixed by the transformation before the run;
+the run confirms it.
+
+\paragraph{Effect of the first-principles inputs.} Compared like with like (variant E against V1 with the shared
+$Q_f$, corrected for their different mobilities), the first-principles laws shrink the threshold miss by about
+0.04~V. They do not address its cause.
+
+\paragraph{What this means.} The model is a calibrated description of the 2 and 13.2~nm films. It is not yet a
+predictive model of the thickness dependence. \Cref{ch:6p3,ch:mechanisms} discuss candidate causes. The decisive data
+are listed in \cref{sec:v2-data}; the first is the device-to-device spread at each thickness.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{v2_overlays}
+\caption{Model V2 against the measurements, including the off-state strip of \cref{eq:v2-strip}. Rows: logarithmic,
+linear, and the $\log_{10}$ ratio of simulation to measurement. Calibration films (2.0 and 13.2~nm): runs 0058 and 0059,
+scaled exactly to the measured on-current (factors 0.9918 and 0.9992). Held-out film (6.3~nm): run 0060, variant P
+dashed and variant E solid (factor 0.2579). Dotted lines: the ATLAS current without the strip. Raw data:
+\file{analysis_2026-10-06_V2/data/v2_overlays_raw.csv}.}
+\label{fig:v2-overlays}
+\end{figure}
+
+\paragraph{The off-state strip in V2.} With the final V2 mobilities, the factor fitted on 13.2~nm is
+$(W/L)_{\mathrm{par}} = 1.00\times10^{-4}$ per \textmu m.
+\begin{itemize}
+\item \textbf{Predicted floors:} $2.1\times10^{-15}$ (2~nm, $\times0.46$ of measured) and $9.8\times10^{-14}$~A/\textmu m
+(6.3~nm, $\times0.64$).
+\item \textbf{Error over all 121 points of each sweep:} it falls from about 14~dec without the strip to 0.28 (2~nm),
+0.62 (6.3~nm) and 0.07~dec (13.2~nm).
+\end{itemize}
+The active-region numbers above are unchanged, because the strip only matters below five times the floor.
 
 \section{Ultrathin films (T4)}
 \label{sec:v2-thin}
@@ -256,7 +367,7 @@ Most of the remaining uncertainty cannot be removed by more simulation; it needs
 existing wafers. Each item below names the question it would settle.
 \end{v2plain}
 
-\paragraph{Off-state floor (\cref{sec:v2-floor}).}
+\paragraph{Off-state floor.} (\cref{sec:v2-floor})
 \begin{itemize}
 \item \textbf{Gate and source currents recorded with every sweep.} If $I_S \approx -I_D$ and $I_G \approx 0$ in the
 off-state, the floor flows from drain to source. If $I_G \approx -I_D$, it is gate leakage.
@@ -268,7 +379,7 @@ offset of a range.
 substrate.
 \end{itemize}
 
-\paragraph{Thickness dependence and the 6.3~nm film (\cref{sec:v2-test}).}
+\paragraph{Thickness dependence and the 6.3~nm film.} (\cref{sec:v2-test})
 \begin{itemize}
 \item \textbf{Several devices per thickness.} The device-to-device spread decides whether a 0.25~V difference is a
 model failure or ordinary variation.
@@ -277,7 +388,7 @@ model failure or ordinary variation.
 already exist (\citet{Januar2026}, SI Fig.~S12).
 \end{itemize}
 
-\paragraph{The first-principles inputs (\cref{sec:v2-dft}).}
+\paragraph{The first-principles inputs.} (\cref{sec:v2-dft})
 \begin{itemize}
 \item \textbf{The optical gap against thickness} (UV--Vis or ellipsometry): the measured $\Delta E_g(t)$.
 \item \textbf{X-ray photoelectron valence-band spectra}: the valence-band shift, i.e.\ the computed 0.84--0.94 share.

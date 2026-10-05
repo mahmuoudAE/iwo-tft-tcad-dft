@@ -151,19 +151,18 @@ def figure(runs, scale, out):
     fig, ax = plt.subplots(3, 3, figsize=(FULL_W, 6.0), sharex='col', gridspec_kw=dict(wspace=0.42, hspace=0.18))
     for c, t in enumerate((2.0, 6.3, 13.2)):
         vg, im, isim = curve(runs[t])
-        lab = runs[t].name.split('_')[0] + '_' + runs[t].name.split('_')[1]
+        # short labels (scale factors: caption and data/v2_overlays_raw); legend kept left of the turn-on
+        lab = 'V2 ' + runs[t].name.split('_')[1]
         if t == 6.3:
-            ax[0, c].semilogy(vg, np.where(isim > 0, isim, np.nan), color='0.55', lw=0.9, ls='--', label=f'{lab} P (prediction)')
-            lab += f' E (x{scale[t]:.4f})'
-        else:
-            lab += f' x{scale[t]:.4f}'
+            ax[0, c].semilogy(vg, np.where(isim > 0, isim, np.nan), color='0.55', lw=0.9, ls='--', label='P: predicted $\\mu$')
+            lab = 'E: $\\mu$ to $I_{on}$'
         isim = isim * scale[t]
         ipar = out['T1'][t]['I_par_A_per_um']
         tot = isim + ipar
         ax[0, c].semilogy(vg, im, **MEAS)
         ax[0, c].semilogy(vg, tot, color=FILM[t], **SIM, label=lab + ' + strip')
         ax[0, c].semilogy(vg, np.where(isim > 0, isim, np.nan), color=FILM[t], lw=0.8, ls=':')
-        ax[0, c].set_ylim(1e-16, 1e-5); ax[0, c].legend(fontsize=5.5, loc='lower right'); ax[0, c].set_title(FILM_LABEL[t] + (' (held out)' if t == 6.3 else ''))
+        ax[0, c].set_ylim(1e-16, 1e-5); ax[0, c].legend(fontsize=5.0, loc='center left', bbox_to_anchor=(0.0, 0.62), framealpha=0.85, handlelength=1.4); ax[0, c].set_title(FILM_LABEL[t] + (' (held out)' if t == 6.3 else ''))
         ax[1, c].plot(vg, im * 1e6, **MEAS); ax[1, c].plot(vg, tot * 1e6, color=FILM[t], **SIM)
         r = np.log10(np.clip(tot, 1e-40, None) / im)
         ax[2, c].plot(vg, r, '.', color=FILM[t], ms=3); ax[2, c].axhline(0, color='k', lw=0.5); ax[2, c].set_ylim(-1.0, 1.0); ax[2, c].set_xlabel(r'$V_G$ (V)')
