@@ -1,5 +1,37 @@
 # CERN results log
 
+## 2026-10-05 (local): dEc/dEv partition relative to bulk (campaign item 1.3), two-step alignment
+
+Scripts: bulk_In2O3_protocol/run_bulk_potential.sh and bulk_alignment.py. The intermediate bulk_v11.cube/.pp were deleted on 2026-10-06 because the disk was full; they can be regenerated with the script.
+
+**Method.**
+- Bulk: cell average of the pp.x plot_num 11 potential of the relaxed bulk (prefix vcr, a = 10.306 A): <V> = 4.1687 eV. From bands_path.out, E_v - <V> = 3.9098 eV and E_c - <V> = 4.7985 eV.
+- Slabs: macroscopic average of the same potential at the slab centre.
+
+**Window.** The planar-average period of bixbyite along [001] is a/2, not a/4.
+- With the a/4 window used so far for the vacuum levels, the slab interior oscillates by 177-205 meV. The result (2 nm: dEc +0.157, dEv -0.179 eV) disagrees with the EA/IP route by about 80 meV, so it is rejected.
+- The a/2 window gives an interior plateau within 8 meV at 2 nm (1 meV with the double a/2 * a/4 average). At 1 nm the spread is 69 meV.
+
+**Result.** dEg is split exactly (dEc - dEv = dEg in every case).
+
+| Film | Route | dEc (eV) | dEv (eV) | CB share |
+|---|---|---|---|---|
+| 2 nm | two-step, a/2 window | +0.281 | -0.054 | 0.84 |
+| 2 nm | double average | +0.287 | -0.049 | 0.86 |
+| 1 nm | two-step, a/2 window | +0.819 | -0.081 | 0.91 |
+| 1 nm | EA/IP route (recommended) | +0.848 | -0.056 | 0.94 |
+
+**Checks.**
+- The 1 nm film has almost no bulk-like interior. Its recommended values therefore come from the 2 nm two-step result plus the same-termination EA/IP differences (+0.567 / -0.002 eV).
+- Between 1 and 2 nm, the two-step route gives dEc +0.538 and dEv -0.027 eV (a/2), or +0.551 and -0.013 eV (double average), against +0.567 and -0.002 eV from EA/IP. They agree within 15-30 meV.
+
+**Caveats.**
+- In-plane strain of the slabs relative to bulk: +0.29 % (1 nm) and +0.07 % (2 nm). It is not corrected; it is likely a few meV at 2 nm.
+- PBE only.
+- Whether the VBM is a surface state is still open (slab2r_pdos_cpu).
+
+**Consequence for TCAD.** V1 assumes dEg = dEc. The computed CB share is about 0.84-0.94, so dEc is about 0.28 eV at 2 nm and about 0.85 eV at 1 nm. The PBE dEg is 0.335 and 0.900 eV.
+
 ## 2026-10-05 (12:50Z): 2 nm IWO final SCF lost to a faulty stuck rule; recovery job submitted
 
 - **What happened.**
