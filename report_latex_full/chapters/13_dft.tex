@@ -1102,8 +1102,8 @@ same termination (here the relaxed 1 and 2~nm films) isolate the confinement shi
 potential (PBE): 1~nm film as built and relaxed, relaxed 2~nm film, and 1~nm film with one W on the central 24d site.
 For the pure films, the band edges are taken
 over the whole $k$ grid, as in \cref{tab:dft-vac}. For the W-doped film, the levels at $\Gamma$ are shown: the top
-valence level, the W-5d-derived level (purple, $E_F$ dashed) and the host conduction band (red). That column is
-preliminary.}
+valence level, the bottom of the host conduction band (red; dark: filled up to $E_F$), the W-5d-derived level (purple)
+and $E_F$ (dashed). That column is preliminary.}
 \label{fig:dft_alignment}
 \end{figure}
 
@@ -1219,9 +1219,12 @@ In$^{3+}$, each W can therefore release three electrons.
 states at and just above $E_F$ carry about half of their weight on W 5d orbitals (\cref{tab:dft-w}), while the
 valence-band top carries 1.5\,\%. A spin-polarized calculation finds weak moments of 0.6--0.7~$\mu_{\mathrm{B}}$ per cell,
 1.4--1.7~mRy below the non-magnetic state; this does not meet the pre-registered non-magnetic criterion and is treated
-as preliminary, because coarse sampling of a degenerate electron gas can produce spurious moments. Within PBE and for
-one W per cell, the donated electrons are therefore not all released into the host band but partly occupy
-W-5d-derived states.
+as preliminary, because coarse sampling of a degenerate electron gas can produce spurious moments. At the first $k$
+point the host conduction band (band 352, 67\,\% In 5s) lies 1.76~eV below $E_F$, and $E_F$ lies in the
+W-5d-derived band (band 353, 54\,\% W 5d). Within PBE and for one W per cell (3.1\,\% of the cations,
+$5.5\times10^{21}$ donated electrons per cm$^3$), the donated electrons thus fill the host conduction band up to a
+W-5d-derived level that is resonant in the conduction band, about 1.8~eV above its bottom, and partly occupy that level.
+How the three electrons divide between the two is not determined from the available data.
 
 \subsection{Stage 7: tungsten in the 1~nm film}
 \label{sec:dft-calc-iwoslab}
@@ -1229,15 +1232,24 @@ W-5d-derived states.
 The W-doped 1~nm slab (\cref{sec:dft-wstruct}) was relaxed at the cell of the pure relaxed slab on one H100 NVL GPU
 (27 BFGS steps, 4~h~29~min; $E = -12238.28910896$~Ry); the final SCF, potential and PDOS ran on 16 CPU cores
 (2~h~55~min), and its bands run aborted, so no mass is available. The W--O bonds are 1.880, 1.907 and 2.212~\AA{}
-(each twice). At the first $k$ point, band 313 (the lowest band above the 312 bands of the pure slab) lies at 0.576~eV
-and carries about 56\,\% W 5d weight, whereas band 314 (0.766~eV) is the delocalized host conduction band (no atomic
-component above 3\,\%); $E_F$ lies 5~meV above band 313. A W-5d-derived state thus forms about 0.19~eV below the host
-conduction band, and $E_F$ is pinned in it. Together with the bulk result, this indicates (PBE, one W position,
-preliminary) that W acts in the film as a localized donor rather than releasing all its electrons into the band.
-On the vacuum scale (\cref{fig:dft_alignment}, third column) all levels of the doped film lie higher than those of the
-pure film: the top valence level by 1.65~eV, the host conduction band by 1.27~eV, and the W level is 1.08~eV above
-the pure film's conduction-band minimum. The cause of this shift is not determined from the available data, and the
-absolute positions of the doped film are not used.
+(each twice).
+
+\paragraph{Which band is which.} The doped slab has one occupied band \emph{fewer} below the gap than the pure slab:
+the In data set treats the filled 4d shell as valence (five bands per In), the W data set the 5s and 5p shells (four
+bands), so replacing one In by W removes one band. The projections at $\Gamma$ confirm this: band 311 is the top of
+the O 2p valence band ($-2.366$~eV), band 312 ($-0.647$~eV) is the bottom of the host conduction band (In 5s 50\,\%,
+O 2s 21\,\%), band 313 (0.576~eV) carries 56\,\% W 5d weight and band 314 (0.766~eV) is the next host conduction
+level. A first version of this analysis took band 312 as the valence-band top, as in the pure slab; it therefore
+reported a W level 0.19~eV \emph{below} the conduction band and an unexplained upward shift of 1.1--1.65~eV of all
+levels on the vacuum scale. Both were artefacts of the band count and were corrected on 5 October 2026.
+
+\paragraph{Result (PBE, one W position, preliminary).} $E_F$ lies 1.23~eV above the bottom of the host conduction band
+and 5~meV above band 313. The host band is filled: band 312 lies below $E_F$ at every $k$ point and holds two of the
+three donated electrons; about one electron occupies the W-5d-derived level, which is resonant in the conduction band,
+1.22~eV above its bottom. The gap between the valence-band top and the host conduction-band bottom is 1.719~eV, 0.069~eV
+less than in the pure film. On the vacuum scale (\cref{fig:dft_alignment}, fourth column) the doped film has
+EA = 4.07~eV and IP = 5.79~eV, 0.14 and 0.07~eV larger than the pure film: the levels of the two films agree within
+0.14~eV.
 
 \begin{figure}[htbp]\centering
 \includegraphics[width=\linewidth]{dft_w_pdos}
@@ -1247,12 +1259,19 @@ bulk 80-atom cell with W on 24d (left) and 1~nm slab with W on the central 24d s
 \end{figure}
 
 \paragraph{Consequence for the device model (inference).} Full activation of about 2\,\% W would give of the order of
-$10^{21}$\cmcu{} electrons, orders of magnitude more than the channels of transistors that switch off can carry. The
-calculations offer one mechanism for the difference (electrons retained in W 5d states) besides compensation by other
-defects; they do not determine the effective donor density. They support, but do not replace, the treatment of the
-channel donor density as a fitted, film-specific parameter. The W content of the target films is known only as ``about
-2\,\% W'' without a stated basis (\cref{ch:device}); the W fractions of the cells (3.1 and 4.2\,\% of the cations) are of
-the same order.
+$10^{21}$\cmcu{} electrons, orders of magnitude more than the channels of transistors that switch off can carry. In
+both cells the W-5d-derived level is resonant in the conduction band, 1.2~eV (1~nm film) to 1.8~eV (bulk) above its
+bottom, and takes up electrons only because these cells fill the band up to it (about $3\times10^{21}$ and
+$5.5\times10^{21}$ donated electrons per cm$^3$; in the 1~nm film, about one of the three electrons). The first result
+for the 2~nm film with 1.8\,\% W (last SCF of its relaxation; projections pending) places $E_F$ 1.24~eV above the
+conduction-band bottom and the flat bands that are presumably W-derived 0.07~eV above $E_F$, i.e.\ just empty. At the
+lower electron densities of working channels, PBE thus predicts that W releases its electrons into the host band;
+trapping in W 5d states cannot by itself explain why the channels switch off, and compensation by other defects or
+charge at the interfaces must account for the difference. A hybrid functional can lower localized d levels, so this
+conclusion is preliminary. The calculations do not determine the effective donor density and support the treatment of
+the channel donor density as a fitted, film-specific parameter. The W content of the target films is known only as
+``about 2\,\% W'' without a stated basis (\cref{ch:device}); the W fractions of the cells (3.1 and 4.2\,\% of the
+cations) are of the same order.
 
 \subsection{Stage 4c: the 2~nm film}
 \label{sec:dft-calc-slab2}
@@ -1665,7 +1684,7 @@ $\Delta E_{\mathrm{g}}$ at about 2~nm & +0.335~eV (PBE); 0.36--0.37~eV (HSE rati
 $\Delta\mstar$ at about 2~nm & $+0.047\,m_0$ & computed \\
 $\dEc/\Delta E_{\mathrm{v}}$ partition & between 1 and 2~nm: all in $\dEc$ ($+0.567$ vs $-0.002$~eV); relative to bulk \textit{[to be completed: bulk alignment]} & partly computed; surface-state check open \\
 W site, valence & 24d, W$^{6+}$ & computed, converged \\
-W 5d states at $E_F$, moments & see \cref{sec:dft-calc-w,sec:dft-calc-iwoslab} & preliminary (PBE) \\
+W 5d level, moments & resonant in the conduction band, 1.2--1.8~eV above its bottom; occupied only at very high filling (\cref{sec:dft-calc-w,sec:dft-calc-iwoslab}) & preliminary (PBE); corrected 5 Oct.\ 2026 \\
 W effect on confinement & \textit{[to be completed: 2~nm IWO slab; 1~nm IWO slab mass]} & pending \\
 \bottomrule
 \end{tabularx}
@@ -1699,8 +1718,9 @@ E_{\mathrm{g}} = +0.90$ and $+0.335$~eV, $\Delta\mstar = +0.122$ and $+0.047\,m_
 $+0.13$ and $+0.06\,m_0$). Between 1 and 2~nm the change of the gap lies entirely in the conduction band (surface-state
 check open). A hybrid-functional check shows that the
 semi-local functional gives the confinement shift to within 6--11\,\%, so the slab-minus-bulk construction of the device
-model rests on evidence. Tungsten substitutes on the 24d site as W$^{6+}$; within PBE its donated electrons partly
-occupy W 5d states (preliminary). Every structure, setting, run and number is traceable to scripts and output files,
+model rests on evidence. Tungsten substitutes on the 24d site as W$^{6+}$; within PBE its donated electrons
+fill the host conduction band, and a W-5d-derived level resonant 1.2--1.8~eV above the band bottom takes up electrons
+only at very high filling (preliminary). Every structure, setting, run and number is traceable to scripts and output files,
 and the workflow that produced them is documented. The computed points lie 3--8\,\% below the thickness laws of the
 device model; the refit of the laws, the partition relative to bulk and the W effect on confinement are pending.
 \end{keyresult}

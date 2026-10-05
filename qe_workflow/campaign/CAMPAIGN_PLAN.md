@@ -77,7 +77,7 @@ Separately, `11_validation.tex:77` has stale text (a 52-launch budget, and TMUN/
 
 | ID | Calculation | Question | Criterion / note |
 |---|---|---|---|
-| 2.0 | **Prerequisite:** explain the 1.1–1.65 eV vacuum-scale shift of the 1 nm IWO slab (same-geometry ΔV(z), Δρ(z); check the read-out first) | Are doped-slab EA, E_F and Φ values trustworthy? | No doped-slab alignment is used until this is resolved. |
+| 2.0 | **Resolved 2026-10-05 (read-out error).** The 1.1–1.65 eV shift was a band-count artefact: the IWO slab has one occupied band fewer below the gap (In 4d10 = 5 bands replaced by W 5s2 5p6 = 4 bands), so band 312 is the host CB bottom, not the VB top (projwfc). Corrected: EA 4.07, IP 5.79 eV (pure 3.93 / 5.72); W 5d level 1.22 eV above the CB bottom, E_F pinned there. | — | Doped-slab read-outs must use nvb = n_pure − (number of W). |
 | 2.1 | W localization in bulk: 160-atom cell (1.6 % W) vs 80 (3.1 %); spin-polarized at 4×4×4; HSE06 (NC, no stress) on the 80-atom W24d cell, about 1–4 GPU-h | Is "W-5d states at E_F" real or a PBE/k-sampling artefact? | Pre-registered: the claim stands only if the W-5d share at E_F stays above 0.3 at both concentrations and with HSE. |
 | 2.2 | 2 nm IWO, W at the centre (chained; nbnd fixed; final SCF and PDOS as a CPU job) | donor depth at 1 vs 2 nm; m* | only local quantities are read |
 | 2.3 | W depth scan, same site type (24d) at centre, subsurface and surface: 1 nm pilot first, then one 2 nm configuration; dipole correction | segregation E_seg = E(W at depth) − E(W at centre), same cell and occupations | sign and size > 0.1 eV are decisive |
@@ -85,7 +85,7 @@ Separately, `11_validation.tex:77` has stale text (a 52-launch budget, and TMUN/
 | 2.5 | W–V_O binding: bulk 160-atom first, then one adjacent 2 nm configuration. E_bind = E(W) + E(V_O) − E(W+V_O) − E(pristine), all four in identical cells, k and occupations. | Tests the trap passivation by W reported by Januar et al. (pp. 5, 8, DFT interface energetics). | "Separated" in a 10.3 Å cell is not a dilute reference; it is reported as such. |
 | 2.6 | Neutral V_O at three depths in the 1 nm pilot, then 1–2 configurations at 2 nm | surface preference of V_O | relative energies only |
 
-**Gate G2.** Phase 2 passes when 2.0 is resolved and 2.1 decides whether "W electrons are retained in W-5d states" may be stated in the paper.
+**Gate G2.** Phase 2 passes when 2.1 decides whether "W electrons are retained in W-5d states" may be stated in the paper. After the 2026-10-05 correction, PBE says no at device-like filling: the W level is resonant 1.2–1.8 eV above the CB bottom, and it is just empty in the 2 nm film with 1.8 % W. Only HSE or DFT+U could still lower it.
 
 ### Phase 3 – interfaces (≈60–150 GPU-h; needs P0.6, P0.7 and P0.10)
 

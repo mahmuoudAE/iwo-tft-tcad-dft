@@ -1,6 +1,9 @@
 """1 nm IWO slab vs pure 1 nm slab (same relaxed in-plane cell, same settings).
-Band edges at Gamma from the SCF eigenvalues (band nocc-1 = VB top, band nocc = CB bottom, nocc = 312 for both),
-vacuum level from the planar average, E_F (IWO is metallic: 3 extra electrons), W-O bonds, W 5d PDOS centroid,
+Band edges at Gamma from the SCF eigenvalues: band nvb = VB top, band nvb+1 = host CB bottom. nvb = 312 for the pure
+slab but 311 for the IWO slab: the In PAW set carries 4d10 (5 bands) and the W set 5s2 5p6 (4 bands) as semicore, so
+replacing one In by W removes one fully occupied band below the gap (corrected 2026-10-05 from projwfc: band 311 is
+O 2p, band 312 In 5s host CB, band 313 W 5d; the earlier version took band 312 as the IWO VB top).
+Vacuum level from the planar average, E_F (IWO is metallic: 3 extra electrons), W-O bonds, W 5d PDOS centroid,
 in-plane CB mass (parabolic, |k| <= 0.05 1/A) from the bands run."""
 import glob
 import re
@@ -23,6 +26,8 @@ def edges(d, nocc=312):
     t = (d / 'scf.out').read_text(errors='replace')
     ef = re.findall(r'the Fermi energy is\s+(-?[\d.]+)', t)
     out = {'E_vac': evac, 'VB_G': ev[g, nocc - 1], 'CB_G': ev[g, nocc], 'E_F': float(ef[-1]) if ef else None}
+    if nocc < 312:                                           # IWO: band nocc + 1 is the W 5d level (projwfc)
+        out['W_G'] = ev[g, nocc + 1]
     out['mstar'] = float('nan')
     try:   # the IWO bands run aborted (Davidson, rc 161): mass then not available
         kb, eb = eig(d / 'bands.out', nocc)
@@ -33,7 +38,9 @@ def edges(d, nocc=312):
     return out
 
 
-p, w = edges(R / 'slab1r_final_cpu'), edges(R / 'iwo_slab1_final_cpu')
+p, w = edges(R / 'slab1r_final_cpu'), edges(R / 'iwo_slab1_final_cpu', 311)
+print(f"IWO 1 nm: W 5d level at Gamma {w['W_G'] - w['CB_G']:+.3f} eV above the host CB bottom; "
+      f"E_F {w['E_F'] - w['CB_G']:+.3f} eV above it")
 for name, x in (('pure 1 nm', p), ('IWO 1 nm', w)):
     ef = f"{x['E_F'] - x['CB_G']:+.3f} eV" if x['E_F'] is not None else 'insulating'
     print(f"{name:10s} gap(G) {x['CB_G'] - x['VB_G']:.4f} eV | Evac-CB {x['E_vac'] - x['CB_G']:.4f} | Evac-VB {x['E_vac'] - x['VB_G']:.4f} | "

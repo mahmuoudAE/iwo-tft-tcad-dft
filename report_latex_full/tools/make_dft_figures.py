@@ -351,20 +351,23 @@ def fig_alignment():
         ax.text(i, (vb + cb) / 2, f'$E_g$ = {cb - vb:.2f} eV', ha='center', va='center', fontsize=7)
         rows.append((lab, -cb, -vb))
     i = 3
+    # IWO: the VB top is band 311, not 312 (W replaces In 4d10 semicore, 5 bands, by W 5s2 5p6, 4 bands; projwfc:
+    # 311 O 2p, 312 In 5s host CB bottom, 313 W 5d). Corrected 2026-10-05.
     evac, ev, ef = vac_edges(R / 'iwo_slab1_final_cpu', 312, 24)
-    vb, ws, hc = ev[311] - evac, ev[312] - evac, ev[313] - evac
+    vb, cb, ws = ev[310] - evac, ev[311] - evac, ev[312] - evac
     ax.add_patch(plt.Rectangle((i - w / 2, vb - 0.9), w, 0.9, color=C1, alpha=0.25, lw=0))
-    ax.add_patch(plt.Rectangle((i - w / 2, hc), w, 0.9, color=C2, alpha=0.25, lw=0))
-    ax.plot([i - w / 2, i + w / 2], [vb, vb], color=C1, lw=1.4); ax.plot([i - w / 2, i + w / 2], [hc, hc], color=C2, lw=1.4)
+    ax.add_patch(plt.Rectangle((i - w / 2, cb), w, ef - evac - cb, color=C2, alpha=0.55, lw=0))      # filled part of the CB
+    ax.add_patch(plt.Rectangle((i - w / 2, ef - evac), w, 0.9, color=C2, alpha=0.25, lw=0))
+    ax.plot([i - w / 2, i + w / 2], [vb, vb], color=C1, lw=1.4); ax.plot([i - w / 2, i + w / 2], [cb, cb], color=C2, lw=1.4)
     ax.plot([i - w / 2, i + w / 2], [ws, ws], color=C4, lw=1.6)
     ax.plot([i - w / 2, i + w / 2], [ef - evac] * 2, color='k', lw=0.8, ls='--')
-    ax.text(i + w / 2 + 0.03, hc + 0.05, 'host CB', fontsize=6.5, color=C2, va='bottom')
-    ax.text(i + w / 2 + 0.03, ws - 0.10, 'W 5d state', fontsize=6.5, color=C4, va='top')
-    ax.text(i - w / 2 - 0.03, ef - evac, '$E_F$ (dashed)', fontsize=6.5, va='center', ha='right')
-    ax.text(i, vb - 0.08, f'VB top\n{vb:.2f} eV', ha='center', va='top', fontsize=6.5)
-    ax.text(i, hc + 0.95, 'preliminary', ha='center', fontsize=6.5, style='italic', color='0.35')
-    rows.append(('1 nm IWO', -ws, -vb, -hc, ef - evac))
-    ax.axhline(0, color='k', lw=0.8); ax.text(3.55, 0.05, '$E_{\\mathrm{vac}}$', fontsize=8)
+    ax.text(i, cb + 0.08, f'CB bottom\nEA = {-cb:.2f} eV', ha='center', va='bottom', fontsize=6.5)
+    ax.text(i + w / 2 + 0.03, ws + 0.05, 'W 5d level', fontsize=6.5, color=C4, va='bottom')
+    ax.text(i + w / 2 + 0.03, ef - evac - 0.06, '$E_F$ (dashed)', fontsize=6.5, va='top')
+    ax.text(i, vb - 0.08, f'VBM\nIP = {-vb:.2f} eV', ha='center', va='top', fontsize=6.5)
+    ax.text(i, ef - evac + 0.95, 'preliminary', ha='center', fontsize=6.5, style='italic', color='0.35')
+    rows.append(('1 nm IWO', -cb, -vb, -ws, ef - evac))
+    ax.axhline(0, color='k', lw=0.8); ax.text(3.45, 0.05, '$E_{\\mathrm{vac}}$', fontsize=8)
     ax.set_xticks([0, 1, 2, 3]); ax.set_xticklabels(['1 nm film\nas built', '1 nm film\nrelaxed', '2 nm film\nrelaxed',
                                                      '1 nm film\nwith W (In$_{23}$WO$_{48}$H$_{24}$)'], fontsize=7.5)
     ax.set_xlim(-0.55, 3.75); ax.set_ylim(-7.3, 0.4)

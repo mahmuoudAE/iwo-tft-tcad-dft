@@ -1,5 +1,30 @@
 # CERN results log
 
+## 2026-10-05: CORRECTION of the IWO band assignment; 2 nm IWO relaxed; 2 nm CPU cross-check
+
+**Correction (my analysis error, found today).**
+- **The error.** The IWO cells have one occupied band FEWER below the gap than the pure cells. The In PAW set has 4d10 in the valence (5 bands per In); the W set has 5s2 5p6 (4 bands). The earlier analysis took band n_pure (312 in the 1 nm slab) as the IWO valence-band top.
+- **projwfc, 1 nm IWO, first k.** Band 311 is O 2p at -2.366 eV (the VB top). Band 312 is the host CB bottom at -0.647 eV (In 5s 0.50, O 2s 0.21). Band 313 is W 5d (0.56) at 0.576 eV. Band 314 is the next host CB level at 0.766 eV.
+- **Corrected 1 nm IWO.**
+  - E_F is 1.23 eV above the host CB bottom. Band 312 lies below E_F at all k and holds 2 of the 3 donated electrons; about 1 electron sits in the W 5d-derived band.
+  - The W level is resonant 1.22 eV above the CB bottom.
+  - Gap (VB top to CB bottom) 1.719 eV (pure 1.789). EA 4.069, IP 5.789 eV (pure 3.928 / 5.717).
+- **What was wrong before.** The earlier entries reported a "W level 0.19 eV below the CB" and an "unexplained 1.1-1.65 eV vacuum-scale shift". Both were artefacts of the band count.
+- **Bulk W24d (80 atoms).** Band 351 is the VB top and band 352 the host CB (In 5s 0.67), 1.76 eV below E_F at the first k. Band 353 (W 5d 0.54) is at E_F. How the electrons divide between the CB and the W band is not determined.
+- **Fixed.** analyze_iwo_slab.py (nvb = 311 for IWO); make_dft_figures.py fig_alignment; 13_dft.tex (sections on W in bulk and in the 1 nm film, status table, key result); onepage.tex; CAMPAIGN_PLAN item 2.0 (resolved) and gate G2.
+
+**2 nm IWO (iwo_slab2_W24d, H100 NVL).**
+- The relax converged in 28 BFGS steps (16 h 49 min). Final energy -27385.2061874810 Ry. The final SCF on the GPU started at 06:42Z.
+- Last SCF of the relax (nvb = 663):
+  - Band 664 (host CB1) is 1.238 eV below E_F at Gamma. Band 665 (CB2) is partly filled.
+  - The flat bands 666/667 (widths 239/135 meV, presumably W-derived) are at least 0.069 eV above E_F, so just empty.
+  - Projections are pending; they need a CPU run.
+
+**2 nm CPU cross-check (slab2r_final_cpu).**
+- The SCF (24 CPUs, 9 h 57 min, 70 iterations) gives HOMO/LUMO 0.0474 / 1.2713 eV, a gap of 1.2239 eV, identical to the GPU run. The planar average was done.
+- The job was then held for memory in the bands step (-nk 4, 72 GB) after 10.1 h and was not released (watchdog rule).
+- The surface-state projection did not run. It needs a new CPU job: scf + projwfc, without bands.
+
 ## 2026-10-04 (13:30Z): 2 nm bands finished; mass; chain submitted by hand
 
 - **Job end.** slab2_relax_c2 finished all steps after 182892 s (50.8 h); bands run 8 h 22 min on the GPU, rc 0. Fetched 10:03Z.

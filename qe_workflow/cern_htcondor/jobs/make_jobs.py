@@ -87,10 +87,13 @@ JOBS += [('slab1_relax_gpu', 'slab1_v25', 'slab_relax', 8, 32000, 30000000, 'tes
          ('iwo_slab2_W24d', 'slab2r_W24d', 'iwo_slab', 8, 100000, 80000000, 'testmatch', 259200, 1),
          # 2026-10-02 (user request): the same final SCF + planar average + bands of the relaxed 2 nm slab also on
          # 1 GPU (~8x faster than 16 CPUs); its GPU save is converted to HDF5 for the CPU pp.x (common/dat2h5.py)
-         ('slab2r_final_gpu', 'slab2r_pure', 'slab_scf', 8, 100000, 60000000, 'tomorrow', 86400, 1)]
+         ('slab2r_final_gpu', 'slab2r_pure', 'slab_scf', 8, 100000, 60000000, 'tomorrow', 86400, 1),
+         # 2026-10-05: slab2r_final_cpu finished SCF + planar average but was held for memory in its bands step (-nk 4 at
+         # 72 GB); the projection (surface-state check of the VBM) needs SCF + projwfc only, with 2 pools, no bands
+         ('slab2r_pdos_cpu', 'slab2r_pure', 'slab_pdos', 16, 72000, 20000000, 'tomorrow', 86400)]
 # memory: every pool holds complete wavefunctions of its k-points. slab2_v25 with 4 pools used 95.8 GB
 # (held at a 48 GB limit, 2026-09-27), i.e. ~24 GB per pool, so slab 2 runs with at most 2 pools.
-MAXPOOL = {'slab2_v25': 2, 'slab2_relax': 2, 'slab2r_final_cpu': 2}
+MAXPOOL = {'slab2_v25': 2, 'slab2_relax': 2, 'slab2r_final_cpu': 2, 'slab2r_pdos_cpu': 2}
 TOY_JOBS = [
     ('toy_bulk', 'toy_bulk', 'iwo_bulk', 2, 0, 0, 'espresso', 3600 * 3),
     ('toy_slab', 'toy_slab', 'slab_relax', 2, 0, 0, 'espresso', 3600 * 3),
@@ -176,6 +179,12 @@ STEPS_SLAB_SCF = """steps() {{
   run_pw scf {nk} || return 0
   run_ppavg slab "$JOB" {awin:.4f}
   run_pw bands {nk_bands}
+}}
+"""
+STEPS_SLAB_PDOS = """steps() {{
+  run_pw scf {nk} || return 0
+  run_ppavg slab "$JOB" {awin:.4f}
+  run_pdos slab "$JOB" "$(python qeio.py fermi scf.out)" {nk}
 }}
 """
 STEPS_SLAB_RELAX = """steps() {{
@@ -268,6 +277,9 @@ def make_job(name, st, kind, ncpu, out, p):
             (d / 'scf.in').write_text(pw_input(st, 'scf', 'slab', p, kgrid=ks, nbnd=occ + 16, verbosity='high'))
             (d / 'bands.in').write_text(pw_input(st, 'bands', 'slab', p, kpts=kb, nbnd=occ + 16, verbosity='high'))
             (d / 'steps.sh').write_text(STEPS_SLAB_SCF.format(**nk))
+        elif kind == 'slab_pdos':
+            (d / 'scf.in').write_text(pw_input(st, 'scf', 'slab', p, kgrid=ks, nbnd=occ + 16, verbosity='high'))
+            (d / 'steps.sh').write_text(STEPS_SLAB_PDOS.format(**nk))
         else:
             (d / 'vcrelax.in').write_text(pw_input(st, 'vc-relax', 'vcr', p, kgrid=ks, nbnd=occ + 8))
             (d / 'scf.tmpl').write_text(pw_input(st, 'scf', 'slab', p, kgrid=ks, nbnd=occ + 16, verbosity='high'))
