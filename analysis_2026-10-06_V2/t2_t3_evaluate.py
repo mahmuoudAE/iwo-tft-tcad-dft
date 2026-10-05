@@ -25,8 +25,9 @@ import t0_prechecks as t0  # noqa: E402
 from extract_metrics import metrics  # noqa: E402
 
 LABELS = {2.0: 'v2_anchor_2p0', 13.2: 'v2_anchor_13p2', 6.3: 'v2_T3_prediction_6p3'}
-T0R = json.loads((HERE / 't0_results.json').read_text())
+T0R = json.loads((HERE / 't0_results_registered.json').read_text())   # the V2 runs use these (registered) values
 V2 = T0R['dft_swap']
+CORR = json.loads((HERE / 't0_correction.json').read_text())['films']   # T0_CORRECTION.md (end-of-sweep fix)
 
 
 def run_of(label):
@@ -66,12 +67,14 @@ def main():
     for t in (2.0, 13.2):
         vg, im, isim = curve(runs[t])
         got = mets(vg, im, isim, t)
-        pred = V2['films'][str(t)]['V2']
         meas_m[t] = V2['films'][str(t)]['measured']
-        chk = {'dVth_cc_V': got['Vth_cc'] - pred['Vth_cc'], 'dIon_pct': 100 * (got['Ion'] / pred['Ion'] - 1),
-               'dRMSE_dec': got['rmse_active_dec'] - pred['rmse_active_dec']}
-        ok = abs(chk['dVth_cc_V']) <= 0.005 and abs(chk['dIon_pct']) <= 1.0 and abs(chk['dRMSE_dec']) <= 0.005
-        out['T2'][t] = {'run': runs[t].name, 'atlas': got, 'predicted': pred, 'difference': chk, 'verdict': 'PASS' if ok else 'FAIL'}
+        out['T2'][t] = {'run': runs[t].name, 'atlas': got}
+        for name, pred in (('registered', V2['films'][str(t)]['V2']), ('corrected', CORR[str(t)]['corrected_prediction_at_run_parameters'])):
+            chk = {'dVth_cc_V': got['Vth_cc'] - pred['Vth_cc'], 'dIon_pct': 100 * (got['Ion'] / pred['Ion'] - 1),
+                   'dRMSE_dec': got['rmse_active_dec'] - pred['rmse_active_dec']}
+            ok = abs(chk['dVth_cc_V']) <= 0.005 and abs(chk['dIon_pct']) <= 1.0 and abs(chk['dRMSE_dec']) <= 0.005
+            out['T2'][t][name] = {'predicted': pred, 'difference': chk, 'verdict': 'PASS' if ok else 'FAIL'}
+        out['T2'][t]['mu_band_final'] = V2['films'][str(t)]['mu_band_V2'] * im[-1] / isim[-1]   # exact Ion rescale (calibration)
     # ---- T3
     t = 6.3
     vg, im, isim = curve(runs[t])
@@ -88,11 +91,17 @@ def main():
         if var == 'P':
             crit['Ion within 30 %'] = abs(got['Ion'] / mm['Ion'] - 1) <= 0.30
         pre = V2['films']['6.3']['V2_P_mu_powerlaw' if var == 'P' else 'V2_E_mu_Ion_normalized']
+        cor = CORR['6.3'][f'{var}_corrected']
         out['T3'][var] = {'run': runs[t].name, 'mu_band': mu_p if var == 'P' else mu_e, 'atlas': got, 'measured': mm,
-                          'preregistered_prediction': pre, 'criteria': crit, 'verdict': 'PASS' if all(crit.values()) else 'FAIL',
-                          'atlas_minus_preregistered': {k: got[k] - pre[k] for k in ('Vth_cc', 'Vth_lin', 'SS_cc', 'rmse_active_dec')}}
+                          'preregistered_prediction': pre, 'corrected_prediction': cor, 'criteria': crit,
+                          'verdict': 'PASS' if all(crit.values()) else 'FAIL',
+                          'atlas_minus_preregistered': {k: got[k] - pre[k] for k in ('Vth_cc', 'Vth_lin', 'SS_cc', 'rmse_active_dec')},
+                          'atlas_minus_corrected': {k: got[k] - cor[k] for k in ('Vth_cc', 'Vth_lin', 'SS_cc', 'rmse_active_dec')}}
     # ---- T1: strip variant D, V2 mass law, film mobility (anchors: V2 mu; 6.3 nm: Ion-normalized mu)
-    mus = {2.0: V2['films']['2.0']['mu_band_V2'], 6.3: mu_e, 13.2: V2['films']['13.2']['mu_band_V2']}
+    # final V2 curves: anchors at the exact Ion rescale (calibration, as V1's x1.0151), 6.3 nm in variant E
+    scale = {tt: out['T2'][tt]['mu_band_final'] / V2['films'][str(tt)]['mu_band_V2'] for tt in (2.0, 13.2)}
+    scale[6.3] = mu_e / mu_p
+    mus = {2.0: out['T2'][2.0]['mu_band_final'], 6.3: mu_e, 13.2: out['T2'][13.2]['mu_band_final']}
     g, info = {}, {}
     for tt in (2.0, 6.3, 13.2):
         g[tt], ef, n = strip_conductance(tt, mus[tt])
@@ -103,8 +112,7 @@ def main():
     rows = []
     for tt in (2.0, 6.3, 13.2):
         vg, im, isim = curve(runs[tt])
-        if tt == 6.3:
-            isim = isim * mu_e / mu_p
+        isim = isim * scale[tt]
         ipar = g[tt] * wl * t0.VD
         tot = isim + ipar
         fl = np.median(im[(vg >= -2) & (vg <= -0.5)])
@@ -113,6 +121,7 @@ def main():
         for v, a, b, c in zip(vg, im, isim, tot):
             rows.append([tt, runs[tt].name, v, a, b, ipar, c, math.log10(max(c, 1e-40) / a)])
     out['T1']['W_over_L_per_um'] = wl
+    out['T1']['curve_scale_factors'] = scale
     (HERE / 't2_t3_results.json').write_text(json.dumps(out, indent=1, default=float))
     (HERE / 'data').mkdir(exist_ok=True)
     head = ['thickness_nm', 'run', 'vg_V', 'id_measured_A_per_um', 'id_atlas_A_per_um', 'i_parallel_strip_A_per_um', 'id_total_A_per_um', 'log10_total_over_measured']
@@ -129,11 +138,11 @@ def main():
         wb.save(HERE / 'data' / 'v2_overlays_raw.xlsx')
     except ImportError:
         pass
-    figure(runs, mu_e / mu_p, out)
+    figure(runs, scale, out)
     report(out)
 
 
-def figure(runs, scale_e, out):
+def figure(runs, scale, out):
     import matplotlib
     matplotlib.use('Agg')
     sys.path.insert(0, str(PKG / 'report_latex_full' / 'figures' / 'src'))
@@ -145,8 +154,10 @@ def figure(runs, scale_e, out):
         lab = runs[t].name.split('_')[0] + '_' + runs[t].name.split('_')[1]
         if t == 6.3:
             ax[0, c].semilogy(vg, np.where(isim > 0, isim, np.nan), color='0.55', lw=0.9, ls='--', label=f'{lab} P (prediction)')
-            isim = isim * scale_e
-            lab += f' E (x{scale_e:.4f})'
+            lab += f' E (x{scale[t]:.4f})'
+        else:
+            lab += f' x{scale[t]:.4f}'
+        isim = isim * scale[t]
         ipar = out['T1'][t]['I_par_A_per_um']
         tot = isim + ipar
         ax[0, c].semilogy(vg, im, **MEAS)
@@ -165,11 +176,16 @@ def figure(runs, scale_e, out):
 
 def report(out):
     L = ['# V2 results: T2 (anchors), T3 (6.3 nm held-out prediction), T1 (off-current strip)', '',
-         'Generated by `t2_t3_evaluate.py` from the ATLAS runs and `t0_results.json`; criteria as pre-registered in `T0_PRECHECKS.md` (hashes in `T0_REGISTRATION.txt`).', '']
-    L += ['## T2: ATLAS V2 anchors vs the exact transformations', '', '| film | run | Vth_cc ATLAS / predicted | Ion ATLAS / predicted | active RMSE ATLAS / predicted | verdict |', '|---|---|---|---|---|---|']
+         'Generated by `t2_t3_evaluate.py` from the ATLAS runs, `t0_results_registered.json` (registered predictions) and `t0_correction.json` '
+         '(end-of-sweep fix, registered before the T3 result: `T0_CORRECTION.md`); criteria as pre-registered in `T0_PRECHECKS.md` (hashes in `T0_REGISTRATION.txt`).', '']
+    L += ['## T2: ATLAS V2 anchors vs the exact transformations (criteria: Vth_cc 0.005 V, Ion 1 %, RMSE 0.005 dec)', '',
+          '| film | run | prediction | Vth_cc ATLAS / predicted | Ion ATLAS / predicted | active RMSE ATLAS / predicted | verdict |', '|---|---|---|---|---|---|---|']
     for t, r in out['T2'].items():
-        a, p = r['atlas'], r['predicted']
-        L.append(f"| {t} nm | {r['run']} | {a['Vth_cc']:.4f} / {p['Vth_cc']:.4f} V | {a['Ion']:.4e} / {p['Ion']:.4e} | {a['rmse_active_dec']:.4f} / {p['rmse_active_dec']:.4f} dec | **{r['verdict']}** |")
+        a = r['atlas']
+        for name in ('registered', 'corrected'):
+            p = r[name]['predicted']
+            L.append(f"| {t} nm | {r['run']} | {name} | {a['Vth_cc']:.4f} / {p['Vth_cc']:.4f} V | {a['Ion']:.4e} / {p['Ion']:.4e} | {a['rmse_active_dec']:.4f} / {p['rmse_active_dec']:.4f} dec | **{r[name]['verdict']}** |")
+        L.append(f"| {t} nm | | final anchor mobility (exact Ion rescale) | mu_band = {r['mu_band_final']:.4f} | | | |")
     L += ['', '## T3: 6.3 nm, nothing fitted to this film', '', '| variant | mu_band | Vth_cc | Vth_lin | SS_cc | Ion | active RMSE | verdict |', '|---|---|---|---|---|---|---|---|']
     mm = out['T3']['P']['measured']
     L.append(f"| measured | - | {mm['Vth_cc']:.3f} | {mm['Vth_lin']:.3f} | {mm['SS_cc']:.1f} | {mm['Ion']:.3e} | - | - |")
@@ -178,7 +194,8 @@ def report(out):
         L.append(f"| {v} | {r['mu_band']:.3f} | {a['Vth_cc']:.3f} | {a['Vth_lin']:.3f} | {a['SS_cc']:.1f} | {a['Ion']:.3e} | {a['rmse_active_dec']:.3f} | **{r['verdict']}** |")
     for v, r in out['T3'].items():
         L.append(f"- {v}: criteria " + '; '.join(f"{k}: {'met' if ok else 'NOT met'}" for k, ok in r['criteria'].items())
-                 + '. ATLAS minus pre-registered value: ' + ', '.join(f'{k} {d:+.4f}' for k, d in r['atlas_minus_preregistered'].items()))
+                 + '. ATLAS minus registered prediction: ' + ', '.join(f'{k} {d:+.4f}' for k, d in r['atlas_minus_preregistered'].items())
+                 + '; minus corrected prediction: ' + ', '.join(f'{k} {d:+.4f}' for k, d in r['atlas_minus_corrected'].items()))
     L += ['', '## T1: off-current strip (variant D), added to every curve', '', f"(W/L) per um of width fitted on 13.2 nm: {out['T1']['W_over_L_per_um']:.3e}", '',
           '| film | EF - Ec (eV) | n (cm^-3) | I_par (A/um) | measured floor | pred/meas | RMSE all points, without -> with strip | active RMSE with strip |', '|---|---|---|---|---|---|---|---|']
     for t in (2.0, 6.3, 13.2):

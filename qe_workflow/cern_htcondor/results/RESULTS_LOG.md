@@ -1,5 +1,22 @@
 # CERN results log
 
+## 2026-10-05 18:23Z: surface-state check of the relaxed 2 nm slab (slab2r_pdos_cpu, cluster 12834125)
+
+Job: SCF (24 CPUs, 2 pools, 10 h 41 min wall) + planar average + projwfc.x. Analysis script: `surface_state_check.py`. Its measure was defined before the output was read; no protocol criterion existed.
+
+**Result: the band edges are not surface states.** Both are confined, bulk-like states.
+
+| State | Weight on the surface OH groups (H + O bonded to H) | Elements | Profile across the slab (8 slices, bottom → top) |
+|---|---|---|---|
+| VBM (band 664) | 0.2 % (these atoms are 27.3 % of all atoms) | O 100 % (interior O) | 0.00 0.09 0.17 0.24 0.24 0.17 0.09 0.00 (peaked at the centre, like the lowest confined state) |
+| CBM (band 665) | 1.4 % | In 60 %, O 40 % | interior |
+| Reference, VBM − 20 bands | 14 % | — | spread out (0.07 at the outer slices) |
+
+**Consequences:**
+- The alignment-based split (2 nm: dEc +0.281, dEv −0.054 eV) describes bulk-like band edges.
+- The open caveat "whether the VBM is a surface state" is closed for 2 nm.
+- The device-relevant dEc never depended on this question.
+
 ## 2026-10-05 (local): dEc/dEv partition relative to bulk (campaign item 1.3), two-step alignment
 
 Scripts: bulk_In2O3_protocol/run_bulk_potential.sh and bulk_alignment.py. The intermediate bulk_v11.cube/.pp were deleted on 2026-10-06 because the disk was full; they can be regenerated with the script.

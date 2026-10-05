@@ -1668,6 +1668,72 @@ Figure & Data read & Processing and plotting \\
 \end{table}
 
 % =====================================================================================================================
+\section{How the gap opening is shared: alignment to bulk}
+\label{sec:dft-partition}
+
+\begin{dftplain}
+When the film becomes thin, the gap opens. For the transistor only the upward move of the conduction band matters,
+because that is where the electrons travel. To split the opening into its conduction-band and valence-band parts, the
+energies of the film and of the bulk crystal must be placed on one common scale. We used the average electrostatic
+potential deep inside the film, which there looks like bulk, as the common reference.
+\end{dftplain}
+
+\paragraph{Method.} The alignment is done in two steps
+(\file{qe_workflow/bulk_In2O3_protocol/run_bulk_potential.sh}, \file{bulk_alignment.py}).
+
+\emph{Step 1, bulk.} The cell average of the local electrostatic potential (\texttt{pp.x}, \texttt{plot\_num} 11) of
+the relaxed bulk crystal is $\langle V\rangle = 4.1687$~eV. Relative to it, the band edges of the bulk band structure
+are $E_v - \langle V\rangle = 3.9098$~eV and $E_c - \langle V\rangle = 4.7985$~eV.
+
+\emph{Step 2, slab.} The macroscopic average of the same potential is taken at the centre of each slab.
+
+\paragraph{Averaging window.} The planar-average period of bixbyite along [001] is $a/2$, not the $a/4$ used for the
+vacuum levels.
+\begin{itemize}
+\item With an $a/4$ window the slab interior oscillates by 177--205~meV. The result disagrees with the
+electron-affinity route by about 80~meV, so it was rejected.
+\item The $a/2$ window gives an interior plateau flat within 8~meV at 2~nm (1~meV with the double $a/2\ast a/4$
+average).
+\end{itemize}
+
+\paragraph{The 1~nm film.} It has almost no bulk-like interior, so its values follow from the 2~nm result plus the
+same-termination electron-affinity differences ($+0.567$ and $-0.002$~eV). Between 1 and 2~nm the two routes agree
+within 15--30~meV.
+
+\begin{table}[htbp]\centering\small
+\caption{Band-edge shifts relative to bulk (PBE). $\dEc - \Delta E_{\mathrm{v}} = \Delta E_{\mathrm{g}}$ in every case.}
+\label{tab:dft-partition}
+\begin{tabular}{llccc}\toprule
+Film & Route & $\dEc$ (eV) & $\Delta E_{\mathrm{v}}$ (eV) & conduction-band share\\\midrule
+2~nm & two-step, $a/2$ window & $+0.281$ & $-0.054$ & 0.84\\
+2~nm & double average & $+0.287$ & $-0.049$ & 0.86\\
+1~nm & two-step, $a/2$ window & $+0.819$ & $-0.081$ & 0.91\\
+1~nm & 2~nm value + electron-affinity difference (adopted) & $+0.848$ & $-0.056$ & 0.94\\\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Caveats.}
+\begin{itemize}
+\item The in-plane strain of the slabs relative to bulk ($+0.29$\,\% at 1~nm, $+0.07$\,\% at 2~nm) is not corrected;
+its effect is likely a few meV at 2~nm.
+\item The values are PBE.
+\end{itemize}
+
+\paragraph{The band edges are not surface states.} An orbital projection of the relaxed 2~nm film (\texttt{projwfc.x},
+\file{qe_workflow/cern_htcondor/surface_state_check.py}) checked this.
+\begin{itemize}
+\item The highest occupied state carries 0.2\,\% of its weight on the surface OH groups, which make up 27\,\% of the
+atoms. Its weight peaks at the centre of the film, like the lowest confined state of a box.
+\item The lowest empty state carries 1.4\,\% on the OH groups.
+\item A deeper valence state used as a reference carries 14\,\%.
+\end{itemize}
+Both band edges are therefore confined, bulk-like states, and the split of \cref{tab:dft-partition} describes them.
+
+\paragraph{Consequence for the device model.} Model V1 assumed the whole opening in the conduction band. The computed
+share is 0.84--0.94. At 2~nm the conduction band therefore moves up by 0.28~eV, not 0.35~eV. The device model takes
+these values over in \cref{ch:v2}.
+
+% =====================================================================================================================
 \section{Pending results and changes to the device model}
 \label{sec:dft-pending}
 
@@ -1682,7 +1748,7 @@ $\Delta E_{\mathrm{g}}$ at about 1~nm & +0.90~eV (PBE); 0.95--1.00~eV (HSE-corre
 $\Delta\mstar$ at about 1~nm & $+0.122\,m_0$ & computed \\
 $\Delta E_{\mathrm{g}}$ at about 2~nm & +0.335~eV (PBE); 0.36--0.37~eV (HSE ratio of 1~nm assumed) & computed; reproduces Lin et al. \\
 $\Delta\mstar$ at about 2~nm & $+0.047\,m_0$ & computed \\
-$\dEc/\Delta E_{\mathrm{v}}$ partition & between 1 and 2~nm: all in $\dEc$ ($+0.567$ vs $-0.002$~eV); relative to bulk \textit{[to be completed: bulk alignment]} & partly computed; surface-state check open \\
+$\dEc/\Delta E_{\mathrm{v}}$ partition & relative to bulk: 2~nm $\dEc=+0.281$, $\Delta E_{\mathrm{v}}=-0.054$~eV (share 0.84); 1~nm $+0.848$, $-0.056$~eV (share 0.94); between 1 and 2~nm all in $\dEc$ (\cref{sec:dft-partition}) & computed; band edges bulk-like (not surface states) at 2~nm \\
 W site, valence & 24d, W$^{6+}$ & computed, converged \\
 W 5d level, moments & resonant in the conduction band, 1.2--1.8~eV above its bottom; occupied only at very high filling (\cref{sec:dft-calc-w,sec:dft-calc-iwoslab}) & preliminary (PBE); corrected 5 Oct.\ 2026 \\
 W effect on confinement & \textit{[to be completed: 2~nm IWO slab; 1~nm IWO slab mass]} & pending \\
@@ -1690,12 +1756,11 @@ W effect on confinement & \textit{[to be completed: 2~nm IWO slab; 1~nm IWO slab
 \end{tabularx}
 \end{table}
 
-The 1 and 2~nm points are now computed. They lie 3--8\,\% below the present laws (\cref{sec:dft-calc-slab2}). The next
-step is to refit the confinement and mass laws of the device model (\cref{eq:dec-law}) to the computed points (with the
-HSE-corrected range as uncertainty), to change the provenance label of the two inputs from
-\prov{DFT\_PURE\_IN2O3\_PROXY} to computed values of this work, and to repeat the ATLAS campaign of the four thicknesses
-with the new laws. That campaign needs new simulator runs and has not been done; until then the device model is
-unchanged and the present chapter documents inputs, not a new calibration.
+The 1 and 2~nm points are now computed. They lie 3--8\,\% below the V1 laws (\cref{sec:dft-calc-slab2}). With the
+partition relative to bulk (\cref{sec:dft-partition}), the conduction-band shift at 2~nm is 22\,\% below the V1 law.
+
+\Cref{ch:v2} refits the confinement and mass laws to the computed points (model V2) and gives them the provenance label
+of this work. It also calibrates the device model again and tests it on the held-out 6.3~nm film.
 
 % =====================================================================================================================
 \section{Limitations}
@@ -1715,12 +1780,13 @@ al.).
 \begin{keyresult}
 An independent PAW-PBE calculation reproduces the published confinement of 1 and 2~nm \InO{} films ($\Delta
 E_{\mathrm{g}} = +0.90$ and $+0.335$~eV, $\Delta\mstar = +0.122$ and $+0.047\,m_0$, against $+0.94$ and $+0.33$~eV and
-$+0.13$ and $+0.06\,m_0$). Between 1 and 2~nm the change of the gap lies entirely in the conduction band (surface-state
-check open). A hybrid-functional check shows that the
+$+0.13$ and $+0.06\,m_0$). Between 1 and 2~nm the change of the gap lies entirely in the conduction band, and the band
+edges are bulk-like, not surface states. A hybrid-functional check shows that the
 semi-local functional gives the confinement shift to within 6--11\,\%, so the slab-minus-bulk construction of the device
 model rests on evidence. Tungsten substitutes on the 24d site as W$^{6+}$; within PBE its donated electrons
 fill the host conduction band, and a W-5d-derived level resonant 1.2--1.8~eV above the band bottom takes up electrons
 only at very high filling (preliminary). Every structure, setting, run and number is traceable to scripts and output files,
-and the workflow that produced them is documented. The computed points lie 3--8\,\% below the thickness laws of the
-device model; the refit of the laws, the partition relative to bulk and the W effect on confinement are pending.
+and the workflow that produced them is documented. The computed points lie 3--8\,\% below the V1 thickness laws, and 84--94\,\%
+of the gap opening is in the conduction band (V1 assumed 100\,\%); the device model takes these values over in
+\cref{ch:v2}. The W effect on confinement is pending.
 \end{keyresult}

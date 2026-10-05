@@ -1,0 +1,285 @@
+% Chapter: model V2 - the first-principles results inside the device model, the off-state floors, the held-out
+% 6.3 nm test and the ultrathin films. Plain-language style as in ch:dft.
+\newenvironment{v2plain}{\par\medskip\noindent\textit{In plain words.}\ }{\par\medskip}
+
+\chapter{Model V2: first-principles inputs, off-state floors and a held-out test}
+\label{ch:v2}
+
+\Cref{ch:dft} computed, in one consistent setup, the quantities that the device model had so far borrowed from the
+literature: how far the conduction band moves up when the film becomes thin, how the gap opening is shared between the
+conduction and the valence band, and how heavy the electrons become. This chapter puts those numbers into the device
+model (model V2) and asks four questions:
+\begin{description}[leftmargin=1.2em]
+\item[V1] What produces the flat off-state currents of the measured transistors, which model V1 does not contain?
+\item[V2] How much do the first-principles inputs change the calibrated curves?
+\item[V3] Does the model, with nothing adjusted to the 6.3~nm film, predict that film?
+\item[V4] What would 1, 0.75 and 0.5~nm films do?
+\end{description}
+
+\begin{v2plain}
+The device simulator needs a handful of material numbers for every film thickness. Until now the numbers describing
+how thinning changes the electron energies came from other people's calculations. We computed them ourselves
+(\cref{ch:dft}) and here swap them in. Before running anything we wrote down what each test should show and what
+would count as passing, and published that on the project's public repository. That way the results cannot be
+bent after the fact.
+\end{v2plain}
+
+% =====================================================================================================================
+\section{How the work was organised}
+\label{sec:v2-method}
+
+The work followed six steps fixed with the user on 5~October~2026:
+\begin{itemize}
+\item \textbf{T0:} checks without ATLAS.
+\item \textbf{T1:} the off-state floor.
+\item \textbf{T2:} the first-principles laws in the two calibration films (2.0 and 13.2~nm).
+\item \textbf{T3:} the held-out 6.3~nm test.
+\item \textbf{T4:} the ultrathin films.
+\item \textbf{T5:} this chapter.
+\end{itemize}
+The user raised the ATLAS launch budget from 57 to 71 for these steps.
+
+\paragraph{Pre-registration.} Every pass/fail criterion, and every predicted value that could be computed without
+ATLAS, was written down before the runs. That record is \file{analysis_2026-10-06_V2/T0_PRECHECKS.md}, together with
+the SHA-256 hashes of all inputs in \file{T0_REGISTRATION.txt}. It was committed to the public repository as commit
+\texttt{7b75ee6} before the first V2 launch.
+
+\paragraph{A correction to the pre-registration.} The first V2 run revealed an error in one of the pre-registered
+calculations (\cref{sec:v2-correction}). The correction was written, hashed and published (commit \texttt{a914165})
+before the result of the held-out test existed. The registered files were kept unchanged, and both the registered and
+the corrected predictions are compared with ATLAS below.
+
+% =====================================================================================================================
+\section{The off-state floors}
+\label{sec:v2-floor}
+
+\begin{v2plain}
+When the measured transistors are switched off, a small current still flows. It does not depend on the gate voltage,
+and it is about 1400 times larger in the 13.2~nm film than in the 2~nm film. The simulated transistors switch off
+almost completely (about $10^{-19}$~A/\textmu m), so this current is missing from the model. We first asked which
+explanations are even possible, then computed whether the remaining one gives the right numbers.
+\end{v2plain}
+
+\paragraph{What the data show.} \Cref{tab:v2-floors} lists the floors, taken as the median current between $-2$ and
+$-0.5$~V.
+\begin{itemize}
+\item \textbf{13.2~nm:} a constant 1.9~nA, flat within $\pm3$\,\% over 2.5~V of gate voltage.
+\item \textbf{6.3~nm:} flat but noisy ($\pm30$\,\%, mostly random).
+\item \textbf{2~nm:} rises smoothly from 0.05 to 1.5~pA. This looks like a charging transient at the start of the
+sweep on top of a setup-level floor.
+\end{itemize}
+From 2 to 13.2~nm the floors grow as $t^{3.85}$.
+
+\begin{table}[htbp]\centering\small
+\caption{Measured off-state floors (median over $V_G=-2\ldots-0.5$~V; device width 290~\textmu m) and their shape
+(\file{analysis_2026-10-06_V2/t0_floor_data.py}).}\label{tab:v2-floors}
+\begin{tabular}{lllp{7.2cm}}\toprule
+Film & Floor (A/\textmu m) & Device total & Shape over $-3\ldots-0.5$~V\\\midrule
+2.0~nm & $4.61\times10^{-15}$ & 1.3~pA & rises 0.05\,$\to$\,1.5~pA, smooth (start-of-sweep transient on a setup-level floor)\\
+6.3~nm & $1.53\times10^{-13}$ & 44~pA & flat, $\pm30$\,\% random noise\\
+13.2~nm & $6.60\times10^{-12}$ & 1.9~nA & flat within $\pm3$\,\%\\\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{What is excluded.}
+\begin{itemize}
+\item \textbf{Gate leakage.} It would be largest at $-3$~V and would change at least threefold over the range. The
+6.3 and 13.2~nm floors are flat, and the 2~nm floor is \emph{smallest} at $-3$~V.
+\item \textbf{A current range fixed by the on-current.} The 2 and 6.3~nm devices have similar on-currents but floors
+33 times apart.
+\item \textbf{A conducting layer at the back surface that the gate still controls.} Keeping it flat within 3\,\% over
+2.5~V would need about $2\times10^{16}$~cm$^{-2}$\,eV$^{-1}$ of pinning states.
+\end{itemize}
+What remains is a drain-to-source current outside the reach of the gate, or an instrument effect.
+
+\paragraph{The ungated-strip calculation.} Suppose part of the film lies outside the gate's control. Its sheet
+conductance follows from the model's own material values. Charge neutrality fixes the Fermi level $E_F$:
+\begin{equation}
+N_d\,t \;=\; t\left[n(E_F) + \int g_{\mathrm{tail}}(E) f(E)\,\mathrm{d}E + \int g_{\mathrm{deep}}(E) f(E)\,\mathrm{d}E\right]
+ + N_{\mathrm{s}}(E_F) - Q_{\mathrm{s}},
+\label{eq:v2-neutral}
+\end{equation}
+\begin{itemize}
+\item $n = N_c F_{1/2}$ is the free-electron density;
+\item $g_{\mathrm{tail}}$ and $g_{\mathrm{deep}}$ are the V1 tail and deep acceptor densities of states (\cref{sec:par-eg,sec:par-nc});
+\item $N_{\mathrm{s}}$ counts electrons in surface acceptor states, and $Q_{\mathrm{s}}$ is a fixed surface charge.
+\end{itemize}
+The strip conductance is then $G = q\,n\,\mu_0\,t\,(W/L)_{\mathrm{par}}$. Its one geometric factor $(W/L)_{\mathrm{par}}$
+is fitted on the 13.2~nm floor; the 2 and 6.3~nm floors are then predicted. The band bending across the strip from a
+surface sheet is a few meV, much less than $k_BT$, so a uniform film is an accurate description.
+
+Three variants were computed (\cref{fig:v2-t0}a):
+\begin{itemize}
+\item \textbf{N:} no surface states.
+\item \textbf{D:} one surface carrying the V1 interface acceptor sheet ($6.4\times10^{10}$~cm$^{-2}$ in total).
+\item \textbf{Q:} as D, plus the fixed charge of the channel interface ($1.73\times10^{12}$~cm$^{-2}$).
+\end{itemize}
+
+\begin{table}[htbp]\centering\small
+\caption{Ungated-strip variants against the measured floors (one geometric factor fitted on 13.2~nm). Criterion set in
+the plan: both predicted floors within a factor of 3.}\label{tab:v2-strip}
+\begin{tabular}{llccc}\toprule
+Variant & Surfaces & Scaling & 2~nm pred/meas & 6.3~nm pred/meas\\\midrule
+N & none & $t^{2.99}$ & 5.07 & 1.21\\
+D & one surface with the V1 interface acceptors & $t^{4.24}$ & \textbf{0.48} & \textbf{0.77}\\
+Q & D plus $Q_f$ of the channel interface & $t^{1.25}$ & 134 & 4.76\\\bottomrule
+\end{tabular}
+\end{table}
+
+Only variant D passes (\cref{tab:v2-strip}). How firm is that?
+\begin{itemize}
+\item \textbf{6.3~nm:} the prediction stays within $\times0.37$--$0.99$ when the assumed interface-state density or the
+donor density is halved or doubled.
+\item \textbf{2~nm:} the prediction swings from $\times0.06$ to $\times1.9$, so the 2~nm agreement is not a strong
+test. The 2~nm floor also sits at the setup floor, where an under-prediction would not contradict the data.
+\end{itemize}
+
+\paragraph{What V2 adopts.} The total drain current is
+\begin{equation}
+I_D^{\mathrm{total}}(V_G) = I_D^{\mathrm{ATLAS}}(V_G) + G_{\mathrm{D}}(t)\,V_D ,
+\label{eq:v2-strip}
+\end{equation}
+with $(W/L)_{\mathrm{par}} = 1.03\times10^{-4}$ per \textmu m of width. A gate-independent parallel conductance at
+fixed $V_D$ simply adds, so \cref{eq:v2-strip} is exact and costs no launch. Its status is \prov{HYPOTHESIS}. The
+location and the interface of the strip are not determined; they need the gate and source currents, a channel-length
+series and the layout (\cref{sec:v2-data}).
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{v2_t0_floor_and_laws}
+\caption{Step T0 (no ATLAS).
+(a) Measured off-state floors (squares) and the three ungated-strip variants, each fitted on 13.2~nm. The band shows
+variant D with the interface-state density or the donor density halved or doubled.
+(b) Conduction-band shift relative to bulk: V1 law (literature, all of the gap opening in the conduction band) and V2
+laws through the DFT points of this work. Dotted lines mark the measured films.
+(c) Rigid shift of each calibrated transfer curve when the V1 laws are replaced by the V2 laws, before re-calibration.}
+\label{fig:v2-t0}
+\end{figure}
+
+% =====================================================================================================================
+\section{First-principles inputs in the device model}
+\label{sec:v2-dft}
+
+\begin{v2plain}
+The DFT results change three numbers in the device model: how far the conduction band rises in a thin film, how much
+the gap opens, and how heavy the electrons are. Of these, only the conduction-band rise matters for the transfer curve,
+and it changes by less than one tenth of an electronvolt. That moves each calibrated curve sideways by 10 to 75~mV.
+\end{v2plain}
+
+\paragraph{New laws.} Fitted through the DFT points of \cref{ch:dft} (PBE):
+\begin{align}
+\Delta E_c(t) &= 0.78504\,t^{-1.50400}~\text{eV}, &
+\Delta E_g(t) &= 0.83997\,t^{-1.34569}~\text{eV}, &
+\Delta m^*(t) &= 0.11416\,t^{-1.29453}\,m_0 ,
+\label{eq:v2-laws}
+\end{align}
+with $t$ in nm and $t\geq0.95$~nm. The DFT values behind them are:
+
+\begin{table}[htbp]\centering\small
+\caption{DFT values behind \cref{eq:v2-laws} (PBE, relative to bulk).}\label{tab:v2-dftpoints}
+\begin{tabular}{lccc}\toprule
+Film & $\Delta E_c$ (eV) & $\Delta E_g$ (eV) & $\Delta m^*$ ($m_0$)\\\midrule
+0.95~nm & 0.848 & 0.900 & $+0.122$\\
+1.98~nm & 0.281 & 0.335 & $+0.047$\\\bottomrule
+\end{tabular}
+\end{table}
+
+Two points about these values:
+\begin{itemize}
+\item \textbf{Partition.} The conduction-band share of the gap opening is 0.84 at 2~nm and 0.94 at 1~nm. V1 assumed
+1.0, i.e.\ all of the opening in the conduction band.
+\item \textbf{Functional.} The HSE06/PBE ratio of the gap opening is 1.06 (range 1.06--1.11), so PBE is kept as the
+central value, as the DFT protocol pre-registered.
+\end{itemize}
+Below 0.95~nm the laws are not extrapolated; the 0.75 and 0.51~nm films enter as tabulated DFT points (\cref{sec:v2-thin}).
+
+\paragraph{Why the effect is a rigid shift.} Every trap level in the decks is referenced to the conduction-band edge,
+and the source and drain are ideal Ohmic contacts. A change of the electron affinity therefore moves the whole
+transfer curve along $V_G$ by exactly the change of $\Delta E_c$. A change of the front fixed charge is also a rigid
+shift, $\Delta V = -q\,\Delta Q_f/C_{ox}$ (verified to 1~mV in V1). The drain current is linear in a uniform mobility.
+
+The mass change enters only through $N_c$. Its effect is taken from the isolation runs 0050/0051 ($m^*\times1.3$
+shifts $V_{th,cc}$ by $-0.043$~V at 2~nm) and is below 2~mV here.
+
+So the V2 curves follow from the calibrated V1 runs by exact transformations, before any launch
+(\cref{tab:v2-shift}, \cref{fig:v2-t0}c).
+
+\begin{table}[htbp]\centering\small
+\caption{Conduction-band shift V1\,$\to$\,V2 and the resulting rigid shift of each calibrated curve.}\label{tab:v2-shift}
+\begin{tabular}{lccc}\toprule
+Film & $\Delta E_c$ V1 (eV) & $\Delta E_c$ V2 (eV) & Curve shift\\\midrule
+2.0~nm & 0.3533 & 0.2768 & $-75$~mV\\
+6.3~nm & 0.0724 & 0.0493 & $-24$~mV\\
+13.2~nm & 0.0261 & 0.0162 & $-10$~mV\\\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{V2 calibration.} Re-calibration follows the V1 protocol exactly:
+\begin{itemize}
+\item \textbf{One shared front fixed charge}, chosen by least squares on the 2 and 13.2~nm curves. It moves every curve
+by $+62$~mV, giving $Q_f = 1.38345\times10^{12}$~cm$^{-2}$ (V1: $1.73\times10^{12}$).
+\item \textbf{One band mobility per calibration film}, scaled exactly to the measured on-current.
+\end{itemize}
+
+% =====================================================================================================================
+\section{The correction to the pre-registered transformation}
+\label{sec:v2-correction}
+
+The exact transformation moves a calibrated ATLAS curve along $V_G$. The registered version clipped the curve at the
+end of the simulated sweep (3~V), so a curve moved to the \emph{left} was flat over its last $|\Delta V|$.
+\begin{itemize}
+\item \textbf{2~nm} (net shift $-13$~mV): the first V2 run gave an on-current 0.83\,\% above the registered prediction,
+which revealed the error.
+\item \textbf{6.3~nm} (net shift $-0.26$~V): the clipping affected the registered on-state values.
+\item \textbf{Not affected:} curves moved to the right (13.2~nm) and the subthreshold region, including $V_{th,cc}$.
+\end{itemize}
+The fix extrapolates the on-state linearly from the last three simulated points. It was registered and published
+before the 6.3~nm result existed (\file{T0_CORRECTION.md}, \file{T0_CORRECTION_REGISTRATION.txt}).
+
+% =====================================================================================================================
+\section{ATLAS V2 anchors (T2)}
+\label{sec:v2-anchors}
+\textit{[filled in from \file{T2_T3_RESULTS.md} after runs 0058--0060]}
+
+\section{The held-out 6.3~nm test (T3)}
+\label{sec:v2-test}
+\textit{[filled in from \file{T2_T3_RESULTS.md}]}
+
+\section{Ultrathin films (T4)}
+\label{sec:v2-thin}
+\textit{[filled in after the 0.75 and 0.51~nm DFT films and the scenario runs]}
+
+\section{Data that would decide the open questions}
+\label{sec:v2-data}
+
+\begin{v2plain}
+Most of the remaining uncertainty cannot be removed by more simulation; it needs a few extra measurements on the
+existing wafers. Each item below names the question it would settle.
+\end{v2plain}
+
+\paragraph{Off-state floor (\cref{sec:v2-floor}).}
+\begin{itemize}
+\item \textbf{Gate and source currents recorded with every sweep.} If $I_S \approx -I_D$ and $I_G \approx 0$ in the
+off-state, the floor flows from drain to source. If $I_G \approx -I_D$, it is gate leakage.
+\item \textbf{A channel-length series at one thickness.} A floor that scales as $1/L$ runs through the channel region;
+a floor independent of $L$ runs through a parasitic path elsewhere.
+\item \textbf{The instrument settings} (current range, integration time, delay), to separate a real current from the
+offset of a range.
+\item \textbf{The layout}: whether the film is patterned to the channel and whether the TiN gate covers the whole
+substrate.
+\end{itemize}
+
+\paragraph{Thickness dependence and the 6.3~nm film (\cref{sec:v2-test}).}
+\begin{itemize}
+\item \textbf{Several devices per thickness.} The device-to-device spread decides whether a 0.25~V difference is a
+model failure or ordinary variation.
+\item \textbf{The method and uncertainty of the thickness measurement}, for example X-ray reflectivity.
+\item \textbf{Transfer curves at two or more temperatures.} The 65 and 85\,$^\circ$C curves of the 2~nm device
+already exist (\citet{Januar2026}, SI Fig.~S12).
+\end{itemize}
+
+\paragraph{The first-principles inputs (\cref{sec:v2-dft}).}
+\begin{itemize}
+\item \textbf{The optical gap against thickness} (UV--Vis or ellipsometry): the measured $\Delta E_g(t)$.
+\item \textbf{X-ray photoelectron valence-band spectra}: the valence-band shift, i.e.\ the computed 0.84--0.94 share.
+\item \textbf{Hall measurements on unpatterned films}: carrier density and band mobility, which V2 still fits per film.
+\end{itemize}
