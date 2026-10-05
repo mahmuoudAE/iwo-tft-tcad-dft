@@ -1,0 +1,204 @@
+schema: IWO_material_model_v2
+status: 'V2 (2026-10-06): V1 with the conduction-band shift, gap opening and mass laws replaced by laws through the DFT points of this work; shared
+  Qf and anchor mobilities re-calibrated by exact transformation of runs 0038/0040 (analysis_2026-10-06_V2/T0_PRECHECKS.md) and confirmed by ATLAS
+  (T2)'
+composition:
+  xW_at_percent: 2.0
+  definition: 'NOT DETERMINED FROM AVAILABLE DATA: the target paper states "IWO (~2% W)" without specifying atomic %, cation %, mol% WO3 or target
+    composition; treated as a material label, never converted to a donor density.'
+temperature_K:
+  value: 300.0
+  label: ASSUMED
+  note: measurement temperature not recorded in workbook
+bulk_reference:
+  Eg_bulk_eV:
+    value: 3.05
+    label: LITERATURE_IWO
+    source: Fan2021_Nanomaterials Sec.3 (different sputtered IWO device)
+    uncertainty_eV: 0.2
+  chi_bulk_eV:
+    value: 4.3
+    label: LITERATURE_IWO
+    source: Fan2021_Nanomaterials Sec.3 (composition-mixing estimate)
+    uncertainty_eV: 0.3
+    consistency_check: bulk In2O3 CNL ~0.4 eV above Ec (Si2021/Lin2022/Wang2022); thin-film Ec rises by dEc(t) so TNL appears deeper below Ec
+      -> EF farther below Ec -> n_FB down, Vth up
+  mstar_bulk_m0:
+    value: 0.208
+    label: MEASURED_RELATED_MATERIAL
+    source: Stokey2021_JAP optical Hall (pure In2O3 crystal); W-doping increases m* (Januar2026 PBE, qualitative) -> NOT DETERMINED numerically
+  eps_r:
+    value: 9.3
+    label: MEASURED_TARGET_DEVICE
+    source: Januar2026 SI Fig.S1 (C-V, IWO 9.30+/-0.04; not bundled, recorded by Astra)
+    alternatives:
+      bulk_crystal_static: 10.55
+      evaporated_film: 8.9
+    thickness_dependence: none imposed (no evidence)
+  Nv300_cm3:
+    value: 1.0e+19
+    label: ASSUMED
+    note: holes are not solved (electrons-only DD); enters only ni
+  hole_mobility_cm2Vs:
+    value: 0.01
+    label: ASSUMED
+  srh_tau_s:
+    value: 1.0e-06
+    label: ASSUMED
+    note: background SRH, negligible in n-type wide gap
+thickness_laws:
+  dEg_QC_eV:
+    form: a * t_nm^(-p) for t >= 0.95 nm (through the 0.95 and 1.98 nm DFT points); tabulated DFT points below
+    a: 0.83997
+    p: 1.34569
+    label: DFT_PURE_IN2O3_THIS_WORK
+    source: this work, PBE slabs
+    fit_points:
+    - t_nm: 0.95
+      dE_eV: 0.9
+      source: 'this work: Quantum ESPRESSO 7.5, PBE, PAW, H-terminated In2O3(001) slabs (Lin et al. 2022 recipe), qe_workflow/cern_htcondor/results/RESULTS_LOG.md'
+    - t_nm: 1.98
+      dE_eV: 0.335
+      source: 'this work: Quantum ESPRESSO 7.5, PBE, PAW, H-terminated In2O3(001) slabs (Lin et al. 2022 recipe), qe_workflow/cern_htcondor/results/RESULTS_LOG.md'
+    points: {}
+    note: PBE; HSE06/PBE ratio of the 0.95 nm gap opening 1.06 (1.06-1.11 with the EXX q-grid check); only slab-minus-bulk differences are used;
+      pure In2O3 as proxy for IWO; H-terminated slabs in vacuum
+  band_edge_partition:
+    dEc_over_dEg: 1.0
+    label: DFT_PURE_IN2O3_PROXY
+    source: 'Si2021: Ec moves up, Ev almost unchanged'
+    note: not used in V2 (superseded by dEc_eV)
+  Eg_eV: Eg_bulk + dEg_QC(t)
+  chi_eV: chi_bulk - dEc(t)
+  mstar_m0:
+    form: mstar_bulk_exp + b * t_nm^(-q) for t >= 0.95 nm; tabulated DFT increments below
+    b: 0.11416
+    q: 1.29453
+    label: MEASURED_RELATED_MATERIAL + DFT_PURE_IN2O3_THIS_WORK increment
+    source: Stokey2021 bulk 0.208 + this-work PBE in-plane CB-mass increment (bulk PBE 0.159)
+    fit_points:
+    - t_nm: 0.95
+      dm_m0: 0.122
+    - t_nm: 1.98
+      dm_m0: 0.04715
+    points: {}
+  Nc300_cm3:
+    form: 2*(2*pi*m*kT/h^2)^1.5
+    label: CALCULATED
+    note: 3-D parabolic continuum DOS; at 2 nm the film is quasi-2D, so Nc is an effective continuum parameter
+  Nt_cm3:
+    form: Nt2 * (2/t_nm)^alpha
+    Nt2: 2.0e+19
+    alpha: 0.75
+    label: 'FITTED (anchor from real-ATLAS 2 nm fit: NTA*WTA) consistent with LITERATURE_IWO trend (Januar: ~4x from 13.2 to 2 nm; 5.3e19 at 2
+      nm with theta_t convention)'
+  WTA_eV:
+    value: 0.04
+    label: FITTED, shared across thickness
+    Tt_K: 464.0
+    note: Januar2026 reports only dTt under stress; absolute Tt NOT DETERMINED FROM AVAILABLE DATA
+  NTA_cm3_eV: Nt(t)/WTA  (gTA(E)=NTA*exp((E-Ec)/WTA); integral over the gap = NTA*WTA*(1-exp(-Eg/WTA)) ~ NTA*WTA)
+  Nd_eff_cm3:
+    form: Nd0 * (1 + (t_nm/tc)^k)
+    Nd0: 2.5e+17
+    tc_nm: 20.0
+    k: 4.0
+    label: FITTED law (effective electrically active background donor density, NOT W concentration)
+    support: 'Kim2024 (different IWO process): bulk/border trap density 2.4/3.1/14.6e18 at 10/20/30 nm; Januar2026: EF0 deeper for thinner films'
+  mu0_cm2Vs:
+    form: mu_band(t) * (1 - Dsr/t)^2
+    Dsr_nm: 0.287
+    Dsr_label: LITERATURE_IWO (Januar2026 Fig.5f, 2.87 A)
+    mu_band_fitted:
+      2.0: 17.6897
+      13.2: 63.2597
+    label: 'FITTED per anchor film (V2: exact rescale to the measured Ion at 3 V); any other thickness only through the pre-registered prediction
+      rule or an explicit scenario value'
+    gate_dependence: 'NOT inserted natively: ATLAS 5.28.1.R ignores MOBILITY updates between SOLVEs (Claude run_0008); the free/trapped partition
+      of Eq.(5) is produced self-consistently by the DOS occupancy; the Ando roll-off theta_r*Vov is an approximation gap (see LIMITATIONS)'
+    anchor_thicknesses_nm:
+    - 2.0
+    - 13.2
+    mu_band_prediction_rule:
+      form: mu_band(2 nm) * (t/2)^n, n from the two anchors
+      n: 0.67526
+      label: PRE-REGISTERED PREDICTION RULE (T3), not a fit
+  dEc_eV:
+    form: a * t_nm^(-p) for t >= 0.95 nm (through the 0.95 and 1.98 nm DFT points); tabulated DFT points below
+    a: 0.78504
+    p: 1.504
+    label: DFT_PURE_IN2O3_THIS_WORK
+    source: this work, PBE slabs, alignment to bulk
+    fit_points:
+    - t_nm: 0.95
+      dE_eV: 0.848
+      source: 'this work: Quantum ESPRESSO 7.5, PBE, PAW, H-terminated In2O3(001) slabs (Lin et al. 2022 recipe), qe_workflow/cern_htcondor/results/RESULTS_LOG.md'
+    - t_nm: 1.98
+      dE_eV: 0.281
+      source: 'this work: Quantum ESPRESSO 7.5, PBE, PAW, H-terminated In2O3(001) slabs (Lin et al. 2022 recipe), qe_workflow/cern_htcondor/results/RESULTS_LOG.md'
+    points: {}
+    note: 'conduction-band minimum relative to bulk: 1.98 nm by two-step alignment (planar-averaged potential, a/2 window; double average +0.287
+      eV), 0.95 nm = 1.98 nm value + same-termination electron-affinity difference (+0.567 eV). Conduction-band share of the gap opening 0.84
+      (2 nm) and 0.94 (1 nm); V1 assumed 1.0'
+traps:
+  bulk_acceptor_tail:
+    atlas: DEFECTS NTA WTA (cm^-3/eV, eV), acceptor-like, referenced to Ec
+    capture_cm2: 1.0e-15
+    capture_label: ASSUMED
+  bulk_deep_acceptor_gaussian:
+    NGA_cm3_eV: 5.0e+16
+    EGA_from_Ec_eV: 0.6
+    WGA_eV: 0.15
+    label: ASSUMED (insensitive; Fan2021 range 2.5-3.7e16 for a different device)
+  bulk_donor_tail:
+    NTD_cm3_eV: 0
+    label: ASSUMED zero (valence tail has negligible effect on n-type transfer curves; Fan2021)
+  shallow_donor_gaussian:
+    NGD_cm3_eV: 0
+    label: 'ASSUMED zero in V1: the effective donor background is represented by Nd_eff(t); a donor Gaussian at fixed absolute energy (EGD referenced
+      to Ev) is the V2 candidate to replace Nd_eff(t) by the confinement mechanism'
+  interface_acceptor_sheet:
+    peak_cm2_eV: 300000000000.0
+    center_from_Ec_eV: 0.3
+    width_eV: 0.12
+    label: ASSUMED, shared across thickness; literature Dit(HfO2/In2O3) ~6e11 cm^-2/eV (LITERATURE_IN2O3_PROXY; here IWO/Al2O3)
+    implementation: 'regularized 0.25 nm IWO layer at the Al2O3 interface: volume amplitude = sheet peak / 0.25 nm (numerically verified: layer
+      /2 changes Id by 0.009 dec)'
+  fixed_interface_charge_Qf_cm2:
+    value: 1383450000000.0
+    label: 'FITTED single shared value (V2): least squares on the active log-RMSE of the 2 and 13.2 nm anchors by exact rigid-shift transformation
+      of runs 0038/0040 (T0); V1 value 1.73e12'
+  back_surface_donor_sheet:
+    peak_cm2_eV: 0.0
+    center_from_Ec_eV: 0.02
+    width_eV: 0.05
+    label: 'HYPOTHESIS, 31.8 nm only when non-zero (device-specific, stage 6): donor-like states at the free IWO back surface, regularized in
+      a 0.25 nm layer (region 5). Zero for the thin films. Not identifiable separately from Nd and Qf with one transfer curve (V0 evidence: needed
+      to reproduce the flat always-on baseline).'
+contacts:
+  gate_workfunction_eV:
+    value: 4.7
+    label: ASSUMED (TiN 4.5-4.9 eV literature range); degenerate with Qf and chi -> held fixed
+  source_drain:
+    model: ideal Ohmic (no workfunction)
+    label: ASSUMED; underconstrained (no TLM); CNL above Ec in In2O3 supports low-barrier contacts (Si2021/Lin2022)
+  series_resistance_ohm_um:
+    '2.0': 0
+    '6.3': 0
+    '13.2': 0
+    '31.8': 92000.0
+    label: 31.8 nm only, FITTED hypothesis (on-state saturation); total device 672 ohm at 3 V bounds it
+geometry:
+  L_um: 20.0
+  W_um: 290.0
+  sim_width_um: 1.0
+  hfo2_nm: 15.0
+  al2o3_nm: 2.0
+  contact_overlap_um:
+    value: 2.0
+    label: ASSUMED numerical contact geometry (not reported)
+  eps_hfo2: 19.57
+  eps_al2o3:
+    value: 9.0
+    label: ASSUMED
+  top_of_channel: AIR (no cap)

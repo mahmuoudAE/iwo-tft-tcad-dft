@@ -1,0 +1,27 @@
+{
+ "campaign": "P_parallel_pilot",
+ "purpose": "2026-09-28 parallel pilot: A1 and A2 of campaign A repeated with 2 simultaneous ATLAS processes (user-approved +2 launches) to measure the speed-up and check exact reproduction (runs 0031, 0032)",
+ "runs": [
+  {
+   "id": "P_A1_thickness",
+   "thickness": 6.3,
+   "label": "hyp_H1_tphys_5p3",
+   "purpose": "Thickness error: physical film 5.3 nm (-1.0 nm, -16 %, larger than a typical XRR/ellipsometry error) with ALL thickness laws (dEc, m*, Nt, Nd, roughness) evaluated at 5.3 nm; mu_band held at the 6.3 nm validation value 12.4.",
+   "overrides": [
+    "traps.fixed_interface_charge_Qf_cm2.value=1.73e12",
+    "geometry.film_thickness_override_nm=5.3",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[5.3]=12.4"
+   ]
+  },
+  {
+   "id": "P_A2_donor",
+   "thickness": 6.3,
+   "label": "hyp_H2_Nd0_1e16",
+   "purpose": "Reduced donor density: effective background donors removed (Nd0 2.5e17 -> 1e16). Analytic bound: q*Nd*t/Cox = 0.028 V at 2.5e17, so this mechanism alone cannot exceed ~+0.03 V.",
+   "overrides": [
+    "traps.fixed_interface_charge_Qf_cm2.value=1.73e12",
+    "thickness_laws.Nd_eff_cm3.Nd0=1e16"
+   ]
+  }
+ ]
+}

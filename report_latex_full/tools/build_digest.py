@@ -151,7 +151,7 @@ def fixed_ss(vg, i, lo, hi):
 
 def category(label):
     L = label.lower()
-    for k, c in [('pred_idvd', 'prediction ID-VD'), ('pred_t', 'prediction temperature'), ('recal', 'DOS 384/192 recalibration'), ('check', 'numerical check'),
+    for k, c in [('v2_anchor', 'V2 calibration anchor'), ('v2_t4', 'V2 ultrathin scenario'), ('pred_idvd', 'prediction ID-VD'), ('pred_t', 'prediction temperature'), ('recal', 'DOS 384/192 recalibration'), ('check', 'numerical check'),
                  ('sens_wf', 'isolation (WF)'), ('sens_mstar', 'isolation (m*)'), ('sens_no_conf', 'counterfactual (no confinement)'), ('sens', 'one-at-a-time sensitivity'),
                  ('hyp', '6.3 nm hypothesis'), ('validation', 'validation (held-out 6.3 nm)'), ('prediction', 'validation (held-out 6.3 nm)'), ('tuned', 'device-specific tuning'),
                  ('backsheet', '31.8 nm hypothesis'), ('stage', 'calibration stage'), ('final', 'final calibrated (DOS 96/48)'), ('baseline', 'baseline laws')]:
