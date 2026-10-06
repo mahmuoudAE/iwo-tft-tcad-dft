@@ -77,7 +77,7 @@ The measured exponents of the ultrathin films (0.9–1.1) are of the order expec
   - The 2.0 nm TCAD curve is flagged: RMS 0.015 decade (3.5 %).
   - V<sub>T</sub> and gamma drift monotonically with the lower fit limit, so the effective exponent falls at high V<sub>G</sub>. The power law is a descriptor over 1–3 V, not an exact law.
   - **Derivative check** (added after the first write-up; `RESULTS_TABLES.md`, Table 5).
-    - The fitted model reproduces the current within 0.4–8 %.
+    - The fitted model reproduces the current point by point; the worst point per curve is off by 0.4 % (6.3 nm measured) to 8.4 % (2.0 nm TCAD, at 1.0 V).
     - Its slope is reproduced less well: the model's mu<sub>FE</sub> exceeds the data's at 3 V by +20 % (2.0 nm measured), +31 % (2.0 nm TCAD), +9 % (6.3 nm measured), +19 % (6.3 nm TCAD) and +7 % (13.2 nm, both).
     - mu<sub>ch</sub> is therefore a model-based summary of how the mobility grows with V<sub>G</sub>, reliable to roughly 10–20 % near the end of the sweep. mu<sub>FE</sub> remains the model-free quantity for the data–TCAD comparison.
   - **mu<sub>FE</sub>/mu<sub>ch</sub> from the data.**
