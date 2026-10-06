@@ -253,10 +253,10 @@ def thickness_laws():
     a.loglog([2.0, 6.3, 13.2], [0.2556, 0.0359, 0.016], 'D', color=ACCENT2, ms=4, label='S3 SP-equivalent shift (Q1)')
     a.set_ylim(3e-3, 3); a.set_xlabel('t (nm)'); a.set_ylabel(r'$\Delta E_c$ (eV)'); a.legend(fontsize=4.8, loc='lower left')
     a = ax[0, 1]; a.plot(t, 0.208 + 0.1311 * t ** -1.412, color=ACCENT); a.plot([3.52, 1.98, 0.95], [0.228, 0.268, 0.338], 'o', color='k', ms=4, label='0.208 + PBE increments')
-    a.legend(fontsize=6, loc='center right')
+    a.legend(fontsize=5, loc='upper right', frameon=True, framealpha=0.92, edgecolor='0.75')   # 2026-10-06: framed; unframed, the legend marker looked like a 4th data point
     a.set_xscale('log'); a.set_xlabel('t (nm)'); a.set_ylabel(r'$m^*/m_0$')
-    a = ax[0, 2]; a.loglog(t, 2e19 * (2 / t) ** 0.75, color=ACCENT, label=r'law $2\times10^{19}(2/t)^{0.75}$'); a.loglog(t, 2.15e18 + 3.57e12 / (t * 1e-7), '--', color=ACCENT2, label='surface + bulk')
-    a.loglog([2.0, 10.0], [5.3e19, 3.39e18], 's', color='k', ms=4, label='Januar 2026 (PBS devices)'); a.set_xlabel('t (nm)'); a.set_ylabel(r'$N_t$ (cm$^{-3}$)'); a.legend(fontsize=5, loc='upper right')
+    a = ax[0, 2]; a.loglog(t, 2e19 * (2 / t) ** 0.75, color=ACCENT, label='power law'); a.loglog(t, 2.15e18 + 3.57e12 / (t * 1e-7), '--', color=ACCENT2, label='surface + bulk')
+    a.loglog([2.0, 10.0], [5.3e19, 3.39e18], 's', color='k', ms=4, label='Januar 2026'); a.set_xlabel('t (nm)'); a.set_ylabel(r'$N_t$ (cm$^{-3}$)'); a.legend(fontsize=5, loc='lower left', frameon=True, framealpha=0.92, edgecolor='0.75')   # 2026-10-06: framed, in the empty corner
     a = ax[1, 0]; a.semilogy(t, 2.5e17 * (1 + (t / 20) ** 4), color=ACCENT); a.set_xlabel('t (nm)'); a.set_ylabel(r'$N_{d,eff}$ (cm$^{-3}$)')
     a = ax[1, 1]; a.plot(t, (1 - 0.287 / t) ** 2, color=ACCENT); a.set_xscale('log'); a.set_xlabel('t (nm)'); a.set_ylabel(r'$(1-\Delta_{sr}/t)^2$')
     for x in FILMS:

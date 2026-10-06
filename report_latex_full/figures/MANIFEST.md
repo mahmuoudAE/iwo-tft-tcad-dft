@@ -124,3 +124,17 @@ Required Qf from S1 key numbers / SYNTHESIS D3. with confinement: best single Qf
 
 ## powerlaw_loo
 Models fitted through 2 and 13.2 nm, predicting 6.3 nm (measured 10.95): {'power law': 28.776822157764073, 'A + B/t': 42.733408859785875, 'exponential': 20.94268262747763, 'step': 12.15}; Ion power exponent 2.75 predicts 3.43e-05 A/um at 31.8 nm (measured 3.59e-6).
+## thickness_laws
+Laws from config/iwo_material_model.yaml; DFT points tables/THICKNESS_LAW_EVIDENCE.csv; SP shifts scratch/S3/s3_sp1d_notraps_out.txt (Q1 at n_s=1e10).
+## thickness_laws
+Laws from config/iwo_material_model.yaml; DFT points tables/THICKNESS_LAW_EVIDENCE.csv; SP shifts scratch/S3/s3_sp1d_notraps_out.txt (Q1 at n_s=1e10).
+## thickness_laws
+Laws from config/iwo_material_model.yaml; DFT points tables/THICKNESS_LAW_EVIDENCE.csv; SP shifts scratch/S3/s3_sp1d_notraps_out.txt (Q1 at n_s=1e10).
+## thickness_laws
+Laws from config/iwo_material_model.yaml; DFT points tables/THICKNESS_LAW_EVIDENCE.csv; SP shifts scratch/S3/s3_sp1d_notraps_out.txt (Q1 at n_s=1e10).
+## thickness_laws
+Laws from config/iwo_material_model.yaml; DFT points tables/THICKNESS_LAW_EVIDENCE.csv; SP shifts scratch/S3/s3_sp1d_notraps_out.txt (Q1 at n_s=1e10).
+## thickness_laws
+Laws from config/iwo_material_model.yaml; DFT points tables/THICKNESS_LAW_EVIDENCE.csv; SP shifts scratch/S3/s3_sp1d_notraps_out.txt (Q1 at n_s=1e10).
+## thickness_laws
+Laws from config/iwo_material_model.yaml; DFT points tables/THICKNESS_LAW_EVIDENCE.csv; SP shifts scratch/S3/s3_sp1d_notraps_out.txt (Q1 at n_s=1e10).
