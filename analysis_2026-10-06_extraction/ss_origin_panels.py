@@ -38,10 +38,10 @@ def save(fig, name):
     fig.savefig(OUT / f'{name}.pdf'); fig.savefig(OUT / f'{name}.png', dpi=300); plt.close(fig); print('saved', name)
 
 
-# (a) SS vs thickness in the normalised window
+# (a) SS vs thickness in the normalised window (labelled (b): it replaces panel (b) of the thickness-trends slide)
 t = np.array(rx.FILMS)
 r = [A1['films'][str(x)]['results']['main'] for x in rx.FILMS]
-fig, a = new('a')
+fig, a = new('b')
 a.errorbar(t, [q['measured'] for q in r], yerr=[q['sig_measured'] for q in r], fmt='o-', color='#0072B2', ms=5, lw=1.2,
            capsize=2.5, elinewidth=0.9, label='measured')
 a.errorbar(t, [q['tcad'] for q in r], yerr=[q['sig_tcad'] for q in r], fmt='s--', color='#D55E00', ms=5.5, lw=1.2, mfc='none',
