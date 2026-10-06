@@ -1,0 +1,60 @@
+
+     Program POST-PROC v.7.5 starts on  6Oct2026 at 10:29:29 
+
+     This program is part of the open-source Quantum ESPRESSO suite
+     for quantum simulation of materials; please cite
+         "P. Giannozzi et al., J. Phys.:Condens. Matter 21 395502 (2009);
+         "P. Giannozzi et al., J. Phys.:Condens. Matter 29 465901 (2017);
+         "P. Giannozzi et al., J. Chem. Phys. 152 154105 (2020);
+          URL http://www.quantum-espresso.org", 
+     in publications or presentations arising from this work. More details at
+     http://www.quantum-espresso.org/quote
+
+     Parallel version (MPI & OpenMP), running on      11 processor cores
+     Number of MPI processes:                11
+     Threads/MPI process:                     1
+
+     MPI processes distributed on     1 nodes
+     R & G space division:  proc/nbgrp/npool/nimage =      11
+     45279 MiB available memory on the printing compute node when the environment starts
+
+
+     Reading xml data from directory:
+
+     ./tmp/slab.save/
+     file In.pbe-dn-kjpaw_psl.1.0.0.UPF: wavefunction(s)  5S 5P 4D renormalized
+     file O.pbe-n-kjpaw_psl.1.0.0.UPF: wavefunction(s)  2S 2P renormalized
+     file H.pbe-kjpaw_psl.1.0.0.UPF: wavefunction(s)  1S renormalized
+
+     IMPORTANT: XC functional enforced from input :
+     Exchange-correlation= PBE
+                           (   1   4   3   4   0   0   0)
+     Any further DFT definition will be discarded
+     Please, verify this is what you really want
+
+
+     Parallelization info
+     --------------------
+     sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
+     Min        1574     787    203               489005   172869   22787
+     Max        1576     787    204               489008   172871   22793
+     Sum       17319    8657   2237              5379071  1901577  250695
+
+     Using Slab Decomposition
+
+
+     negative rho (up, down):  1.582E-03 0.000E+00
+
+     Calling punch_plot, plot_num =  11
+     Writing data to file  slabL2_relax_v2_v.pp
+     Message from routine chdens:
+     namelist plot not found or invalid, exiting
+
+     POST-PROC    :      9.62s CPU     10.44s WALL
+
+
+   This run was terminated on:  10:29:40   6Oct2026            
+
+=------------------------------------------------------------------------------=
+   JOB DONE.
+=------------------------------------------------------------------------------=

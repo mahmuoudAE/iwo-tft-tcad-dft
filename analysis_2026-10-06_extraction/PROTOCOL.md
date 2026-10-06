@@ -77,6 +77,26 @@ fitted and no comparison was made at that stage.
 - Verdict: "consistent" if \|Delta\| <= 2 sigma<sub>Delta</sub>, otherwise "differs".
 - Each Delta is labelled fitted, constrained or not fitted according to section 2.
 
+## Amendment A1 (2026-10-06, after the first results; before any TCAD value under this rule was computed)
+
+### Why
+- The films differ in current scale: I<sub>on</sub> is 5.1e-7, 4.0e-7 and 3.1e-6 A/um.
+- In subthreshold I<sub>D</sub> is proportional to mu n<sub>free</sub>. One absolute current window therefore samples different free-electron densities, i.e. different Fermi-level positions and different parts of the trap distribution, in different films.
+- A current window already follows the threshold shift, so it needs no voltage adaptation. It needs a current-scale adaptation.
+
+### Rule (secondary analysis; the primary window of section 3.2 stays as registered)
+- The window is [r, 10r] x I<sub>on</sub>, where I<sub>on</sub> is the measured I<sub>D</sub>(3 V) of that film.
+- r = 10 x max over films of (floor / I<sub>on</sub>) = 2.15e-5. This is the deepest one-decade window that is at least 10 x above the floor in every film, so no floor correction is needed.
+- The same absolute window is used for the TCAD curve of that film; its I<sub>on</sub> equals the measured one by calibration.
+- Crossings, uncertainties and the comparison rule are as in sections 3.4 and 3.5, with the validated estimators of RESULTS.md D1–D2.
+
+### Sensitivity, specified now
+- (a) Normalisation by I<sub>on</sub>/(3 V - V<sub>th,cc</sub>) instead of I<sub>on</sub>, with r recomputed by the same rule. This removes the difference in gate overdrive at 3 V.
+- (b) The window shifted by +0.25 decade.
+
+### Disclosure
+The measured SS values for the main rule were computed before this amendment was written: 123.6, 122.7 and 115.3 mV/dec for 2.0, 6.3 and 13.2 nm. No TCAD value under this rule had been computed.
+
 ## 4 Outputs
 
 `extraction.py` (methods), `run_extraction.py` (driver), `results.json`, `results_table.csv`, `mobility_vs_vg.csv`,
