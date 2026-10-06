@@ -101,7 +101,13 @@ JOBS += [('slab1_relax_gpu', 'slab1_v25', 'slab_relax', 8, 32000, 30000000, 'tes
          # relaxation). vc-relax (2Dxy) on 1 GPU as slab1_relax_gpu, then SCF + planar average + PDOS (surface-state
          # check of the band edges) + bands on the CPU environment with one pool, as iwo_slab1_W24d
          ('slabL1_relax_gpu', 'slabL1_v25', 'thin_slab', 8, 32000, 30000000, 'testmatch', 259200, 1),
-         ('slabL2_relax_gpu', 'slabL2_v25', 'thin_slab', 8, 32000, 30000000, 'testmatch', 259200, 1)]
+         ('slabL2_relax_gpu', 'slabL2_v25', 'thin_slab', 8, 32000, 30000000, 'testmatch', 259200, 1),
+         # 2026-10-05 19:50Z: the two jobs above landed on 16 CPUs (allocation gives GPUs only to >= 90 atoms) with one
+         # k-point pool; at ~25 min (0.51 nm) and > 2 h (0.75 nm, first SCF) per relaxation step the 0.75 nm film could
+         # exceed 72 h. Faster copies, submitted with FORCE_GPU=1 (1 GPU + CPU twin), pools chosen at run time; identical
+         # inputs. The slower copy is removed once a copy is clearly ahead.
+         ('slabL1_relax_v2', 'slabL1_v25', 'thin_slab2', 8, 32000, 30000000, 'testmatch', 259200, 1),
+         ('slabL2_relax_v2', 'slabL2_v25', 'thin_slab2', 8, 32000, 30000000, 'testmatch', 259200, 1)]
 # memory: every pool holds complete wavefunctions of its k-points. slab2_v25 with 4 pools used 95.8 GB
 # (held at a 48 GB limit, 2026-09-27), i.e. ~24 GB per pool, so slab 2 runs with at most 2 pools.
 MAXPOOL = {'slab2_v25': 2, 'slab2_relax': 2, 'slab2r_final_cpu': 2, 'slab2r_pdos_cpu': 2, 'iwo_slab2_final_cpu': 2}
@@ -232,6 +238,24 @@ STEPS_THIN_SLAB = """steps() {{
 """
 
 
+STEPS_THIN_SLAB2 = """steps() {{
+  # 2026-10-05: faster copy of STEPS_THIN_SLAB. Pools chosen at run time from the CPUs actually granted (CERN sizes
+  # jobs by memory; -nk must divide the rank count, see iwo_slab2_final_cpu); 4 irreducible k-points
+  NKP=1; for p in 4 2; do [ $((NCPU % p)) -eq 0 ] && {{ NKP=$p; break; }}; done
+  log "pools for the CPU steps: $NKP (NCPU $NCPU)"
+  run_pw vcrelax $NKP
+  python qeio.py converged vcrelax.out || {{ log "relaxation did not finish; later steps skipped"; return 0; }}
+  for t in scf bands; do python qeio.py newgeom $t.tmpl vcrelax.out > $t.in; done
+  clean_tmp
+  export FORCE_CPU=1   # one QE version (CPU 7.5) for SCF, pp.x, projwfc.x and bands
+  run_pw scf $NKP || return 0
+  run_ppavg slab "$JOB" {awin:.4f}
+  run_pdos slab "$JOB" "$(python qeio.py fermi scf.out)" $NKP
+  run_pw bands $NKP
+}}
+"""
+
+
 STEPS_IWO_SLAB = """steps() {{
   run_pw relax 1
   python qeio.py converged relax.out || {{ log "relaxation did not finish; later steps skipped"; return 0; }}
@@ -316,11 +340,11 @@ def make_job(name, st, kind, ncpu, out, p):
         elif kind == 'slab_pdos':
             (d / 'scf.in').write_text(pw_input(st, 'scf', 'slab', p, kgrid=ks, nbnd=occ + 16, verbosity='high'))
             (d / 'steps.sh').write_text(STEPS_SLAB_PDOS.format(**nk))
-        elif kind == 'thin_slab':
+        elif kind in ('thin_slab', 'thin_slab2'):
             (d / 'vcrelax.in').write_text(pw_input(st, 'vc-relax', 'vcr', p, kgrid=ks, nbnd=occ + 8))
             (d / 'scf.tmpl').write_text(pw_input(st, 'scf', 'slab', p, kgrid=ks, nbnd=occ + 16, verbosity='high'))
             (d / 'bands.tmpl').write_text(pw_input(st, 'bands', 'slab', p, kpts=kb, nbnd=occ + 16, verbosity='high'))
-            (d / 'steps.sh').write_text(STEPS_THIN_SLAB.format(**nk))
+            (d / 'steps.sh').write_text((STEPS_THIN_SLAB if kind == 'thin_slab' else STEPS_THIN_SLAB2).format(**nk))
         else:
             (d / 'vcrelax.in').write_text(pw_input(st, 'vc-relax', 'vcr', p, kgrid=ks, nbnd=occ + 8))
             (d / 'scf.tmpl').write_text(pw_input(st, 'scf', 'slab', p, kgrid=ks, nbnd=occ + 16, verbosity='high'))
