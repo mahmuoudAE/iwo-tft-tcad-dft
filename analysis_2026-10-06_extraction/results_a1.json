@@ -1,0 +1,337 @@
+{
+ "rule": "PROTOCOL.md amendment A1 (commit 7ce7116)",
+ "r_main": 2.14823052799208e-05,
+ "r_a": 6.267414813953268e-05,
+ "films": {
+  "2.0": {
+   "info": {
+    "floor": 4.60552e-15,
+    "ion": 5.08966e-07,
+    "ion_tcad": 5.08975e-07,
+    "vcc": 0.6618205007741922,
+    "scale_a": 2.1767618789255627e-07
+   },
+   "results": {
+    "main": {
+     "window": [
+      1.093376298910017e-11,
+      1.0933762989100171e-10
+     ],
+     "measured": 123.57627411308081,
+     "sig_measured": 0.9684494270721049,
+     "tcad": 126.41585100024034,
+     "sig_tcad": 1.0,
+     "delta": 2.8395768871595237,
+     "sig_delta": 1.3920827176559187,
+     "verdict": "differs",
+     "admissibility": {
+      "lower_over_floor": 2374.056130274143,
+      "upper_below_threshold_level": true,
+      "crossings_meas": [
+       1,
+       1
+      ],
+      "crossings_tcad": [
+       1,
+       1
+      ]
+     },
+     "vg_meas": [
+      0.3493196018443274,
+      0.47289587595740823
+     ],
+     "vg_tcad": [
+      0.34542445997792226,
+      0.4718403109781626
+     ]
+    },
+    "a: I_on/(3 V - V_th,cc)": {
+     "window": [
+      1.3642669646426821e-11,
+      1.3642669646426822e-10
+     ],
+     "measured": 127.76752345653647,
+     "sig_measured": 0.5205183719978813,
+     "tcad": 132.61709744464378,
+     "sig_tcad": 1.0,
+     "delta": 4.849573988107309,
+     "sig_delta": 1.1273594704384777,
+     "verdict": "differs",
+     "admissibility": {
+      "lower_over_floor": 2962.243057554157,
+      "upper_below_threshold_level": true,
+      "crossings_meas": [
+       1,
+       1
+      ],
+      "crossings_tcad": [
+       1,
+       1
+      ]
+     },
+     "vg_meas": [
+      0.3596654007739595,
+      0.48743292423049595
+     ],
+     "vg_tcad": [
+      0.35503470130917264,
+      0.4876517987538164
+     ]
+    },
+    "b: +0.25 dec": {
+     "window": [
+      1.944328559776246e-11,
+      1.944328559776246e-10
+     ],
+     "measured": 136.1467971261866,
+     "sig_measured": 0.5865694357948231,
+     "tcad": 143.12746925750375,
+     "sig_tcad": 1.0,
+     "delta": 6.980672131317135,
+     "sig_delta": 1.1593376139022908,
+     "verdict": "differs",
+     "admissibility": {
+      "lower_over_floor": 4221.73513474319,
+      "upper_below_threshold_level": true,
+      "crossings_meas": [
+       1,
+       1
+      ],
+      "crossings_tcad": [
+       1,
+       1
+      ]
+     },
+     "vg_meas": [
+      0.37645498064441707,
+      0.5126017777706037
+     ],
+     "vg_tcad": [
+      0.3721248001327989,
+      0.5152522693903027
+     ]
+    }
+   }
+  },
+  "6.3": {
+   "info": {
+    "floor": 1.52759e-13,
+    "ion": 4.03448e-07,
+    "ion_tcad": 4.034480111357581e-07,
+    "vcc": 0.6440037102307175,
+    "scale_a": 1.7124305405400648e-07
+   },
+   "results": {
+    "main": {
+     "window": [
+      8.666993100573487e-12,
+      8.666993100573487e-11
+     ],
+     "measured": 122.65599105003771,
+     "sig_measured": 9.342064047999342,
+     "tcad": 121.29736485078662,
+     "sig_tcad": 1.0,
+     "delta": -1.3586261992510913,
+     "sig_delta": 9.395432969103757,
+     "verdict": "consistent",
+     "admissibility": {
+      "lower_over_floor": 56.736382802803675,
+      "upper_below_threshold_level": true,
+      "crossings_meas": [
+       1,
+       1
+      ],
+      "crossings_tcad": [
+       1,
+       1
+      ]
+     },
+     "vg_meas": [
+      0.3017111240418654,
+      0.4243671150919031
+     ],
+     "vg_tcad": [
+      0.3064554320699341,
+      0.4277527969207207
+     ]
+    },
+    "a: I_on/(3 V - V_th,cc)": {
+     "window": [
+      1.0732512537646805e-11,
+      1.0732512537646805e-10
+     ],
+     "measured": 125.39933328322795,
+     "sig_measured": 9.224157980977921,
+     "tcad": 126.0488282429419,
+     "sig_tcad": 1.0,
+     "delta": 0.6494949597139481,
+     "sig_delta": 9.278205131276128,
+     "verdict": "consistent",
+     "admissibility": {
+      "lower_over_floor": 70.25780829703523,
+      "upper_below_threshold_level": true,
+      "crossings_meas": [
+       1,
+       1
+      ],
+      "crossings_tcad": [
+       1,
+       1
+      ]
+     },
+     "vg_meas": [
+      0.3134004884330617,
+      0.4387998217162896
+     ],
+     "vg_tcad": [
+      0.3159773698733486,
+      0.4420261981162905
+     ]
+    },
+    "b: +0.25 dec": {
+     "window": [
+      1.5412335377699232e-11,
+      1.5412335377699236e-10
+     ],
+     "measured": 131.85972735526562,
+     "sig_measured": 8.256263431774075,
+     "tcad": 137.10144211110315,
+     "sig_tcad": 1.0,
+     "delta": 5.241714755837535,
+     "sig_delta": 8.316603023762156,
+     "verdict": "consistent",
+     "admissibility": {
+      "lower_over_floor": 100.89314133831219,
+      "upper_below_threshold_level": true,
+      "crossings_meas": [
+       1,
+       1
+      ],
+      "crossings_tcad": [
+       1,
+       1
+      ]
+     },
+     "vg_meas": [
+      0.3331906901104411,
+      0.46505041746570674
+     ],
+     "vg_tcad": [
+      0.33209809835632415,
+      0.4691995404674273
+     ]
+    }
+   }
+  },
+  "13.2": {
+   "info": {
+    "floor": 6.59655e-12,
+    "ion": 3.07069e-06,
+    "ion_tcad": 3.0706900032149362e-06,
+    "vcc": 0.08252222827718106,
+    "scale_a": 1.052515302691306e-06
+   },
+   "results": {
+    "main": {
+     "window": [
+      6.596549999999999e-11,
+      6.59655e-10
+     ],
+     "measured": 115.28022865743837,
+     "sig_measured": 2.3667250626882885,
+     "tcad": 131.26250162602858,
+     "sig_tcad": 1.0,
+     "delta": 15.982272968590209,
+     "sig_delta": 2.5693165477139797,
+     "verdict": "differs",
+     "admissibility": {
+      "lower_over_floor": 10.0,
+      "upper_below_threshold_level": true,
+      "crossings_meas": [
+       1,
+       1
+      ],
+      "crossings_tcad": [
+       1,
+       1
+      ]
+     },
+     "vg_meas": [
+      -0.05798086981346183,
+      0.05729935884397653
+     ],
+     "vg_tcad": [
+      -0.10895576057045078,
+      0.022306741055577815
+     ]
+    },
+    "a: I_on/(3 V - V_th,cc)": {
+     "window": [
+      6.596549999999999e-11,
+      6.596549999999999e-10
+     ],
+     "measured": 115.28022865743837,
+     "sig_measured": 2.3667250626882885,
+     "tcad": 131.26250162602858,
+     "sig_tcad": 1.0,
+     "delta": 15.982272968590209,
+     "sig_delta": 2.5693165477139797,
+     "verdict": "differs",
+     "admissibility": {
+      "lower_over_floor": 10.0,
+      "upper_below_threshold_level": true,
+      "crossings_meas": [
+       1,
+       1
+      ],
+      "crossings_tcad": [
+       1,
+       1
+      ]
+     },
+     "vg_meas": [
+      -0.05798086981346183,
+      0.05729935884397653
+     ],
+     "vg_tcad": [
+      -0.10895576057045078,
+      0.022306741055577815
+     ]
+    },
+    "b: +0.25 dec": {
+     "window": [
+      1.1730509042292253e-10,
+      1.1730509042292257e-09
+     ],
+     "measured": 123.93106206823518,
+     "sig_measured": 1.6628495091721847,
+     "tcad": 149.00486388765404,
+     "sig_tcad": 1.0,
+     "delta": 25.07380181941886,
+     "sig_delta": 1.9403784399323178,
+     "verdict": "differs",
+     "admissibility": {
+      "lower_over_floor": 17.782794100389225,
+      "upper_below_threshold_level": false,
+      "crossings_meas": [
+       1,
+       1
+      ],
+      "crossings_tcad": [
+       1,
+       1
+      ]
+     },
+     "vg_meas": [
+      -0.03173239103589414,
+      0.09219867103234103
+     ],
+     "vg_tcad": [
+      -0.08168794474826349,
+      0.06731691913939056
+     ]
+    }
+   }
+  }
+ }
+}

@@ -117,6 +117,26 @@ The measured exponents of the ultrathin films (0.9–1.1) are of the order expec
 - TCAD derivatives use the native solver grid; the grid-dependent difference to the 0.05 V grid is included in the TCAD sigma.
 - The TCAD power-law fit uses the 0.05 V measurement grid, so both fits weight V<sub>G</sub> identically.
 
+## 4a Amendment A1: on-current-normalised SS window
+
+Details are in `A1_RESULTS.md` and `figures/fig4_ss_normalised`. The rule was registered (commit 7ce7116) before its TCAD values were computed. The measured values had been computed first, and this is disclosed in PROTOCOL.md.
+
+- **Rule.** The window is [2.15e-5, 2.15e-4] x I<sub>on</sub>: the deepest decade that is at least 10 x above the floor in every film, so no floor correction is needed.
+- **SS, measured / TCAD (mV/dec), with Delta = TCAD - measured:**
+
+  | film | measured | TCAD | Delta |
+  |---|---|---|---|
+  | 2.0 nm | 123.6 ± 1.0 | 126.4 ± 1.0 | +2.8 ± 1.4 (borderline) |
+  | 6.3 nm | 122.7 ± 9.3 | 121.3 ± 1.0 | -1.4 ± 9.4 (consistent) |
+  | 13.2 nm | 115.3 ± 2.4 | 131.3 ± 1.0 | +16.0 ± 2.6 (differs) |
+
+- **Sensitivity (a), normalisation by I<sub>on</sub>/(3 V - V<sub>th,cc</sub>).** Delta = +4.8 / +0.6 / +16.0, the same picture.
+- **Sensitivity (b), window shifted by +0.25 decade.** Its 13.2 nm window crosses the threshold level and is not admissible there.
+- **Finding 1: the measured curves collapse.** Plotted against I<sub>D</sub>/I<sub>on</sub>, the local SS curves of the three measured films nearly coincide (Fig. 4b). At equal fractions of the on-current the swing is almost independent of thickness: 124, 123 and 115 mV/dec. The large thickness dependence seen in the fixed window (166, 178 and 106 mV/dec) comes mainly from the different current scales of the films.
+- **Finding 2: the model's swing error sits in the 13.2 nm film.** At equal relative current the TCAD reproduces the 2.0 and 6.3 nm swings within 3 mV/dec, but is 16 mV/dec too soft at 13.2 nm. The tail density there comes from the N<sub>t</sub>(t) thickness law, not from a fit, so this points to that law (or to the tail width) at 13.2 nm.
+- **Caveat on what I<sub>on</sub> represents.** I<sub>on</sub> is a proxy for the free-carrier scale; it also contains the gate overdrive at 3 V. Sensitivity (a) removes the overdrive and does not change the conclusion.
+- **6.3 nm uncertainty.** Its window lies only 57 x above the floor, which is why its measured uncertainty (±9 mV/dec) is large.
+
 ## 5 Limitations to state in a paper
 
 1. **One device per thickness.** No device-to-device statistics. "Differs" means beyond the noise of this one device, not beyond the spread between devices.
