@@ -33,7 +33,7 @@ a.text(5.0, 0.35, 'top view (sketch; real location unknown)', ha='center', fonts
 a.set_title('(a) where it could be', fontsize=8, loc='left')
 # (b) circuit
 b = fig.add_axes([0.37, 0.05, 0.22, 0.85]); b.axis('off'); b.set_xlim(0, 10); b.set_ylim(0, 10)
-b.plot([1, 1, 3.6], [5, 7.5, 7.5], 'k-', lw=0.8); b.plot([6.4, 9, 9], [7.5, 7.5, 5], 'k-', lw=0.8); b.plot([1, 1, 9, 9], [5, 2.5, 2.5, 5], 'k-', lw=0.8)
+b.plot([1, 1, 3.6], [5, 7.5, 7.5], 'k-', lw=0.8); b.plot([6.4, 9, 9], [7.5, 7.5, 5], 'k-', lw=0.8); b.plot([1, 1], [5, 2.5], 'k-', lw=0.8); b.plot([9, 9], [5, 2.5], 'k-', lw=0.8)
 b.add_patch(Rectangle((3.6, 6.7), 2.8, 1.6, fc='#F3C89B', ec='k', lw=0.7)); b.text(5, 7.5, 'TFT', ha='center', va='center', fontsize=7)
 b.text(5, 8.9, '$I_{TFT}(V_G)$', ha='center', fontsize=6.5)
 b.plot([3.6, 4.0, 4.4, 4.8, 5.2, 5.6, 6.0, 6.4], [2.5, 3.0, 2.0, 3.0, 2.0, 3.0, 2.0, 2.5], color='#C0392B', lw=1.0)
