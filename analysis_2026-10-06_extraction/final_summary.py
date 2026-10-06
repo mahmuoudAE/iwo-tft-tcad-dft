@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Final presentation of the three metrics for the three thicknesses, measured vs TCAD: constant-current threshold,
-subthreshold swing (normalised window A1 and registered fixed window) and field-effect mobility versus V_G.
+subthreshold swing (on-current-normalised window, amendment A1; the registered fixed window stays in RESULTS.md) and field-effect mobility versus V_G.
 Values are read from results.json / results_a1.json. Output: figures/final/*.{png,pdf}, FINAL_SUMMARY.md, final_table.csv.
 """
 import csv
@@ -70,9 +70,9 @@ save(fig, 'final_a_threshold_cc')
 
 # (b) SS
 fig, a = new('b', 'SS (mV/dec)')
-pair(a, nm_, nms, ns_, nss, C1, 'normalised window, ')
-pair(a, fm, fms, fs, fss, C2, 'fixed window, ')
-a.set_ylim(80, 235); a.legend(loc='upper right', **LEG)
+pair(a, nm_, nms, ns_, nss, C1, '')
+a.set_ylim(95, 150); a.legend(loc='lower left', **LEG)
+a.text(0.96, 0.95, 'window [2.15$\\times10^{-5}$, 2.15$\\times10^{-4}$]$\\times I_{on}$', transform=a.transAxes, ha='right', va='top', **TXT)
 save(fig, 'final_b_ss')
 
 # (c) mobility versus V_G, all films
@@ -96,8 +96,7 @@ rows = []
 for j, f in enumerate(F):
     m, s = R['films'][f]['measured'], R['films'][f]['simulated']
     row = {'film_nm': f, 'Vth_cc_meas_V': vm[j], 'Vth_cc_meas_sig': vms[j], 'Vth_cc_TCAD_V': vs[j], 'Vth_cc_TCAD_sig': vss[j],
-           'SS_norm_meas': nm_[j], 'SS_norm_meas_sig': nms[j], 'SS_norm_TCAD': ns_[j], 'SS_norm_TCAD_sig': nss[j],
-           'SS_fixed_meas': fm[j], 'SS_fixed_meas_sig': fms[j], 'SS_fixed_TCAD': fs[j], 'SS_fixed_TCAD_sig': fss[j]}
+           'SS_norm_meas': nm_[j], 'SS_norm_meas_sig': nms[j], 'SS_norm_TCAD': ns_[j], 'SS_norm_TCAD_sig': nss[j]}
     for v in ('1.0', '1.5', '2.0', '2.5', '3.0'):
         row[f'muFE_{v}V_meas'] = m['mu_fe'][v]['mu_fe']; row[f'muFE_{v}V_meas_sig'] = m['mu_fe'][v]['sig']
         row[f'muFE_{v}V_TCAD'] = s['mu_fe'][v]['mu_fe']; row[f'muFE_{v}V_TCAD_sig'] = s['mu_fe'][v]['sig']
@@ -120,7 +119,6 @@ def line(name, mv, ms, sv, ss, n, status):
 
 line('V_th,cc at 1e-9 A/um (V)', vm, vms, vs, vss, 3, 'fitted (Q_f)')
 line('SS, normalised window (mV/dec)', nm_, nms, ns_, nss, 1, '2.0 nm fitted; 6.3, 13.2 nm not fitted')
-line('SS, fixed window 5e-11-5e-10 A/um (mV/dec)', fm, fms, fs, fss, 1, 'as above; 13.2 nm measured floor-corrected')
 for v in ('1.0', '1.5', '2.0', '2.5', '3.0'):
     mv = get(lambda f: R['films'][f]['measured']['mu_fe'][v]['mu_fe']); ms = get(lambda f: R['films'][f]['measured']['mu_fe'][v]['sig'])
     sv = get(lambda f: R['films'][f]['simulated']['mu_fe'][v]['mu_fe']); ss = get(lambda f: R['films'][f]['simulated']['mu_fe'][v]['sig'])
@@ -129,9 +127,8 @@ L += ['', '## Figure captions', '',
       '**(a) `final_a_threshold_cc`.** Constant-current threshold voltage (I_D = 1 nA/um, I_D L/W = 20 nA, V_D = 0.7 V) against '
       'IWO thickness, measured (filled circles) and TCAD (open squares). Numbers give TCAD - measured. The TCAD fixed charge was '
       'fitted to this threshold (one value shared by 2.0 and 13.2 nm), so the agreement is a calibration residual, not a validation. Lines between thicknesses are guides to the eye.', '',
-      '**(b) `final_b_ss`.** Subthreshold swing against thickness. Blue: window normalised to each device\'s on-current, '
-      '[2.15e-5, 2.15e-4] x I_on, at least 10 x above the off-state floor in every film. Grey: fixed window 5e-11 to 5e-10 A/um '
-      '(13.2 nm measured value floor-corrected). The tail parameters were fitted on the 2.0 nm device only. The normalised window was defined after the first results and registered as protocol amendment A1 before its TCAD values were computed. Lines are guides to the eye.', '',
+      '**(b) `final_b_ss`.** Subthreshold swing against thickness, measured (filled circles) and TCAD (open squares), in a one-decade current window normalised to each device\'s on-current, '
+      '[2.15e-5, 2.15e-4] x I_on, at least 10 x above the off-state floor in every film, so no floor correction is needed. The tail parameters were fitted on the 2.0 nm device only. The normalised window was defined after the first results and registered as protocol amendment A1 before its TCAD values were computed. Lines are guides to the eye.', '',
       '**(c) `final_c_mobility_vs_vg`.** Field-effect mobility mu_FE = L g_m/(W C_ox V_D) between V_G = 1 and 3 V, measured '
       '(circles, error bars = local measurement noise) and TCAD (lines). The TCAD band mobility was fitted to I_D(3 V) of each '
       'film; the gate-voltage dependence is not fitted. Below about V_G = V_T + V_D the device is not in the linear regime and '
