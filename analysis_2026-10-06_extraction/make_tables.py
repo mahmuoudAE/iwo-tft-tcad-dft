@@ -89,6 +89,32 @@ for t in FILMS:
     for v in VGS:
         a, b = m['mu_ch'][v], s['mu_ch'][v]
         L.append(f"| {t} nm | {v} | {pm(a['mu_ch'], a['sig'], 2)} | {pm(b['mu_ch'], b['sig'], 2)} | {b['mu_ch'] / mun:.2f} |")
+# ---- derivative check of the power-law fit (added after the first write-up): does the fitted model reproduce the
+# slope g_m of the data, not only the current? mu_FE of the model vs mu_FE of the data, and mu_FE / mu_ch
+import sys  # noqa: E402
+import numpy as np  # noqa: E402
+sys.path.insert(0, str(HERE))
+import extraction as ex  # noqa: E402
+import run_extraction as rx  # noqa: E402
+MEAS = rx.load_measured()
+L += ['', '## Table 5. Derivative check of the power-law fit (1.0-3.0 V)', '',
+      'The fit minimises the error in log10 I_D; this table shows how well the fitted model also reproduces the slope g_m.', '',
+      '| film | source | V_G (V) | I_D model / data | mu_FE model | mu_FE data | mu_ch | mu_FE data / mu_ch |', '|---|---|---|---|---|---|---|---|']
+for t in rx.FILMS:
+    for src, lab in (('measured', 'measured'), ('simulated', 'TCAD')):
+        p = R['films'][str(t)][src]['pl']
+        if src == 'measured':
+            vg, i = MEAS[t]
+        else:
+            d = rx.load_tcad(t); vg, i = d['vg_m'], d['i_m']
+        mfe = ex.MU_FACTOR * ex.gm(vg, i)
+        for v in (1.0, 1.5, 2.0, 2.5, 3.0):
+            k = int(np.argmin(abs(vg - v))); u = v - p['vt']; g = p['gamma']
+            i_mod = float(ex.pl_current(np.array([v]), p['vt'], p['mu0'], g)[0])
+            mfe_mod = p['mu0'] * (u ** (g + 1) - max(u - ex.VD, 0.0) ** (g + 1)) / ex.VD
+            much = p['mu0'] * u ** g
+            L.append(f'| {t} nm | {lab} | {v:.1f} | {i_mod / i[k]:.3f} | {mfe_mod:.2f} | {mfe[k]:.2f} | {much:.2f} | {mfe[k] / much:.2f} |')
+
 # ---- effect of deviations D1-D3 on the verdicts: protocol-as-written uncertainties vs the final ones
 SIM_SIG_V, SIM_SIG_SS = 1.5e-3, 1.0
 

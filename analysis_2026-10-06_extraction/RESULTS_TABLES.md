@@ -87,6 +87,43 @@ Paired fit-range differences TCAD - measured (post hoc; same fit range for both)
 | 13.2 nm | 2.5 | 40.53 ± 1.42 | 41.47 ± 1.76 | 0.70 |
 | 13.2 nm | 3.0 | 42.82 ± 0.82 | 43.51 ± 0.99 | 0.74 |
 
+## Table 5. Derivative check of the power-law fit (1.0-3.0 V)
+
+The fit minimises the error in log10 I_D; this table shows how well the fitted model also reproduces the slope g_m.
+
+| film | source | V_G (V) | I_D model / data | mu_FE model | mu_FE data | mu_ch | mu_FE data / mu_ch |
+|---|---|---|---|---|---|---|---|
+| 2.0 nm | measured | 1.0 | 0.962 | 1.62 | 1.57 | 2.12 | 0.74 |
+| 2.0 nm | measured | 1.5 | 1.021 | 5.06 | 5.17 | 3.87 | 1.34 |
+| 2.0 nm | measured | 2.0 | 0.982 | 8.36 | 8.77 | 5.55 | 1.58 |
+| 2.0 nm | measured | 2.5 | 0.989 | 11.54 | 11.16 | 7.17 | 1.56 |
+| 2.0 nm | measured | 3.0 | 1.037 | 14.62 | 12.15 | 8.76 | 1.39 |
+| 2.0 nm | TCAD | 1.0 | 0.916 | 1.49 | 1.32 | 2.45 | 0.54 |
+| 2.0 nm | TCAD | 1.5 | 1.034 | 5.39 | 5.65 | 4.44 | 1.27 |
+| 2.0 nm | TCAD | 2.0 | 0.963 | 8.77 | 9.32 | 6.18 | 1.51 |
+| 2.0 nm | TCAD | 2.5 | 0.987 | 11.76 | 10.67 | 7.78 | 1.37 |
+| 2.0 nm | TCAD | 3.0 | 1.060 | 14.53 | 11.10 | 9.28 | 1.20 |
+| 6.3 nm | measured | 1.0 | 0.998 | 1.32 | 1.28 | 1.36 | 0.94 |
+| 6.3 nm | measured | 1.5 | 0.997 | 3.66 | 3.73 | 2.54 | 1.47 |
+| 6.3 nm | measured | 2.0 | 1.003 | 6.22 | 6.17 | 3.79 | 1.63 |
+| 6.3 nm | measured | 2.5 | 1.002 | 8.92 | 9.03 | 5.09 | 1.77 |
+| 6.3 nm | measured | 3.0 | 1.004 | 11.73 | 10.74 | 6.44 | 1.67 |
+| 6.3 nm | TCAD | 1.0 | 0.946 | 1.63 | 1.49 | 2.60 | 0.57 |
+| 6.3 nm | TCAD | 1.5 | 1.022 | 4.77 | 4.98 | 4.02 | 1.24 |
+| 6.3 nm | TCAD | 2.0 | 0.977 | 6.85 | 7.10 | 5.13 | 1.38 |
+| 6.3 nm | TCAD | 2.5 | 0.993 | 8.53 | 7.98 | 6.09 | 1.31 |
+| 6.3 nm | TCAD | 3.0 | 1.036 | 9.98 | 8.39 | 6.94 | 1.21 |
+| 13.2 nm | measured | 1.0 | 0.981 | 30.96 | 28.68 | 29.98 | 0.96 |
+| 13.2 nm | measured | 1.5 | 1.001 | 39.91 | 40.93 | 34.50 | 1.19 |
+| 13.2 nm | measured | 2.0 | 0.995 | 45.20 | 45.00 | 37.84 | 1.19 |
+| 13.2 nm | measured | 2.5 | 0.999 | 49.19 | 47.64 | 40.53 | 1.18 |
+| 13.2 nm | measured | 3.0 | 1.009 | 52.46 | 49.07 | 42.82 | 1.15 |
+| 13.2 nm | TCAD | 1.0 | 0.980 | 31.53 | 28.64 | 31.68 | 0.90 |
+| 13.2 nm | TCAD | 1.5 | 1.003 | 40.72 | 41.80 | 35.97 | 1.16 |
+| 13.2 nm | TCAD | 2.0 | 0.993 | 45.55 | 45.87 | 39.03 | 1.18 |
+| 13.2 nm | TCAD | 2.5 | 0.999 | 49.10 | 47.81 | 41.47 | 1.15 |
+| 13.2 nm | TCAD | 3.0 | 1.010 | 51.96 | 48.85 | 43.51 | 1.12 |
+
 ## Effect of deviations D1-D3 on the verdicts
 
 Rows whose verdict differs between the uncertainty estimators written in the protocol and the final, validated ones:
