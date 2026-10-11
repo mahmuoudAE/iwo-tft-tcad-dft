@@ -1,0 +1,1322 @@
+--- a/scripts/run_atlas.py
++++ b/scripts/run_atlas.py
+@@ -39,8 +39,12 @@
+         with INDEX.open('a', newline='') as f:
+             w = csv.DictWriter(f, fieldnames=FIELDS); (w.writeheader() if new else None); w.writerow({k: row.get(k, '') for k in FIELDS})
++def file_cap():
++    """max_launches as written in config/solver.yaml on disk (2026-10-10 review fix: a --override solver.runner.max_launches=...
++    reaches the in-memory solver dict before reserve(), so the cap is re-read from the file; an override can only lower it)"""
++    return int(yaml.safe_load((ROOT / 'config' / 'solver.yaml').read_text())['runner']['max_launches'])
+ def reserve(r, t, label):
+     with _LOCK:
+-        used = {x['run_id'] for x in rows()} | _PENDING
+-        if len(used) >= int(r['max_launches']): raise RuntimeError(f'launch budget {r["max_launches"]} reached; ask before increasing')
++        used = {x['run_id'] for x in rows()} | _PENDING; cap = min(int(r['max_launches']), file_cap())
++        if len(used) >= cap: raise RuntimeError(f'launch budget {cap} reached; ask before increasing')
+         n = max([int(m.group(1)) for u in used for m in [re.match(r'run_(\d+)', u)] if m] + [0])
+         rid = f'run_{n + 1:04d}'; _PENDING.add(rid)
+@@ -60,4 +64,31 @@
+     if np.any(np.diff(a[:, 0]) < -1e-9): raise RuntimeError('export is not an increasing sweep')
+     u = {float(x): float(y) for x, y in a}; xs = np.array(sorted(u)); return xs, np.array([u[x] for x in xs])
++
++def strict_xy(p: Path):
++    """Strict reader for the strip exports (2026-10-10; count-line fix after review). A DeckBuild EXTRACT file is
++    'title / <n> <a> <b> / x label / y label / n rows "x y"' (e.g. '36 2 2' in results/runs/run_0041_*/idvd_vg1.dat).
++    The one all-numeric count line before the first data row (three non-negative integers) is skipped and the number of
++    data rows must equal its first value. Any other numeric row without exactly two values, non-finite values, fewer than
++    3 rows or conflicting duplicate x rows -> RuntimeError. Text lines are skipped."""
++    pts, count = [], None
++    for line in p.read_text(errors='replace').splitlines():
++        w = line.replace(',', ' ').split()
++        if not w: continue
++        try: vals = [float(z.replace('D', 'E')) for z in w]
++        except ValueError: continue   # title / axis-label line
++        if len(vals) != 2:
++            if count is None and not pts and len(vals) == 3 and all(np.isfinite(v) and v >= 0 and v == int(v) for v in vals):
++                count = int(vals[0]); continue   # DeckBuild point-count line
++            raise RuntimeError(f'{p.name}: malformed row {line.strip()[:60]}')
++        pts.append(vals)
++    if count is not None and count != len(pts): raise RuntimeError(f'{p.name}: count line says {count} rows, found {len(pts)}')
++    a = np.array(pts, float).reshape(-1, 2)
++    if len(a) < 3 or not np.all(np.isfinite(a)): raise RuntimeError(f'{p.name}: fewer than 3 rows or non-finite values')
++    u = {}
++    for x, y in a:
++        k = round(float(x), 6)
++        if k in u and u[k] != y: raise RuntimeError(f'{p.name}: conflicting duplicate rows at {k} V')
++        u[k] = y
++    xs_ = np.array(sorted(u)); return xs_, np.array([u[x] for x in xs_])
+ 
+ def scan(text):
+@@ -273,24 +304,7 @@
+     if sc['errors']: finish('SIMULATOR_ERROR', 'no', sc['errors'][0][:120]); raise RuntimeError(f'{rid}: {sc["errors"][0]}')
+     if rc != 0 or not sc['finished']: finish('INCOMPLETE_RUN', 'no', f'exit code {rc}; ATLAS completion {sc["finished"]}'); raise RuntimeError(f'{rid}: exit {rc} / not finished; inspect {dest}')
+-    def strict_xy(fn):
+-        """two numeric columns per data row; header text allowed, malformed numeric rows and conflicting duplicate V_D rejected"""
+-        pts = []
+-        for line in (dest / fn).read_text(errors='replace').splitlines():
+-            w = line.replace(',', ' ').split()
+-            try: vals = [float(z.replace('D', 'E')) for z in w]
+-            except ValueError: continue   # header / text line
+-            if len(vals) != 2: raise RuntimeError(f'{fn}: malformed row {line.strip()[:60]}')
+-            pts.append(vals)
+-        a = np.array(pts, float).reshape(-1, 2)
+-        if len(a) < 3 or not np.all(np.isfinite(a)): raise RuntimeError(f'{fn}: fewer than 3 rows or non-finite values')
+-        u = {}
+-        for x, y in a:
+-            k = round(float(x), 6)
+-            if k in u and u[k] != y: raise RuntimeError(f'{fn}: conflicting duplicate rows at {k} V')
+-            u[k] = y
+-        xs_ = np.array(sorted(u)); return xs_, np.array([u[x] for x in xs_])
+     for fn in ('idvd_strip.dat', 'isvd_strip.dat'):
+         if not (dest / fn).exists(): finish('NO_EXPORT', 'no', f'no {fn}'); raise RuntimeError(f'{rid}: no {fn}; inspect {dest}')
+-    try: xv, idr = strict_xy('idvd_strip.dat'); xs, isr = strict_xy('isvd_strip.dat')
++    try: xv, idr = strict_xy(dest / 'idvd_strip.dat'); xs, isr = strict_xy(dest / 'isvd_strip.dat')   # module-level reader (skips the DeckBuild count line)
+     except RuntimeError as e: finish('INCOMPLETE_EXPORT', 'partial', str(e)[:120]); raise
+     req = np.array(meta['vd_points'], float)   # every requested drain point (validated in build_deck: includes 0.1 and 0.7 V)
+--- a/scripts/run_campaign.py
++++ b/scripts/run_campaign.py
+@@ -16,4 +16,7 @@
+ summary results/campaigns/<plan stem>.json is rewritten after every launch; a failed launch is recorded and the
+ campaign continues; the campaign stops at the launch budget.
++C10 plans (2026-10-10 review fix; file stem campaign_C10_* or campaign "C10..."): --workers must be 1; at most 200 C10 launches
++(labels c10_* in RUN_INDEX, failed ones included); an entry whose label already has a RUN_INDEX row is not launched again
++(earlier success reused, earlier failure reported; --retry ID[,ID] to spend a new launch on purpose).
+ """
+ from __future__ import annotations
+@@ -69,23 +72,109 @@
+                [p.split('}')[0] for p in o.split('{mu:')[1:]] or [''])
+ 
++# ---- 2026-10-10 C10 campaign guards (review fix): the user approved 200 launches, sequential. Every reserved run ID counts,
++# failed or not. config/solver.yaml max_launches 260 (= 60 used before C10 + 200) is the hard global cap in run_atlas.reserve;
++# the guards below add, for C10 plans only: workers must be 1; a C10 label counter capped at 200; and an entry whose label
++# already has a RUN_INDEX row (launched by THIS or ANY other C10 plan, e.g. MIN10 vs the stage plans) is never launched again
++# automatically: a successful earlier launch is reused (summary copied), a failed one is reported. --retry ID[,ID] spends a
++# new launch on purpose (reserve).
++C10_CAP = 200
++SUCCESS = ('REAL_ATLAS_SCORED', 'REAL_ATLAS_STRIP', 'REAL_ATLAS_PREDICTION', 'REAL_ATLAS_PARTIAL_SWEEP')
++
++def is_c10(plan, plan_path): return Path(plan_path).stem.startswith('campaign_C10') or str(plan.get('campaign', '')).upper().startswith('C10')
++
++def _configs(ov):
++    from build_iwo_decks import load_configs, set_dotted
++    m, g, s = load_configs()
++    for o in ov:
++        k, v = o.split('=', 1)
++        if k.startswith('solver.'): set_dotted(s, k[7:], v)
++        elif k.startswith('geometry.'): set_dotted(g, k[9:], v)
++        else: set_dotted(m, k, v)
++    return m, g, s
++
++def current_material_text(ov):
++    """material_model_used.json text that run_atlas.execute* would write now for these overrides (same routing, same dump)"""
++    return json.dumps(_configs(ov)[0], indent=2, default=float)
++
++def current_deck_text(e, ov):
++    """device.in that run_atlas.execute (default transfer path: stepped segments and structure from the configs) or
++    execute_strip would write now for this entry; None for any other mode (then an earlier launch is never reused)"""
++    import numpy as np
++    from build_iwo_decks import build_deck, read_meas
++    m, g, s = _configs(ov); t = float(e['thickness']); full = str(g.get('structure', 'reduced')).lower() == 'full'; vg, meas = read_meas(t)
++    if e.get('mode') == 'strip': return build_deck(t, m, g, s, meas=(vg, meas), full=full, strip=True)[0]
++    if e.get('mode', 'transfer') != 'transfer' or str(s.get('sweep', {}).get('mode', 'pointwise')) != 'stepped': return None
++    segs = [tuple(x) for x in s['sweep']['segments']]; pts = [float(vg[0])]; a = float(vg[0])
++    for end, st in segs:
++        n = int(round((end - a) / st)); pts += [round(a + i * st, 6) for i in range(1, n + 1)]; a = float(end)
++    targets = np.array(sorted(set(pts) & set(np.round(vg, 6).tolist())))
++    return build_deck(t, m, g, s, meas=(vg, meas), targets=targets, full=full, segments=segs)[0]
++
++def c10_launches(idx_rows):return len({r['run_id'] for r in idx_rows if str(r.get('label', '')).startswith('c10_')})
++
++def earlier_launch(e, idx_rows, res):
++    """C10: record for an entry whose label already has a RUN_INDEX row (no new launch), or None"""
++    rids = sorted({r['run_id'] for r in idx_rows if r.get('label') == e['label']})
++    if not rids: return None
++    rid = rids[-1]; last = [r for r in idx_rows if r['run_id'] == rid][-1]
++    rec = {'id': e['id'], 'thickness': e['thickness'], 'label': e['label'], 'purpose': e.get('purpose', ''), 'mode': e.get('mode', 'transfer'),
++           'not_relaunched': True, 'earlier_run_ids': rids, 'run_index_note': last.get('notes', '')}
++    dest = ROOT / last.get('output_dir', ''); exj = dest / 'execution.json'
++    ex = json.loads(exj.read_text()) if last.get('output_dir') and exj.is_file() else {}
++    ov = fill(e.get('overrides', []), res['placeholders'])
++    if ex:   # the earlier launch must be the same entry: overrides, thickness, mode and the material model actually used
++        why = []
++        if list(ex.get('overrides', [])) != ov: why.append('overrides')
++        if abs(float(ex.get('thickness_nm', -1)) - float(e['thickness'])) > 1e-9: why.append('thickness')
++        if {'strip': 'strip', 'output_prediction': 'output'}.get(ex.get('mode'), 'transfer') != e.get('mode', 'transfer'): why.append('mode')
++        mu = dest / 'material_model_used.json'
++        if not mu.is_file() or mu.read_text() != current_material_text(ov): why.append('material model (model file / config changed since that launch)')
++        dk = dest / 'device.in'
++        if not why:
++            try: same = dk.is_file() and dk.read_text() == current_deck_text(e, ov)
++            except Exception as err: same = False; why.append(f'deck rebuild failed ({type(err).__name__})')
++            if not same and not why: why.append('deck (device.in differs from the deck the current generator and configs give)')
++        if why:
++            rec['error'] = (f'label {e["label"]} was launched as {rid} with DIFFERENT {", ".join(why)}; not launched and not reused '
++                            f'(resolve by hand; --retry {e["id"]} spends a new launch)'); return rec
++    if ex.get('status') in SUCCESS:
++        rec['run_dir'] = str(dest.relative_to(ROOT)).replace('\\', '/'); rec['run_id'] = rid; rec.update(summarize(dest)); rec['reused_earlier_launch'] = True
++    else:
++        rec['error'] = (f'already launched as {rid} (status {ex.get("status", "unknown: no execution.json")}); not re-launched '
++                        f'(C10: every launch counts). Use --retry {e["id"]} to spend a new launch on it.')
++    return rec
++
+ def main():
+-    """python run_campaign.py PLAN.json [--workers N]   (N parallel ATLAS processes, default 1 = sequential)"""
++    """python run_campaign.py PLAN.json [--workers N] [--retry ID[,ID...]]
++    (N parallel ATLAS processes, default 1 = sequential; C10 plans: N must be 1, --retry re-launches named entries)"""
+     import threading
+     from concurrent.futures import ThreadPoolExecutor, FIRST_COMPLETED, wait
+-    args = sys.argv[1:]; workers = 1
++    from run_atlas import rows as index_rows
++    args = sys.argv[1:]; workers = 1; retry = set()
+     if '--workers' in args: i = args.index('--workers'); workers = int(args[i + 1]); del args[i:i + 2]
+-    plan_path = Path(args[0]); plan = json.loads(plan_path.read_text())
++    if '--retry' in args: i = args.index('--retry'); retry = {x.strip() for x in args[i + 1].split(',') if x.strip()}; del args[i:i + 2]
++    plan_path = Path(args[0]); plan = json.loads(plan_path.read_text()); c10 = is_c10(plan, plan_path)
++    if c10 and workers != 1: sys.exit(f'C10 plans are sequential only (user approval: 200 sequential launches); got --workers {workers}')
+     out_dir = ROOT / 'results' / 'campaigns'; out_dir.mkdir(parents=True, exist_ok=True); out = out_dir / f'{plan_path.stem}.json'
+     res = {'campaign': plan.get('campaign', plan_path.stem), 'purpose': plan.get('purpose', ''), 'plan_file': str(plan_path), 'placeholders': {}, 'runs': []}
+     if out.exists():   # resume: keep finished entries, skip them
+         res = json.loads(out.read_text())
+-    done = {r['id'] for r in res['runs'] if r.get('run_dir')}
++    done = {r['id'] for r in res['runs'] if r.get('run_dir')} - retry   # --retry also re-launches an entry finished in this plan
+     todo = [e for e in plan['runs'] if e['id'] not in done]; lock = threading.Lock(); running = {}; stop = False
+     with ThreadPoolExecutor(max_workers=workers) as pool:
+         while (todo and not stop) or running:
+-            for e in [e for e in todo if ready(e, res)][:max(0, workers - len(running))] if not stop else []:
++            for e in [e for e in todo if ready(e, res)] if not stop else []:
++                if len(running) >= workers: break
++                if c10:   # sequential (workers == 1), so the RUN_INDEX read here sees every earlier launch
++                    idx = index_rows(); prev = earlier_launch(e, idx, res) if e['id'] not in retry else None
++                    if prev is not None:
++                        todo.remove(e); res['runs'] = [r for r in res['runs'] if not (r['id'] == e['id'] and not r.get('run_dir'))] + [prev]
++                        out.write_text(json.dumps(res, indent=1, default=float))
++                        print(json.dumps({k: prev.get(k) for k in ('id', 'run_id', 'status', 'reused_earlier_launch', 'error')}), flush=True); continue
++                    if c10_launches(idx) >= C10_CAP: stop = True; print(f'STOP: C10 launch cap {C10_CAP} reached (labels c10_* in RUN_INDEX)'); break
+                 todo.remove(e); running[pool.submit(run_entry, e, res, lock)] = e
+             if not running:
+-                if todo: print('STOP: remaining entries wait for placeholders that no run produced'); break
++                if todo and not stop: print('STOP: remaining entries wait for placeholders that no run produced')
++                if todo: break
+                 continue
+             fin, _ = wait(list(running), return_when=FIRST_COMPLETED)
+@@ -93,4 +182,6 @@
+                 running.pop(f); rec = f.result()
+                 with lock:
++                    if rec['id'] in retry:   # a retried entry: its latest attempt replaces earlier records (a failed retry is not 'done')
++                        rec['earlier_records'] = [r for r in res['runs'] if r['id'] == rec['id']]; res['runs'] = [r for r in res['runs'] if r['id'] != rec['id']]
+                     res['runs'].append(rec); out.write_text(json.dumps(res, indent=1, default=float))
+                 print(json.dumps({k: rec.get(k) for k in ('id', 'run_id', 'status', 'active_rmse_dec', 'Id3V_err_pct', 'error', 'wall_s')}), flush=True)
+--- a/scripts/build_iwo_decks.py
++++ b/scripts/build_iwo_decks.py
+@@ -187,5 +187,5 @@
+             o['models'] += ['fnord', f'f.ae={fae:.4g}', f'f.be={fbe:.4g}']
+             o['extract'].append('extract name="IfnVg" curve(v."gate",ifn."gate") outfile="ifnvg.dat"')
+-            o['hdr'].append(pline('[T] OPTION gate tunnelling', f'FNORD self-consistent, set {sname}, F.AE {fae:.4g} A/V^2, F.BE {fbe:.4g} V/cm', '', 'CALCULATED (Lenzlinger-Snow) from ' + ox.get('label', ''), 'GENERATOR_AUDIT 7.5; PDF p.288 (single-barrier approximation)'))
++            o['hdr'].append(pline('[T] OPTION gate tunnelling', f'FNORD self-consistent, set {sname}, F.AE {fae:.4g} A/V^2, F.BE {fbe:.4g} V/cm (HfO2-barrier constants transferred to the field ATLAS uses, at the Al2O3/IWO segment)', '', 'CALCULATED (Lenzlinger-Snow) from ' + ox.get('label', ''), 'GENERATOR_AUDIT 7.5; PDF p.288 l.13034-13038 (field at the insulator-semiconductor segment)'))
+         o['jtun'] = True; o['gate_needed'] = True; o['oxide_mesh_um'] = float(gt.get('oxide_mesh_nm', 0.25)) / 1000.
+     # C9 defect-assisted (Ielmini) oxide tunnelling
+@@ -196,5 +196,7 @@
+                         f'doping region={reg} uniform tat.trap conc={float(ot["conc_cm3"]):.6g} acceptor sign={float(ot["sign_cm2"]):.3g} sigp={float(ot["sigp_cm2"]):.3g} e.level={float(ot["e_level_eV"]):g}']
+         o['models'].append('itat.sc.el'); o['jtun'] = True; o['gate_needed'] = True
+-        o['hdr'].append(pline('[T] OPTION oxide TAT', f'{float(ot["conc_cm3"]):.3g} cm^-3 at {float(ot["e_level_eV"]):g} eV below the oxide Ec (region {reg})', '', ot.get('label', ''), 'PDF p.320-327; quantumex20'))
++        tp = on(ot.get('poisson', 1))   # 2026-10-10 review fix: poisson=0 -> MODELS ^tat.poisson (trap charge kept out of Poisson, PDF p.323)
++        if not tp: o['models'].append('^tat.poisson')
++        o['hdr'].append(pline('[T] OPTION oxide TAT', f'{float(ot["conc_cm3"]):.3g} cm^-3 at {float(ot["e_level_eV"]):g} eV below the oxide Ec (region {reg}); trap charge in Poisson: {"yes (TAT.POISSON default)" if tp else "no (^tat.poisson: isolates the TAT current)"}', '', ot.get('label', ''), 'PDF p.320-327; quantumex20'))
+     # C5 Schottky Pd source/drain
+     sc = po.get('schottky_sd') or {}
+--- a/config/physics_options.yaml
++++ b/config/physics_options.yaml
+@@ -26,6 +26,11 @@
+ #           CONTACT name=gate qtunn.cmass (p.303, Table 3-132), LOG j.tun (p.289, p.1307). Example diode/diodeex12.
+ #   fnord:  MODELS fnord f.ae f.be (p.288 Table 3-126; F.AE/F.BE are MODELS parameters), same oxide MATERIAL lines,
+-#           extract ifn."gate" (DeckBuild manual p.150). FN uses one (F.AE, F.BE) pair at the semiconductor-interface field:
+-#           an approximate bilayer estimate.
++#           extract ifn."gate" (DeckBuild manual p.150). ATLAS evaluates E in J = F.AE E^2 exp(-F.BE/E) at each
++#           insulator-SEMICONDUCTOR segment (PDF p.288, manual text l.13034-13038), i.e. in the Al2O3 at the IWO interface,
++#           where E_Al = r E_Hf, r = eps_HfO2/eps_Al2O3 = 19.57/9.0 = 2.1744 (D continuity, no oxide charge between).
++#           The Lenzlinger-Snow constants are CALCULATED for the TiN/HfO2 barrier (A, B), so the values written are
++#           F.AE = A/r^2, F.BE = r B: J(E_Al) then equals the HfO2-barrier FN current at the HfO2 field (2026-10-10 review
++#           fix; without it FNORD over-estimated I_G by about 5.5-6 decades at V_G = -3 V). Still a single-barrier
++#           (HfO2-limited) approximation of the bilayer; the Al2O3 barrier itself is not in FNORD.
+ # Oxide y-mesh spacing at the Al2O3 and HfO2 lines becomes min(current, oxide_mesh_nm).
+ gate_tunnelling:
+@@ -45,7 +50,7 @@
+       al2o3_eg: 8.8        # eV, LITERATURE (Robertson 2000)
+       al2o3_me_tunnel: 0.35 # m0, ASSUMED inside the LITERATURE range 0.3-0.5
+-      f_ae: 3.50e-6        # A/V^2, CALCULATED Lenzlinger-Snow q^3 m0/(8 pi h phi m*), phi = 4.7 - 2.5 = 2.2 eV, m* = 0.20
+-      f_be: 9.97e+7        # V/cm,  CALCULATED 8 pi sqrt(2 m*) phi^1.5/(3 q h)
+-      label: 'chi/Eg LITERATURE (Robertson 2000); me.tunnel ASSUMED in LITERATURE ranges; F.AE/F.BE CALCULATED (phi 2.2 eV, m 0.20)'
++      f_ae: 7.402e-7       # A/V^2, CALCULATED: Lenzlinger-Snow A = q^3 m0/(8 pi h phi m*) = 3.500e-6 (phi = 4.7 - 2.5 = 2.2 eV, m* = 0.20) / r^2
++      f_be: 2.167e+8       # V/cm,  CALCULATED: B = 8 pi sqrt(2 m*) phi^1.5/(3 q h) = 9.967e7 x r (r = 19.57/9.0, field at the Al2O3/IWO segment)
++      label: 'chi/Eg LITERATURE (Robertson 2000); me.tunnel ASSUMED in LITERATURE ranges; F.AE/F.BE CALCULATED (phi 2.2 eV, m 0.20; HfO2-barrier A, B transferred to the Al2O3/IWO-segment field: A/r^2, r B, r = 2.1744)'
+     worst:
+       hfo2_affinity: 3.2   # eV, ASSUMED leakage-maximising (TiN/HfO2 barrier 4.7 - 3.2 = 1.5 eV, below the LITERATURE 1.9-2.7 eV range)
+@@ -55,7 +60,7 @@
+       al2o3_eg: 8.8
+       al2o3_me_tunnel: 0.30
+-      f_ae: 1.027e-5       # A/V^2, CALCULATED (phi 1.5 eV, m 0.10)
+-      f_be: 3.968e+7       # V/cm,  CALCULATED
+-      label: 'ASSUMED leakage-maximising scenario (optimistic, not a rigorous upper bound: no pinholes, thinning or defects); F.AE/F.BE CALCULATED (phi 1.5 eV, m 0.10)'
++      f_ae: 2.171e-6       # A/V^2, CALCULATED: A = 1.027e-5 (phi 1.5 eV, m 0.10) / r^2
++      f_be: 8.628e+7       # V/cm,  CALCULATED: B = 3.968e7 x r
++      label: 'ASSUMED leakage-maximising scenario (optimistic, not a rigorous upper bound: no pinholes, thinning or defects); F.AE/F.BE CALCULATED (phi 1.5 eV, m 0.10; HfO2-barrier A, B transferred to the Al2O3/IWO-segment field: A/r^2, r B, r = 2.1744)'
+ 
+ # C5. Schottky Pd source/drain: CONTACT workfun = AFFINITY(t) + barrier, surf.rec, [e.tunnel me.tunnel=m*(t)],
+@@ -108,4 +113,8 @@
+   sign_cm2: 1.0e-13        # ASSUMED (value of the installed example quantumex20)
+   sigp_cm2: 1.0e-13        # ASSUMED (same)
++  poisson: 1               # 1 = ATLAS default TAT.POISSON (trap charge in Poisson); 0 -> MODELS ^tat.poisson (PDF p.323, manual
++                           # text l.14541-14548; example p.327). 2026-10-10 review fix: 1e19 cm^-3 acceptors in 15 nm HfO2 are up
++                           # to 1.5e13 cm^-2 of charge, far above the fitted Qf, so with poisson=1 the change in I_D mixes an
++                           # electrostatic shift with collected leakage. S2-12/S2-13 use poisson=0 (isolated TAT current).
+   label: 'ASSUMED high-defect bound; cross-sections ASSUMED (quantumex20 example values)'
+ 
+--- a/config/solver.yaml
++++ b/config/solver.yaml
+@@ -16,5 +16,5 @@
+   argv: ["C:/sedatools/exe/deckbuild.exe", "-run", "{deck}", "-outfile", "{stdout}"]   # verified batch recipe (cwd = run dir, relative names)
+   timeout_seconds: {default: 900, thick: 1500}
+-  max_launches: 271                         # +200 on 2026-10-10 (user-approved "I approve on 200 run for Silvaco": DFT-informed campaign with SRH, tunnelling and realistic models); +14 on 2026-10-05 for model V2 (user-approved "approved, go ahead with all steps": off-current path, DFT inputs, predictive 6.3 nm test, 1/0.7/0.5 nm); +2 on 2026-09-28 for the parallel pilot (user-approved); raised to 54 on 2026-09-27 (overlap redo + explicit tmun check, user-approved); earlier raised from 30 on 2026-09-25 at the user's explicit request (6.3 nm hypothesis study, DOS 384/192 recalibration, mesh, sensitivity, predictions: ~20 launches)
++  max_launches: 260                         # 2026-10-10 review fix: 60 used before the C10 campaign + the 200 approved for it (was 271, which allowed 211); every reserved run ID counts, failed or not. Raising it needs a new user approval. History: +200 on 2026-10-10 (user-approved "I approve on 200 run for Silvaco": DFT-informed campaign with SRH, tunnelling and realistic models); +14 on 2026-10-05 for model V2 (user-approved "approved, go ahead with all steps": off-current path, DFT inputs, predictive 6.3 nm test, 1/0.7/0.5 nm); +2 on 2026-09-28 for the parallel pilot (user-approved); raised to 54 on 2026-09-27 (overlap redo + explicit tmun check, user-approved); earlier raised from 30 on 2026-09-25 at the user's explicit request (6.3 nm hypothesis study, DOS 384/192 recalibration, mesh, sensitivity, predictions: ~20 launches)
+   kcl_absolute_limit_A: 1.0e-17
+   kcl_floor_fraction: 0.1                   # applied absolute limit = max(1e-17 A, 0.1 x smallest measured current of the device)
+--- a/config/iwo_material_model_v3.yaml
++++ b/config/iwo_material_model_v3.yaml
+@@ -3,5 +3,6 @@
+ # Same schema as V2 (scripts/build_iwo_decks.material_at reads it unchanged). What differs from V2:
+ #   - dEc / dEg / dm laws: 3-point fits (fit3) through the DFT points at H-H 0.695 / 0.930 / 1.962 nm (V2: 2 points);
+-#   - Nt = Ns/t (alpha = 1, integrated surface tail), Nd constant (tc_nm = 1e9 retires the (1+(t/20)^4) law);
++#   - Nt = Ns/t (alpha = 1, integrated surface tail), Nd constant (tc_nm = 1e9 retires the (1+(t/20)^4) law; Nd0 = the FITTED V1
++#     amplitude kept fixed, the constant form ASSUMED);
+ #   - one shared mobility law mu_inf*(m_ref/m*(t))/(1+ell/t) (values listed for 2.0/6.3/13.2 nm, law for any other t);
+ #   - labels follow the campaign charter: COMPUTED / MEASURED / LITERATURE / FITTED / ASSUMED (+ CALCULATED, MODEL).
+@@ -121,5 +122,9 @@
+     tc_nm: 1.0e+9
+     k: 4.0
+-    label: ASSUMED shared constant (effective electrically active donor density, NOT the W concentration); x0.1 / x10 in S6
++    label: 'FITTED V1 donor amplitude, kept fixed; constant thickness dependence ASSUMED (effective electrically active donor density, NOT
++      the W concentration); x0.1 / x10 in S6'
++    provenance: 'Nd0 = 2.5e17 is the amplitude of the V1 law Nd0*(1+(t/20)^4), FITTED to the V0 per-film values 2e17 / 3e17 / 3e17 / 2.65e18
++      cm^-3 (config/iwo_material_model.yaml "FITTED law"; iwo-tft-research-private/01_CURRENT_STATE.md section E; not identifiable). V3 keeps
++      that fitted amplitude fixed (not re-fitted in the 2026-10-10 campaign) and drops the thickness term: the constant form is ASSUMED.'
+     support: 'COMPUTED: W is a fully ionised resonant donor, level +1.2..+1.8 eV above Ec (dft_inputs.json W.conclusion_for_TCAD); compensation
+       not computed, so the value is not DFT-based'
+--- a/analysis_2026-10-10_campaign/post_run_checks.py
++++ b/analysis_2026-10-10_campaign/post_run_checks.py
+@@ -1,10 +1,13 @@
+ """Offline checks after a campaign launch (NO simulator call; reads a finished run directory, never writes into it).
+ Implements the parts of design item C11 that the stop rules need, without changing the runner:
+-  1. activation parser: REGIONAL MODEL FLAGS, REGIONAL MOBILITY MODEL SUMMARY and the Contacts table of deckbuild.out,
+-     compared with the options the run's overrides switched on -> OPTION_NOT_ACTIVE list (S0 stop rule, S3 adoption rule);
++  1. activation parser (S0 stop rule, S3 adoption rule): per requested option ACTIVE / NOT_ACTIVE / UNVERIFIED from positive
++     evidence only (solver-printed lines after 'go atlas', never echoed input or comments; REGIONAL MODEL FLAGS / MATERIAL
++     PARAMETERS / MOBILITY MODEL SUMMARY, the Contacts table, the terminal currents). Each gate-current model is tested on its
++     own; a deck with two (QTNLSC + ITAT) needs --gate-control <same deck without oxide TAT>. Overall status
++     ACTIVE_AS_REQUESTED (exit 0) / OPTION_NOT_ACTIVE (exit 1) / UNVERIFIED (exit 3: read deckbuild.out by hand before going on);
+   2. off-floor metrics of CAMPAIGN_DESIGN 7.1 (floor_ratio, valid points, floor_slope vs the measured slope +- sigma,
+      ig_ratio, |I_G(-3 V)|, d_floor_ratio and pointwise drain_share against an optional matched control run);
+   3. strip runs: I(0.7 V)/I(0.1 V) from strip_iv.csv.
+-  python analysis_2026-10-10_campaign/post_run_checks.py results/runs/run_0061_... [--control results/runs/run_00xx_...]
++  python analysis_2026-10-10_campaign/post_run_checks.py results/runs/run_0061_... [--control results/runs/run_00xx_...] [--gate-control results/runs/run_00yy_...]
+ Output: printed JSON and analysis_2026-10-10_campaign/post_run/<run_id>.json."""
+ import csv
+@@ -20,4 +23,49 @@
+ OUT = ct.HERE / 'post_run'
+ FLOORS = {2.0: 4.61e-15, 6.3: 1.53e-13, 13.2: 6.60e-12}   # MEASURED/DERIVED (median over Vg in [-2, -0.5] V)
++
++
++def solver_lines(text):
++    """lines PRINTED BY THE SOLVER: drops everything before 'go atlas' (DeckBuild repeats the deck header comments there
++    without the 'ATLAS>' prefix, e.g. run_0040 deckbuild.out lines 3-31), every echoed statement ('ATLAS>' / 'EXTRACT>'
++    prefix) and every comment line ('#'). No 'go atlas' line -> nothing is returned (missing evidence, never a pass)."""
++    out, started = [], False
++    for l in text.splitlines():
++        s = l.strip()
++        if not started:
++            started = s.lower().startswith('go atlas'); continue
++        if not s or s.startswith(('ATLAS>', 'EXTRACT>', '#')): continue
++        out.append(l)
++    return out
++
++
++def region_materials(text):
++    """{region number: (material, type)} from REGIONAL MATERIAL PARAMETERS"""
++    lines = text.splitlines()
++    for i, l in enumerate(lines):
++        if l.startswith('REGIONAL MATERIAL PARAMETERS'):
++            reg = lines[i + 1].split(':', 1)[1].split() if ':' in lines[i + 1] else []
++            mat = lines[i + 2].split(':', 1)[1].split() if ':' in lines[i + 2] else []
++            typ = lines[i + 3].split(':', 1)[1].split() if ':' in lines[i + 3] else []
++            return {r: (mat[k] if k < len(mat) else None, typ[k] if k < len(typ) else None) for k, r in enumerate(reg)}
++    return {}
++
++
++def electron_section(mob_lines):
++    """the lines of one region's 'Model for Electrons:' block (up to 'Model for Holes:'), or []"""
++    try: j = mob_lines.index('Model for Electrons:')
++    except ValueError: return []
++    out = []
++    for k in mob_lines[j + 1:]:
++        if k.startswith('Model for Holes'): break
++        out.append(k)
++    return out
++
++
++def electron_mu(mob_lines):
++    """electron 'mu = value' of one region of REGIONAL MOBILITY MODEL SUMMARY, or None"""
++    for k in electron_section(mob_lines):
++        m = re.match(r'mu\s*=\s*([-+0-9.eE]+)$', k)
++        if m: return float(m.group(1))
++    return None
+ 
+ 
+@@ -52,32 +100,142 @@
+ 
+ 
+-def activation(run, ex, out_text):
++def model_file_of(run_id):
++    """model file of a run from its RUN_INDEX STARTED note ('model=...'; V1 when absent), as main() does for the checked run"""
++    idx = (ct.PKG / 'results' / 'RUN_INDEX.csv').read_text(errors='replace'); mfm = re.search(re.escape(run_id) + r',.*STARTED.*?model=(\S+)', idx)
++    return mfm.group(1) if mfm else 'config/iwo_material_model.yaml'
++
++
++def normalized_deck(path, drop_tat):
++    """solver statements of a device.in (comments dropped); with drop_tat the oxide-TAT additions are removed (the DOPING
++    TAT.TRAP line, 'itat.sc.el' and '^tat.poisson' on MODELS), so a QTNLSC+TAT deck can be compared with its control"""
++    if not path.is_file(): return None
++    out = []
++    for l in path.read_text(errors='replace').splitlines():
++        s = l.strip()
++        if not s or s.startswith('#'): continue
++        if drop_tat:
++            if re.match(r'doping region=\d+ uniform tat\.trap', s): continue
++            if s.startswith('models '): s = re.sub(r'\s+(itat\.sc\.el|\^tat\.poisson)\b', '', s)
++        out.append(s)
++    return out
++
++
++def read_ig(run):
++    tc = run / 'terminal_currents.csv'
++    if not tc.exists(): return None, None
++    rows = list(csv.DictReader(tc.open()))
++    return np.array([float(r['vg_V']) for r in rows]), np.array([float(r['ig_raw_A']) for r in rows])
++
++
++def activation(run, ex, out_text, gate_control=None):
++    """Per-option evidence, each ACTIVE / NOT_ACTIVE / UNVERIFIED (2026-10-10 review fix: positive identification only).
++    Evidence is taken from solver-printed lines (solver_lines: no echoed input, no comments, nothing before 'go atlas'),
++    the REGIONAL tables, the Contacts table and the terminal currents. Missing evidence is UNVERIFIED, never a pass.
++    Overall: any NOT_ACTIVE -> OPTION_NOT_ACTIVE; else any UNVERIFIED -> UNVERIFIED; else ACTIVE_AS_REQUESTED."""
+     m, g, s = ct.configs(ex.get('model_file', ct.V3), ex.get('overrides', []))
+-    po = s.get('physics_options') or {}; models = s['models'].lower()
+-    flags, regions, mob, contacts = parse_out(out_text); res = {'regions': regions, 'contacts': contacts,
+-                                                                  'electron_mobility_r1': electron_model(mob.get('1', [])), 'missing': []}
+-    def need(ok, what):
+-        if not ok: res['missing'].append(what)
+-    need(bool(flags), 'REGIONAL MODEL FLAGS table not found (run did not reach the model printout)')
+-    if flags:
+-        need(flags.get('Fermi-Dirac', ['F'])[0] == ('T' if 'fermi' in models else 'F'), 'Fermi-Dirac flag')
+-        need(flags.get('SRH', ['F'])[0] == ('T' if re.search(r'\bsrh\b', models) else 'F'), 'SRH flag')
+-        if 'trap.tunnel' in models: need(flags.get('tat(local)', ['F'])[0] == 'T', 'TRAP.TUNNEL -> tat(local)')
+-        if 'fermi' not in models: need(flags.get('Boltzmann', ['F'])[0] == 'T', 'Boltzmann flag')
+-    mm = str((po.get('mobility') or {}).get('model', 'constant')).lower()
+-    if mm == 'igzo_tokyo': need('Concentration Independent' not in res['electron_mobility_r1'], 'IGZO.TOKYO in REGIONAL MOBILITY MODEL SUMMARY (region 1)')
+-    if s.get('tmun') is not None: need(any(re.search(r'tmu\s*=\s*' + re.escape(f'{float(s["tmun"]):g}') + r'\b', z) for z in mob.get('1', [])) or mm == 'igzo_tokyo', f'tmu = {s["tmun"]} for electrons (region 1)')
++    po = s.get('physics_options') or {}; models = s['models'].lower(); t = float(ex['thickness_nm'])
++    flags, regions, mob, contacts = parse_out(out_text); mats = region_materials(out_text); sl = solver_lines(out_text)
++    ev = {}
++    def put(name, state, evidence): ev[name] = {'state': state, 'evidence': evidence}
++    # base MODELS flags (REGIONAL MODEL FLAGS, region 1)
++    if not flags: put('base MODELS flags', 'UNVERIFIED', 'REGIONAL MODEL FLAGS table not found (run did not reach the model printout)')
++    else:
++        bad = []
++        if flags.get('Fermi-Dirac', ['?'])[0] != ('T' if 'fermi' in models else 'F'): bad.append('Fermi-Dirac')
++        if flags.get('SRH', ['?'])[0] != ('T' if re.search(r'\bsrh\b', models) else 'F'): bad.append('SRH')
++        if 'trap.tunnel' in models and flags.get('tat(local)', ['?'])[0] != 'T': bad.append('TRAP.TUNNEL -> tat(local)')
++        if 'fermi' not in models and flags.get('Boltzmann', ['?'])[0] != 'T': bad.append('Boltzmann')
++        put('base MODELS flags', 'NOT_ACTIVE' if bad else 'ACTIVE', f'mismatch: {bad}' if bad else 'Fermi-Dirac / SRH / tat(local) / Boltzmann flags as requested (region 1)')
++    # mobility: IGZO.TOKYO must be named in the region-1 electron model; tmun declared
++    mm = str((po.get('mobility') or {}).get('model', 'constant')).lower(); em = electron_model(mob.get('1', []))
++    if mm == 'igzo_tokyo':
++        if not em: put('IGZO.TOKYO', 'UNVERIFIED', 'REGIONAL MOBILITY MODEL SUMMARY (region 1 electrons) missing')
++        elif 'Concentration Independent' in em: put('IGZO.TOKYO', 'NOT_ACTIVE', f'region 1 electrons: {em}')
++        elif re.search(r'igzo|tokyo', em, re.I): put('IGZO.TOKYO', 'ACTIVE', f'region 1 electrons: {em}')
++        else: put('IGZO.TOKYO', 'UNVERIFIED', f'region 1 electrons: {em} (model not named; read by hand)')
++    if s.get('tmun') is not None and mm != 'igzo_tokyo':
++        el = electron_section(mob.get('1', []))   # electrons only (a hole 'tmu' line must not certify TMUN)
++        tl = [z for z in el if re.match(r'tmu\s*=', z)]
++        if not tl: put('tmun', 'UNVERIFIED', 'no electron tmu line in REGIONAL MOBILITY MODEL SUMMARY (region 1)')
++        else:
++            def num(z):
++                try: return float(z.split('=', 1)[1])
++                except ValueError: return None
++            okt = all(num(z) is not None and abs(num(z) - float(s['tmun'])) <= 1e-9 for z in tl)   # numeric, not text
++            put('tmun', 'ACTIVE' if okt else 'NOT_ACTIVE', f'region 1 electron tmu lines: {tl[:2]}')
++    # Schottky: the Contacts table must show the requested work function chi(t) + phi_B on source and drain
+     sc = po.get('schottky_sd') or {}
+-    if ct.bd.on(sc.get('enabled')): need(all(abs(contacts.get(n, 0.0)) > 0 for n in ('source', 'drain')), 'Schottky work function on source/drain in the Contacts table')
++    if ct.bd.on(sc.get('enabled')):
++        wf = ct.bd.material_at(m, t)['chi_eV'] + float(sc.get('barrier_eV', 0.5))
++        got = [contacts.get(n) for n in ('source', 'drain')]
++        if any(x is None for x in got): put('Schottky S/D', 'UNVERIFIED', f'Contacts table incomplete: {contacts}')
++        elif all(abs(x - wf) <= 2e-3 for x in got): put('Schottky S/D', 'ACTIVE', f'source/drain work fn {got} eV = chi(t) + phi_B = {wf:.4f} eV')
++        elif all(abs(x) < 1e-9 for x in got): put('Schottky S/D', 'NOT_ACTIVE', f'source/drain work fn {got} (Ohmic)')
++        else: put('Schottky S/D', 'UNVERIFIED', f'source/drain work fn {got} vs requested {wf:.4f} eV')
++    # BQP: a solver-printed (not echoed, not comment, not header) line naming BQP / Bohm; a warning naming it -> NOT_ACTIVE
+     if str((po.get('quantum') or {}).get('model', 'none')).lower() == 'bqp':
+-        need(any(re.search(r'bohm|bqp', l, re.I) for l in out_text.splitlines() if not l.startswith('ATLAS>')), 'BQP mentioned in the solver output (non-echo line)')
+-    if str((po.get('strip') or {}).get('mode', 'none')).lower() == 'in_solver': need('8' in regions, 'strip region 8 in the region table')
+-    gate = ct.bd.on((po.get('gate_tunnelling') or {}).get('enabled')) or ct.bd.on((po.get('oxide_tat') or {}).get('enabled'))
+-    if gate:
+-        tc = run / 'terminal_currents.csv'
+-        ig = np.array([float(r['ig_raw_A']) for r in csv.DictReader(tc.open())]) if tc.exists() else np.zeros(1)
+-        need(np.any(ig != 0), 'non-zero I_G (gate tunnelling / oxide TAT)')
+-    res['status'] = 'OPTION_NOT_ACTIVE' if res['missing'] else 'ACTIVE_AS_REQUESTED'
+-    return res
++        hits = [l.strip() for l in sl if re.search(r'\bbqp\b|bohm', l, re.I)]
++        warn = [h for h in hits if re.search(r'warn|error|ignor|not\s+(?:used|active|supported)', h, re.I)]
++        if warn: put('BQP', 'NOT_ACTIVE', warn[:3])
++        elif hits: put('BQP', 'ACTIVE', hits[:3])
++        else: put('BQP', 'UNVERIFIED', 'no solver-printed line names BQP/Bohm (the activation string of this build is not documented: read deckbuild.out by hand)')
++    # in-solver strip: regions 8 and 9 must be IWO semiconductor regions carrying the scaled MUN
++    so = po.get('strip') or {}
++    if str(so.get('mode', 'none')).lower() == 'in_solver':
++        mun = ct.bd.material_at(m, t)['mu0'] * float(so['wl_par_per_um']) * float(so['L_s_um']); bad, unv = [], []
++        for r in ('8', '9'):
++            mt = mats.get(r)
++            if mt is None: unv.append(f'region {r} not in REGIONAL MATERIAL PARAMETERS'); continue
++            if mt[0] != 'IWO' or not str(mt[1]).startswith('semicond'): bad.append(f'region {r} is {mt}'); continue
++            mu = electron_mu(mob.get(r, []))
++            if mu is None: unv.append(f'region {r}: electron mu not in the mobility summary')
++            elif abs(mu / mun - 1) > 1e-3: bad.append(f'region {r}: mu {mu} vs requested {mun:.6g}')
++        put('in-solver strip', 'NOT_ACTIVE' if bad else 'UNVERIFIED' if unv else 'ACTIVE', bad + unv or f'regions 8/9 IWO semicond., electron mu = {mun:.6g}')
++    # gate-current models, each tested on its own: I_G is exactly 0 in all 51 earlier runs without a gate-current model
++    gt = po.get('gate_tunnelling') or {}; ot = po.get('oxide_tat') or {}
++    gm = ([str(gt.get('model', 'qtnlsc')).upper()] if ct.bd.on(gt.get('enabled')) else []) + (['ITAT.SC.EL'] if ct.bd.on(ot.get('enabled')) else [])
++    if gm:
++        vg, ig = read_ig(run)
++        if ig is None:
++            for k in gm: put(k, 'UNVERIFIED', 'no terminal_currents.csv')
++        elif len(gm) == 1:
++            nz = int(np.sum(ig != 0)); e_ = f'I_G nonzero at {nz}/{len(ig)} points, max |I_G| {np.max(np.abs(ig)):.3g} A (only gate-current model in this deck)'
++            if gm[0] == 'FNORD': e_ += f'; ifnvg.dat {"present" if (run / "ifnvg.dat").exists() else "absent"}'
++            put(gm[0], 'ACTIVE' if nz else 'NOT_ACTIVE', e_)
++        else:   # two gate-current models in one deck (S2-12/13: QTNLSC + ITAT): needs the matched deck without ITAT
++            other = gm[0]
++            if gate_control is None:
++                put(other, 'UNVERIFIED', 'two gate-current models in one deck: pass --gate-control <run without oxide TAT> (S2-04 for S2-12, S2-06 for S2-13)')
++                put('ITAT.SC.EL', 'UNVERIFIED', 'needs --gate-control (see above)')
++            else:
++                cex = json.loads((gate_control / 'execution.json').read_text()); rov, cov = set(ex.get('overrides', [])), set(cex.get('overrides', []))
++                extra = rov - cov; why = []
++                if (cov - rov) or not extra or not all(o.startswith('solver.physics_options.oxide_tat.') for o in extra):
++                    why.append(f'override sets differ beyond oxide_tat.*: {sorted((cov - rov) | extra)[:4]}')
++                if abs(float(cex.get('thickness_nm', -1)) - t) > 1e-9: why.append('different thickness')
++                mr, mc = run / 'material_model_used.json', gate_control / 'material_model_used.json'
++                if not (mr.is_file() and mc.is_file() and mr.read_text() == mc.read_text()): why.append('material_model_used.json differs or is missing')
++                if model_file_of(cex['run_id']) != ex.get('model_file'): why.append('different model file')
++                _, _, sc_ = ct.configs(model_file_of(cex['run_id']), cex.get('overrides', [])); pc_ = sc_.get('physics_options') or {}
++                if ct.bd.on((pc_.get('oxide_tat') or {}).get('enabled')): why.append('oxide TAT is ON in the control')
++                if (pc_.get('gate_tunnelling') or {}) != gt: why.append('gate_tunnelling settings differ')
++                nr_, nc_ = normalized_deck(run / 'device.in', True), normalized_deck(gate_control / 'device.in', False)
++                if nr_ is None or nc_ is None or nr_ != nc_:
++                    why.append('the solver statements differ beyond the oxide-TAT lines (device.in)')
++                cv, cig = read_ig(gate_control)
++                if cig is None or not np.all(np.isfinite(cig)) or cv.min() > vg.min() + 1e-9 or cv.max() < vg.max() - 1e-9:
++                    why.append('control currents missing, non-finite or not covering the run gate range')
++                if why:
++                    put(other, 'UNVERIFIED', f'--gate-control {cex.get("run_id")} is not the same deck without oxide TAT: {why}')
++                    put('ITAT.SC.EL', 'UNVERIFIED', 'control mismatch (see above)')
++                else:
++                    ci = np.interp(vg, cv, cig); d = np.abs(ig - ci)
++                    thr = max(1e-20, 1e-3 * float(np.max(np.abs(ci))))
++                    put(other, 'ACTIVE' if np.any(cig != 0) else 'NOT_ACTIVE', f'from control {cex["run_id"]} (same {other} lines, no TAT): I_G nonzero at {int(np.sum(cig != 0))}/{len(cig)} points')
++                    put('ITAT.SC.EL', 'ACTIVE' if np.any(d > thr) else 'NOT_ACTIVE', f'max |I_G - I_G,control| {np.max(d):.3g} A vs threshold {thr:.3g} A')
++    states = [v['state'] for v in ev.values()]
++    status = 'OPTION_NOT_ACTIVE' if 'NOT_ACTIVE' in states else 'UNVERIFIED' if 'UNVERIFIED' in states else 'ACTIVE_AS_REQUESTED'
++    return {'status': status, 'evidence': ev, 'regions': regions, 'region_materials': mats, 'contacts': contacts, 'electron_mobility_r1': em,
++            'missing': [f'{k}: {v["state"]}' for k, v in ev.items() if v['state'] != 'ACTIVE']}
+ 
+ 
+@@ -115,17 +273,23 @@
+     if not argv: print(__doc__); return 2
+     run = Path(argv[0]); run = run if run.is_absolute() else ct.PKG / run
+-    control = None
+-    if '--control' in argv: c = Path(argv[argv.index('--control') + 1]); control = c if c.is_absolute() else ct.PKG / c
++    def arg(flag):
++        if flag not in argv: return None
++        c = Path(argv[argv.index(flag) + 1]); return c if c.is_absolute() else ct.PKG / c
++    control, gate_control = arg('--control'), arg('--gate-control')
+     ex = json.loads((run / 'execution.json').read_text()); t = float(ex['thickness_nm'])
+-    idx = (ct.PKG / 'results' / 'RUN_INDEX.csv').read_text(errors='replace'); mfm = re.search(re.escape(ex['run_id']) + r',.*STARTED.*?model=(\S+)', idx)
+-    ex['model_file'] = mfm.group(1) if mfm else 'config/iwo_material_model.yaml'
++    ex['model_file'] = model_file_of(ex['run_id'])
+     out = (run / 'deckbuild.out').read_text(errors='replace') if (run / 'deckbuild.out').exists() else ''
+-    res = {'run_id': ex['run_id'], 'status_runner': ex.get('status'), 'model_file': ex['model_file'], 'activation': activation(run, ex, out)}
++    res = {'run_id': ex['run_id'], 'status_runner': ex.get('status'), 'model_file': ex['model_file'], 'activation': activation(run, ex, out, gate_control)}
+     if ex.get('mode') == 'strip':
+         res['strip'] = ex.get('strip')
+     elif (run / 'terminal_currents.csv').exists() and t in FLOORS:
+         res['floor_metrics'] = floor_metrics(run, t, control)
++        ov = ' '.join(ex.get('overrides', []))
++        if 'oxide_tat.enabled=1' in ov and 'oxide_tat.poisson=0' not in ov:
++            res['floor_metrics']['drain_share_note'] = ('oxide TAT with trap charge in Poisson (TAT.POISSON default): d_floor_ratio and drain_share mix the '
++                                                        'electrostatic shift of the charged oxide with collected leakage; report them only as the combined response of a charged oxide')
+     OUT.mkdir(exist_ok=True); (OUT / f'{ex["run_id"]}.json').write_text(json.dumps(res, indent=1))
+-    print(json.dumps(res, indent=1)); return 1 if res['activation']['status'] != 'ACTIVE_AS_REQUESTED' else 0
++    print(json.dumps(res, indent=1)); st = res['activation']['status']
++    return 0 if st == 'ACTIVE_AS_REQUESTED' else 1 if st == 'OPTION_NOT_ACTIVE' else 3
+ 
+ 
+--- a/analysis_2026-10-10_campaign/make_campaign_matrix.py
++++ b/analysis_2026-10-10_campaign/make_campaign_matrix.py
+@@ -42,5 +42,7 @@
+ QF0 = 1.38345e12              # V2 FITTED shared Qf (start only)
+ NS0, WT0 = 4.0e12, 0.040      # Codex start (= V1 2 nm Nt*t); W_TA V1 FITTED on 2 nm
+-ND0 = 2.5e17                  # ASSUMED shared, constant in t (tc -> 1e9 nm switches the (t/20)^4 law off)
++ND0 = 2.5e17                  # FITTED V1 donor amplitude (Nd0 of the V1 law, fitted to the V0 per-film values; 01_CURRENT_STATE E), kept
++                              # fixed; constant thickness dependence ASSUMED (tc -> 1e9 nm switches the (t/20)^4 law off)
++ND_LABEL = 'FITTED V1 donor amplitude, kept fixed; constant thickness dependence ASSUMED'
+ # start (mu_inf, ell) passing exactly through the V2 anchor mu_band values 17.6897 (2.0) and 63.2597 (13.2)
+ f2, f13 = M_BULK / mstar(2.0), M_BULK / mstar(13.2)
+@@ -70,4 +72,11 @@
+     return 1.54e-6 / (phi * mr), 6.83e7 * math.sqrt(mr) * phi ** 1.5
+ FN = {'nominal': (2.2, 0.20), 'worst': (1.5, 0.10)}
++# 2026-10-10 review fix: ATLAS evaluates the FN field at each insulator-SEMICONDUCTOR segment (PDF p.288, manual text
++# l.13034-13038), i.e. in the Al2O3 at the IWO interface. With no charge between the oxides E_Al = R_FN E_Hf, so the
++# HfO2-barrier constants (A, B) are written as F.AE = A/R_FN^2, F.BE = R_FN B: J(E_Al) = A E_Hf^2 exp(-B/E_Hf).
++EPS_HFO2, EPS_AL2O3 = 19.57, 9.0   # MEASURED (SI Fig. S1) / ASSUMED, as in config/geometry.yaml
++R_FN = EPS_HFO2 / EPS_AL2O3
++def fn_atlas(phi, mr):
++    a, b = fn_constants(phi, mr); return a / R_FN ** 2, b * R_FN
+ 
+ TIMEOUT = {2.0: 1200, 6.3: 1500, 13.2: 2400, 31.8: 3000}
+@@ -222,6 +231,9 @@
+                                  f'solver.physics_options.gate_tunnelling.set={kind}']
+     if model == 'fnord':
+-        ae, be = fn_constants(*FN[kind]); p['fn'] = {'phi_eV': FN[kind][0], 'm_r': FN[kind][1], 'F.AE_A_per_V2': float(f'{ae:.4g}'),
+-                                                     'F.BE_V_per_cm': float(f'{be:.4g}'), 'label': 'CALCULATED from the ASSUMED/LITERATURE phi, m_r'}
++        a0, b0 = fn_constants(*FN[kind]); ae, be = fn_atlas(*FN[kind])
++        p['fn'] = {'phi_eV': FN[kind][0], 'm_r': FN[kind][1], 'A_HfO2_barrier_A_per_V2': float(f'{a0:.4g}'), 'B_HfO2_barrier_V_per_cm': float(f'{b0:.4g}'),
++                   'field_ratio_E_Al2O3_over_E_HfO2': round(R_FN, 5), 'F.AE_A_per_V2': float(f'{ae:.4g}'), 'F.BE_V_per_cm': float(f'{be:.4g}'),
++                   'label': 'CALCULATED from the ASSUMED/LITERATURE phi, m_r; HfO2-barrier constants transferred to the Al2O3/IWO-segment field '
++                            'where ATLAS evaluates FN (F.AE = A/r^2, F.BE = r B, r = eps_HfO2/eps_Al2O3; 2026-10-10 review fix)'}
+         ov += [f'solver.physics_options.gate_tunnelling.f_ae={ae:.4g}', f'solver.physics_options.gate_tunnelling.f_be={be:.4g}']
+     exp_ = {('nominal', 'qtnlsc'): 'I_G(-3 V) <= 1e-24 A/um (COMPUTED FN bound 2e-28 A/um for phi 2.2 eV, m 0.2); floor ratio <= 1e-9 at every film',
+@@ -229,5 +241,5 @@
+             ('worst', 'fnord'): 'I_G(-3 V) ~ 1e-12 A/um (Codex: 3.8e-12 A/um at 3 V for phi 1.5, m 0.1); >= 5 decades drop to -0.5 V'}[(kind, model)]
+     add(f'S2-{j:02d}', 'S2_offfloor_mechanisms', t, F(gate_tunnelling=f'{model}_{kind}'), p,
+-        f'Gate leakage, quantitative: {t} nm, {model.upper()} ({"self-consistent direct/FN-regime tunnelling" if model == "qtnlsc" else "self-consistent Fowler-Nordheim, single-barrier F.AE/F.BE from the HfO2 barrier"}), '
++        f'Gate leakage, quantitative: {t} nm, {model.upper()} ({"self-consistent direct/FN-regime tunnelling" if model == "qtnlsc" else "self-consistent Fowler-Nordheim, single-barrier F.AE/F.BE from the HfO2 barrier, transferred to the Al2O3/IWO-segment field where ATLAS evaluates FN"}), '
+         f'{kind} oxide parameters. Compares I_G and the drain-collected share with the measured floor, and tests flatness in V_G.',
+         ov, ['C1', 'C4', 'C11'], timeout_mult=1.5, expected=exp_)
+@@ -243,12 +255,17 @@
+     ['C1', 'C4', 'C11'], timeout_mult=2.0, expected='log10 I_G changes by <= 0.1 dec at every V_G')
+ for i, t in enumerate((2.0, 13.2)):
+-    p = P(t, oxide=OX['nominal'], oxide_tat={'region': 'HfO2', 'conc_cm3': 1e19, 'e_level_below_Ec_ox_eV': 1.0, 'label': 'ASSUMED high-defect bound'})
++    p = P(t, oxide=OX['nominal'], oxide_tat={'region': 'HfO2', 'conc_cm3': 1e19, 'e_level_below_Ec_ox_eV': 1.0, 'tat_poisson': False,
++                                             'label': 'ASSUMED high-defect bound; trap charge kept out of Poisson (^tat.poisson) so that the run isolates the TAT current'})
+     add(f'S2-{12 + i}', 'S2_offfloor_mechanisms', t, F(gate_tunnelling='qtnlsc_nominal', oxide_tat=True), p,
+         f'Defect-assisted gate leakage (Ielmini TAT, ITAT.SC.EL with DOPING TAT.TRAP in HfO2) at {t} nm: ASSUMED 1e19 cm-3 traps '
+-        '1.0 eV below the HfO2 band edge, nominal oxide set. Tests the leakage path Codex could not exclude without I_G '
+-        '(Poole-Frenkel-like magnitudes). Syntax VERIFIED (PDF p.320-327, quantumex20), bilayer use UNVERIFIED.',
++        '1.0 eV below the HfO2 band edge, nominal oxide set, trap charge OUT of Poisson (MODELS ^tat.poisson, PDF p.323): at full '
++        'occupancy the traps would carry 1.5e13 cm-2, far above the fitted Q_f, and the change in I_D would mix an electrostatic '
++        'shift with collected leakage (2026-10-10 review fix). Matched gate control: S2-04 (2.0 nm) / S2-06 (13.2 nm). Tests the '
++        'leakage path Codex could not exclude without I_G (Poole-Frenkel-like magnitudes). Syntax VERIFIED (PDF p.320-327, '
++        'quantumex20), bilayer use UNVERIFIED. The charged-oxide electrostatics are NOT tested by this run.',
+         base_overrides(t, p) + ['solver.physics_options.gate_tunnelling.enabled=1', 'solver.physics_options.gate_tunnelling.model=qtnlsc',
+                                 'solver.physics_options.gate_tunnelling.set=nominal', 'solver.physics_options.oxide_tat.enabled=1',
+-                                'solver.physics_options.oxide_tat.conc_cm3=1e19', 'solver.physics_options.oxide_tat.e_level_eV=1.0'],
++                                'solver.physics_options.oxide_tat.conc_cm3=1e19', 'solver.physics_options.oxide_tat.e_level_eV=1.0',
++                                'solver.physics_options.oxide_tat.poisson=0'],
+         ['C1', 'C4', 'C9', 'C11'], timeout_mult=2.0,
+         expected='I_G strongly V_G-dependent (Codex PF estimate J(3.7 V)/J(1.2 V) ~ 6e3); flat-floor criterion not met')
+@@ -451,5 +468,6 @@
+                      'named stage has been analysed; their {fit:..}/{sel:..}/{fold:..}/{frozen ..} tokens must be resolved first'],
+     'shared_start_values': {'Qf_cm2': QF0, 'Ns_cm2': NS0, 'WT_eV': WT0, 'Nd_cm3': ND0, 'mu_inf_cm2Vs': round(MUINF0, 3), 'ell_nm': round(ELL0, 3),
+-                            'labels': 'ASSUMED start values (Qf, mu_inf, ell from the V2 FITTED anchors; Ns, WT from V1 FITTED); all five are FITTED in S4'},
++                            'labels': 'ASSUMED start values (Qf, mu_inf, ell from the V2 FITTED anchors; Ns, WT from V1 FITTED); all five are FITTED in S4. '
++                                      'Nd_cm3: ' + ND_LABEL + ' (not re-fitted in this campaign; x0.1 / x10 in S6)'},
+     'derived_per_film': {KEY[t]: primary_params(t) for t in FILMS},
+     'stage_counts': stages, 'planned_launches': len(RUNS), 'reserve_launches': 200 - len(RUNS), 'cap': 200,
+@@ -459,3 +477,3 @@
+ print('start mu_inf', MUINF0, 'ell', ELL0)
+ for t in FILMS: print(t, primary_params(t))
+-for k_, v in FN.items(): print('FN', k_, fn_constants(*v))
++for k_, v in FN.items(): print('FN', k_, 'HfO2 barrier', fn_constants(*v), '-> ATLAS (Al2O3/IWO-segment field)', fn_atlas(*v))
+--- a/analysis_2026-10-10_campaign/make_campaign_configs.py
++++ b/analysis_2026-10-10_campaign/make_campaign_configs.py
+@@ -24,5 +24,6 @@
+ MIN10 = ['S0-01', 'S0-02', 'S1-01', 'S1-02', 'S2-01', 'S2-08', 'S2-14', 'S2-15', 'S1-07', 'S3-12']   # CAMPAIGN_DESIGN 9, launch order
+ GLOBAL_RULES = [
+-    'Sequential only: python scripts/run_campaign.py <plan> (default --workers 1). Every launch counts, failed or not. Hard cap 200 (max_launches 271 - 60 used = 211).',
++    'Sequential only: python scripts/run_campaign.py <plan> (C10 plans refuse --workers != 1). Every launch counts, failed or not. Hard cap 200: config/solver.yaml max_launches 260 (= 60 used before C10 + 200) and a C10 label counter (c10_* run IDs in RUN_INDEX <= 200) in run_campaign.py.',
++    'run_campaign.py (C10 plans) never re-launches an entry whose label already has a RUN_INDEX row, from this or any other C10 plan (MIN10 vs stage plans): a successful earlier launch is reused, a failed one is reported; --retry ID spends a new (reserve) launch on purpose.',
+     'Model file for every entry: $env:IWO_MODEL_FILE = "config/iwo_material_model_v3.yaml" (V3 + the overrides = the same solver statements as V2 + the overrides, check_v3_equivalence.py).',
+     'After any code change: python analysis_2026-10-10_campaign/regress_all_decks.py must print "unexpected differences 0" before the next launch.',
+@@ -31,22 +32,24 @@
+ PLANS = [   # (file stem, stage(s) or ids, stop rules) in launch order
+     ('campaign_C10_S0a_smoke', ['S0-01'], [
+-        'S0 STOP: a syntax error, an option not active (post_run_checks.py OPTION_NOT_ACTIVE) or a KCL failure stops the campaign until the code is fixed.',
++        'S0 STOP: a syntax error, an option not active (post_run_checks.py OPTION_NOT_ACTIVE, exit 1) or a KCL failure stops the campaign until the code is fixed. UNVERIFIED (exit 3) also stops: read deckbuild.out by hand and record the evidence before going on.',
+         'S0-01 deck header must show chi 4.0184 eV, NC300 1.373e19 cm^-3, MUN 12.977 cm2/Vs, Qf 1.383e12 cm^-2 (check_v3_equivalence.py verifies this before launch).',
+         'Launch S0b only after S0-01 passed (separate file because run_campaign continues after failures).']),
+     ('campaign_C10_S0b_smoke', ['S0-02'], [
+-        'S0 STOP as above; S0-02 must show a non-zero signed I_G with KCL closing (post_run_checks.py).',
++        'S0 STOP as above; S0-02 must show a non-zero signed I_G with KCL closing (post_run_checks.py: QTNLSC ACTIVE; I_G was exactly 0 in all 51 earlier runs).',
+         'At most 3 reserve launches on S0 repairs. If S0-02 still fails: gate tunnelling is reported as not implementable here; the leakage test falls back to the CALCULATED bounds plus the oxide-TAT runs (remove S2-04..S2-11 from the S2 plan).']),
+     ('campaign_C10_S1_baselines', ['S1_baseline_numerics'], [
+-        'Numerics: mesh x0.7 (S1-03) or DOS x2 (S1-04) changing active RMSE by > 0.01 dec, Vth_cc by > 5 mV or SS by > 3 mV/dec -> adopt the refined setting for every later run (reserve) and repeat the affected baselines.',
+-        'S1-05 (3-D NC at 2 nm) must shift Vth_cc by +40..+70 mV vs S0-01; otherwise audit the NC override before S3.',
+-        'S1-06 (two carriers) changing I_D by > 1e-3 relative above 1e-14 A/um -> all later runs use carriers=2 with timeout x1.5.',
+-        'S1-07 vs transformed S0-01 (Qf +1e12, MUN x0.6) > 0.01 dec on any J-window point -> offline profiling is approximate: every S4b candidate is run natively at the profiled Qf and MUN.']),
++        'Numerics: mesh x0.7 (S1-03) or DOS x2 (S1-04) changing active RMSE by > 0.01 dec, Vth_cc by > 5 mV or SS by > 3 mV/dec -> adopt the refined setting for every later run (reserve) and repeat the affected baselines. Evaluate with campaign_extract.py compare <S1-03> <S1-02> --rule numerics (and <S1-04> <S0-01>).',
++        'S1-05 (3-D NC at 2 nm) must shift Vth_cc by +40..+70 mV vs S0-01 (campaign_extract.py compare <S1-05> <S0-01> --rule s1_05); otherwise audit the NC override before S3.',
++        'S1-06 (two carriers) changing I_D by > 1e-3 relative above 1e-14 A/um vs S1-02 (campaign_extract.py compare <S1-06> <S1-02> --rule s1_06) -> all later runs use carriers=2 with timeout x1.5.',
++        'S1-07 vs transformed S0-01 (Qf +1e12, MUN x0.6) > 0.01 dec on any J-window point (profile_shared.py check <S1-07> <S0-01>) -> offline profiling is approximate: every S4b candidate is run natively at the profiled Qf and MUN.']),
+     ('campaign_C10_S2_offfloor', ['S2_offfloor_mechanisms'], [
+         'A NOMINAL or SRH null test producing floor-scale current contradicts the CALCULATED bounds: stop, audit KCL / CR.TOLER / deck, do not fit.',
+         'Floor-scale current from the WORST-case oxide set is an allowed result; interpret it only after S2-11 (oxide mesh x0.5) agrees within 0.1 dec in log10 I_G.',
+         'Strip decks (S2-14..17) must give I(0.7 V)/I(0.1 V) = 7.0 +- 0.5; otherwise the strip is not ohmic in ATLAS and that is the result.',
+-        'Verdicts by the pre-registered rule of CAMPAIGN_DESIGN 7.2 (valid points >= 80 %, |d_floor_ratio| <= 0.5 dec, |slope| <= 2|measured| + 2 sigma, KCL); a 2 nm underprediction does not falsify.']),
++        'Verdicts by the pre-registered rule of CAMPAIGN_DESIGN 7.2 (valid points >= 80 %, |d_floor_ratio| <= 0.5 dec, |slope| <= 2|measured| + 2 sigma, KCL); a 2 nm underprediction does not falsify.',
++        'S2-12/S2-13 (QTNLSC + oxide TAT, trap charge out of Poisson): post_run_checks.py needs --gate-control S2-04 (2.0 nm) / S2-06 (13.2 nm) to identify ITAT separately; the charged-oxide electrostatics are not tested by these runs.',
++        'S2-09/S2-10 (FNORD): F.AE/F.BE are the HfO2-barrier constants transferred to the Al2O3/IWO-segment field (A/r^2, r B, r = 2.1744); still a single-barrier approximation.']),
+     ('campaign_C10_S3_branches', ['S3_model_branches'], [
+-        'Branch adopted only if sqrt(J) improves by >= 0.03 dec with no film RMSE_sub or RMSE_on worse by > 0.03 dec, converged at all 3 films, activation confirmed in deckbuild.out.',
++        'Branch adopted only if sqrt(J) improves by >= 0.03 dec with no film RMSE_sub or RMSE_on worse by > 0.03 dec (profile_shared.py adopt <branch triple> -- <S0-01 S1-01 S1-02>), converged at all 3 films, activation ACTIVE_AS_REQUESTED in post_run_checks.py.',
+         'At most two branches; IGZO needs S3-27 within 0.01 dec of the transformed curve for exact profiling; Schottky needs one reserve launch of the same native check.',
+         'A branch whose only effect is a rigid shift or uniform scale is rejected. Branch choices are data-selected and reported as such.',
+@@ -147,5 +150,6 @@
+         for stem, sel, rules in TEMPLATES: (CFG / f'{stem}.json').write_text(json.dumps(plan(mx, stem, sel, rules, False), indent=1))
+         m10 = plan(mx, 'campaign_C10_MIN10', MIN10, ['CAMPAIGN_DESIGN 9: the 10-run minimum set in launch order. Its ids also appear in the stage plans: '
+-                                                       'after running it, build the stage plans with --remaining (run_campaign resumes per plan file only).',
++                                                       'run_campaign.py reuses their launches there automatically (same label in RUN_INDEX -> no new launch); '
++                                                       '--remaining stage plans are optional (shorter files).',
+                                                        'S0 rules apply to its first two entries. Recommended: launch campaign_C10_S0a_smoke and S0b_smoke first, then this plan '
+                                                        'via --remaining (it then holds the 8 non-smoke runs), because run_campaign continues after a failed launch.'], True)
+--- a/analysis_2026-10-10_campaign/make_sample_decks.py
++++ b/analysis_2026-10-10_campaign/make_sample_decks.py
+@@ -32,5 +32,6 @@
+     (r'^models fermi srh temp=300 print qtnlsc\.el qtnl\.derivs', 'MODELS QTNLSC.EL QTNL.DERIVS: audit 7.5, PDF p.301 Tables 3-128/3-129, diode/diodeex12'),
+     (r'^models fermi srh temp=300 print fnord f\.ae=.* f\.be=', 'MODELS FNORD F.AE F.BE: audit 7.5, PDF p.288 Table 3-126 (F.AE/F.BE on MODELS), eprom/eprmex01'),
+-    (r'^models fermi srh temp=300 print qtnlsc\.el qtnl\.derivs itat\.sc\.el', 'MODELS ITAT.SC.EL (+QTNLSC): audit 7.5, PDF p.326 Table 3-139, quantum/quantumex20'),
++    (r'^models fermi srh temp=300 print qtnlsc\.el qtnl\.derivs itat\.sc\.el \^tat\.poisson$', 'MODELS ITAT.SC.EL (+QTNLSC) ^TAT.POISSON: PDF p.323 (manual text l.14541-14548: trap charge out of Poisson, default True), PDF p.327 example "MODELS RTAT.SC TAT.SLICEPTS=21 ^TAT.POISSON"; quantum/quantumex20'),
++    (r'^models fermi srh temp=300 print qtnlsc\.el qtnl\.derivs itat\.sc\.el','MODELS ITAT.SC.EL (+QTNLSC): audit 7.5, PDF p.326 Table 3-139, quantum/quantumex20'),
+     (r'^models fermi srh temp=300 print bqp\.n bqp\.ngamma=.* bqp\.nalpha=.* bqp\.qdir=', 'MODELS BQP.N BQP.NGAMMA BQP.NALPHA BQP.QDIR: audit 7.9, PDF p.835-836 Table 14-3, quantum/quantumex05, solar/solarex18'),
+     (r'^models fermi srh temp=300 print trap\.tunnel trap\.hurkx mass\.tunnel=', 'MODELS TRAP.TUNNEL TRAP.HURKX MASS.TUNNEL (existing solver.models route): audit 7.2, tft/tftex12'),
+--- a/analysis_2026-10-10_campaign/CAMPAIGN_DESIGN.md
++++ b/analysis_2026-10-10_campaign/CAMPAIGN_DESIGN.md
+@@ -59,5 +59,5 @@
+ | D10 | Gate leakage | "measure before exclusion"; PF magnitude possible | null test via QTNLSC/FNORD | **Test it in the solver, quantitatively** (the user requirement), with a leakage-maximising bound, and include the defect-assisted oxide path (Ielmini TAT) that Codex could not exclude. |
+ | D11 | MASS.TUNNEL / tunnelling mass in IWO | 0.2 (illustrative) | 0.206 (PBE 2 nm) | **m*(t) of the TCAD convention** (0.254/0.219/0.212), so that NC300, ARICHN and the tunnelling masses use the same number. |
+-| D12 | Donor law | retire (1+(t/20)⁴), hold N_D shared | DFT: W is a fully ionised donor; active fraction unknown | **Agree with Codex.** N_D = 2.5e17 cm⁻³, constant in t (ASSUMED; `tc_nm=1e9`). ×0.1 and ×10 are run in S6. |
++| D12 | Donor law | retire (1+(t/20)⁴), hold N_D shared | DFT: W is a fully ionised donor; active fraction unknown | **Agree with Codex.** N_D = 2.5e17 cm⁻³, constant in t (`tc_nm=1e9`). The value is the **FITTED V1 donor amplitude, kept fixed** (N_D0 of the V1 law, fitted to the V0 per-film values; 01_CURRENT_STATE §E); the **constant thickness dependence is ASSUMED**. ×0.1 and ×10 are run in S6. (Label corrected 2026-10-10 after review; it was called ASSUMED / not fitted.) |
+ | D13 | N_t parameterisation | integrated N_s (cm⁻²) | V1 law Nt2·(2/t)^0.75 | **Integrated N_s, spread uniformly** (Nt = N_s/t, i.e. `alpha=1`, `Nt2 = N_s/2 nm`). Bulk-only and 50:50 are run in S3. N_t (cm⁻³) ≠ NTA (cm⁻³eV⁻¹); NTA = Nt/W_T. |
+ | D14 | Quasi-2D NC300 (new DFT input) | not considered | candidate, ×4.27 at 2 nm | **Primary at 2.0 nm only**, by a pre-registered physics rule. DFT E21 = 0.72 eV is > 10 kT and > E_F − E1 (≤ 0.12 eV at V_G = 3 V), which gives a single subband. At 6.3 nm E21 exists only from a 2-parameter MODEL (0.137 eV ≈ 5 kT), so 3-D stays primary there and ×1.467 is run in S6. This is a DOS substitution inside the 3-D Fermi–Dirac form, not true 2-D statistics: the on-state n is overstated by up to 1.7×. S1-05 (3-D NC at 2 nm) is the model sensitivity that brackets this. |
+@@ -79,5 +79,5 @@
+   - the "floor-scale current means audit" rule applies only to nominal/SRH runs, not to the worst-case set;
+   - an underprediction at 2 nm does not falsify a mechanism, because the 2 nm floor may be instrument-limited;
+-  - FNORD applies HfO2 constants at the semiconductor-interface field, so it is an approximate bilayer estimate.
++  - FNORD evaluates the field at the semiconductor-interface segment (Al2O3/IWO). The HfO2-barrier constants are therefore transferred to that field (F.AE = A/r², F.BE = r·B, r = ε_HfO2/ε_Al2O3 = 2.174; review fix 2026-10-10; without it FNORD over-estimated I_G by about 5.5–6 decades at V_G = −3 V). It stays a single-barrier (HfO2-limited) estimate of the bilayer.
+ - **The worst-case oxide set is an optimistic scenario,** not a rigorous upper bound: pinholes, thinning and defects are not covered.
+ - **Labels.** Quasi-2D NC300 and the mobility mass factor are CALCULATED from LITERATURE + DFT-law inputs. The leakage/SRH numbers are CALCULATED conditional bounds. Data-selected branch choices are reported as such.
+@@ -113,5 +113,5 @@
+ | Deep acceptor Gaussian 5e16 at E_c−0.6 eV | ON (ASSUMED) | V2 continuity; weak effect; zero in S6. |
+ | Interface acceptor sheet 3e11 cm⁻²eV⁻¹ at E_c−0.3 eV (0.25 nm layer) | ON (ASSUMED) | LITERATURE-scale D_it (HfO2/In2O3 proxy); zero in S6. |
+-| Uniform donors N_D = 2.5e17 cm⁻³ | ON (ASSUMED, shared) | DFT: W is a fully ionised resonant donor, but compensation is not computed. The fitted (1+(t/20)⁴) law is retired. |
++| Uniform donors N_D = 2.5e17 cm⁻³ | ON (shared; FITTED V1 donor amplitude, kept fixed; constant thickness dependence ASSUMED) | DFT: W is a fully ionised resonant donor, but compensation is not computed. The fitted (1+(t/20)⁴) thickness term is retired; its fitted amplitude is kept. |
+ | Front fixed charge Q_f (y = 0) | **ON, FITTED shared** | Carries ΔV₀. Degenerate with the gate work function and χ_bulk, which are therefore held fixed. |
+ | Constant mobility per film from the shared law μ_band(t) = μ∞·(0.208/m*(t))/(1+ℓ/t), times the existing roughness (1−0.287/t)² | **ON, primary** | Matthiessen form: bulk + interface scattering ∝ 1/t. The mass factor 0.208/m*(t) (CALCULATED from LITERATURE + the DFT Δm law) explains only 0.83 of the 2→13.2 nm drop, so ℓ carries the rest (FITTED, an empirical law). `tmun=0`. |
+@@ -189,5 +189,5 @@
+ | Parameter | Value | Label |
+ |---|---|---|
+-| N_D | 2.5e17 cm⁻³, constant | ASSUMED; ×0.1/×10 in S6 |
++| N_D | 2.5e17 cm⁻³, constant | FITTED V1 donor amplitude, kept fixed (not re-fitted here); constant thickness dependence ASSUMED; ×0.1/×10 in S6 |
+ | τ_n0 = τ_p0 | 1e-6 s (extreme 1e-9) | ASSUMED |
+ | Capture σ (all DEFECTS) | 1e-15 cm² (extreme 1e-13; suppressed 1e-20) | ASSUMED; typical oxide-TFT order, to be cited before publication |
+@@ -202,7 +202,7 @@
+ | nominal | 2.5 eV / 5.8 eV / 0.20 | 1.25 eV / 8.8 eV / 0.35 | 2.2 eV | χ, E_g LITERATURE (Robertson 2000, JVST B 18, 1785: HfO2 CBO 1.5 eV to Si, Al2O3 CBO 2.8 eV, E_g 8.8 eV). Masses ASSUMED inside the LITERATURE ranges (HfO2 0.1–0.4, Al2O3 0.3–0.5 m0); source to be pinned before publication. |
+ | worst | 3.2 eV / 5.8 eV / 0.10 | 1.6 eV / 8.8 eV / 0.30 | 1.5 eV | ASSUMED leakage-maximising bound, below the LITERATURE barrier range, chosen so that I_G is resolvable for the V_G-slope test |
+-| FNORD nominal | φ 2.2 eV, m_r 0.20 → F.AE 3.50e-6 A/V², F.BE 9.97e7 V/cm | | | CALCULATED (Lenzlinger–Snow form) |
+-| FNORD worst | φ 1.5 eV, m_r 0.10 → F.AE 1.03e-5 A/V², F.BE 3.97e7 V/cm | | | CALCULATED |
+-| Oxide TAT | HfO2 traps 1e19 cm⁻³, 1.0 eV below the HfO2 band edge | | | ASSUMED high-defect bound |
++| FNORD nominal | φ 2.2 eV, m_r 0.20 → HfO2-barrier A 3.50e-6 A/V², B 9.97e7 V/cm → written F.AE 7.40e-7 A/V², F.BE 2.17e8 V/cm (field at the Al2O3/IWO segment: A/r², r·B, r = 2.174) | | | CALCULATED (Lenzlinger–Snow form + field transfer) |
++| FNORD worst | φ 1.5 eV, m_r 0.10 → A 1.03e-5 A/V², B 3.97e7 V/cm → written F.AE 2.17e-6 A/V², F.BE 8.63e7 V/cm | | | CALCULATED |
++| Oxide TAT | HfO2 traps 1e19 cm⁻³, 1.0 eV below the HfO2 band edge; trap charge kept out of Poisson (`^tat.poisson`, PDF p.323) so that S2-12/13 isolate the TAT current | | | ASSUMED high-defect bound |
+ | Gate `qtunn.cmass` | 1.0 | | | ASSUMED |
+ 
+@@ -286,5 +286,5 @@
+ **Global rules**
+ - Every launch counts, including failures.
+-- Hard cap 200. The budget is `max_launches` 271 − 60 used = 211.
++- Hard cap 200, enforced in code (review fix 2026-10-10): `config/solver.yaml` `max_launches` 260 = 60 used + 200, and `run_campaign.py` counts C10 launches (labels `c10_*` in RUN_INDEX, failures included) up to 200, refuses `--workers` ≠ 1 for C10 plans and never re-launches an entry that already has a RUN_INDEX row (from any C10 plan) unless `--retry ID` is given.
+ - Sequential only (`--workers 1`).
+ - After any code change, `regress_all_decks.py` must print `unexpected differences 0` before the next launch.
+@@ -376,5 +376,5 @@
+ **What the worst-case oxide set is.** An optimistic scenario, not a rigorous upper bound: pinholes, local thinning and percolation paths are not modelled.
+ 
+-**FNORD caveat.** FNORD evaluates the field at the semiconductor–insulator interface. Applying HfO2 gate-barrier constants there is an approximate, possibly inflated, bilayer estimate.
++**FNORD caveat.** FNORD evaluates the field at the semiconductor–insulator segment (PDF p.288, manual text l.13034–13038), i.e. in the Al2O3, where E_Al = 2.174·E_Hf. The HfO2 gate-barrier constants are transferred to that field (F.AE = A/r², F.BE = r·B), so J equals the HfO2-barrier FN current at the HfO2 field. Without the transfer the estimate was inflated by about 6 decades at V_G = −3 V (review fix 2026-10-10). It remains a single-barrier estimate: the higher Al2O3 barrier is not in FNORD, so this is an upper estimate for injection through the bilayer.
+ 
+ **Gate injection is UNVERIFIED.** Injection from the Conductor-region gate is supported by the manual (electrode/contact injection for QTNLSC; electrode–insulator coupling for FNORD) but not verified in this deck. S0-02 must show a non-zero signed I_G with KCL closing.
+@@ -383,5 +383,5 @@
+ - **QTNLSC nominal:** I_G(−3 V) ≤ 1e-24 A/µm, at least 9 decades below every floor.
+ - **QTNLSC/FNORD worst:** I_G(−3 V) ~ 1e-15 to 1e-11 A/µm, so the magnitude can reach the 2.0 nm floor. But I_G(−0.5 V)/I_G(−3 V) ≤ 1e-3, i.e. not flat, and the oxide current is the same for all films (no t^3.85).
+-- **Oxide TAT:** strongly V_G-dependent (J(3.7 V)/J(1.2 V) ≈ 6e3, Codex PF estimate).
++- **Oxide TAT:** strongly V_G-dependent (J(3.7 V)/J(1.2 V) ≈ 6e3, Codex PF estimate). S2-12/13 run with the trap charge out of Poisson (`^tat.poisson`): 1e19 cm⁻³ acceptors in 15 nm HfO2 are up to 1.5e13 cm⁻² of charge, far above the fitted Q_f, and with the default TAT.POISSON the change in I_D would mix that electrostatic shift with collected leakage. The ITAT current is identified against the matched QTNLSC-only deck (S2-04 / S2-06). The electrostatics of a charged oxide are not tested by these runs.
+ - **Strip:** I(0.7)/I(0.1) = 7.
+ - **Q_f-on vs Q_f-off strips:** different G_strip(13.2)/G_strip(2.0). The measured floor ratio is 1432.
+@@ -478,6 +478,6 @@
+ | C9 | `oxide_tat {enabled, conc_cm3, e_level_eV}` | `doping region=4 uniform tat.trap conc= e.level=` + `models itat.sc.el`. |
+ | C11 | Runner | Thickness timeouts (2.0 1200 s, 6.3 1500 s, 13.2 2400 s, 31.8 3000 s; ×1.3–2.0 per entry as listed in the matrix); activation parser; floor/I_G metrics; provenance files. |
+-| C12 | `campaign_extract.py` | Wrapper around the registered extraction (§8). |
+-| C13 | `profile_shared.py` | Exact shift/scale profiling, surrogate for S4b, LOO selection, Jacobian. |
++| C12 | `campaign_extract.py` | Wrapper around the registered extraction (§8). **Written 2026-10-10 after review** (it was missing); `compare` evaluates the S1 rules. |
++| C13 | `profile_shared.py` | Exact shift/scale profiling, surrogate for S4b, LOO selection, Jacobian. **Partly written 2026-10-10 after review:** `check` (S1-07 / S3-27 / S4c native checks), `profile` (shared √J, S3/S4a) and `adopt` (S3 rule) exist; the S4b surrogate, S5 LOO selection and the Jacobian do not yet (needed only from S4b on). |
+ 
+ ---
+@@ -497,5 +497,5 @@
+ **Data-selected choices.** The tail placement, the mobility branch and the contact branch are chosen on the device data in S3. They are reported as model selection, and S5 repeats the selection inside each fold.
+ 
+-**Not fitted:** gate work function, χ_bulk, E_g,bulk, ε, N_D, σ, τ, oxide parameters, NCRIT, TGAMMA, BQP γ/α.
++**Not fitted in this campaign:** gate work function, χ_bulk, E_g,bulk, ε, σ, τ, oxide parameters, NCRIT, TGAMMA, BQP γ/α. **N_D is not re-fitted here, but its value is the FITTED V1 donor amplitude** (kept fixed; constant form ASSUMED), so it is a fitted quantity carried over, not a free assumption.
+ 
+ **Retrospective status.** All comparisons are retrospective. The registered V2 6.3 nm prediction already failed (0.270 / 0.417 V vs 0.644 V). Nothing here re-opens that registration. The LOO is retrospective transferability within four already-seen devices, not an independent prediction.
+--- a/config/campaign_C10_S2_offfloor.json
++++ b/config/campaign_C10_S2_offfloor.json
+@@ -5,5 +5,6 @@
+  "model_file_env": "IWO_MODEL_FILE=config/iwo_material_model_v3.yaml",
+  "global_rules": [
+-  "Sequential only: python scripts/run_campaign.py <plan> (default --workers 1). Every launch counts, failed or not. Hard cap 200 (max_launches 271 - 60 used = 211).",
++  "Sequential only: python scripts/run_campaign.py <plan> (C10 plans refuse --workers != 1). Every launch counts, failed or not. Hard cap 200: config/solver.yaml max_launches 260 (= 60 used before C10 + 200) and a C10 label counter (c10_* run IDs in RUN_INDEX <= 200) in run_campaign.py.",
++  "run_campaign.py (C10 plans) never re-launches an entry whose label already has a RUN_INDEX row, from this or any other C10 plan (MIN10 vs stage plans): a successful earlier launch is reused, a failed one is reported; --retry ID spends a new (reserve) launch on purpose.",
+   "Model file for every entry: $env:IWO_MODEL_FILE = \"config/iwo_material_model_v3.yaml\" (V3 + the overrides = the same solver statements as V2 + the overrides, check_v3_equivalence.py).",
+   "After any code change: python analysis_2026-10-10_campaign/regress_all_decks.py must print \"unexpected differences 0\" before the next launch.",
+@@ -14,5 +15,7 @@
+   "Floor-scale current from the WORST-case oxide set is an allowed result; interpret it only after S2-11 (oxide mesh x0.5) agrees within 0.1 dec in log10 I_G.",
+   "Strip decks (S2-14..17) must give I(0.7 V)/I(0.1 V) = 7.0 +- 0.5; otherwise the strip is not ohmic in ATLAS and that is the result.",
+-  "Verdicts by the pre-registered rule of CAMPAIGN_DESIGN 7.2 (valid points >= 80 %, |d_floor_ratio| <= 0.5 dec, |slope| <= 2|measured| + 2 sigma, KCL); a 2 nm underprediction does not falsify."
++  "Verdicts by the pre-registered rule of CAMPAIGN_DESIGN 7.2 (valid points >= 80 %, |d_floor_ratio| <= 0.5 dec, |slope| <= 2|measured| + 2 sigma, KCL); a 2 nm underprediction does not falsify.",
++  "S2-12/S2-13 (QTNLSC + oxide TAT, trap charge out of Poisson): post_run_checks.py needs --gate-control S2-04 (2.0 nm) / S2-06 (13.2 nm) to identify ITAT separately; the charged-oxide electrostatics are not tested by these runs.",
++  "S2-09/S2-10 (FNORD): F.AE/F.BE are the HfO2-barrier constants transferred to the Al2O3/IWO-segment field (A/r^2, r B, r = 2.1744); still a single-barrier approximation."
+  ],
+  "stop_rules_enforced_by": "main session (manual); run_campaign.py enforces only the launch budget",
+@@ -353,9 +356,9 @@
+     "solver.physics_options.gate_tunnelling.model=fnord",
+     "solver.physics_options.gate_tunnelling.set=worst",
+-    "solver.physics_options.gate_tunnelling.f_ae=1.027e-05",
+-    "solver.physics_options.gate_tunnelling.f_be=3.968e+07"
++    "solver.physics_options.gate_tunnelling.f_ae=2.171e-06",
++    "solver.physics_options.gate_tunnelling.f_be=8.628e+07"
+    ],
+    "timeout": 1800,
+-   "purpose": "Gate leakage, quantitative: 2.0 nm, FNORD (self-consistent Fowler-Nordheim, single-barrier F.AE/F.BE from the HfO2 barrier), worst oxide parameters. Compares I_G and the drain-collected share with the measured floor, and tests flatness in V_G.",
++   "purpose": "Gate leakage, quantitative: 2.0 nm, FNORD (self-consistent Fowler-Nordheim, single-barrier F.AE/F.BE from the HfO2 barrier, transferred to the Al2O3/IWO-segment field where ATLAS evaluates FN), worst oxide parameters. Compares I_G and the drain-collected share with the measured floor, and tests flatness in V_G.",
+    "stage": "S2_offfloor_mechanisms",
+    "matrix_status": "planned_fixed",
+@@ -394,9 +397,9 @@
+     "solver.physics_options.gate_tunnelling.model=fnord",
+     "solver.physics_options.gate_tunnelling.set=worst",
+-    "solver.physics_options.gate_tunnelling.f_ae=1.027e-05",
+-    "solver.physics_options.gate_tunnelling.f_be=3.968e+07"
++    "solver.physics_options.gate_tunnelling.f_ae=2.171e-06",
++    "solver.physics_options.gate_tunnelling.f_be=8.628e+07"
+    ],
+    "timeout": 3600,
+-   "purpose": "Gate leakage, quantitative: 13.2 nm, FNORD (self-consistent Fowler-Nordheim, single-barrier F.AE/F.BE from the HfO2 barrier), worst oxide parameters. Compares I_G and the drain-collected share with the measured floor, and tests flatness in V_G.",
++   "purpose": "Gate leakage, quantitative: 13.2 nm, FNORD (self-consistent Fowler-Nordheim, single-barrier F.AE/F.BE from the HfO2 barrier, transferred to the Al2O3/IWO-segment field where ATLAS evaluates FN), worst oxide parameters. Compares I_G and the drain-collected share with the measured floor, and tests flatness in V_G.",
+    "stage": "S2_offfloor_mechanisms",
+    "matrix_status": "planned_fixed",
+@@ -479,8 +482,9 @@
+     "solver.physics_options.oxide_tat.enabled=1",
+     "solver.physics_options.oxide_tat.conc_cm3=1e19",
+-    "solver.physics_options.oxide_tat.e_level_eV=1.0"
++    "solver.physics_options.oxide_tat.e_level_eV=1.0",
++    "solver.physics_options.oxide_tat.poisson=0"
+    ],
+    "timeout": 2400,
+-   "purpose": "Defect-assisted gate leakage (Ielmini TAT, ITAT.SC.EL with DOPING TAT.TRAP in HfO2) at 2.0 nm: ASSUMED 1e19 cm-3 traps 1.0 eV below the HfO2 band edge, nominal oxide set. Tests the leakage path Codex could not exclude without I_G (Poole-Frenkel-like magnitudes). Syntax VERIFIED (PDF p.320-327, quantumex20), bilayer use UNVERIFIED.",
++   "purpose": "Defect-assisted gate leakage (Ielmini TAT, ITAT.SC.EL with DOPING TAT.TRAP in HfO2) at 2.0 nm: ASSUMED 1e19 cm-3 traps 1.0 eV below the HfO2 band edge, nominal oxide set, trap charge OUT of Poisson (MODELS ^tat.poisson, PDF p.323): at full occupancy the traps would carry 1.5e13 cm-2, far above the fitted Q_f, and the change in I_D would mix an electrostatic shift with collected leakage (2026-10-10 review fix). Matched gate control: S2-04 (2.0 nm) / S2-06 (13.2 nm). Tests the leakage path Codex could not exclude without I_G (Poole-Frenkel-like magnitudes). Syntax VERIFIED (PDF p.320-327, quantumex20), bilayer use UNVERIFIED. The charged-oxide electrostatics are NOT tested by this run.",
+    "stage": "S2_offfloor_mechanisms",
+    "matrix_status": "planned_fixed",
+@@ -522,8 +526,9 @@
+     "solver.physics_options.oxide_tat.enabled=1",
+     "solver.physics_options.oxide_tat.conc_cm3=1e19",
+-    "solver.physics_options.oxide_tat.e_level_eV=1.0"
++    "solver.physics_options.oxide_tat.e_level_eV=1.0",
++    "solver.physics_options.oxide_tat.poisson=0"
+    ],
+    "timeout": 4800,
+-   "purpose": "Defect-assisted gate leakage (Ielmini TAT, ITAT.SC.EL with DOPING TAT.TRAP in HfO2) at 13.2 nm: ASSUMED 1e19 cm-3 traps 1.0 eV below the HfO2 band edge, nominal oxide set. Tests the leakage path Codex could not exclude without I_G (Poole-Frenkel-like magnitudes). Syntax VERIFIED (PDF p.320-327, quantumex20), bilayer use UNVERIFIED.",
++   "purpose": "Defect-assisted gate leakage (Ielmini TAT, ITAT.SC.EL with DOPING TAT.TRAP in HfO2) at 13.2 nm: ASSUMED 1e19 cm-3 traps 1.0 eV below the HfO2 band edge, nominal oxide set, trap charge OUT of Poisson (MODELS ^tat.poisson, PDF p.323): at full occupancy the traps would carry 1.5e13 cm-2, far above the fitted Q_f, and the change in I_D would mix an electrostatic shift with collected leakage (2026-10-10 review fix). Matched gate control: S2-04 (2.0 nm) / S2-06 (13.2 nm). Tests the leakage path Codex could not exclude without I_G (Poole-Frenkel-like magnitudes). Syntax VERIFIED (PDF p.320-327, quantumex20), bilayer use UNVERIFIED. The charged-oxide electrostatics are NOT tested by this run.",
+    "stage": "S2_offfloor_mechanisms",
+    "matrix_status": "planned_fixed",
+--- a/config/campaign_C10_S0a_smoke.json
++++ b/config/campaign_C10_S0a_smoke.json
+@@ -5,5 +5,6 @@
+  "model_file_env": "IWO_MODEL_FILE=config/iwo_material_model_v3.yaml",
+  "global_rules": [
+-  "Sequential only: python scripts/run_campaign.py <plan> (default --workers 1). Every launch counts, failed or not. Hard cap 200 (max_launches 271 - 60 used = 211).",
++  "Sequential only: python scripts/run_campaign.py <plan> (C10 plans refuse --workers != 1). Every launch counts, failed or not. Hard cap 200: config/solver.yaml max_launches 260 (= 60 used before C10 + 200) and a C10 label counter (c10_* run IDs in RUN_INDEX <= 200) in run_campaign.py.",
++  "run_campaign.py (C10 plans) never re-launches an entry whose label already has a RUN_INDEX row, from this or any other C10 plan (MIN10 vs stage plans): a successful earlier launch is reused, a failed one is reported; --retry ID spends a new (reserve) launch on purpose.",
+   "Model file for every entry: $env:IWO_MODEL_FILE = \"config/iwo_material_model_v3.yaml\" (V3 + the overrides = the same solver statements as V2 + the overrides, check_v3_equivalence.py).",
+   "After any code change: python analysis_2026-10-10_campaign/regress_all_decks.py must print \"unexpected differences 0\" before the next launch.",
+@@ -11,5 +12,5 @@
+  ],
+  "stop_rules": [
+-  "S0 STOP: a syntax error, an option not active (post_run_checks.py OPTION_NOT_ACTIVE) or a KCL failure stops the campaign until the code is fixed.",
++  "S0 STOP: a syntax error, an option not active (post_run_checks.py OPTION_NOT_ACTIVE, exit 1) or a KCL failure stops the campaign until the code is fixed. UNVERIFIED (exit 3) also stops: read deckbuild.out by hand and record the evidence before going on.",
+   "S0-01 deck header must show chi 4.0184 eV, NC300 1.373e19 cm^-3, MUN 12.977 cm2/Vs, Qf 1.383e12 cm^-2 (check_v3_equivalence.py verifies this before launch).",
+   "Launch S0b only after S0-01 passed (separate file because run_campaign continues after failures)."
+--- /dev/null
++++ b/analysis_2026-10-10_campaign/campaign_extract.py
+@@ -0,0 +1,213 @@
++#!/usr/bin/env python3
++"""C12 (CAMPAIGN_DESIGN.md section 8): campaign wrapper around the REGISTERED extraction. NO simulator call; reads finished run
++directories and data/experimental_clean.csv, never writes into results/ or data/. The registered files
++(analysis_2026-10-06_extraction/PROTOCOL.md, extraction.py, run_extraction.py) are imported, never edited.
++
++  python analysis_2026-10-10_campaign/campaign_extract.py RUN_DIR [RUN_DIR ...]          per-run extraction + campaign metrics
++  python analysis_2026-10-10_campaign/campaign_extract.py compare RUN_DIR REF_DIR [--rule numerics|s1_05|s1_06]
++
++Per run (transfer runs with a measured film 2.0 / 6.3 / 13.2 nm):
++  - run_extraction.analyse() on the native terminal_currents.csv (I_D in A/um, no rescaling) with the measured floor; if it
++    raises, every quantity is extracted separately and a failure is flagged {"invalid": reason} (guards);
++  - V_th,cc at 1e-9 and 5e-10 A/um, SS in the registered window 5e-11..5e-10 A/um and in the A1 normalised window
++    [r, 10 r] x I_on,MEASURED (r from the measured floors and I_on, amendment A1: 2.15e-5), mu_FE at 1.0..3.0 V, V_th,ELR,
++    the power-law fit (V_T, mu0, gamma) and the off floor;
++  - campaign metrics (CAMPAIGN_DESIGN 5.1): RMSE_sub (measured I_D in [10 x floor, 1e-9 A/um]), RMSE_on (V_G 1..3 V) of
++    log10 I_D on the measured grid (PCHIP of log10 max(I, 1e-40) over the native grid, no extrapolation, coverage reported),
++    the film's J term (RMSE_sub^2 + RMSE_on^2)/2, and signed errors in V_th,cc, I_D(3 V) and mu_FE(1.5 / 2 / 3 V);
++  - S6 permittivity runs: mu_FE also with the run's own (perturbed) C_ox, next to the registered C_ox.
++Labels: the STATUS labels of run_extraction.py (written for the per-film V1 calibration) are NOT inherited. CAMPAIGN_STATUS below
++relabels every quantity for the shared-parameter campaign. A number from this wrapper is calibration output unless the film was
++held out (S5), and is never called validation.
++compare: differences RUN - REF used by the S1 rules (numerics 0.01 dec / 5 mV / 3 mV/dec; S1-05 +40..+70 mV; S1-06 1e-3 relative
++above 1e-14 A/um) with a PASS/FAIL line for the requested rule.
++Output: analysis_2026-10-10_campaign/extract/<run_id>.json (and compare_<run>_vs_<ref>.json); printed summary."""
++import csv
++import json
++import math
++import sys
++from pathlib import Path
++
++import numpy as np
++from scipy.interpolate import PchipInterpolator
++
++import campaign_tools as ct
++
++EXDIR = ct.PKG / 'analysis_2026-10-06_extraction'
++sys.path.insert(0, str(EXDIR))
++import extraction as ex  # noqa: E402  (registered, unchanged)
++import run_extraction as rx  # noqa: E402  (registered, unchanged; importing it runs nothing)
++
++OUT = ct.HERE / 'extract'
++FILMS = rx.FILMS
++CAMPAIGN_STATUS = {
++    'vth_cc': 'constrained by the shared whole-curve fit (one Q_f for all films); FITTED-parameter output, not a prediction',
++    'ss': 'not fitted directly (shape; shared N_s, W_T)', 'mu_fe': 'not fitted directly (shape; shared mu law scale)',
++    'pl': 'not fitted directly (power-law summary of the simulated curve)', 'rmse': 'objective term of the shared calibration',
++    'held_out': 'S5 held-out film only: retrospective transferability, not validation'}
++LOGEPS = 1e-40
++
++
++def measured():
++    meas = rx.load_measured(); info = {}
++    for t in FILMS:
++        vg, i = meas[t]; fl, sfl = rx.floor_with_sigma(vg, i)
++        info[t] = dict(vg=vg, i=i, floor=fl, sig_floor=sfl, ion=float(i[-1]))
++    r = 10 * max(info[t]['floor'] / info[t]['ion'] for t in FILMS)   # amendment A1 (amendment_a1.py windows('ion'))
++    for t in FILMS: info[t]['a1_window'] = (r * info[t]['ion'], 10 * r * info[t]['ion'])
++    return info, r
++
++
++def resolve(run):
++    p = Path(run); return p if p.is_absolute() else ct.PKG / p
++
++
++def load_run(run):
++    d = resolve(run); exj = json.loads((d / 'execution.json').read_text())
++    with open(d / 'terminal_currents.csv', newline='') as f:
++        a = np.array([(float(r['vg_V']), float(r['id_A_per_um'])) for r in csv.DictReader(f)])
++    a = a[np.argsort(a[:, 0])]
++    return d, exj, a[:, 0], a[:, 1]
++
++
++def log_interp(vg, i, x):
++    """PCHIP of log10 max(I, 1e-40) over the native grid, evaluated at x; NaN outside the solved range (no extrapolation)"""
++    f = PchipInterpolator(vg, np.log10(np.maximum(i, LOGEPS)), extrapolate=False)
++    y = f(np.asarray(x, float)); return np.where((x >= vg[0] - 1e-9) & (x <= vg[-1] + 1e-9), y, np.nan)
++
++
++def window_rmse(vg_m, i_m, floor, vg, i):
++    """CAMPAIGN_DESIGN 5.1 windows on the measured grid; returns per-window RMSE, coverage and the film's J term"""
++    ls = log_interp(vg, i, vg_m); lm = np.log10(i_m)
++    masks = {'sub': (i_m >= 10 * floor) & (i_m <= 1e-9), 'on': (vg_m >= 1 - 1e-9) & (vg_m <= 3 + 1e-9)}
++    out = {}
++    for k, msk in masks.items():
++        cov = msk & np.isfinite(ls); n = int(msk.sum())
++        out[k] = dict(points=n, covered=int(cov.sum()), coverage=(float(cov.sum()) / n if n else 0.0),
++                      rmse_dec=(float(np.sqrt(np.mean((ls[cov] - lm[cov]) ** 2))) if cov.any() else None),
++                      mean_signed_dec=(float(np.mean(ls[cov] - lm[cov])) if cov.any() else None))
++    ok = out['sub']['rmse_dec'] is not None and out['on']['rmse_dec'] is not None
++    out['J_term'] = (out['sub']['rmse_dec'] ** 2 + out['on']['rmse_dec'] ** 2) / 2 if ok else None
++    out['coverage_ok_95pct'] = bool(min(out['sub']['coverage'], out['on']['coverage']) >= 0.95)
++    return out
++
++
++def guarded(fn, *a):
++    try: return fn(*a)
++    except Exception as e: return {'invalid': f'{type(e).__name__}: {e}'}
++
++
++def analyse_guarded(vg, i, floor, sfl, vg_fit, i_fit):
++    """run_extraction.analyse() first; on an exception, the same registered functions one by one with explicit invalid flags"""
++    try:
++        r = rx.analyse(vg, i, True, floor, sfl, vg_fit, i_fit); r['guard'] = 'analyse() completed'; return r
++    except Exception as e:
++        r = {'guard': f'analyse() raised {type(e).__name__}: {e}; quantities extracted separately'}
++    r['vth_cc'] = guarded(ex.crossing, vg, i, rx.I_CC, True); r['vth_cc_10nA'] = guarded(ex.crossing, vg, i, rx.I_CC10, True)
++    r['ss'] = guarded(rx.ss_rule, vg, i, *rx.WIN, True, floor, sfl)
++    g = ex.gm(vg, i); mu = ex.MU_FACTOR * g
++    r['mu_fe'] = {f'{v:.1f}': ({'mu_fe': float(mu[k])} if abs(vg[k] - v) < 1e-6 else {'invalid': f'no native point at {v} V'})
++                  for v in rx.VG_REPORT for k in [int(np.argmin(abs(vg - v)))]}
++    r['pl'] = guarded(ex.pl_fit, vg_fit, i_fit, *rx.FIT_PRIMARY)
++    return r
++
++
++def val(d, *keys):
++    for k in keys:
++        if not isinstance(d, dict) or k not in d: return None
++        d = d[k]
++    return d
++
++
++def extract(run, info=None):
++    if info is None: info, _ = measured()
++    d, exj, vg, i = load_run(run); t = float(exj['thickness_nm'])
++    res = {'run_id': exj['run_id'], 'run_dir': str(d.relative_to(ct.PKG)).replace('\\', '/'), 'thickness_nm': t, 'status_runner': exj.get('status'),
++           'labels': CAMPAIGN_STATUS}
++    if t not in FILMS: res['invalid'] = f'no measured film {t} nm (31.8 nm stress / predictions: whole-curve metrics only)'; return res
++    M = info[t]; vg_m, i_m = M['vg'], M['i']
++    cmp = d / 'comparison.csv'
++    if cmp.exists():
++        with open(cmp, newline='') as f: c = np.array([(float(r['vg_V']), float(r['atlas_A_per_um'])) for r in csv.DictReader(f)])
++        vg_fit, i_fit = c[:, 0], c[:, 1]
++    else:
++        vg_fit = vg_m[(vg_m >= vg[0]) & (vg_m <= vg[-1])]; i_fit = np.interp(vg_fit, vg, i)
++    s = analyse_guarded(vg, i, M['floor'], M['sig_floor'], vg_fit, i_fit)
++    a1 = guarded(ex.ss_window, vg, i, *M['a1_window'], True)
++    res['extraction'] = {'vth_cc_V': val(s, 'vth_cc', 'v'), 'vth_cc_sig_V': val(s, 'vth_cc', 'sig'), 'vth_cc_5e-10_V': val(s, 'vth_cc_10nA', 'v'),
++                         'ss_fixed_mV_dec': val(s, 'ss', 'ss'), 'ss_fixed_window_A_per_um': list(rx.WIN), 'ss_a1_mV_dec': val(a1, 'ss'),
++                         'ss_a1_window_A_per_um': list(M['a1_window']), 'mu_fe': {k: v.get('mu_fe', v) for k, v in (s.get('mu_fe') or {}).items()},
++                         'vth_elr_V': val(s, 'elr', 'v'), 'pl_vt_V': val(s, 'pl', 'vt'), 'pl_mu0': val(s, 'pl', 'mu0'), 'pl_gamma': val(s, 'pl', 'gamma'),
++                         'off_floor_sim_A_per_um': float(ex.off_floor(vg, i)), 'guard': s.get('guard'),
++                         'invalid': {k: v['invalid'] for k, v in s.items() if isinstance(v, dict) and 'invalid' in v}}
++    # measured reference values from the same registered functions on the measured curve
++    mvc =ex.crossing(vg_m, i_m, rx.I_CC, False)['v']; mg = ex.MU_FACTOR * ex.gm(vg_m, i_m)
++    mu_m = {f'{v:.1f}': float(mg[int(np.argmin(abs(vg_m - v)))]) for v in (1.5, 2.0, 3.0)}
++    w = window_rmse(vg_m, i_m, M['floor'], vg, i)
++    e = res['extraction']
++    res['campaign_metrics'] = {'rmse_sub_dec': w['sub']['rmse_dec'], 'rmse_on_dec': w['on']['rmse_dec'], 'J_term': w['J_term'], 'windows': w,
++                               'dVth_cc_V': (e['vth_cc_V'] - mvc) if e['vth_cc_V'] is not None else None,
++                               'Id3V_err_pct': float(100 * (i[np.argmin(abs(vg - 3.0))] / i_m[-1] - 1)),
++                               'mu_fe_err_pct': {k: (100 * (e['mu_fe'][k] / mu_m[k] - 1) if isinstance(e['mu_fe'].get(k), float) else None) for k in mu_m},
++                               'measured_reference': {'vth_cc_V': mvc, 'mu_fe': mu_m, 'floor_A_per_um': M['floor'], 'ion_A_per_um': M['ion']}}
++    # S6 permittivity runs: mu_FE with the run's own C_ox as well (the registered C_ox stays the comparable number)
++    geo = [o for o in exj.get('overrides', []) if o.startswith('geometry.')]
++    if geo:
++        _, g, _ = ct.configs(ct.V3, geo); cox_run = ct.bd.cox(g)
++        if abs(cox_run / ex.COX - 1) > 1e-9:
++            res['extraction']['mu_fe_run_cox'] = {k: (v * ex.COX / cox_run if isinstance(v, float) else v) for k, v in e['mu_fe'].items()}
++            res['extraction']['cox_run_F_cm2'] = cox_run
++    return res
++
++
++def compare(run, ref, rule=None):
++    info, _ = measured(); a, b = extract(run, info), extract(ref, info)
++    _, _, vg, i = load_run(run); _, _, vgr, ir = load_run(ref)
++    common = np.intersect1d(np.round(vg, 6), np.round(vgr, 6))
++    ia = np.array([i[np.argmin(abs(vg - v))] for v in common]); ib = np.array([ir[np.argmin(abs(vgr - v))] for v in common])
++    big = (np.abs(ia) > 1e-14) & (np.abs(ib) > 1e-14)
++    ea, eb = a.get('extraction', {}), b.get('extraction', {}); ca, cb = a.get('campaign_metrics', {}), b.get('campaign_metrics', {})
++    def dif(x, y): return (x - y) if (x is not None and y is not None) else None
++    d = {'run': a['run_id'], 'ref': b['run_id'], 'thickness_nm': a['thickness_nm'],
++         'dVth_cc_mV': (1e3 * dif(ea.get('vth_cc_V'), eb.get('vth_cc_V'))) if dif(ea.get('vth_cc_V'), eb.get('vth_cc_V')) is not None else None,
++         'dSS_fixed_mV_dec': dif(ea.get('ss_fixed_mV_dec'), eb.get('ss_fixed_mV_dec')), 'dSS_a1_mV_dec': dif(ea.get('ss_a1_mV_dec'), eb.get('ss_a1_mV_dec')),
++         'd_rmse_sub_dec': dif(ca.get('rmse_sub_dec'), cb.get('rmse_sub_dec')), 'd_rmse_on_dec': dif(ca.get('rmse_on_dec'), cb.get('rmse_on_dec')),
++         'max_abs_dlog10_I_above_1e-14_dec': float(np.max(np.abs(np.log10(ia[big]) - np.log10(ib[big])))) if big.any() else None,
++         'max_rel_dI_above_1e-14': float(np.max(np.abs(ia[big] / ib[big] - 1))) if big.any() else None, 'common_points': int(len(common))}
++    # active-RMSE change: the runner's own active-region RMSE (execution.json fit_metrics), as written by run_atlas.score
++    fa = json.loads((resolve(run) / 'execution.json').read_text()).get('fit_metrics', {}); fb = json.loads((resolve(ref) / 'execution.json').read_text()).get('fit_metrics', {})
++    d['d_active_rmse_dec'] = dif(val(fa, 'regions', 'active', 'rmse_log10'), val(fb, 'regions', 'active', 'rmse_log10'))
++    if rule == 'numerics':
++        checks = [d['d_active_rmse_dec'], d['dVth_cc_mV'], d['dSS_fixed_mV_dec'], d['dSS_a1_mV_dec']]
++        if any(x is None for x in checks): d['verdict'] = 'UNVERIFIED (a quantity could not be extracted)'
++        else: d['verdict'] = 'PASS' if (abs(checks[0]) <= 0.01 and abs(checks[1]) <= 5 and abs(checks[2]) <= 3 and abs(checks[3]) <= 3) else 'FAIL (adopt the refined setting, S1 rule)'
++        d['rule'] = '|d active RMSE| <= 0.01 dec, |dV_th,cc| <= 5 mV, |dSS| <= 3 mV/dec (fixed and A1 windows)'
++    elif rule == 's1_05':
++        x = d['dVth_cc_mV']; d['rule'] = 'S1-05 (3-D NC) minus S0-01: dV_th,cc in +40..+70 mV'
++        d['verdict'] = 'UNVERIFIED' if x is None else ('PASS' if 40 <= x <= 70 else 'FAIL (audit the NC override before S3)')
++    elif rule == 's1_06':
++        x = d['max_rel_dI_above_1e-14']; d['rule'] = 'S1-06 (two carriers) vs S1-02: |dI/I| <= 1e-3 wherever both |I| > 1e-14 A/um'
++        d['verdict'] = 'UNVERIFIED' if x is None else ('PASS' if x <= 1e-3 else 'FAIL (drop the electron-only assumption)')
++    return d
++
++
++def main(argv):
++    if not argv: print(__doc__); return 2
++    OUT.mkdir(exist_ok=True)
++    if argv[0] == 'compare':
++        rule = argv[argv.index('--rule') + 1] if '--rule' in argv else None
++        d = compare(argv[1], argv[2], rule); (OUT / f'compare_{d["run"]}_vs_{d["ref"]}.json').write_text(json.dumps(d, indent=1, default=float))
++        print(json.dumps(d, indent=1, default=float)); return 0 if not str(d.get('verdict', 'PASS')).startswith(('FAIL', 'UNVERIFIED')) else 1
++    info, r = measured(); print(f'A1 normalisation r = {r:.4g} (amendment A1: 2.15e-5)')
++    for run in argv:
++        res = extract(run, info); (OUT / f'{res["run_id"]}.json').write_text(json.dumps(res, indent=1, default=float))
++        e, c = res.get('extraction', {}), res.get('campaign_metrics', {})
++        print(json.dumps({'run_id': res['run_id'], 't': res['thickness_nm'], 'vth_cc_V': e.get('vth_cc_V'), 'dVth_cc_V': c.get('dVth_cc_V'),
++                          'ss_fixed': e.get('ss_fixed_mV_dec'), 'ss_a1': e.get('ss_a1_mV_dec'), 'rmse_sub': c.get('rmse_sub_dec'), 'rmse_on': c.get('rmse_on_dec'),
++                          'J_term': c.get('J_term'), 'coverage_ok': (c.get('windows') or {}).get('coverage_ok_95pct'), 'Id3V_err_pct': c.get('Id3V_err_pct'),
++                          'invalid': e.get('invalid') or res.get('invalid')}, default=float))
++    return 0
++
++
++if __name__ == '__main__':
++    sys.exit(main(sys.argv[1:]))
+--- /dev/null
++++ b/analysis_2026-10-10_campaign/profile_shared.py
+@@ -0,0 +1,231 @@
++#!/usr/bin/env python3
++"""C13 (CAMPAIGN_DESIGN.md 5.2, 6): exact shift/scale profiling of the shared parameters, offline. NO simulator call; reads
++finished run directories (execution.json, material_model_used.json, terminal_currents.csv) and the measured curves; writes only
++analysis_2026-10-10_campaign/profile/*.json.
++
++  python analysis_2026-10-10_campaign/profile_shared.py check NATIVE_RUN REFERENCE_RUN
++      S1-07 / S3-27 / S4c native check: the reference curve transformed by the Q_f and MUN differences of the two runs
++      (read from their material_model_used.json; every other model, solver and geometry input must be identical) must
++      reproduce the native run within 0.01 dec on every J-window point (CAMPAIGN_DESIGN 5.2 / S1 rule). Each point is compared
++      forward (reference -> native) or, where the shift leaves the solved range, inverse (native -> reference); a point covered
++      in neither direction makes the verdict UNVERIFIED. Tunnelling/Schottky pairs: NOT APPLICABLE. Also reports the full-curve
++      maximum over the covered native points. Exit 0 PASS, 1 FAIL, 3 otherwise.
++  python analysis_2026-10-10_campaign/profile_shared.py profile RUN_2p0 RUN_6p3 RUN_13p2 [--tag NAME]
++      shared profiling of (dV0 via one Q_f, mu_inf, ell) on a film triple launched with the same shared inputs; reports the
++      start and profiled sqrt(J), per-film RMSE_sub / RMSE_on, window coverage (< 95 % -> flagged, confirm natively), the
++      profiled Q_f and mu law, and the DIAGNOSTIC per-film free shift + scale (shape-only residual; never a model).
++      Refused when the three runs do not share one Q_f and one C_ox, or when a tunnelling/Schottky option is on (then
++      --allow-approximate labels the result APPROXIMATE). Verdict OK / APPROXIMATE / UNVERIFIED (coverage < 95 % or optimizer).
++  python analysis_2026-10-10_campaign/profile_shared.py adopt BRANCH_2p0 BRANCH_6p3 BRANCH_13p2 -- BASE_2p0 BASE_6p3 BASE_13p2
++      S3 adoption arithmetic (both triples profiled the same way): sqrt(J) gain >= 0.03 dec and no film's RMSE_sub / RMSE_on
++      worse by > 0.03 dec. Convergence at all films and activation (post_run_checks.py ACTIVE_AS_REQUESTED) are checked by
++      the caller; the verdict line says so.
++Transformations (exact in the continuum equations, CAMPAIGN_DESIGN 5.2):
++  shift  I(V_G; Q_f) = I(V_G + q (Q_f - Q_f0) / C_ox; Q_f0)    (front Q_f sheet and gate both span the device);
++  scale  I(V_G; MUN) = (MUN / MUN0) I(V_G; MUN0)               (electron-only DD, every electron mobility x one constant,
++                                                                 incl. IGZO.TOKYO; NOT for Schottky or tunnelling runs).
++  The mu law is mu_band(t) = mu_inf (m_ref / m*(t)) / (1 + ell / t); MUN = mu_band (1 - Dsr/t)^2, so the per-film scale is
++  mu_band,new(t) / mu_band,run(t). No extrapolation: transformed points outside the solved V_G range are dropped and counted.
++NOT IMPLEMENTED YET (needed only from S4b on; not needed for the S1 decisions, the S3 adoption or S4a): the S4b quadratic
++surrogate, the S5 leave-one-film-out candidate selection and the identifiability Jacobian (CAMPAIGN_DESIGN 5.4). The
++subcommands 'surrogate', 'loo' and 'jacobian' stop with that message."""
++import json
++import sys
++from pathlib import Path
++
++import numpy as np
++from scipy.optimize import minimize
++
++import campaign_tools as ct
++import campaign_extract as ce
++
++OUT = ct.HERE / 'profile'
++Q = 1.602176634e-19
++TOL_DEC = 0.01
++
++
++def run_info(run):
++    d, exj, vg, i = ce.load_run(run); t = float(exj['thickness_nm']); ov = list(exj.get('overrides', []))
++    m = json.loads((d / 'material_model_used.json').read_text())
++    p = ct.bd.material_at(m, t)
++    _, g, s = ct.configs(ct.V3, [o for o in ov if o.startswith(('solver.', 'geometry.'))])
++    po = s.get('physics_options') or {}   # effective settings (physics_options.yaml defaults + overrides), not override strings
++    breakers = [k for k in ('gate_tunnelling', 'oxide_tat', 'schottky_sd') if ct.bd.on((po.get(k) or {}).get('enabled'))]
++    return dict(dir=d, run_id=exj['run_id'], t=t, vg=vg, i=i, m=m, p=p, cox=ct.bd.cox(g), overrides=ov, breakers=breakers,
++                mstar=p['mstar_m0'], mu_band=p['mu_band'], mun=p['mu0'], qf=p['Qf_cm2'])
++
++
++def transformed_log(r, dQf, scale, x):
++    """log10 of the run's current transformed to Q_f + dQf and MUN x scale, at gate voltages x (NaN where not covered)"""
++    return np.log10(scale) + ce.log_interp(r['vg'], r['i'], np.asarray(x, float) + Q * dQf / r['cox'])
++
++
++def strip_keys(m, t):
++    """material model without the two profiled inputs (Q_f value, mu_band at t / shared law), for the identity check"""
++    m = json.loads(json.dumps(m)); m['traps']['fixed_interface_charge_Qf_cm2']['value'] = None
++    mu = m['thickness_laws']['mu0_cm2Vs']; mu['mu_band_fitted'] = None; mu.pop('shared_law', None)
++    bs = m['traps'].get('back_surface_donor_sheet')
++    if bs is not None and not float(bs.get('peak_cm2_eV', 0) or 0): m['traps'].pop('back_surface_donor_sheet')   # absent == zero sheet (older model files)
++    return m
++
++
++def diff_dicts(a, b, path=''):
++    if isinstance(a, dict) and isinstance(b, dict):
++        out = []
++        for k in sorted(set(a) | set(b), key=str): out += diff_dicts(a.get(k), b.get(k), f'{path}.{k}' if path else str(k))
++        return out
++    return [] if a == b else [f'{path}: {a!r} vs {b!r}']
++
++
++def check(native, ref):
++    a, b = run_info(native), run_info(ref)
++    if abs(a['t'] - b['t']) > 1e-9: raise SystemExit('check needs two runs of the same film')
++    dQf = a['qf'] - b['qf']; scale = a['mun'] / b['mun']
++    other = diff_dicts(strip_keys(a['m'], a['t']), strip_keys(b['m'], b['t']))
++    sg_a = sorted(o for o in a['overrides'] if o.startswith(('solver.', 'geometry.'))); sg_b = sorted(o for o in b['overrides'] if o.startswith(('solver.', 'geometry.')))
++    res = {'native': a['run_id'], 'reference': b['run_id'], 'thickness_nm': a['t'], 'dQf_cm2': dQf, 'dV_shift_V': -Q * dQf / a['cox'],
++           'mun_scale': scale, 'cox_F_cm2': a['cox'], 'other_material_differences': other,
++           'solver_geometry_override_differences': sorted(set(sg_a) ^ set(sg_b)), 'exactness_breakers': a['breakers'] + b['breakers']}
++    info, _ = ce.measured(); M = info.get(a['t'])
++    lt_native = ce.log_interp(a['vg'], a['i'], a['vg']); lt = transformed_log(b, dQf, scale, a['vg'])
++    cov = np.isfinite(lt) & (a['i'] > 1e-14) & (lt > -14)   # full-curve check where both currents exceed 1e-14 A/um (deep off-state is noise-level)
++    res['native_points_covered_above_1e-14'] = int(cov.sum()); res['native_points'] = int(len(a['vg']))
++    res['max_abs_dev_native_grid_above_1e-14_dec'] = float(np.max(np.abs(lt[cov] - lt_native[cov]))) if cov.any() else None
++    if M is None: res['verdict'] = 'UNVERIFIED (no measured film: no J windows)'; return res
++    masks = {'sub': (M['i'] >= 10 * M['floor']) & (M['i'] <= 1e-9), 'on': (M['vg'] >= 1 - 1e-9) & (M['vg'] <= 3 + 1e-9)}
++    # both directions test the same identity; a shift moves one end of the window out of the solved range in one direction only
++    # (S1-07: forward loses the top of the on window, inverse covers it), so each J-window point is compared where it is covered
++    fwd = (ce.log_interp(a['vg'], a['i'], M['vg']), transformed_log(b, dQf, scale, M['vg']))          # native vs transformed reference
++    inv = (ce.log_interp(b['vg'], b['i'], M['vg']), transformed_log(a, -dQf, 1.0 / scale, M['vg']))   # reference vs back-transformed native
++    for k, msk in masks.items():
++        cf = msk & np.isfinite(fwd[0]) & np.isfinite(fwd[1]); ci = msk & np.isfinite(inv[0]) & np.isfinite(inv[1])
++        dev = np.full(len(M['vg']), np.nan); dev[cf] = np.abs(fwd[1][cf] - fwd[0][cf])
++        both = ci & np.isnan(dev); dev[both] = np.abs(inv[1][both] - inv[0][both])
++        cov = msk & np.isfinite(dev)
++        res[f'J_window_{k}'] = {'points': int(msk.sum()), 'covered_forward': int(cf.sum()), 'covered_inverse': int(ci.sum()), 'covered': int(cov.sum()),
++                                'max_abs_dev_dec': float(np.max(dev[cov])) if cov.any() else None}
++    devs = [res[f'J_window_{k}']['max_abs_dev_dec'] for k in masks]
++    full = all(res[f'J_window_{k}']['covered'] == res[f'J_window_{k}']['points'] for k in masks)
++    if other or res['solver_geometry_override_differences']: res['verdict'] = 'NOT A PURE Q_f/MUN PAIR (see differences): no verdict'
++    elif res['exactness_breakers']: res['verdict'] = 'NOT APPLICABLE: tunnelling/Schottky run, exact scaling is not claimed (CAMPAIGN_DESIGN 5.2)'
++    elif any(x is None for x in devs) or not full: res['verdict'] = 'UNVERIFIED (not every J-window point is covered in either direction)'
++    else: res['verdict'] = ('PASS: profiling exact within 0.01 dec on every J-window point' if max(devs) <= TOL_DEC else
++                            'FAIL: profiling approximate -> every S4b candidate run natively at the profiled Q_f and MUN (S1 rule)')
++    return res
++
++
++def mu_law(mu_inf, ell, t, mstar, m_ref=0.208): return mu_inf * (m_ref / mstar) / (1.0 + ell / t)
++
++
++def triple_J(R, M, dQf, mu_inf, ell):
++    per = {}; terms = []
++    for r in R:
++        s = mu_law(mu_inf, ell, r['t'], r['mstar']) / r['mu_band']; Mt = M[r['t']]
++        lt = transformed_log(r, dQf, s, Mt['vg']); lm = np.log10(Mt['i'])
++        masks = {'sub': (Mt['i'] >= 10 * Mt['floor']) & (Mt['i'] <= 1e-9), 'on': (Mt['vg'] >= 1 - 1e-9) & (Mt['vg'] <= 3 + 1e-9)}
++        f = {}
++        for k, msk in masks.items():
++            c = msk & np.isfinite(lt); n = int(msk.sum())
++            f[k] = {'rmse_dec': float(np.sqrt(np.mean((lt[c] - lm[c]) ** 2))) if c.any() else np.nan, 'coverage': float(c.sum()) / n if n else 0.0}
++        f['J_term'] = (f['sub']['rmse_dec'] ** 2 + f['on']['rmse_dec'] ** 2) / 2; f['mun_scale'] = s; per[r['t']] = f; terms.append(f['J_term'])
++    return float(np.mean(terms)), per
++
++
++def profile(runs, tag=None, allow_approximate=False):
++    R = [run_info(x) for x in runs]; info, _ = ce.measured()
++    if sorted(r['t'] for r in R) != [2.0, 6.3, 13.2]: raise SystemExit('profile needs one run per film 2.0 / 6.3 / 13.2 nm')
++    # one shared Q_f and one C_ox are the premise of a single profiled Q_f (review fix: refuse, do not warn)
++    q0 = R[0]['qf']
++    if any(abs(r['qf'] - q0) > 1e-9 * max(abs(q0), 1.0) for r in R): raise SystemExit(f'refused: the three runs do not share one Q_f ({[r["qf"] for r in R]})')
++    if len({round(r['cox'], 15) for r in R}) > 1: raise SystemExit('refused: different C_ox in the triple')
++    warn = []; brk = [f'{r["run_id"]}: {r["breakers"]}' for r in R if r['breakers']]
++    if brk and not allow_approximate: raise SystemExit(f'refused: tunnelling/Schottky option on, the shift/scale profiling is not exact: {brk} (--allow-approximate labels the result APPROXIMATE)')
++    if brk: warn.append(f'APPROXIMATE profiling (tunnelling/Schottky option on): {brk}; confirm natively before any adoption')
++    sl = (R[0]['m']['thickness_laws']['mu0_cm2Vs'].get('shared_law') or {})
++    mu0, ell0 = float(sl.get('mu_inf_cm2Vs', 100.005)), float(sl.get('ell_nm', 7.248))
++    # start: the curves as launched (dQf = 0, every scale 1)
++    terms0 = {}
++    for r in R:
++        Mt = info[r['t']]; w = ce.window_rmse(Mt['vg'], Mt['i'], Mt['floor'], r['vg'], r['i']); terms0[r['t']] = {'rmse_sub': w['sub']['rmse_dec'], 'rmse_on': w['on']['rmse_dec'], 'J_term': w['J_term']}
++    J0 = float(np.mean([v['J_term'] for v in terms0.values()]))
++    cox = R[0]['cox']; dq_max = 0.5 * cox / Q   # |dV0| <= 0.5 V
++    def obj(x):
++        dQf, lmu, ell = x[0] * 1e12, x[1], x[2]
++        if abs(dQf) > dq_max or not (np.log(10) <= lmu <= np.log(300)) or not (0 <= ell <= 50): return 1e3
++        J, per = triple_J(R, info, dQf, float(np.exp(lmu)), ell)
++        return J if np.isfinite(J) else 1e3
++    best = None
++    for dv in np.linspace(-0.4, 0.4, 9):
++        x0 = [dv * cox / Q / 1e12, np.log(mu0), ell0]
++        r_ = minimize(obj, x0, method='Nelder-Mead', options={'xatol': 1e-6, 'fatol': 1e-10, 'maxiter': 4000})
++        if best is None or r_.fun < best.fun: best = r_
++    dQf, mu_inf, ell = best.x[0] * 1e12, float(np.exp(best.x[1])), float(best.x[2])
++    J, per = triple_J(R, info, dQf, mu_inf, ell)
++    # diagnostic only: per-film free shift + scale (shape-only residual), never a model
++    shape = {}
++    for r in R:
++        def o2(x, r=r):
++            Mt = info[r['t']]; lt = transformed_log(r, x[0] * 1e12, float(np.exp(x[1])), Mt['vg']); lm = np.log10(Mt['i'])
++            ms = [(Mt['i'] >= 10 * Mt['floor']) & (Mt['i'] <= 1e-9), (Mt['vg'] >= 1 - 1e-9) & (Mt['vg'] <= 3 + 1e-9)]
++            v = [np.mean((lt[m & np.isfinite(lt)] - lm[m & np.isfinite(lt)]) ** 2) if (m & np.isfinite(lt)).any() else 1e3 for m in ms]
++            return float(np.mean(v)) if abs(x[0] * 1e12) <= dq_max else 1e3
++        b2 = min((minimize(o2, [dv * cox / Q / 1e12, 0.0], method='Nelder-Mead') for dv in np.linspace(-0.4, 0.4, 5)), key=lambda z: z.fun)
++        shape[r['t']] = {'free_dV_V': -Q * b2.x[0] * 1e12 / cox, 'free_scale': float(np.exp(b2.x[1])), 'shape_only_sqrtJ_dec': float(np.sqrt(b2.fun))}
++    cov_ok = all(min(f['sub']['coverage'], f['on']['coverage']) >= 0.95 for f in per.values())
++    res = {'tag': tag, 'runs': [r['run_id'] for r in R], 'warnings': warn, 'start': {'sqrtJ_dec': float(np.sqrt(J0)), 'per_film': terms0},
++           'profiled': {'sqrtJ_dec': float(np.sqrt(J)), 'Qf_cm2': R[0]['qf'] + dQf, 'dQf_cm2': dQf, 'dV0_V': -Q * dQf / cox, 'mu_inf_cm2Vs': mu_inf, 'ell_nm': ell,
++                        'per_film': {str(t): {'rmse_sub_dec': f['sub']['rmse_dec'], 'rmse_on_dec': f['on']['rmse_dec'], 'coverage_sub': f['sub']['coverage'],
++                                              'coverage_on': f['on']['coverage'], 'mun_scale': f['mun_scale'], 'J_term': f['J_term']} for t, f in per.items()},
++                        'coverage_ok_95pct': cov_ok, 'optimizer': {'fun': float(best.fun), 'nit': int(best.nit), 'success': bool(best.success)}},
++           'diagnostic_shape_only': shape,
++           'labels': ('APPROXIMATE (tunnelling/Schottky run) ' if brk else '') + 'Q_f, mu_inf, ell: FITTED (shared, exact-transformation profiling of launched '
++                     'curves); calibration, not validation. The per-film free shift/scale is a diagnostic, never a model.'}
++    if not cov_ok: res['warnings'].append('window coverage < 95 %: confirm the optimum natively (CAMPAIGN_DESIGN 5.2)')
++    res['verdict'] = ('UNVERIFIED (coverage < 95 % or optimizer not converged: confirm natively)' if not (cov_ok and best.success) else
++                      'APPROXIMATE' if brk else 'OK')
++    return res
++
++
++def adopt(branch, base, allow_approximate=False):
++    a, b = profile(branch, 'branch', allow_approximate), profile(base, 'base', allow_approximate); gain = b['profiled']['sqrtJ_dec'] - a['profiled']['sqrtJ_dec']
++    worse = {t: {k: a['profiled']['per_film'][t][k] - b['profiled']['per_film'][t][k] for k in ('rmse_sub_dec', 'rmse_on_dec')} for t in a['profiled']['per_film']}
++    ok = gain >= 0.03 and all(v <= 0.03 for d in worse.values() for v in d.values())
++    pre = 'UNVERIFIED: ' if 'UNVERIFIED' in a['verdict'] + b['verdict'] else 'APPROXIMATE: ' if 'APPROXIMATE' in (a['verdict'], b['verdict']) else ''
++    return {'branch': a, 'base': b, 'sqrtJ_gain_dec': gain, 'per_film_worsening_dec': worse,
++            'verdict': pre + ('ARITHMETIC PASS' if ok else 'ARITHMETIC FAIL') + ' (also required: converged at all films; activation ACTIVE_AS_REQUESTED; '
++                       'not a pure shift/scale effect; at most two branches' + ('; Schottky: the reserve native check' if pre.startswith('APPROX') else '') + ')'}
++
++
++def main(argv):
++    if not argv: print(__doc__); return 2
++    OUT.mkdir(exist_ok=True); cmd = argv[0]; approx = '--allow-approximate' in argv
++    tag = argv[argv.index('--tag') + 1] if '--tag' in argv else None
++    pos = [x for i, x in enumerate(argv) if not x.startswith('--allow') and x != '--tag' and not (i and argv[i - 1] == '--tag')]   # positional words; '--' kept
++    if cmd in ('surrogate', 'loo', 'jacobian'):
++        print(f'{cmd}: NOT IMPLEMENTED YET (needed from S4b / S5 / the identifiability report on; see the module docstring)'); return 3
++    try:
++        res, fn = run_cmd(cmd, pos, tag, approx)
++    except SystemExit as e:   # refusals (unequal Q_f / C_ox, tunnelling or Schottky without --allow-approximate, wrong films)
++        print(f'REFUSED: {e}'); return 3
++    if res is None: print(__doc__); return 2
++    fn.write_text(json.dumps(res, indent=1, default=float)); print(json.dumps(res, indent=1, default=float))
++    v = str(res.get('verdict', ''))   # exit 0 only for a clean pass: PASS / OK / ARITHMETIC PASS; FAIL -> 1; anything else -> 3
++    return 0 if v.startswith(('PASS', 'OK', 'ARITHMETIC PASS')) else 1 if v.startswith(('FAIL', 'ARITHMETIC FAIL')) else 3
++
++
++def run_cmd(cmd, pos, tag, approx):
++    if cmd == 'check':
++        res = check(pos[1], pos[2]); fn = OUT / f'check_{res["native"]}_vs_{res["reference"]}.json'
++    elif cmd == 'profile':
++        if len(pos) != 4: raise SystemExit('profile needs exactly three run directories')
++        res = profile(pos[1:4], tag, approx); fn = OUT / f'profile_{tag or "_".join(res["runs"])}.json'
++    elif cmd == 'adopt':
++        k = pos.index('--') if '--' in pos else -1
++        if k != 4 or len(pos) != 8: raise SystemExit('adopt needs: adopt B2 B6 B13 -- R2 R6 R13')
++        res = adopt(pos[1:4], pos[5:8], approx); fn = OUT / f'adopt_{"_".join(res["branch"]["runs"])}.json'
++    else: return None, None
++    return res, fn
++
++
++if __name__ == '__main__':
++    sys.exit(main(sys.argv[1:]))

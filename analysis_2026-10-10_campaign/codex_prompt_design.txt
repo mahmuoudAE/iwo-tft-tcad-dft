@@ -1,0 +1,73 @@
+You are an independent device-physics and TCAD reviewer. I want YOUR OWN design for a Silvaco ATLAS simulation campaign, not a restatement of ours. Disagree with our prior choices where the evidence says so.
+
+=== OPERATING RULES (strict) ===
+- You are in a read-only sandbox. Do not try to write or modify any file.
+- Do NOT launch Silvaco ATLAS in any form: do not run deckbuild.exe, do not run scripts/run_atlas.py (except with --help), do not run scripts/run_campaign.py. Do not run anything that could call deckbuild. Reading scripts and existing decks is fine.
+- No network access is needed; do not use it.
+- Label every parameter you propose as exactly one of: COMPUTED (from our DFT; cite the file), MEASURED (cite the file), LITERATURE (cite author/year or textbook), FITTED (say to which data), or ASSUMED. Calibration is never validation: whenever a quantity is fitted, say so.
+- Show your arithmetic for every numerical estimate (formula, inputs, result, units). If you are unsure of a material constant, give a range and say where it comes from.
+
+=== DEVICE AND DATA (summary; verify against the files) ===
+- Bottom-gate W-doped In2O3 (IWO) TFTs from the user's fab (Januar et al., Small Structures 2026).
+- Stack (from the gate up): TiN gate / 15 nm HfO2 (eps 19.57, from the paper's SI Fig. S1) / 2 nm Al2O3 (eps 9.0, ASSUMED; in our model it sits on the HfO2 and touches the channel; the paper's DFT instead uses IWO/HfO2, unresolved) / IWO channel / Pd source-drain contacts on top.
+- Geometric C_ox = 8.9554e-7 F/cm^2. W/L = 290/20 um. T = 300 K (ASSUMED).
+- Films: 2.0, 6.3, 13.2 nm, plus 31.8 nm. Thicknesses are nominal; how they were measured is unknown.
+- One transfer curve per film: V_G from -3 to +3 V, 121 points (50 mV), V_D = 0.7 V. No reverse sweep, no gate current, no second V_D, one device per film, sweep history unknown.
+- Measured off-state floors: 4.61e-15 / 1.53e-13 / 6.60e-12 A/um (i.e. 1.3 pA, 44 pA, 1.9 nA total), flat in V_G (within 3 % at 13.2 nm), single power law ~ t^3.85 (local exponents 3.1 between 2.0 and 6.3 nm, 5.1 between 6.3 and 13.2 nm). The 2.0 nm floor is at the level of the measurement setup. The 31.8 nm device never turns off (I_D(-3 V) = 3.0e-7 A/um).
+- Other measured/derived numbers per film (2.0 / 6.3 / 13.2 nm): V_th,cc at 1e-9 A/um = 0.662 / 0.644 / 0.083 V; I_D(+3 V) = 5.09e-7 / 4.03e-7 / 3.07e-6 A/um; mu_FE (g_m-based, at 3 V) = 12.15 / 10.74 / 49.07 cm^2/Vs; SS in the I_on-normalised window = 123.6 / 122.7 / 115.3 mV/dec; power-law exponent gamma = - / 1.13 / 0.27.
+- IMPORTANT: all four measured curves (2.0, 6.3, 13.2 and 31.8 nm) are already seen data. Anything fitted or compared to them is retrospective, not prediction. A registered out-of-sample prediction for 6.3 nm (V2, T3) FAILED (predicted V_th,cc 0.270 V and 0.417 V vs measured 0.644 V); an earlier V1 shared-parameter prediction for 6.3 nm missed V_th by -0.29 V. The 31.8 nm film is a documented model failure.
+
+=== CURRENT MODELS (summary; verify against the files) ===
+- V1 (config/iwo_material_model.yaml): per-film fitted fixed charge Q_f (1.73e12 cm^-2 for 2.0 and 13.2 nm; 8.7e10 cm^-2 for 6.3 nm) and per-film fitted band mobility (to I_on); acceptor tail W_TA = 40 meV fitted at 2 nm; N_t(t) = 2e19*(2/t)^0.75 cm^-3 eV^-1 (two-point law); deep Gaussian at E_c - 0.6 eV, 5e16 cm^-3 eV^-1; D_it = 2.92e11 cm^-2 eV^-1 at E_c - 0.30 eV in a 0.25 nm layer; N_D,eff(t) = 2.5e17*[1 + (t/20)^4] cm^-3 (not identifiable). Mechanism study (analysis_2026-09-25/SYNTHESIS.md): work function, chi, Q_f and Delta E_c act as one number; mu_band trades off against N_t; R_sd against alpha; every thickness law is a two-point law; confinement is expected but not identifiable from I_D-V_G.
+- V2 (config/iwo_material_model_v2.yaml): DFT thickness laws added. 13.2 nm anchor passed; 2.0 nm anchor failed on RMSE only; 6.3 nm registered prediction falsified. Off-current handled by a post-solver ungated strip I = I_ATLAS + G(t)*V_D with (W/L)_par = 1.0e-4 per um fitted on 13.2 nm; predicted/measured floor 0.46 at 2.0 nm, 0.64 at 6.3 nm (HYPOTHESIS, one fitted constant). The floors are NOT currently produced inside the ATLAS solve.
+- DFT [COMPUTED] (qe_workflow/cern_htcondor/results/RESULTS_LOG.md): bulk bixbyite In2O3 PBE gap 1.19 eV; confinement Delta E_g = +0.90 eV PBE (+0.95-1.00 with HSE correction) for a 1 nm slab, +0.335 eV for a 2 nm slab, m* = 0.206 m0 at 2 nm (Delta m* +0.047); the 1->2 nm change is in the conduction band. W 5d level is resonant ~1.2-1.8 eV above the host CBM. Crystalline only (real films are amorphous/nanocrystalline); no defects, interfaces or contacts computed. Preliminary (not in the log): 0.75 nm slab PBE gap 2.20 eV; 0.51 nm 3.14 eV (relaxed into an In(OH)3-like layer).
+- Numerical uncertainty about 0.7 %; DOS-grid offset on I_on +2.5 / +1.0 / +0.5 % at 2.0 / 6.3 / 13.2 nm.
+
+=== LOCAL ATLAS FACTS (learned the hard way; your design must respect them) ===
+- Local Silvaco ATLAS 5.28, 32-bit, Windows. One run takes about 5-20 min; runs must be launched sequentially (parallel launches failed); 31.8 nm needs ~1500 s timeout.
+- MOBILITY statements between SOLVEs are ignored (so mobility cannot be changed mid-sweep).
+- MAXTRAPS <= 10.
+- DEFECTS take cm^-3/eV; INTDEFECTS take cm^-2/eV. CONTACT RESISTANCE is in Ohm*um. INTERFACE QF works on the IWO/Air boundary.
+- Depletion convergence needs XANDRNORM and CR.TOLER 7.88e-16. 13.2 nm mesh can be refined by x0.7; x0.5 exceeds memory.
+- With user.default=silicon, a constant MUN still carries a (T/300)^-1.5 factor unless tmun is declared.
+- SS_min from a stepped grid is not robust; use a fixed-current SS.
+- Budget: AT MOST 200 runs in total for this campaign.
+
+=== FILES TO READ (paths relative to the repo root you are in, /mnt/c/Users/moham/Downloads/IWO_Local_Codex_Handoff (1)/IWO_PHYSICS_CONSTRAINED_MODEL_V1) ===
+Required:
+- analysis_2026-10-06_extraction/PROTOCOL.md, analysis_2026-10-06_extraction/results.json, analysis_2026-10-06_extraction/FINAL_SUMMARY.md
+- analysis_2026-10-06_V2/T2_T3_RESULTS.md
+- analysis_2026-09-25/SYNTHESIS.md
+- config/iwo_material_model.yaml, config/iwo_material_model_v2.yaml
+- data/experimental_clean.csv
+- qe_workflow/cern_htcondor/results/RESULTS_LOG.md
+- /mnt/c/Users/moham/Downloads/IWO_Local_Codex_Handoff (1)/iwo-tft-research-private/01_CURRENT_STATE.md (sections D, E, F, G, H, K)
+Optional, if useful:
+- config/geometry.yaml, config/solver.yaml
+- an existing V1 deck and its outputs: results/runs/run_0040_13p2_recal_dos384_13p2/device.in (also igvg.dat there: the simulated gate current), and results/runs/run_0038_2p0_recal_dos384_2p0/device.in
+- analysis_2026-10-06_traps/TRAPS.md
+- scripts/build_iwo_decks.py, scripts/material_laws.py, scripts/run_atlas.py (READ ONLY; do not execute run_atlas.py or run_campaign.py)
+
+=== QUESTIONS ===
+
+Q1. Off-state floor mechanisms. Which physical models plausibly explain the floors (4.61e-15 / 1.53e-13 / 6.60e-12 A/um at V_D = 0.7 V, flat in V_G from -3 V up to turn-on, scaling ~ t^3.85)? For each candidate, give an order-of-magnitude estimate WITH NUMBERS and compare it to the floors (convert to A/um of width and to total A for W = 290 um, and note what the drain terminal would actually see):
+  (a) Gate leakage through 15 nm HfO2 + 2 nm Al2O3 at |V_G| <= 3 V: Fowler-Nordheim, direct tunnelling, and trap-assisted / Poole-Frenkel tunnelling. Use literature barrier heights and effective masses (state them) and the gate area you assume (channel area W*L and/or gate-to-pad overlap). Also say how a gate-leakage component would depend on V_G and why the flatness does or does not exclude it.
+  (b) SRH / thermal generation in a ~2.9 eV-gap oxide channel (state the gap you use and why; our DFT bulk PBE gap is 1.19 eV, which underestimates). Include generation via mid-gap/deep states, the depleted volume, and whether it can scale ~t^3.85.
+  (c) Ungated parallel conduction (e.g. IWO outside the gate overlap, an unmodulated back layer, sidewall/edge paths). What geometry and sheet conductance would be needed, and does the t-dependence make sense?
+  (d) Contact leakage (Pd/IWO Schottky reverse current, contact-to-contact leakage through the substrate or dielectric).
+  (e) Anything else you consider plausible (instrument floor, band-to-band or trap-assisted tunnelling near the drain, hole conduction, etc.).
+  Conclude: which mechanisms should be inside the TCAD solve, which belong outside it as a parallel element, and which can be excluded by estimate alone. State which measurement (e.g. floor vs V_D, gate current) would discriminate them.
+
+Q2. Model selection. For each of: SRH recombination/generation, Fermi-Dirac statistics, field-dependent mobility, Schottky (vs ohmic) contacts with/without barrier lowering, trap-assisted tunnelling, quantum (confinement) correction, plus any other model you think matters (e.g. thickness-dependent band offsets via DFT Delta E_g, interface D_it vs bulk N_t split, hopping/percolation mobility as in amorphous oxides): is it physically justified for THIS device, what evidence in our data could constrain it, and does it risk only adding fit freedom (unidentifiable parameters)? Give a short keep / test / exclude verdict for each, respecting the local ATLAS limitations listed above.
+
+Q3. Campaign design (at most 200 sequential runs, 5-20 min each). Design a staged campaign:
+  smoke tests -> model ablation -> global calibration with SHARED parameters across films -> leave-one-film-out cross-validation -> sensitivity / identifiability.
+  For each stage give: purpose, number of runs, which films, which parameters vary and over what ranges/grids, the exact quantity compared to data and the metric, and stop/go rules (including when to abort the campaign early).
+  Specify which DFT quantities are fixed as COMPUTED (e.g. confinement Delta E_g(t), m*(t)) and how, which parameters may be FITTED and to which data, and which must stay ASSUMED with a sensitivity check. Keep the number of fitted parameters small and justify each one; say how many degrees of freedom the data actually supports.
+  Say how to report closeness to experiment without overfitting: which metrics, which windows of the curve, how to separate calibration error from cross-validation error, how to handle the fact that all four curves are already seen (retrospective), and what a reviewer should accept as evidence. Say how to treat the 31.8 nm curve (fit, check, or document as failure) and the 6.3 nm anomaly.
+  Note any deck-generation or numerical precautions (mesh, convergence, trap counts <= 10, temperature factor on MUN) the campaign needs.
+
+Q4. If the campaign is cut short: list the single most informative 10 runs, in launch order, with what each one decides and what result would change the plan.
+
+=== OUTPUT FORMAT ===
+Markdown, with sections Q1-Q4, then a short "Key disagreements with the current model" section and a "Assumptions I had to make" section. Put the numerical estimates of Q1 in a table (mechanism, formula, inputs, estimated current per um and total, ratio to each measured floor, verdict). Put the campaign of Q3 in a table (stage, runs, films, varied parameters, metric, stop rule) and give a running total that does not exceed 200. Be concrete and quantitative; cite the files and lines you relied on.

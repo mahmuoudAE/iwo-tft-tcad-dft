@@ -1,0 +1,24 @@
+{
+ "register_tag": "register-rev2-frozen-20261010T1833Z",
+ "scorer": "analysis_2026-10-10_campaign/score_register.py",
+ "test": "H-C falsification: converged mechanism passing all CAMPAIGN_DESIGN 7.2 floor criteria",
+ "label": "smoke test, not a registered result",
+ "run": "run_0067",
+ "control": "run_0061",
+ "floor_metrics": {
+  "valid_fraction": 0.125,
+  "floor_ratio_dec": -0.28604133593207426,
+  "d_floor_ratio_dec": -0.2860110006695592,
+  "floor_slope_dec_per_V": null,
+  "slope_limit_dec_per_V": 0.19944267467199053
+ },
+ "criteria": {
+  "valid_ge_80pct": false,
+  "d_floor_within_0p5dec": true,
+  "slope_ok": false,
+  "kcl_pass_window_run_and_control": true
+ },
+ "converged": null,
+ "convergence_evidence": "QTNLSC: needs the registered S2-11 hc_mesh score (--mesh-score)",
+ "verdict": "does not explain the floor (no falsification from this mechanism)"
+}

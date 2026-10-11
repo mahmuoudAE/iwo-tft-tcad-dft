@@ -1,0 +1,83 @@
+{
+ "run_id": "run_0038",
+ "run_dir": "results/runs/run_0038_2p0_recal_dos384_2p0",
+ "thickness_nm": 2.0,
+ "status_runner": "REAL_ATLAS_SCORED",
+ "labels": {
+  "vth_cc": "constrained by the shared whole-curve fit (one Q_f for all films); FITTED-parameter output, not a prediction",
+  "ss": "not fitted directly (shape; shared N_s, W_T)",
+  "mu_fe": "not fitted directly (shape; shared mu law scale)",
+  "pl": "not fitted directly (power-law summary of the simulated curve)",
+  "rmse": "objective term of the shared calibration",
+  "held_out": "S5 held-out film only: retrospective transferability, not validation"
+ },
+ "extraction": {
+  "vth_cc_V": 0.6804217075938547,
+  "vth_cc_sig_V": 0.0015,
+  "vth_cc_5e-10_V": 0.6015930731951019,
+  "ss_fixed_mV_dec": 179.8552260293772,
+  "ss_fixed_window_A_per_um": [
+   5e-11,
+   5e-10
+  ],
+  "ss_a1_mV_dec": 126.41585100024034,
+  "ss_a1_window_A_per_um": [
+   1.093376298910017e-11,
+   1.0933762989100171e-10
+  ],
+  "mu_fe": {
+   "1.0": 1.3205006240658845,
+   "1.5": 5.526250738232485,
+   "2.0": 9.324652807976324,
+   "2.5": 10.672926074699149,
+   "3.0": 11.09597632355727
+  },
+  "vth_elr_V": 1.186545041548058,
+  "pl_vt_V": 0.5741212732851274,
+  "pl_mu0": 4.711094960579348,
+  "pl_gamma": 0.7650758760586902,
+  "off_floor_sim_A_per_um": 3.945e-20,
+  "guard": "analyse() completed",
+  "invalid": {}
+ },
+ "campaign_metrics": {
+  "rmse_sub_dec": 0.0361972675963451,
+  "rmse_on_dec": 0.032522519802495126,
+  "J_term": 0.0011839782378725511,
+  "windows": {
+   "sub": {
+    "points": 10,
+    "covered": 10,
+    "coverage": 1.0,
+    "rmse_dec": 0.0361972675963451,
+    "mean_signed_dec": 0.00013069836632748633
+   },
+   "on": {
+    "points": 41,
+    "covered": 41,
+    "coverage": 1.0,
+    "rmse_dec": 0.032522519802495126,
+    "mean_signed_dec": -0.004793153842873669
+   },
+   "J_term": 0.0011839782378725511,
+   "coverage_ok_95pct": true
+  },
+  "dVth_cc_V": 0.018601206819662486,
+  "Id3V_err_pct": 0.0017682910056660006,
+  "mu_fe_err_pct": {
+   "1.5": 6.899580746427758,
+   "2.0": 6.3728344737223885,
+   "3.0": -8.644602048858163
+  },
+  "measured_reference": {
+   "vth_cc_V": 0.6618205007741922,
+   "mu_fe": {
+    "1.5": 5.169571947471978,
+    "2.0": 8.766009530638033,
+    "3.0": 12.145944927623823
+   },
+   "floor_A_per_um": 4.60552e-15,
+   "ion_A_per_um": 5.08966e-07
+  }
+ }
+}

@@ -33,7 +33,18 @@ def load_configs():
     m = yaml.safe_load((ROOT / MODEL_FILE).read_text())
     g = yaml.safe_load((ROOT / 'config' / 'geometry.yaml').read_text())
     s = yaml.safe_load((ROOT / 'config' / 'solver.yaml').read_text())
+    # 2026-10-10: campaign physics options (config/physics_options.yaml, every option OFF) -> s['physics_options'], so the
+    # existing 'solver.' override prefix reaches them (solver.physics_options.<option>.<key>=value). Missing file = all OFF.
+    po = ROOT / 'config' / 'physics_options.yaml'
+    if 'physics_options' not in s: s['physics_options'] = (yaml.safe_load(po.read_text()) or {}) if po.is_file() else {}
     return m, g, s
+
+def on(x):
+    """explicit boolean for option flags: set_dotted() turns 1 into 1.0 and keeps 'false' as a (truthy) string"""
+    return str(x).strip().lower() in ('1', '1.0', 'true', 'yes', 'on')
+
+def pline(name, v, unit, label, src):
+    return f'# {name} = {v} {unit} | {label} | {src}'
 
 def set_dotted(d, path, value):
     """Override 'a.b.c=value'. A segment in brackets may contain a dot and matches numeric keys:
@@ -86,6 +97,9 @@ def material_at(m, t):
     Nd = L['Nd_eff_cm3']['Nd0'] * (1.0 + (t / L['Nd_eff_cm3']['tc_nm']) ** L['Nd_eff_cm3']['k'])
     Dsr = L['mu0_cm2Vs']['Dsr_nm']; rough = (1.0 - Dsr / t) ** 2
     mb = L['mu0_cm2Vs']['mu_band_fitted']; mu_band = mb.get(t, mb.get(str(t), None))
+    if mu_band is None and 'shared_law' in L['mu0_cm2Vs']:
+        # V3 (2026-10-10): thickness without a listed value -> shared law mu_inf*(m_ref/m*(t))/(1+ell/t) (FITTED mu_inf, ell)
+        sl = L['mu0_cm2Vs']['shared_law']; mu_band = float(sl['mu_inf_cm2Vs']) * (float(sl['m_ref_m0']) / mstar) / (1.0 + float(sl['ell_nm']) / t)
     if mu_band is None: mu_band = float(np.interp(t, sorted(float(k) for k in mb), [mb[k] for k in sorted(mb, key=float)]))
     mu0 = mu_band * rough
     tr = m['traps']; ct = m['contacts']
@@ -129,17 +143,151 @@ def defects_block(p, region, di_nm, interface, back=False):
             f' siggae={sig:.3g} siggah={sig:.3g} siggde={sig:.3g} siggdh={sig:.3g} \\',
             f' afile=acceptor_r{region}.dat dfile=donor_r{region}.dat']
 
-def build_deck(t, m, g, s, meas=None, targets=None, smoke=False, full=False, vstep=None, segments=None, output_vgs=None, vd_segments=None):
+def strip_points(vds):
+    """drain points of the strip sweep [(end V, step V), ...] from 0 V; each segment must advance by whole positive steps
+    and the points must include 0.1 and 0.7 V (the ohmic-ratio test)"""
+    pts, a = [], 0.0
+    for e, st_ in vds:
+        n = (e - a) / st_ if st_ > 0 else -1.0
+        if not (math.isfinite(e) and math.isfinite(st_) and st_ > 0 and e > a and abs(n - round(n)) < 1e-6): raise ValueError(f'strip vd_segments: bad segment ({e}, {st_}) after {a} V')
+        pts += [round(a + i * st_, 6) for i in range(1, int(round(n)) + 1)]; a = e
+    if not all(any(abs(x - v) < 1e-9 for x in pts) for v in (0.1, 0.7)): raise ValueError('strip vd_segments must include 0.1 and 0.7 V')
+    return pts
+
+def campaign_options(p, s, t):
+    """2026-10-10 campaign physics options (config/physics_options.yaml; GENERATOR_AUDIT.md sections 7-8). Returns (p, o):
+    p with the DOS options applied, o = deck lines / MODELS flags / mesh requests to insert at fixed places in build_deck.
+    Every option OFF -> p unchanged, every list empty, nothing emitted (V1/V2 decks stay byte-identical)."""
+    po = s.get('physics_options') or {}; p = dict(p)
+    o = {'hdr': [], 'models': [], 'iwo_mat': [], 'mat': [], 'gate_sfx': '', 'contacts': [], 'doping': [], 'jtun': False, 'extract': [],
+         'nc_override': False, 'nt_bulk': 0.0, 'oxide_mesh_um': None, 'top_mesh_um': None, 'strip_in_solver': False, 'gate_needed': False,
+         'qt_mesh': None, 'qtnlsc': False, 'sd_sfx': '', 'oxide_mesh_factor': 1.0, 'zeroed': ()}
+    # 2026-10-11 (review): comment-only provenance line for intervention decks (register H-E). affinity_only (AFF-*): dEc law set to 0;
+    # confinement_off (S3-01..03): dEc, dEg and dm* laws set to 0. build_deck checks the law values and relabels those law lines;
+    # no solver statement changes. none (default) = nothing emitted.
+    iv = str(po.get('intervention', 'none')).strip().lower()
+    if iv not in ('none', 'affinity_only', 'confinement_off'): raise ValueError(f'intervention={iv}: none | affinity_only | confinement_off')
+    if iv != 'none':
+        o['zeroed'] = ('dEc_eV',) if iv == 'affinity_only' else ('dEc_eV', 'dEg_QC_eV', 'mstar_m0')
+        o['hdr'].append(pline('[B] OPTION ' + ('affinity-only' if iv == 'affinity_only' else 'all-confinement-off') + ' intervention',
+                              'dEc = 0 (affinity = chi_bulk); E_g, m*, NC300 and mobility unchanged' if iv == 'affinity_only' else
+                              'dEc = dEg = dm* = 0; NC300 3-D with the bulk mass; mobility law without the DFT mass factor', '',
+                              'INTERVENTION (register H-E ' + ('AFF-2p0/AFF-6p3' if iv == 'affinity_only' else 'S3-01..03') + '), not a fitted law', 'physics_options.intervention'))
+    # C2 NC300 replacement at listed thicknesses (quasi-2D DOS at 2 nm by the pre-registered single-subband rule)
+    for k, v in (po.get('nc300_override_cm3') or {}).items():
+        if abs(float(k) - t) < 1e-6:
+            o['hdr'].append(pline('[B] OPTION NC300 override', f'{float(v):.4e} (3-D formula would give {p["Nc_cm3"]:.4e})', 'cm^-3', po.get('nc300_override_label', 'CALCULATED'), 'physics_options.nc300_override_cm3'))
+            p['Nc_cm3'] = float(v); o['nc_override'] = True
+    # C3 constant bulk term of the acceptor tail
+    nb = float(po.get('nt_bulk_cm3') or 0.0)
+    if nb:
+        o['hdr'].append(pline('[D] OPTION Nt bulk term', f'{nb:.4e} (Nt = {p["Nt_cm3"]:.4e} + {nb:.4e})', 'cm^-3', po.get('nt_bulk_label', ''), 'physics_options.nt_bulk_cm3'))
+        p['Nt_cm3'] += nb; p['NTA_cm3_eV'] = p['Nt_cm3'] / p['WTA_eV']; o['nt_bulk'] = nb
+    # C4 gate leakage, self-consistent only (KCL closes)
+    gt = po.get('gate_tunnelling') or {}
+    # 2026-10-11 (register H-C, S2-11 redefined): oxide_mesh_factor multiplies the device y.mesh spacing at the Al2O3 and HfO2
+    # lines (0.5 = oxide y-mesh x0.5); slicing stays as set (automatic by default). 1.0 = unchanged deck; needs gate tunnelling.
+    omf = 1.0 if gt.get('oxide_mesh_factor') is None else float(gt['oxide_mesh_factor'])   # 2026-10-11 review: 0 reaches the range check
+    if omf != 1.0 and not on(gt.get('enabled')): raise ValueError('gate_tunnelling.oxide_mesh_factor != 1 needs gate_tunnelling.enabled=1 (leakage numerics check)')
+    if not 0 < omf <= 1: raise ValueError(f'gate_tunnelling.oxide_mesh_factor={omf}: must be in (0, 1] (refinement only)')
+    if on(gt.get('enabled')):
+        mdl = str(gt.get('model', 'qtnlsc')).lower(); sname = str(gt.get('set', 'nominal')).lower(); ox = gt['sets'][sname]
+        if mdl not in ('qtnlsc', 'fnord'): raise ValueError(f'gate_tunnelling.model={mdl}: only the self-consistent qtnlsc | fnord are supported')
+        o['mat'] += [f'# [T] OPTION gate tunnelling ({mdl}, oxide set "{sname}"): {ox.get("label", "")}',
+                     f'material region=3 affinity={float(ox["al2o3_affinity"]):g} eg300={float(ox["al2o3_eg"]):g} me.tunnel={float(ox["al2o3_me_tunnel"]):g}',
+                     f'material region=4 affinity={float(ox["hfo2_affinity"]):g} eg300={float(ox["hfo2_eg"]):g} me.tunnel={float(ox["hfo2_me_tunnel"]):g}']
+        if mdl == 'qtnlsc':
+            o['models'] += ['qtnlsc.el', 'qtnl.derivs']; o['gate_sfx'] = f' qtunn.cmass={float(gt.get("gate_qtunn_cmass", 1.0)):g}'; o['qtnlsc'] = True
+            # 2026-10-10 (run_0066 diagnosis): slices are built automatically by default (PDF p.302: Atlas-generated mesh ->
+            # automatic slicing; QTX/QTY.MESH is the option for Athena/DevEdit meshes; installed QTNLSC examples diodeex12 and
+            # solarex15 use automatic slicing). On the rectangular QT mesh, run_0066 booked the tunnel current to electrodes
+            # only (drift-diffusion currents bit-identical to run_0061/0065: no continuity coupling, KCL failed). qt_mesh=1
+            # reproduces the run_0063..0066 form.
+            if on(gt.get('qt_mesh', 0)): o['qt_mesh'] = (float(gt.get('qt_slice_um', 0.2)), float(gt.get('qt_point_nm', 0.5)) / 1000.)
+            # NEARFLG is set automatically for quantum tunnelling (PDF p.303): the Pd pads, 2 nm above the IWO/Al2O3 interface
+            # (gate 17 nm below), took the current of every slice under them in run_0066. EXCLUDE_NEAR removes them (p.303, p.1157).
+            if on(gt.get('exclude_near_sd', 1)): o['sd_sfx'] = ' exclude_near'
+            o['hdr'].append(pline('[T] OPTION gate tunnelling', f'QTNLSC.EL self-consistent, set {sname}, gate qtunn.cmass {float(gt.get("gate_qtunn_cmass", 1.0)):g}, '
+                                  f'slicing {"QT mesh" if o["qt_mesh"] else "automatic"}, S/D exclude_near {int(bool(o["sd_sfx"]))}', '', ox.get('label', ''), 'GENERATOR_AUDIT 7.5; PDF p.301-303, p.1157'))
+        else:
+            fae = float(gt.get('f_ae') or 0) or float(ox['f_ae']); fbe = float(gt.get('f_be') or 0) or float(ox['f_be'])
+            o['models'] += ['fnord', f'f.ae={fae:.4g}', f'f.be={fbe:.4g}']
+            o['extract'].append('extract name="IfnVg" curve(v."gate",ifn."gate") outfile="ifnvg.dat"')
+            o['hdr'].append(pline('[T] OPTION gate tunnelling', f'FNORD self-consistent, set {sname}, F.AE {fae:.4g} A/V^2, F.BE {fbe:.4g} V/cm (HfO2-barrier constants transferred to the field ATLAS uses, at the Al2O3/IWO segment)', '', 'CALCULATED (Lenzlinger-Snow) from ' + ox.get('label', ''), 'GENERATOR_AUDIT 7.5; PDF p.288 l.13034-13038 (field at the insulator-semiconductor segment)'))
+        o['jtun'] = True; o['gate_needed'] = True
+        # FNORD (local, field at the interface) needs the fine device oxide mesh; QTNLSC keeps the baseline device mesh (run_0067
+        # equilibrium.str: 15 y intervals in Al2O3, 0.06-0.25 nm, and 28 in HfO2, 0.24-0.99 nm, i.e. 16 + 29 lines sharing the 2 nm line;
+        # run_0062 = 0.25 nm HfO2 line + QTNLSC, 13,689 nodes, ran out of memory at the old 2 GB limit).
+        # oxide_mesh_factor scales the 0.002 and 0.017 um lines only; the y = 0 IWO/Al2O3 line (shared with the IWO interface mesh) is
+        # kept, so x0.5 gives about 22 Al2O3 intervals (largest 0.25 -> 0.125 nm, smallest unchanged) and about 55 HfO2 intervals
+        # (geometric-grading estimate that reproduces the 15/28 of run_0067): Al2O3 refined about x1.5, HfO2 about x2.
+        if mdl == 'fnord': o['oxide_mesh_um'] = float(gt.get('oxide_mesh_nm', 0.25)) / 1000.
+        if omf != 1.0:
+            o['oxide_mesh_factor'] = omf
+            o['hdr'].append(pline('[H] OPTION oxide y-mesh factor', f'x{omf:g} on the Al2O3 and HfO2 y.mesh spacings ({"QT mesh" if o["qt_mesh"] else "automatic"} slicing unchanged)', '',
+                                  'NUMERICAL (leakage convergence check; register H-C: S2-11 = oxide y-mesh x0.5 under automatic slicing)', 'physics_options.gate_tunnelling.oxide_mesh_factor'))
+    # C9 defect-assisted (Ielmini) oxide tunnelling
+    ot = po.get('oxide_tat') or {}
+    if on(ot.get('enabled')):
+        reg = int(float(ot.get('region', 4)))
+        o['doping'] += [f'# [T] OPTION oxide trap-assisted tunnelling (Ielmini ITAT.SC.EL), region {reg}: {ot.get("label", "")}',
+                        f'doping region={reg} uniform tat.trap conc={float(ot["conc_cm3"]):.6g} acceptor sign={float(ot["sign_cm2"]):.3g} sigp={float(ot["sigp_cm2"]):.3g} e.level={float(ot["e_level_eV"]):g}']
+        o['models'].append('itat.sc.el'); o['jtun'] = True; o['gate_needed'] = True
+        tp = on(ot.get('poisson', 1))   # 2026-10-10 review fix: poisson=0 -> MODELS ^tat.poisson (trap charge kept out of Poisson, PDF p.323)
+        if not tp: o['models'].append('^tat.poisson')
+        o['hdr'].append(pline('[T] OPTION oxide TAT', f'{float(ot["conc_cm3"]):.3g} cm^-3 at {float(ot["e_level_eV"]):g} eV below the oxide Ec (region {reg}); trap charge in Poisson: {"yes (TAT.POISSON default)" if tp else "no (^tat.poisson: isolates the TAT current)"}', '', ot.get('label', ''), 'PDF p.320-327; quantumex20'))
+    # C5 Schottky Pd source/drain
+    sc = po.get('schottky_sd') or {}
+    if on(sc.get('enabled')):
+        if p['rs_ohm_um'] > 0: raise ValueError('schottky_sd together with a lumped series resistance would need two CONTACT statements per electrode')
+        phib = float(sc.get('barrier_eV', 0.5)); wf = p['chi_eV'] + phib; ar = float(sc.get('richardson_A_cm2K2', 120.17)) * p['mstar_m0']
+        tail = (' barrier' if on(sc.get('lowering', 1)) else '') + (f' e.tunnel me.tunnel={p["mstar_m0"]:.6g}' if on(sc.get('e_tunnel', 1)) else '')
+        o['contacts'] += [f'# [G] OPTION Schottky Pd S/D: workfun = AFFINITY + {phib:g} eV; ^ins.ohmic because the Pd volumes also touch Air (INS.OHMIC default True).',
+                          f'contact name=source workfun={wf:.6g} surf.rec{tail} ^ins.ohmic{o["sd_sfx"]}', f'contact name=drain workfun={wf:.6g} surf.rec{tail} ^ins.ohmic{o["sd_sfx"]}']   # sd_sfx: QTNLSC exclude_near (one CONTACT per electrode)
+        o['iwo_mat'].append(f'arichn={ar:.6g}'); o['top_mesh_um'] = float(sc.get('top_mesh_nm', 0.1)) / 1000.
+        o['hdr'].append(pline('[G] OPTION Schottky S/D', f'phiB {phib:g} eV, workfun {wf:.4f} eV, ARICHN {ar:.4g} A/cm^2/K^2, lowering {int(on(sc.get("lowering", 1)))}, e.tunnel {int(on(sc.get("e_tunnel", 1)))}', '', sc.get('label', ''), 'PDF p.158-161, p.1151-1159'))
+    # C6 carrier-density mobility (one MOBILITY line before SOLVE INIT; MOBILITY between SOLVEs is ignored, run_0008)
+    mo = po.get('mobility') or {}; mm = str(mo.get('model', 'constant')).lower()
+    if mm == 'igzo_tokyo':
+        tm = float(s['tmun']) if s.get('tmun') is not None else 0.0
+        o['mat'] += [f'# [F] OPTION IGZO.TOKYO mobility mu = MUN*(n/NCRIT)^(gamma/2), gamma = TGAMMA/T + GAMMA0; MUN and TMUN restated (MOBILITY defaults 15 / 1.5): {mo.get("label", "")}',
+                     f'mobility material=IWO igzo.tokyo mun={p["mu0"]:.6g} mup={p["mup"]:.6g} tmun={tm:g} tmup=0 igzo.gamma0={float(mo["gamma0"]):g} igzo.tgamma={float(mo["tgamma"]):g} igzo.ncrit={float(mo["ncrit"]):g}']
+        o['hdr'].append(pline('[F] OPTION IGZO.TOKYO', f'GAMMA0 {float(mo["gamma0"]):g}, TGAMMA {float(mo["tgamma"]):g} K, NCRIT {float(mo["ncrit"]):g} cm^-3', '', mo.get('label', ''), 'PDF p.195-196; tft/tftex21'))
+    elif mm != 'constant': raise ValueError(f'mobility.model={mm}: constant | igzo_tokyo')
+    # C7 Bohm quantum potential (paired test: never together with the DFT conduction-band shift)
+    qo = po.get('quantum') or {}; qm = str(qo.get('model', 'none')).lower()
+    if qm == 'bqp':
+        if abs(p['dEc_eV']) > 0: raise ValueError('quantum.model=bqp needs the DFT shifts off in the same run (thickness_laws.dEc_eV.a=0): double counting')
+        o['models'] += ['bqp.n', f'bqp.ngamma={float(qo["ngamma"]):g}', f'bqp.nalpha={float(qo["nalpha"]):g}', f'bqp.qdir={int(float(qo["qdir"]))}']
+        if on(qo.get('set_mass', 1)): mq = float(qo['mass']); o['iwo_mat'].append(f'ml={mq:g} mt1={mq:g} mt2={mq:g}')
+        o['hdr'].append(pline('[B] OPTION BQP', f'ngamma {float(qo["ngamma"]):g}, nalpha {float(qo["nalpha"]):g}, qdir {int(float(qo["qdir"]))}, mass {float(qo["mass"]):g} m0 (isotropic ml=mt1=mt2: {int(on(qo.get("set_mass", 1)))})', '', qo.get('label', ''), 'PDF p.835-840'))
+    elif qm not in ('none', 'off', 'false', '0', '0.0'): raise ValueError(f'quantum.model={qm}: none | bqp')
+    # C8 in-solver ungated strip (geometry is built in build_deck)
+    so = po.get('strip') or {}
+    if str(so.get('mode', 'none')).lower() == 'in_solver':
+        if mm == 'igzo_tokyo': raise ValueError('strip in_solver scales the strip MUN by region; a MOBILITY material=IWO line would override it')
+        o['strip_in_solver'] = True
+    elif str(so.get('mode', 'none')).lower() not in ('none', 'off', 'false', '0', '0.0'): raise ValueError('strip.mode: none | in_solver (separate deck: campaign mode "strip")')
+    return p, o
+
+def build_deck(t, m, g, s, meas=None, targets=None, smoke=False, full=False, vstep=None, segments=None, output_vgs=None, vd_segments=None, strip=False):
     """full: physical structure (Air above the channel, Pd source/drain volumes, Al2O3 and HfO2 regions, Conductor
     gate volume representing TiN). segments: [(end_V, step_V), ...] -> ATLAS stepped sweep blocks
     SOLVE VSTEP=.. VFINAL=.. NAME=gate (one block per segment, split at the METHOD switch and the Vth save);
     vstep: shorthand for a single segment. Neither -> one SOLVE per point (legacy).
     output_vgs: PREDICTION mode (2026-09-25) - ID-VD families at these gate voltages instead of the transfer sweep;
-    vd_segments: [(end_V, step_V), ...] drain sweep from 0 V (stepped SOLVE VSTEP/VFINAL NAME=drain blocks)."""
+    vd_segments: [(end_V, step_V), ...] drain sweep from 0 V (stepped SOLVE VSTEP/VFINAL NAME=drain blocks).
+    strip (2026-10-10, GENERATOR_AUDIT 7.11 A): separate two-terminal UNGATED strip deck of length physics_options.strip.L_p_um
+    (no gate volume or electrode; drain stepped 0 -> 0.1 -> 0.7 V); needs the full structure."""
     # Hypothesis option: the PHYSICAL film thickness (geometry AND thickness laws) may differ from the nominal XRR
     # thickness t that labels the measured curve (geometry.film_thickness_override_nm). Default: identical.
     t_nom = t; t = float(g.get('film_thickness_override_nm') or t_nom)
     p = material_at(m, t); key = KEYS[t_nom]
+    p, o = campaign_options(p, s, t)   # 2026-10-10 options; all OFF -> p unchanged and o empty
+    so = (s.get('physics_options') or {}).get('strip') or {}; insolver = o['strip_in_solver']
+    if (strip or insolver) and not full: raise ValueError('strip decks need the full physical structure (Pd volumes)')
+    if strip and (insolver or o['gate_needed']): raise ValueError('the separate strip deck has no gate: gate tunnelling / oxide TAT / in_solver strip not allowed')
+    if insolver and (p['bs_peak'] > 0 or p['Qb_cm2'] != 0): raise ValueError('in_solver strip does not reproduce the back-surface sheet / Qb on the strip')
     T_run = 300.0
     import re as _re
     _mt = _re.search(r'temp=([0-9.]+)', s['models'])
@@ -147,6 +295,10 @@ def build_deck(t, m, g, s, meas=None, targets=None, smoke=False, full=False, vst
     if vstep and not segments: segments = [(float(g['gate_sweep_V']['stop']), float(vstep))]
     st = g['stack_bottom_to_top']; tox_hf = st[2]['thickness_nm'] / 1000.; tox_al = st[3]['thickness_nm'] / 1000.
     tt = t / 1000.; di = g['mesh']['interface_layer_nm'] / 1000.; lc = val(g['contact_overlap_um']); L = g['channel_length_um']; xr = lc + L; xmax = xr + lc
+    if strip: L = float(so.get('L_p_um', L)); xr = lc + L; xmax = xr + lc   # separate strip deck: film length L_p between the Pd volumes
+    if insolver:   # in-solver strip beyond the drain: gap, Pd pad, strip L_s, Pd pad (ASSUMED geometry)
+        xs0 = xmax + float(so['gap_um']); xpad = float(so['pad_um']); xs1 = xs0 + 2 * xpad + float(so['L_s_um'])
+    xox = xs1 if insolver else xmax   # x extent of the Al2O3/HfO2 regions
     Cox = cox(g); qf = p['Qf_cm2']
     sweep = g['gate_sweep_V']; vg = np.round(np.arange(sweep['start'], sweep['stop'] + 1e-9, sweep['step']), 6) if targets is None else np.asarray(targets, float)
     if smoke: vg = np.array([-3., 0., 3.])
@@ -154,9 +306,16 @@ def build_deck(t, m, g, s, meas=None, targets=None, smoke=False, full=False, vst
     ybulk = -tt + di if back else -tt
     ysp_bulk = min(g['mesh']['y_spacing_bulk_nm'] if isinstance(g['mesh']['y_spacing_bulk_nm'], (int, float)) else 1.0, t / 8) / 1000.
     ysi = g['mesh']['y_spacing_interface_nm'] / 1000.
-    ys = ([(-tt, ysi), (-tt + di, ysi), (-tt + 4 * di, ysp_bulk)] if back else [(-tt, ysp_bulk)]) + [(-di, ysi), (-di / 2, ysi), (0., ysi), (tox_al, g['mesh']['y_spacing_al2o3_nm'] / 1000.), (tox_al + tox_hf, g['mesh']['y_spacing_hfo2_nm'] / 1000.)]
+    sp_al = g['mesh']['y_spacing_al2o3_nm'] / 1000.; sp_hf = g['mesh']['y_spacing_hfo2_nm'] / 1000.
+    if o['oxide_mesh_um'] is not None: sp_al = min(sp_al, o['oxide_mesh_um']); sp_hf = min(sp_hf, o['oxide_mesh_um'])   # gate tunnelling: oxide slices
+    if o['oxide_mesh_factor'] != 1.0: sp_al *= o['oxide_mesh_factor']; sp_hf *= o['oxide_mesh_factor']   # leakage numerics check (S2-11: x0.5)
+    ys = ([(-tt, ysi), (-tt + di, ysi), (-tt + 4 * di, ysp_bulk)] if back else [(-tt, ysp_bulk)]) + [(-di, ysi), (-di / 2, ysi), (0., ysi), (tox_al, sp_al), (tox_al + tox_hf, sp_hf)]
+    if o['top_mesh_um'] is not None:   # Schottky S/D: refine the film top (contact side) and add a line 3 nm below it
+        ys[0] = (ys[0][0], min(ys[0][1], o['top_mesh_um']))
+        if -tt + 0.003 < -4 * di and all(abs(y - (-tt + 0.003)) > 1e-9 for y, _ in ys): ys = sorted(ys + [(-tt + 0.003, 0.0002)])
+        if -tt + 0.006 < -di - 0.002: ys = sorted(ys + [(-tt + 0.006, ysp_bulk)])   # back to the bulk spacing (keeps a 13.2 nm deck near 14k nodes)
     t_pd = st[5]['thickness_nm'] / 1000.; t_tin = st[1]['thickness_nm'] / 1000.; ytop = -tt - t_pd; ygate = tox_al + tox_hf + t_tin
-    if full: ys = [(ytop, 0.02)] + ys + [(ygate, 0.02)]
+    if full: ys = [(ytop, 0.02)] + ys + ([] if strip else [(ygate, 0.02)])   # separate strip deck: domain ends at the HfO2 bottom (Neumann, no gate)
     # strict-acceptance switch voltage from the measured curve
     sa = s['strict_acceptance']; cr_strict = float(sa['cr_toler_A']); switch_v = float(sa.get('prediction_switch_V', 0.5))   # no measurement: prediction runs set it
     if meas is not None:
@@ -164,10 +323,20 @@ def build_deck(t, m, g, s, meas=None, targets=None, smoke=False, full=False, vst
         off = float(np.median(mi[(mv >= -2) & (mv <= -.5)])); act = mi > s['scoring']['active_multiplier'] * off if t_nom < 20 else np.ones(len(mi), bool)
         if act.any(): cr_strict = max(cr_strict, float(sa['cr_tol_rel_active_min']) * float(mi[act].min()))
     base = f'method {s["method_base"]}'; strict = base + f' \\\n cr.toler={cr_strict:.3g} xandrnorm {s["carriers"]}'; relaxed = base + f' \\\n cr.toler=5e-18 ^xandrnorm {s["carriers"]}'
+    if strip:
+        # strip acceptance by the transfer-deck switch rule applied to the EXPECTED strip current floor/(L_p (W/L)_par):
+        # strict (XANDRNORM) at or below until_measured_current_A_per_um, default acceptance above
+        i_exp = float(np.median(meas[1][(meas[0] >= -2) & (meas[0] <= -.5)])) / (L * float(so['wl_par_per_um'])) if meas is not None else 0.0
+        strip_strict = i_exp <= float(sa['until_measured_current_A_per_um'])
     P = lambda name, v, unit, label, src: f'# {name} = {v} {unit} | {label} | {src}'
     Lw = m['thickness_laws']; b = m['bulk_reference']
     v2 = m.get('schema') != 'IWO_material_model_v1'
     src = lambda spec, default: spec.get('source', default) if v2 else default
+    # 2026-10-11 (review): intervention decks (physics_options.intervention) relabel the laws they set to 0; comment lines only
+    if o['zeroed'] and ('dEc_eV' not in Lw or abs(p['dEc_eV']) > 1e-12 or ('dEg_QC_eV' in o['zeroed'] and abs(p['dEg_QC_eV']) > 1e-12)
+                        or ('mstar_m0' in o['zeroed'] and abs(p['mstar_m0'] - val(b['mstar_bulk_m0'])) > 1e-12)):
+        raise ValueError(f'physics_options.intervention: the laws {o["zeroed"]} must evaluate to 0 in this deck')
+    lab = lambda k: Lw[k]['label'] if k not in o['zeroed'] else 'DFT increment SET TO 0 (intervention): bulk mass only' if k == 'mstar_m0' else 'SET TO 0 (intervention)'
     ls = ['#' + '=' * 78, f'# IWO (~2 at.% W:In2O3) FET, channel t = {t} nm  --  IWO_PHYSICS_CONSTRAINED_MODEL_V1' + (f'  [{m["schema"]}]' if v2 else ''),
           f'# Generated by scripts/build_iwo_decks.py from {MODEL_FILE} (ONE material model for all',
           '# thicknesses). Reduced electrical deck: ideal TiN gate / Pd S/D boundaries (equipotential metals, DC).',
@@ -176,17 +345,17 @@ def build_deck(t, m, g, s, meas=None, targets=None, smoke=False, full=False, vst
           '# Category labels: A intrinsic, B confinement, D bulk defects, E interface, F transport, G contacts, H numerical.',
           '#' + '=' * 78,
           P('[A] Eg_bulk', val(b['Eg_bulk_eV']), 'eV', b['Eg_bulk_eV']['label'], b['Eg_bulk_eV']['source']),
-          P('[B] dEg_QC(t)', f'{p["dEg_QC_eV"]:.4f}', 'eV', Lw['dEg_QC_eV']['label'], f'a*t^-p, a={Lw["dEg_QC_eV"]["a"]}, p={Lw["dEg_QC_eV"]["p"]} ({src(Lw["dEg_QC_eV"], "Lin2022 slabs, Si2021")})'),
+          P('[B] dEg_QC(t)', f'{p["dEg_QC_eV"]:.4f}', 'eV', lab('dEg_QC_eV'), f'a*t^-p, a={Lw["dEg_QC_eV"]["a"]}, p={Lw["dEg_QC_eV"]["p"]} ({src(Lw["dEg_QC_eV"], "Lin2022 slabs, Si2021")})'),
           P('[A+B] EG300', f'{p["Eg_eV"]:.4f}', 'eV', 'CALCULATED', 'Eg_bulk + dEg_QC(t)'),
           P('[A] chi_bulk', val(b['chi_bulk_eV']), 'eV', b['chi_bulk_eV']['label'], b['chi_bulk_eV']['source'])]
     if 'dEc_eV' in Lw:
-        ls.append(P('[B] dEc(t)', f'{p["dEc_eV"]:.4f}', 'eV', Lw['dEc_eV']['label'], f'a*t^-p, a={Lw["dEc_eV"]["a"]}, p={Lw["dEc_eV"]["p"]} ({src(Lw["dEc_eV"], "")})'))
+        ls.append(P('[B] dEc(t)', f'{p["dEc_eV"]:.4f}', 'eV', lab('dEc_eV'), f'a*t^-p, a={Lw["dEc_eV"]["a"]}, p={Lw["dEc_eV"]["p"]} ({src(Lw["dEc_eV"], "")})'))
     ls += [P('[A+B] AFFINITY', f'{p["chi_eV"]:.4f}', 'eV', 'CALCULATED', 'chi_bulk - dEc(t)' + ('' if 'dEc_eV' in Lw else ', dEc = dEg (Ev unchanged, Si2021)')),
-          P('[A+B] m*', f'{p["mstar_m0"]:.4f}', 'm0', Lw['mstar_m0']['label'], src(Lw['mstar_m0'], 'Stokey2021 bulk 0.208 + Lin2022 PBE increment')),
-          P('[A+B] NC300', f'{p["Nc_cm3"]:.4e}', 'cm^-3', 'CALCULATED', '2(2 pi m* kT/h^2)^1.5; effective continuum DOS at 2 nm'),
+          P('[A+B] m*', f'{p["mstar_m0"]:.4f}', 'm0', lab('mstar_m0'), src(Lw['mstar_m0'], 'Stokey2021 bulk 0.208 + Lin2022 PBE increment')),
+          P('[A+B] NC300', f'{p["Nc_cm3"]:.4e}', 'cm^-3', 'CALCULATED', 'quasi-2D override (OPTION line below)' if o['nc_override'] else '2(2 pi m* kT/h^2)^1.5; effective continuum DOS at 2 nm'),
           P('[A] NV300', f'{p["Nv_cm3"]:.3e}', 'cm^-3', b['Nv300_cm3']['label'], 'holes not solved'),
           P('[A] PERMITTIVITY', p['eps_iwo'], '-', b['eps_r']['label'], b['eps_r']['source']),
-          P('[D] Nt(t)', f'{p["Nt_cm3"]:.4e}', 'cm^-3', Lw['Nt_cm3']['label'], f'Nt2*(2/t)^alpha, Nt2={Lw["Nt_cm3"]["Nt2"]}, alpha={Lw["Nt_cm3"]["alpha"]}'),
+          P('[D] Nt(t)', f'{p["Nt_cm3"]:.4e}', 'cm^-3', Lw['Nt_cm3']['label'], f'Nt2*(2/t)^alpha, Nt2={Lw["Nt_cm3"]["Nt2"]}, alpha={Lw["Nt_cm3"]["alpha"]}' + (f' + Nt_bulk {o["nt_bulk"]:g} (OPTION)' if o['nt_bulk'] else '')),
           P('[D] NTA = Nt/WTA', f'{p["NTA_cm3_eV"]:.4e}', 'cm^-3/eV', 'CALCULATED', 'gTA(E)=NTA exp((E-Ec)/WTA); integral = NTA*WTA*(1-exp(-Eg/WTA))'),
           P('[D] WTA (kTt)', p['WTA_eV'], 'eV', Lw['WTA_eV']['label'], f'Tt = {p["WTA_eV"] / KB:.0f} K; shared across thickness'),
           P('[D] deep acceptor Gaussian', f'{p["NGA"]:.3g} at Ec-{p["EGA"]} eV, W={p["WGA"]}', 'cm^-3/eV', m['traps']['bulk_deep_acceptor_gaussian']['label'], ''),
@@ -194,19 +363,23 @@ def build_deck(t, m, g, s, meas=None, targets=None, smoke=False, full=False, vst
           P('[E] interface acceptor sheet', f'{p["it_peak"]:.3g} at Ec-{p["it_e"]} eV, W={p["it_w"]} eV', 'cm^-2/eV', m['traps']['interface_acceptor_sheet']['label'], m['traps']['interface_acceptor_sheet']['implementation']),
           P('[E] Qf', f'{qf:.4e}', 'cm^-2', m['traps']['fixed_interface_charge_Qf_cm2']['label'], f'dVfb = -q Qf/Cox = {-Q * qf / Cox:+.4f} V'),
           P('[F] mu_band(t)', p['mu_band'], 'cm^2/Vs', 'FITTED per thickness' if not v2 else
-            ('FITTED (anchor film)' if any(abs(t - x) < 1e-6 for x in Lw['mu0_cm2Vs'].get('anchor_thicknesses_nm', [])) else
+            (Lw['mu0_cm2Vs']['shared_law']['label'] if 'shared_law' in Lw['mu0_cm2Vs'] else   # V3: one shared law for all films
+             'FITTED (anchor film)' if any(abs(t - x) < 1e-6 for x in Lw['mu0_cm2Vs'].get('anchor_thicknesses_nm', [])) else
              'NOT FITTED: pre-registered prediction rule or scenario value'), Lw['mu0_cm2Vs']['label']),
           P('[F] roughness factor', f'{p["rough"]:.4f}', '-', Lw['mu0_cm2Vs']['Dsr_label'], f'(1 - Dsr/t)^2, Dsr = {Lw["mu0_cm2Vs"]["Dsr_nm"]} nm'),
           P('[F] MUN = mu_band*(1-Dsr/t)^2', f'{p["mu0"]:.4f}', 'cm^2/Vs', 'CALCULATED', Lw['mu0_cm2Vs']['gate_dependence']),
           P('[G] gate work function', p['gate_wf'], 'eV', m['contacts']['gate_workfunction_eV']['label'], ''),
           P('[G] S/D', m['contacts']['source_drain']['model'] + (f'; series R {p["rs_ohm_um"]:.3g} ohm.um total' if p['rs_ohm_um'] > 0 else ''), '', m['contacts']['source_drain']['label'], ''),
-          P('[H] capture cross sections', p['sig'], 'cm^2', m['traps']['bulk_acceptor_tail']['capture_label'], 'not identifiable from DC transfer curves'),
-          '#' + '=' * 78, 'go atlas', f'mesh width={float(g["simulated_width_um"])}']
+          P('[H] capture cross sections', p['sig'], 'cm^2', m['traps']['bulk_acceptor_tail']['capture_label'], 'not identifiable from DC transfer curves')]
+    if strip: o['hdr'].append(pline('[S] OPTION UNGATED STRIP DECK', f'L_p {L:g} um, no gate volume or electrode, drain stepped from 0 V, (W/L)_par applied after the solve', '', so.get('label', ''), 'GENERATOR_AUDIT 7.11 A'))
+    if insolver: o['hdr'].append(pline('[S] OPTION IN-SOLVER STRIP', f'gap {float(so["gap_um"]):g} um, L_s {float(so["L_s_um"]):g} um, pads {xpad:g} um, region MUN x (W/L)_par*L_s = {float(so["wl_par_per_um"]) * float(so["L_s_um"]):.4g}, Qf on strip {int(on(so.get("qf_on_strip", 1)))}', '', so.get('label', ''), 'GENERATOR_AUDIT 7.11 B; PDF p.44, p.74, p.76'))
+    ls += o['hdr'] + ['#' + '=' * 78, 'go atlas', f'mesh width={float(g["simulated_width_um"])}']   # o['hdr'] empty when every option is OFF
     mf = float(g['mesh'].get('spacing_factor', 1.0))   # < 1 refines every spacing (numerical convergence checks only)
     if mf != 1.0: ls.append(f'# NUMERICAL CHECK: all mesh spacings multiplied by {mf:g}')
     xm = g['mesh']['x_um']
-    if abs(lc - 2.0) > 1e-9:   # 2026-09-27: mesh follows the contacts when the overlap differs from the 2 um default (run_0027 had a fixed 24 um mesh)
+    if abs(lc - 2.0) > 1e-9 or abs(L - float(g['channel_length_um'])) > 1e-9:   # 2026-09-27: mesh follows the contacts when the overlap differs from the 2 um default (run_0027 had a fixed 24 um mesh); 2026-10-10: also a strip length L_p != L
         xm = [(0, 0.3), (lc - 0.2, 0.05), (lc, 0.01), (lc + 0.2, 0.05), (lc + 1, 0.2), (lc + L / 2, 0.7), (xr - 1, 0.2), (xr - 0.2, 0.05), (xr, 0.01), (xr + 0.2, 0.05), (xmax, 0.3)]
+    if insolver: xm = list(xm) + [(xs0 - 0.2, 0.05), (xs0, 0.01), (xs0 + xpad, 0.01), ((xs0 + xs1) / 2, 0.2), (xs1 - xpad, 0.01), (xs1, 0.05)]
     for x, sp in xm: ls.append(f'x.mesh loc={x:.10g} spac={sp * mf:.10g}')
     for y, sp in ys: ls.append(f'y.mesh loc={y:.10g} spac={sp * mf:.10g}')
     ls += [f'region num=1 user.material=IWO x.min=0 x.max={xmax:.9g} y.min={ybulk:.10g} y.max={-di:.10g}',
@@ -214,50 +387,108 @@ def build_deck(t, m, g, s, meas=None, targets=None, smoke=False, full=False, vst
     if back: ls.append(f'region num=5 user.material=IWO x.min=0 x.max={xmax:.9g} y.min={-tt:.10g} y.max={ybulk:.10g}')
     if full:
         ls += ['# Physical stack of the measured device (bottom gate): TiN 50 nm / HfO2 15 nm / Al2O3 2 nm / IWO / Pd 70 nm S/D, air above the channel.',
+               '# UNGATED STRIP DECK: no TiN volume and no gate electrode; the domain ends at the HfO2 bottom (Neumann boundary, ASSUMED).' if strip else
                '# TiN is not in the ATLAS metal table: the gate is a Conductor volume whose work function is set on CONTACT (4.70 eV, ASSUMED).',
-               f'region num=3 material=Al2O3 x.min=0 x.max={xmax:.9g} y.min=0 y.max={tox_al:.10g}',
-               f'region num=4 material=HfO2 x.min=0 x.max={xmax:.9g} y.min={tox_al:.10g} y.max={tox_al + tox_hf:.10g}',
-               f'region num=6 material=Conductor x.min=0 x.max={xmax:.9g} y.min={tox_al + tox_hf:.10g} y.max={ygate:.10g}',
-               f'region num=7 material=Air x.min=0 x.max={xmax:.9g} y.min={ytop:.10g} y.max={-tt:.10g}',
-               f'electrode name=gate x.min=0 x.max={xmax:.9g} y.min={tox_al + tox_hf:.10g} y.max={ygate:.10g}',
-               '# Pd S/D volumes on the IWO top surface. No CONTACT work function is set for them -> Ohmic boundary (ASSUMED, no TLM data);',
+               f'region num=3 material=Al2O3 x.min=0 x.max={xox:.9g} y.min=0 y.max={tox_al:.10g}',
+               f'region num=4 material=HfO2 x.min=0 x.max={xox:.9g} y.min={tox_al:.10g} y.max={tox_al + tox_hf:.10g}']
+        if not strip: ls.append(f'region num=6 material=Conductor x.min=0 x.max={xmax:.9g} y.min={tox_al + tox_hf:.10g} y.max={ygate:.10g}')
+        ls.append(f'region num=7 material=Air x.min=0 x.max={xmax:.9g} y.min={ytop:.10g} y.max={-tt:.10g}')
+        if insolver:
+            ls += ['# IN-SOLVER UNGATED STRIP (ASSUMED geometry): air gap, IWO strip (bulk region 8 + 0.25 nm interface layer region 9, as regions 1/2)',
+                   '# on Al2O3/HfO2 over an insulator (no gate below), Pd pads.',
+                   f'region num=8 user.material=IWO x.min={xs0:.9g} x.max={xs1:.9g} y.min={-tt:.10g} y.max={-di:.10g}',
+                   f'region num=9 user.material=IWO x.min={xs0:.9g} x.max={xs1:.9g} y.min={-di:.10g} y.max=0',
+                   f'region num=10 material=Air x.min={xmax:.9g} x.max={xs0:.9g} y.min={ytop:.10g} y.max=0',
+                   f'region num=11 material=Air x.min={xs0:.9g} x.max={xs1:.9g} y.min={ytop:.10g} y.max={-tt:.10g}',
+                   f'region num=12 material={so.get("bottom_material", "oxide")} x.min={xmax:.9g} x.max={xs1:.9g} y.min={tox_al + tox_hf:.10g} y.max={ygate:.10g}']
+        if not strip: ls.append(f'electrode name=gate x.min=0 x.max={xmax:.9g} y.min={tox_al + tox_hf:.10g} y.max={ygate:.10g}')
+        ls += ['# Pd S/D volumes on the IWO top surface. No CONTACT work function is set for them -> Ohmic boundary (ASSUMED, no TLM data);',
                '# the 2 nm run of this structure is compared with the reduced-boundary deck (run_0008) to verify electrical equivalence.',
                f'electrode name=source material=Palladium x.min=0 x.max={lc:.9g} y.min={ytop:.10g} y.max={-tt:.10g}',
                f'electrode name=drain material=Palladium x.min={xr:.9g} x.max={xmax:.9g} y.min={ytop:.10g} y.max={-tt:.10g}']
+        if insolver:   # same-name electrodes are electrically connected; one combined current per name (PDF p.44, p.74)
+            ls += [f'electrode name=source material=Palladium x.min={xs0:.9g} x.max={xs0 + xpad:.9g} y.min={ytop:.10g} y.max={-tt:.10g}',
+                   f'electrode name=drain material=Palladium x.min={xs1 - xpad:.9g} x.max={xs1:.9g} y.min={ytop:.10g} y.max={-tt:.10g}']
     else:
         ls += [f'region num=3 material=oxide x.min=0 x.max={xmax:.9g} y.min=0 y.max={tox_al:.10g}',
                f'region num=4 material=oxide x.min=0 x.max={xmax:.9g} y.min={tox_al:.10g} y.max={tox_al + tox_hf:.10g}']
         ls += [f'electrode name=source x.min=0 x.max={lc:.9g} y.min={-tt:.10g} y.max={-tt:.10g}',
                f'electrode name=drain x.min={xr:.9g} x.max={xmax:.9g} y.min={-tt:.10g} y.max={-tt:.10g}',
                f'electrode name=gate x.min=0 x.max={xmax:.9g} y.min={tox_al + tox_hf:.10g} y.max={tox_al + tox_hf:.10g}']
-    for r in ([1, 2, 5] if back else [1, 2]): ls.append(f'doping uniform n.type conc={p["Nd_cm3"]:.6g} region={r}')
+    if o['qtnlsc'] and (not full or strip): raise ValueError('gate_tunnelling (qtnlsc) needs the full gated stack')
+    if o['qt_mesh'] is not None:   # gate_tunnelling.qt_mesh=1 only (run_0063..0066 form; no continuity coupling observed in run_0066)
+        dxq, dyq = o['qt_mesh']
+        ls += [f'# [T] OPTION gate tunnelling mesh: rectangle enclosing only the gate insulator (Al2O3 + HfO2), one y-slice every {dxq:g} um,',
+               f'# {dyq * 1000:g} nm points along it. Auto-slicing from every interface node ran out of memory at the old 2 GB limit (run_0062);',
+               '# PDF p.302 "Mesh Considerations": QT mesh encloses the insulator; tunnelling along y (QTUNN.DIR default 0, Table 3-131).',
+               '# It extends one point beyond each oxide face (into IWO and into the gate): flush with the faces, ATLAS 5.28 ignored every',
+               '# slice ("Part of Quantum tunnelling mesh lies entirely within the oxide. Must enclose oxide", run_0065).',
+               f'qtx.mesh loc=0 spac={dxq:g}', f'qtx.mesh loc={xox:.9g} spac={dxq:g}',
+               f'qty.mesh loc={-dyq:.10g} spac={dyq:g}', f'qty.mesh loc={tox_al + tox_hf + dyq:.10g} spac={dyq:g}']
+    for r in ([1, 2, 5] if back else [1, 2]) + ([8, 9] if insolver else []): ls.append(f'doping uniform n.type conc={p["Nd_cm3"]:.6g} region={r}')
+    ls += o['doping']   # oxide TAT traps (option)
+    mat_last = f' taun0={p["tau_s"]:.3g} taup0={p["tau_s"]:.3g}' + (' egalpha=0' if abs(T_run - 300) > 1e-6 else '') + (f' tmun={float(s["tmun"]):g}' if s.get('tmun') is not None else '')
     ls += ['# USER.DEFAULT=silicon is only the parser template; every relevant parameter is overridden above.',
            'material material=IWO user.group=semiconductor user.default=silicon \\',
            f' eg300={p["Eg_eV"]:.6g} affinity={p["chi_eV"]:.6g} permittivity={p["eps_iwo"]:.6g} \\',
-           f' nc300={p["Nc_cm3"]:.6g} nv300={p["Nv_cm3"]:.6g} \\', f' mun={p["mu0"]:.6g} mup={p["mup"]:.6g} \\', f' taun0={p["tau_s"]:.3g} taup0={p["tau_s"]:.3g}' + (' egalpha=0' if abs(T_run - 300) > 1e-6 else '') + (f' tmun={float(s["tmun"]):g}' if s.get('tmun') is not None else ''),
-           f'# Region 3 = Al2O3 (2 nm), eps {st[3]["eps_r"]} ({st[3]["eps_label"]}); region 4 = HfO2 (15 nm), eps {st[2]["eps_r"]} ({st[2]["eps_label"]}).',
+           f' nc300={p["Nc_cm3"]:.6g} nv300={p["Nv_cm3"]:.6g} \\', f' mun={p["mu0"]:.6g} mup={p["mup"]:.6g} \\']
+    ls += [mat_last + ' \\', ' ' + ' '.join(o['iwo_mat'])] if o['iwo_mat'] else [mat_last]   # option parameters stay in the same MATERIAL statement
+    ls += [f'# Region 3 = Al2O3 (2 nm), eps {st[3]["eps_r"]} ({st[3]["eps_label"]}); region 4 = HfO2 (15 nm), eps {st[2]["eps_r"]} ({st[2]["eps_label"]}).',
            '# Set explicitly for the named materials too: ATLAS built-in permittivity defaults are NOT the measured values.',
-           f'material region=3 permittivity={st[3]["eps_r"]}', f'material region=4 permittivity={st[2]["eps_r"]}',
-           f'contact name=gate workfunction={p["gate_wf"]:.6g}']
-    if p['rs_ohm_um'] > 0: ls += ['# CONTACT RESISTANCE is in ohm.um for 2-D (installed manual); half of the total per contact.', f'contact name=source resistance={p["rs_ohm_um"] / 2:.6g}', f'contact name=drain resistance={p["rs_ohm_um"] / 2:.6g}']
-    ls.append(f'models {s["models"]}')
+           f'material region=3 permittivity={st[3]["eps_r"]}', f'material region=4 permittivity={st[2]["eps_r"]}']
+    if insolver:   # equivalent-conductance strip: region mobility x (W/L)_par * L_s (ASSUMED), so I_strip = I(L_s) * (W/L)_par * L_s
+        ls += [f'material region={r} mun={p["mu0"] * float(so["wl_par_per_um"]) * float(so["L_s_um"]):.6g}' + (f' tmun={float(s["tmun"]):g}' if s.get('tmun') is not None else '') for r in (8, 9)]
+    ls += o['mat']   # oxide band parameters (gate tunnelling), MOBILITY line (IGZO.TOKYO): before SOLVE INIT
+    if not strip: ls.append(f'contact name=gate workfunction={p["gate_wf"]:.6g}' + o['gate_sfx'])
+    ls += o['contacts']   # Schottky source/drain (option)
+    if p['rs_ohm_um'] > 0: ls += ['# CONTACT RESISTANCE is in ohm.um for 2-D (installed manual); half of the total per contact.', f'contact name=source resistance={p["rs_ohm_um"] / 2:.6g}{o["sd_sfx"]}', f'contact name=drain resistance={p["rs_ohm_um"] / 2:.6g}{o["sd_sfx"]}']
+    elif o['sd_sfx'] and not o['contacts']:   # QTNLSC with Ohmic S/D: the only CONTACT statement of each pad
+        ls += ['# [T] Pd pads excluded from the nearest-electrode search of direct quantum tunnelling (NEARFLG is automatic, PDF p.303;',
+               '# EXCLUDE_NEAR, PDF p.303 and p.1157): every oxide slice is booked to the gate; run_0066 booked the slices under the pads to S/D.',
+               f'contact name=source{o["sd_sfx"]}', f'contact name=drain{o["sd_sfx"]}']
+    ls.append(f'models {s["models"]}' + (' ' + ' '.join(o['models']) if o['models'] else ''))
     if not smoke:
         ls += defects_block(p, 1, g['mesh']['interface_layer_nm'], False) + defects_block(p, 2, g['mesh']['interface_layer_nm'], True)
         if back: ls += defects_block(p, 5, g['mesh']['interface_layer_nm'], False, back=True)
+        if insolver: ls += defects_block(p, 8, g['mesh']['interface_layer_nm'], False) + defects_block(p, 9, g['mesh']['interface_layer_nm'], True)
     else: ls.append('# SMOKE: DOS disabled (trap-free diagnostic, not a fit).')
     xc = (lc + xr) / 2; yc = -tt / 2
-    ls += [f'interface qf={qf:.6g} x.min=0 x.max={xmax:.9g} y.min=-0.0000001 y.max=0.0000001']
+    if strip and not on(so.get('qf_on_strip', 1)):   # separate strip deck, Qf-off control through the option (equivalent to Qf = 0)
+        ls += ['# [S] strip.qf_on_strip = 0: no fixed charge at the IWO/Al2O3 interface of the ungated strip (ASSUMED control).', f'interface qf=0 x.min=0 x.max={xmax:.9g} y.min=-0.0000001 y.max=0.0000001']
+    else: ls += [f'interface qf={qf:.6g} x.min=0 x.max={xmax:.9g} y.min=-0.0000001 y.max=0.0000001']
+    if insolver and on(so.get('qf_on_strip', 1)): ls.append(f'interface qf={qf:.6g} x.min={xs0:.9g} x.max={xs1:.9g} y.min=-0.0000001 y.max=0.0000001')
     if p['Qb_cm2'] != 0:
         # HYPOTHESIS (2026-09-25): fixed sheet charge at the free IWO/Air surface of the EXPOSED channel only (between the
         # S/D contacts; the surface under the Pd volumes is metal-covered). Same INTERFACE QF mechanism as the front Qf.
         ls += [f'# [E] HYPOTHESIS back-surface fixed charge Qb = {p["Qb_cm2"]:.4e} cm^-2 at the IWO/Air surface (x = {lc:g}..{xr:g} um)',
                f'interface qf={p["Qb_cm2"]:.6g} x.min={lc:.9g} x.max={xr:.9g} y.min={-tt - 1e-7:.10g} y.max={-tt + 1e-7:.10g}']
-    ls += [f'# Strict acceptance (XANDRNORM, cr.toler {cr_strict:.3g}) up to Vg = {switch_v:.10g} V; default acceptance above.', strict,
+    ls += ([f'# Strict acceptance (XANDRNORM, cr.toler {cr_strict:.3g}) up to Vg = {switch_v:.10g} V; default acceptance above.', strict] if not strip else
+           [f'# Strip acceptance: expected strip current {i_exp:.3g} A/um -> ' + ('strict (XANDRNORM)' if strip_strict else 'default') + ' acceptance for the whole drain sweep.', strict if strip_strict else relaxed]) + [
            f'output {s["output"]}',
            '# Interior probes (channel centre) for mobility / free-electron exports vs Vg (native solver quantities).',
            f'probe name=chan_mob x={xc:.6g} y={yc:.6g} n.mob dir=0', f'probe name=chan_n x={xc:.6g} y={yc:.6g} n.conc',
            f'probe name=avg_n region=1 average n.conc x.min={lc:.6g} x.max={xr:.6g} y.min={ybulk:.10g} y.max={-di:.10g}',
            'solve init', 'save outf=equilibrium.str']
+    jt = ' j.tun' if o['jtun'] else ''   # tunnelling currents in the log (gate tunnelling / oxide TAT options)
+    if strip:
+        # UNGATED STRIP (GENERATOR_AUDIT 7.11 A): drain stepped from 0 V; I(0.7 V)/I(0.1 V) = 7 for an ohmic film.
+        vds = [(float(e), float(st_)) for e, st_ in so.get('vd_segments', [[0.1, 0.05], [0.7, 0.1]])]; vpts = strip_points(vds)
+        ls += ['# UNGATED STRIP: source grounded, drain stepped from 0 V (every step logged).', 'log outf=strip.log']
+        ls += [f'solve vstep={st_:g} vfinal={e:.10g} name=drain' for e, st_ in vds]
+        ls += ['log off', 'save outf=final.str', 'output con.band val.band qfn e.mobility', 'extract init infile="strip.log"',
+               'extract name="IdVd" curve(v."drain",i."drain") outfile="idvd_strip.dat"',
+               'extract name="IsVd" curve(v."drain",i."source") outfile="isvd_strip.dat"',
+               'extract name="n_vd" curve(v."drain",probe."chan_n") outfile="chan_electrons_vd.dat"']
+        for tag, fn in [('eq', 'equilibrium.str'), ('on', 'final.str')]:
+            ls += [f'extract init infile="{fn}"',
+                   f'extract name="cb_{tag}" curve(depth, impurity="Conduction Band Energy" material="All" mat.occno=1 x.val={xc:.6g}) outfile="cb_{tag}.dat"',
+                   f'extract name="n_{tag}" curve(depth, impurity="Electron Conc" material="All" mat.occno=1 x.val={xc:.6g}) outfile="n_{tag}.dat"']
+        ls += ['quit', '']
+        text = '\n'.join(ls).replace('{NUMA}', str(int(s['dos_levels']['numa']))).replace('{NUMD}', str(int(s['dos_levels']['numd'])))
+        meta = {'thickness_nm': t, 'key': key, 'mode': 'strip', 'L_p_um': L, 'vd_segments': vds, 'vd_points': vpts, 'expected_strip_current_A_per_um': i_exp, 'strict_acceptance': bool(strip_strict),
+                'material': {k: (float(v) if isinstance(v, (int, float, np.floating)) else v) for k, v in p.items()}, 'Cox_F_cm2': Cox,
+                'full_structure': full, 'status': 'DECK_GENERATED_NOT_SIMULATED'}
+        return text, meta
     if output_vgs:
         # PREDICTION MODE: output characteristics at fixed gate voltages (no measured counterpart exists yet).
         vgs = [float(v) for v in output_vgs]; vds = [(float(e), float(st_)) for e, st_ in (vd_segments or [(3.0, 0.1)])]
@@ -266,7 +497,7 @@ def build_deck(t, m, g, s, meas=None, targets=None, smoke=False, full=False, vst
         cur = 0.0
         for v, tag in zip(vgs, tags):
             if abs(v - cur) > 1e-9: ls.append(f'solve vstep={0.1 if v > cur else -0.1:g} vfinal={v:.10g} name=gate'); cur = v
-            ls += [f'log outf=idvd_{tag}.log', 'solve vdrain=0']
+            ls += [f'log outf=idvd_{tag}.log' + jt, 'solve vdrain=0']
             ls += [f'solve vstep={st_:g} vfinal={e:.10g} name=drain' for e, st_ in vds]
             ls += ['log off', f'solve vstep=-0.25 vfinal=0 name=drain']
         ls.append('save outf=final_output.str')
@@ -291,7 +522,7 @@ def build_deck(t, m, g, s, meas=None, targets=None, smoke=False, full=False, vst
             n = int(math.ceil(abs(vg[0]) / step))
             for v in np.linspace(0, vg[0], n + 1)[1:]: ls.append(f'solve vgate={v:.10g}')
         for v in np.linspace(0, g['drain_bias_V'], int(math.ceil(g['drain_bias_V'] / .1)) + 1)[1:]: ls.append(f'solve vdrain={v:.10g}')
-    ls.append('log outf=transfer.log'); prev = float(vg[0]); relaxed_done = False; vth_saved = False
+    ls.append('log outf=transfer.log' + jt); prev = float(vg[0]); relaxed_done = False; vth_saved = False
     vth_target = None
     if meas is not None:
         mv, mi = meas
@@ -330,6 +561,7 @@ def build_deck(t, m, g, s, meas=None, targets=None, smoke=False, full=False, vst
            'extract name="mob_vg" curve(v."gate",probe."chan_mob") outfile="chan_mobility_vg.dat"',
            'extract name="n_vg" curve(v."gate",probe."chan_n") outfile="chan_electrons_vg.dat"',
            'extract name="navg_vg" curve(v."gate",probe."avg_n") outfile="avg_electrons_vg.dat"']
+    ls += o['extract']   # FN gate current (option)
     for tag, fn in [('eq', 'equilibrium.str'), ('vth', 'near_vth.str'), ('on', 'final.str')]:
         if tag == 'vth' and vth_target is None: continue
         ls += [f'extract init infile="{fn}"',

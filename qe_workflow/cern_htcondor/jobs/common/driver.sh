@@ -58,6 +58,8 @@ export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 OMP_THREAD_LIM
 MPIOPT="$MPIOPT --mca pml ob1 --mca btl self,sm --mca osc ^ucx"
 log "pw.x:$(command -v pw.x)  python: $(command -v python)"
 
+# QE_NK (job environment) overrides the k-point pool count: QE_NK=1 with several GPUs splits plane waves over the GPUs
+# and divides the per-GPU memory (2026-10-10: 270-atom slabs ran out of memory on one 94 GB H100 with -nk 1 / 1 GPU).
 # GPU mode (RequestGPUs > 0): pw.x from NVIDIA's QE 7.3.1 GPU container (NGC, on EOS), one MPI rank per GPU,
 # the remaining CPUs as OpenMP threads; post-processing (pp.x, projwfc.x, python) stays on the CPU environment
 NGPU=$(awk -F' = ' '/^RequestGPUs/{print $2}' "${_CONDOR_JOB_AD:-/dev/null}" 2>/dev/null || true); NGPU=${NGPU:-0}
@@ -73,7 +75,7 @@ pw_cmd() {   # pw_cmd <npool> <input>
     # UCX restricted to shared memory + CUDA: on b9pgpun00x nodes UCX tried InfiniBand, failed to lock memory
     # (ulimit -l 8 MB) and wrote the same error endlessly (324 GB relax.out, GPU idle; 2026-09-30)
     OMP_NUM_THREADS=$(( NCPU / NGPU )) UCX_TLS=self,sm,cuda_copy,cuda_ipc apptainer exec --nv -B "$PWD" --pwd "$PWD" qe-gpu.sif \
-      /usr/local/openmpi/bin/mpirun --allow-run-as-root -np "$NGPU" --bind-to none -x OMP_NUM_THREADS -x UCX_TLS /usr/local/qe/bin/pw.x -nk "$NGPU" -in "$2"
+      /usr/local/openmpi/bin/mpirun --allow-run-as-root -np "$NGPU" --bind-to none -x OMP_NUM_THREADS -x UCX_TLS /usr/local/qe/bin/pw.x -nk "${QE_NK:-$NGPU}" -in "$2"
   else
     mpirun -np "$NCPU" $MPIOPT pw.x -nk "$1" -in "$2"
   fi

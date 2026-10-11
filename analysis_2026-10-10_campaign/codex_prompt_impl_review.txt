@@ -1,0 +1,136 @@
+You are an independent, ADVERSARIAL reviewer of a code + configuration change to a Silvaco ATLAS 5.28 TCAD deck generator
+and of the 200-launch simulation campaign built on it. Two earlier Codex passes exist (files listed below); do NOT simply
+re-confirm them. Look for what they missed, and re-check whether their fixes are actually correct in the current code.
+
+=== HARD RULES FOR YOU (read-only review) ===
+- Do not modify, create or delete any file. Do not use the network.
+- NEVER launch Silvaco: do not run deckbuild.exe, scripts/run_atlas.py, scripts/run_campaign.py, or anything under /mnt/c/sedatools/exe.
+- Do NOT execute any Windows executable (*.exe, including the Windows Python venv) through WSL interop: it would run outside
+  your sandbox. Linux python3 here has no NumPy/PyYAML; use it only for arithmetic or plain-text parsing. Static reading,
+  grep, sed -n, diff, git diff / git show / git log (read-only) are fine.
+- Report only what you actually verified. If you could not verify something, say "UNVERIFIED" and why. Do not guess manual
+  content: cite the PDF page marker ("===== PDF PAGE N =====") or the example file you read.
+
+=== DEVICE AND PROJECT CONTEXT ===
+- Bottom-gate W:In2O3 (IWO) TFTs, channel films 2.0 / 6.3 / 13.2 nm (+31.8 nm, never turns off). V_D = 0.7 V, W/L = 290/20 um.
+  Stack: TiN gate / 15 nm HfO2 / 2 nm Al2O3 / IWO / Pd source-drain contacts on top.
+- Measured off-state floors 4.61e-15 / 1.53e-13 / 6.60e-12 A/um, flat in V_G (within 3 % at 13.2 nm), scaling ~ t^3.85.
+  No gate current recorded, one device per film, a single V_D only (no I-V_D data). So any V_D-dependence prediction cannot be
+  checked against the existing data.
+- V1 TCAD is calibrated per film (Q_f, mu_band FITTED). V2 added DFT thickness laws (dE_c, dE_g, m*); its registered 6.3 nm
+  out-of-sample prediction FAILED. V2 also had a post-solver "strip" I = I_ATLAS + G(t)*V_D with (W/L)_par = 1e-4/um FITTED on 13.2 nm.
+- Project state: ../iwo-tft-research-private/01_CURRENT_STATE.md (read sections D, E, F, G, H, K).
+- Local ATLAS 5.28 32-bit facts learned at a cost: MOBILITY statements between SOLVEs are ignored; MAXTRAPS <= 10;
+  XANDRNORM + CR.TOLER 7.88e-16 needed in depletion; DEFECTS in cm^-3/eV, INTDEFECTS in cm^-2/eV; CONTACT RESISTANCE in Ohm*um;
+  constant MUN carries a (T/300)^-1.5 factor unless tmun is declared; ~30k node memory limit; parallel launches fail.
+- Labels used by the project: COMPUTED (our DFT, file cited), MEASURED (cite), LITERATURE (cite), FITTED (to which data),
+  ASSUMED, plus CALCULATED (closed-form on labelled inputs) and MODEL (2-parameter fit to COMPUTED points). Every fitted
+  quantity must be named as fitted; calibration must never be presented as validation.
+
+=== FILES TO READ (working directory = IWO_PHYSICS_CONSTRAINED_MODEL_V1) ===
+Design and implementation write-ups:
+- analysis_2026-10-10_campaign/CAMPAIGN_DESIGN.md
+- analysis_2026-10-10_campaign/IMPLEMENTATION.md
+- analysis_2026-10-10_campaign/campaign_matrix.json (large; use grep / python3 json)
+- analysis_2026-10-10_campaign/GENERATOR_AUDIT.md (the syntax reference the change claims to follow)
+- analysis_2026-10-10_campaign/DFT_TO_TCAD.md and dft_inputs.json (source of the COMPUTED values)
+- analysis_2026-10-10_campaign/leakage_bounds.py
+The change under review (also visible with `git diff -- scripts/` ; untracked new files are listed by `git status --short`):
+- analysis_2026-10-10_campaign/implementation_2026-10-10.diff
+- scripts/build_iwo_decks.py (+198/-26: physics_options loader, on()/pline()/strip_points()/campaign_options(), V3 shared
+  mobility-law fallback, option insertion points, separate strip deck mode strip=True, in-solver strip, guards; claim: every
+  option OFF -> no line changes)
+- scripts/run_atlas.py (+80/-0: new execute_strip(); claim: existing functions untouched)
+- scripts/run_campaign.py (+7/-2: entry mode 'strip' -> execute_strip, strip info in summary; claim: transfer/output/resume/budget unchanged)
+- config/physics_options.yaml (new; claim: every option OFF, each value labelled)
+- config/iwo_material_model_v3.yaml (new model V3, selected via env IWO_MODEL_FILE); compare with config/iwo_material_model_v2.yaml
+  and config/iwo_material_model.yaml; also config/solver.yaml, config/geometry.yaml
+- Campaign plans: config/campaign_C10_S0a_smoke.json, campaign_C10_S0b_smoke.json, campaign_C10_S1_baselines.json,
+  campaign_C10_S2_offfloor.json, campaign_C10_S3_branches.json, campaign_C10_S4a_spacefilling.json, campaign_C10_MIN10.json,
+  campaign_C10_S4b_adaptive.template.json, campaign_C10_S4cd_confirm.template.json, campaign_C10_S5_loo.template.json,
+  campaign_C10_S6_sensitivity.template.json, campaign_C10_S7_31p8.template.json
+- Helper scripts: analysis_2026-10-10_campaign/regress_all_decks.py (+3: strip-mode rebuild), campaign_tools.py,
+  make_campaign_configs.py, check_v3_equivalence.py, make_sample_decks.py, post_run_checks.py
+- Generated decks: analysis_2026-10-10_campaign/sample_decks/*.in, sample_decks/extra/*.in, sample_decks/NEW_STATEMENTS.md
+  Compare against existing final decks, e.g. results/runs/run_0038*/device.in, run_0040*/device.in, run_0058*/device.in
+  (and their deckbuild.out, to see what ATLAS 5.28 actually accepted/printed).
+- Earlier reviews: analysis_2026-10-10_campaign/codex_impl_review_prompt_2026-10-10.md, codex_impl_review_2026-10-10.md,
+  codex_impl_recheck_prompt_2026-10-10.md, codex_impl_recheck_2026-10-10.md (and codex_review_2026-10-10.md, codex_xcheck_2026-10-10.md
+  for the design stage).
+- ATLAS 5.28 manual as text: report_latex_full/tools/atlas_manual_pages.txt (grep it; page markers "===== PDF PAGE N =====").
+- Installed example decks: /mnt/c/sedatools/examples/deckbuild/4.2.5.R/ (e.g. tft/tftex21, diode/diodeex10, diode/diodeex12,
+  quantum/quantumex05, quantum/quantumex20, eprom/eprmex01, organic/organicex04, solar/solarex18).
+- Note: `git diff` also shows config/solver.yaml (max_launches 71 -> 271, annotated as user-approved +200) and qe_workflow
+  status files; judge whether anything there matters for this campaign.
+
+=== GATE OUTPUTS (run by the relaying agent with the Windows venv just before this review; deck text only, no launch) ===
+regress_all_decks.py           -> ... run_0058/0059/0060 IDENTICAL (V2) ... "identical 48; unexpected differences 0"
+check_v3_equivalence.py        -> S0-01 header values OK; V3 no-override max rel. deviation from matrix 4.7e-05 / 1.1e-04 / 1.9e-05
+                                  (2.0/6.3/13.2 nm); IMPLEMENTATION.md reports "98 identical solver statements V2 vs V3"
+make_campaign_configs.py --check -> "plans verified: 181 matrix entries in 6 runnable plans (98 entries) + 5 templates (83 entries);
+                                  verbatim and in matrix order: YES; MIN10 plan: S0-01 S0-02 S1-01 S1-02 S2-01 S2-08 S2-14 S2-15 S1-07 S3-12"
+Treat these as claims you may scrutinise (e.g. what the harnesses do NOT exercise), not as proof.
+
+=== WHAT TO REPORT ===
+Review adversarially and report, with evidence (file:line, deck line, manual PDF page or example file):
+
+A. DECK SYNTAX for ATLAS 5.28: any keyword misspelt, not present in the 5.28 manual, placed on the wrong statement, a
+   parameter whose units or reference point differ from what the generator assumes, continuation-line errors, or a statement
+   order ATLAS would reject or silently ignore (e.g. MOBILITY/MATERIAL after SOLVE INIT, DOPING after MATERIAL, MODELS flags
+   that conflict, EXTRACT names that do not exist, LOG keywords). Check every NEW statement in sample_decks/*.in and
+   sample_decks/extra/*.in against NEW_STATEMENTS.md, the manual and the examples. Note anything that would be silently
+   ignored (worse than an error, because the run would "succeed" with the option inactive) and whether post_run_checks.py
+   would detect it.
+
+B. PHYSICS errors:
+   - units (cm vs um vs nm; cm^-3 vs cm^-2; per eV; A/cm^2K^2 for ARICHN; cm^2 for SIGN/SIGP; Ohm*um), unit conversions in code;
+   - signs (donor/acceptor trap sign, E.LEVEL reference band, Q_f sign, WORKFUN = chi + phi_B convention, sign of currents in
+     the strip KCL and ratio, V_G < 0 off-state direction);
+   - SRH lifetimes (TAUN0/TAUP0 values, what generation current they imply with the ATLAS-printed n_i of the films, whether the
+     "null test" bounds in leakage_bounds.py / CAMPAIGN_DESIGN are arithmetically right);
+   - tunnelling: oxide affinities/band gaps for HfO2 and Al2O3, tunnelling masses, barrier heights seen from TiN and from IWO,
+     F.AE/F.BE (Lenzlinger-Snow) arithmetic, whether gate tunnelling through 17 nm of oxide can be non-negligible at all at
+     |V_G| <= 3 V (i.e. whether these runs can produce anything but a null result), QTNLSC/FNORD applicability to a Conductor gate;
+   - oxide TAT (concentration, E.LEVEL, cross sections) plausibility;
+   - Schottky contacts (barrier, Richardson constant 120.17*m*, e.tunnel mass, mesh), quantum BQP mass/parameters;
+   - IGZO.TOKYO on a user-defined material; N_C quasi-2D override; tail-trap law N_t(t);
+   - DOUBLE COUNTING of off-current paths: in-solver strip vs separate strip deck vs the V2 post-solver G*V_D strip; SRH +
+     oxide TAT + gate tunnelling + strip summed in post-processing; BQP together with the DFT dE_c (guarded?) ; quasi-2D N_C
+     together with dE_c; Q_f applied both on the gated channel and the strip; mobility mass factor applied twice
+     (shared_law m_ref/m*(t) plus any other m* scaling).
+
+C. LABELS: any parameter labelled COMPUTED (or LITERATURE / MEASURED / CALCULATED / MODEL) that is actually FITTED, ASSUMED,
+   or derived from a fit; any LITERATURE value without a usable citation; any MEASURED value not measured on these devices;
+   any place in CAMPAIGN_DESIGN.md / IMPLEMENTATION.md / the plan files where calibration (or a quantity that agrees by
+   construction) is presented as validation, prediction or "out-of-sample".
+
+D. RUNS THAT CANNOT DISCRIMINATE HYPOTHESES: runs whose outcome is fixed by construction, identical to another run, below
+   numerical resolution (KCL limit, ~0.7 % numerical uncertainty, 0.01-0.03 dec decision thresholds), insensitive to the
+   hypothesis tested, or whose "discriminating" observable (e.g. floor vs V_D, gate current) is not in the measured data.
+   Also: whether the leave-one-out / confirmation / 6.3 nm stages can still be called out-of-sample given that 6.3 nm has
+   already been used three times, and whether S7 (31.8 nm) is framed honestly.
+
+E. REGRESSION and BUDGET: is "all options OFF -> byte-identical" really guaranteed on every code path (including paths the
+   48-deck harness does not exercise)? Does execute_strip or the run_campaign change alter existing semantics? Budget: hard
+   cap 200 launches, strictly sequential (max_launches 271 with 60 used = 211 available). Check plan entry counts, MIN10 overlap
+   with the stage plans, resume behaviour (failed entries re-run and cost another launch), templates that could be launched
+   by mistake, timeouts (sum and per-entry adequacy, e.g. 900 s strip, 1800 s BQP, 13.2 nm and 31.8 nm), and whether anything
+   could exceed 200 or run in parallel.
+
+F. ANYTHING ELSE that would make the results misleading or waste launches (activation not detected, options inactive but
+   run "succeeds", post_run_checks.py false PASS, wrong control runs, illustrative S6-27 deck built with placeholder values,
+   V3-vs-V2 header differences affecting provenance, etc.).
+
+=== OUTPUT FORMAT ===
+1. One line: overall verdict READY (no BLOCKING finding) or FIX FIRST.
+2. Numbered findings, most severe first. For each:
+   [BLOCKING | NON-BLOCKING] <category A-F> <short title>
+   Evidence: file:line / deck line / manual page / example.
+   Problem: what is wrong and what it would do to a launch or a result.
+   Fix: exactly what to change (or what to check on the first run).
+   New or earlier: say whether an earlier Codex pass already raised it, and if so whether the current code fixes it.
+   BLOCKING means: ATLAS would reject the deck or silently ignore an option; a launch would be wasted; a physically wrong
+   number or a wrong unit/sign would enter results; a fitted value is labelled as computed/measured/literature or calibration
+   is presented as validation; the 200-launch / sequential rule could be broken. Everything else is NON-BLOCKING.
+3. A short list of what you checked and found OK (one line each), and what you could NOT verify (UNVERIFIED, with reason).
+Keep it under about 2500 words. Be concrete; no generic advice.

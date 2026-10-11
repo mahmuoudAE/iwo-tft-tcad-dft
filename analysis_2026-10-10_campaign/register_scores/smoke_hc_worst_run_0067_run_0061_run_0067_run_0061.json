@@ -1,0 +1,36 @@
+{
+ "register_tag": "register-rev2-frozen-20261010T1833Z",
+ "scorer": "analysis_2026-10-10_campaign/score_register.py",
+ "test": "H-C worst-case leakage fails flatness OR thickness scaling",
+ "label": "smoke test, not a registered result",
+ "run": "run_0067",
+ "control": "run_0061",
+ "run_2p0": "run_0067",
+ "control_2p0": "run_0061",
+ "flatness": {
+  "quantity": "slope of log10 total I_D over [-2, -0.5] V (CAMPAIGN_DESIGN 7.1 floor_slope)",
+  "floor_slope_dec_per_V": null,
+  "slope_limit_dec_per_V": 0.19944267467199053,
+  "valid_fraction": 0.125,
+  "sub_result": "unresolved (fewer than 3 valid floor points)"
+ },
+ "thickness_scaling": {
+  "d_floor_ratio_dec": {
+   "2.0": -0.2860110006695592
+  },
+  "tolerance_dec": 0.5,
+  "sub_result": "unresolved (one film: thickness scaling needs two)",
+  "note": "S2-07 (6.3 nm worst) is kept out by the register; the two films are S2-08 and S0-02 (run_0067)"
+ },
+ "leakage_slopes_reported": {
+  "2.0": {
+   "IG_slope_dec_per_V": null,
+   "IG_points": 2,
+   "dID_slope_dec_per_V": null,
+   "dID_points": 2
+  }
+ },
+ "resolution_A_per_um": 4.60552e-16,
+ "resolution_source": "PROXY: runner KCL absolute limit (register 0: KCL is a sanity check, not a demonstrated resolution)",
+ "verdict": "unresolved (neither criterion fails and at least one could not be evaluated)"
+}

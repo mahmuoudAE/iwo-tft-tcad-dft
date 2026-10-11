@@ -1,0 +1,1355 @@
+{
+ "schema": "IWO_DFT_TO_TCAD_inputs_v1",
+ "generated_utc": "2026-10-10T10:46:42Z",
+ "generator": "analysis_2026-10-10_campaign/dft_to_tcad_extract.py (reads existing QE outputs only; full machine output in dft_inputs_raw.json)",
+ "document": "analysis_2026-10-10_campaign/DFT_TO_TCAD.md",
+ "labels": {
+  "COMPUTED": "from our DFT output files (file cited)",
+  "MEASURED": "measured on the target devices",
+  "LITERATURE": "published value (cited)",
+  "FITTED": "fitted; the data it was fitted to is named",
+  "ASSUMED": "chosen without data",
+  "CALCULATED": "closed-form formula applied to labelled inputs",
+  "MODEL": "simple physical model with parameters fitted to COMPUTED points (named)"
+ },
+ "scope": "PAW-PBE, crystalline bixbyite In2O3(001) slabs with H/OH termination in vacuum (Lin et al. 2022 recipe) and crystalline W cells; the devices are sputtered, largely amorphous IWO on Al2O3. Only slab-minus-bulk differences are proposed for TCAD; absolute PBE gaps and vacuum levels are reported, not proposed.",
+ "thickness_definition": "thickness_HH_nm = distance between the outermost H planes of the relaxed slab (scf.in); labels 0.51/0.75/1.0/2.0 are the build targets; V2 laws used Lin labels 0.95/1.98 for the 1/2 nm films (H-H 0.930/1.962). Device thicknesses 2.0/6.3/13.2 nm are nominal (measurement method unknown).",
+ "bulk": {
+  "Eg_PBE_eV": {
+   "value": 0.8887,
+   "unit": "eV",
+   "label": "COMPUTED",
+   "source": "qe_workflow/bulk_In2O3_protocol/bands_path.out"
+  },
+  "Eg_HSE06_eV": {
+   "value": [
+    2.0662,
+    2.108
+   ],
+   "unit": "eV",
+   "label": "COMPUTED",
+   "source": "qe_workflow/cern_htcondor/results/nc_hse_bulk_q3_f160_e80, nc_hse_bulk_e80 (scf.out)",
+   "note": "NC, PBE lattice 10.306 A; range = EXX q-grid 3x3x3 .. 1x1x1; not used for EG300 (below the literature bulk value)"
+  },
+  "mstar_PBE_m0": {
+   "value": 0.159,
+   "unit": "m0",
+   "label": "COMPUTED",
+   "source": "qe_workflow/bulk_In2O3_protocol/bands_gamma.out"
+  },
+  "kane_alpha_PBE_per_eV": {
+   "value": 0.63,
+   "unit": "1/eV",
+   "label": "COMPUTED",
+   "source": "bands_gamma.out, [100], E <= 0.45 eV",
+   "note": "PBE gap too small -> alpha overestimated; not usable in ATLAS DD for a user material"
+  },
+  "EA_bulk_equivalent_eV": {
+   "value": 4.7763,
+   "unit": "eV",
+   "label": "COMPUTED",
+   "source": "qe_workflow/cern_htcondor/results/slab2_relax_c2 (EA) + two-step dEc(2 nm)",
+   "note": "H/OH-terminated (001) surface, PBE; termination-specific; NOT proposed for AFFINITY"
+  },
+  "IP_bulk_equivalent_eV": {
+   "value": 5.665,
+   "unit": "eV",
+   "label": "COMPUTED",
+   "source": "qe_workflow/cern_htcondor/results/slab2_relax_c2 (IP) + two-step dEv(2 nm)"
+  },
+  "alignment_constants_eV": {
+   "value": {
+    "E_v_minus_Vavg": 3.9098,
+    "E_c_minus_Vavg": 4.7985
+   },
+   "unit": "eV",
+   "label": "COMPUTED",
+   "source": "qe_workflow/cern_htcondor/results/RESULTS_LOG.md (2026-10-05)",
+   "note": "bulk_v11.cube deleted 2026-10-06; constants not re-computed here"
+  },
+  "TCAD_Eg_bulk_eV": {
+   "value": 3.05,
+   "unit": "eV",
+   "label": "LITERATURE",
+   "source": "Fan2021 Nanomaterials Sec. 3 (config/iwo_material_model_v2.yaml)"
+  },
+  "TCAD_chi_bulk_eV": {
+   "value": 4.3,
+   "unit": "eV",
+   "label": "LITERATURE",
+   "source": "Fan2021 Nanomaterials Sec. 3 (config/iwo_material_model_v2.yaml)",
+   "note": "degenerate with gate work function and Qf (analysis_2026-09-25/SYNTHESIS.md)"
+  },
+  "TCAD_mstar_bulk_m0": {
+   "value": 0.208,
+   "unit": "m0",
+   "label": "LITERATURE",
+   "source": "Stokey2021 JAP, optical Hall, In2O3 (V2)"
+  },
+  "Nc300_bulk_cm3": {
+   "value": 2.3805e+18,
+   "unit": "cm^-3",
+   "label": "CALCULATED",
+   "source": "2(2 pi m* kT/h^2)^1.5, m* = 0.208"
+  }
+ },
+ "films": {
+  "2.0": {
+   "job": "slab2_relax_c2",
+   "validity": "bulk-like interior; both band edges interior states (projwfc)",
+   "thickness_HH_nm": {
+    "value": 1.962,
+    "unit": "nm",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slab2_relax_c2/scf.in"
+   },
+   "inplane_cell_A": {
+    "value": [
+     10.3179,
+     10.3085
+    ],
+    "unit": "A",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slab2_relax_c2/scf.in",
+    "note": "bulk 10.306 A"
+   },
+   "gap_PBE_eV": {
+    "value": 1.2239,
+    "unit": "eV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slab2_relax_c2/scf.out (last HOMO/LUMO line)"
+   },
+   "dEg_PBE_eV": {
+    "value": 0.3352,
+    "unit": "eV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slab2_relax_c2/scf.out minus bulk 0.8887 eV"
+   },
+   "dEg_HSEcorrected_eV": {
+    "value": [
+     0.3553,
+     0.3711
+    ],
+    "unit": "eV",
+    "label": "CALCULATED",
+    "source": "PBE dEg x HSE/PBE ratio 1.0599..1.1071 (measured at 1 nm only)",
+    "note": "ASSUMED that the 1 nm ratio transfers to this thickness"
+   },
+   "dEc_PBE_eV": {
+    "value": 0.2813,
+    "unit": "eV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slab2_relax_c2 (two-step alignment, a/2 window (re-computed))"
+   },
+   "dEv_PBE_eV": {
+    "value": -0.0539,
+    "unit": "eV",
+    "label": "COMPUTED",
+    "source": "dEc - dEg (identity)"
+   },
+   "CB_share": {
+    "value": 0.839,
+    "unit": "-",
+    "label": "COMPUTED",
+    "source": "dEc/dEg"
+   },
+   "dEc_HSEcorrected_eV": {
+    "value": [
+     0.2982,
+     0.3114
+    ],
+    "unit": "eV",
+    "label": "CALCULATED",
+    "source": "PBE dEc x 1.0599..1.1071",
+    "note": "ASSUMED: HSE keeps the PBE CB share (no HSE planar average exists)"
+   },
+   "EA_eV": {
+    "value": 4.495,
+    "unit": "eV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slab2_relax_c2/*_avg.dat + scf.out",
+    "note": "vacuum-referenced CBM = -EA (H/OH termination, PBE)"
+   },
+   "IP_eV": {
+    "value": 5.7189,
+    "unit": "eV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slab2_relax_c2/*_avg.dat + scf.out"
+   },
+   "vacuum_asymmetry_meV": {
+    "value": 0.0,
+    "unit": "meV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slab2_relax_c2/*_avg.dat (left minus right plateau)"
+   },
+   "mstar_inplane_PBE_m0": {
+    "value": 0.2064,
+    "unit": "m0",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slab2_relax_c2/bands.out (|k| <= 0.05 1/A, [100])"
+   },
+   "dm_PBE_m0": {
+    "value": 0.0474,
+    "unit": "m0",
+    "label": "COMPUTED",
+    "source": "film minus bulk 0.159"
+   },
+   "mstar_TCAD_V2convention_m0": {
+    "value": 0.2554,
+    "unit": "m0",
+    "label": "CALCULATED",
+    "source": "0.208 (LITERATURE) + dm (COMPUTED)"
+   },
+   "kane_alpha_PBE_per_eV": {
+    "value": 0.496,
+    "unit": "1/eV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slab2_relax_c2/bands.out, in-plane [100]"
+   },
+   "E2_minus_E1_Gamma_eV": {
+    "value": 0.7191,
+    "unit": "eV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slab2_relax_c2/bands.out (Gamma)",
+    "note": "subband spacing; >> kT = 0.026 eV"
+   },
+   "Nc300_3D_V2_cm3": {
+    "value": 3.2389e+18,
+    "unit": "cm^-3",
+    "label": "CALCULATED",
+    "source": "2(2 pi m* kT/h^2)^1.5 with the V2-convention mass (what V2 does)"
+   },
+   "Nc300_quasi2D_cm3": {
+    "value": 1.3791e+19,
+    "unit": "cm^-3",
+    "label": "CALCULATED",
+    "source": "N2D/t = m* kT/(pi hbar^2 t), single subband (second-subband weight exp(-E21/kT) included), t = label thickness",
+    "note": "NEW candidate; Boltzmann-equivalent (subthreshold); in the degenerate on-state the 3-D F1/2 form overstates n"
+   },
+   "quasi2D_over_V2_3D": {
+    "value": 4.258,
+    "unit": "-",
+    "label": "CALCULATED",
+    "source": "ratio of the two NC300 values"
+   },
+   "equivalent_Ec_shift_meV": {
+    "value": -37.5,
+    "unit": "meV",
+    "label": "CALCULATED",
+    "source": "-kT ln(ratio)"
+   },
+   "surface_state_check": {
+    "value": {
+     "OH_number_share": 0.273,
+     "VBM_OH_weight": 0.002,
+     "CBM_OH_weight": 0.014,
+     "VBM_z_profile": [
+      0.0,
+      0.09,
+      0.17,
+      0.24,
+      0.24,
+      0.17,
+      0.09,
+      0.0
+     ],
+     "CBM_z_profile": [
+      0.04,
+      0.09,
+      0.21,
+      0.12,
+      0.18,
+      0.21,
+      0.09,
+      0.04
+     ]
+    },
+    "unit": "-",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slab2r_pdos_cpu/projwfc_*.out (measure of surface_state_check.py)"
+   }
+  },
+  "1.0": {
+   "job": "slab1r_final_cpu",
+   "validity": "no bulk-like interior; dEc from the EA route; VB edge is an OH surface state (proxy: W twin projwfc)",
+   "thickness_HH_nm": {
+    "value": 0.93,
+    "unit": "nm",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slab1r_final_cpu/scf.in"
+   },
+   "inplane_cell_A": {
+    "value": [
+     10.3364,
+     10.3345
+    ],
+    "unit": "A",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slab1r_final_cpu/scf.in",
+    "note": "bulk 10.306 A"
+   },
+   "gap_PBE_eV": {
+    "value": 1.7885,
+    "unit": "eV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slab1r_final_cpu/scf.out (last HOMO/LUMO line)"
+   },
+   "dEg_PBE_eV": {
+    "value": 0.8998,
+    "unit": "eV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slab1r_final_cpu/scf.out minus bulk 0.8887 eV"
+   },
+   "dEg_HSEcorrected_eV": {
+    "value": [
+     0.9537,
+     0.9961
+    ],
+    "unit": "eV",
+    "label": "CALCULATED",
+    "source": "PBE dEg x HSE/PBE ratio 1.0599..1.1071 (measured at 1 nm only)"
+   },
+   "dEc_PBE_eV": {
+    "value": 0.8478,
+    "unit": "eV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slab1r_final_cpu (2 nm two-step + same-termination EA difference)"
+   },
+   "dEv_PBE_eV": {
+    "value": -0.052,
+    "unit": "eV",
+    "label": "COMPUTED",
+    "source": "dEc - dEg (identity)"
+   },
+   "CB_share": {
+    "value": 0.942,
+    "unit": "-",
+    "label": "COMPUTED",
+    "source": "dEc/dEg"
+   },
+   "dEc_HSEcorrected_eV": {
+    "value": [
+     0.8986,
+     0.9386
+    ],
+    "unit": "eV",
+    "label": "CALCULATED",
+    "source": "PBE dEc x 1.0599..1.1071",
+    "note": "ASSUMED: HSE keeps the PBE CB share (no HSE planar average exists)"
+   },
+   "EA_eV": {
+    "value": 3.9285,
+    "unit": "eV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slab1r_final_cpu/*_avg.dat + scf.out",
+    "note": "vacuum-referenced CBM = -EA (H/OH termination, PBE)"
+   },
+   "IP_eV": {
+    "value": 5.717,
+    "unit": "eV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slab1r_final_cpu/*_avg.dat + scf.out"
+   },
+   "vacuum_asymmetry_meV": {
+    "value": -0.0,
+    "unit": "meV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slab1r_final_cpu/*_avg.dat (left minus right plateau)"
+   },
+   "mstar_inplane_PBE_m0": {
+    "value": 0.2811,
+    "unit": "m0",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slab1r_final_cpu/bands.out (|k| <= 0.05 1/A, [100])"
+   },
+   "dm_PBE_m0": {
+    "value": 0.1221,
+    "unit": "m0",
+    "label": "COMPUTED",
+    "source": "film minus bulk 0.159"
+   },
+   "mstar_TCAD_V2convention_m0": {
+    "value": 0.3301,
+    "unit": "m0",
+    "label": "CALCULATED",
+    "source": "0.208 (LITERATURE) + dm (COMPUTED)"
+   },
+   "kane_alpha_PBE_per_eV": {
+    "value": 0.381,
+    "unit": "1/eV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slab1r_final_cpu/bands.out, in-plane [100]"
+   },
+   "E2_minus_E1_Gamma_eV": {
+    "value": 1.4988,
+    "unit": "eV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slab1r_final_cpu/bands.out (Gamma)",
+    "note": "subband spacing; >> kT = 0.026 eV"
+   },
+   "Nc300_3D_V2_cm3": {
+    "value": 4.7593e+18,
+    "unit": "cm^-3",
+    "label": "CALCULATED",
+    "source": "2(2 pi m* kT/h^2)^1.5 with the V2-convention mass (what V2 does)"
+   },
+   "Nc300_quasi2D_cm3": {
+    "value": 3.5648e+19,
+    "unit": "cm^-3",
+    "label": "CALCULATED",
+    "source": "N2D/t = m* kT/(pi hbar^2 t), single subband (second-subband weight exp(-E21/kT) included), t = label thickness",
+    "note": "NEW candidate; Boltzmann-equivalent (subthreshold); in the degenerate on-state the 3-D F1/2 form overstates n"
+   },
+   "quasi2D_over_V2_3D": {
+    "value": 7.49,
+    "unit": "-",
+    "label": "CALCULATED",
+    "source": "ratio of the two NC300 values"
+   },
+   "equivalent_Ec_shift_meV": {
+    "value": -52.1,
+    "unit": "meV",
+    "label": "CALCULATED",
+    "source": "-kT ln(ratio)"
+   },
+   "surface_state_check": {
+    "value": {
+     "OH_number_share": 0.5,
+     "VBM_OH_weight": 0.729,
+     "CBM_OH_weight": 0.23,
+     "VBM_z_profile": [
+      0.36,
+      0.0,
+      0.05,
+      0.09,
+      0.09,
+      0.05,
+      0.0,
+      0.36
+     ],
+     "CBM_z_profile": [
+      0.11,
+      0.16,
+      0.08,
+      0.1,
+      0.2,
+      0.08,
+      0.16,
+      0.11
+     ]
+    },
+    "unit": "-",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/iwo_slab1_final_cpu/projwfc (bands 311/312)",
+    "note": "PROXY: the pure 1 nm slab has no projwfc; W twin used (VB top = band 311, host CB = 312)"
+   }
+  },
+  "0.75": {
+   "job": "slabL2_relax_v2",
+   "validity": "VB edge is an OH surface state at one surface (vacuum asymmetry 27 meV); CB edge not surface-dominated",
+   "thickness_HH_nm": {
+    "value": 0.695,
+    "unit": "nm",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slabL2_relax_v2/scf.in"
+   },
+   "inplane_cell_A": {
+    "value": [
+     10.4284,
+     10.2928
+    ],
+    "unit": "A",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slabL2_relax_v2/scf.in",
+    "note": "bulk 10.306 A"
+   },
+   "gap_PBE_eV": {
+    "value": 2.1986,
+    "unit": "eV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slabL2_relax_v2/scf.out (last HOMO/LUMO line)"
+   },
+   "dEg_PBE_eV": {
+    "value": 1.3099,
+    "unit": "eV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slabL2_relax_v2/scf.out minus bulk 0.8887 eV"
+   },
+   "dEg_HSEcorrected_eV": {
+    "value": [
+     1.3884,
+     1.4501
+    ],
+    "unit": "eV",
+    "label": "CALCULATED",
+    "source": "PBE dEg x HSE/PBE ratio 1.0599..1.1071 (measured at 1 nm only)",
+    "note": "ASSUMED that the 1 nm ratio transfers to this thickness"
+   },
+   "dEc_PBE_eV": {
+    "value": 1.0586,
+    "unit": "eV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slabL2_relax_v2 (2 nm two-step + same-termination EA difference)"
+   },
+   "dEv_PBE_eV": {
+    "value": -0.2513,
+    "unit": "eV",
+    "label": "COMPUTED",
+    "source": "dEc - dEg (identity)"
+   },
+   "CB_share": {
+    "value": 0.808,
+    "unit": "-",
+    "label": "COMPUTED",
+    "source": "dEc/dEg"
+   },
+   "dEc_HSEcorrected_eV": {
+    "value": [
+     1.122,
+     1.1719
+    ],
+    "unit": "eV",
+    "label": "CALCULATED",
+    "source": "PBE dEc x 1.0599..1.1071",
+    "note": "ASSUMED: HSE keeps the PBE CB share (no HSE planar average exists)"
+   },
+   "EA_eV": {
+    "value": 3.7177,
+    "unit": "eV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slabL2_relax_v2/*_avg.dat + scf.out",
+    "note": "vacuum-referenced CBM = -EA (H/OH termination, PBE)"
+   },
+   "IP_eV": {
+    "value": 5.9163,
+    "unit": "eV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slabL2_relax_v2/*_avg.dat + scf.out"
+   },
+   "vacuum_asymmetry_meV": {
+    "value": -27.16,
+    "unit": "meV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slabL2_relax_v2/*_avg.dat (left minus right plateau)"
+   },
+   "mstar_inplane_PBE_m0": {
+    "value": 0.3348,
+    "unit": "m0",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slabL2_relax_v2/bands.out (|k| <= 0.05 1/A, [100])"
+   },
+   "dm_PBE_m0": {
+    "value": 0.1758,
+    "unit": "m0",
+    "label": "COMPUTED",
+    "source": "film minus bulk 0.159"
+   },
+   "mstar_TCAD_V2convention_m0": {
+    "value": 0.3838,
+    "unit": "m0",
+    "label": "CALCULATED",
+    "source": "0.208 (LITERATURE) + dm (COMPUTED)"
+   },
+   "kane_alpha_PBE_per_eV": {
+    "value": 0.326,
+    "unit": "1/eV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slabL2_relax_v2/bands.out, in-plane [100]"
+   },
+   "E2_minus_E1_Gamma_eV": {
+    "value": 1.8152,
+    "unit": "eV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slabL2_relax_v2/bands.out (Gamma)",
+    "note": "subband spacing; >> kT = 0.026 eV"
+   },
+   "Nc300_3D_V2_cm3": {
+    "value": 5.9666e+18,
+    "unit": "cm^-3",
+    "label": "CALCULATED",
+    "source": "2(2 pi m* kT/h^2)^1.5 with the V2-convention mass (what V2 does)"
+   },
+   "Nc300_quasi2D_cm3": {
+    "value": 5.5263e+19,
+    "unit": "cm^-3",
+    "label": "CALCULATED",
+    "source": "N2D/t = m* kT/(pi hbar^2 t), single subband (second-subband weight exp(-E21/kT) included), t = label thickness",
+    "note": "NEW candidate; Boltzmann-equivalent (subthreshold); in the degenerate on-state the 3-D F1/2 form overstates n"
+   },
+   "quasi2D_over_V2_3D": {
+    "value": 9.262,
+    "unit": "-",
+    "label": "CALCULATED",
+    "source": "ratio of the two NC300 values"
+   },
+   "equivalent_Ec_shift_meV": {
+    "value": -57.5,
+    "unit": "meV",
+    "label": "CALCULATED",
+    "source": "-kT ln(ratio)"
+   },
+   "surface_state_check": {
+    "value": {
+     "OH_number_share": 0.632,
+     "VBM_OH_weight": 0.758,
+     "CBM_OH_weight": 0.358,
+     "VBM_z_profile": [
+      0.64,
+      0.05,
+      0.0,
+      0.09,
+      0.15,
+      0.0,
+      0.07,
+      0.0
+     ],
+     "CBM_z_profile": [
+      0.14,
+      0.04,
+      0.25,
+      0.09,
+      0.11,
+      0.19,
+      0.1,
+      0.08
+     ]
+    },
+    "unit": "-",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slabL2_relax_v2/projwfc_*.out (measure of surface_state_check.py)"
+   }
+  },
+  "0.51": {
+   "job": "slabL1_relax_v2",
+   "validity": "OUTSIDE THE RECIPE: relaxes into an In(OH)3-like layer; excluded from all laws",
+   "thickness_HH_nm": {
+    "value": 0.461,
+    "unit": "nm",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slabL1_relax_v2/scf.in"
+   },
+   "inplane_cell_A": {
+    "value": [
+     10.6955,
+     10.0188
+    ],
+    "unit": "A",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slabL1_relax_v2/scf.in",
+    "note": "bulk 10.306 A"
+   },
+   "gap_PBE_eV": {
+    "value": 3.1401,
+    "unit": "eV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slabL1_relax_v2/scf.out (last HOMO/LUMO line)"
+   },
+   "dEg_PBE_eV": {
+    "value": 2.2514,
+    "unit": "eV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slabL1_relax_v2/scf.out minus bulk 0.8887 eV"
+   },
+   "dEg_HSEcorrected_eV": {
+    "value": [
+     2.3863,
+     2.4924
+    ],
+    "unit": "eV",
+    "label": "CALCULATED",
+    "source": "PBE dEg x HSE/PBE ratio 1.0599..1.1071 (measured at 1 nm only)",
+    "note": "ASSUMED that the 1 nm ratio transfers to this thickness"
+   },
+   "dEc_PBE_eV": {
+    "value": 1.5846,
+    "unit": "eV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slabL1_relax_v2 (2 nm two-step + same-termination EA difference)"
+   },
+   "dEv_PBE_eV": {
+    "value": -0.6668,
+    "unit": "eV",
+    "label": "COMPUTED",
+    "source": "dEc - dEg (identity)"
+   },
+   "CB_share": {
+    "value": 0.704,
+    "unit": "-",
+    "label": "COMPUTED",
+    "source": "dEc/dEg"
+   },
+   "dEc_HSEcorrected_eV": {
+    "value": [
+     1.6795,
+     1.7543
+    ],
+    "unit": "eV",
+    "label": "CALCULATED",
+    "source": "PBE dEc x 1.0599..1.1071",
+    "note": "ASSUMED: HSE keeps the PBE CB share (no HSE planar average exists)"
+   },
+   "EA_eV": {
+    "value": 3.1917,
+    "unit": "eV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slabL1_relax_v2/*_avg.dat + scf.out",
+    "note": "vacuum-referenced CBM = -EA (H/OH termination, PBE)"
+   },
+   "IP_eV": {
+    "value": 6.3318,
+    "unit": "eV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slabL1_relax_v2/*_avg.dat + scf.out"
+   },
+   "vacuum_asymmetry_meV": {
+    "value": 0.0,
+    "unit": "meV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slabL1_relax_v2/*_avg.dat (left minus right plateau)"
+   },
+   "mstar_inplane_PBE_m0": {
+    "value": 0.4282,
+    "unit": "m0",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slabL1_relax_v2/bands.out (|k| <= 0.05 1/A, [100])"
+   },
+   "dm_PBE_m0": {
+    "value": 0.2692,
+    "unit": "m0",
+    "label": "COMPUTED",
+    "source": "film minus bulk 0.159"
+   },
+   "mstar_TCAD_V2convention_m0": {
+    "value": 0.4772,
+    "unit": "m0",
+    "label": "CALCULATED",
+    "source": "0.208 (LITERATURE) + dm (COMPUTED)"
+   },
+   "kane_alpha_PBE_per_eV": {
+    "value": 0.252,
+    "unit": "1/eV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slabL1_relax_v2/bands.out, in-plane [100]"
+   },
+   "E2_minus_E1_Gamma_eV": {
+    "value": 1.8872,
+    "unit": "eV",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slabL1_relax_v2/bands.out (Gamma)",
+    "note": "subband spacing; >> kT = 0.026 eV"
+   },
+   "Nc300_3D_V2_cm3": {
+    "value": 8.2722e+18,
+    "unit": "cm^-3",
+    "label": "CALCULATED",
+    "source": "2(2 pi m* kT/h^2)^1.5 with the V2-convention mass (what V2 does)"
+   },
+   "Nc300_quasi2D_cm3": {
+    "value": 1.0105e+20,
+    "unit": "cm^-3",
+    "label": "CALCULATED",
+    "source": "N2D/t = m* kT/(pi hbar^2 t), single subband (second-subband weight exp(-E21/kT) included), t = label thickness",
+    "note": "NEW candidate; Boltzmann-equivalent (subthreshold); in the degenerate on-state the 3-D F1/2 form overstates n"
+   },
+   "quasi2D_over_V2_3D": {
+    "value": 12.216,
+    "unit": "-",
+    "label": "CALCULATED",
+    "source": "ratio of the two NC300 values"
+   },
+   "equivalent_Ec_shift_meV": {
+    "value": -64.7,
+    "unit": "meV",
+    "label": "CALCULATED",
+    "source": "-kT ln(ratio)"
+   },
+   "surface_state_check": {
+    "value": {
+     "OH_number_share": 0.857,
+     "VBM_OH_weight": 0.985,
+     "CBM_OH_weight": 0.563,
+     "VBM_z_profile": [
+      0.0,
+      0.22,
+      0.27,
+      0.0,
+      0.02,
+      0.27,
+      0.22,
+      0.0
+     ],
+     "CBM_z_profile": [
+      0.05,
+      0.13,
+      0.11,
+      0.12,
+      0.32,
+      0.11,
+      0.13,
+      0.05
+     ]
+    },
+    "unit": "-",
+    "label": "COMPUTED",
+    "source": "qe_workflow/cern_htcondor/results/slabL1_relax_v2/projwfc_*.out (measure of surface_state_check.py)"
+   }
+  }
+ },
+ "W": {
+  "site_preference": {
+   "value": {
+    "E_8b_minus_E_24d_eV": 0.258,
+    "preferred": "24d"
+   },
+   "unit": "eV",
+   "label": "COMPUTED",
+   "source": "qe_workflow/cern_htcondor/results/summary.json (iwo_W8b, iwo_W24d relax.out)"
+  },
+  "oxidation_state": {
+   "value": "W6+ (mean W-O 1.98 A vs Shannon W6+ 1.98, W4+ 2.04)",
+   "unit": "-",
+   "label": "COMPUTED",
+   "source": "qe_workflow/cern_htcondor/results/summary.json",
+   "note": "Shannon 1976 radii LITERATURE"
+  },
+  "magnetism": {
+   "value": "0.6-0.7 muB/cell at 3x3x3, ~20 meV below non-magnetic",
+   "unit": "-",
+   "label": "COMPUTED",
+   "source": "qe_workflow/cern_htcondor/results/RESULTS_LOG.md 2026-09-29",
+   "note": "preliminary (coarse k sampling)"
+  },
+  "cells": {
+   "1.0": {
+    "job": "iwo_slab1_final_cpu",
+    "W_cation_fraction": {
+     "value": 0.0417,
+     "unit": "-",
+     "label": "COMPUTED",
+     "source": "qe_workflow/cern_htcondor/results/iwo_slab1_final_cpu/scf.in"
+    },
+    "donated_electron_density_cm3": {
+     "value": 2.969e+21,
+     "unit": "cm^-3",
+     "label": "CALCULATED",
+     "source": "3 electrons per cell / volume (slab: area x H-H thickness)"
+    },
+    "VB_top_band": {
+     "value": 311,
+     "unit": "-",
+     "label": "COMPUTED",
+     "source": "projwfc: O 2p; = n_pure - 1 (PAW band count)"
+    },
+    "EF_minus_hostCB_Gamma_eV": {
+     "value": 1.2276,
+     "unit": "eV",
+     "label": "COMPUTED",
+     "source": "qe_workflow/cern_htcondor/results/iwo_slab1_final_cpu (scf + projwfc)"
+    },
+    "W5d_rich_level_minus_hostCB_Gamma_eV": {
+     "value": 1.2228,
+     "unit": "eV",
+     "label": "COMPUTED",
+     "source": "qe_workflow/cern_htcondor/results/iwo_slab1_final_cpu projwfc (lowest band above the host CB bottom with W 5d >= 0.30 at Gamma)",
+     "note": "positive = resonant in the conduction band (no gap state)"
+    },
+    "electrons_in_host_CB_bottom_band": {
+     "value": 2.001,
+     "unit": "e/cell",
+     "label": "COMPUTED",
+     "source": "MV smearing occupations of scf eigenvalues"
+    },
+    "W5d_projected_electrons_of_3": {
+     "value": 0.428,
+     "unit": "e/cell",
+     "label": "COMPUTED",
+     "source": "sum over occupied states above the VB top of occupation x W 5d weight"
+    },
+    "gap_VBtop_to_hostCB_Gamma_eV": {
+     "value": 1.7191,
+     "unit": "eV",
+     "label": "COMPUTED",
+     "source": "projwfc energies at Gamma"
+    },
+    "EA_hostCB_eV": {
+     "value": 4.0694,
+     "unit": "eV",
+     "label": "COMPUTED",
+     "source": "qe_workflow/cern_htcondor/results/iwo_slab1_final_cpu/*_avg.dat"
+    },
+    "work_function_eV": {
+     "value": 2.8417,
+     "unit": "eV",
+     "label": "COMPUTED",
+     "source": "E_vac - E_F"
+    },
+    "W_effect_vs_pure_twin_eV": {
+     "value": {
+      "dGap_eV": -0.0694,
+      "dEA_eV": 0.1409,
+      "dIP_eV": 0.0715
+     },
+     "unit": "eV",
+     "label": "COMPUTED",
+     "source": "IWO minus slab1r_final_cpu",
+     "note": "at 1.4-3e21 cm^-3 donated electrons (E_F 1.2 eV into the CB): band filling + W potential; NOT transferable to device densities"
+    }
+   },
+   "2.0": {
+    "job": "iwo_slab2_final_cpu",
+    "W_cation_fraction": {
+     "value": 0.0179,
+     "unit": "-",
+     "label": "COMPUTED",
+     "source": "qe_workflow/cern_htcondor/results/iwo_slab2_final_cpu/scf.in"
+    },
+    "donated_electron_density_cm3": {
+     "value": 1.43e+21,
+     "unit": "cm^-3",
+     "label": "CALCULATED",
+     "source": "3 electrons per cell / volume (slab: area x H-H thickness)"
+    },
+    "VB_top_band": {
+     "value": 663,
+     "unit": "-",
+     "label": "COMPUTED",
+     "source": "projwfc: O 2p; = n_pure - 1 (PAW band count)"
+    },
+    "EF_minus_hostCB_Gamma_eV": {
+     "value": 1.2383,
+     "unit": "eV",
+     "label": "COMPUTED",
+     "source": "qe_workflow/cern_htcondor/results/iwo_slab2_final_cpu (scf + projwfc)"
+    },
+    "W5d_rich_level_minus_hostCB_Gamma_eV": {
+     "value": 1.3414,
+     "unit": "eV",
+     "label": "COMPUTED",
+     "source": "qe_workflow/cern_htcondor/results/iwo_slab2_final_cpu projwfc (lowest band above the host CB bottom with W 5d >= 0.30 at Gamma)",
+     "note": "positive = resonant in the conduction band (no gap state)"
+    },
+    "electrons_in_host_CB_bottom_band": {
+     "value": 2.041,
+     "unit": "e/cell",
+     "label": "COMPUTED",
+     "source": "MV smearing occupations of scf eigenvalues"
+    },
+    "W5d_projected_electrons_of_3": {
+     "value": 0.086,
+     "unit": "e/cell",
+     "label": "COMPUTED",
+     "source": "sum over occupied states above the VB top of occupation x W 5d weight"
+    },
+    "gap_VBtop_to_hostCB_Gamma_eV": {
+     "value": 1.0763,
+     "unit": "eV",
+     "label": "COMPUTED",
+     "source": "projwfc energies at Gamma"
+    },
+    "EA_hostCB_eV": {
+     "value": 4.7463,
+     "unit": "eV",
+     "label": "COMPUTED",
+     "source": "qe_workflow/cern_htcondor/results/iwo_slab2_final_cpu/*_avg.dat"
+    },
+    "work_function_eV": {
+     "value": 3.508,
+     "unit": "eV",
+     "label": "COMPUTED",
+     "source": "E_vac - E_F"
+    },
+    "W_effect_vs_pure_twin_eV": {
+     "value": {
+      "dGap_eV": -0.1475,
+      "dEA_eV": 0.2513,
+      "dIP_eV": 0.1038
+     },
+     "unit": "eV",
+     "label": "COMPUTED",
+     "source": "IWO minus slab2r_pdos_cpu",
+     "note": "at 1.4-3e21 cm^-3 donated electrons (E_F 1.2 eV into the CB): band filling + W potential; NOT transferable to device densities"
+    }
+   },
+   "bulk_24d": {
+    "job": "iwo_W24d",
+    "W_cation_fraction": {
+     "value": 0.0312,
+     "unit": "-",
+     "label": "COMPUTED",
+     "source": "qe_workflow/cern_htcondor/results/iwo_W24d/scf.in"
+    },
+    "donated_electron_density_cm3": {
+     "value": 2.741e+21,
+     "unit": "cm^-3",
+     "label": "CALCULATED",
+     "source": "3 electrons per cell / volume (slab: area x H-H thickness)"
+    },
+    "VB_top_band": {
+     "value": 351,
+     "unit": "-",
+     "label": "COMPUTED",
+     "source": "projwfc: O 2p; = n_pure - 1 (PAW band count)"
+    },
+    "EF_minus_hostCB_Gamma_eV": {
+     "value": 1.7633,
+     "unit": "eV",
+     "label": "COMPUTED",
+     "source": "qe_workflow/cern_htcondor/results/iwo_W24d (scf + projwfc)"
+    },
+    "W5d_rich_level_minus_hostCB_Gamma_eV": {
+     "value": 1.764,
+     "unit": "eV",
+     "label": "COMPUTED",
+     "source": "qe_workflow/cern_htcondor/results/iwo_W24d projwfc (lowest band above the host CB bottom with W 5d >= 0.30 at Gamma)",
+     "note": "positive = resonant in the conduction band (no gap state)"
+    },
+    "electrons_in_host_CB_bottom_band": {
+     "value": 1.789,
+     "unit": "e/cell",
+     "label": "COMPUTED",
+     "source": "MV smearing occupations of scf eigenvalues"
+    },
+    "W5d_projected_electrons_of_3": {
+     "value": 0.287,
+     "unit": "e/cell",
+     "label": "COMPUTED",
+     "source": "sum over occupied states above the VB top of occupation x W 5d weight"
+    },
+    "gap_VBtop_to_hostCB_Gamma_eV": {
+     "value": 0.8616,
+     "unit": "eV",
+     "label": "COMPUTED",
+     "source": "projwfc energies at Gamma"
+    }
+   },
+   "bulk_8b": {
+    "job": "iwo_W8b",
+    "W_cation_fraction": {
+     "value": 0.0312,
+     "unit": "-",
+     "label": "COMPUTED",
+     "source": "qe_workflow/cern_htcondor/results/iwo_W8b/scf.in"
+    },
+    "donated_electron_density_cm3": {
+     "value": 2.741e+21,
+     "unit": "cm^-3",
+     "label": "CALCULATED",
+     "source": "3 electrons per cell / volume (slab: area x H-H thickness)"
+    },
+    "VB_top_band": {
+     "value": 351,
+     "unit": "-",
+     "label": "COMPUTED",
+     "source": "projwfc: O 2p; = n_pure - 1 (PAW band count)"
+    },
+    "EF_minus_hostCB_Gamma_eV": {
+     "value": 1.7126,
+     "unit": "eV",
+     "label": "COMPUTED",
+     "source": "qe_workflow/cern_htcondor/results/iwo_W8b (scf + projwfc)"
+    },
+    "W5d_rich_level_minus_hostCB_Gamma_eV": {
+     "value": 1.8026,
+     "unit": "eV",
+     "label": "COMPUTED",
+     "source": "qe_workflow/cern_htcondor/results/iwo_W8b projwfc (lowest band above the host CB bottom with W 5d >= 0.30 at Gamma)",
+     "note": "positive = resonant in the conduction band (no gap state)"
+    },
+    "electrons_in_host_CB_bottom_band": {
+     "value": 1.932,
+     "unit": "e/cell",
+     "label": "COMPUTED",
+     "source": "MV smearing occupations of scf eigenvalues"
+    },
+    "W5d_projected_electrons_of_3": {
+     "value": 0.36,
+     "unit": "e/cell",
+     "label": "COMPUTED",
+     "source": "sum over occupied states above the VB top of occupation x W 5d weight"
+    },
+    "gap_VBtop_to_hostCB_Gamma_eV": {
+     "value": 0.8939,
+     "unit": "eV",
+     "label": "COMPUTED",
+     "source": "projwfc energies at Gamma"
+    }
+   }
+  },
+  "conclusion_for_TCAD": "INFERRED from COMPUTED level positions: the W-5d-rich level lies 1.2-1.8 eV ABOVE the host CB bottom; at device electron densities (<1e19 cm^-3, E_F below E_C) it is empty, so W is a fully ionized donor and contributes no gap state and no electron trap. PBE only (no HSE for W cells)."
+ },
+ "hse_check": {
+  "value": {
+   "gaps_Gamma_eV": {
+    "nc_pbe_bulk_e80": 0.9204,
+    "nc_pbe_slab1_e80": 1.8068,
+    "nc_hse_bulk_e80": 2.108,
+    "nc_hse_bulk_q3_f160_e80": 2.0662,
+    "nc_hse_slab1_f160_e80": 3.0475
+   },
+   "ratio_q1": 1.0599,
+   "ratio_worst_case_q3": 1.1071
+  },
+  "unit": "-",
+  "label": "COMPUTED",
+  "source": "qe_workflow/cern_htcondor/results/nc_* folders (scf.out)",
+  "note": "SG15 NC, 80 Ry, ecutfock 160 Ry, PBE geometry (a = 10.306 A, 1.9 % above experiment); slab gap HSE at q = 1 only"
+ },
+ "laws": {
+  "dEg_eV": {
+   "value": {
+    "a": 0.81431,
+    "p": 1.31518,
+    "form": "a * t_HH^-p",
+    "points_t_HH_nm": [
+     0.695,
+     0.93,
+     1.962
+    ],
+    "rel_residuals": [
+     0.003,
+     -0.004,
+     0.001
+    ],
+    "at_t_nm": {
+     "2.0": 0.3273,
+     "6.3": 0.0724,
+     "13.2": 0.0274
+    }
+   },
+   "unit": "eV",
+   "label": "FITTED to COMPUTED DFT points (H-H 0.695/0.930/1.962 nm), no device data",
+   "source": "dft_inputs_raw.json laws.dEg",
+   "note": "values at 6.3 and 13.2 nm are extrapolations (no DFT point above 2 nm)"
+  },
+  "dEc_eV": {
+   "value": {
+    "fit3": {
+     "a": 0.70147,
+     "p": 1.31669,
+     "rel_residuals": [
+      0.07,
+      -0.09,
+      0.027
+     ],
+     "at_t_nm": {
+      "2.0": 0.2816,
+      "6.3": 0.0622,
+      "13.2": 0.0235
+     }
+    },
+    "fit2_1and2nm_HH": {
+     "a": 0.76158,
+     "p": 1.47779,
+     "at_t_nm": {
+      "2.0": 0.2734,
+      "6.3": 0.0502,
+      "13.2": 0.0168
+     }
+    },
+    "V2_law_labels": {
+     "a": 0.78504,
+     "p": 1.504,
+     "at_t_nm": {
+      "2.0": 0.2768,
+      "6.3": 0.0493,
+      "13.2": 0.0162
+     }
+    },
+    "box_E1_equals_E21_over_3": {
+     "2.0": 0.2344,
+     "6.3": 0.0456,
+     "13.2": 0.0127
+    }
+   },
+   "unit": "eV",
+   "label": "FITTED to COMPUTED DFT points, no device data",
+   "source": "dft_inputs_raw.json laws.dEc",
+   "note": "spread at 6.3 nm 0.046-0.062 eV and at 13.2 nm 0.013-0.024 eV (PBE) = extrapolation uncertainty"
+  },
+  "dm_m0": {
+   "value": {
+    "a": 0.11116,
+    "p": 1.26387,
+    "rel_residuals": [
+     0.002,
+     -0.002,
+     0.001
+    ],
+    "at_t_nm": {
+     "2.0": 0.0463,
+     "6.3": 0.0109,
+     "13.2": 0.0043
+    }
+   },
+   "unit": "m0",
+   "label": "FITTED to COMPUTED DFT points, no device data",
+   "source": "dft_inputs_raw.json laws.dm"
+  },
+  "subband_box": {
+   "value": {
+    "delta_nm": 1.396,
+    "m_z_m0": 0.1391,
+    "label": "MODEL fitted to two DFT spacings (2 parameters, 2 points: exact, no test)",
+    "at_t_nm": {
+     "2.0": {
+      "E21_box_eV": 0.7031,
+      "subband_sum": 1.0,
+      "Nc_q2D_box_cm3": 1.3731e+19,
+      "Nc3D_V2_cm3": 3.218e+18,
+      "ratio": 4.267,
+      "V2_dEc_eV": 0.2768,
+      "V2_dEg_eV": 0.3305
+     },
+     "6.3": {
+      "E21_box_eV": 0.1369,
+      "subband_sum": 1.005,
+      "Nc_q2D_box_cm3": 3.7711e+18,
+      "Nc3D_V2_cm3": 2.57e+18,
+      "ratio": 1.467,
+      "V2_dEc_eV": 0.0493,
+      "V2_dEg_eV": 0.0706
+     },
+     "13.2": {
+      "E21_box_eV": 0.0381,
+      "subband_sum": 1.25,
+      "Nc_q2D_box_cm3": 2.1707e+18,
+      "Nc3D_V2_cm3": 2.4547e+18,
+      "ratio": 0.884,
+      "V2_dEc_eV": 0.0162,
+      "V2_dEg_eV": 0.0261
+     }
+    }
+   },
+   "unit": "-",
+   "label": "MODEL",
+   "source": "E21 = 3 hbar^2 pi^2 / (2 m_z (t + delta)^2) through the 1 and 2 nm E21 (2 parameters, 2 points)",
+   "note": "used only to illustrate the 2-D -> 3-D crossover of NC300 at 6.3 and 13.2 nm"
+  },
+  "hse_scaling": {
+   "value": [
+    1.0599,
+    1.1071
+   ],
+   "unit": "-",
+   "label": "ASSUMED transfer of the COMPUTED 1 nm ratio",
+   "source": "hse_check",
+   "note": "multiply dEg and dEc"
+  }
+ },
+ "t4_points_for_make_v2_model": {
+  "value": {
+   "0.695": {
+    "dEc": 1.0586,
+    "dEg": 1.3099,
+    "dm": 0.1758,
+    "source": "slabL2_relax_v2"
+   },
+   "0.461": {
+    "dEc": 1.5846,
+    "dEg": 2.2514,
+    "dm": 0.2692,
+    "source": "slabL1_relax_v2"
+   }
+  },
+  "unit": "-",
+  "label": "COMPUTED",
+  "source": "same format as analysis_2026-10-06_V2/t4_prepare.py (thin_dft.json); not written there",
+  "note": "T4 is on hold (decision D-07, \"not yet\"); 0.461 nm film outside the recipe"
+ },
+ "atlas_mapping": [
+  {
+   "atlas": "EG300",
+   "law": "Eg_bulk + dEg(t)",
+   "Eg_bulk": "LITERATURE 3.05 eV (Fan2021)",
+   "dEg": "COMPUTED PBE points -> FITTED law; optional HSE x1.06-1.11 (ASSUMED transfer)",
+   "V2": "used (2-point PBE law, Lin labels)",
+   "new": "0.695 nm point; 3-point law; HSE option",
+   "effect": "enters only n_i (holes not solved): negligible for I_D (INFERRED)"
+  },
+  {
+   "atlas": "AFFINITY",
+   "law": "chi_bulk - dEc(t)",
+   "chi_bulk": "LITERATURE 4.3 eV (Fan2021); DFT bulk-equivalent EA 4.78 eV (PBE, H-(001)) reported but not proposed",
+   "dEc": "COMPUTED PBE (two-step at 2 nm, EA route below) -> FITTED law; optional HSE x1.06-1.11",
+   "V2": "used (0.281 @ 1.98, 0.848 @ 0.95)",
+   "new": "0.695 nm point 1.059 eV; extrapolation band at 6.3/13.2 nm; HSE option (+17..+31 meV at 2 nm)"
+  },
+  {
+   "atlas": "NC300",
+   "law": "V2: 2(2 pi m* kT/h^2)^1.5, m* = 0.208 + dm(t); candidate: N2D/t at t <= 2 nm",
+   "inputs": "dm COMPUTED; E21 COMPUTED (single subband at <= 2 nm); 0.208 LITERATURE",
+   "V2": "used (3-D form)",
+   "new": "quasi-2D value 1.38e19 cm^-3 at 2 nm (x4.3 vs V2 3.24e18; -37.5 meV equivalent)"
+  },
+  {
+   "atlas": "ME / ARICHN",
+   "law": "ARICHN = 120.17 A/cm^2/K^2 x m*(t)",
+   "inputs": "m*(t) as above",
+   "V2": "not used (S/D ideal ohmic)",
+   "new": "only if Pd contacts are made Schottky; ME.TUNNEL is an oxide tunnelling mass and does not come from this DFT"
+  },
+  {
+   "atlas": "DOPING / Nd_eff",
+   "law": "unchanged FITTED Nd0(1+(t/tc)^k)",
+   "inputs": "W: resonant donor (level +1.2..+1.8 eV above E_C), fully ionized; 3 e per W",
+   "V2": "qualitative (Nd_eff kept fitted)",
+   "new": "2 nm W slab: 97 % of the donated electrons in the host CB, 3 % W-5d projected"
+  },
+  {
+   "atlas": "DEFECTS / INTDEFECTS / INTERFACE QF",
+   "law": "unchanged (ASSUMED / FITTED)",
+   "inputs": "no gap state from W; CB edge interior at every t >= 0.695 nm; OH states only at the VB edge (<= 1 nm, and 2 nm with W)",
+   "V2": "not DFT-based",
+   "new": "DFT gives no basis for acceptor-like surface states near E_C on an H/OH surface; real interfaces not computed"
+  },
+  {
+   "atlas": "MUN (mu_band)",
+   "law": "unchanged FITTED",
+   "inputs": "m*(2 nm)/m*(13.2 nm) = 1.20 -> constant-tau mobility ratio 0.83",
+   "V2": "not used",
+   "new": "the mass explains at most a factor 0.83 of the fitted mu_band ratio 0.28 (INFERRED)"
+  }
+ ],
+ "v2_used_vs_new": {
+  "used_by_V2": [
+   "dEg at 0.95/1.98 nm (0.900/0.335 eV, PBE)",
+   "dEc at 0.95/1.98 nm (0.848/0.281 eV)",
+   "dm at 0.95/1.98 nm (0.122/0.047 m0) on top of the 0.208 literature bulk mass",
+   "NC300 from the 3-D formula",
+   "HSE ratio only as validation (not applied)",
+   "W: qualitative (Nd_eff stays fitted)",
+   "2 nm band edges bulk-like (qualitative)"
+  ],
+  "new_here": [
+   "0.695 nm (and 0.461 nm, outside the recipe) gap, dEc, dm, EA/IP, E21",
+   "3-point laws and extrapolation spread at 6.3/13.2 nm",
+   "HSE-scaled dEg/dEc option",
+   "quasi-2D NC300 at <= 2 nm from DFT m* and E21",
+   "subband spacings E21 (0.72 eV at 2 nm)",
+   "CB non-parabolicity (PBE)",
+   "surface character at 0.695/0.461/1 nm (proxy) and 2 nm with W",
+   "2 nm W slab: filling, W level, W effect on gap/EA",
+   "electron filling in all four W cells (MV occupations)",
+   "bulk-equivalent EA/IP (PBE, H-(001))",
+   "two-step dEc(2 nm) re-computed on the slab side"
+  ]
+ },
+ "gaps": [
+  "Absolute Eg and electron affinity of amorphous IWO: PBE gap 0.89 eV, HSE06 2.07-2.11 eV at the PBE lattice; both below the literature bulk value; EA is termination-specific. EG300/AFFINITY bulk anchors stay LITERATURE.",
+  "HSE band-edge partition (no HSE planar average); the HSE ratio exists only at 1 nm; the same CB share is ASSUMED.",
+  "HSE for W cells: the position of the W 5d level beyond PBE is not computed.",
+  "Effective mass of the W slabs (1 nm bands run aborted; 2 nm run without bands).",
+  "Films thicker than 2 nm: no slab; dEc/dEg/dm at 6.3 and 13.2 nm are extrapolations (spread given).",
+  "Compensation / effective donor density: no V_O, H, O_i or W-defect complexes computed (planned, COMPLETE_PLAN 2B item 3) -> Nd_eff stays FITTED.",
+  "Interface states and fixed charge at Al2O3/IWO, and the air-exposed surface: not computed (planned, 2B item 4) -> Dit, Qf stay ASSUMED/FITTED.",
+  "Band tails (N_t, W_TA) and localization: crystalline cells have no tails (amorphous series planned, 2A) -> stay FITTED.",
+  "Dielectric constant (no DFPT): eps_r stays MEASURED 9.3 (Januar2026 SI).",
+  "Mobility / scattering: only m* is computed -> mu_band stays FITTED.",
+  "Temperature dependence (EGALPHA/EGBETA), gate-field (Stark) shift of the subbands, Pd/IWO contact barrier: not computed."
+ ],
+ "crosscheck": {
+  "by": "Codex (codex-cli 0.162.0, read-only sandbox, independent scripts), 2026-10-10",
+  "record": "analysis_2026-10-10_campaign/codex_xcheck_2026-10-10.md",
+  "agreement": "gaps, EA, IP, H-H thicknesses, E21 and surface shares identical to the printed digits; masses within 0.001 m0 (Codex fits through the origin); 2 nm W slab: VB top band 663, host CB 664, W-rich band 666 at +1.341 eV, E_F - CB 1.238 eV, electrons 2.041/0.862/0.097 in bands 664/665/666, EA 4.746 eV - identical"
+ }
+}

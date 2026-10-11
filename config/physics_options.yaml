@@ -1,0 +1,150 @@
+# Physics options for the 2026-10-10 campaign (analysis_2026-10-10_campaign/CAMPAIGN_DESIGN.md, GENERATOR_AUDIT.md section 8).
+# Loaded by scripts/build_iwo_decks.load_configs() into solver['physics_options']; overrides use the existing prefix,
+# e.g. --override solver.physics_options.gate_tunnelling.enabled=1. EVERY OPTION IS OFF HERE and must stay OFF: a run
+# turns an option on only through its overrides (recorded in execution.json), so regress_all_decks.py can rebuild every
+# deck. When all options are OFF the generator emits no extra line (V1/V2 decks byte-identical).
+# Booleans are parsed explicitly (1/1.0/true/yes/on); never rely on Python truthiness (set_dotted keeps 'false' as text).
+# Labels: COMPUTED (our DFT, file cited) / MEASURED / LITERATURE (cited) / FITTED (to named data) / ASSUMED /
+# CALCULATED (closed-form formula of labelled inputs) / MODEL (2-parameter fit to COMPUTED points). No value below is a fit
+# to device data except where FITTED says so.
+schema: IWO_physics_options_v1
+
+# C2. NC300 replacement at listed thicknesses {t_nm: cm^-3}. Empty = 3-D formula 2(2 pi m* kT/h^2)^1.5 everywhere.
+# Campaign value (via override only): 2.0 nm -> 1.373e19 = N2D/t = m*(2 nm) m0 kT/(pi hbar^2 t), m*(2 nm) = 0.2543 m0
+# (0.208 LITERATURE Stokey2021 + DFT dm law FITTED to COMPUTED points, dft_inputs.json laws.dm_m0) -> CALCULATED;
+# single-subband criterion from COMPUTED E21 = 0.7191 eV (dft_inputs.json films.2.0.E2_minus_E1_Gamma_eV).
+# A DOS substitution inside the 3-D Fermi-Dirac form (overstates the degenerate on-state n by up to 1.7x, DFT_TO_TCAD.md 3).
+nc300_override_cm3: {}
+nc300_override_label: 'CALCULATED quasi-2D N2D/t (LITERATURE bulk mass + DFT dm law); single subband from COMPUTED E21 (dft_inputs.json)'
+
+# C3. Constant bulk term added to the tail law: Nt(t) = Nt2*(2/t)^alpha + nt_bulk_cm3 (cm^-3); NTA = Nt/WTA.
+nt_bulk_cm3: 0.0
+nt_bulk_label: 'FITTED branch (S3 50:50 surface/bulk split of the shared Ns; V1 untested alternative Nt*t = Ns + Nb*t)'
+
+# 2026-10-11 (review). Provenance of intervention decks, COMMENT LINES ONLY (no solver statement changes): none | affinity_only
+# (register H-E AFF-*: dEc law set to 0) | confinement_off (S3-01..03: dEc, dEg, dm* laws set to 0). The generator checks that the
+# named laws evaluate to 0, adds a '[B] OPTION ... intervention' header line and labels those law lines 'SET TO 0 (intervention)'.
+intervention: none
+
+# C4. Gate leakage through Al2O3 (region 3) / HfO2 (region 4). Self-consistent models only (KCL closes; GENERATOR_AUDIT 4).
+#   qtnlsc: MODELS qtnlsc.el qtnl.derivs (PDF p.301), MATERIAL region=3/4 affinity eg300 me.tunnel (p.303),
+#           CONTACT name=gate qtunn.cmass (p.303, Table 3-132), LOG j.tun (p.289, p.1307). Example diode/diodeex12.
+#           2026-10-10 (run_0066): automatic slicing (p.302) and CONTACT name=source/drain exclude_near (p.303, p.1157).
+#   fnord:  MODELS fnord f.ae f.be (p.288 Table 3-126; F.AE/F.BE are MODELS parameters), same oxide MATERIAL lines,
+#           extract ifn."gate" (DeckBuild manual p.150). ATLAS evaluates E in J = F.AE E^2 exp(-F.BE/E) at each
+#           insulator-SEMICONDUCTOR segment (PDF p.288, manual text l.13034-13038), i.e. in the Al2O3 at the IWO interface,
+#           where E_Al = r E_Hf, r = eps_HfO2/eps_Al2O3 = 19.57/9.0 = 2.1744 (D continuity, no oxide charge between).
+#           The Lenzlinger-Snow constants are CALCULATED for the TiN/HfO2 barrier (A, B), so the values written are
+#           F.AE = A/r^2, F.BE = r B: J(E_Al) then equals the HfO2-barrier FN current at the HfO2 field (2026-10-10 review
+#           fix; without it FNORD over-estimated I_G by about 5.5-6 decades at V_G = -3 V). Still a single-barrier
+#           (HfO2-limited) approximation of the bilayer; the Al2O3 barrier itself is not in FNORD.
+# Oxide y-mesh spacing at the Al2O3 and HfO2 lines becomes min(current, oxide_mesh_nm).
+gate_tunnelling:
+  enabled: 0
+  model: qtnlsc            # qtnlsc | fnord
+  set: nominal             # nominal | worst (below)
+  f_ae: 0.0                # A/V^2; 0 -> the value of the selected set
+  f_be: 0.0                # V/cm;  0 -> the value of the selected set
+  oxide_mesh_nm: 0.25      # NUMERICAL, FNORD only (device oxide mesh)
+  qt_mesh: 0               # QTNLSC: 0 = automatic slicing (PDF p.302, Atlas-built mesh; examples diodeex12, solarex15);
+                           #   1 = rectangular QTX/QTY.MESH (run_0063..0066 form; run_0066: no continuity coupling, KCL failed)
+  exclude_near_sd: 1       # QTNLSC: CONTACT exclude_near on source/drain (PDF p.303, p.1157), so every slice is booked to the gate
+  qt_slice_um: 0.2         # NUMERICAL, QTNLSC with qt_mesh=1 only: QT-mesh slice spacing along x
+  qt_point_nm: 0.5         # NUMERICAL, QTNLSC with qt_mesh=1 only: QT-mesh point spacing along a slice (inert when qt_mesh=0; the old S2-11 halved it)
+  oxide_mesh_factor: 1.0   # NUMERICAL: x factor on the device y.mesh spacing at the Al2O3 and HfO2 lines, slicing unchanged (automatic when
+                           #   qt_mesh=0). 1.0 = no change (no deck line). S2-11 = 0.5 (register H-C: oxide y-mesh x0.5 under automatic slicing)
+                           #   Scales the 0.002/0.017 um lines only; the y = 0 IWO/Al2O3 line is kept: Al2O3 about x1.5, HfO2 about x2 at 0.5.
+  gate_qtunn_cmass: 1.0    # ASSUMED (ATLAS default 1.0, Table 3-132)
+  sets:
+    nominal:
+      hfo2_affinity: 2.5   # eV, LITERATURE Robertson 2000 JVST B 18, 1785 (HfO2 CBO 1.5 eV to Si, chi_Si 4.05)
+      hfo2_eg: 5.8         # eV, LITERATURE (same source)
+      hfo2_me_tunnel: 0.20 # m0, ASSUMED inside the LITERATURE range 0.1-0.4 (source to be pinned before publication)
+      al2o3_affinity: 1.25 # eV, LITERATURE (Robertson 2000: Al2O3 CBO 2.8 eV)
+      al2o3_eg: 8.8        # eV, LITERATURE (Robertson 2000)
+      al2o3_me_tunnel: 0.35 # m0, ASSUMED inside the LITERATURE range 0.3-0.5
+      f_ae: 7.402e-7       # A/V^2, CALCULATED: Lenzlinger-Snow A = q^3 m0/(8 pi h phi m*) = 3.500e-6 (phi = 4.7 - 2.5 = 2.2 eV, m* = 0.20) / r^2
+      f_be: 2.167e+8       # V/cm,  CALCULATED: B = 8 pi sqrt(2 m*) phi^1.5/(3 q h) = 9.967e7 x r (r = 19.57/9.0, field at the Al2O3/IWO segment)
+      label: 'chi/Eg LITERATURE (Robertson 2000); me.tunnel ASSUMED in LITERATURE ranges; F.AE/F.BE CALCULATED (phi 2.2 eV, m 0.20; HfO2-barrier A, B transferred to the Al2O3/IWO-segment field: A/r^2, r B, r = 2.1744)'
+    worst:
+      hfo2_affinity: 3.2   # eV, ASSUMED leakage-maximising (TiN/HfO2 barrier 4.7 - 3.2 = 1.5 eV, below the LITERATURE 1.9-2.7 eV range)
+      hfo2_eg: 5.8
+      hfo2_me_tunnel: 0.10 # m0, ASSUMED lightest LITERATURE-range mass
+      al2o3_affinity: 1.6  # eV, ASSUMED
+      al2o3_eg: 8.8
+      al2o3_me_tunnel: 0.30
+      f_ae: 2.171e-6       # A/V^2, CALCULATED: A = 1.027e-5 (phi 1.5 eV, m 0.10) / r^2
+      f_be: 8.628e+7       # V/cm,  CALCULATED: B = 3.968e7 x r
+      label: 'ASSUMED leakage-maximising scenario (optimistic, not a rigorous upper bound: no pinholes, thinning or defects); F.AE/F.BE CALCULATED (phi 1.5 eV, m 0.10; HfO2-barrier A, B transferred to the Al2O3/IWO-segment field: A/r^2, r B, r = 2.1744)'
+
+# C5. Schottky Pd source/drain: CONTACT workfun = AFFINITY(t) + barrier, surf.rec, [e.tunnel me.tunnel=m*(t)],
+# [barrier] (image-force lowering, ALPHA = 0 default -> no free coefficient), ^ins.ohmic (the Pd volumes touch Air;
+# INS.OHMIC defaults to True, PDF p.1152). MATERIAL arichn = 120.17*m*(t) A/cm^2/K^2 (CALCULATED; silicon 110 otherwise).
+# Top-of-film y-mesh: spacing min(current, top_mesh_nm) at y = -t and a 0.2 nm line at y = -t + 3 nm (if inside the film).
+# Syntax VERIFIED (PDF p.158-161, p.1151-1159; diode/diodeex10, organic/organicex04); INS.OHMIC behaviour UNVERIFIED.
+schottky_sd:
+  enabled: 0
+  barrier_eV: 0.5          # ASSUMED grid {0.2, 0.5} eV, shared by all films (selected on data in S3 -> FITTED in effect)
+  lowering: 1              # BARRIER flag
+  e_tunnel: 1              # E.TUNNEL (Tsu-Esaki, PDF p.160); also enables SURF.REC
+  top_mesh_nm: 0.1         # NUMERICAL
+  richardson_A_cm2K2: 120.17  # LITERATURE free-electron Richardson constant; ARICHN = 120.17 * m*(t)
+  label: 'barrier from an ASSUMED grid, FITTED once selected on the data (shared); ARICHN CALCULATED 120.17*m*(t); me.tunnel = m*(t) CALCULATED (LITERATURE 0.208 + DFT dm law)'
+
+# C6. Carrier-density mobility. constant = MATERIAL mun only (V1/V2). igzo_tokyo = one MOBILITY line before SOLVE INIT:
+# mobility material=IWO igzo.tokyo mun=MUN(t) mup tmun tmup igzo.gamma0 igzo.tgamma igzo.ncrit (PDF p.195-196 Table 3-61;
+# tft/tftex21). MUN on MOBILITY defaults to 15 and TMUN to 1.5, so both are always written. Use with user.material UNVERIFIED:
+# check REGIONAL MOBILITY MODEL SUMMARY in deckbuild.out.
+mobility:
+  model: constant          # constant | igzo_tokyo
+  gamma0: -0.31            # LITERATURE ATLAS default (Abe 2014 IGZO); FITTED only if the branch is adopted
+  tgamma: 178.4            # K, LITERATURE ATLAS default (no temperature data)
+  ncrit: 1.0e+20           # cm^-3, ASSUMED (degenerate with MUN)
+  label: 'GAMMA0 FITTED if adopted (start LITERATURE default -0.31 / ASSUMED +0.30); TGAMMA LITERATURE default; NCRIT ASSUMED'
+
+# C7. Bohm quantum potential (paired test only, with the DFT shifts switched off in the same run). MODELS bqp.n
+# bqp.ngamma bqp.nalpha bqp.qdir (PDF p.835-840, Tables 14-3/14-7; quantum/quantumex05, solar/solarex18).
+# set_mass = 1 writes ml = mt1 = mt2 = mass on the IWO MATERIAL statement so that the BQP mass tensor is isotropic
+# (user.default=silicon would give silicon masses). That BQP reads ML/MT1/MT2 for this material is UNVERIFIED.
+quantum:
+  model: none              # none | bqp
+  mass: 0.139              # m0, MODEL (box fit through the DFT 1/2 nm subband spacings, dft_inputs.json laws.subband_box);
+                           #   the S3-25 alternative 0.2543 = m*(2 nm) is CALCULATED (LITERATURE 0.208 + DFT dm law)
+  ngamma: 1.2              # ASSUMED (ATLAS default, not calibrated)
+  nalpha: 0.5              # ASSUMED (ATLAS default)
+  qdir: 2                  # confinement along y (geometry)
+  set_mass: 1
+  label: 'BQP gamma/alpha ASSUMED (ATLAS defaults); quantum mass 0.139 MODEL (box fit to DFT spacings) or 0.2543 CALCULATED (m*(2 nm), LITERATURE + DFT dm law)'
+
+# C9. Defect-assisted (Ielmini) oxide tunnelling: DOPING region=<oxide> uniform tat.trap conc acceptor sign sigp e.level
+# + MODELS itat.sc.el (PDF p.320-327; quantum/quantumex20). For acceptors E.LEVEL is measured from the insulator
+# conduction-band edge (PDF DOPING E.LEVEL). Bilayer use UNVERIFIED.
+oxide_tat:
+  enabled: 0
+  region: 4                # 4 = HfO2
+  conc_cm3: 1.0e+19        # ASSUMED high-defect bound
+  e_level_eV: 1.0          # ASSUMED, below the HfO2 conduction band
+  sign_cm2: 1.0e-13        # ASSUMED (value of the installed example quantumex20)
+  sigp_cm2: 1.0e-13        # ASSUMED (same)
+  poisson: 1               # 1 = ATLAS default TAT.POISSON (trap charge in Poisson); 0 -> MODELS ^tat.poisson (PDF p.323, manual
+                           # text l.14541-14548; example p.327). 2026-10-10 review fix: 1e19 cm^-3 acceptors in 15 nm HfO2 are up
+                           # to 1.5e13 cm^-2 of charge, far above the fitted Qf, so with poisson=1 the change in I_D mixes an
+                           # electrostatic shift with collected leakage. S2-12/S2-13 use poisson=0 (isolated TAT current).
+  label: 'ASSUMED high-defect bound; cross-sections ASSUMED (quantumex20 example values)'
+
+# C8. Ungated IWO strip. Separate deck: run_campaign entry "mode": "strip" (run_atlas.execute_strip): film of thickness t
+# and length L_p on Al2O3/HfO2 with no gate electrode and no gate volume (Neumann boundary under HfO2), Pd volumes, same
+# material/DOS/Nd/Qf/MODELS; V_D stepped 0 -> 0.1 -> 0.7 V. In-solver: mode in_solver adds to the transfer deck a strip
+# beyond the drain (gap_um) with Pd pads named source/drain (same-name electrodes are connected, PDF p.44, p.74) and a
+# region mobility mun*(W/L)_par*L_s (MATERIAL REGION=, PDF p.76) -> an equivalent-conductance device (ASSUMED).
+strip:
+  mode: none               # none | in_solver   (the separate deck is selected by the campaign entry mode, not here)
+  L_p_um: 20.0             # ASSUMED strip length of the separate deck
+  vd_segments: [[0.1, 0.05], [0.7, 0.1]]   # [end V, step V] from 0 V
+  gap_um: 3.0              # ASSUMED (>= 100 x oxide thickness)
+  L_s_um: 2.0              # ASSUMED in-solver strip length between the pads
+  pad_um: 0.5              # ASSUMED Pd pad length on the in-solver strip
+  wl_par_per_um: 1.0e-4    # FITTED (V2 variant D on the 13.2 nm floor); replace by the S2/S6 strip fit before S6-27
+  qf_on_strip: 1           # ASSUMED (whether the ungated surface carries Qf is unknown; S2 runs both)
+  bottom_material: oxide   # ASSUMED insulator under HfO2 outside the gate (in-solver strip only)
+  label: 'geometry ASSUMED; (W/L)_par FITTED on one film floor (after the solve, or frozen for in_solver)'

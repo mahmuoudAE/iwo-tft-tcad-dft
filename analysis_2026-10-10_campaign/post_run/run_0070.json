@@ -1,0 +1,97 @@
+{
+ "run_id": "run_0070",
+ "status_runner": "REAL_ATLAS_SCORED",
+ "model_file": "config/iwo_material_model_v3.yaml",
+ "activation": {
+  "status": "ACTIVE_AS_REQUESTED",
+  "evidence": {
+   "base MODELS flags": {
+    "state": "ACTIVE",
+    "evidence": "Fermi-Dirac / SRH / tat(local) / Boltzmann flags as requested (region 1)"
+   },
+   "tmun": {
+    "state": "ACTIVE",
+    "evidence": "region 1 electron tmu lines: ['tmu = 0']"
+   }
+  },
+  "regions": [
+   "1",
+   "2",
+   "3",
+   "4",
+   "6",
+   "7",
+   "8",
+   "9",
+   "10"
+  ],
+  "region_materials": {
+   "1": [
+    "IWO",
+    "semicond."
+   ],
+   "2": [
+    "IWO",
+    "semicond."
+   ],
+   "3": [
+    "Al2O3",
+    "insulator"
+   ],
+   "4": [
+    "HfO2",
+    "insulator"
+   ],
+   "6": [
+    "Conductor",
+    "metal"
+   ],
+   "7": [
+    "Air",
+    "insulator"
+   ],
+   "8": [
+    "Conductor",
+    "metal"
+   ],
+   "9": [
+    "Palladium",
+    "metal"
+   ],
+   "10": [
+    "Palladium",
+    "metal"
+   ]
+  },
+  "contacts": {
+   "gate": 4.7,
+   "source": 0.0,
+   "drain": 0.0
+  },
+  "electron_mobility_r1": "Concentration Independent Mobility | @ Temperature =     300 Kelvin | mu  = 60.5388",
+  "missing": []
+ },
+ "floor_metrics": {
+  "valid_fraction": 0.0,
+  "sign_reversals_vg": [
+   -2.0,
+   -1.2,
+   -0.95,
+   -0.9,
+   -0.75,
+   -0.6,
+   -0.55
+  ],
+  "measured_slope_dec_per_V": -0.0012664401513309634,
+  "measured_slope_se": 0.0037513526444126165,
+  "slope_limit_dec_per_V": 0.01003558559148716,
+  "ig_ratio_dec": null,
+  "ig_nonzero_fraction": 0.0,
+  "abs_IG_at_m3V_A": 0.0,
+  "verdict_inputs": {
+   "valid_ge_80pct": false,
+   "slope_ok": false,
+   "d_floor_within_0p5dec": null
+  }
+ }
+}

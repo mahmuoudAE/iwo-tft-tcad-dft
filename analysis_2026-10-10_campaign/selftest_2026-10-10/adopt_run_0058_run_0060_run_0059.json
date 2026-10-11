@@ -1,0 +1,194 @@
+{
+ "branch": {
+  "tag": "branch",
+  "runs": [
+   "run_0058",
+   "run_0060",
+   "run_0059"
+  ],
+  "warnings": [],
+  "start": {
+   "sqrtJ_dec": 0.8151108758664131,
+   "per_film": {
+    "2.0": {
+     "rmse_sub": 0.14160155536060381,
+     "rmse_on": 0.02697824479699947,
+     "J_term": 0.010389413086434488
+    },
+    "6.3": {
+     "rmse_sub": 1.8328116002260801,
+     "rmse_on": 0.7767186243875096,
+     "J_term": 1.981245091696855
+    },
+    "13.2": {
+     "rmse_sub": 0.04977835447845617,
+     "rmse_on": 0.02622109061623294,
+     "J_term": 0.001582715083843768
+    }
+   }
+  },
+  "profiled": {
+   "sqrtJ_dec": 0.7086914345453128,
+   "Qf_cm2": 1462837986932.167,
+   "dQf_cm2": 79387986932.16695,
+   "dV0_V": -0.014203051389279409,
+   "mu_inf_cm2Vs": 16.28516756857772,
+   "ell_nm": 1.3424772094214257,
+   "per_film": {
+    "2.0": {
+     "rmse_sub_dec": 0.18163047490116785,
+     "rmse_on_dec": 0.32809242972611163,
+     "coverage_sub": 1.0,
+     "coverage_on": 0.975609756097561,
+     "mun_scale": 0.4501336435259408,
+     "J_term": 0.07031713592820363
+    },
+    "6.3": {
+     "rmse_sub_dec": 1.4221872502443482,
+     "rmse_on_dec": 0.32685633182426815,
+     "coverage_sub": 1.0,
+     "coverage_on": 0.975609756097561,
+     "mun_scale": 0.33283233228645254,
+     "J_term": 1.0647258182055983
+    },
+    "13.2": {
+     "rmse_sub_dec": 0.5674599037558672,
+     "rmse_on_dec": 0.6491260630641313,
+     "coverage_sub": 1.0,
+     "coverage_on": 0.975609756097561,
+     "mun_scale": 0.22921146918155164,
+     "J_term": 0.37168769405987834
+    }
+   },
+   "coverage_ok_95pct": true,
+   "optimizer": {
+    "fun": 0.5022435493978934,
+    "nit": 186,
+    "success": true
+   }
+  },
+  "diagnostic_shape_only": {
+   "2.0": {
+    "free_dV_V": 0.01621239502591967,
+    "free_scale": 1.0345582736952823,
+    "shape_only_sqrtJ_dec": 0.03392935823499438
+   },
+   "6.3": {
+    "free_dV_V": 0.24431723414136694,
+    "free_scale": 0.2612314845116175,
+    "shape_only_sqrtJ_dec": 0.03575082730535942
+   },
+   "13.2": {
+    "free_dV_V": -0.0008693678156567391,
+    "free_scale": 1.0513994919214302,
+    "shape_only_sqrtJ_dec": 0.030568049123595276
+   }
+  },
+  "labels": "Q_f, mu_inf, ell: FITTED (shared, exact-transformation profiling of launched curves); calibration, not validation. The per-film free shift/scale is a diagnostic, never a model.",
+  "verdict": "OK"
+ },
+ "base": {
+  "tag": "base",
+  "runs": [
+   "run_0058",
+   "run_0060",
+   "run_0059"
+  ],
+  "warnings": [],
+  "start": {
+   "sqrtJ_dec": 0.8151108758664131,
+   "per_film": {
+    "2.0": {
+     "rmse_sub": 0.14160155536060381,
+     "rmse_on": 0.02697824479699947,
+     "J_term": 0.010389413086434488
+    },
+    "6.3": {
+     "rmse_sub": 1.8328116002260801,
+     "rmse_on": 0.7767186243875096,
+     "J_term": 1.981245091696855
+    },
+    "13.2": {
+     "rmse_sub": 0.04977835447845617,
+     "rmse_on": 0.02622109061623294,
+     "J_term": 0.001582715083843768
+    }
+   }
+  },
+  "profiled": {
+   "sqrtJ_dec": 0.7086914345453128,
+   "Qf_cm2": 1462837986932.167,
+   "dQf_cm2": 79387986932.16695,
+   "dV0_V": -0.014203051389279409,
+   "mu_inf_cm2Vs": 16.28516756857772,
+   "ell_nm": 1.3424772094214257,
+   "per_film": {
+    "2.0": {
+     "rmse_sub_dec": 0.18163047490116785,
+     "rmse_on_dec": 0.32809242972611163,
+     "coverage_sub": 1.0,
+     "coverage_on": 0.975609756097561,
+     "mun_scale": 0.4501336435259408,
+     "J_term": 0.07031713592820363
+    },
+    "6.3": {
+     "rmse_sub_dec": 1.4221872502443482,
+     "rmse_on_dec": 0.32685633182426815,
+     "coverage_sub": 1.0,
+     "coverage_on": 0.975609756097561,
+     "mun_scale": 0.33283233228645254,
+     "J_term": 1.0647258182055983
+    },
+    "13.2": {
+     "rmse_sub_dec": 0.5674599037558672,
+     "rmse_on_dec": 0.6491260630641313,
+     "coverage_sub": 1.0,
+     "coverage_on": 0.975609756097561,
+     "mun_scale": 0.22921146918155164,
+     "J_term": 0.37168769405987834
+    }
+   },
+   "coverage_ok_95pct": true,
+   "optimizer": {
+    "fun": 0.5022435493978934,
+    "nit": 186,
+    "success": true
+   }
+  },
+  "diagnostic_shape_only": {
+   "2.0": {
+    "free_dV_V": 0.01621239502591967,
+    "free_scale": 1.0345582736952823,
+    "shape_only_sqrtJ_dec": 0.03392935823499438
+   },
+   "6.3": {
+    "free_dV_V": 0.24431723414136694,
+    "free_scale": 0.2612314845116175,
+    "shape_only_sqrtJ_dec": 0.03575082730535942
+   },
+   "13.2": {
+    "free_dV_V": -0.0008693678156567391,
+    "free_scale": 1.0513994919214302,
+    "shape_only_sqrtJ_dec": 0.030568049123595276
+   }
+  },
+  "labels": "Q_f, mu_inf, ell: FITTED (shared, exact-transformation profiling of launched curves); calibration, not validation. The per-film free shift/scale is a diagnostic, never a model.",
+  "verdict": "OK"
+ },
+ "sqrtJ_gain_dec": 0.0,
+ "per_film_worsening_dec": {
+  "2.0": {
+   "rmse_sub_dec": 0.0,
+   "rmse_on_dec": 0.0
+  },
+  "6.3": {
+   "rmse_sub_dec": 0.0,
+   "rmse_on_dec": 0.0
+  },
+  "13.2": {
+   "rmse_sub_dec": 0.0,
+   "rmse_on_dec": 0.0
+  }
+ },
+ "verdict": "ARITHMETIC FAIL (also required: converged at all films; activation ACTIVE_AS_REQUESTED; not a pure shift/scale effect; at most two branches)"
+}

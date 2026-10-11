@@ -7,19 +7,24 @@
    locked in run_atlas.reserve/append; entries using a {mu:key} placeholder start only after the run producing it)
 
 Plan: {"campaign": name, "purpose": text, "runs": [entry, ...]}; entry keys:
-  id, thickness, label, overrides [..], mode "transfer" (default) | "output", output_vgs [..], vd_segments [[end, step], ..],
+  id, thickness, label, overrides [..], mode "transfer" (default) | "output" | "strip" (2026-10-10: ungated two-terminal
+  strip deck, run_atlas.execute_strip), output_vgs [..], vd_segments [[end, step], ..],
   timeout (s), purpose (text), mu_used + recal_key (optional: after the run, mu_band is rescaled EXACTLY by
   Ion_meas / Ion_sim - Id is linear in a constant mobility, tables/SENSITIVITY_RESULTS.md mu_band pairs - and stored as
   the placeholder {mu:<recal_key>} for later entries of the same campaign).
 Every launch goes through run_atlas.execute / execute_output (same deck generator, validation, RUN_INDEX row). The
 summary results/campaigns/<plan stem>.json is rewritten after every launch; a failed launch is recorded and the
 campaign continues; the campaign stops at the launch budget.
+C10 plans (2026-10-10 review fix; file stem campaign_C10_* or campaign "C10..."): --workers must be 1; at most 200 C10 launches
+(labels c10_* in RUN_INDEX, failed ones included); an entry whose label already has a RUN_INDEX row is not launched again
+(earlier success reused, earlier failure reported; --retry ID[,ID] to spend a new launch on purpose).
+A plan with "runnable": false (templates; plans held outside the frozen register route, 2026-10-11) is refused before any launch.
 """
 from __future__ import annotations
 import json, sys, time, traceback
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from run_atlas import execute, execute_output, ROOT
+from run_atlas import execute, execute_output, execute_strip, ROOT
 
 def fill(overrides, ph):
     out = []
@@ -36,6 +41,7 @@ def summarize(dest):
         s.update({'active_rmse_dec': rg['active'].get('rmse_log10'), 'sub_rmse_dec': rg['subthreshold'].get('rmse_log10'), 'on_rmse_dec': rg['on'].get('rmse_log10'),
                   'Id3V_err_pct': fm['on_error_3V_percent'], 'sim': ex['device_metrics_sim'], 'exp': ex['device_metrics_exp']})
     if 'validation' in ex: s['max_kcl_A'] = ex['validation'].get('max_kcl_abs_A')
+    if 'strip' in ex: s['strip'] = ex['strip']   # 2026-10-10 strip mode
     return s
 
 def run_entry(e, res, lock):
@@ -46,6 +52,9 @@ def run_entry(e, res, lock):
         rec['overrides'] = ov
         if e.get('mode') == 'output':
             dest = execute_output(float(e['thickness']), e['label'], ov, e['output_vgs'], [tuple(x) for x in e.get('vd_segments', [[0.5, 0.05], [3.0, 0.1]])], e.get('timeout'))
+        elif e.get('mode') == 'strip':   # 2026-10-10: ungated two-terminal strip deck (run_atlas.execute_strip)
+            if 'vd_segments' in e: raise RuntimeError('strip mode takes the drain steps from physics_options.strip.vd_segments, not from the entry')
+            dest = execute_strip(float(e['thickness']), e['label'], ov, e.get('timeout'))
         else:
             dest = execute(float(e['thickness']), e['label'], ov, timeout=e.get('timeout'))
         rec['run_dir'] = str(Path(dest).relative_to(ROOT)).replace('\\', '/'); rec['run_id'] = Path(dest).name[:8]; rec.update(summarize(dest))
@@ -63,30 +72,120 @@ def ready(e, res):
     return all('{mu:' + k + '}' not in o or k in res['placeholders'] for o in e.get('overrides', []) for k in
                [p.split('}')[0] for p in o.split('{mu:')[1:]] or [''])
 
+# ---- 2026-10-10 C10 campaign guards (review fix): the user approved 200 launches, sequential. Every reserved run ID counts,
+# failed or not. config/solver.yaml max_launches 260 (= 60 used before C10 + 200) is the hard global cap in run_atlas.reserve;
+# the guards below add, for C10 plans only: workers must be 1; a C10 label counter capped at 200; and an entry whose label
+# already has a RUN_INDEX row (launched by THIS or ANY other C10 plan, e.g. MIN10 vs the stage plans) is never launched again
+# automatically: a successful earlier launch is reused (summary copied), a failed one is reported. --retry ID[,ID] spends a
+# new launch on purpose (reserve).
+C10_CAP = 200
+SUCCESS = ('REAL_ATLAS_SCORED', 'REAL_ATLAS_STRIP', 'REAL_ATLAS_PREDICTION', 'REAL_ATLAS_PARTIAL_SWEEP')
+
+def is_c10(plan, plan_path): return Path(plan_path).stem.startswith('campaign_C10') or str(plan.get('campaign', '')).upper().startswith('C10')
+
+def _configs(ov):
+    from build_iwo_decks import load_configs, set_dotted
+    m, g, s = load_configs()
+    for o in ov:
+        k, v = o.split('=', 1)
+        if k.startswith('solver.'): set_dotted(s, k[7:], v)
+        elif k.startswith('geometry.'): set_dotted(g, k[9:], v)
+        else: set_dotted(m, k, v)
+    return m, g, s
+
+def current_material_text(ov):
+    """material_model_used.json text that run_atlas.execute* would write now for these overrides (same routing, same dump)"""
+    return json.dumps(_configs(ov)[0], indent=2, default=float)
+
+def current_deck_text(e, ov):
+    """device.in that run_atlas.execute (default transfer path: stepped segments and structure from the configs) or
+    execute_strip would write now for this entry; None for any other mode (then an earlier launch is never reused)"""
+    import numpy as np
+    from build_iwo_decks import build_deck, read_meas
+    m, g, s = _configs(ov); t = float(e['thickness']); full = str(g.get('structure', 'reduced')).lower() == 'full'; vg, meas = read_meas(t)
+    if e.get('mode') == 'strip': return build_deck(t, m, g, s, meas=(vg, meas), full=full, strip=True)[0]
+    if e.get('mode', 'transfer') != 'transfer' or str(s.get('sweep', {}).get('mode', 'pointwise')) != 'stepped': return None
+    segs = [tuple(x) for x in s['sweep']['segments']]; pts = [float(vg[0])]; a = float(vg[0])
+    for end, st in segs:
+        n = int(round((end - a) / st)); pts += [round(a + i * st, 6) for i in range(1, n + 1)]; a = float(end)
+    targets = np.array(sorted(set(pts) & set(np.round(vg, 6).tolist())))
+    return build_deck(t, m, g, s, meas=(vg, meas), targets=targets, full=full, segments=segs)[0]
+
+def c10_launches(idx_rows):return len({r['run_id'] for r in idx_rows if str(r.get('label', '')).startswith('c10_')})
+
+def earlier_launch(e, idx_rows, res):
+    """C10: record for an entry whose label already has a RUN_INDEX row (no new launch), or None"""
+    rids = sorted({r['run_id'] for r in idx_rows if r.get('label') == e['label']})
+    if not rids: return None
+    rid = rids[-1]; last = [r for r in idx_rows if r['run_id'] == rid][-1]
+    rec = {'id': e['id'], 'thickness': e['thickness'], 'label': e['label'], 'purpose': e.get('purpose', ''), 'mode': e.get('mode', 'transfer'),
+           'not_relaunched': True, 'earlier_run_ids': rids, 'run_index_note': last.get('notes', '')}
+    dest = ROOT / last.get('output_dir', ''); exj = dest / 'execution.json'
+    ex = json.loads(exj.read_text()) if last.get('output_dir') and exj.is_file() else {}
+    ov = fill(e.get('overrides', []), res['placeholders'])
+    if ex:   # the earlier launch must be the same entry: overrides, thickness, mode and the material model actually used
+        why = []
+        if list(ex.get('overrides', [])) != ov: why.append('overrides')
+        if abs(float(ex.get('thickness_nm', -1)) - float(e['thickness'])) > 1e-9: why.append('thickness')
+        if {'strip': 'strip', 'output_prediction': 'output'}.get(ex.get('mode'), 'transfer') != e.get('mode', 'transfer'): why.append('mode')
+        mu = dest / 'material_model_used.json'
+        if not mu.is_file() or mu.read_text() != current_material_text(ov): why.append('material model (model file / config changed since that launch)')
+        dk = dest / 'device.in'
+        if not why:
+            try: same = dk.is_file() and dk.read_text() == current_deck_text(e, ov)
+            except Exception as err: same = False; why.append(f'deck rebuild failed ({type(err).__name__})')
+            if not same and not why: why.append('deck (device.in differs from the deck the current generator and configs give)')
+        if why:
+            rec['error'] = (f'label {e["label"]} was launched as {rid} with DIFFERENT {", ".join(why)}; not launched and not reused '
+                            f'(resolve by hand; --retry {e["id"]} spends a new launch)'); return rec
+    if ex.get('status') in SUCCESS:
+        rec['run_dir'] = str(dest.relative_to(ROOT)).replace('\\', '/'); rec['run_id'] = rid; rec.update(summarize(dest)); rec['reused_earlier_launch'] = True
+    else:
+        rec['error'] = (f'already launched as {rid} (status {ex.get("status", "unknown: no execution.json")}); not re-launched '
+                        f'(C10: every launch counts). Use --retry {e["id"]} to spend a new launch on it.')
+    return rec
+
 def main():
-    """python run_campaign.py PLAN.json [--workers N]   (N parallel ATLAS processes, default 1 = sequential)"""
+    """python run_campaign.py PLAN.json [--workers N] [--retry ID[,ID...]]
+    (N parallel ATLAS processes, default 1 = sequential; C10 plans: N must be 1, --retry re-launches named entries)"""
     import threading
     from concurrent.futures import ThreadPoolExecutor, FIRST_COMPLETED, wait
-    args = sys.argv[1:]; workers = 1
+    from run_atlas import rows as index_rows
+    args = sys.argv[1:]; workers = 1; retry = set()
     if '--workers' in args: i = args.index('--workers'); workers = int(args[i + 1]); del args[i:i + 2]
-    plan_path = Path(args[0]); plan = json.loads(plan_path.read_text())
+    if '--retry' in args: i = args.index('--retry'); retry = {x.strip() for x in args[i + 1].split(',') if x.strip()}; del args[i:i + 2]
+    plan_path = Path(args[0]); plan = json.loads(plan_path.read_text()); c10 = is_c10(plan, plan_path)
+    if plan.get('runnable') is False:   # 2026-10-11 review: held plans (outside the frozen register route) and templates are never launched
+        sys.exit(f'{plan_path.name}: runnable=false, nothing launched ({plan.get("not_runnable_reason") or "template: unresolved tokens"})')
+    if c10 and workers != 1: sys.exit(f'C10 plans are sequential only (user approval: 200 sequential launches); got --workers {workers}')
     out_dir = ROOT / 'results' / 'campaigns'; out_dir.mkdir(parents=True, exist_ok=True); out = out_dir / f'{plan_path.stem}.json'
     res = {'campaign': plan.get('campaign', plan_path.stem), 'purpose': plan.get('purpose', ''), 'plan_file': str(plan_path), 'placeholders': {}, 'runs': []}
     if out.exists():   # resume: keep finished entries, skip them
         res = json.loads(out.read_text())
-    done = {r['id'] for r in res['runs'] if r.get('run_dir')}
+    done = {r['id'] for r in res['runs'] if r.get('run_dir')} - retry   # --retry also re-launches an entry finished in this plan
     todo = [e for e in plan['runs'] if e['id'] not in done]; lock = threading.Lock(); running = {}; stop = False
     with ThreadPoolExecutor(max_workers=workers) as pool:
         while (todo and not stop) or running:
-            for e in [e for e in todo if ready(e, res)][:max(0, workers - len(running))] if not stop else []:
+            for e in [e for e in todo if ready(e, res)] if not stop else []:
+                if len(running) >= workers: break
+                if c10:   # sequential (workers == 1), so the RUN_INDEX read here sees every earlier launch
+                    idx = index_rows(); prev = earlier_launch(e, idx, res) if e['id'] not in retry else None
+                    if prev is not None:
+                        todo.remove(e); res['runs'] = [r for r in res['runs'] if not (r['id'] == e['id'] and not r.get('run_dir'))] + [prev]
+                        out.write_text(json.dumps(res, indent=1, default=float))
+                        print(json.dumps({k: prev.get(k) for k in ('id', 'run_id', 'status', 'reused_earlier_launch', 'error')}), flush=True); continue
+                    if c10_launches(idx) >= C10_CAP: stop = True; print(f'STOP: C10 launch cap {C10_CAP} reached (labels c10_* in RUN_INDEX)'); break
                 todo.remove(e); running[pool.submit(run_entry, e, res, lock)] = e
             if not running:
-                if todo: print('STOP: remaining entries wait for placeholders that no run produced'); break
+                if todo and not stop: print('STOP: remaining entries wait for placeholders that no run produced')
+                if todo: break
                 continue
             fin, _ = wait(list(running), return_when=FIRST_COMPLETED)
             for f in fin:
                 running.pop(f); rec = f.result()
                 with lock:
+                    if rec['id'] in retry:   # a retried entry: its latest attempt replaces earlier records (a failed retry is not 'done')
+                        rec['earlier_records'] = [r for r in res['runs'] if r['id'] == rec['id']]; res['runs'] = [r for r in res['runs'] if r['id'] != rec['id']]
                     res['runs'].append(rec); out.write_text(json.dumps(res, indent=1, default=float))
                 print(json.dumps({k: rec.get(k) for k in ('id', 'run_id', 'status', 'active_rmse_dec', 'Id3V_err_pct', 'error', 'wall_s')}), flush=True)
                 if 'launch budget' in rec.get('error', ''): stop = True; print('STOP: budget')

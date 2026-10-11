@@ -1,0 +1,30 @@
+{
+ "native": "run_0003",
+ "reference": "run_0001",
+ "thickness_nm": 2.0,
+ "dQf_cm2": 1730000000000.0,
+ "dV_shift_V": -0.30950877901020846,
+ "mun_scale": 1.0,
+ "cox_F_cm2": 8.955369814335959e-07,
+ "other_material_differences": [],
+ "solver_geometry_override_differences": [],
+ "exactness_breakers": [],
+ "native_points_covered_above_1e-14": 51,
+ "native_points": 121,
+ "max_abs_dev_native_grid_above_1e-14_dec": 0.0009605130364072068,
+ "J_window_sub": {
+  "points": 10,
+  "covered_forward": 10,
+  "covered_inverse": 10,
+  "covered": 10,
+  "max_abs_dev_dec": 0.0009605130364072068
+ },
+ "J_window_on": {
+  "points": 41,
+  "covered_forward": 34,
+  "covered_inverse": 41,
+  "covered": 41,
+  "max_abs_dev_dec": 8.262430543304333e-06
+ },
+ "verdict": "PASS: profiling exact within 0.01 dec on every J-window point"
+}

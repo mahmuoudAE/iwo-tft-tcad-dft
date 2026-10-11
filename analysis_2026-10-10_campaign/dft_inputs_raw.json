@@ -1,0 +1,1138 @@
+{
+ "generated_utc": "2026-10-10T10:46:42Z",
+ "script": "analysis_2026-10-10_campaign/dft_to_tcad_extract.py",
+ "method": "Quantum ESPRESSO 7.5, PAW-PBE (In 4d, W 5s5p semicore), relaxed structures; HSE06 only as a norm-conserving single-point check of the 1 nm confinement shift",
+ "bulk": {
+  "a_A": 10.3061,
+  "Eg_fundamental_PBE_eV": 0.8887,
+  "Eg_Gamma_PBE_eV": 0.8931,
+  "mstar_PBE_m0": 0.159,
+  "E_v_minus_Vavg_eV": 3.9098,
+  "E_c_minus_Vavg_eV": 4.7985,
+  "source": "bulk_In2O3_protocol/vcrelax_ecut71_k3.out, bands_path.out, bands_gamma.out; alignment constants RESULTS_LOG.md 2026-10-05",
+  "EA_bulk_equiv_PBE_Hterm001_eV": 4.7763,
+  "IP_bulk_equiv_PBE_Hterm001_eV": 5.665
+ },
+ "hse_check": {
+  "gaps_Gamma_eV": {
+   "nc_pbe_bulk_e80": 0.9204,
+   "nc_pbe_slab1_e80": 1.8068,
+   "nc_hse_bulk_e80": 2.108,
+   "nc_hse_bulk_q3_f160_e80": 2.0662,
+   "nc_hse_slab1_f160_e80": 3.0475
+  },
+  "ratio_dEg_HSE_over_PBE_q1": 1.0599,
+  "ratio_worst_case_q3_bulk": 1.1071,
+  "Eg_bulk_HSE_eV": [
+   2.0662,
+   2.108
+  ],
+  "note": "SG15 NC, 80 Ry, ecutfock 160 Ry, PBE geometry (a = 10.306 A, 1.9 % above experiment); slab gap HSE at q = 1 only"
+ },
+ "slabs": {
+  "0.51": {
+   "job": "slabL1_relax_v2",
+   "role": "one cation plane, relaxes into an In(OH)3-like layer (outside the recipe)",
+   "thickness_HH_nm": 0.461,
+   "inplane_a_A": [
+    10.6955,
+    10.0188
+   ],
+   "n_occ": 136,
+   "VBM_eV": -4.7219,
+   "CBM_eV": -1.5818,
+   "gap_PBE_eV": 3.1401,
+   "dEg_PBE_eV": 2.2514,
+   "E_vac_eV": 1.6099,
+   "vacuum_left_minus_right_meV": 0.0,
+   "EA_eV": 3.1917,
+   "IP_eV": 6.3318,
+   "mstar_inplane_PBE_m0": 0.4282,
+   "dm_PBE_m0": 0.2692,
+   "E2_minus_E1_Gamma_eV": 1.8872,
+   "residual_total_force_Ry_bohr": 0.002729,
+   "dEc_PBE_eV": 1.5846,
+   "dEv_PBE_eV": -0.6668,
+   "dEc_route": "2 nm two-step + same-termination EA difference",
+   "CB_share": 0.704,
+   "dEg_HSEcorr_eV": [
+    2.3863,
+    2.4924
+   ],
+   "dEc_HSEcorr_eV": [
+    1.6795,
+    1.7543
+   ],
+   "Eg_HSE_abs_eV": [
+    4.452,
+    4.6
+   ],
+   "EA_bulk_equiv_eV": 4.7763,
+   "IP_bulk_equiv_eV": 5.665
+  },
+  "0.75": {
+   "job": "slabL2_relax_v2",
+   "role": "two cation planes",
+   "thickness_HH_nm": 0.695,
+   "inplane_a_A": [
+    10.4284,
+    10.2928
+   ],
+   "n_occ": 224,
+   "VBM_eV": -3.3537,
+   "CBM_eV": -1.1551,
+   "gap_PBE_eV": 2.1986,
+   "dEg_PBE_eV": 1.3099,
+   "E_vac_eV": 2.5626,
+   "vacuum_left_minus_right_meV": -27.16,
+   "EA_eV": 3.7177,
+   "IP_eV": 5.9163,
+   "mstar_inplane_PBE_m0": 0.3348,
+   "dm_PBE_m0": 0.1758,
+   "E2_minus_E1_Gamma_eV": 1.8152,
+   "residual_total_force_Ry_bohr": 0.006119,
+   "dEc_PBE_eV": 1.0586,
+   "dEv_PBE_eV": -0.2513,
+   "dEc_route": "2 nm two-step + same-termination EA difference",
+   "CB_share": 0.808,
+   "dEg_HSEcorr_eV": [
+    1.3884,
+    1.4501
+   ],
+   "dEc_HSEcorr_eV": [
+    1.122,
+    1.1719
+   ],
+   "Eg_HSE_abs_eV": [
+    3.455,
+    3.558
+   ],
+   "EA_bulk_equiv_eV": 4.7763,
+   "IP_bulk_equiv_eV": 5.665
+  },
+  "1.0": {
+   "job": "slab1r_final_cpu",
+   "role": "relaxed 1 nm slab (geometry of slab1_relax_gpu), CPU final SCF with planar average",
+   "thickness_HH_nm": 0.93,
+   "inplane_a_A": [
+    10.3364,
+    10.3345
+   ],
+   "n_occ": 312,
+   "VBM_eV": -2.3403,
+   "CBM_eV": -0.5518,
+   "gap_PBE_eV": 1.7885,
+   "dEg_PBE_eV": 0.8998,
+   "E_vac_eV": 3.3767,
+   "vacuum_left_minus_right_meV": -0.0,
+   "EA_eV": 3.9285,
+   "IP_eV": 5.717,
+   "mstar_inplane_PBE_m0": 0.2811,
+   "dm_PBE_m0": 0.1221,
+   "E2_minus_E1_Gamma_eV": 1.4988,
+   "residual_total_force_Ry_bohr": 0.006104,
+   "dEc_PBE_eV": 0.8478,
+   "dEv_PBE_eV": -0.052,
+   "dEc_route": "2 nm two-step + same-termination EA difference",
+   "two_step_detail_no_interior": {
+    "a/2": {
+     "dEc_eV": 0.8191,
+     "dEv_eV": -0.0807,
+     "plateau_spread_meV": 69.2
+    },
+    "a/2*a/4": {
+     "dEc_eV": 0.8379,
+     "dEv_eV": -0.0619,
+     "plateau_spread_meV": 234.0
+    }
+   },
+   "CB_share": 0.942,
+   "dEg_HSEcorr_eV": [
+    0.9537,
+    0.9961
+   ],
+   "dEc_HSEcorr_eV": [
+    0.8986,
+    0.9386
+   ],
+   "Eg_HSE_abs_eV": [
+    3.02,
+    3.104
+   ],
+   "EA_bulk_equiv_eV": 4.7763,
+   "IP_bulk_equiv_eV": 5.665
+  },
+  "2.0": {
+   "job": "slab2_relax_c2",
+   "role": "relaxed 2 nm slab (GPU final SCF, planar average, bands)",
+   "thickness_HH_nm": 1.962,
+   "inplane_a_A": [
+    10.3179,
+    10.3085
+   ],
+   "n_occ": 664,
+   "VBM_eV": 0.0473,
+   "CBM_eV": 1.2712,
+   "gap_PBE_eV": 1.2239,
+   "dEg_PBE_eV": 0.3352,
+   "E_vac_eV": 5.7662,
+   "vacuum_left_minus_right_meV": 0.0,
+   "EA_eV": 4.495,
+   "IP_eV": 5.7189,
+   "mstar_inplane_PBE_m0": 0.2064,
+   "dm_PBE_m0": 0.0474,
+   "E2_minus_E1_Gamma_eV": 0.7191,
+   "residual_total_force_Ry_bohr": 0.007153,
+   "dEc_PBE_eV": 0.2813,
+   "dEv_PBE_eV": -0.0539,
+   "dEc_route": "two-step alignment, a/2 window (re-computed)",
+   "two_step_detail": {
+    "a/2": {
+     "dEc_eV": 0.2813,
+     "dEv_eV": -0.0539,
+     "plateau_spread_meV": 8.4
+    },
+    "a/2*a/4": {
+     "dEc_eV": 0.2867,
+     "dEv_eV": -0.0485,
+     "plateau_spread_meV": 0.9
+    }
+   },
+   "CB_share": 0.839,
+   "dEg_HSEcorr_eV": [
+    0.3553,
+    0.3711
+   ],
+   "dEc_HSEcorr_eV": [
+    0.2982,
+    0.3114
+   ],
+   "Eg_HSE_abs_eV": [
+    2.421,
+    2.479
+   ],
+   "EA_bulk_equiv_eV": 4.7763,
+   "IP_bulk_equiv_eV": 5.665
+  }
+ },
+ "surface_states": {
+  "0.51": {
+   "n_atoms": 56,
+   "surface_OH_number_share": 0.857,
+   "VBM": {
+    "band": 136,
+    "weight_on_surface_OH": 0.985,
+    "by_element": {
+     "In": 0.015,
+     "O": 0.985,
+     "H": 0.0
+    },
+    "z_profile_8_slices": [
+     0.0,
+     0.22,
+     0.27,
+     0.0,
+     0.02,
+     0.27,
+     0.22,
+     0.0
+    ]
+   },
+   "CBM": {
+    "band": 137,
+    "weight_on_surface_OH": 0.563,
+    "by_element": {
+     "In": 0.437,
+     "O": 0.346,
+     "H": 0.217
+    },
+    "z_profile_8_slices": [
+     0.05,
+     0.13,
+     0.11,
+     0.12,
+     0.32,
+     0.11,
+     0.13,
+     0.05
+    ]
+   },
+   "VBM-20_reference": {
+    "band": 116,
+    "weight_on_surface_OH": 0.98,
+    "by_element": {
+     "In": 0.02,
+     "O": 0.98,
+     "H": 0.0
+    },
+    "z_profile_8_slices": [
+     0.0,
+     0.14,
+     0.35,
+     0.01,
+     0.01,
+     0.35,
+     0.14,
+     0.0
+    ]
+   }
+  },
+  "0.75": {
+   "n_atoms": 76,
+   "surface_OH_number_share": 0.632,
+   "VBM": {
+    "band": 224,
+    "weight_on_surface_OH": 0.758,
+    "by_element": {
+     "In": 0.001,
+     "O": 0.999,
+     "H": 0.0
+    },
+    "z_profile_8_slices": [
+     0.64,
+     0.05,
+     0.0,
+     0.09,
+     0.15,
+     0.0,
+     0.07,
+     0.0
+    ]
+   },
+   "CBM": {
+    "band": 225,
+    "weight_on_surface_OH": 0.358,
+    "by_element": {
+     "In": 0.501,
+     "O": 0.386,
+     "H": 0.113
+    },
+    "z_profile_8_slices": [
+     0.14,
+     0.04,
+     0.25,
+     0.09,
+     0.11,
+     0.19,
+     0.1,
+     0.08
+    ]
+   },
+   "VBM-20_reference": {
+    "band": 204,
+    "weight_on_surface_OH": 0.693,
+    "by_element": {
+     "In": 0.003,
+     "O": 0.997,
+     "H": 0.0
+    },
+    "z_profile_8_slices": [
+     0.2,
+     0.07,
+     0.0,
+     0.19,
+     0.11,
+     0.0,
+     0.27,
+     0.15
+    ]
+   }
+  },
+  "2.0": {
+   "n_atoms": 176,
+   "surface_OH_number_share": 0.273,
+   "VBM": {
+    "band": 664,
+    "weight_on_surface_OH": 0.002,
+    "by_element": {
+     "In": 0.0,
+     "O": 1.0,
+     "H": 0.0
+    },
+    "z_profile_8_slices": [
+     0.0,
+     0.09,
+     0.17,
+     0.24,
+     0.24,
+     0.17,
+     0.09,
+     0.0
+    ]
+   },
+   "CBM": {
+    "band": 665,
+    "weight_on_surface_OH": 0.014,
+    "by_element": {
+     "In": 0.597,
+     "O": 0.401,
+     "H": 0.002
+    },
+    "z_profile_8_slices": [
+     0.04,
+     0.09,
+     0.21,
+     0.12,
+     0.18,
+     0.21,
+     0.09,
+     0.04
+    ]
+   },
+   "VBM-20_reference": {
+    "band": 644,
+    "weight_on_surface_OH": 0.14,
+    "by_element": {
+     "In": 0.0,
+     "O": 1.0,
+     "H": 0.0
+    },
+    "z_profile_8_slices": [
+     0.07,
+     0.15,
+     0.14,
+     0.14,
+     0.14,
+     0.14,
+     0.15,
+     0.07
+    ]
+   }
+  },
+  "1.0_proxy_IWO": {
+   "n_atoms": 96,
+   "surface_OH_number_share": 0.5,
+   "VBM": {
+    "band": 311,
+    "weight_on_surface_OH": 0.729,
+    "by_element": {
+     "In": 0.0,
+     "O": 1.0,
+     "H": 0.0
+    },
+    "z_profile_8_slices": [
+     0.36,
+     0.0,
+     0.05,
+     0.09,
+     0.09,
+     0.05,
+     0.0,
+     0.36
+    ]
+   },
+   "CBM": {
+    "band": 312,
+    "weight_on_surface_OH": 0.23,
+    "by_element": {
+     "In": 0.511,
+     "O": 0.402,
+     "H": 0.067
+    },
+    "z_profile_8_slices": [
+     0.11,
+     0.16,
+     0.08,
+     0.1,
+     0.2,
+     0.08,
+     0.16,
+     0.11
+    ]
+   },
+   "VBM-20_reference": {
+    "band": 291,
+    "weight_on_surface_OH": 0.395,
+    "by_element": {
+     "In": 0.003,
+     "O": 0.995,
+     "H": 0.0
+    },
+    "z_profile_8_slices": [
+     0.19,
+     0.01,
+     0.2,
+     0.11,
+     0.11,
+     0.2,
+     0.01,
+     0.19
+    ]
+   }
+  },
+  "2.0_IWO": {
+   "n_atoms": 176,
+   "surface_OH_number_share": 0.273,
+   "VBM": {
+    "band": 663,
+    "weight_on_surface_OH": 0.714,
+    "by_element": {
+     "In": 0.0,
+     "O": 1.0,
+     "H": 0.0
+    },
+    "z_profile_8_slices": [
+     0.36,
+     0.12,
+     0.02,
+     0.0,
+     0.0,
+     0.02,
+     0.12,
+     0.36
+    ]
+   },
+   "CBM": {
+    "band": 664,
+    "weight_on_surface_OH": 0.008,
+    "by_element": {
+     "In": 0.594,
+     "O": 0.389,
+     "H": 0.0
+    },
+    "z_profile_8_slices": [
+     0.03,
+     0.08,
+     0.22,
+     0.13,
+     0.21,
+     0.22,
+     0.07,
+     0.03
+    ]
+   },
+   "VBM-20_reference": {
+    "band": 643,
+    "weight_on_surface_OH": 0.113,
+    "by_element": {
+     "In": 0.001,
+     "O": 0.999,
+     "H": 0.0
+    },
+    "z_profile_8_slices": [
+     0.06,
+     0.17,
+     0.18,
+     0.09,
+     0.09,
+     0.18,
+     0.17,
+     0.06
+    ]
+   }
+  }
+ },
+ "mass_and_Nc": {
+  "0.51": {
+   "m_PBE": 0.4282,
+   "m_V2_convention": 0.4772,
+   "m_ratio_convention": 0.5602,
+   "Nc3D_V2_cm3": 8.2722e+18,
+   "Nc3D_ratio_cm3": 1.0521e+19,
+   "Nc_q2D_V2_cm3": 1.0105e+20,
+   "Nc_q2D_ratio_cm3": 1.1861e+20,
+   "N2D_V2_cm2": 5153400000000.0,
+   "second_subband_Boltzmann_weight": 1.98e-32,
+   "q2D_over_3D_V2": 12.216,
+   "equivalent_band_shift_meV": -64.7
+  },
+  "0.75": {
+   "m_PBE": 0.3348,
+   "m_V2_convention": 0.3838,
+   "m_ratio_convention": 0.438,
+   "Nc3D_V2_cm3": 5.9666e+18,
+   "Nc3D_ratio_cm3": 7.2736e+18,
+   "Nc_q2D_V2_cm3": 5.5263e+19,
+   "Nc_q2D_ratio_cm3": 6.3064e+19,
+   "N2D_V2_cm2": 4144700000000.0,
+   "second_subband_Boltzmann_weight": 3.21e-31,
+   "q2D_over_3D_V2": 9.262,
+   "equivalent_band_shift_meV": -57.5
+  },
+  "1.0": {
+   "m_PBE": 0.2811,
+   "m_V2_convention": 0.3301,
+   "m_ratio_convention": 0.3677,
+   "Nc3D_V2_cm3": 4.7593e+18,
+   "Nc3D_ratio_cm3": 5.5958e+18,
+   "Nc_q2D_V2_cm3": 3.5648e+19,
+   "Nc_q2D_ratio_cm3": 3.9712e+19,
+   "N2D_V2_cm2": 3564800000000.0,
+   "second_subband_Boltzmann_weight": 6.63e-26,
+   "q2D_over_3D_V2": 7.49,
+   "equivalent_band_shift_meV": -52.1
+  },
+  "2.0": {
+   "m_PBE": 0.2064,
+   "m_V2_convention": 0.2554,
+   "m_ratio_convention": 0.27,
+   "Nc3D_V2_cm3": 3.2389e+18,
+   "Nc3D_ratio_cm3": 3.5208e+18,
+   "Nc_q2D_V2_cm3": 1.3791e+19,
+   "Nc_q2D_ratio_cm3": 1.4579e+19,
+   "N2D_V2_cm2": 2758100000000.0,
+   "second_subband_Boltzmann_weight": 8.31e-13,
+   "q2D_over_3D_V2": 4.258,
+   "equivalent_band_shift_meV": -37.5
+  },
+  "bulk": {
+   "m_PBE": 0.159,
+   "m_V2_convention": 0.208,
+   "m_ratio_convention": 0.208,
+   "Nc3D_V2_cm3": 2.3805e+18,
+   "Nc3D_ratio_cm3": 2.3805e+18
+  }
+ },
+ "nonparabolicity": {
+  "bulk": {
+   "m0_kane_m0": 0.1539,
+   "alpha_per_eV": 0.63,
+   "fit_range_k_invA": 0.1528,
+   "fit_range_E_eV": 0.45
+  },
+  "0.51": {
+   "m0_kane_m0": 0.4256,
+   "alpha_per_eV": 0.252,
+   "fit_range_k_invA": 0.1445,
+   "fit_range_E_eV": 0.179
+  },
+  "0.75": {
+   "m0_kane_m0": 0.3329,
+   "alpha_per_eV": 0.326,
+   "fit_range_k_invA": 0.1482,
+   "fit_range_E_eV": 0.234
+  },
+  "1.0": {
+   "m0_kane_m0": 0.2788,
+   "alpha_per_eV": 0.381,
+   "fit_range_k_invA": 0.15,
+   "fit_range_E_eV": 0.278
+  },
+  "2.0": {
+   "m0_kane_m0": 0.2023,
+   "alpha_per_eV": 0.496,
+   "fit_range_k_invA": 0.1498,
+   "fit_range_E_eV": 0.359
+  }
+ },
+ "iwo": {
+  "1.0": {
+   "job": "iwo_slab1_final_cpu",
+   "n_electrons": 625.0,
+   "n_VB_top_band": 311,
+   "E_F_eV": 0.5811,
+   "degauss_eV": 0.1361,
+   "W_cation_fraction": 0.0417,
+   "electrons_above_VB_top": 3.0,
+   "electrons_in_host_CB_bottom_band": 2.001,
+   "W5d_projected_electrons": 0.428,
+   "gap_VBtop_to_hostCB_Gamma_eV": 1.7191,
+   "EF_minus_hostCB_Gamma_eV": 1.2276,
+   "W_rich_band": 313,
+   "W_rich_band_minus_hostCB_Gamma_eV": 1.2228,
+   "W_rich_band_Wd_Gamma": 0.557,
+   "bands": {
+    "310": {
+     "E_Gamma_minus_EF_eV": -2.983,
+     "Wd_Gamma": 0.0,
+     "Wd_kavg": 0.0,
+     "Ins_kavg": 0.0,
+     "Op_kavg": 0.94,
+     "electrons": 2.0
+    },
+    "311": {
+     "E_Gamma_minus_EF_eV": -2.947,
+     "Wd_Gamma": 0.0,
+     "Wd_kavg": 0.0,
+     "Ins_kavg": 0.0,
+     "Op_kavg": 0.939,
+     "electrons": 2.0
+    },
+    "312": {
+     "E_Gamma_minus_EF_eV": -1.228,
+     "Wd_Gamma": 0.002,
+     "Wd_kavg": 0.005,
+     "Ins_kavg": 0.426,
+     "Op_kavg": 0.183,
+     "electrons": 2.001
+    },
+    "313": {
+     "E_Gamma_minus_EF_eV": -0.005,
+     "Wd_Gamma": 0.557,
+     "Wd_kavg": 0.444,
+     "Ins_kavg": 0.18,
+     "Op_kavg": 0.172,
+     "electrons": 0.986
+    },
+    "314": {
+     "E_Gamma_minus_EF_eV": 0.185,
+     "Wd_Gamma": 0.024,
+     "Wd_kavg": 0.263,
+     "Ins_kavg": 0.219,
+     "Op_kavg": 0.198,
+     "electrons": 0.013
+    },
+    "315": {
+     "E_Gamma_minus_EF_eV": 0.289,
+     "Wd_Gamma": 0.497,
+     "Wd_kavg": 0.372,
+     "Ins_kavg": 0.17,
+     "Op_kavg": 0.22,
+     "electrons": 0.0
+    },
+    "316": {
+     "E_Gamma_minus_EF_eV": 0.952,
+     "Wd_Gamma": 0.256,
+     "Wd_kavg": 0.145,
+     "Ins_kavg": 0.265,
+     "Op_kavg": 0.22,
+     "electrons": 0.0
+    },
+    "317": {
+     "E_Gamma_minus_EF_eV": 1.149,
+     "Wd_Gamma": 0.015,
+     "Wd_kavg": 0.133,
+     "Ins_kavg": 0.276,
+     "Op_kavg": 0.224,
+     "electrons": 0.0
+    }
+   },
+   "donated_sheet_density_cm2": 280800000000000.0,
+   "donated_electron_density_cm3": 2.969e+21,
+   "E_vac_eV": 3.4228,
+   "vacuum_left_minus_right_meV": -0.0,
+   "EA_hostCB_eV": 4.0694,
+   "IP_VBtop_eV": 5.7885,
+   "work_function_eV": 2.8417,
+   "pure_twin": {
+    "job": "slab1r_final_cpu",
+    "gap_eV": 1.7885,
+    "EA_eV": 3.9285,
+    "IP_eV": 5.717
+   },
+   "W_effect": {
+    "dGap_eV": -0.0694,
+    "dEA_eV": 0.1409,
+    "dIP_eV": 0.0715
+   }
+  },
+  "2.0": {
+   "job": "iwo_slab2_final_cpu",
+   "n_electrons": 1329.0,
+   "n_VB_top_band": 663,
+   "E_F_eV": 2.3496,
+   "degauss_eV": 0.1361,
+   "W_cation_fraction": 0.0179,
+   "electrons_above_VB_top": 3.0,
+   "electrons_in_host_CB_bottom_band": 2.041,
+   "W5d_projected_electrons": 0.086,
+   "gap_VBtop_to_hostCB_Gamma_eV": 1.0763,
+   "EF_minus_hostCB_Gamma_eV": 1.2383,
+   "W_rich_band": 666,
+   "W_rich_band_minus_hostCB_Gamma_eV": 1.3414,
+   "W_rich_band_Wd_Gamma": 0.524,
+   "bands": {
+    "662": {
+     "E_Gamma_minus_EF_eV": -2.319,
+     "Wd_Gamma": 0.0,
+     "Wd_kavg": 0.0,
+     "Ins_kavg": 0.0,
+     "Op_kavg": 0.913,
+     "electrons": 2.0
+    },
+    "663": {
+     "E_Gamma_minus_EF_eV": -2.315,
+     "Wd_Gamma": 0.0,
+     "Wd_kavg": 0.0,
+     "Ins_kavg": 0.0,
+     "Op_kavg": 0.901,
+     "electrons": 2.0
+    },
+    "664": {
+     "E_Gamma_minus_EF_eV": -1.238,
+     "Wd_Gamma": 0.0,
+     "Wd_kavg": 0.006,
+     "Ins_kavg": 0.451,
+     "Op_kavg": 0.141,
+     "electrons": 2.041
+    },
+    "665": {
+     "E_Gamma_minus_EF_eV": -0.483,
+     "Wd_Gamma": 0.005,
+     "Wd_kavg": 0.133,
+     "Ins_kavg": 0.332,
+     "Op_kavg": 0.172,
+     "electrons": 0.862
+    },
+    "666": {
+     "E_Gamma_minus_EF_eV": 0.103,
+     "Wd_Gamma": 0.524,
+     "Wd_kavg": 0.357,
+     "Ins_kavg": 0.187,
+     "Op_kavg": 0.191,
+     "electrons": 0.097
+    },
+    "667": {
+     "E_Gamma_minus_EF_eV": 0.219,
+     "Wd_Gamma": 0.26,
+     "Wd_kavg": 0.347,
+     "Ins_kavg": 0.175,
+     "Op_kavg": 0.206,
+     "electrons": 0.001
+    },
+    "668": {
+     "E_Gamma_minus_EF_eV": 0.528,
+     "Wd_Gamma": 0.279,
+     "Wd_kavg": 0.231,
+     "Ins_kavg": 0.21,
+     "Op_kavg": 0.229,
+     "electrons": 0.0
+    },
+    "669": {
+     "E_Gamma_minus_EF_eV": 0.981,
+     "Wd_Gamma": 0.199,
+     "Wd_kavg": 0.104,
+     "Ins_kavg": 0.272,
+     "Op_kavg": 0.202,
+     "electrons": 0.0
+    }
+   },
+   "donated_sheet_density_cm2": 282100000000000.0,
+   "donated_electron_density_cm3": 1.43e+21,
+   "E_vac_eV": 5.8576,
+   "vacuum_left_minus_right_meV": 0.0,
+   "EA_hostCB_eV": 4.7463,
+   "IP_VBtop_eV": 5.8226,
+   "work_function_eV": 3.508,
+   "pure_twin": {
+    "job": "slab2r_pdos_cpu",
+    "gap_eV": 1.2238,
+    "EA_eV": 4.495,
+    "IP_eV": 5.7188
+   },
+   "W_effect": {
+    "dGap_eV": -0.1475,
+    "dEA_eV": 0.2513,
+    "dIP_eV": 0.1038
+   }
+  },
+  "bulk_24d": {
+   "job": "iwo_W24d",
+   "n_electrons": 705.0,
+   "n_VB_top_band": 351,
+   "E_F_eV": 10.7936,
+   "degauss_eV": 0.1361,
+   "W_cation_fraction": 0.0312,
+   "electrons_above_VB_top": 3.0,
+   "electrons_in_host_CB_bottom_band": 1.789,
+   "W5d_projected_electrons": 0.287,
+   "gap_VBtop_to_hostCB_Gamma_eV": 0.8616,
+   "EF_minus_hostCB_Gamma_eV": 1.7633,
+   "W_rich_band": 353,
+   "W_rich_band_minus_hostCB_Gamma_eV": 1.764,
+   "W_rich_band_Wd_Gamma": 0.541,
+   "bands": {
+    "350": {
+     "E_Gamma_minus_EF_eV": -2.645,
+     "Wd_Gamma": 0.0,
+     "Wd_kavg": 0.0,
+     "Ins_kavg": 0.0,
+     "Op_kavg": 0.946,
+     "electrons": 2.0
+    },
+    "351": {
+     "E_Gamma_minus_EF_eV": -2.625,
+     "Wd_Gamma": 0.0,
+     "Wd_kavg": 0.0,
+     "Ins_kavg": 0.0,
+     "Op_kavg": 0.944,
+     "electrons": 2.0
+    },
+    "352": {
+     "E_Gamma_minus_EF_eV": -1.763,
+     "Wd_Gamma": 0.0,
+     "Wd_kavg": 0.131,
+     "Ins_kavg": 0.352,
+     "Op_kavg": 0.212,
+     "electrons": 1.789
+    },
+    "353": {
+     "E_Gamma_minus_EF_eV": 0.001,
+     "Wd_Gamma": 0.541,
+     "Wd_kavg": 0.231,
+     "Ins_kavg": 0.253,
+     "Op_kavg": 0.232,
+     "electrons": 1.134
+    },
+    "354": {
+     "E_Gamma_minus_EF_eV": 0.155,
+     "Wd_Gamma": 0.475,
+     "Wd_kavg": 0.413,
+     "Ins_kavg": 0.162,
+     "Op_kavg": 0.216,
+     "electrons": 0.076
+    },
+    "355": {
+     "E_Gamma_minus_EF_eV": 0.832,
+     "Wd_Gamma": 0.302,
+     "Wd_kavg": 0.315,
+     "Ins_kavg": 0.188,
+     "Op_kavg": 0.253,
+     "electrons": 0.0
+    },
+    "356": {
+     "E_Gamma_minus_EF_eV": 1.121,
+     "Wd_Gamma": 0.007,
+     "Wd_kavg": 0.214,
+     "Ins_kavg": 0.238,
+     "Op_kavg": 0.261,
+     "electrons": 0.0
+    },
+    "357": {
+     "E_Gamma_minus_EF_eV": 1.145,
+     "Wd_Gamma": 0.0,
+     "Wd_kavg": 0.108,
+     "Ins_kavg": 0.263,
+     "Op_kavg": 0.285,
+     "electrons": 0.0
+    }
+   },
+   "donated_electron_density_cm3": 2.741e+21
+  },
+  "bulk_8b": {
+   "job": "iwo_W8b",
+   "n_electrons": 705.0,
+   "n_VB_top_band": 351,
+   "E_F_eV": 10.7577,
+   "degauss_eV": 0.1361,
+   "W_cation_fraction": 0.0312,
+   "electrons_above_VB_top": 3.0,
+   "electrons_in_host_CB_bottom_band": 1.932,
+   "W5d_projected_electrons": 0.36,
+   "gap_VBtop_to_hostCB_Gamma_eV": 0.8939,
+   "EF_minus_hostCB_Gamma_eV": 1.7126,
+   "W_rich_band": 353,
+   "W_rich_band_minus_hostCB_Gamma_eV": 1.8026,
+   "W_rich_band_Wd_Gamma": 0.503,
+   "bands": {
+    "350": {
+     "E_Gamma_minus_EF_eV": -2.606,
+     "Wd_Gamma": 0.0,
+     "Wd_kavg": 0.0,
+     "Ins_kavg": 0.0,
+     "Op_kavg": 0.947,
+     "electrons": 2.0
+    },
+    "351": {
+     "E_Gamma_minus_EF_eV": -2.606,
+     "Wd_Gamma": 0.0,
+     "Wd_kavg": 0.0,
+     "Ins_kavg": 0.0,
+     "Op_kavg": 0.952,
+     "electrons": 2.0
+    },
+    "352": {
+     "E_Gamma_minus_EF_eV": -1.713,
+     "Wd_Gamma": 0.0,
+     "Wd_kavg": 0.136,
+     "Ins_kavg": 0.359,
+     "Op_kavg": 0.2,
+     "electrons": 1.932
+    },
+    "353": {
+     "E_Gamma_minus_EF_eV": 0.09,
+     "Wd_Gamma": 0.503,
+     "Wd_kavg": 0.309,
+     "Ins_kavg": 0.23,
+     "Op_kavg": 0.207,
+     "electrons": 0.947
+    },
+    "354": {
+     "E_Gamma_minus_EF_eV": 0.09,
+     "Wd_Gamma": 0.503,
+     "Wd_kavg": 0.505,
+     "Ins_kavg": 0.142,
+     "Op_kavg": 0.175,
+     "electrons": 0.099
+    },
+    "355": {
+     "E_Gamma_minus_EF_eV": 0.187,
+     "Wd_Gamma": 0.579,
+     "Wd_kavg": 0.423,
+     "Ins_kavg": 0.164,
+     "Op_kavg": 0.218,
+     "electrons": 0.022
+    },
+    "356": {
+     "E_Gamma_minus_EF_eV": 1.14,
+     "Wd_Gamma": 0.0,
+     "Wd_kavg": 0.23,
+     "Ins_kavg": 0.222,
+     "Op_kavg": 0.273,
+     "electrons": 0.0
+    },
+    "357": {
+     "E_Gamma_minus_EF_eV": 1.14,
+     "Wd_Gamma": 0.0,
+     "Wd_kavg": 0.064,
+     "Ins_kavg": 0.271,
+     "Op_kavg": 0.3,
+     "electrons": 0.0
+    }
+   },
+   "donated_electron_density_cm3": 2.741e+21
+  }
+ },
+ "laws": {
+  "dEg": {
+   "fit3_a": 0.81431,
+   "fit3_p": 1.31518,
+   "fit3_points_t_nm": [
+    0.695,
+    0.93,
+    1.962
+   ],
+   "fit3_rel_residuals": [
+    0.003,
+    -0.004,
+    0.001
+   ],
+   "fit2_1and2nm_a": 0.81744,
+   "fit2_1and2nm_p": 1.3227,
+   "at_t_nm": {
+    "2.0": {
+     "fit3": 0.3273,
+     "fit2_HH": 0.3268
+    },
+    "6.3": {
+     "fit3": 0.0724,
+     "fit2_HH": 0.0716
+    },
+    "13.2": {
+     "fit3": 0.0274,
+     "fit2_HH": 0.0269
+    }
+   }
+  },
+  "dEc": {
+   "fit3_a": 0.70147,
+   "fit3_p": 1.31669,
+   "fit3_points_t_nm": [
+    0.695,
+    0.93,
+    1.962
+   ],
+   "fit3_rel_residuals": [
+    0.07,
+    -0.09,
+    0.027
+   ],
+   "fit2_1and2nm_a": 0.76158,
+   "fit2_1and2nm_p": 1.47779,
+   "at_t_nm": {
+    "2.0": {
+     "fit3": 0.2816,
+     "fit2_HH": 0.2734
+    },
+    "6.3": {
+     "fit3": 0.0622,
+     "fit2_HH": 0.0502
+    },
+    "13.2": {
+     "fit3": 0.0235,
+     "fit2_HH": 0.0168
+    }
+   }
+  },
+  "dm": {
+   "fit3_a": 0.11116,
+   "fit3_p": 1.26387,
+   "fit3_points_t_nm": [
+    0.695,
+    0.93,
+    1.962
+   ],
+   "fit3_rel_residuals": [
+    0.002,
+    -0.002,
+    0.001
+   ],
+   "fit2_1and2nm_a": 0.11137,
+   "fit2_1and2nm_p": 1.26748,
+   "at_t_nm": {
+    "2.0": {
+     "fit3": 0.0463,
+     "fit2_HH": 0.0463
+    },
+    "6.3": {
+     "fit3": 0.0109,
+     "fit2_HH": 0.0108
+    },
+    "13.2": {
+     "fit3": 0.0043,
+     "fit2_HH": 0.0042
+    }
+   }
+  },
+  "subband_box": {
+   "delta_nm": 1.396,
+   "m_z_m0": 0.1391,
+   "label": "MODEL fitted to two DFT spacings (2 parameters, 2 points: exact, no test)",
+   "at_t_nm": {
+    "2.0": {
+     "E21_box_eV": 0.7031,
+     "subband_sum": 1.0,
+     "Nc_q2D_box_cm3": 1.3731e+19,
+     "Nc3D_V2_cm3": 3.218e+18,
+     "ratio": 4.267,
+     "V2_dEc_eV": 0.2768,
+     "V2_dEg_eV": 0.3305
+    },
+    "6.3": {
+     "E21_box_eV": 0.1369,
+     "subband_sum": 1.005,
+     "Nc_q2D_box_cm3": 3.7711e+18,
+     "Nc3D_V2_cm3": 2.57e+18,
+     "ratio": 1.467,
+     "V2_dEc_eV": 0.0493,
+     "V2_dEg_eV": 0.0706
+    },
+    "13.2": {
+     "E21_box_eV": 0.0381,
+     "subband_sum": 1.25,
+     "Nc_q2D_box_cm3": 2.1707e+18,
+     "Nc3D_V2_cm3": 2.4547e+18,
+     "ratio": 0.884,
+     "V2_dEc_eV": 0.0162,
+     "V2_dEg_eV": 0.0261
+    }
+   }
+  }
+ },
+ "atlas_at_device_thickness": {
+  "2.0": {
+   "EG300_eV": 3.3773,
+   "AFFINITY_eV": 4.0184,
+   "EG300_HSEscaled_eV": 3.3969,
+   "AFFINITY_HSEscaled_eV": 4.0015,
+   "NC300_3D_V2conv_cm3": 3.218e+18,
+   "NC300_q2D_box_cm3": 1.3731e+19
+  },
+  "6.3": {
+   "EG300_eV": 3.1224,
+   "AFFINITY_eV": 4.2378,
+   "EG300_HSEscaled_eV": 3.1267,
+   "AFFINITY_HSEscaled_eV": 4.2341,
+   "NC300_3D_V2conv_cm3": 2.57e+18,
+   "NC300_q2D_box_cm3": 3.7711e+18
+  },
+  "13.2": {
+   "EG300_eV": 3.0774,
+   "AFFINITY_eV": 4.2765,
+   "EG300_HSEscaled_eV": 3.079,
+   "AFFINITY_HSEscaled_eV": 4.2751,
+   "NC300_3D_V2conv_cm3": 2.4547e+18,
+   "NC300_q2D_box_cm3": 2.1707e+18
+  }
+ }
+}

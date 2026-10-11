@@ -38,10 +38,14 @@ def append(row):
         new = not INDEX.is_file(); INDEX.parent.mkdir(parents=True, exist_ok=True)
         with INDEX.open('a', newline='') as f:
             w = csv.DictWriter(f, fieldnames=FIELDS); (w.writeheader() if new else None); w.writerow({k: row.get(k, '') for k in FIELDS})
+def file_cap():
+    """max_launches as written in config/solver.yaml on disk (2026-10-10 review fix: a --override solver.runner.max_launches=...
+    reaches the in-memory solver dict before reserve(), so the cap is re-read from the file; an override can only lower it)"""
+    return int(yaml.safe_load((ROOT / 'config' / 'solver.yaml').read_text())['runner']['max_launches'])
 def reserve(r, t, label):
     with _LOCK:
-        used = {x['run_id'] for x in rows()} | _PENDING
-        if len(used) >= int(r['max_launches']): raise RuntimeError(f'launch budget {r["max_launches"]} reached; ask before increasing')
+        used = {x['run_id'] for x in rows()} | _PENDING; cap = min(int(r['max_launches']), file_cap())
+        if len(used) >= cap: raise RuntimeError(f'launch budget {cap} reached; ask before increasing')
         n = max([int(m.group(1)) for u in used for m in [re.match(r'run_(\d+)', u)] if m] + [0])
         rid = f'run_{n + 1:04d}'; _PENDING.add(rid)
         slug = re.sub(r'[^A-Za-z0-9]+', '_', label).strip('_')[:40]; dest = RUNS / f'{rid}_{KEYS[t]}_{slug}'; dest.mkdir(parents=True)
@@ -59,6 +63,33 @@ def read_xy(p: Path):
     a = np.array(pts)
     if np.any(np.diff(a[:, 0]) < -1e-9): raise RuntimeError('export is not an increasing sweep')
     u = {float(x): float(y) for x, y in a}; xs = np.array(sorted(u)); return xs, np.array([u[x] for x in xs])
+
+def strict_xy(p: Path):
+    """Strict reader for the strip exports (2026-10-10; count-line fix after review). A DeckBuild EXTRACT file is
+    'title / <n> <a> <b> / x label / y label / n rows "x y"' (e.g. '36 2 2' in results/runs/run_0041_*/idvd_vg1.dat).
+    The one all-numeric count line before the first data row (three non-negative integers) is skipped and the number of
+    data rows must equal its first value. Any other numeric row without exactly two values, non-finite values, fewer than
+    3 rows or conflicting duplicate x rows -> RuntimeError. Text lines are skipped."""
+    pts, count = [], None
+    for line in p.read_text(errors='replace').splitlines():
+        w = line.replace(',', ' ').split()
+        if not w: continue
+        try: vals = [float(z.replace('D', 'E')) for z in w]
+        except ValueError: continue   # title / axis-label line
+        if len(vals) != 2:
+            if count is None and not pts and len(vals) == 3 and all(np.isfinite(v) and v >= 0 and v == int(v) for v in vals):
+                count = int(vals[0]); continue   # DeckBuild point-count line
+            raise RuntimeError(f'{p.name}: malformed row {line.strip()[:60]}')
+        pts.append(vals)
+    if count is not None and count != len(pts): raise RuntimeError(f'{p.name}: count line says {count} rows, found {len(pts)}')
+    a = np.array(pts, float).reshape(-1, 2)
+    if len(a) < 3 or not np.all(np.isfinite(a)): raise RuntimeError(f'{p.name}: fewer than 3 rows or non-finite values')
+    u = {}
+    for x, y in a:
+        k = round(float(x), 6)
+        if k in u and u[k] != y: raise RuntimeError(f'{p.name}: conflicting duplicate rows at {k} V')
+        u[k] = y
+    xs_ = np.array(sorted(u)); return xs_, np.array([u[x] for x in xs_])
 
 def scan(text):
     lines = text.splitlines()
@@ -232,6 +263,69 @@ def execute_output(t, label, overrides, vgs, vd_segments, timeout=None):
     finish(status, 'yes' if not sc['convergence_flags'] else 'yes-with-flags', f'{status}: ID-VD Vg={meta["output_vgs"]}; points {len(rows_out)}; maxKCL {worst:.1e}')
     print(json.dumps({'run_id': rid, 'status': status, 'points': len(rows_out), 'maxKCL_A': worst, 'elapsed_s': round(el)}, indent=1))
     if fails: raise RuntimeError(f'{rid}: KCL failed at {fails} points; inspect {dest}/output_characteristics.csv')
+    return dest
+
+def execute_strip(t, label, overrides, timeout=None):
+    """UNGATED STRIP launch (2026-10-10; GENERATOR_AUDIT 7.11 A; campaign entry "mode": "strip"): two-terminal strip deck of
+    length physics_options.strip.L_p_um on the same stack without a gate, drain stepped from 0 V (0.1 and 0.7 V included).
+    Nothing is scored against the transfer curve. KCL |I_D + I_S| <= max(1e-17 A, 0.1 x measured floor) + 1 % sum|I| per point;
+    I(V_D) -> strip_iv.csv, G = I/V_D and I(0.7 V)/I(0.1 V) -> execution.json['strip']. (W/L)_par is fitted offline, never here."""
+    m, g, s = load_configs()
+    for o in overrides:
+        k, v = o.split('=', 1)
+        if k.startswith('solver.'): set_dotted(s, k[7:], v)
+        elif k.startswith('geometry.'): set_dotted(g, k[9:], v)
+        else: set_dotted(m, k, v)
+    full = str(g.get('structure', 'reduced')).lower() == 'full'; r = s['runner']; vg, meas = read_meas(t)
+    text, meta = build_deck(t, m, g, s, meas=(vg, meas), full=full, strip=True)   # built (and drain points validated) BEFORE a run ID is reserved
+    argv = [z.replace('{deck}', 'device.in').replace('{stdout}', 'deckbuild.out') for z in r['argv']]
+    if not Path(argv[0]).is_file() and shutil.which(argv[0]) is None: raise RuntimeError(f'executable not found: {argv[0]}')
+    rid, dest = reserve(r, t, label); (dest / 'device.in').write_text(text, encoding='ascii')
+    mtxt = json.dumps(m, indent=2, default=float); (dest / 'material_model_used.json').write_text(mtxt); (dest / 'metadata.json').write_text(json.dumps(meta, indent=2, default=float))
+    to = timeout or r['timeout_seconds']['default']
+    import build_iwo_decks as _b
+    row = {'run_id': rid, 'timestamp_utc': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'), 'thickness_nm': t, 'label': label, 'deck_sha256': sha(text), 'model_sha256': sha(mtxt), 'command': ' '.join(argv), 'simulator': 'DeckBuild 5.0.10.R + ATLAS 5.28.1.R', 'output_dir': str(dest.relative_to(ROOT)).replace('\\', '/'), 'notes': f'STARTED strip deck L_p={meta["L_p_um"]:g}um timeout={to}s launch {launches() + 1}/{r["max_launches"]}' + ('' if _b.MODEL_FILE == 'config/iwo_material_model.yaml' else f' model={_b.MODEL_FILE}')}
+    append(row); t0 = time.monotonic(); timed_out = False; rc = None
+    ex = {'run_id': rid, 'thickness_nm': t, 'label': label, 'mode': 'strip', 'overrides': overrides}
+    def finish(status, conv, note):
+        ex['status'] = status; ex['elapsed_s'] = time.monotonic() - t0; (dest / 'execution.json').write_text(json.dumps(ex, indent=2, default=float))
+        append({**row, 'timestamp_utc': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'), 'exit_code': 'timeout' if timed_out else rc, 'converged': conv, 'elapsed_s': f'{ex["elapsed_s"]:.1f}', 'notes': note})
+    try:
+        p = subprocess.Popen(argv, cwd=dest, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        try: out, err = p.communicate(timeout=to)
+        except subprocess.TimeoutExpired:
+            subprocess.run(['taskkill', '/T', '/F', '/PID', str(p.pid)], capture_output=True); out, err = p.communicate(); timed_out = True
+    except Exception as e:
+        finish('LAUNCH_ERROR', 'no', f'{type(e).__name__}: {e}'[:120]); raise RuntimeError(f'{rid}: launch error {e}')
+    rc = p.returncode; (dest / 'launcher_stdout.txt').write_text(out or ''); (dest / 'launcher_stderr.txt').write_text(err or '')
+    tr = (dest / 'deckbuild.out').read_text(errors='replace') if (dest / 'deckbuild.out').exists() else ''; sc = scan((out or '') + (err or '') + tr)
+    ex.update({'returncode': rc, 'timed_out': timed_out, 'scan': sc})
+    if timed_out: finish('TIMEOUT', 'no', 'strip deck timed out'); raise RuntimeError(f'{rid}: timeout; inspect {dest}')
+    if sc['errors']: finish('SIMULATOR_ERROR', 'no', sc['errors'][0][:120]); raise RuntimeError(f'{rid}: {sc["errors"][0]}')
+    if rc != 0 or not sc['finished']: finish('INCOMPLETE_RUN', 'no', f'exit code {rc}; ATLAS completion {sc["finished"]}'); raise RuntimeError(f'{rid}: exit {rc} / not finished; inspect {dest}')
+    for fn in ('idvd_strip.dat', 'isvd_strip.dat'):
+        if not (dest / fn).exists(): finish('NO_EXPORT', 'no', f'no {fn}'); raise RuntimeError(f'{rid}: no {fn}; inspect {dest}')
+    try: xv, idr = strict_xy(dest / 'idvd_strip.dat'); xs, isr = strict_xy(dest / 'isvd_strip.dat')   # module-level reader (skips the DeckBuild count line)
+    except RuntimeError as e: finish('INCOMPLETE_EXPORT', 'partial', str(e)[:120]); raise
+    req = np.array(meta['vd_points'], float)   # every requested drain point (validated in build_deck: includes 0.1 and 0.7 V)
+    if len(xs) != len(xv) or not np.allclose(xs, xv, rtol=0, atol=1e-6) or np.min(abs(xv[:, None] - req[None, :]), axis=0).max() > 1e-6:
+        finish('INCOMPLETE_EXPORT', 'partial', 'missing or mismatched drain points'); raise RuntimeError(f'{rid}: incomplete strip export; inspect {dest}')
+    floor = meas_floor(vg, meas); abs_lim = max(float(r['kcl_absolute_limit_A']), float(r['kcl_floor_fraction']) * floor)
+    imb = np.abs(idr + isr); ok = imb <= abs_lim + float(r['kcl_relative_limit']) * (abs(idr) + abs(isr)); signed = float(r['expected_drain_sign']) * idr
+    wrong = (abs(idr) > abs_lim) & (signed < 0)
+    with (dest / 'strip_iv.csv').open('w', newline='') as f:
+        w = csv.writer(f); w.writerow(['vd_V', 'id_raw_A', 'is_raw_A', 'id_A_per_um', 'kcl_abs_A', 'kcl_pass']); w.writerows(zip(xv, idr, isr, signed, imb, ok.astype(int)))
+    i01, i07 = (float(signed[np.argmin(abs(xv - v))]) for v in (0.1, 0.7))
+    ex['validation'] = {'kcl_abs_limit_applied_A': abs_lim, 'max_kcl_abs_A': float(imb.max()), 'kcl_fail_count': int((~ok).sum()), 'wrong_sign_count': int(wrong.sum()),
+                        'nonpositive_count': int((signed <= 0).sum()), 'requested_points': len(req)}
+    ex['strip'] = {'L_p_um': meta['L_p_um'], 'I_0p1V_A_per_um': i01, 'I_0p7V_A_per_um': i07, 'ratio_0p7_over_0p1': (i07 / i01 if (i01 > abs_lim and not wrong.any()) else float('nan')),
+                   'G_0p7V_S_per_um': i07 / 0.7, 'measured_floor_A_per_um': floor, 'ratio_note': 'NaN when I(0.1 V) <= the KCL limit (incl. negative) or on a sign reversal',
+                   'note': 'I_floor_pred = I_strip x L_p x (W/L)_par, (W/L)_par FITTED offline on one film'}
+    status = 'SIGN_REVERSAL' if wrong.any() else 'KCL_FAILED' if not ok.all() else 'REAL_ATLAS_STRIP'
+    # 'converged' keeps the existing runner meaning (the solver finished); a failed acceptance is in the status and the note
+    finish(status, 'yes' if not sc['convergence_flags'] else 'yes-with-flags', f'{status}: strip I(0.7V) {i07:.3e} A/um; ratio {ex["strip"]["ratio_0p7_over_0p1"]:.3g}; maxKCL {imb.max():.1e}')
+    print(json.dumps({'run_id': rid, 'status': status, 'I_0p7V': i07, 'ratio': ex['strip']['ratio_0p7_over_0p1'], 'maxKCL_A': float(imb.max()), 'elapsed_s': round(ex['elapsed_s'])}, indent=1))
+    if status != 'REAL_ATLAS_STRIP': raise RuntimeError(f'{rid}: {status}; inspect {dest}/strip_iv.csv')
     return dest
 
 def rescore(run_dir, reason):

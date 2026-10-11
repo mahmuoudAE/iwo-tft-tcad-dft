@@ -1,0 +1,33 @@
+{
+ "native": "run_0040",
+ "reference": "run_0004",
+ "thickness_nm": 13.2,
+ "dQf_cm2": 0.0,
+ "dV_shift_V": -0.0,
+ "mun_scale": 1.0484375,
+ "cox_F_cm2": 8.955369814335959e-07,
+ "other_material_differences": [],
+ "solver_geometry_override_differences": [
+  "solver.dos_levels.numa=384",
+  "solver.dos_levels.numd=192"
+ ],
+ "exactness_breakers": [],
+ "native_points_covered_above_1e-14": 53,
+ "native_points": 76,
+ "max_abs_dev_native_grid_above_1e-14_dec": 0.002946120912706185,
+ "J_window_sub": {
+  "points": 3,
+  "covered_forward": 3,
+  "covered_inverse": 3,
+  "covered": 3,
+  "max_abs_dev_dec": 0.0004521267427222142
+ },
+ "J_window_on": {
+  "points": 41,
+  "covered_forward": 41,
+  "covered_inverse": 41,
+  "covered": 41,
+  "max_abs_dev_dec": 0.002946120912706185
+ },
+ "verdict": "NOT A PURE Q_f/MUN PAIR (see differences): no verdict"
+}
