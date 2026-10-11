@@ -1,5 +1,79 @@
 # CERN results log
 
+## 2026-10-11 13:36Z: A25 split-label force qualification (clusters 12891652 unsplit, 12891653 split): PASS
+
+**Question.** Register A25 runs aIO_2p0_s1 with split species labels (In -> In1/In2, O -> O1/O2) to fit one GPU. Does the split change the energy or the forces? A25 pass rule: |ΔE| ≤ 1e-5 Ry and max |ΔF| ≤ 1e-5 Ry/bohr over all components, split against unsplit at identical geometry and settings.
+
+**Setup.**
+- Geometry: aIO_1p0_s1, the best validated geometry of segment s0 (134 atoms, In50 O78 H6). Position rows md5 `e1bfc3f3324a` (frozen copy `source/relax.in.aIO_1p0_s1`, md5 432f746c...).
+- Settings: the A15 relax settings (PBE PAW, 60/480 Ry, 2x2x1 k, dipole correction, Gaussian 0.005 Ry, β 0.1, local-TF, mixing_ndim 12, at most 300 iterations). Changes: calculation 'scf', &IONS dropped, and a check-only conv_thr of 1e-14 Ry in both runs; production uses 1e-7.
+  - Why 1e-14: at 1e-7 this cell's Total SCF correction is 1.3e-3 Ry/bohr, far above the tolerance. The SCF correction scales as about 4.5·sqrt(scf accuracy), so 1e-14 is needed to stay below the frozen 1e-6 Ry/bohr noise gate.
+- Labels: the production rule, the alternating split of `a25_labels.py` (md5 93caf6fc..., also used for aIO_2p0_s1). In1/In2 25/25, O1/O2 39/39, H 6.
+- The two inputs differ only in ntyp, the species card and the 128 In/O row labels. This was re-derived line by line (`verify_inputs.py`); the label-blind rows md5 is `e1bfc3f3324a` in both.
+- Inputs: `~/iwo_amorph/checks/A25_split_equiv/{unsplit,split}/scf.in` (md5 ecb07951..., 716b14c5...).
+- Runs: one H100 NVL each (QE 7.3.1 GPU, 1 rank, -nk 1), exit 0.
+  - Unsplit: b9pgpun002, 45 min, 99 SCF iterations to 7.5e-15 Ry.
+  - Split: b9pgpun006, 53 min, 113 iterations to 4.3e-15 Ry. The SCF path differs, but the converged state is the same.
+- Comparator `compare_forces.py` v2 (md5 69129a67...) and its outcome classes were frozen before submission. Record: `results_20261011T133634Z/compare_result.txt` (md5 4ad9f7cc...).
+
+**Result: PASS. The split changes neither energy nor forces beyond SCF noise.**
+
+| Quantity | Value |
+|---|---|
+| E unsplit / split | −23796.88119572 / −23796.88119571 Ry |
+| \|ΔE\| | **1e-8 Ry** (tolerance 1e-5) |
+| max \|ΔF\| over all 402 components | **3e-8 Ry/bohr** (atom 70, y; tolerance 1e-5) |
+| max \|ΔF\| by species | In 2e-8, O 3e-8, H 1e-8 Ry/bohr |
+| SCF correction (norm, recomputed from the per-atom block) | unsplit 3.7e-7, split 3.3e-7 Ry/bohr (gate 1e-6; both print 0.000000) |
+| Fermi energy | −0.9146 eV in both |
+
+Sanity: the unsplit E is 6e-8 Ry below the first SCF of relax_s1 (job 12890833) at the same geometry and conv_thr 1e-7 (−23796.88119566 Ry).
+
+**GPU memory (diagnostic only; nvidia-smi samples every 2 s, including the CUDA context and the caching pool).**
+- SCF phase: unsplit 77.9 GB, split 66.7 GB. This matches QE's RAM estimate: 60.61 GB unsplit, 49.94 GB split.
+- Force step: the split rose from 66.7 to 80.6 GB. In the unsplit run the force step stayed inside its 77.9 GB plateau, so its own increment is not visible.
+- So at 134 atoms the split lowered the SCF-phase memory, but the split run's overall peak was 2.6 GB higher, set by the force step. This tests nothing about the 268-atom aIO_2p0_s1 force step that A25 is meant to fit.
+
+**Caveats.**
+- PBE (PAW), spin-unpolarised. One amorphous melt-quench cell (1.0 nm aIO, its own H termination), one geometry (not the final relaxed one).
+- Qualified at conv_thr 1e-14. At the production 1e-7, SCF noise (1.3e-3 Ry/bohr) is many orders larger than the split effect.
+- The split was tested on 134 atoms with the rule used for the 268-atom aIO_2p0_s1. No other cell is covered.
+- A rollout to other cells still needs its own approval.
+- Only energies, forces and SCF bookkeeping were read.
+
+## 2026-10-11 10:41Z: smearing force check on the relaxed 1.0 nm W-doped slab (register A27 C4 screen = A15 force check; clusters 12891104 MV, 12891105 Gaussian)
+
+**Question.** The W-doped slabs were relaxed with Marzari-Vanderbilt smearing 0.01 Ry, the undoped rescue slabs with Gaussian 0.005 Ry. Does that choice move the atoms? Test: at one fixed geometry, compute the forces with both smearings. Frozen rule (A15): if any force component differs by more than 1e-3 Ry/bohr, the smearing choice counts as a geometry uncertainty.
+
+**Setup.**
+- Geometry: final coordinates of the converged aIWO_1p0_s1 relax (segment s0, 'bfgs converged in 36 scf cycles and 35 bfgs steps'; 138 atoms, In49 W1 O80 H8). Position rows md5 `b8567368325a6d68a114e15771308e9b` in both inputs, equal to the relax output and the run's relax.in.
+- Settings as the relax (PBE PAW, 60/480 Ry, 2x2x1 k, dipole correction, conv_thr 1e-7, beta 0.2 local-TF). The only differences: calculation 'scf', &IONS dropped, and the smearing line.
+- Inputs `~/iwo_amorph/checks/A27_C4_smear/{mv,gauss}/scf.in` (md5 e02556f8..., 5644ad23...). Each ran on one H100 NVL (QE 7.3.1 GPU), exit 0.
+- Run times: MV 32 min 51 s (68 SCF iterations); Gaussian 40 min 11 s (83 iterations).
+
+**Result: the smearing choice does not move the atoms beyond the threshold.**
+
+| Quantity | Value |
+|---|---|
+| E(MV) − last relax energy (−24232.38894468 Ry) | +4e-8 Ry (sanity: agrees) |
+| max \|ΔF\| over all components, ΔF = F(Gauss) − F(MV) | **2.42e-4 Ry/bohr** (W atom 50, x component) |
+| RMS over all 414 components | 6.7e-5 Ry/bohr |
+| max per-atom \|ΔF\| | 2.85e-4 Ry/bohr |
+| max \|ΔF\| by species | In 2.1e-4, W 2.4e-4, O 2.1e-4, H 5.0e-5 |
+| largest residual force (max component) | MV 9.50e-4, Gaussian 9.47e-4 Ry/bohr |
+| A15 verdict | max \|ΔF\| ≤ 1e-3 Ry/bohr: **not a geometry uncertainty** |
+
+The largest differences, after W50, are on O111, In3, In41 and O73.
+
+**Caveats.**
+- The model is PBE, spin-unpolarised. It is one amorphous melt-quench cell (1.0 nm, its own H termination) at one geometry.
+- This is a screen, not a relaxation. Under A27 the Gaussian 0.005 polish of the decisive cells is still required.
+- A15's own check names a 2.0 nm geometry; that is not covered here.
+- The resolution is set by the SCF tolerance. The MV run's total SCF correction is 1.3e-3 Ry/bohr (norm over all atoms; Gaussian 5.6e-4). An RMS ΔF of 6.7e-5 is at that noise level.
+- Read path: the outputs were read from the EOS checkpoints (`a27c4_mv_12891104.tar.gz`, `a27c4_gauss_12891105.tar.gz`; scf.out md5 0f3dc4b4..., ffe1b0ee...) because the lxplus session had lost its AFS token.
+- Pending: the official record `collect_c4.sh` (with the relax-force sanity) still has to run on AFS.
+- Only energies and forces were read (A27 sight rule).
+
 ## 2026-10-05 18:23Z: surface-state check of the relaxed 2 nm slab (slab2r_pdos_cpu, cluster 12834125)
 
 Job: SCF (24 CPUs, 2 pools, 10 h 41 min wall) + planar average + projwfc.x. Analysis script: `surface_state_check.py`. Its measure was defined before the output was read; no protocol criterion existed.
