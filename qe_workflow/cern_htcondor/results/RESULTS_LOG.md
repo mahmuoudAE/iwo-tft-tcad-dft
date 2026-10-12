@@ -1,5 +1,71 @@
 # CERN results log
 
+## 2026-10-12 07:22Z: aIWO_0p8_s2 relaxation segments s0-s2: three SCF failures and restart non-reproducibility at production tolerance (DAG 12884028; jobs 12884030, 12889333, 12893894)
+
+**Question.** The 0.8 nm W-doped slab aIWO_0p8_s2 (an H-N cell) relaxes with Marzari-Vanderbilt smearing 0.01 Ry. How far did its first three segments get, why did each end, and does a fresh restart reproduce the continued SCF at the same geometry? Codex asked for this diagnosis before another attempt (work chat 2026-10-12T00:20Z).
+
+**Setup.**
+- Cell: aIWO_0p8_s2 (seed 82, the replacement for the QC-rejected aIWO_0p8_s1). 147 atoms: the amorphous In49 W1 O76 film of the spec (0.8 nm, lateral 14.4338 Å, 10 Å vacuum), with both faces terminated by dissociated water (OH + H pairs, SLAB_PROTOCOL §4). 1163 electrons, nspin 1, 698 bands.
+- Settings: PBE PAW (pseudopotential md5 identical in all three segments), 60/480 Ry, 2x2x1 k (4 k-points), dipole correction (tefield/dipfield, edir 3), MV 0.01 Ry, conv_thr 1e-7, BFGS with forc_conv_thr 1e-3 and etot_conv_thr 1e-4. QE 7.3.1 GPU on 1 H100 (1 rank).
+- Segments (D-24 steps md5 61b079ad, geomsel.py 5bfbae78):
+  - s0, job 12884030: pre-D-24 mixing (beta 0.2, local-TF, 8 history steps, at most 200 iterations).
+  - s1, job 12889333: the aids of the 2026-10-11T03:15Z reset (beta 0.1, mixing_ndim 12, at most 300 iterations); starts at s0 g13.
+  - s2, job 12893894: the same settings as s1 (the inputs differ only in max_seconds); starts at s1 g10.
+- Read: the relax.out of `runs/aIWO_0p8_s2/relax_s{0,1,2}_results.tar.gz` (md5 24423e228fa9d2b1832ba6b543c77f86, 65a855e65ab70ab67bbe7a975c362479, 1fd8de15cd6ecb9bc055d99030645fe2).
+
+**Result 1: three SCF failures, each after converged SCFs. The relaxation is not converged.** F is the QE '!' total energy, which includes -TS.
+
+| Segment (job) | Start | Validated steps (converged SCFs) | F (Ry), first -> last | How it ended |
+|---|---|---|---|---|
+| s0 (12884030) | s0 input | 14 (g0-g13) | -24364.16185 -> -24364.21122 | SCF at g14 not converged in 200 iterations (accuracy 8.4e-7 to 2.7e-4 Ry after iteration 10). The old steps said CONTINUE; the D-24 re-classification gave FAILED [scf] (2026-10-11T03:14:20Z) |
+| s1 (12889333) | s0 g13 | 11 (g0-g10) | -24364.20721 -> -24364.22109 | SCF at g11 not converged in 300 iterations (accuracy 1.8e-5 to 3.2e-4 Ry after iteration 10). FAILED [scf] 2026-10-11T15:42:37Z |
+| s2 (12893894) | s1 g10 | 2 (g0-g1) | -24364.22108 -> -24364.22156 | SCF at g2, after a 0.0032 Å step (largest atom move), not converged in 300 iterations (accuracy 8.5e-6 to 1.5e-4 Ry over iterations 11-300). FAILED [scf] 2026-10-12T05:50:37Z |
+
+- Best validated geometry: s2 g1, F = -24364.22155515 Ry. Its largest force component is 4.651e-3 Ry/bohr (largest per-atom force 5.10e-3), above forc_conv_thr (1e-3).
+- It is kept as relax_s2_bestvalid.in (md5 7ce25d2602bde39483bd8f45ba9f497a; position-rows md5 e0098124335b by the 03:15Z convention; d24_posmd5 e24b17e60a84).
+- Status at 07:06Z: the chain is stopped by its guard (FAILED [scf]). The next retry (12901263, segment s3) is idle with 0 starts.
+
+**Result 2: restart non-reproducibility at production tolerance (conv_thr 1e-7).** "Continued" means the SCF started from the previous BFGS step inside the same pw.x run. "Fresh" means a new pw.x run.
+- At fixed geometry and identical settings (s1 g10 -> s2 g0), a fresh MV SCF gave ΔF 1.18e-5 Ry and max |ΔF| 4.99e-3 Ry/bohr.
+- Across the s0 -> s1 restart, where the mixing settings also changed (beta 0.2, 8 history steps, 200 iterations -> beta 0.1, mixing_ndim 12, 300 iterations), it gave 4.0e-3 Ry and 2.69e-2 Ry/bohr.
+
+| Quantity | g13: s0 (continued) -> s1 (fresh, mixing changed) | g10: s1 (continued) -> s2 g0 (fresh, same settings) |
+|---|---|---|
+| ΔF | **+4.01e-3 Ry** | **+1.18e-5 Ry** |
+| max \|ΔF\| over 441 force components | **2.69e-2 Ry/bohr** | **4.99e-3 Ry/bohr** |
+| Δ internal energy | +9.48 mRy | -1.47 mRy |
+| -TS | +5.18 -> -0.30 mRy | -0.21 -> +1.27 mRy |
+| Δ Hartree / Δ one-electron | +3.620 / -3.612 Ry | -0.127 / +0.126 Ry |
+| Electric-field (dipole) correction energy | 5.18 -> 3.83 mRy | 4.43 -> 4.55 mRy |
+| ΔEwald | -5e-8 Ry | +4e-8 Ry |
+| Largest force component | 1.01e-2 -> 2.85e-2 Ry/bohr | 5.30e-3 -> 5.51e-3 Ry/bohr |
+
+- **Same geometry, by record.**
+  - geomsel.py copies the segment input and replaces only ATOMIC_POSITIONS with the printed coordinates of the selected step. The relaxation is fixed-cell ('relax').
+  - The fresh segment's input is that copy of the previous segment's validated geometry. Its position rows (coordinates with species labels) hash equal to the previous segment's bestvalid file: d24_posmd5 aad143fa86fe (s0 bestvalid = s1 input) and 59daedf1ee26 (s1 bestvalid = s2 input). The rows md5 (bb3cd88a6bde, 5a37d5ee3f89) and the xyz-only and raw-row hashes also match.
+  - The cell, species and k-point cards are carried from the segment input by that construction. They were not hashed separately. The namelists differ only in max_seconds (s1 -> s2), or in max_seconds and the mixing line (s0 -> s1).
+  - The Ewald agreement (within 5e-8 Ry) is consistent with this, but it is not used as the identity test.
+
+**Reading.**
+- The observation is restart non-reproducibility at production tolerance. The s1 -> s2 pair has identical settings, so the effect needs no change of settings. That pair would fail A35's restart gate on both tolerances (1e-5 Ry, 1e-3 Ry/bohr).
+- Interpretation open:
+  - It may be an incomplete-SCF force error at conv_thr 1e-7. QE prints this as the SCF correction to the forces, and those values in the s0-s2 relax.out have not been read yet.
+  - It may instead be two distinct converged electronic branches. This is ASSUMED, and so is any dipole mechanism.
+  - The SCF-correction forces are to be read before any stronger attribution.
+- Supporting numbers for the ASSUMED dipole mechanism: at g13, Hartree moves +3.62 Ry, one-electron -3.61 Ry, and the dipole-correction energy changes. That pair also changed the mixing settings.
+- Conditions shared with the cell: odd electron count (1163), spin-unpolarised MV, dipole correction. These are not sufficient on their own: the 1.0 nm W cell, also odd-electron with MV and the dipole correction, reproduced its relax energy to 4e-8 Ry in a fresh single point (entry 2026-10-11 10:41Z).
+- Numerical-path invariance cannot be assumed for this cell. Register A28 states it ("This changes the SCF path, not the converged energy beyond conv_thr") for the crystalline H-L cell; this observation does not falsify A28's result there.
+- Consequence: this cell's MV force reproducibility across a restart is about 5e-3 Ry/bohr or worse, above forc_conv_thr (1e-3). An MV-against-Gaussian force comparison at 1e-3 Ry/bohr cannot resolve anything for this cell.
+
+**Caveats.**
+- PBE (PAW), spin-unpolarised, MV 0.01 Ry. One amorphous melt-quench 0.8 nm W-doped slab with its own OH + H termination. Two fixed-geometry comparisons.
+- QE 7.3.1 GPU, the relaxation route. The QE 7.5 CPU FINAL route was not used for any of these numbers.
+- The shared conditions are a list, not a tested cause. The SCF-correction force term was not read.
+- Sight (A27 rule): only energies, energy components, forces and SCF bookkeeping are used.
+  - The diagnosis and check scripts also parsed the relax-SCF Fermi energies of s0-s2. They appear in the review digest (work chat 2026-10-12T07:08Z) but are not used here or for any decision.
+  - No projections, PR_n, gaps or edges were read. No FINAL exists for this cell.
+- Next: register A35 (Gaussian 0.005 Ry rescue from s2 g1, one attempt, with a final qualification SCF).
+
 ## 2026-10-11 13:36Z: A25 split-label force qualification (clusters 12891652 unsplit, 12891653 split): PASS
 
 **Question.** Register A25 runs aIO_2p0_s1 with split species labels (In -> In1/In2, O -> O1/O2) to fit one GPU. Does the split change the energy or the forces? A25 pass rule: |ΔE| ≤ 1e-5 Ry and max |ΔF| ≤ 1e-5 Ry/bohr over all components, split against unsplit at identical geometry and settings.
