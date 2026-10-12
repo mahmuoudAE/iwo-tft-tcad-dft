@@ -1,0 +1,61 @@
+{
+ "register_tag": "register-rev2-frozen-20261010T1833Z",
+ "scorer": "analysis_2026-10-10_campaign/score_register.py",
+ "test": "resolution proposal from a refinement pair (NOT registered)",
+ "label": "smoke test, not a registered result",
+ "run": "run_0071",
+ "ref": "run_0061",
+ "column": "id_A_per_um",
+ "run_dir": "results/runs/run_0071_2p0_c10_s1_04_2p0",
+ "ref_dir": "results/runs/run_0061_2p0_c10_s0_01_2p0",
+ "thickness_nm": [
+  2.0,
+  2.0
+ ],
+ "run_gate_tunnelling": false,
+ "ref_gate_tunnelling": false,
+ "tolerance_dec": 0.1,
+ "common_points": 76,
+ "disagreeing_points": 28,
+ "candidate_resolution_A_per_um": 3.28709e-18,
+ "intervention": {
+  "verified": true,
+  "changed_overrides": {
+   "solver.dos_levels.numa": [
+    "768",
+    "384"
+   ],
+   "solver.dos_levels.numd": [
+    "384",
+    "192"
+   ]
+  },
+  "kind": "DOS grid",
+  "deck_statements_changed": 2,
+  "refined": "run"
+ },
+ "evidence": {
+  "run": {
+   "run_id": "run_0071",
+   "dir": "results/runs/run_0071_2p0_c10_s1_04_2p0",
+   "sha256": {
+    "execution.json": "d474668a90bb403853022294863a78e45ce71ab38a8375f3eac7a08859587967",
+    "device.in": "07a68e6a4cff446c5e90a24257382ac47a64a53e8e148b3622cdb5f1a5a09dd9",
+    "material_model_used.json": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+    "terminal_currents.csv": "eb2162313e126717ad89b2c40a7b2513be94f111968bdb2896bfa232e55abf0c"
+   }
+  },
+  "ref": {
+   "run_id": "run_0061",
+   "dir": "results/runs/run_0061_2p0_c10_s0_01_2p0",
+   "sha256": {
+    "execution.json": "f85ab7a44adeb58bafbd862a27a94df886903a8ad8c6c13973a204a7ed640980",
+    "device.in": "53d2ddd4eeecd30e6f860a219f35786c5c03d7d41f7811e5be11883d2a3ab3df",
+    "material_model_used.json": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+    "terminal_currents.csv": "bcc8ba8e96ed990f5d2e455841714bedc101a6205515502c12f28b8196e89520"
+   }
+  }
+ },
+ "qualified": true,
+ "qualification": "distinct accepted runs with complete finite exports, verified numerical intervention, finite positive candidate"
+}

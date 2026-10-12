@@ -1,0 +1,220 @@
+{
+ "register_tag": "register-rev2-frozen-20261010T1833Z",
+ "scorer": "analysis_2026-10-10_campaign/score_register.py",
+ "test": "H-C falsification: converged mechanism passing all CAMPAIGN_DESIGN 7.2 floor criteria",
+ "label": "smoke test, not a registered result",
+ "run": "run_0071",
+ "control": "run_0061",
+ "evidence": {
+  "run": {
+   "run_id": "run_0071",
+   "dir": "results/runs/run_0071_2p0_c10_s1_04_2p0",
+   "sha256": {
+    "execution.json": "d474668a90bb403853022294863a78e45ce71ab38a8375f3eac7a08859587967",
+    "device.in": "07a68e6a4cff446c5e90a24257382ac47a64a53e8e148b3622cdb5f1a5a09dd9",
+    "material_model_used.json": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+    "terminal_currents.csv": "eb2162313e126717ad89b2c40a7b2513be94f111968bdb2896bfa232e55abf0c"
+   }
+  },
+  "control": {
+   "run_id": "run_0061",
+   "dir": "results/runs/run_0061_2p0_c10_s0_01_2p0",
+   "sha256": {
+    "execution.json": "f85ab7a44adeb58bafbd862a27a94df886903a8ad8c6c13973a204a7ed640980",
+    "device.in": "53d2ddd4eeecd30e6f860a219f35786c5c03d7d41f7811e5be11883d2a3ab3df",
+    "material_model_used.json": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+    "terminal_currents.csv": "bcc8ba8e96ed990f5d2e455841714bedc101a6205515502c12f28b8196e89520"
+   }
+  }
+ },
+ "resolution_A_per_um": {
+  "run": 3.29e-18,
+  "control": 3.29e-18
+ },
+ "resolution_source": {
+  "run": "analysis_2026-10-10_campaign/register_scores/smoke_resolution_pair_run_0071_run_0061.json: id_A_per_um refinement pair run_0071 vs run_0061 (DOS grid, film 2.0 nm, 48 agreeing points above the candidate), candidate 3.287e-18 A/um, scope = this quantity, film, physical settings, V_G [-3.0, 3.0] and numerical settings (run_0071: numerical settings of endpoint run_0071); numerical stability under the tested intervention, not an absolute error bound (ASSUMED operational method; file-bound)",
+  "control": "analysis_2026-10-10_campaign/register_scores/smoke_resolution_pair_run_0071_run_0061.json: id_A_per_um refinement pair run_0071 vs run_0061 (DOS grid, film 2.0 nm, 48 agreeing points above the candidate), candidate 3.287e-18 A/um, scope = this quantity, film, physical settings, V_G [-3.0, 3.0] and numerical settings (run_0061: numerical settings of endpoint run_0061); numerical stability under the tested intervention, not an absolute error bound (ASSUMED operational method; file-bound)"
+ },
+ "resolution_evidence": {
+  "run": {
+   "source": "analysis_2026-10-10_campaign/register_scores/smoke_resolution_pair_run_0071_run_0061.json",
+   "pair_json": "analysis_2026-10-10_campaign/register_scores/smoke_resolution_pair_run_0071_run_0061.json",
+   "pair_json_sha256": "7d0f2ccff349e482eb81acd897b8c6058b29b7212f24eeb4d36da4dbe68d681c",
+   "pair_evidence": {
+    "run": {
+     "run_id": "run_0071",
+     "dir": "results/runs/run_0071_2p0_c10_s1_04_2p0",
+     "sha256": {
+      "execution.json": "d474668a90bb403853022294863a78e45ce71ab38a8375f3eac7a08859587967",
+      "device.in": "07a68e6a4cff446c5e90a24257382ac47a64a53e8e148b3622cdb5f1a5a09dd9",
+      "material_model_used.json": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+      "terminal_currents.csv": "eb2162313e126717ad89b2c40a7b2513be94f111968bdb2896bfa232e55abf0c"
+     }
+    },
+    "ref": {
+     "run_id": "run_0061",
+     "dir": "results/runs/run_0061_2p0_c10_s0_01_2p0",
+     "sha256": {
+      "execution.json": "f85ab7a44adeb58bafbd862a27a94df886903a8ad8c6c13973a204a7ed640980",
+      "device.in": "53d2ddd4eeecd30e6f860a219f35786c5c03d7d41f7811e5be11883d2a3ab3df",
+      "material_model_used.json": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+      "terminal_currents.csv": "bcc8ba8e96ed990f5d2e455841714bedc101a6205515502c12f28b8196e89520"
+     }
+    }
+   },
+   "pair_intervention": "DOS grid",
+   "pair_films_nm": [
+    2.0,
+    2.0
+   ],
+   "application_scope": {
+    "quantity": "id_A_per_um",
+    "film_nm": 2.0,
+    "settings": {
+     "film_nm": 2.0,
+     "mode": "transfer",
+     "overrides": [
+      "solver.physics_options.nc300_override_cm3[2.0]=1.373e+19",
+      "solver.tmun=0",
+      "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+      "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+      "thickness_laws.Nt_cm3.Nt2=2e+19",
+      "thickness_laws.Nt_cm3.alpha=1",
+      "thickness_laws.WTA_eV.value=0.04",
+      "thickness_laws.dEc_eV.a=0.70147",
+      "thickness_laws.dEc_eV.p=1.31669",
+      "thickness_laws.dEg_QC_eV.a=0.81431",
+      "thickness_laws.dEg_QC_eV.p=1.31518",
+      "thickness_laws.mstar_m0.b=0.11116",
+      "thickness_laws.mstar_m0.q=1.26387",
+      "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=17.6897",
+      "traps.fixed_interface_charge_Qf_cm2.value=1.38345e+12"
+     ],
+     "material_model_sha256": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+     "deck_statements_sha256": "bf1f702f3341ded056640b455b012d6f72d657a2cb010d9f01b799245cecdf9e"
+    },
+    "bias_range_V": [
+     -3.0,
+     3.0
+    ],
+    "endpoints": [
+     {
+      "run_id": "run_0071",
+      "dir": "results/runs/run_0071_2p0_c10_s1_04_2p0",
+      "numerics_sha256": "531717300d1ef8418eb0cdf5df1cdccd819205a56631810534d526418bc96ce1"
+     },
+     {
+      "run_id": "run_0061",
+      "dir": "results/runs/run_0061_2p0_c10_s0_01_2p0",
+      "numerics_sha256": "21bd4c009403f3ab2952208d0a0ffab331a8967926d4db84465043b9b0ae8aee"
+     }
+    ],
+    "note": "applies only to this quantity, film, physical model/settings and V_G range; no cross-film transfer; a pair containing a tested run is no independent ceiling evidence for an upper-bound test (ruling c)"
+   },
+   "numerical_routes": [
+    "run_0071: numerical settings of endpoint run_0071"
+   ]
+  },
+  "control": {
+   "source": "analysis_2026-10-10_campaign/register_scores/smoke_resolution_pair_run_0071_run_0061.json",
+   "pair_json": "analysis_2026-10-10_campaign/register_scores/smoke_resolution_pair_run_0071_run_0061.json",
+   "pair_json_sha256": "7d0f2ccff349e482eb81acd897b8c6058b29b7212f24eeb4d36da4dbe68d681c",
+   "pair_evidence": {
+    "run": {
+     "run_id": "run_0071",
+     "dir": "results/runs/run_0071_2p0_c10_s1_04_2p0",
+     "sha256": {
+      "execution.json": "d474668a90bb403853022294863a78e45ce71ab38a8375f3eac7a08859587967",
+      "device.in": "07a68e6a4cff446c5e90a24257382ac47a64a53e8e148b3622cdb5f1a5a09dd9",
+      "material_model_used.json": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+      "terminal_currents.csv": "eb2162313e126717ad89b2c40a7b2513be94f111968bdb2896bfa232e55abf0c"
+     }
+    },
+    "ref": {
+     "run_id": "run_0061",
+     "dir": "results/runs/run_0061_2p0_c10_s0_01_2p0",
+     "sha256": {
+      "execution.json": "f85ab7a44adeb58bafbd862a27a94df886903a8ad8c6c13973a204a7ed640980",
+      "device.in": "53d2ddd4eeecd30e6f860a219f35786c5c03d7d41f7811e5be11883d2a3ab3df",
+      "material_model_used.json": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+      "terminal_currents.csv": "bcc8ba8e96ed990f5d2e455841714bedc101a6205515502c12f28b8196e89520"
+     }
+    }
+   },
+   "pair_intervention": "DOS grid",
+   "pair_films_nm": [
+    2.0,
+    2.0
+   ],
+   "application_scope": {
+    "quantity": "id_A_per_um",
+    "film_nm": 2.0,
+    "settings": {
+     "film_nm": 2.0,
+     "mode": "transfer",
+     "overrides": [
+      "solver.physics_options.nc300_override_cm3[2.0]=1.373e+19",
+      "solver.tmun=0",
+      "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+      "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+      "thickness_laws.Nt_cm3.Nt2=2e+19",
+      "thickness_laws.Nt_cm3.alpha=1",
+      "thickness_laws.WTA_eV.value=0.04",
+      "thickness_laws.dEc_eV.a=0.70147",
+      "thickness_laws.dEc_eV.p=1.31669",
+      "thickness_laws.dEg_QC_eV.a=0.81431",
+      "thickness_laws.dEg_QC_eV.p=1.31518",
+      "thickness_laws.mstar_m0.b=0.11116",
+      "thickness_laws.mstar_m0.q=1.26387",
+      "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=17.6897",
+      "traps.fixed_interface_charge_Qf_cm2.value=1.38345e+12"
+     ],
+     "material_model_sha256": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+     "deck_statements_sha256": "bf1f702f3341ded056640b455b012d6f72d657a2cb010d9f01b799245cecdf9e"
+    },
+    "bias_range_V": [
+     -3.0,
+     3.0
+    ],
+    "endpoints": [
+     {
+      "run_id": "run_0071",
+      "dir": "results/runs/run_0071_2p0_c10_s1_04_2p0",
+      "numerics_sha256": "531717300d1ef8418eb0cdf5df1cdccd819205a56631810534d526418bc96ce1"
+     },
+     {
+      "run_id": "run_0061",
+      "dir": "results/runs/run_0061_2p0_c10_s0_01_2p0",
+      "numerics_sha256": "21bd4c009403f3ab2952208d0a0ffab331a8967926d4db84465043b9b0ae8aee"
+     }
+    ],
+    "note": "applies only to this quantity, film, physical model/settings and V_G range; no cross-film transfer; a pair containing a tested run is no independent ceiling evidence for an upper-bound test (ruling c)"
+   },
+   "numerical_routes": [
+    "run_0061: numerical settings of endpoint run_0061"
+   ]
+  }
+ },
+ "floor_metrics": {
+  "valid_fraction": 0.0,
+  "valid_points": 0,
+  "floor_ratio_dec": null,
+  "d_floor_ratio_dec": null,
+  "floor_slope_dec_per_V": null,
+  "slope_limit_dec_per_V": 0.19944267467199053,
+  "kcl_censored_vg": [],
+  "control_kcl_censored_vg": [],
+  "control_unsupported_vg": []
+ },
+ "floor_validity_limit_A_per_um": 4.610000000000001e-16,
+ "criteria": {
+  "valid_ge_80pct": false,
+  "d_floor_within_0p5dec": false,
+  "slope_ok": false,
+  "kcl_pass_window_run_and_control": true
+ },
+ "converged": null,
+ "convergence_evidence": "generation/SRH: no mechanism-specific refinement run in the diagnostic set (baseline numerics only: S1-03 mesh x0.7, S1-04 DOS x2)",
+ "mesh_evidence": null,
+ "verdict": "does not explain the floor (no falsification from this mechanism)"
+}

@@ -1,0 +1,57 @@
+{
+ "register_tag": "register-rev2-frozen-20261010T1833Z",
+ "scorer": "analysis_2026-10-10_campaign/score_register.py",
+ "test": "resolution proposal from a refinement pair (NOT registered)",
+ "label": "smoke test, not a registered result",
+ "run": "run_0070",
+ "ref": "run_0069",
+ "column": "id_A_per_um",
+ "run_dir": "results/runs/run_0070_13p2_c10_s1_03_13p2",
+ "ref_dir": "results/runs/run_0069_13p2_c10_s1_02_13p2",
+ "thickness_nm": [
+  13.2,
+  13.2
+ ],
+ "run_gate_tunnelling": false,
+ "ref_gate_tunnelling": false,
+ "tolerance_dec": 0.1,
+ "common_points": 76,
+ "disagreeing_points": 19,
+ "candidate_resolution_A_per_um": 2.85347e-18,
+ "intervention": {
+  "verified": true,
+  "changed_overrides": {
+   "geometry.mesh.spacing_factor": [
+    "0.7",
+    null
+   ]
+  },
+  "kind": "mesh spacing factor",
+  "deck_statements_changed": 19,
+  "refined": "run"
+ },
+ "evidence": {
+  "run": {
+   "run_id": "run_0070",
+   "dir": "results/runs/run_0070_13p2_c10_s1_03_13p2",
+   "sha256": {
+    "execution.json": "075634e5cb17c5ac404a419520c49246f1a2203122b0513553ffd2ebae5c80f9",
+    "device.in": "17298e562e286ee0439727810853869cbf45f340434db307c982fb1737ec6b8b",
+    "material_model_used.json": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+    "terminal_currents.csv": "0802461c4a5166827a9cffe168c0eaa912f205156c04f3e6617be3e26391203f"
+   }
+  },
+  "ref": {
+   "run_id": "run_0069",
+   "dir": "results/runs/run_0069_13p2_c10_s1_02_13p2",
+   "sha256": {
+    "execution.json": "1f203215edd5f5d899f6530a60e5b2d5aafdd214b553431e1ddd305e72b66d1c",
+    "device.in": "6f23916436f86467667874b65c667877526030b21b3b87740fc72774fd2cf31b",
+    "material_model_used.json": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+    "terminal_currents.csv": "5f412c5b6e895d3616b495c83503fa47a5563c8728dd78af9a1a0504545678bd"
+   }
+  }
+ },
+ "qualified": true,
+ "qualification": "distinct accepted runs with complete finite exports, verified numerical intervention, finite positive candidate"
+}

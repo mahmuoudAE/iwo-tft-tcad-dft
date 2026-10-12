@@ -1,0 +1,97 @@
+{
+ "register_tag": "register-rev2-frozen-20261010T1833Z",
+ "scorer": "analysis_2026-10-10_campaign/score_register.py",
+ "test": "resolution proposal from a refinement pair (NOT registered)",
+ "label": "smoke test, not a registered result",
+ "run": "run_0070",
+ "ref": "run_0069",
+ "column": "id_A_per_um",
+ "run_dir": "results/runs/run_0070_13p2_c10_s1_03_13p2",
+ "ref_dir": "results/runs/run_0069_13p2_c10_s1_02_13p2",
+ "thickness_nm": [
+  13.2,
+  13.2
+ ],
+ "run_gate_tunnelling": false,
+ "ref_gate_tunnelling": false,
+ "tolerance_dec": 0.1,
+ "common_points": 76,
+ "disagreeing_points": 19,
+ "candidate_resolution_A_per_um": 2.85347e-18,
+ "support_points_above_candidate": 56,
+ "support_points_within_1dec": 1,
+ "bias_coverage": 1.0,
+ "support_rule": {
+  "min_points_above_candidate": 3,
+  "near_decades": 1.0,
+  "bias_coverage": 1.0
+ },
+ "intervention": {
+  "verified": true,
+  "changed_overrides": {
+   "geometry.mesh.spacing_factor": [
+    "0.7",
+    null
+   ]
+  },
+  "kind": "mesh spacing factor",
+  "deck_statements_changed": 19,
+  "deck_ratio": 0.7,
+  "refined": "run"
+ },
+ "evidence": {
+  "run": {
+   "run_id": "run_0070",
+   "dir": "results/runs/run_0070_13p2_c10_s1_03_13p2",
+   "sha256": {
+    "execution.json": "075634e5cb17c5ac404a419520c49246f1a2203122b0513553ffd2ebae5c80f9",
+    "device.in": "17298e562e286ee0439727810853869cbf45f340434db307c982fb1737ec6b8b",
+    "material_model_used.json": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+    "terminal_currents.csv": "0802461c4a5166827a9cffe168c0eaa912f205156c04f3e6617be3e26391203f"
+   }
+  },
+  "ref": {
+   "run_id": "run_0069",
+   "dir": "results/runs/run_0069_13p2_c10_s1_02_13p2",
+   "sha256": {
+    "execution.json": "1f203215edd5f5d899f6530a60e5b2d5aafdd214b553431e1ddd305e72b66d1c",
+    "device.in": "6f23916436f86467667874b65c667877526030b21b3b87740fc72774fd2cf31b",
+    "material_model_used.json": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+    "terminal_currents.csv": "5f412c5b6e895d3616b495c83503fa47a5563c8728dd78af9a1a0504545678bd"
+   }
+  }
+ },
+ "application_scope": {
+  "quantity": "id_A_per_um",
+  "film_nm": 13.2,
+  "settings": {
+   "film_nm": 13.2,
+   "mode": "transfer",
+   "overrides": [
+    "solver.tmun=0",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "thickness_laws.Nt_cm3.Nt2=2e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.04",
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[13.2]=63.2597",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.38345e+12"
+   ],
+   "material_model_sha256": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+   "deck_statements_sha256": "314ce3f871a52b8d8498065d3942e34e116bef0a74d9bad37cca05edff1c74dc"
+  },
+  "bias_range_V": [
+   -3.0,
+   3.0
+  ],
+  "note": "applies only to this quantity, film, physical model/settings and V_G range; no cross-film transfer; a pair containing a tested run is no independent ceiling evidence for an upper-bound test (ruling c)"
+ },
+ "qualified": true,
+ "qualification": "distinct accepted runs with complete finite exports, verified numerical intervention, agreement support and full bias coverage, finite positive candidate"
+}

@@ -1,0 +1,315 @@
+{
+ "register_tag": "register-rev2-frozen-20261010T1833Z",
+ "scorer": "analysis_2026-10-10_campaign/score_register.py",
+ "test": "H-C S2-11: resolved |I_G| changes by <= 0.1 dec",
+ "label": "smoke test, not a registered result",
+ "run": "run_0067",
+ "ref": "run_0067",
+ "refinement": "oxide y-mesh x0.5 at the 0.002/0.017 um lines, y = 0 line kept: Al2O3 about x1.5, HfO2 about x2 (QTNLSC only; not ITAT/TAT.SLICEPTS)",
+ "inputs": {
+  "run": "results/runs/run_0067_2p0_c10_s0_02_2p0",
+  "ref": "results/runs/run_0067_2p0_c10_s0_02_2p0",
+  "given": 3.29e-18,
+  "source": "analysis_2026-10-10_campaign/register_scores/smoke_resolution_pair_run_0071_run_0061.json",
+  "ig_given": null,
+  "ig_source": null,
+  "smoke": false
+ },
+ "evidence": {
+  "run": {
+   "run_id": "run_0067",
+   "dir": "results/runs/run_0067_2p0_c10_s0_02_2p0",
+   "sha256": {
+    "execution.json": "ca324889296d92ee02528102ca507d6d0cf96a3bc1e035c9720e3b501fa2ab86",
+    "device.in": "5e71aac8968162520a4a706617537811d2252df1ec8df5eae6763e04ab69e6f6",
+    "material_model_used.json": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+    "terminal_currents.csv": "f7c1ff3f7d3db6d2df777d6ec9ed5f68cded324cfc06924f90f74f6144abcf83"
+   }
+  },
+  "ref": {
+   "run_id": "run_0067",
+   "dir": "results/runs/run_0067_2p0_c10_s0_02_2p0",
+   "sha256": {
+    "execution.json": "ca324889296d92ee02528102ca507d6d0cf96a3bc1e035c9720e3b501fa2ab86",
+    "device.in": "5e71aac8968162520a4a706617537811d2252df1ec8df5eae6763e04ab69e6f6",
+    "material_model_used.json": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+    "terminal_currents.csv": "f7c1ff3f7d3db6d2df777d6ec9ed5f68cded324cfc06924f90f74f6144abcf83"
+   }
+  }
+ },
+ "intervention": {
+  "verified": false,
+  "changed_overrides": {},
+  "why": "self-pair: the two runs are the same run"
+ },
+ "scope": {
+  "mechanism": "QTNLSC",
+  "thickness_nm": 2.0,
+  "oxide_set": "worst",
+  "run_pair": [
+   "run_0067",
+   "run_0067"
+  ],
+  "certifies": "QTNLSC convergence under this oxide y-mesh refinement, for the 2 nm film only",
+  "does_not_certify": "other films; ITAT (S2-12/S2-13: TAT.SLICEPTS untested); generation/SRH"
+ },
+ "resolution_A_per_um": 3.29e-18,
+ "resolution_source": "current resolution (I_D-type; not an I_G ceiling; implementation definition): analysis_2026-10-10_campaign/register_scores/smoke_resolution_pair_run_0071_run_0061.json: id_A_per_um refinement pair run_0071 vs run_0061 (DOS grid, film 2.0 nm), candidate 3.287e-18 A/um (file-bound; PROPOSED method, user sign-off open)",
+ "resolution_evidence": {
+  "source": "analysis_2026-10-10_campaign/register_scores/smoke_resolution_pair_run_0071_run_0061.json",
+  "pair_json": "analysis_2026-10-10_campaign/register_scores/smoke_resolution_pair_run_0071_run_0061.json",
+  "pair_json_sha256": "0ce54e433de7459db9ab0dd3eb15e0bc1cc85dd76a1e6bcdca98a3596472b708",
+  "pair_evidence": {
+   "run": {
+    "run_id": "run_0071",
+    "dir": "results/runs/run_0071_2p0_c10_s1_04_2p0",
+    "sha256": {
+     "execution.json": "d474668a90bb403853022294863a78e45ce71ab38a8375f3eac7a08859587967",
+     "device.in": "07a68e6a4cff446c5e90a24257382ac47a64a53e8e148b3622cdb5f1a5a09dd9",
+     "material_model_used.json": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+     "terminal_currents.csv": "eb2162313e126717ad89b2c40a7b2513be94f111968bdb2896bfa232e55abf0c"
+    }
+   },
+   "ref": {
+    "run_id": "run_0061",
+    "dir": "results/runs/run_0061_2p0_c10_s0_01_2p0",
+    "sha256": {
+     "execution.json": "f85ab7a44adeb58bafbd862a27a94df886903a8ad8c6c13973a204a7ed640980",
+     "device.in": "53d2ddd4eeecd30e6f860a219f35786c5c03d7d41f7811e5be11883d2a3ab3df",
+     "material_model_used.json": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+     "terminal_currents.csv": "bcc8ba8e96ed990f5d2e455841714bedc101a6205515502c12f28b8196e89520"
+    }
+   }
+  },
+  "pair_intervention": "DOS grid",
+  "pair_films_nm": [
+   2.0,
+   2.0
+  ]
+ },
+ "common_points": 76,
+ "scored_points": 31,
+ "resolved_both_points": 31,
+ "max_change_dec": 0.0,
+ "points": [
+  {
+   "vg_V": -3.0,
+   "IG_run": -2.7461e-12,
+   "IG_ref": -2.7461e-12,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": -2.8,
+   "IG_run": -4.25603e-13,
+   "IG_ref": -4.25603e-13,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": -2.6,
+   "IG_run": -1.12723e-12,
+   "IG_ref": -1.12723e-12,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": -2.4,
+   "IG_run": -1.29607e-13,
+   "IG_ref": -1.29607e-13,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": -2.2,
+   "IG_run": -2.34352e-14,
+   "IG_ref": -2.34352e-14,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": -2.0,
+   "IG_run": -8.46338e-15,
+   "IG_ref": -8.46338e-15,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": -1.8,
+   "IG_run": -7.10309e-16,
+   "IG_ref": -7.10309e-16,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": -1.6,
+   "IG_run": -1.24887e-17,
+   "IG_ref": -1.24887e-17,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": -1.4,
+   "IG_run": -4.18749e-18,
+   "IG_ref": -4.18749e-18,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": 1.2,
+   "IG_run": 6.7293e-18,
+   "IG_ref": 6.7293e-18,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": 1.25,
+   "IG_run": 3.10504e-17,
+   "IG_ref": 3.10504e-17,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": 1.3,
+   "IG_run": 1.15101e-16,
+   "IG_ref": 1.15101e-16,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": 1.35,
+   "IG_run": 4.13988e-16,
+   "IG_ref": 4.13988e-16,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": 1.4,
+   "IG_run": 1.24791e-15,
+   "IG_ref": 1.24791e-15,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": 1.45,
+   "IG_run": 3.33075e-15,
+   "IG_ref": 3.33075e-15,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": 1.5,
+   "IG_run": 8.7016e-15,
+   "IG_ref": 8.7016e-15,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": 1.6,
+   "IG_run": 5.37149e-14,
+   "IG_ref": 5.37149e-14,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": 1.7,
+   "IG_run": 3.02409e-13,
+   "IG_ref": 3.02409e-13,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": 1.8,
+   "IG_run": 1.625e-12,
+   "IG_ref": 1.625e-12,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": 1.9,
+   "IG_run": 8.04802e-12,
+   "IG_ref": 8.04802e-12,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": 2.0,
+   "IG_run": 3.70737e-11,
+   "IG_ref": 3.70737e-11,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": 2.1,
+   "IG_run": 1.47402e-10,
+   "IG_ref": 1.47402e-10,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": 2.2,
+   "IG_run": 5.21062e-10,
+   "IG_ref": 5.21062e-10,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": 2.3,
+   "IG_run": 1.73183e-09,
+   "IG_ref": 1.73183e-09,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": 2.4,
+   "IG_run": 4.72968e-09,
+   "IG_ref": 4.72968e-09,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": 2.5,
+   "IG_run": 1.23068e-08,
+   "IG_ref": 1.23068e-08,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": 2.6,
+   "IG_run": 3.04085e-08,
+   "IG_ref": 3.04085e-08,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": 2.7,
+   "IG_run": 6.25811e-08,
+   "IG_ref": 6.25811e-08,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": 2.8,
+   "IG_run": 1.25838e-07,
+   "IG_ref": 1.25838e-07,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": 2.9,
+   "IG_run": 2.47015e-07,
+   "IG_ref": 2.47015e-07,
+   "class": "resolved",
+   "dlog10": 0.0
+  },
+  {
+   "vg_V": 3.0,
+   "IG_run": 4.14448e-07,
+   "IG_ref": 4.14448e-07,
+   "class": "resolved",
+   "dlog10": 0.0
+  }
+ ],
+ "comparison_verdict": "PASS",
+ "verdict": "not demonstrated (not a verified oxide y-mesh refinement of the reference: self-pair: the two runs are the same run); never a mesh pass"
+}

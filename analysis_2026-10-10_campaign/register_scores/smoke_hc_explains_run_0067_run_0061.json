@@ -5,13 +5,52 @@
  "label": "smoke test, not a registered result",
  "run": "run_0067",
  "control": "run_0061",
+ "evidence": {
+  "run": {
+   "run_id": "run_0067",
+   "dir": "results/runs/run_0067_2p0_c10_s0_02_2p0",
+   "sha256": {
+    "execution.json": "ca324889296d92ee02528102ca507d6d0cf96a3bc1e035c9720e3b501fa2ab86",
+    "device.in": "5e71aac8968162520a4a706617537811d2252df1ec8df5eae6763e04ab69e6f6",
+    "material_model_used.json": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+    "terminal_currents.csv": "f7c1ff3f7d3db6d2df777d6ec9ed5f68cded324cfc06924f90f74f6144abcf83"
+   }
+  },
+  "control": {
+   "run_id": "run_0061",
+   "dir": "results/runs/run_0061_2p0_c10_s0_01_2p0",
+   "sha256": {
+    "execution.json": "f85ab7a44adeb58bafbd862a27a94df886903a8ad8c6c13973a204a7ed640980",
+    "device.in": "53d2ddd4eeecd30e6f860a219f35786c5c03d7d41f7811e5be11883d2a3ab3df",
+    "material_model_used.json": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+    "terminal_currents.csv": "bcc8ba8e96ed990f5d2e455841714bedc101a6205515502c12f28b8196e89520"
+   }
+  }
+ },
+ "resolution_A_per_um": {
+  "run": 4.60552e-16,
+  "control": 4.60552e-16
+ },
+ "resolution_source": {
+  "run": "PROXY: runner KCL absolute limit (register 0: KCL is a sanity check, not a demonstrated resolution)",
+  "control": "PROXY: runner KCL absolute limit (register 0: KCL is a sanity check, not a demonstrated resolution)"
+ },
+ "resolution_evidence": {
+  "run": null,
+  "control": null
+ },
  "floor_metrics": {
   "valid_fraction": 0.125,
+  "valid_points": 2,
   "floor_ratio_dec": -0.28604133593207426,
   "d_floor_ratio_dec": -0.2860110006695592,
   "floor_slope_dec_per_V": null,
-  "slope_limit_dec_per_V": 0.19944267467199053
+  "slope_limit_dec_per_V": 0.19944267467199053,
+  "kcl_censored_vg": [],
+  "control_kcl_censored_vg": [],
+  "control_unsupported_vg": []
  },
+ "floor_validity_limit_A_per_um": 4.610000000000001e-16,
  "criteria": {
   "valid_ge_80pct": false,
   "d_floor_within_0p5dec": true,
@@ -20,5 +59,6 @@
  },
  "converged": null,
  "convergence_evidence": "QTNLSC: needs the registered S2-11 hc_mesh score (--mesh-score)",
- "verdict": "does not explain the floor (no falsification from this mechanism)"
+ "mesh_evidence": null,
+ "verdict": "PROVISIONAL (resolution not demonstrated for ['run', 'control']; 7.1 floor validity rests on the KCL limit): does not explain the floor (no falsification from this mechanism)"
 }

@@ -1,0 +1,24 @@
+{
+ "register_tag": "register-rev2-frozen-20261010T1833Z",
+ "scorer": "analysis_2026-10-10_campaign/score_register.py",
+ "test": "H-C nominal leakage |I_G(-3 V)| <= 1e-2 x floor",
+ "label": "smoke test, not a registered result",
+ "run": "run_0067",
+ "run_label": "c10_s0_02_2p0",
+ "abs_IG_m3V_A_per_um": 2.7461e-12,
+ "bound_A_per_um": 4.6100000000000006e-17,
+ "resolution_A_per_um": 4.60552e-16,
+ "resolution_source": "PROXY: runner KCL absolute limit (register 0: KCL is a sanity check, not a demonstrated resolution)",
+ "resolution_evidence": null,
+ "evidence": {
+  "run_id": "run_0067",
+  "dir": "results/runs/run_0067_2p0_c10_s0_02_2p0",
+  "sha256": {
+   "execution.json": "ca324889296d92ee02528102ca507d6d0cf96a3bc1e035c9720e3b501fa2ab86",
+   "device.in": "5e71aac8968162520a4a706617537811d2252df1ec8df5eae6763e04ab69e6f6",
+   "material_model_used.json": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+   "terminal_currents.csv": "f7c1ff3f7d3db6d2df777d6ec9ed5f68cded324cfc06924f90f74f6144abcf83"
+  }
+ },
+ "verdict": "PROVISIONAL (resolution not demonstrated): FAIL"
+}

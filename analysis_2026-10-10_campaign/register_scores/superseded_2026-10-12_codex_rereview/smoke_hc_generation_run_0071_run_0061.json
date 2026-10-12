@@ -1,0 +1,186 @@
+{
+ "register_tag": "register-rev2-frozen-20261010T1833Z",
+ "scorer": "analysis_2026-10-10_campaign/score_register.py",
+ "test": "H-C generation max |dI_D| over V_G in [-2, -0.5] V <= 1e-20 A/um",
+ "label": "smoke test, not a registered result",
+ "run": "run_0071",
+ "control": "run_0061",
+ "bound_A_per_um": 1e-20,
+ "resolution_A_per_um": 3.29e-18,
+ "resolution_source": "analysis_2026-10-10_campaign/register_scores/smoke_resolution_pair_run_0071_run_0061.json: id_A_per_um refinement pair run_0071 vs run_0061 (DOS grid, film 2.0 nm), candidate 3.287e-18 A/um (file-bound; PROPOSED method, user sign-off open)",
+ "resolution_evidence": {
+  "source": "analysis_2026-10-10_campaign/register_scores/smoke_resolution_pair_run_0071_run_0061.json",
+  "pair_json": "analysis_2026-10-10_campaign/register_scores/smoke_resolution_pair_run_0071_run_0061.json",
+  "pair_json_sha256": "0ce54e433de7459db9ab0dd3eb15e0bc1cc85dd76a1e6bcdca98a3596472b708",
+  "pair_evidence": {
+   "run": {
+    "run_id": "run_0071",
+    "dir": "results/runs/run_0071_2p0_c10_s1_04_2p0",
+    "sha256": {
+     "execution.json": "d474668a90bb403853022294863a78e45ce71ab38a8375f3eac7a08859587967",
+     "device.in": "07a68e6a4cff446c5e90a24257382ac47a64a53e8e148b3622cdb5f1a5a09dd9",
+     "material_model_used.json": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+     "terminal_currents.csv": "eb2162313e126717ad89b2c40a7b2513be94f111968bdb2896bfa232e55abf0c"
+    }
+   },
+   "ref": {
+    "run_id": "run_0061",
+    "dir": "results/runs/run_0061_2p0_c10_s0_01_2p0",
+    "sha256": {
+     "execution.json": "f85ab7a44adeb58bafbd862a27a94df886903a8ad8c6c13973a204a7ed640980",
+     "device.in": "53d2ddd4eeecd30e6f860a219f35786c5c03d7d41f7811e5be11883d2a3ab3df",
+     "material_model_used.json": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+     "terminal_currents.csv": "bcc8ba8e96ed990f5d2e455841714bedc101a6205515502c12f28b8196e89520"
+    }
+   }
+  },
+  "pair_intervention": "DOS grid",
+  "pair_films_nm": [
+   2.0,
+   2.0
+  ]
+ },
+ "evidence": {
+  "run": {
+   "run_id": "run_0071",
+   "dir": "results/runs/run_0071_2p0_c10_s1_04_2p0",
+   "sha256": {
+    "execution.json": "d474668a90bb403853022294863a78e45ce71ab38a8375f3eac7a08859587967",
+    "device.in": "07a68e6a4cff446c5e90a24257382ac47a64a53e8e148b3622cdb5f1a5a09dd9",
+    "material_model_used.json": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+    "terminal_currents.csv": "eb2162313e126717ad89b2c40a7b2513be94f111968bdb2896bfa232e55abf0c"
+   }
+  },
+  "control": {
+   "run_id": "run_0061",
+   "dir": "results/runs/run_0061_2p0_c10_s0_01_2p0",
+   "sha256": {
+    "execution.json": "f85ab7a44adeb58bafbd862a27a94df886903a8ad8c6c13973a204a7ed640980",
+    "device.in": "53d2ddd4eeecd30e6f860a219f35786c5c03d7d41f7811e5be11883d2a3ab3df",
+    "material_model_used.json": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+    "terminal_currents.csv": "bcc8ba8e96ed990f5d2e455841714bedc101a6205515502c12f28b8196e89520"
+   }
+  }
+ },
+ "common_points": 16,
+ "resolved_points": 0,
+ "max_abs_dID_lower_A_per_um": null,
+ "max_abs_dID_upper_A_per_um": null,
+ "max_unresolved_ceiling_A_per_um": 6.58e-18,
+ "kcl_censored_vg": [],
+ "verdict": "unresolved: below resolution (6.58e-18 A/um), resolution not demonstrated below the bound 1e-20",
+ "points": [
+  {
+   "vg_V": -2.0,
+   "I_run": -2.53529e-19,
+   "I_ctrl": 1.51103e-19,
+   "class": "below resolution",
+   "ceiling": 6.58e-18
+  },
+  {
+   "vg_V": -1.8,
+   "I_run": 3.45476e-19,
+   "I_ctrl": -1.12905e-19,
+   "class": "below resolution",
+   "ceiling": 6.58e-18
+  },
+  {
+   "vg_V": -1.6,
+   "I_run": 5.18551e-19,
+   "I_ctrl": -2.32571e-19,
+   "class": "below resolution",
+   "ceiling": 6.58e-18
+  },
+  {
+   "vg_V": -1.4,
+   "I_run": -1.16083e-18,
+   "I_ctrl": -1.10201e-19,
+   "class": "below resolution",
+   "ceiling": 6.58e-18
+  },
+  {
+   "vg_V": -1.2,
+   "I_run": -1.41976e-19,
+   "I_ctrl": -6.78782e-19,
+   "class": "below resolution",
+   "ceiling": 6.58e-18
+  },
+  {
+   "vg_V": -1.0,
+   "I_run": -8.85662e-19,
+   "I_ctrl": -6.99064e-19,
+   "class": "below resolution",
+   "ceiling": 6.58e-18
+  },
+  {
+   "vg_V": -0.95,
+   "I_run": -3.39391e-19,
+   "I_ctrl": -1.92276e-18,
+   "class": "below resolution",
+   "ceiling": 6.58e-18
+  },
+  {
+   "vg_V": -0.9,
+   "I_run": 8.49153e-19,
+   "I_ctrl": -1.55363e-18,
+   "class": "below resolution",
+   "ceiling": 6.58e-18
+  },
+  {
+   "vg_V": -0.85,
+   "I_run": -1.11823e-18,
+   "I_ctrl": -4.11055e-19,
+   "class": "below resolution",
+   "ceiling": 6.58e-18
+  },
+  {
+   "vg_V": -0.8,
+   "I_run": -4.21872e-19,
+   "I_ctrl": -2.29866e-20,
+   "class": "below resolution",
+   "ceiling": 6.58e-18
+  },
+  {
+   "vg_V": -0.75,
+   "I_run": -2.6678e-18,
+   "I_ctrl": -1.42517e-18,
+   "class": "below resolution",
+   "ceiling": 6.58e-18
+  },
+  {
+   "vg_V": -0.7,
+   "I_run": -3.28709e-18,
+   "I_ctrl": 2.08232e-18,
+   "class": "below resolution",
+   "ceiling": 6.58e-18
+  },
+  {
+   "vg_V": -0.65,
+   "I_run": 8.45097e-19,
+   "I_ctrl": 1.07361e-18,
+   "class": "below resolution",
+   "ceiling": 6.58e-18
+  },
+  {
+   "vg_V": -0.6,
+   "I_run": -4.96241e-19,
+   "I_ctrl": -1.69966e-18,
+   "class": "below resolution",
+   "ceiling": 6.58e-18
+  },
+  {
+   "vg_V": -0.55,
+   "I_run": -2.15263e-18,
+   "I_ctrl": 9.28931e-19,
+   "class": "below resolution",
+   "ceiling": 6.58e-18
+  },
+  {
+   "vg_V": -0.5,
+   "I_run": 1.02629e-18,
+   "I_ctrl": -2.55963e-18,
+   "class": "below resolution",
+   "ceiling": 6.58e-18
+  }
+ ]
+}

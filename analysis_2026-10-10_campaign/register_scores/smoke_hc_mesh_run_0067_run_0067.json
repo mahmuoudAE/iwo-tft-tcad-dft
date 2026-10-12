@@ -6,13 +6,86 @@
  "run": "run_0067",
  "ref": "run_0067",
  "refinement": "oxide y-mesh x0.5 at the 0.002/0.017 um lines, y = 0 line kept: Al2O3 about x1.5, HfO2 about x2 (QTNLSC only; not ITAT/TAT.SLICEPTS)",
- "resolution_A_per_um": 3.29e-18,
- "resolution_source": "current resolution (I_D-type; not an I_G ceiling; implementation definition): PROPOSED, not registered: resolution_pair run_0071 vs run_0061 (DOS x2, 2.0 nm), candidate 3.287e-18",
+ "inputs": {
+  "run": "results/runs/run_0067_2p0_c10_s0_02_2p0",
+  "ref": "results/runs/run_0067_2p0_c10_s0_02_2p0",
+  "given": null,
+  "source": null,
+  "ig_given": null,
+  "ig_source": null,
+  "smoke": false
+ },
+ "evidence": {
+  "run": {
+   "run_id": "run_0067",
+   "dir": "results/runs/run_0067_2p0_c10_s0_02_2p0",
+   "sha256": {
+    "execution.json": "ca324889296d92ee02528102ca507d6d0cf96a3bc1e035c9720e3b501fa2ab86",
+    "device.in": "5e71aac8968162520a4a706617537811d2252df1ec8df5eae6763e04ab69e6f6",
+    "material_model_used.json": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+    "terminal_currents.csv": "f7c1ff3f7d3db6d2df777d6ec9ed5f68cded324cfc06924f90f74f6144abcf83"
+   }
+  },
+  "ref": {
+   "run_id": "run_0067",
+   "dir": "results/runs/run_0067_2p0_c10_s0_02_2p0",
+   "sha256": {
+    "execution.json": "ca324889296d92ee02528102ca507d6d0cf96a3bc1e035c9720e3b501fa2ab86",
+    "device.in": "5e71aac8968162520a4a706617537811d2252df1ec8df5eae6763e04ab69e6f6",
+    "material_model_used.json": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+    "terminal_currents.csv": "f7c1ff3f7d3db6d2df777d6ec9ed5f68cded324cfc06924f90f74f6144abcf83"
+   }
+  }
+ },
+ "intervention": {
+  "verified": false,
+  "changed_overrides": {},
+  "why": "self-pair: the two runs are the same run"
+ },
+ "scope": {
+  "mechanism": "QTNLSC",
+  "thickness_nm": 2.0,
+  "oxide_set": "worst",
+  "run_pair": [
+   "run_0067",
+   "run_0067"
+  ],
+  "settings": {
+   "film_nm": 2.0,
+   "mode": "transfer",
+   "overrides": [
+    "solver.physics_options.gate_tunnelling.enabled=1",
+    "solver.physics_options.gate_tunnelling.model=qtnlsc",
+    "solver.physics_options.gate_tunnelling.set=worst",
+    "solver.physics_options.nc300_override_cm3[2.0]=1.373e+19",
+    "solver.tmun=0",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "thickness_laws.Nt_cm3.Nt2=2e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.04",
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=17.6897",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.38345e+12"
+   ],
+   "material_model_sha256": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+   "deck_statements_sha256": "bb52610e2dcbfdb58fa4eea24f3d84444f5d20c154e9a108b28b29736ce2b4ae"
+  },
+  "certifies": "QTNLSC convergence under this oxide y-mesh refinement, only for runs with exactly the physical settings of run_0067 (2 nm film, oxide set worst, same overrides, material model and deck statements)",
+  "does_not_certify": "other films; another oxide parameter set (e.g. nominal S2-04 from the worst-set S2-11, ruling b); ITAT (S2-12/S2-13: TAT.SLICEPTS untested); generation/SRH"
+ },
+ "resolution_A_per_um": 4.60552e-16,
+ "resolution_source": "current resolution (I_D-type; out of scope for I_G, ruling c): PROXY: runner KCL absolute limit (register 0: KCL is a sanity check, not a demonstrated resolution)",
+ "resolution_evidence": null,
  "common_points": 76,
- "scored_points": 31,
- "resolved_both_points": 31,
+ "scored_points": 25,
+ "resolved_both_points": 25,
  "max_change_dec": 0.0,
- "verdict": "PASS",
  "points": [
   {
    "vg_V": -3.0,
@@ -60,48 +133,6 @@
    "vg_V": -1.8,
    "IG_run": -7.10309e-16,
    "IG_ref": -7.10309e-16,
-   "class": "resolved",
-   "dlog10": 0.0
-  },
-  {
-   "vg_V": -1.6,
-   "IG_run": -1.24887e-17,
-   "IG_ref": -1.24887e-17,
-   "class": "resolved",
-   "dlog10": 0.0
-  },
-  {
-   "vg_V": -1.4,
-   "IG_run": -4.18749e-18,
-   "IG_ref": -4.18749e-18,
-   "class": "resolved",
-   "dlog10": 0.0
-  },
-  {
-   "vg_V": 1.2,
-   "IG_run": 6.7293e-18,
-   "IG_ref": 6.7293e-18,
-   "class": "resolved",
-   "dlog10": 0.0
-  },
-  {
-   "vg_V": 1.25,
-   "IG_run": 3.10504e-17,
-   "IG_ref": 3.10504e-17,
-   "class": "resolved",
-   "dlog10": 0.0
-  },
-  {
-   "vg_V": 1.3,
-   "IG_run": 1.15101e-16,
-   "IG_ref": 1.15101e-16,
-   "class": "resolved",
-   "dlog10": 0.0
-  },
-  {
-   "vg_V": 1.35,
-   "IG_run": 4.13988e-16,
-   "IG_ref": 4.13988e-16,
    "class": "resolved",
    "dlog10": 0.0
   },
@@ -231,5 +262,7 @@
    "class": "resolved",
    "dlog10": 0.0
   }
- ]
+ ],
+ "comparison_verdict": "PROVISIONAL (resolution not demonstrated): PASS",
+ "verdict": "not demonstrated (not a verified oxide y-mesh refinement of the reference: self-pair: the two runs are the same run); never a mesh pass"
 }
