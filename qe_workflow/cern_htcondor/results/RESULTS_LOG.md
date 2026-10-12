@@ -1,5 +1,54 @@
 # CERN results log
 
+## 2026-10-12 12:35Z: MACE-MPA-0 force check (ML_VALIDATION.md), six CPU frames (cluster 12884015 procs .0-.4, .7): OVERALL FAIL (W first shell); 2.0 nm frames pending (12890593.0/.1)
+
+**Question.** ML_VALIDATION.md: do MACE-MPA-0 forces on the plan snapshots agree with DFT single-point forces? Limits per scored frame: RMSE_all <= 0.15, MAE_all <= 0.10, RMSE_W1 (W + O within 2.60 A) <= 0.25 eV/A. Melt frames are reported, not scored.
+
+**Setup.**
+- Inputs from make_val.py (mace_ref.json and scf.in per frame, written 2026-10-10 12:22Z); DFT atom i = MACE atom i, no reordering, no net-force removal.
+- DFT: QE 7.5 CPU, PBE PAW (In Zval 13 with 4d, W Zval 14 with 5s5p, O 6, H 1), 60/480 Ry, Marzari-Vanderbilt 0.01 Ry, spin-unpolarised, conv_thr 1e-7, beta 0.2, -nk 1. k 2x2x2 (bulk, 8 k-points) and 2x2x1 (0.7 nm slab, 27 A cell height, 4 k-points). Unsplit labels.
+- Jobs (all exit 0, one start, no hold; 15 CPUs / 46080 MB, the 0.7 nm frame 33 / 101376; peak RSS 16.8-17.3 GiB bulk, 54.2 GiB 0.7 nm):
+  - .0 melt_3000K: 18383 s, 31 SCF iterations
+  - .1 aIWO quenched: 10759 s, 29 iterations
+  - .2 aIWO final: 10099 s, 29 iterations
+  - .3 aIO quenched: 11239 s, 30 iterations
+  - .4 aIO final: 10516 s, 33 iterations
+  - .7 aIWO_0p7 final: 5896 s, 47 iterations
+- Comparator compare_val.py v1.0.0, frozen in private-repo commit d0179e1 (sha256 4ae21f15...a58a62d) before any val output was read, run unmodified (python -I), exit 1. No fail rule R1-R12 fired; scf.out geometry agrees with scf.in. An independent stdlib recompute (no import of the comparator) matches RMSE, MAE and RMSE_W1 to 4 decimals.
+- Tarball sha256 prefixes: melt b4e4c7f7, aIWO-q 6e780c02, aIWO-f eee14029, aIO-q c1cc3d63, aIO-f 95ea5d18, 0p7-f e7aa2076.
+
+**Result: OVERALL FAIL. aIO bulk PASS; aIWO bulk FAIL on RMSE_W1 only; aIWO 0.7 nm FAIL on all three limits.**
+
+| Frame (job) | Status | RMSE_all | MAE_all | RMSE_W1 | Verdict |
+|---|---|---|---|---|---|
+| aIWO_bulk_s1 melt_3000K (12884015.0) | REPORTED | 0.311 | 0.171 | 1.108 | - |
+| aIWO_bulk_s1 quenched_300K (.1) | SCORED | 0.121 | 0.068 | **0.434** | FAIL |
+| aIWO_bulk_s1 final (.2) | SCORED | 0.122 | 0.068 | **0.449** | FAIL |
+| aIO_bulk_s1 quenched_300K (.3) | SCORED | 0.068 | 0.052 | N/A | PASS |
+| aIO_bulk_s1 final (.4) | SCORED | 0.065 | 0.049 | N/A | PASS |
+| aIWO_0p7_s1 final (.7) | SCORED | **0.206** | **0.110** | **0.815** | FAIL |
+| aIWO_2p0_s1 slab_annealed / final (12890593.0/.1, A34 GPU route) | MISSING (idle, 0 starts) | - | - | - | - |
+
+All values in eV/A.
+
+- Structures: aIWO_bulk_s1 FAIL, aIO_bulk_s1 PASS, aIWO_2p0_s1 INCOMPLETE, aIWO_0p7_s1 FAIL.
+- OVERALL FAIL (rule D7: one failed structure fails the check). The 2.0 nm frames cannot change it.
+- Stop rule (aIWO_2p0_s1, RMSE_all > 0.30): UNDETERMINED; one 2.0 nm frame above 0.30 triggers it, clearing it needs both.
+
+**Reading.**
+- The error sits in the W first shell. Each cell has one W with 6 O within 2.60 A, so the shell has 7 atoms; it carries 71-75% of the squared force error. The shell failure is driven more by the shell O atoms (RMSE 0.46) than by W itself (0.17 quenched, 0.37 final); in the 0.7 nm final frame the W atom feels 1.05 eV/A in DFT against 0.002 in MACE.
+- Outside the shell (arithmetic on the comparator outputs, used in no verdict): RMSE 0.063-0.066 (aIWO bulk) and 0.107 (0.7 nm), against 0.065-0.068 for aIO.
+- Final frames are MACE-relaxed (MACE force rms 0.005-0.013 eV/A), so RMSE_all there is the DFT residual force at the MACE minimum (DFT-MACE correlation about 0): it measures how far the MACE minimum lies from DFT equilibrium. Only the quenched and melt frames test force agreement (DFT force rms 0.58-2.0 eV/A, correlation 0.98-0.99).
+- Plan consequence (ML_VALIDATION.md, D-12): production DFT relaxations continue; the ML structures are starting points relaxed by DFT, not validated amorphous models; ML-stage-only structural statistics (coordination, density) are not reported as results.
+
+**Caveats.**
+- PBE (PAW), spin-unpolarised, MV 0.01 Ry, QE 7.5 CPU; MACE-MPA-0 forces on MACE snapshots.
+- Amorphous melt-quench cells, one sample each, not crystalline. The 0.7 nm cell is a slab (In49 W1 O83 H14) with OH/H termination and vacuum; the bulk cells have no surface.
+- RMSE_W1 rests on one W environment per frame (21 force components). The aIWO quenched and final frames share the same W neighbours, so they are not independent.
+- Possible contributor to the W-O error (ASSUMED, not tested): the MACE-MPA-0 training data (MPtrj/sAlex) use PBE+U for W oxides, while these SCFs are plain PBE.
+- SCF-correction force norm 1.1-1.6e-3 Ry/bohr (about 0.03-0.04 eV/A total) at conv_thr 1e-7.
+- Job MemoryUsage values from HTCondor are rounded; peaks above are RSS. Only forces and SCF bookkeeping were read; no energies, projections, gaps or edges.
+
 ## 2026-10-12 07:22Z: aIWO_0p8_s2 relaxation segments s0-s2: three SCF failures and restart non-reproducibility at production tolerance (DAG 12884028; jobs 12884030, 12889333, 12893894)
 
 **Question.** The 0.8 nm W-doped slab aIWO_0p8_s2 (an H-N cell) relaxes with Marzari-Vanderbilt smearing 0.01 Ry. How far did its first three segments get, why did each end, and does a fresh restart reproduce the continued SCF at the same geometry? Codex asked for this diagnosis before another attempt (work chat 2026-10-12T00:20Z).
