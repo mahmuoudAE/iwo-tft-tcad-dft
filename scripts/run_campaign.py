@@ -19,9 +19,17 @@ C10 plans (2026-10-10 review fix; file stem campaign_C10_* or campaign "C10...")
 (labels c10_* in RUN_INDEX, failed ones included); an entry whose label already has a RUN_INDEX row is not launched again
 (earlier success reused, earlier failure reported; --retry ID[,ID] to spend a new launch on purpose).
 A plan with "runnable": false (templates; plans held outside the frozen register route, 2026-10-11) is refused before any launch.
+Executable stop gates (2026-10-13, opt-in; scripts/campaign_gates.py): a plan with a "gates" list evaluates each gate with the frozen
+scorer after its checkpoint entry and before the plan proceeds; a FIRED gate (or an UNRESOLVED one declared on_unresolved "stop") stops
+the plan before the next launch (exit code 3) and holds until --ack-gate GATE_ID[,ID] --ack-audit AUDIT_FILE (the completed audit, naming
+the gate and decision ids). Decisions are bound to the gate declaration, scorer and input/evidence hashes. Gate output is FIRED /
+NOT_FIRED / UNRESOLVED plus ids and hashes only.
+State-only surface (2026-10-13, opt-in; scripts/campaign_sealed.py): a plan with "state_only" prints and writes state only (console,
+results/campaigns summary, RUN_INDEX finish notes); the full record goes to a sealed sidecar under results/sealed/.
+A plan with neither key runs exactly as before (this module does not even import campaign_gates / campaign_sealed for it).
 """
 from __future__ import annotations
-import json, sys, time, traceback
+import contextlib, json, sys, time, traceback
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from run_atlas import execute, execute_output, execute_strip, ROOT
@@ -44,19 +52,25 @@ def summarize(dest):
     if 'strip' in ex: s['strip'] = ex['strip']   # 2026-10-10 strip mode
     return s
 
-def run_entry(e, res, lock):
+def _sealed_io(log):
+    import campaign_sealed as cs
+    return cs.sealed_io(log)
+
+def run_entry(e, res, lock, sealed_log=None):
     rec = {'id': e['id'], 'thickness': e['thickness'], 'label': e['label'], 'purpose': e.get('purpose', ''), 'mode': e.get('mode', 'transfer')}
     t0 = time.time()
     try:
         with lock: ov = fill(e.get('overrides', []), res['placeholders'])
         rec['overrides'] = ov
-        if e.get('mode') == 'output':
-            dest = execute_output(float(e['thickness']), e['label'], ov, e['output_vgs'], [tuple(x) for x in e.get('vd_segments', [[0.5, 0.05], [3.0, 0.1]])], e.get('timeout'))
-        elif e.get('mode') == 'strip':   # 2026-10-10: ungated two-terminal strip deck (run_atlas.execute_strip)
-            if 'vd_segments' in e: raise RuntimeError('strip mode takes the drain steps from physics_options.strip.vd_segments, not from the entry')
-            dest = execute_strip(float(e['thickness']), e['label'], ov, e.get('timeout'))
-        else:
-            dest = execute(float(e['thickness']), e['label'], ov, timeout=e.get('timeout'))
+        kw = {'seal_notes': True} if sealed_log else {}   # 2026-10-13 state-only plans: status-only RUN_INDEX notes, launch output sealed
+        with (_sealed_io(sealed_log) if sealed_log else contextlib.nullcontext()):
+            if e.get('mode') == 'output':
+                dest = execute_output(float(e['thickness']), e['label'], ov, e['output_vgs'], [tuple(x) for x in e.get('vd_segments', [[0.5, 0.05], [3.0, 0.1]])], e.get('timeout'), **kw)
+            elif e.get('mode') == 'strip':   # 2026-10-10: ungated two-terminal strip deck (run_atlas.execute_strip)
+                if 'vd_segments' in e: raise RuntimeError('strip mode takes the drain steps from physics_options.strip.vd_segments, not from the entry')
+                dest = execute_strip(float(e['thickness']), e['label'], ov, e.get('timeout'), **kw)
+            else:
+                dest = execute(float(e['thickness']), e['label'], ov, timeout=e.get('timeout'), **kw)
         rec['run_dir'] = str(Path(dest).relative_to(ROOT)).replace('\\', '/'); rec['run_id'] = Path(dest).name[:8]; rec.update(summarize(dest))
         if e.get('recal_key') and 'sim' in rec:
             mu_new = float(e['mu_used']) * rec['exp']['Ion_A_per_um'] / rec['sim']['Ion_A_per_um']
@@ -146,36 +160,66 @@ def earlier_launch(e, idx_rows, res):
     return rec
 
 def main():
-    """python run_campaign.py PLAN.json [--workers N] [--retry ID[,ID...]]
-    (N parallel ATLAS processes, default 1 = sequential; C10 plans: N must be 1, --retry re-launches named entries)"""
+    """python run_campaign.py PLAN.json [--workers N] [--retry ID[,ID...]] [--ack-gate GATE_ID[,ID] --ack-audit AUDIT_FILE]
+    (N parallel ATLAS processes, default 1 = sequential; C10, gated and state-only plans: N must be 1, --retry re-launches named entries)"""
     import threading
     from concurrent.futures import ThreadPoolExecutor, FIRST_COMPLETED, wait
     from run_atlas import rows as index_rows
-    args = sys.argv[1:]; workers = 1; retry = set()
+    args = sys.argv[1:]; workers = 1; retry = set(); acks = set()
     if '--workers' in args: i = args.index('--workers'); workers = int(args[i + 1]); del args[i:i + 2]
     if '--retry' in args: i = args.index('--retry'); retry = {x.strip() for x in args[i + 1].split(',') if x.strip()}; del args[i:i + 2]
+    if '--ack-gate' in args: i = args.index('--ack-gate'); acks = {x.strip() for x in args[i + 1].split(',') if x.strip()}; del args[i:i + 2]
+    audit = None
+    if '--ack-audit' in args: i = args.index('--ack-audit'); audit = args[i + 1]; del args[i:i + 2]
     plan_path = Path(args[0]); plan = json.loads(plan_path.read_text()); c10 = is_c10(plan, plan_path)
     if plan.get('runnable') is False:   # 2026-10-11 review: held plans (outside the frozen register route) and templates are never launched
         sys.exit(f'{plan_path.name}: runnable=false, nothing launched ({plan.get("not_runnable_reason") or "template: unresolved tokens"})')
     if c10 and workers != 1: sys.exit(f'C10 plans are sequential only (user approval: 200 sequential launches); got --workers {workers}')
+    gates = plan.get('gates'); gate_stop = None   # 2026-10-13 opt-in executable stop gates (scripts/campaign_gates.py); None -> unchanged runner
+    if gates is not None or acks or audit:
+        import campaign_gates as cg
+        bad = cg.validate(plan, workers) if gates is not None else ['--ack-gate / --ack-audit given for a plan without gates']
+        if audit and not acks: bad.append('--ack-audit needs --ack-gate')
+        if bad: sys.exit(f'{plan_path.name}: gates refused, nothing launched: ' + '; '.join(bad))
+    so = plan.get('state_only'); slog = None   # 2026-10-13 opt-in state-only surface (scripts/campaign_sealed.py; Codex blocker 3 / D7)
+    if so is not None:
+        import campaign_sealed as cs
+        bad = cs.validate(plan, workers)
+        if bad: sys.exit(f'{plan_path.name}: state_only refused, nothing launched: ' + '; '.join(bad))
+        full, slog = cs.paths(ROOT, plan_path.stem, so)
     out_dir = ROOT / 'results' / 'campaigns'; out_dir.mkdir(parents=True, exist_ok=True); out = out_dir / f'{plan_path.stem}.json'
     res = {'campaign': plan.get('campaign', plan_path.stem), 'purpose': plan.get('purpose', ''), 'plan_file': str(plan_path), 'placeholders': {}, 'runs': []}
-    if out.exists():   # resume: keep finished entries, skip them
+    if so is not None and full.exists(): res = json.loads(full.read_text())   # state-only: the full record lives in the sealed sidecar
+    elif out.exists():   # resume: keep finished entries, skip them
         res = json.loads(out.read_text())
+    def save():   # the default writes exactly as before; state-only: full record -> sealed sidecar, state projection -> out
+        if so is None: out.write_text(json.dumps(res, indent=1, default=float))
+        else: cs.save(res, out, full, ROOT)
+    def line(r, keys):
+        return cs.console(r) if so is not None else json.dumps({k: r.get(k) for k in keys})
+    if gates:   # a recorded gate stop holds until acknowledged with a cited audit: nothing is launched or reused before that
+        res.setdefault('gates', []); hold, probs = cg.held(plan, res, acks, audit, save, out, ROOT, index_rows)
+        for m in probs: print(m, flush=True)
+        if hold:
+            print(f'STOP: gate {hold[0]["gate"]} [{hold[0]["rule_id"]}] decision {hold[0]["decision_id"]} recorded {hold[0]["state"]} at '
+                  f'{hold[0]["evaluated_utc"]}; nothing launched. After the audit, resume with {cg.resume_hint(hold[0])}', flush=True); sys.exit(3)
     done = {r['id'] for r in res['runs'] if r.get('run_dir')} - retry   # --retry also re-launches an entry finished in this plan
     todo = [e for e in plan['runs'] if e['id'] not in done]; lock = threading.Lock(); running = {}; stop = False
     with ThreadPoolExecutor(max_workers=workers) as pool:
         while (todo and not stop) or running:
             for e in [e for e in todo if ready(e, res)] if not stop else []:
                 if len(running) >= workers: break
+                if gates:   # 2026-10-13: pending gates are evaluated before the plan proceeds to its next entry (launch or reuse)
+                    gate_stop = cg.check(plan, res, save, out, ROOT, index_rows)
+                    if gate_stop: stop = True; break
                 if c10:   # sequential (workers == 1), so the RUN_INDEX read here sees every earlier launch
                     idx = index_rows(); prev = earlier_launch(e, idx, res) if e['id'] not in retry else None
                     if prev is not None:
                         todo.remove(e); res['runs'] = [r for r in res['runs'] if not (r['id'] == e['id'] and not r.get('run_dir'))] + [prev]
-                        out.write_text(json.dumps(res, indent=1, default=float))
-                        print(json.dumps({k: prev.get(k) for k in ('id', 'run_id', 'status', 'reused_earlier_launch', 'error')}), flush=True); continue
+                        save()
+                        print(line(prev, ('id', 'run_id', 'status', 'reused_earlier_launch', 'error')), flush=True); continue
                     if c10_launches(idx) >= C10_CAP: stop = True; print(f'STOP: C10 launch cap {C10_CAP} reached (labels c10_* in RUN_INDEX)'); break
-                todo.remove(e); running[pool.submit(run_entry, e, res, lock)] = e
+                todo.remove(e); running[pool.submit(run_entry, e, res, lock, *([slog] if slog else []))] = e
             if not running:
                 if todo and not stop: print('STOP: remaining entries wait for placeholders that no run produced')
                 if todo: break
@@ -186,9 +230,14 @@ def main():
                 with lock:
                     if rec['id'] in retry:   # a retried entry: its latest attempt replaces earlier records (a failed retry is not 'done')
                         rec['earlier_records'] = [r for r in res['runs'] if r['id'] == rec['id']]; res['runs'] = [r for r in res['runs'] if r['id'] != rec['id']]
-                    res['runs'].append(rec); out.write_text(json.dumps(res, indent=1, default=float))
-                print(json.dumps({k: rec.get(k) for k in ('id', 'run_id', 'status', 'active_rmse_dec', 'Id3V_err_pct', 'error', 'wall_s')}), flush=True)
+                    res['runs'].append(rec); save()
+                print(line(rec, ('id', 'run_id', 'status', 'active_rmse_dec', 'Id3V_err_pct', 'error', 'wall_s')), flush=True)
                 if 'launch budget' in rec.get('error', ''): stop = True; print('STOP: budget')
+    if gates and gate_stop is None: gate_stop = cg.check(plan, res, save, out, ROOT, index_rows)   # gates on the plan's last record
+    if gates and gate_stop:
+        print(f'STOP: gate {gate_stop["gate"]} [{gate_stop["rule_id"]}] {gate_stop["state"]} (decision {gate_stop["decision_id"]}); nothing further '
+              f'launched. After the audit, resume with {cg.resume_hint(gate_stop)}', flush=True)
+        print('CAMPAIGN STOPPED BY GATE', out); sys.exit(3)
     print('CAMPAIGN DONE', out)
 
 if __name__ == '__main__': main()

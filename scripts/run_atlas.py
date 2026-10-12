@@ -18,6 +18,7 @@ import numpy as np, yaml
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from build_iwo_decks import ROOT, KEYS, load_configs, set_dotted, build_deck, read_meas
 from extract_metrics import metrics
+import proc_guard as pg   # 2026-10-13 hang fix (launch() below)
 
 RUNS = ROOT / 'results' / 'runs'; INDEX = ROOT / 'results' / 'RUN_INDEX.csv'
 FIELDS = ['run_id', 'timestamp_utc', 'thickness_nm', 'label', 'deck_sha256', 'model_sha256', 'command', 'simulator', 'exit_code', 'converged', 'elapsed_s', 'output_dir', 'notes']
@@ -135,12 +136,97 @@ def validate(dest, xv, idr, isr, igr, floor, s):
         w = csv.writer(f); w.writerow(['vg_V', 'id_raw_A', 'is_raw_A', 'ig_raw_A', 'id_A_per_um', 'kcl_abs_A', 'kcl_pass', 'above_abs_floor']); w.writerows(zip(xv, idr, isr, igr, signed, imb, ok.astype(int), above.astype(int)))
     return signed, {'kcl_abs_limit_applied_A': abs_lim, 'kcl_floor_basis': 'max(1e-17 A, 0.1 x median measured Id over Vg in [-2,-0.5] V)', 'measured_floor_A_per_um': floor, 'max_kcl_abs_A': float(imb.max()), 'kcl_fail_count': int((~ok).sum()), 'kcl_fail_vg': [float(v) for v in xv[~ok]][:20], 'wrong_sign_count': int(wrong.sum()), 'nonpositive_count': int((signed <= 0).sum())}, ('SIGN_REVERSAL' if wrong.any() else 'KCL_FAILED' if not ok.all() else 'OK')
 
+# ---- 2026-10-13 runner hang fix (analysis_2026-10-10_campaign/S2_RUNNER_GATES_2026-10-13.md; CODEX_WORK_CHAT 2026-10-12T16:40Z, run_0075
+# disclosure 2: after the timeout taskkill the second p.communicate() had no timeout, and a viewer outside the killed deckbuild tree held
+# the output pipes). The three launch paths below share launch(); exit_code / timed_out / status semantics are unchanged.
+POLL_S = 1.0          # process-guard poll interval while deckbuild runs (process record, viewer policy)
+KILL_WAIT_S = 60.0    # bounded wait for deckbuild to exit after the timeout kill (was: an unbounded second communicate())
+PIPE_GRACE_S = 30.0   # bounded wait for EOF on the launcher pipes after deckbuild exited or was killed
+SUCCESS_STATUSES = ('REAL_ATLAS_SCORED', 'REAL_ATLAS_PREDICTION', 'REAL_ATLAS_PARTIAL_SWEEP', 'REAL_ATLAS_STRIP')
+
+def launch(argv, dest, to):
+    """Run deckbuild in dest under the process guard (scripts/proc_guard.py) and wait at most `to` s for the launch to complete, i.e.
+    deckbuild exited AND its stdout/stderr reached EOF, as the former p.communicate(timeout=to) did. Same Popen arguments as before (argv,
+    cwd, stdout/stderr pipes; the bytes are decoded as text=True did). While it runs, the guard records the launch's processes and applies
+    the viewer policy (default 'record': TonyPlot is only recorded; IWO_ATLAS_VIEWERS=kill terminates it, Codex D4). On a timeout
+    (Codex blocker 1): identity-checked termination of each process of the launch (job object + recorded descendants, best-effort capture),
+    licence daemons never terminated, no /T tree kill, bounded fallback; deckbuild is awaited for at most KILL_WAIT_S and the pipes for at
+    most PIPE_GRACE_S, so a process outside the launch that holds the pipes cannot stall the runner.
+    Returns (stdout, stderr, timed_out, returncode, process_guard record)."""
+    g = pg.Guard()
+    p = subprocess.Popen(argv, cwd=dest, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    try:
+        g.attach(p.pid); ro, re_ = pg.PipeReader(p.stdout), pg.PipeReader(p.stderr)
+        end = time.monotonic() + to; timed_out = False
+        while True:
+            g.poll()
+            if p.poll() is not None and ro.done.is_set() and re_.done.is_set(): break
+            left = end - time.monotonic()
+            if left <= 0: timed_out = True; break
+            if p.poll() is None:
+                try: p.wait(timeout=min(POLL_S, left))
+                except subprocess.TimeoutExpired: pass
+            else: ro.done.wait(min(POLL_S, left)); re_.done.wait(0.01)   # deckbuild exited, a pipe is still open (viewer policy applies)
+        if timed_out:
+            k = g.kill_all('timeout', p, KILL_WAIT_S)
+            print(f'runner: timeout after {to} s; terminated {sum(t["result"] == "terminated" for t in k["targets"])} process(es), '
+                  f'{len(k["survivors"])} survivor(s); see execution.json process_guard', file=sys.stderr, flush=True)
+        ro.done.wait(PIPE_GRACE_S); re_.done.wait(PIPE_GRACE_S)
+        rec = g.record(); rec['pipes'] = {'stdout_eof': ro.done.is_set(), 'stderr_eof': re_.done.is_set(), 'read_errors': [x for x in (ro.error, re_.error) if x]}
+        return pg.decode(ro.data()), pg.decode(re_.data()), timed_out, p.returncode, rec
+    finally:
+        g.close()
+
+_OUTF = re.compile(r'\boutf(?:ile)?\s*=\s*"?([^"\s]+)"?', re.I)
+
+def deck_outputs(text):
+    """files the deck writes (save/log outf=..., extract outfile="..."), in deck order; comment lines skipped"""
+    out = []
+    for l in text.splitlines():
+        if l.lstrip().startswith('#'): continue
+        out += [n for n in _OUTF.findall(l) if n not in out]
+    return out
+
+def deckbuild_out_completed(dest):
+    """completion evidence from deckbuild.out ITSELF (Codex D5: not from the combined launcher streams): the ATLAS completion banner or the
+    echoed 'EXTRACT> quit' of the deck's last statement"""
+    f = Path(dest) / 'deckbuild.out'
+    if not f.is_file(): return False
+    t = f.read_text(errors='replace')
+    return bool(re.search(r'ATLAS version .* finished', t) or re.search(r'EXTRACT>\s*quit', t))
+
+HANG_NOTE = ('DIAGNOSTIC METADATA ONLY (Codex D5, 2026-10-12T20:28Z): timed_out, exit_code, returncode and status keep their facts, and '
+             'the frozen scorer still rejects a timed-out run; file existence and mtime before the kill are NOT proof of complete exports')
+
+def hang_class(dest, deck_text, guard, status, evaluated=True):
+    """2026-10-13 post_export_hang, diagnostic metadata only (HANG_NOTE). True when deckbuild.out itself shows the deck completed, every
+    file the deck writes exists with an mtime before the timeout kill, and the runner's own export-completeness and KCL checks passed
+    (status in SUCCESS_STATUSES). null when not evaluated (strip path)."""
+    k = (guard or {}).get('kill') or {}; ke = k.get('epoch_s'); files = {}
+    for n in deck_outputs(deck_text):
+        f = Path(dest) / n; st = f.stat() if f.is_file() else None
+        files[n] = {'exists': st is not None, 'mtime_utc': pg.utc(st.st_mtime) if st else None, 'mtime_before_kill': bool(st and ke and st.st_mtime < ke)}
+    allb = bool(files) and all(v['mtime_before_kill'] for v in files.values()); fin = deckbuild_out_completed(dest)
+    basis = {'kill_utc': k.get('utc'), 'deck_outputs': files, 'all_deck_outputs_exist_with_mtime_before_kill': allb,
+             'deckbuild_out_shows_completion': fin, 'runner_status': status, 'note': HANG_NOTE,
+             'rule': 'deckbuild.out shows completion AND every deck output exists with mtime before the kill AND the runner export-completeness/KCL checks passed'}
+    if not evaluated:
+        return {'post_export_hang': None, 'post_export_hang_basis': {**basis, 'not_evaluated': 'strip path: a timed-out strip launch stops at TIMEOUT before its export checks (unchanged)'}}
+    return {'post_export_hang': bool(ke and allb and fin and status in SUCCESS_STATUSES), 'post_export_hang_basis': basis}
+
+def sealed_note(ex, note, status, seal):
+    """state-only plans (run_campaign 'state_only', Codex blocker 3 / D7): the RUN_INDEX finish note carries the status only; the full note
+    is kept in the run's own execution.json (run directories are sealed). seal False -> the note unchanged"""
+    if not seal: return note
+    ex['run_index_note_sealed'] = note
+    return f'{status}: state-only (note sealed in execution.json run_index_note_sealed)'
+
 def parse_segments(text):
     """'-1:0.2,1.5:0.05,3:0.1' -> [(end, step), ...]; 'none' -> None (per-point solves)."""
     if text is None or str(text).lower() in ('none', 'off', ''): return None
     return [(float(a), float(b)) for a, b in (seg.split(':') for seg in str(text).split(','))]
 
-def execute(t, label, overrides, stride=1, vg_min=None, timeout=None, smoke=False, vstep=None, segments='config', full='config', predict=False):
+def execute(t, label, overrides, stride=1, vg_min=None, timeout=None, smoke=False, vstep=None, segments='config', full='config', predict=False, seal_notes=False):
     """segments: [(end V, step V), ...] for ATLAS stepped SOLVE VSTEP/VFINAL/NAME=gate blocks ('config' = solver.yaml
     sweep.segments; None = one SOLVE per 0.05 V point). vstep: single-step shorthand. full: physical structure
     (Air / Pd volumes / Al2O3 / HfO2 / Conductor gate; 'config' = geometry.yaml structure == 'full').
@@ -180,15 +266,15 @@ def execute(t, label, overrides, stride=1, vg_min=None, timeout=None, smoke=Fals
     import build_iwo_decks as _b
     row = {'run_id': rid, 'timestamp_utc': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'), 'thickness_nm': t, 'label': label, 'deck_sha256': sha(text), 'model_sha256': sha(mtxt), 'command': ' '.join(argv), 'simulator': 'DeckBuild 5.0.10.R + ATLAS 5.28.1.R', 'output_dir': str(dest.relative_to(ROOT)).replace('\\', '/'), 'notes': f'STARTED points={len(targets)} timeout={to}s launch {launches() + 1}/{r["max_launches"]}' + ('' if _b.MODEL_FILE == 'config/iwo_material_model.yaml' else f' model={_b.MODEL_FILE}') + (' PREDICTION (no measurement)' if predict else '')}
     append(row); t0 = time.monotonic()
-    p = subprocess.Popen(argv, cwd=dest, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    try: out, err = p.communicate(timeout=to); timed_out = False
-    except subprocess.TimeoutExpired:
-        subprocess.run(['taskkill', '/T', '/F', '/PID', str(p.pid)], capture_output=True); out, err = p.communicate(); timed_out = True
+    out, err, timed_out, rc, guard = launch(argv, dest, to)   # 2026-10-13: bounded waits + process guard (was Popen/communicate/taskkill/communicate)
     el = time.monotonic() - t0; (dest / 'launcher_stdout.txt').write_text(out or ''); (dest / 'launcher_stderr.txt').write_text(err or '')
     tr = (dest / 'deckbuild.out').read_text(errors='replace') if (dest / 'deckbuild.out').exists() else ''; sc = scan((out or '') + (err or '') + tr)
-    ex = {'run_id': rid, 'thickness_nm': t, 'label': label, 'elapsed_s': el, 'returncode': p.returncode, 'timed_out': timed_out, 'scan': sc, 'requested_points': int(len(targets)), 'overrides': overrides}
+    ex = {'run_id': rid, 'thickness_nm': t, 'label': label, 'elapsed_s': el, 'returncode': rc, 'timed_out': timed_out, 'scan': sc, 'requested_points': int(len(targets)), 'overrides': overrides, 'process_guard': guard}
     def finish(status, conv, note):
-        ex['status'] = status; (dest / 'execution.json').write_text(json.dumps(ex, indent=2, default=float)); append({**row, 'timestamp_utc': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'), 'exit_code': 'timeout' if timed_out else p.returncode, 'converged': conv, 'elapsed_s': f'{el:.1f}', 'notes': note})
+        ex['status'] = status
+        if timed_out: ex.update(hang_class(dest, text, guard, status))   # 2026-10-13: diagnostic metadata only (Codex D5)
+        note = sealed_note(ex, note, status, seal_notes)   # state-only plans: status-only RUN_INDEX note (Codex blocker 3)
+        (dest / 'execution.json').write_text(json.dumps(ex, indent=2, default=float)); append({**row, 'timestamp_utc': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'), 'exit_code': 'timeout' if timed_out else rc, 'converged': conv, 'elapsed_s': f'{el:.1f}', 'notes': note})
     if sc['errors']: finish('SIMULATOR_ERROR', 'no', sc['errors'][0][:120]); raise RuntimeError(f'{rid}: {sc["errors"][0]}')
     if not (dest / 'idvg.dat').exists(): finish('TIMEOUT' if timed_out else 'NO_EXPORT', 'no', 'no idvg.dat'); raise RuntimeError(f'{rid}: no export (timeout={timed_out}); inspect {dest}')
     xv, idr = read_xy(dest / 'idvg.dat'); xg, igr = read_xy(dest / 'igvg.dat'); xs, isr = read_xy(dest / 'isvg.dat'); igr = np.interp(xv, xg, igr); isr = np.interp(xv, xs, isr)
@@ -201,7 +287,7 @@ def execute(t, label, overrides, stride=1, vg_min=None, timeout=None, smoke=Fals
             w = csv.writer(f); w.writerow(['vg_V', 'atlas_A_per_um']); w.writerows(zip(xv, signed))
         dm = ex['device_metrics_sim']
         finish('REAL_ATLAS_PREDICTION', 'yes' if not sc['convergence_flags'] else 'yes-with-flags', f'PREDICTION Vth_cc {dm["Vth_cc_1e-9_V"]}; Id(3V) {dm["Ion_A_per_um"]:.3e}; maxKCL {v["max_kcl_abs_A"]:.1e}')
-        print(json.dumps({'run_id': rid, 'Vth_cc': dm['Vth_cc_1e-9_V'], 'Ion': dm['Ion_A_per_um'], 'maxKCL_A': v['max_kcl_abs_A'], 'flags': len(sc['convergence_flags']), 'elapsed_s': round(el)}, indent=1))
+        if not seal_notes: print(json.dumps({'run_id': rid, 'Vth_cc': dm['Vth_cc_1e-9_V'], 'Ion': dm['Ion_A_per_um'], 'maxKCL_A': v['max_kcl_abs_A'], 'flags': len(sc['convergence_flags']), 'elapsed_s': round(el)}, indent=1))
         return dest
     if vg_min is None:
         pred = np.interp(vg, xv, signed); met, active, le = score(vg, meas, pred, t, s); ex['fit_metrics'] = met
@@ -210,12 +296,12 @@ def execute(t, label, overrides, stride=1, vg_min=None, timeout=None, smoke=Fals
             w = csv.writer(f); w.writerow(['vg_V', 'measured_A_per_um', 'atlas_A_per_um', 'log10_error', 'linear_error_A_per_um', 'active_fit_region']); w.writerows(zip(vg, meas, pred, le, pred - meas, active.astype(int)))
         plots(dest, vg, meas, pred, t, rid)
         finish('REAL_ATLAS_SCORED', 'yes' if not sc['convergence_flags'] else 'yes-with-flags', f'active RMSE {met["regions"]["active"]["rmse_log10"]:.4f} dec; Id(3V) {met["on_error_3V_percent"]:+.2f}%; nonpos {met["nonpositive_pred_count"]}; maxKCL {v["max_kcl_abs_A"]:.1e}')
-        print(json.dumps({'run_id': rid, 'active_rmse_log10': met['regions']['active']['rmse_log10'], 'active_max': met['max_abs_log10_active'], 'sub_rmse': met['regions']['subthreshold'].get('rmse_log10'), 'on_rmse': met['regions']['on'].get('rmse_log10'), 'Id3V_err_pct': met['on_error_3V_percent'], 'nonpositive': met['nonpositive_pred_count'], 'maxKCL_A': v['max_kcl_abs_A'], 'flags': len(sc['convergence_flags']), 'elapsed_s': round(el)}, indent=1))
+        if not seal_notes: print(json.dumps({'run_id': rid, 'active_rmse_log10': met['regions']['active']['rmse_log10'], 'active_max': met['max_abs_log10_active'], 'sub_rmse': met['regions']['subthreshold'].get('rmse_log10'), 'on_rmse': met['regions']['on'].get('rmse_log10'), 'Id3V_err_pct': met['on_error_3V_percent'], 'nonpositive': met['nonpositive_pred_count'], 'maxKCL_A': v['max_kcl_abs_A'], 'flags': len(sc['convergence_flags']), 'elapsed_s': round(el)}, indent=1))
     else:
-        finish('REAL_ATLAS_PARTIAL_SWEEP', 'yes' if not sc['convergence_flags'] else 'yes-with-flags', f'partial from {vg_min} V; maxKCL {v["max_kcl_abs_A"]:.1e}'); print(rid, 'partial sweep done', dest)
+        finish('REAL_ATLAS_PARTIAL_SWEEP', 'yes' if not sc['convergence_flags'] else 'yes-with-flags', f'partial from {vg_min} V; maxKCL {v["max_kcl_abs_A"]:.1e}'); (None if seal_notes else print(rid, 'partial sweep done', dest))
     return dest
 
-def execute_output(t, label, overrides, vgs, vd_segments, timeout=None):
+def execute_output(t, label, overrides, vgs, vd_segments, timeout=None, seal_notes=False):
     """PREDICTION launch (2026-09-25): ID-VD families at fixed Vg with the same material model/structure as the
     transfer runs. No measured counterpart exists, so nothing is scored; terminal-current KCL is validated per point
     (limit 1e-17 A + 1 % of sum|I|) and the curves are written to output_characteristics.csv."""
@@ -233,15 +319,15 @@ def execute_output(t, label, overrides, vgs, vd_segments, timeout=None):
     to = timeout or r['timeout_seconds']['thick']
     row = {'run_id': rid, 'timestamp_utc': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'), 'thickness_nm': t, 'label': label, 'deck_sha256': sha(text), 'model_sha256': sha(mtxt), 'command': ' '.join(argv), 'simulator': 'DeckBuild 5.0.10.R + ATLAS 5.28.1.R', 'output_dir': str(dest.relative_to(ROOT)).replace('\\', '/'), 'notes': f'STARTED output prediction Vg={vgs} timeout={to}s launch {launches() + 1}/{r["max_launches"]}'}
     append(row); t0 = time.monotonic()
-    p = subprocess.Popen(argv, cwd=dest, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    try: out, err = p.communicate(timeout=to); timed_out = False
-    except subprocess.TimeoutExpired:
-        subprocess.run(['taskkill', '/T', '/F', '/PID', str(p.pid)], capture_output=True); out, err = p.communicate(); timed_out = True
+    out, err, timed_out, rc, guard = launch(argv, dest, to)   # 2026-10-13: bounded waits + process guard (was Popen/communicate/taskkill/communicate)
     el = time.monotonic() - t0; (dest / 'launcher_stdout.txt').write_text(out or ''); (dest / 'launcher_stderr.txt').write_text(err or '')
     tr = (dest / 'deckbuild.out').read_text(errors='replace') if (dest / 'deckbuild.out').exists() else ''; sc = scan((out or '') + (err or '') + tr)
-    ex = {'run_id': rid, 'thickness_nm': t, 'label': label, 'mode': 'output_prediction', 'elapsed_s': el, 'returncode': p.returncode, 'timed_out': timed_out, 'scan': sc, 'overrides': overrides, 'output_vgs': meta['output_vgs']}
+    ex = {'run_id': rid, 'thickness_nm': t, 'label': label, 'mode': 'output_prediction', 'elapsed_s': el, 'returncode': rc, 'timed_out': timed_out, 'scan': sc, 'overrides': overrides, 'output_vgs': meta['output_vgs'], 'process_guard': guard}
     def finish(status, conv, note):
-        ex['status'] = status; (dest / 'execution.json').write_text(json.dumps(ex, indent=2, default=float)); append({**row, 'timestamp_utc': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'), 'exit_code': 'timeout' if timed_out else p.returncode, 'converged': conv, 'elapsed_s': f'{el:.1f}', 'notes': note})
+        ex['status'] = status
+        if timed_out: ex.update(hang_class(dest, text, guard, status))   # 2026-10-13: diagnostic metadata only (Codex D5)
+        note = sealed_note(ex, note, status, seal_notes)   # state-only plans: status-only RUN_INDEX note (Codex blocker 3)
+        (dest / 'execution.json').write_text(json.dumps(ex, indent=2, default=float)); append({**row, 'timestamp_utc': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'), 'exit_code': 'timeout' if timed_out else rc, 'converged': conv, 'elapsed_s': f'{el:.1f}', 'notes': note})
     if sc['errors']: finish('SIMULATOR_ERROR', 'no', sc['errors'][0][:120]); raise RuntimeError(f'{rid}: {sc["errors"][0]}')
     rows_out, worst, fails = [], 0.0, 0
     for v, tag in zip(meta['output_vgs'], meta['output_tags']):
@@ -261,11 +347,11 @@ def execute_output(t, label, overrides, vgs, vd_segments, timeout=None):
     ex['validation'] = {'max_kcl_abs_A': worst, 'kcl_fail_count': fails}
     status = 'REAL_ATLAS_PREDICTION' if fails == 0 else 'KCL_FAILED'
     finish(status, 'yes' if not sc['convergence_flags'] else 'yes-with-flags', f'{status}: ID-VD Vg={meta["output_vgs"]}; points {len(rows_out)}; maxKCL {worst:.1e}')
-    print(json.dumps({'run_id': rid, 'status': status, 'points': len(rows_out), 'maxKCL_A': worst, 'elapsed_s': round(el)}, indent=1))
+    if not seal_notes: print(json.dumps({'run_id': rid, 'status': status, 'points': len(rows_out), 'maxKCL_A': worst, 'elapsed_s': round(el)}, indent=1))
     if fails: raise RuntimeError(f'{rid}: KCL failed at {fails} points; inspect {dest}/output_characteristics.csv')
     return dest
 
-def execute_strip(t, label, overrides, timeout=None):
+def execute_strip(t, label, overrides, timeout=None, seal_notes=False):
     """UNGATED STRIP launch (2026-10-10; GENERATOR_AUDIT 7.11 A; campaign entry "mode": "strip"): two-terminal strip deck of
     length physics_options.strip.L_p_um on the same stack without a gate, drain stepped from 0 V (0.1 and 0.7 V included).
     Nothing is scored against the transfer curve. KCL |I_D + I_S| <= max(1e-17 A, 0.1 x measured floor) + 1 % sum|I| per point;
@@ -285,21 +371,21 @@ def execute_strip(t, label, overrides, timeout=None):
     to = timeout or r['timeout_seconds']['default']
     import build_iwo_decks as _b
     row = {'run_id': rid, 'timestamp_utc': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'), 'thickness_nm': t, 'label': label, 'deck_sha256': sha(text), 'model_sha256': sha(mtxt), 'command': ' '.join(argv), 'simulator': 'DeckBuild 5.0.10.R + ATLAS 5.28.1.R', 'output_dir': str(dest.relative_to(ROOT)).replace('\\', '/'), 'notes': f'STARTED strip deck L_p={meta["L_p_um"]:g}um timeout={to}s launch {launches() + 1}/{r["max_launches"]}' + ('' if _b.MODEL_FILE == 'config/iwo_material_model.yaml' else f' model={_b.MODEL_FILE}')}
-    append(row); t0 = time.monotonic(); timed_out = False; rc = None
+    append(row); t0 = time.monotonic(); timed_out = False; rc = None; guard = None
     ex = {'run_id': rid, 'thickness_nm': t, 'label': label, 'mode': 'strip', 'overrides': overrides}
     def finish(status, conv, note):
-        ex['status'] = status; ex['elapsed_s'] = time.monotonic() - t0; (dest / 'execution.json').write_text(json.dumps(ex, indent=2, default=float))
+        ex['status'] = status; ex['elapsed_s'] = time.monotonic() - t0
+        if timed_out: ex.update(hang_class(dest, text, guard, status, evaluated=False))   # 2026-10-13: recorded, not evaluated
+        note = sealed_note(ex, note, status, seal_notes)   # state-only plans: status-only RUN_INDEX note (Codex blocker 3)
+        (dest / 'execution.json').write_text(json.dumps(ex, indent=2, default=float))
         append({**row, 'timestamp_utc': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'), 'exit_code': 'timeout' if timed_out else rc, 'converged': conv, 'elapsed_s': f'{ex["elapsed_s"]:.1f}', 'notes': note})
     try:
-        p = subprocess.Popen(argv, cwd=dest, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        try: out, err = p.communicate(timeout=to)
-        except subprocess.TimeoutExpired:
-            subprocess.run(['taskkill', '/T', '/F', '/PID', str(p.pid)], capture_output=True); out, err = p.communicate(); timed_out = True
+        out, err, timed_out, rc, guard = launch(argv, dest, to)   # 2026-10-13: bounded waits + process guard (was Popen/communicate/taskkill/communicate)
     except Exception as e:
         finish('LAUNCH_ERROR', 'no', f'{type(e).__name__}: {e}'[:120]); raise RuntimeError(f'{rid}: launch error {e}')
-    rc = p.returncode; (dest / 'launcher_stdout.txt').write_text(out or ''); (dest / 'launcher_stderr.txt').write_text(err or '')
+    (dest / 'launcher_stdout.txt').write_text(out or ''); (dest / 'launcher_stderr.txt').write_text(err or '')
     tr = (dest / 'deckbuild.out').read_text(errors='replace') if (dest / 'deckbuild.out').exists() else ''; sc = scan((out or '') + (err or '') + tr)
-    ex.update({'returncode': rc, 'timed_out': timed_out, 'scan': sc})
+    ex.update({'returncode': rc, 'timed_out': timed_out, 'scan': sc, 'process_guard': guard})
     if timed_out: finish('TIMEOUT', 'no', 'strip deck timed out'); raise RuntimeError(f'{rid}: timeout; inspect {dest}')
     if sc['errors']: finish('SIMULATOR_ERROR', 'no', sc['errors'][0][:120]); raise RuntimeError(f'{rid}: {sc["errors"][0]}')
     if rc != 0 or not sc['finished']: finish('INCOMPLETE_RUN', 'no', f'exit code {rc}; ATLAS completion {sc["finished"]}'); raise RuntimeError(f'{rid}: exit {rc} / not finished; inspect {dest}')
@@ -324,7 +410,7 @@ def execute_strip(t, label, overrides, timeout=None):
     status = 'SIGN_REVERSAL' if wrong.any() else 'KCL_FAILED' if not ok.all() else 'REAL_ATLAS_STRIP'
     # 'converged' keeps the existing runner meaning (the solver finished); a failed acceptance is in the status and the note
     finish(status, 'yes' if not sc['convergence_flags'] else 'yes-with-flags', f'{status}: strip I(0.7V) {i07:.3e} A/um; ratio {ex["strip"]["ratio_0p7_over_0p1"]:.3g}; maxKCL {imb.max():.1e}')
-    print(json.dumps({'run_id': rid, 'status': status, 'I_0p7V': i07, 'ratio': ex['strip']['ratio_0p7_over_0p1'], 'maxKCL_A': float(imb.max()), 'elapsed_s': round(ex['elapsed_s'])}, indent=1))
+    if not seal_notes: print(json.dumps({'run_id': rid, 'status': status, 'I_0p7V': i07, 'ratio': ex['strip']['ratio_0p7_over_0p1'], 'maxKCL_A': float(imb.max()), 'elapsed_s': round(ex['elapsed_s'])}, indent=1))
     if status != 'REAL_ATLAS_STRIP': raise RuntimeError(f'{rid}: {status}; inspect {dest}/strip_iv.csv')
     return dest
 

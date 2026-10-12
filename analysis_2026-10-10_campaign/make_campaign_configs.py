@@ -4,6 +4,9 @@ Each entry is the matrix 'campaign_entry' copied verbatim (id, thickness, label,
 matrix order; annotation keys that run_campaign.py ignores are added (stage, matrix_status, requires_code, depends_on,
 pre_registered_expectation, min_set_rank). Stop rules are written as top-level fields: run_campaign.py does NOT enforce
 them (it records a failed launch and continues); the main session applies them between plan files (IMPLEMENTATION.md).
+2026-10-13: exception, campaign_C10_DIAG.json also carries executable "gates" (GATES below; scripts/campaign_gates.py): the S2 null-test
+stop rule, evaluated by run_campaign.py with the frozen scorer, and the "state_only" surface (STATE_ONLY; scripts/campaign_sealed.py);
+--check verifies both. Its global rule on stop enforcement is replaced by GATED_GLOBAL_RULE (Codex D8).
 
   python analysis_2026-10-10_campaign/make_campaign_configs.py            write + verify config/campaign_C10_*.json
   python analysis_2026-10-10_campaign/make_campaign_configs.py --check    verify only
@@ -92,6 +95,45 @@ TEMPLATES = [
     ('campaign_C10_S7_31p8.template', ['S7_31p8_stress'], ['No stop rule; failure (31.8 nm never turning off not reproduced) is documented, never fitted.']),
 ]
 KEEP = ('id', 'thickness', 'label', 'overrides', 'timeout', 'purpose', 'mode')
+# 2026-10-13: executable stop gates, written into campaign_C10_DIAG.json only (scripts/campaign_gates.py, run_campaign.py "gates"; Codex
+# 2026-10-12T13:18Z: "Split or supervise DIAG at the nominal and generation checkpoints"). Rule CAMPAIGN_DESIGN.md:304. States come from
+# the FROZEN scorer (sha256 below; the plan is refused if the file differs). Codex rulings 2026-10-12T20:28Z (CODEX_WORK_CHAT): D1 FIRED and
+# UNRESOLVED -> stop for the first DIAG execution, resumed only with --ack-gate + --ack-audit citing the completed audit; D2 the stop on a
+# resolved registered-bound exceedance is a prospective, stricter operational rule (rule_basis); D3 S2-03 is a carrier-confounded anomaly
+# checkpoint with its own rule id, S2-01/S2-02 stays the matched mechanism test; D7 DIAG is state-only (sealed sidecar); D8 text below.
+# Every other plan file is unchanged.
+GATE_SCORER = 'analysis_2026-10-10_campaign/score_register.py'
+GATE_SCORER_SHA256 = 'c0f28bb942508a81a0f59b4a4c1e720bbfdbe8d9466d7e002476d64dcc10b55a'
+GATE_RULE_REF = ('CAMPAIGN_DESIGN.md:304 (S2: a nominal or SRH null test that produces floor-scale current contradicts the CALCULATED bounds: '
+                 'stop, audit KCL, CR.TOLER and the deck; do not fit)')
+GATE_RULE_BASIS = ('Codex D2 (2026-10-12T20:28Z): stopping on a resolved exceedance of the registered H-C bound (frozen score_register FAIL) is a '
+                   'PROSPECTIVE, STRICTER OPERATIONAL RULE; it is not a verbatim implementation of the floor-scale rule of CAMPAIGN_DESIGN.md:304, and '
+                   'a FIRED gate is not itself a hypothesis falsification. UNRESOLVED also stops (D1, first DIAG execution).')
+ANOMALY_RULE_REF = ('Carrier-confounded anomaly checkpoint (Codex D3, 2026-10-12T20:28Z): S2-03 (2 carriers, SRH/TAT extreme) against S0-01 (1 carrier) '
+                    'is the design-defined pair of CAMPAIGN_DESIGN 7.1; its result cannot isolate generation. The matched mechanism test is S2-01 vs '
+                    'S2-02 (G-S2-01-generation, register A9).')
+
+
+def _gate(gid, after, test, runs, note, rule_id='S2-STOP-NULL', rule_ref=GATE_RULE_REF):
+    return {'id': gid, 'rule_id': rule_id, 'rule_ref': rule_ref, 'rule_basis': GATE_RULE_BASIS, 'after': after, 'test': test, 'runs': runs,
+            'on_fired': 'stop', 'on_unresolved': 'stop', 'scorer': GATE_SCORER, 'scorer_sha256': GATE_SCORER_SHA256, 'note': note}
+
+
+GATES = {'campaign_C10_DIAG': [
+    _gate('G-S2-04-nominal', 'S2-04', 'hc_nominal', {'run': {'entry': 'S2-04'}}, 'QTNLSC nominal, 2.0 nm: register H-C |I_G(-3 V)| <= 1e-2 x floor'),
+    _gate('G-S2-06-nominal', 'S2-06', 'hc_nominal', {'run': {'entry': 'S2-06'}}, 'QTNLSC nominal, 13.2 nm: register H-C |I_G(-3 V)| <= 1e-2 x floor'),
+    _gate('G-S2-03-anomaly', 'S2-03', 'hc_generation', {'run': {'entry': 'S2-03'}, 'control': {'run_id': 'run_0061', 'label': 'c10_s0_01_2p0'}},
+          'S2-03 against S0-01 (run_0061), carrier-confounded: an anomaly checkpoint, not a generation test', rule_id='S2-ANOMALY-CARRIER',
+          rule_ref=ANOMALY_RULE_REF),
+    _gate('G-S2-01-generation', 'S2-02', 'hc_generation', {'run': {'entry': 'S2-01'}, 'control': {'entry': 'S2-02'}},
+          'SRH/TAT null test, 13.2 nm, against its matched SRH-off control S2-02 (register A9; the matched mechanism test); evaluated once S2-02 has run')]}
+STATE_ONLY = {'campaign_C10_DIAG': {'sealed_dir': 'results/sealed/campaigns'}}   # Codex blocker 3 / D7: scripts/campaign_sealed.py
+GATES_ENFORCED_BY = ('AUTOMATIC in run_campaign.py (Codex D8): the launch budget and C10 cap, refusal of runnable=false plans, and the declared '
+                     '"gates" (after S2-04, S2-06, S2-03 and S2-02, frozen score_register.py; FIRED or UNRESOLVED stops before the next launch, exit 3, '
+                     'until --ack-gate GATE_ID --ack-audit AUDIT_FILE). Every other stop rule of this plan remains MANUAL (main session).')
+GATED_GLOBAL_RULE = ('run_campaign.py records a failed launch and CONTINUES, except for the automatic stops of this plan: the launch budget / C10 cap and '
+                     'the declared "gates" (see stop_rules_enforced_by). Every other stop rule below is applied manually: the main session reads the '
+                     'state-only results/campaigns/<plan>.json and decides.')
 
 
 _DUP = None
@@ -136,6 +178,10 @@ def plan(mx, stem, sel, rules, runnable):
          'model_file_env': 'IWO_MODEL_FILE=config/iwo_material_model_v3.yaml', 'global_rules': GLOBAL_RULES, 'stop_rules': ([f'HOLD: {hold}'] if hold else []) + rules,
          'stop_rules_enforced_by': 'main session (manual); run_campaign.py enforces the launch budget and refuses runnable=false plans', 'runs': entries}
     if hold: p['not_runnable_reason'] = hold
+    if stem in GATES:   # 2026-10-13: gates (and the state-only surface) before 'runs'; only this plan's file changes
+        gr = [GATED_GLOBAL_RULE if r.startswith('run_campaign.py records a failed launch and CONTINUES') else r for r in p['global_rules']]
+        p = {**{k: v for k, v in p.items() if k != 'runs'}, 'global_rules': gr, 'stop_rules_enforced_by': GATES_ENFORCED_BY, 'gates': GATES[stem],
+             **({'state_only': STATE_ONLY[stem]} if stem in STATE_ONLY else {}), 'runs': p['runs']}
     return p
 
 
@@ -166,6 +212,16 @@ def verify(mx):
         p = json.loads((CFG / f'{stem}.json').read_text())
         if p['runnable'] != (stem not in HOLD) or (stem in HOLD and p.get('not_runnable_reason') != HOLD[stem]): bad += 1; print('RUNNABLE FLAG wrong', stem)
         if not p['runnable']: held.append(stem)
+        if p.get('gates') != GATES.get(stem): bad += 1; print('GATES differ from make_campaign_configs.GATES', stem)   # 2026-10-13
+        if p.get('state_only') != STATE_ONLY.get(stem): bad += 1; print('STATE_ONLY differs from make_campaign_configs.STATE_ONLY', stem)
+        if 'gates' in p:
+            import campaign_gates as cg   # scripts/ is on sys.path (campaign_tools)
+            ge = cg.validate(p)
+            if ge: bad += 1; print('GATES INVALID', stem, ge)
+        if 'state_only' in p:
+            import campaign_sealed as cs
+            se = cs.validate(p)
+            if se: bad += 1; print('STATE_ONLY INVALID', stem, se)
     runnable = sum(len(json.loads((CFG / f'{s}.json').read_text())['runs']) for s, _, _ in PLANS if s not in HOLD)
     print(f'plans verified: {len(seen)} matrix entries in {len(PLANS)} stage plans ({len(PLANS) - sum(s in HOLD for s, _, _ in PLANS)} runnable, {runnable} entries) + '
           f'{len(TEMPLATES)} templates; verbatim and in matrix order: {"YES" if not bad else "NO"}; MIN10 plan: {m10}; held (runnable=false): {held}; '

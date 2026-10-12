@@ -8,7 +8,7 @@
   "run_campaign.py (C10 plans) never re-launches an entry whose label already has a RUN_INDEX row, from this or any other C10 plan (MIN10 vs stage plans): a successful earlier launch is reused, a failed one is reported; --retry ID spends a new (reserve) launch on purpose.",
   "Model file for every entry: $env:IWO_MODEL_FILE = \"config/iwo_material_model_v3.yaml\" (V3 + the overrides = the same solver statements as V2 + the overrides, check_v3_equivalence.py).",
   "After any code change: python analysis_2026-10-10_campaign/regress_all_decks.py must print \"unexpected differences 0\" before the next launch.",
-  "run_campaign.py records a failed launch and CONTINUES; it does not apply any stop rule below. The main session reads results/campaigns/<plan>.json and analysis_2026-10-10_campaign/post_run_checks.py output after each plan and decides."
+  "run_campaign.py records a failed launch and CONTINUES, except for the automatic stops of this plan: the launch budget / C10 cap and the declared \"gates\" (see stop_rules_enforced_by). Every other stop rule below is applied manually: the main session reads the state-only results/campaigns/<plan>.json and decides."
  ],
  "stop_rules": [
   "Frozen register (register-rev2-frozen-20261010T1833Z) section 3: 24 of the 26 diagnostic launches, in the register order (S2-11 first), in three plans: campaign_C10_DIAGa_S2-11 (S2-11), campaign_C10_DIAG (S2, S3 confinement, AFF: 19 entries, reusing S2-11) and campaign_C10_DIAG_HF (H-F: 5 entries, held until the H-F scoring is frozen). S6-13 / S6-15 follow S4c (template entries). An entry already launched under the same label (any C10 plan) is reused, never re-launched.",
@@ -17,7 +17,91 @@
   "Scoring is frozen in analysis_2026-10-10_campaign/score_register.py (H-B hb_ratio/hb_transfer, H-C hc_nominal/hc_generation/hc_mesh/hc_worst/hc_explains, H-E aff/he_alloff/s3_minus_s105); below-resolution quantities are censored (register section 0), never a pass. H-F: no frozen scorer yet (campaign_C10_DIAG_HF is held).",
   "S2 stop rules of campaign_C10_S2_offfloor apply; IGZO runs need post_run_checks.py activation; no S3 branch is adopted from this plan."
  ],
- "stop_rules_enforced_by": "main session (manual); run_campaign.py enforces the launch budget and refuses runnable=false plans",
+ "stop_rules_enforced_by": "AUTOMATIC in run_campaign.py (Codex D8): the launch budget and C10 cap, refusal of runnable=false plans, and the declared \"gates\" (after S2-04, S2-06, S2-03 and S2-02, frozen score_register.py; FIRED or UNRESOLVED stops before the next launch, exit 3, until --ack-gate GATE_ID --ack-audit AUDIT_FILE). Every other stop rule of this plan remains MANUAL (main session).",
+ "gates": [
+  {
+   "id": "G-S2-04-nominal",
+   "rule_id": "S2-STOP-NULL",
+   "rule_ref": "CAMPAIGN_DESIGN.md:304 (S2: a nominal or SRH null test that produces floor-scale current contradicts the CALCULATED bounds: stop, audit KCL, CR.TOLER and the deck; do not fit)",
+   "rule_basis": "Codex D2 (2026-10-12T20:28Z): stopping on a resolved exceedance of the registered H-C bound (frozen score_register FAIL) is a PROSPECTIVE, STRICTER OPERATIONAL RULE; it is not a verbatim implementation of the floor-scale rule of CAMPAIGN_DESIGN.md:304, and a FIRED gate is not itself a hypothesis falsification. UNRESOLVED also stops (D1, first DIAG execution).",
+   "after": "S2-04",
+   "test": "hc_nominal",
+   "runs": {
+    "run": {
+     "entry": "S2-04"
+    }
+   },
+   "on_fired": "stop",
+   "on_unresolved": "stop",
+   "scorer": "analysis_2026-10-10_campaign/score_register.py",
+   "scorer_sha256": "c0f28bb942508a81a0f59b4a4c1e720bbfdbe8d9466d7e002476d64dcc10b55a",
+   "note": "QTNLSC nominal, 2.0 nm: register H-C |I_G(-3 V)| <= 1e-2 x floor"
+  },
+  {
+   "id": "G-S2-06-nominal",
+   "rule_id": "S2-STOP-NULL",
+   "rule_ref": "CAMPAIGN_DESIGN.md:304 (S2: a nominal or SRH null test that produces floor-scale current contradicts the CALCULATED bounds: stop, audit KCL, CR.TOLER and the deck; do not fit)",
+   "rule_basis": "Codex D2 (2026-10-12T20:28Z): stopping on a resolved exceedance of the registered H-C bound (frozen score_register FAIL) is a PROSPECTIVE, STRICTER OPERATIONAL RULE; it is not a verbatim implementation of the floor-scale rule of CAMPAIGN_DESIGN.md:304, and a FIRED gate is not itself a hypothesis falsification. UNRESOLVED also stops (D1, first DIAG execution).",
+   "after": "S2-06",
+   "test": "hc_nominal",
+   "runs": {
+    "run": {
+     "entry": "S2-06"
+    }
+   },
+   "on_fired": "stop",
+   "on_unresolved": "stop",
+   "scorer": "analysis_2026-10-10_campaign/score_register.py",
+   "scorer_sha256": "c0f28bb942508a81a0f59b4a4c1e720bbfdbe8d9466d7e002476d64dcc10b55a",
+   "note": "QTNLSC nominal, 13.2 nm: register H-C |I_G(-3 V)| <= 1e-2 x floor"
+  },
+  {
+   "id": "G-S2-03-anomaly",
+   "rule_id": "S2-ANOMALY-CARRIER",
+   "rule_ref": "Carrier-confounded anomaly checkpoint (Codex D3, 2026-10-12T20:28Z): S2-03 (2 carriers, SRH/TAT extreme) against S0-01 (1 carrier) is the design-defined pair of CAMPAIGN_DESIGN 7.1; its result cannot isolate generation. The matched mechanism test is S2-01 vs S2-02 (G-S2-01-generation, register A9).",
+   "rule_basis": "Codex D2 (2026-10-12T20:28Z): stopping on a resolved exceedance of the registered H-C bound (frozen score_register FAIL) is a PROSPECTIVE, STRICTER OPERATIONAL RULE; it is not a verbatim implementation of the floor-scale rule of CAMPAIGN_DESIGN.md:304, and a FIRED gate is not itself a hypothesis falsification. UNRESOLVED also stops (D1, first DIAG execution).",
+   "after": "S2-03",
+   "test": "hc_generation",
+   "runs": {
+    "run": {
+     "entry": "S2-03"
+    },
+    "control": {
+     "run_id": "run_0061",
+     "label": "c10_s0_01_2p0"
+    }
+   },
+   "on_fired": "stop",
+   "on_unresolved": "stop",
+   "scorer": "analysis_2026-10-10_campaign/score_register.py",
+   "scorer_sha256": "c0f28bb942508a81a0f59b4a4c1e720bbfdbe8d9466d7e002476d64dcc10b55a",
+   "note": "S2-03 against S0-01 (run_0061), carrier-confounded: an anomaly checkpoint, not a generation test"
+  },
+  {
+   "id": "G-S2-01-generation",
+   "rule_id": "S2-STOP-NULL",
+   "rule_ref": "CAMPAIGN_DESIGN.md:304 (S2: a nominal or SRH null test that produces floor-scale current contradicts the CALCULATED bounds: stop, audit KCL, CR.TOLER and the deck; do not fit)",
+   "rule_basis": "Codex D2 (2026-10-12T20:28Z): stopping on a resolved exceedance of the registered H-C bound (frozen score_register FAIL) is a PROSPECTIVE, STRICTER OPERATIONAL RULE; it is not a verbatim implementation of the floor-scale rule of CAMPAIGN_DESIGN.md:304, and a FIRED gate is not itself a hypothesis falsification. UNRESOLVED also stops (D1, first DIAG execution).",
+   "after": "S2-02",
+   "test": "hc_generation",
+   "runs": {
+    "run": {
+     "entry": "S2-01"
+    },
+    "control": {
+     "entry": "S2-02"
+    }
+   },
+   "on_fired": "stop",
+   "on_unresolved": "stop",
+   "scorer": "analysis_2026-10-10_campaign/score_register.py",
+   "scorer_sha256": "c0f28bb942508a81a0f59b4a4c1e720bbfdbe8d9466d7e002476d64dcc10b55a",
+   "note": "SRH/TAT null test, 13.2 nm, against its matched SRH-off control S2-02 (register A9; the matched mechanism test); evaluated once S2-02 has run"
+  }
+ ],
+ "state_only": {
+  "sealed_dir": "results/sealed/campaigns"
+ },
  "runs": [
   {
    "id": "S2-11",
