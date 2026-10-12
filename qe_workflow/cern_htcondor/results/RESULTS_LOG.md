@@ -38,7 +38,7 @@ All values in eV/A.
 **Reading.**
 - The error sits in the W first shell. Each cell has one W with 6 O within 2.60 A, so the shell has 7 atoms; it carries 71-75% of the squared force error. The shell failure is driven more by the shell O atoms (RMSE 0.46) than by W itself (0.17 quenched, 0.37 final); in the 0.7 nm final frame the W atom feels 1.05 eV/A in DFT against 0.002 in MACE.
 - Outside the shell (arithmetic on the comparator outputs, used in no verdict): RMSE 0.063-0.066 (aIWO bulk) and 0.107 (0.7 nm), against 0.065-0.068 for aIO.
-- Final frames are MACE-relaxed (MACE force rms 0.005-0.013 eV/A), so RMSE_all there is the DFT residual force at the MACE minimum (DFT-MACE correlation about 0): it measures how far the MACE minimum lies from DFT equilibrium. Only the quenched and melt frames test force agreement (DFT force rms 0.58-2.0 eV/A, correlation 0.98-0.99).
+- Final frames are MACE-relaxed (MACE force rms 0.005-0.013 eV/A, small but nonzero), so RMSE_all there approximately equals the component RMS of the DFT residual force at the MACE minimum (DFT-MACE correlation about 0): these frames mainly test how well the MACE equilibrium transfers to DFT. All frames test force agreement; the quenched and melt frames test it over a wide force range (DFT force rms 0.58-2.0 eV/A, correlation 0.98-0.99). (Wording corrected after the Codex review of 2026-10-12T13:15Z.)
 - Plan consequence (ML_VALIDATION.md, D-12): production DFT relaxations continue; the ML structures are starting points relaxed by DFT, not validated amorphous models; ML-stage-only structural statistics (coordination, density) are not reported as results.
 
 **Caveats.**
