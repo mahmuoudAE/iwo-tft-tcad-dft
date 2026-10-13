@@ -1,5 +1,140 @@
 # CERN results log
 
+## 2026-10-13 03:40Z: H-L crystalline oxygen-vacancy test scored (six cells, k3/k4 FINALs) with the A20(ii) smearing sensitivity (12904174.0-.5): H-L UNRESOLVED (ΔE_local significance unresolved; ΔE_dop PASS; A20(i) spin unassessed)
+
+**Question.** Register H-L (A17, with A19, A20 and A28): does W suppress oxygen vacancies in crystalline bixbyite In2O3? μ_O cancels in both registered differences:
+- ΔE_local = E(In31WO47, near) − E(In31WO47, far). Prediction: ≥ +0.3 eV.
+- ΔE_dop = [E(In31WO47, far) − E(In31WO48)] − [E(In32O47) − E(In32O48)]. Prediction: > +0.05 eV.
+
+A20 adds two rules:
+- A k3→k4 change above 10 meV in a registered difference means "unresolved significance". The k4 value is reported and is not adopted automatically as converged. This qualifies the H-L section's "the k4 value is used".
+- A sensitivity that shifts a difference by more than 50 meV, or flips a verdict, means "not robust".
+
+**Setup.**
+- Cells: the bixbyite conventional cell with a fixed a = 10.3061 Å and W on 24d.
+  - Parents In32O48 and In31WO48 have 80 atoms.
+  - Vacancy cells In32O47, In31WO47_far, In31WO47_near and In31WO47_near72 have 79 atoms.
+  - Electron counts: 704, 705, 698, and 699 for each In31WO47 cell.
+- Sites (A19/A20 rule, applied to the H-L-relaxed In31WO48, which took 0 BFGS steps):
+  - Registered near is O30 (W–O 1.89194 Å). Its symmetry partner O69 is unsplit. The O72 pair is +0.01043 Å longer, so no TIE.
+  - O72 (In31WO47_near72) is the sensitivity.
+  - Far is O32. The host order is unchanged.
+- Settings (fixed for all six cells):
+  - PBE, pslibrary 1.0.0 PAW, 71/568 Ry, Gaussian 0.005 Ry, spin-unpolarised, neutral cells.
+  - conv_thr 1e-8, plain mixing β 0.3, electron_maxstep 100.
+  - BFGS: nstep 300, forc_conv_thr 1e-3 Ry/bohr, etot_conv_thr 1e-4 Ry.
+  - QE 7.3.1 GPU. These energies are never mixed with the stage-4 QE 7.5 energies.
+- k-points:
+  - Relaxation at k 3x3x3: 6, 10 and 14 irreducible points (In32O48, In31WO48, vacancy cells).
+  - FINAL single point at k 4x4x4: 14, 30 and 36 points.
+  - A20(ii) single point at k 3x3x3 with Gaussian 0.002 Ry. Its inputs differ from the k4 FINAL inputs only in degauss and K_POINTS (diff: two changed lines per cell).
+- Jobs: all ended with normal termination, return value 0. Relaxations were submitted 2026-10-10T19:52Z. Every relaxation and FINAL ended on 2026-10-11, before the 17 Oct 10:00 UTC cutoff. The A20(ii) jobs ran on A100-PCIE-40GB, were submitted 2026-10-12T13:17Z and ended 13:25-17:35Z.
+
+| Cell | Atoms | RELAX (QE BFGS steps) | FINAL k4 | A20(ii) |
+|---|---|---|---|---|
+| In32O48 | 80 | 12886359 (0) | 12890814 | 12904174.0 |
+| In31WO48 | 80 | 12886360 (0) | 12890820 | 12904174.2 |
+| In32O47 | 79 | 12886361 (13) | 12890914 | 12904174.1 |
+| In31WO47_far (O32) | 79 | 12886364 (16) | 12891120 | 12904174.5 |
+| In31WO47_near (O30, registered) | 79 | 12892681 (18; A28 restart 1) | 12894133 | 12904174.3 |
+| In31WO47_near72 (O72, sensitivity) | 79 | 12886363 (29) | 12891408 | 12904174.4 |
+
+- A28 history of the registered near cell:
+  - Attempt 1 was DAG 12886356. Its RELAX job is 12886362, identified by elimination within the 12886359-64 block. The logs are archived in `vac/In31WO47_near/attempt1/` and were not re-read here. It had three validated SCFs. The SCF at BFGS step 3 did not converge in 100 iterations, and the DAG ended with rescue001.
+  - Restart 1 was DAGMan 12892680 / RELAX 12892681, submitted 2026-10-11T13:04Z. It started from geometry 2 (E = −15454.49343800 Ry) with the A19 settings unchanged. Its relax.in differs from far's only in max_seconds.
+  - Restart 1 ended 'bfgs converged in 19 scf cycles and 18 bfgs steps', no SCF failed. One SCF took 90 of 100 iterations.
+  - The pre-declared fallback (local-TF, β 0.1, maxstep 300, ndim 12) was **not used**.
+- Checks:
+  - All six relaxations printed 'bfgs converged' with no SCF failure.
+  - Every k4 FINAL and every A20(ii) SCF converged. FINAL took 14/24/17/25/21/21 iterations and A20(ii) took 18/23/16/26/24/20, in the order In32O48, In31WO48, In32O47, far, near, near72.
+  - The relax '!' energy equals QE's Final energy in each cell (assert < 1e-7 Ry).
+- Geometry: **all six cells BOUND** (read-only pass on lxplus 2026-10-13T02:04-02:11Z, re-checked 03:05Z; no energy used as evidence).
+  - The canonical sha256 of CELL_PARAMETERS + ATOMIC_POSITIONS (numbers re-printed %.10f) of the relax.out `Begin final coordinates` block, with the relax.in cell, equals that of the k4 FINAL input (vac scf.in and final_results.tar.gz::scf.in) and of the A20(ii) input (a20_g002 scf.in and its results-tarball copy): Δ = 0 in every cell. Hashes (first 16 hex): In32O48 4a38745af874a820, In31WO48 190b69fd7895d167, In32O47 22d5673303e3e6ca, far d1904a6a7e039809, near db53075a4ec265a6, near72 00588209500d4887.
+  - The geometry each pw.x run printed in its scf.out header (FINAL, FINAL tarball, A20(ii) tarball) matches to <= 5e-8 crystal (7-decimal print rounding). Same atom count, species order and cell (Δcell = 0) in every input.
+  - Starting geometries: each vacancy cell started from its relaxed parent minus one O, with the other atoms within 5e-10 and the order preserved (In32O47 = In32O48 − O17; far = In31WO48 − O32; near = − O30; near72 = − O72). The near restart 1 started from attempt-1 geometry 2 exactly (relax.in.A28 md5 0dbaae02…, as in MANIFEST.md5); attempt 1 started from In31WO48 minus O30 exactly.
+  - The archived relax.in files equal the converged geometry by construction (`steps_relax.sh` rewrites relax.in before packing), so they are not cited as evidence.
+  - Settings differences: vac scf.in -> a20 scf.in only degauss and K_POINTS; a20 scf.in -> its tarball copy only max_seconds (runtime rewrite by driver.sh).
+  - Energy equality (In32O48 and In32O47 reproduce their k3 relax energies to 1e-8 Ry at 0.002 Ry, smearing inactive) is consistent but is not used as identity evidence.
+  - Structure note: in the relaxed In32O48 the In-O first shell is 2.1671-2.2561 Å, above the protocol's 2.12-2.21 Å window because the cell is the frozen PBE host (a = 10.3061 Å, ~1.9 % above experiment). Details: `qe_workflow/cern_htcondor/results/evidence_20261013_HL/geometry_binding.md`.
+- Input file sha256 values (first 16 hex; relax.in / FINAL scf.in / A20(ii) scf.in), read 2026-10-13 ~02:05Z:
+
+  | Cell | relax.in | FINAL scf.in | A20(ii) scf.in |
+  |---|---|---|---|
+  | In32O48 | e89421cc96b92580 | a9968110956481ed | 11e2e9030d83df0c |
+  | In31WO48 | 3b8b7db5fb65ef84 | 1bd9105027571e3d | 2e7d010f9e9b5c32 |
+  | In32O47 | 25a3156ca1494caf | 2bdc62ef2eef85a4 | 5f8ebf81b00b52fe |
+  | far | d98ff7b6d8b0771c | 130ddcb1d0fc9476 | 6f593dd5863e57a2 |
+  | near | 335e745559fef92d | fc417c04dad8a04b | 24a4cf10a178cbf6 |
+  | near72 | 52a3626d246811ac | 6d460182adfe14a0 | c114f167b7c6a469 |
+
+- Analysis:
+  - Files read: `~/iwo_amorph/vac/<cell>/{relax.in,relax.out,scf.in,scf.out}`, and the scf.out inside `~/iwo_amorph/checks/gpumax_work/a20_g002/<cell>/a20g002_<cell>_results.tar.gz`.
+  - Script `hl_a20ii.py` (sha256 3f5062d9b77a909e20584e9800a8f5828e5b4611f154f7d31ca81f2d4071b4cf) parsed the raw grep `r23.out` (570ece79...) into `hl_a20ii.json` (e356a586...), all archived in `qe_workflow/cern_htcondor/results/evidence_20261013_HL/` (with r23.sh, q1_prov.*, g5_bind.*, geometry_binding.md, the first digest and SHA256SUMS). Conversion: 1 Ry = 13.605693122994 eV. E is the QE '!' total energy, which includes −TS.
+  - Label fix after the Codex review: the field holding −TS was named `minus_TS_mRy` but held Ry values. It is now `minus_TS_Ry` (values in Ry, unchanged). The differences are unaffected.
+
+**Result: H-L UNRESOLVED overall.**
+
+| Difference (eV) | k3, G 0.005 | k4, G 0.005 | k3→k4 | k3, G 0.002 | A20(ii) shift | Registered status |
+|---|---|---|---|---|---|---|
+| ΔE_local, O30 (registered) | +0.5578 | +0.5321 | −25.7 meV | +0.5583 | +0.5 meV | **UNRESOLVED significance** (≥ +0.3 eV; threshold satisfied at both tested meshes; diagnostic wording) |
+| ΔE_local, O72 (sensitivity) | +0.6643 | +0.6230 | −41.3 meV | +0.6650 | +0.7 meV | reported only |
+| ΔE_dop | +0.7259 | +0.7226 | −3.4 meV | +0.7261 | +0.2 meV | **PASS under registered settings** (> +0.05 eV) |
+
+- Status of each component:
+  - **ΔE_local(O30): UNRESOLVED significance.** The k3→k4 change (−25.7 meV) exceeds 10 meV. The k4 value is reported and not adopted as converged. This is not a PASS.
+  - **ΔE_dop: PASS under registered settings** (k3, Gaussian 0.005 Ry, spin-unpolarised, neutral). The k3→k4 change is −3.4 meV.
+  - **A20(ii): width-robust at k3.** Shifts are +0.5 and +0.2 meV, against the 50 meV rule, and no verdict flips. This says nothing about k4 or spin.
+  - **A20(i) spin: UNASSESSED.** It is staged on lxplus (version 2, 12 single-GPU jobs, not submitted). Codex (03:26Z digest): GO-WITH-CHANGES with two comparator fixes required before the comparator is frozen or anything is submitted; submission after the GPU pause. The implementation is result-informed and goes in as a result-informed amendment (proposed A42) with the user's go.
+  - **H-L overall: UNRESOLVED.** Do not write "H-L supported".
+- Forecasts (not the test): ΔE_local +0.5 to +1.5 eV and ΔE_dop +0.5 to +3 eV. Both registered differences lie inside them at k3 and k4.
+- Per-cell k3→k4 (meV): In32O48 −1.7, In31WO48 −3.5, In32O47 +26.8, far +21.6, near −4.1, near72 −19.7.
+- Per-cell width shift, G 0.002 − G 0.005 at k3 (meV): In32O48 0.0, In31WO48 +11.7, In32O47 0.0, far +11.9, near +12.4, near72 +12.6.
+- −TS (mRy) at k3 G 0.005 / k4 G 0.005 / k3 G 0.002:
+
+  | Cell | k3 G 0.005 | k4 G 0.005 | k3 G 0.002 |
+  |---|---|---|---|
+  | In32O48 | 0 | 0 | 0 |
+  | In31WO48 | −1.857 | −1.596 | −0.400 |
+  | In32O47 | −0.0001 | −0.321 | 0 |
+  | far | −1.903 | −2.754 | −0.385 |
+  | near | −1.811 | −1.560 | −0.494 |
+  | near72 | −1.917 | −1.911 | −0.470 |
+
+**Reading.**
+- The two differences behave differently under the mesh change:
+  - ΔE_local moves by −25.7 meV between meshes. Most of that comes from the far cell (+21.6 meV) against the near cell (−4.1 meV).
+  - ΔE_dop moves by only −3.4 meV, because the far (+21.6) and In32O47 (+26.8) shifts largely cancel.
+- In32O47 is smearing-inactive at k3 (−TS of 1e-4 mRy) but not at k4 (−0.321 mRy). The sampled occupations of the neutral V_O cell change with the mesh.
+- In the four W cells, the width corrections are of similar size (+11.7 to +12.6 meV) and cancel in both differences. This explains why the differences are stable without showing that the individual energies are converged.
+- The zero-width estimates F + |TS|/2 agree between the two widths within 1.6-3.5 meV per cell. They are a diagnostic only, not a registered quantity.
+- O72 sensitivity:
+  - O72 − O30 is +0.1066 eV (k3) and +0.0910 eV (k4). This is arithmetic on the values above.
+  - No registered rule applies to the site sensitivity. O30 stays the registered near site under A19/A20.
+- Scope of the result: these are neutral-cell differences. Hybrid-functional work (Chatratin et al., Phys. Rev. Materials 3, 074604, 2019) finds:
+  - charge-dependent vacancy relaxations;
+  - donor transitions near the CBM;
+  - functional and k-sampling sensitivity.
+
+  Therefore this result does not establish charge-state thermodynamics and does not isolate a Fermi-level mechanism.
+- Next steps:
+  - A20(i) first (Codex GO-WITH-CHANGES; comparator fixes first): built and staged (version 2, after two internal reviews), not submitted.
+    - Implementation choices are fixed after the H-L differences were seen, and the build discloses that.
+    - Seeds, neighbour selection, identical settings and failure handling are frozen before any spin output.
+    - The undoped vacancy (In32O47) gets a meaningful seed treatment.
+    - Total magnetisation stays free.
+    - One start tests one spin branch.
+  - k5 on near/far is deferred. If run, it is an optional diagnostic, reported only, and cannot repair the registered label.
+
+**Caveats.**
+- PBE (PAW) with neutral cells only: no charged states and no finite-size corrections. PBE has a gap error.
+- Spin-unpolarised. In31WO48 (705 e) and the three In31WO47 cells (699 e) have odd electron counts, and A20(i) has not run.
+- The cell has 3.125 % W (1 W per 32 cations). The far site is only about 6-8 Å from W and its images, so ΔE_local is a cell-limited estimate.
+- ΔE_dop mixes local chemistry, strain, band filling and periodic-image effects. It is not an upper bound on the Fermi-level effect. The doping is far above the TFT channel density.
+- Crystalline reference test only. It does not test the amorphous films.
+- The Gaussian width is a numerical parameter. A20(ii) covers k3 only.
+- Only '!' energies, −TS, convergence lines, k-point and electron counts, and input diffs were read. No amorphous (aIO_*/aIWO_*) quantity was opened.
+- Codex review: work chat 2026-10-13T01:51Z, reply received about 02:00Z. Verdict CONCERN; GO-WITH-CHANGES to logging. Codex reproduced the differences from the saved grep. Logging GO on the 03:26Z digest (reply ~03:35Z), after the user's request "analyse the A20(ii) results" (2026-10-13 ~00:25Z).
+
 ## 2026-10-12 12:35Z: MACE-MPA-0 force check (ML_VALIDATION.md), six CPU frames (cluster 12884015 procs .0-.4, .7): OVERALL FAIL (W first shell); 2.0 nm frames pending (12890593.0/.1)
 
 **Question.** ML_VALIDATION.md: do MACE-MPA-0 forces on the plan snapshots agree with DFT single-point forces? Limits per scored frame: RMSE_all <= 0.15, MAE_all <= 0.10, RMSE_W1 (W + O within 2.60 A) <= 0.25 eV/A. Melt frames are reported, not scored.

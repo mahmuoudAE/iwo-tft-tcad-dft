@@ -1,0 +1,266 @@
+######## In32O48
+-- relax.in settings
+ nstep = 300, etot_conv_thr = 1.0d-4, forc_conv_thr = 1.0d-3; ibrav = 0, nat = 80, ntyp = 2, ecutwfc = 71, ecutrho = 568; occupations = 'smearing', smearing = 'gaussian', degauss = 0.005; conv_thr = 1.0d-8, mixing_beta = 0.3, electron_maxstep = 100;
+K_POINTS automatic   3 3 3 0 0 0 
+-- relax.out
+bfgs_conv=1 n_bang=1 scf_fail=0 end=1 job_done=1
+!    total energy              =  -15146.85585849 Ry
+     smearing contrib. (-TS)   =      -0.00000000 Ry
+     Total force =     0.000234     Total SCF correction =     0.000046
+     Final energy             =  -15146.8558584903 Ry
+     number of electrons       =       704.00
+     number of k points=     6  Gaussian smearing, width (Ry)=  0.0050
+     Program PWSCF v.7.3.1 starts on 11Oct2026 at  9:39:58 
+-- SEGMENT_SUMMARY
+n_scf=1 n_geom=1 best=0 best_new=no E0=-15146.85585849 Ebest=-15146.85585849 scf_iters=18 scf_fail=0 fermi_warn=0
+-- FINAL scf.in/scf.out (k4)
+ calculation = 'scf', prefix = 'scf', outdir = './tmp', pseudo_dir = './pseudo'; occupations = 'smearing', smearing = 'gaussian', degauss = 0.005; conv_thr = 1.0d-8, mixing_beta = 0.3, electron_maxstep = 100;
+K_POINTS automatic   4 4 4 0 0 0 
+conv=1 notach=0 done=1
+!    total energy              =  -15146.85598203 Ry
+     smearing contrib. (-TS)   =      -0.00000000 Ry
+     internal energy E=F+TS    =  -15146.85598203 Ry
+     number of k points=    14  Gaussian smearing, width (Ry)=  0.0050
+     convergence has been achieved in  14 iterations
+-- A20(ii)
+scf.out scf.in a20g002_In32O48_driver.log steps.sh 
+outs: /tmp/melrashe/tmp.W3am7a0EWj/scf.out
+  [/tmp/melrashe/tmp.W3am7a0EWj/scf.out] conv=1 notach=0 done=1
+!    total energy              =  -15146.85585849 Ry
+     smearing contrib. (-TS)   =      -0.00000000 Ry
+     internal energy E=F+TS    =  -15146.85585849 Ry
+     number of k points=     6  Gaussian smearing, width (Ry)=  0.0020
+     convergence has been achieved in  18 iterations
+     Program PWSCF v.7.3.1 starts on 12Oct2026 at 15:18:15 
+  diff a20 scf.in vs vac scf.in:
+7c7
+<   occupations = 'smearing', smearing = 'gaussian', degauss = 0.002
+---
+>   occupations = 'smearing', smearing = 'gaussian', degauss = 0.005
+21c21
+<   3 3 3 0 0 0
+---
+>   4 4 4 0 0 0
+######## In31WO48
+-- relax.in settings
+ nstep = 300, etot_conv_thr = 1.0d-4, forc_conv_thr = 1.0d-3; ibrav = 0, nat = 80, ntyp = 3, ecutwfc = 71, ecutrho = 568; occupations = 'smearing', smearing = 'gaussian', degauss = 0.005; conv_thr = 1.0d-8, mixing_beta = 0.3, electron_maxstep = 100;
+K_POINTS automatic   3 3 3 0 0 0 
+-- relax.out
+bfgs_conv=1 n_bang=1 scf_fail=0 end=1 job_done=1
+!    total energy              =  -15496.36629681 Ry
+     smearing contrib. (-TS)   =      -0.00185701 Ry
+     Total force =     0.004368     Total SCF correction =     0.000131
+     Final energy             =  -15496.3662968103 Ry
+     number of electrons       =       705.00
+     number of k points=    10  Gaussian smearing, width (Ry)=  0.0050
+     Program PWSCF v.7.3.1 starts on 11Oct2026 at  9:44:22 
+-- SEGMENT_SUMMARY
+n_scf=1 n_geom=1 best=0 best_new=no E0=-15496.36629681 Ebest=-15496.36629681 scf_iters=22 scf_fail=0 fermi_warn=0
+-- FINAL scf.in/scf.out (k4)
+ calculation = 'scf', prefix = 'scf', outdir = './tmp', pseudo_dir = './pseudo'; occupations = 'smearing', smearing = 'gaussian', degauss = 0.005; conv_thr = 1.0d-8, mixing_beta = 0.3, electron_maxstep = 100;
+K_POINTS automatic   4 4 4 0 0 0 
+conv=1 notach=0 done=1
+!    total energy              =  -15496.36655366 Ry
+     smearing contrib. (-TS)   =      -0.00159628 Ry
+     internal energy E=F+TS    =  -15496.36495738 Ry
+     number of k points=    30  Gaussian smearing, width (Ry)=  0.0050
+     convergence has been achieved in  24 iterations
+-- A20(ii)
+scf.out scf.in a20g002_In31WO48_driver.log steps.sh 
+outs: /tmp/melrashe/tmp.N9PNXQ5uWP/scf.out
+  [/tmp/melrashe/tmp.N9PNXQ5uWP/scf.out] conv=1 notach=0 done=1
+!    total energy              =  -15496.36543383 Ry
+     smearing contrib. (-TS)   =      -0.00039991 Ry
+     internal energy E=F+TS    =  -15496.36503392 Ry
+     number of k points=    10  Gaussian smearing, width (Ry)=  0.0020
+     convergence has been achieved in  23 iterations
+     Program PWSCF v.7.3.1 starts on 12Oct2026 at 15:36:13 
+  diff a20 scf.in vs vac scf.in:
+7c7
+<   occupations = 'smearing', smearing = 'gaussian', degauss = 0.002
+---
+>   occupations = 'smearing', smearing = 'gaussian', degauss = 0.005
+22c22
+<   3 3 3 0 0 0
+---
+>   4 4 4 0 0 0
+######## In32O47
+-- relax.in settings
+ nstep = 300, etot_conv_thr = 1.0d-4, forc_conv_thr = 1.0d-3; ibrav = 0, nat = 79, ntyp = 2, ecutwfc = 71, ecutrho = 568; occupations = 'smearing', smearing = 'gaussian', degauss = 0.005; conv_thr = 1.0d-8, mixing_beta = 0.3, electron_maxstep = 100;
+K_POINTS automatic   3 3 3 0 0 0 
+-- relax.out
+bfgs_conv=1 n_bang=14 scf_fail=0 end=1 job_done=1
+!    total energy              =  -15105.08999636 Ry
+!    total energy              =  -15105.09003220 Ry
+     smearing contrib. (-TS)   =      -0.00000011 Ry
+     Total force =     0.003779     Total SCF correction =     0.000014
+     number of bfgs steps    =  12
+     Final energy             =  -15105.0900322018 Ry
+     number of electrons       =       698.00
+     number of k points=    14  Gaussian smearing, width (Ry)=  0.0050
+     Program PWSCF v.7.3.1 starts on 11Oct2026 at  9:44:57 
+-- SEGMENT_SUMMARY
+n_scf=14 n_geom=14 best=13 best_new=yes E0=-15105.075993 Ebest=-15105.0900322 scf_iters=16,11,11,12,12,12,12,12,12,12,12,12,12,12 scf_fail=0 fermi_warn=0
+-- FINAL scf.in/scf.out (k4)
+ calculation = 'scf', prefix = 'scf', outdir = './tmp', pseudo_dir = './pseudo'; occupations = 'smearing', smearing = 'gaussian', degauss = 0.005; conv_thr = 1.0d-8, mixing_beta = 0.3, electron_maxstep = 100;
+K_POINTS automatic   4 4 4 0 0 0 
+conv=1 notach=0 done=1
+!    total energy              =  -15105.08806466 Ry
+     smearing contrib. (-TS)   =      -0.00032052 Ry
+     internal energy E=F+TS    =  -15105.08774414 Ry
+     number of k points=    36  Gaussian smearing, width (Ry)=  0.0050
+     convergence has been achieved in  17 iterations
+-- A20(ii)
+scf.out scf.in a20g002_In32O47_driver.log steps.sh 
+outs: /tmp/melrashe/tmp.eo9bCBl1hx/scf.out
+  [/tmp/melrashe/tmp.eo9bCBl1hx/scf.out] conv=1 notach=0 done=1
+!    total energy              =  -15105.09003219 Ry
+     smearing contrib. (-TS)   =      -0.00000000 Ry
+     internal energy E=F+TS    =  -15105.09003219 Ry
+     number of k points=    14  Gaussian smearing, width (Ry)=  0.0020
+     convergence has been achieved in  16 iterations
+     Program PWSCF v.7.3.1 starts on 12Oct2026 at 15:26:20 
+  diff a20 scf.in vs vac scf.in:
+7c7
+<   occupations = 'smearing', smearing = 'gaussian', degauss = 0.002
+---
+>   occupations = 'smearing', smearing = 'gaussian', degauss = 0.005
+21c21
+<   3 3 3 0 0 0
+---
+>   4 4 4 0 0 0
+######## In31WO47_far
+-- relax.in settings
+ nstep = 300, etot_conv_thr = 1.0d-4, forc_conv_thr = 1.0d-3; ibrav = 0, nat = 79, ntyp = 3, ecutwfc = 71, ecutrho = 568; occupations = 'smearing', smearing = 'gaussian', degauss = 0.005; conv_thr = 1.0d-8, mixing_beta = 0.3, electron_maxstep = 100;
+K_POINTS automatic   3 3 3 0 0 0 
+-- relax.out
+bfgs_conv=1 n_bang=17 scf_fail=0 end=1 job_done=1
+!    total energy              =  -15454.54707166 Ry
+!    total energy              =  -15454.54711429 Ry
+     smearing contrib. (-TS)   =      -0.00190273 Ry
+     Total force =     0.004081     Total SCF correction =     0.000014
+     number of bfgs steps    =  15
+     Final energy             =  -15454.5471142931 Ry
+     number of electrons       =       699.00
+     number of k points=    14  Gaussian smearing, width (Ry)=  0.0050
+     Program PWSCF v.7.3.1 starts on 11Oct2026 at 10: 7:14 
+-- SEGMENT_SUMMARY
+n_scf=17 n_geom=17 best=16 best_new=yes E0=-15454.53897039 Ebest=-15454.54711429 scf_iters=24,17,14,16,18,18,24,18,17,17,17,17,18,17,18,17,17 scf_fail=0 fermi_warn=0
+-- FINAL scf.in/scf.out (k4)
+ calculation = 'scf', prefix = 'scf', outdir = './tmp', pseudo_dir = './pseudo'; occupations = 'smearing', smearing = 'gaussian', degauss = 0.005; conv_thr = 1.0d-8, mixing_beta = 0.3, electron_maxstep = 100;
+K_POINTS automatic   4 4 4 0 0 0 
+conv=1 notach=0 done=1
+!    total energy              =  -15454.54552725 Ry
+     smearing contrib. (-TS)   =      -0.00275361 Ry
+     internal energy E=F+TS    =  -15454.54277364 Ry
+     number of k points=    36  Gaussian smearing, width (Ry)=  0.0050
+     convergence has been achieved in  25 iterations
+-- A20(ii)
+scf.out scf.in a20g002_In31WO47_far_driver.log steps.sh 
+outs: /tmp/melrashe/tmp.xThdo2qS4i/scf.out
+  [/tmp/melrashe/tmp.xThdo2qS4i/scf.out] conv=1 notach=0 done=1
+!    total energy              =  -15454.54623736 Ry
+     smearing contrib. (-TS)   =      -0.00038531 Ry
+     internal energy E=F+TS    =  -15454.54585205 Ry
+     number of k points=    14  Gaussian smearing, width (Ry)=  0.0020
+     convergence has been achieved in  26 iterations
+     Program PWSCF v.7.3.1 starts on 12Oct2026 at 19:20:57 
+  diff a20 scf.in vs vac scf.in:
+7c7
+<   occupations = 'smearing', smearing = 'gaussian', degauss = 0.002
+---
+>   occupations = 'smearing', smearing = 'gaussian', degauss = 0.005
+22c22
+<   3 3 3 0 0 0
+---
+>   4 4 4 0 0 0
+######## In31WO47_near
+-- relax.in settings
+ nstep = 300, etot_conv_thr = 1.0d-4, forc_conv_thr = 1.0d-3; ibrav = 0, nat = 79, ntyp = 3, ecutwfc = 71, ecutrho = 568; occupations = 'smearing', smearing = 'gaussian', degauss = 0.005; conv_thr = 1.0d-8, mixing_beta = 0.3, electron_maxstep = 100;
+K_POINTS automatic   3 3 3 0 0 0 
+-- relax.out
+bfgs_conv=1 n_bang=19 scf_fail=0 end=1 job_done=1
+!    total energy              =  -15454.50607425 Ry
+!    total energy              =  -15454.50612023 Ry
+     smearing contrib. (-TS)   =      -0.00181067 Ry
+     Total force =     0.004516     Total SCF correction =     0.000011
+     number of bfgs steps    =  17
+     Final energy             =  -15454.5061202338 Ry
+     number of electrons       =       699.00
+     number of k points=    14  Gaussian smearing, width (Ry)=  0.0050
+     Program PWSCF v.7.3.1 starts on 11Oct2026 at 15:25:52 
+-- SEGMENT_SUMMARY
+n_scf=19 n_geom=19 best=18 best_new=yes E0=-15454.493438 Ebest=-15454.50612023 scf_iters=22,17,18,18,23,90,18,19,20,19,16,16,17,18,19,19,20,17,18 scf_fail=0 fermi_warn=0
+-- FINAL scf.in/scf.out (k4)
+ calculation = 'scf', prefix = 'scf', outdir = './tmp', pseudo_dir = './pseudo'; occupations = 'smearing', smearing = 'gaussian', degauss = 0.005; conv_thr = 1.0d-8, mixing_beta = 0.3, electron_maxstep = 100;
+K_POINTS automatic   4 4 4 0 0 0 
+conv=1 notach=0 done=1
+!    total energy              =  -15454.50641953 Ry
+     smearing contrib. (-TS)   =      -0.00155957 Ry
+     internal energy E=F+TS    =  -15454.50485996 Ry
+     number of k points=    36  Gaussian smearing, width (Ry)=  0.0050
+     convergence has been achieved in  21 iterations
+-- A20(ii)
+scf.out scf.in a20g002_In31WO47_near_driver.log steps.sh 
+outs: /tmp/melrashe/tmp.r0BpimuF76/scf.out
+  [/tmp/melrashe/tmp.r0BpimuF76/scf.out] conv=1 notach=0 done=1
+!    total energy              =  -15454.50520617 Ry
+     smearing contrib. (-TS)   =      -0.00049375 Ry
+     internal energy E=F+TS    =  -15454.50471243 Ry
+     number of k points=    14  Gaussian smearing, width (Ry)=  0.0020
+     convergence has been achieved in  24 iterations
+     Program PWSCF v.7.3.1 starts on 12Oct2026 at 15:45:36 
+  diff a20 scf.in vs vac scf.in:
+7c7
+<   occupations = 'smearing', smearing = 'gaussian', degauss = 0.002
+---
+>   occupations = 'smearing', smearing = 'gaussian', degauss = 0.005
+22c22
+<   3 3 3 0 0 0
+---
+>   4 4 4 0 0 0
+######## In31WO47_near72
+-- relax.in settings
+ nstep = 300, etot_conv_thr = 1.0d-4, forc_conv_thr = 1.0d-3; ibrav = 0, nat = 79, ntyp = 3, ecutwfc = 71, ecutrho = 568; occupations = 'smearing', smearing = 'gaussian', degauss = 0.005; conv_thr = 1.0d-8, mixing_beta = 0.3, electron_maxstep = 100;
+K_POINTS automatic   3 3 3 0 0 0 
+-- relax.out
+bfgs_conv=1 n_bang=30 scf_fail=0 end=1 job_done=1
+!    total energy              =  -15454.49822272 Ry
+!    total energy              =  -15454.49828792 Ry
+     smearing contrib. (-TS)   =      -0.00191700 Ry
+     Total force =     0.005366     Total SCF correction =     0.000011
+     number of bfgs steps    =  28
+     Final energy             =  -15454.4982879171 Ry
+     number of electrons       =       699.00
+     number of k points=    14  Gaussian smearing, width (Ry)=  0.0050
+     Program PWSCF v.7.3.1 starts on 11Oct2026 at 10: 6:15 
+-- SEGMENT_SUMMARY
+n_scf=30 n_geom=30 best=29 best_new=yes E0=-15454.46864385 Ebest=-15454.49828792 scf_iters=23,20,22,41,24,20,17,18,18,19,19,17,17,18,19,20,20,19,19,18,17,18,18,17,17,18,19,18,18,18 scf_fail=0 fermi_warn=0
+-- FINAL scf.in/scf.out (k4)
+ calculation = 'scf', prefix = 'scf', outdir = './tmp', pseudo_dir = './pseudo'; occupations = 'smearing', smearing = 'gaussian', degauss = 0.005; conv_thr = 1.0d-8, mixing_beta = 0.3, electron_maxstep = 100;
+K_POINTS automatic   4 4 4 0 0 0 
+conv=1 notach=0 done=1
+!    total energy              =  -15454.49973448 Ry
+     smearing contrib. (-TS)   =      -0.00191096 Ry
+     internal energy E=F+TS    =  -15454.49782352 Ry
+     number of k points=    36  Gaussian smearing, width (Ry)=  0.0050
+     convergence has been achieved in  21 iterations
+-- A20(ii)
+scf.out scf.in a20g002_In31WO47_near72_driver.log steps.sh 
+outs: /tmp/melrashe/tmp.aw8UagjbiO/scf.out
+  [/tmp/melrashe/tmp.aw8UagjbiO/scf.out] conv=1 notach=0 done=1
+!    total energy              =  -15454.49736031 Ry
+     smearing contrib. (-TS)   =      -0.00046995 Ry
+     internal energy E=F+TS    =  -15454.49689036 Ry
+     number of k points=    14  Gaussian smearing, width (Ry)=  0.0020
+     convergence has been achieved in  20 iterations
+     Program PWSCF v.7.3.1 starts on 12Oct2026 at 19:10:31 
+  diff a20 scf.in vs vac scf.in:
+7c7
+<   occupations = 'smearing', smearing = 'gaussian', degauss = 0.002
+---
+>   occupations = 'smearing', smearing = 'gaussian', degauss = 0.005
+22c22
+<   3 3 3 0 0 0
+---
+>   4 4 4 0 0 0
