@@ -1,0 +1,120 @@
+{
+ "register_tag": "register-rev2-frozen-20261010T1833Z",
+ "scorer": "analysis_2026-10-10_campaign/score_register.py",
+ "test": "resolution proposal from a refinement pair (NOT registered)",
+ "label": "smoke test, not a registered result",
+ "run": "run_0077",
+ "ref": "run_0067",
+ "column": "ig_raw_A",
+ "run_dir": "results/runs/run_0077_2p0_c10_s0_02_dos2_2p0",
+ "ref_dir": "results/runs/run_0067_2p0_c10_s0_02_2p0",
+ "thickness_nm": [
+  2.0,
+  2.0
+ ],
+ "run_gate_tunnelling": true,
+ "ref_gate_tunnelling": true,
+ "tolerance_dec": 0.1,
+ "common_points": 76,
+ "disagreeing_points": 0,
+ "candidate_resolution_A_per_um": 2.20233e-31,
+ "support_points_above_candidate": 75,
+ "support_points_within_1dec": 3,
+ "bias_coverage": 1.0,
+ "support_rule": {
+  "min_points_above_candidate": 3,
+  "near_decades": 1.0,
+  "bias_coverage": 1.0
+ },
+ "intervention": {
+  "verified": true,
+  "changed_overrides": {
+   "solver.dos_levels.numa": [
+    "768",
+    "384"
+   ],
+   "solver.dos_levels.numd": [
+    "384",
+    "192"
+   ]
+  },
+  "kind": "DOS grid",
+  "deck_statements_changed": 2,
+  "deck_ratio": {
+   "a": 2.0,
+   "d": 2.0
+  },
+  "refined": "run"
+ },
+ "evidence": {
+  "run": {
+   "run_id": "run_0077",
+   "dir": "results/runs/run_0077_2p0_c10_s0_02_dos2_2p0",
+   "sha256": {
+    "execution.json": "da7ebb03fb7d317f813166e2b96ff8f6e07fadd9cce961f931babc1475edaf7d",
+    "device.in": "1d5c0d8f8cb6d210e46dea83f41239856b1eed08d352d1f8fe30efcf63d9d19b",
+    "material_model_used.json": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+    "terminal_currents.csv": "cf869ab93f0f4bbcb7113162b8532bff7e1b52506b11c34eeabe0e92bcc9a54f"
+   }
+  },
+  "ref": {
+   "run_id": "run_0067",
+   "dir": "results/runs/run_0067_2p0_c10_s0_02_2p0",
+   "sha256": {
+    "execution.json": "ca324889296d92ee02528102ca507d6d0cf96a3bc1e035c9720e3b501fa2ab86",
+    "device.in": "5e71aac8968162520a4a706617537811d2252df1ec8df5eae6763e04ab69e6f6",
+    "material_model_used.json": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+    "terminal_currents.csv": "f7c1ff3f7d3db6d2df777d6ec9ed5f68cded324cfc06924f90f74f6144abcf83"
+   }
+  }
+ },
+ "application_scope": {
+  "quantity": "ig_raw_A",
+  "film_nm": 2.0,
+  "settings": {
+   "film_nm": 2.0,
+   "mode": "transfer",
+   "overrides": [
+    "solver.physics_options.gate_tunnelling.enabled=1",
+    "solver.physics_options.gate_tunnelling.model=qtnlsc",
+    "solver.physics_options.gate_tunnelling.set=worst",
+    "solver.physics_options.nc300_override_cm3[2.0]=1.373e+19",
+    "solver.tmun=0",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "thickness_laws.Nt_cm3.Nt2=2e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.04",
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=17.6897",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.38345e+12"
+   ],
+   "material_model_sha256": "5403594e467ae51c936733c51f7ecc81e8872dce5fe19e112e10e1b3bb8c224e",
+   "deck_statements_sha256": "bb52610e2dcbfdb58fa4eea24f3d84444f5d20c154e9a108b28b29736ce2b4ae"
+  },
+  "bias_range_V": [
+   -3.0,
+   3.0
+  ],
+  "endpoints": [
+   {
+    "run_id": "run_0077",
+    "dir": "results/runs/run_0077_2p0_c10_s0_02_dos2_2p0",
+    "numerics_sha256": "dc9b4d3e99ae2d6a8bb0730341f98096bead8739881591712276fefd3fd82f36"
+   },
+   {
+    "run_id": "run_0067",
+    "dir": "results/runs/run_0067_2p0_c10_s0_02_2p0",
+    "numerics_sha256": "6b538d9cbdb27fb300ebf72f181bf5f413b91feb05b5c420ea5ba0cf776cd0ee"
+   }
+  ],
+  "note": "applies only to this quantity, film, physical model/settings and V_G range; no cross-film transfer; a pair containing a tested run is no independent ceiling evidence for an upper-bound test (ruling c)"
+ },
+ "qualified": true,
+ "qualification": "distinct accepted runs with complete finite exports, verified numerical intervention, agreement support and full bias coverage, finite positive candidate"
+}
