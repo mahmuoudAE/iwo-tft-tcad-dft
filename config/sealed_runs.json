@@ -1,0 +1,16 @@
+{
+ "schema": "iwo-sealed-runs-1",
+ "purpose": "Explicit inventory of sealed runs for the sealed-aware deck regression gate analysis_2026-10-10_campaign/regress_sealed_aware.py (register amendment A41 (e); Codex GO-WITH-CHANGES, work chat 2026-10-13T01:32Z, item 5). For a run listed here the gate never opens the run directory and never reads a RUN_INDEX column other than run_id, label, deck_sha256 and model_sha256 (input columns, written at launch); it checks those against the registered values below and against the current rebuild of the matrix entry. The A41 pre-launch gate reads this file too.",
+ "rule": "Append each run of a state-only plan (campaign_C10_DIAGb, campaign_C10_DIAG) as soon as its RUN_INDEX STARTED row exists, during or right after the invocation, and before any later regression check or re-invocation. A41 runs: the S2-11 rerun (label c10_s2_11_2p0, entry S2-11, deck_sha256 3034b7e276d40f8f8e3587219cbafe82c97c9db43ce23706938e18b4285ee956) and S0-02-DOS2 (label c10_s0_02_dos2_2p0, entry S0-02-DOS2, deck_sha256 09bb893d3254c9f0de24238e5b6f5eca3fa99c549c8d3f9456709eec95ff8e85), both with model_sha256 974b23ea65ceaa38185221c1a62bb6f1b4eef54fd4884bb7eaadc38a83f18204 and model file config/iwo_material_model_v3.yaml; the run id is taken from the STARTED row (expected run_0076 and run_0077). regress_sealed_aware.py refuses to run while a RUN_INDEX run with a state-only plan label is missing here. Removing an entry (unsealing) needs a logged decision.",
+ "runs": [
+  {
+   "run_id": "run_0075",
+   "label": "c10_s2_11_2p0",
+   "entry": "S2-11",
+   "model_file": "config/iwo_material_model_v3.yaml",
+   "deck_sha256": "3034b7e276d40f8f8e3587219cbafe82c97c9db43ce23706938e18b4285ee956",
+   "model_sha256": "974b23ea65ceaa38185221c1a62bb6f1b4eef54fd4884bb7eaadc38a83f18204",
+   "reason": "S2-11 first launch (campaign_C10_DIAGa_S2-11, 2026-10-12): timed out behind a TonyPlot viewer, invalid for scoring under the frozen scorer, sealed and never substituted (work chat 2026-10-12T16:40Z, 20:28Z D5/D7; register A41 (b)). Opening it needs a logged decision."
+  }
+ ]
+}

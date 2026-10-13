@@ -20,6 +20,14 @@ config/campaign_C10_DIAGa_S2-11.json and campaign_C10_DIAG.json (frozen-register
 2026-10-11 review: the S2/S3 stage plans and MIN10 are written with runnable=false (HOLD: they hold entries the register keeps out
 or makes conditional, and MIN10/S2 do not start with S2-11); the 5 H-F entries are split into campaign_C10_DIAG_HF.json, runnable=false
 until the H-F scoring is implemented and frozen. scripts/run_campaign.py refuses a plan with runnable=false.
+2026-10-13 (register amendment A41; launch only after A41 is logged and Codex has reviewed it): the matrix entry S0-02-DOS2 (stage
+S2_resolution_refinements) is covered by the held stage plan campaign_C10_S2r_resolution.json and runs only from the new state-only plan
+config/campaign_C10_DIAGb.json (the S2-11 rerun, then S0-02-DOS2: Codex GO-WITH-CHANGES, work chat 2026-10-13T01:32Z, item 3; the A41
+pre-launch gate before EVERY invocation, including a resume; --retry S2-11 by the STARTED-row rule in DIAGB_RULES).
+campaign_C10_DIAGa_S2-11.json is now written with runnable=false (HOLD: superseded by DIAGb; invoking it would reuse run_0075, or later the
+rerun, and its non-state-only summary would copy that run's metrics into results/campaigns). Every other plan file is unchanged, except the
+order wording in the HOLD text of the held campaign_C10_S2r_resolution.json (A41 revision 3); --check verifies DIAGb (ids in launch order,
+verbatim entries, runnable, no gates, state_only, stop rules, launch command).
 """
 import json
 import sys
@@ -49,7 +57,15 @@ HOLD = {   # 2026-10-11 review: plan files written with runnable=false (scripts/
                           'before S2-11. Its launched entries (S0-01, S0-02, S1-01, S1-02, S1-07) are done; the rest run from campaign_C10_DIAG(_HF).',
     'campaign_C10_DIAG_HF': f'H-F entries of the register diagnostic set ({REG_TAG}): no frozen code scores the H-F predictions yet (two-film reference '
                             'shift/scale, baseline shape RMSE, IGZO gain and gamma targets, contact trigger). Implement and freeze that scoring (logged), then '
-                            'set runnable to true. Order: after campaign_C10_DIAG (register section 3, steps 3-4).'}
+                            'set runnable to true. Order: after campaign_C10_DIAG (register section 3, steps 3-4).',
+    'campaign_C10_S2r_resolution': f'Register amendment A41 (2026-10-13; added to {REG_TAG} after the freeze, not part of the frozen 26-launch diagnostic set): '
+                                   'S0-02-DOS2 runs only from campaign_C10_DIAGb (the S2-11 rerun, then S0-02-DOS2), after A41 and the resolution-method '
+                                   'sign-off are logged and Codex has reviewed A41. Matched oxide-mesh refinements under the frozen A41 trigger get their own '
+                                   'plan only after the trigger has fired and is logged.',
+    'campaign_C10_DIAGa_S2-11': 'Superseded by register amendment A41 (2026-10-13): the S2-11 rerun runs from campaign_C10_DIAGb only. S2-11 ran from this '
+                                'plan once, as run_0075 (timed out, invalid for scoring under the frozen scorer, sealed, never substituted). Invoking this '
+                                'plan would reuse run_0075 (or later the rerun) by its label, and because this plan is not state-only its summary would '
+                                'copy that run\'s metrics into results/campaigns/campaign_C10_DIAGa_S2-11.json.'}
 GLOBAL_RULES = [
     'Sequential only: python scripts/run_campaign.py <plan> (C10 plans refuse --workers != 1). Every launch counts, failed or not. Hard cap 200: config/solver.yaml max_launches 260 (= 60 used before C10 + 200) and a C10 label counter (c10_* run IDs in RUN_INDEX <= 200) in run_campaign.py.',
     'run_campaign.py (C10 plans) never re-launches an entry whose label already has a RUN_INDEX row, from this or any other C10 plan (MIN10 vs stage plans): a successful earlier launch is reused, a failed one is reported; --retry ID spends a new (reserve) launch on purpose.',
@@ -77,6 +93,9 @@ PLANS = [   # (file stem, stage(s) or ids, stop rules) in launch order
         'Verdicts by the pre-registered rule of CAMPAIGN_DESIGN 7.2 (valid points >= 80 %, |d_floor_ratio| <= 0.5 dec, |slope| <= 2|measured| + 2 sigma, KCL); a 2 nm underprediction does not falsify.',
         'S2-12/S2-13 (QTNLSC + oxide TAT, trap charge out of Poisson): post_run_checks.py needs --gate-control S2-04 (2.0 nm) / S2-06 (13.2 nm) to identify ITAT separately; the charged-oxide electrostatics are not tested by these runs.',
         'S2-09/S2-10 (FNORD): F.AE/F.BE are the HfO2-barrier constants transferred to the Al2O3/IWO-segment field (A/r^2, r B, r = 2.1744); still a single-barrier approximation.']),
+    ('campaign_C10_S2r_resolution', ['S2_resolution_refinements'], [   # 2026-10-13, register A41 (held; route: campaign_C10_DIAGb)
+        'A41: S0-02-DOS2 (run_0067 settings, DOS 768/384) is the I_G resolution pair for S2-11 (score_register.py resolution_pair <S0-02-DOS2 run> <run_0067> ig_raw_A); '
+        'it shares run_0067 with the S2-11 comparison (recorded, never independent). A non-qualifying pair leaves S2-11 PROVISIONAL; no second DOS run.']),
     ('campaign_C10_S3_branches', ['S3_model_branches'], [
         'Branch adopted only if sqrt(J) improves by >= 0.03 dec with no film RMSE_sub or RMSE_on worse by > 0.03 dec (profile_shared.py adopt <branch triple> -- <S0-01 S1-01 S1-02>), converged at all 3 films, activation ACTIVE_AS_REQUESTED in post_run_checks.py.',
         'At most two branches; IGZO needs S3-27 within 0.01 dec of the transformed curve for exact profiling; Schottky needs one reserve launch of the same native check.',
@@ -127,13 +146,107 @@ GATES = {'campaign_C10_DIAG': [
           rule_ref=ANOMALY_RULE_REF),
     _gate('G-S2-01-generation', 'S2-02', 'hc_generation', {'run': {'entry': 'S2-01'}, 'control': {'entry': 'S2-02'}},
           'SRH/TAT null test, 13.2 nm, against its matched SRH-off control S2-02 (register A9; the matched mechanism test); evaluated once S2-02 has run')]}
-STATE_ONLY = {'campaign_C10_DIAG': {'sealed_dir': 'results/sealed/campaigns'}}   # Codex blocker 3 / D7: scripts/campaign_sealed.py
+STATE_ONLY = {'campaign_C10_DIAG': {'sealed_dir': 'results/sealed/campaigns'},   # Codex blocker 3 / D7: scripts/campaign_sealed.py
+              'campaign_C10_DIAGb': {'sealed_dir': 'results/sealed/campaigns'}}  # 2026-10-13 A41 (state-only, no gates; DIAGB below)
 GATES_ENFORCED_BY = ('AUTOMATIC in run_campaign.py (Codex D8): the launch budget and C10 cap, refusal of runnable=false plans, and the declared '
                      '"gates" (after S2-04, S2-06, S2-03 and S2-02, frozen score_register.py; FIRED or UNRESOLVED stops before the next launch, exit 3, '
                      'until --ack-gate GATE_ID --ack-audit AUDIT_FILE). Every other stop rule of this plan remains MANUAL (main session).')
 GATED_GLOBAL_RULE = ('run_campaign.py records a failed launch and CONTINUES, except for the automatic stops of this plan: the launch budget / C10 cap and '
                      'the declared "gates" (see stop_rules_enforced_by). Every other stop rule below is applied manually: the main session reads the '
                      'state-only results/campaigns/<plan>.json and decides.')
+# 2026-10-13, register amendment A41 (launch only after A41 is logged and Codex has reviewed it; user go 2026-10-13 ~00:05Z, recorded in the
+# work chat 2026-10-13T00:15Z, subject to that review; Codex GO-WITH-CHANGES under the work-chat heading 2026-10-13T01:32Z, applied in A41
+# revision 3): S2-11 is rerun once with the committed runner (public-repo 1375164) because run_0075 is invalid under the frozen scorer's
+# timeout rule, and the S0-02 DOS x2 resolution run is added (Codex round 3, adaptive amendment). One state-only plan without gates, S2-11
+# FIRST, then S0-02-DOS2 (Codex item 3: keeps the register section 3 order, S2-11 first, and simplifies the rerun bookkeeping; it does not
+# replace the resume safeguards). S2-11 keeps its registered entry and label (score_register.py REG['hc_mesh'] is keyed on c10_s2_11_2p0, a
+# new label would score as a smoke test); the C10 label-reuse rule is passed on purpose by --retry S2-11 (run_campaign.py:206, :216), and only
+# while RUN_INDEX has no c10_s2_11_2p0 row newer than run_0075 (STARTED-row rule, DIAGB_RULES[1]). Before EVERY invocation, including a
+# resume, the A41 pre-launch gate must exit 0 (Codex item 2: a runner crash can leave DeckBuild running, and a resume would then start the
+# next entry beside it).
+DIAGB = ('campaign_C10_DIAGb', ['S2-11', 'S0-02-DOS2'])
+DIAGB_COMMAND = ('$env:IWO_MODEL_FILE = "config/iwo_material_model_v3.yaml"; <project venv python> scripts/run_campaign.py config/campaign_C10_DIAGb.json '
+                 '--retry S2-11   (FIRST invocation only, in PowerShell from the package root, immediately after the A41 pre-launch gate has exited 0 '
+                 'in the same session; any re-invocation uses the command the gate prints under the STARTED-row rule in stop_rules; '
+                 'IWO_ATLAS_VIEWERS unset = viewer policy record)')
+DIAGB_AMENDMENT = ('A41 (2026-10-13): this plan may be invoked only after A41 is logged in the register together with the resolution-method sign-off, '
+                   'Codex has reviewed it and the user has given the go for this launch')
+STATE_ONLY_GLOBAL_RULE = ('run_campaign.py records a failed launch and CONTINUES (this plan declares no gates); it stops automatically only at the launch '
+                          'budget / C10 cap. Every stop rule below is applied manually: the main session reads the state-only results/campaigns/<plan>.json '
+                          '(full record sealed under results/sealed/campaigns) and decides.')
+STATE_ONLY_ENFORCED_BY = ('main session (manual); run_campaign.py enforces the launch budget and C10 cap, refuses runnable=false plans and applies the '
+                          'state-only surface (scripts/campaign_sealed.py); this plan declares no gates')
+DIAGB_RULES = [
+    'Register amendment ' + DIAGB_AMENDMENT + '. Two new launches, sequential, in this order (Codex GO-WITH-CHANGES, work chat 2026-10-13T01:32Z, '
+    'item 3): [1] the S2-11 rerun (label c10_s2_11_2p0, entry unchanged; timeout 5400 s; expected run id run_0076), [2] S0-02-DOS2 (label '
+    'c10_s0_02_dos2_2p0: the run_0067 override list with numa/numd 384/192 -> 768/384 and nothing else; timeout 3600 s; expected run id run_0077). '
+    'The expected ids hold if nothing else launches first (next free id run_0076 when this plan was written); the actual ids are those of the '
+    'STARTED rows. This keeps the register section 3 order (S2-11 first): S0-02-DOS2, a numerical refinement of S0-02 outside the 26-launch '
+    'diagnostic set, follows the rerun and precedes every S2 mechanism launch. Budget: C10 15/200 -> 17/200, global 75/260 -> 77/260; effective C10 '
+    'reserve after this plan 9 (200 - 17 used - 174 unlaunched matrix entries), 3 if all six A41 trigger launches happen.',
+    'Invocation, pre-launch gate and --retry rule. First invocation: ' + DIAGB_COMMAND + '. Before EVERY invocation of this plan, the first one and '
+    'any re-invocation (after an interruption, a crash, sleep or a declined hook), in the same PowerShell session and working directory as the '
+    'invocation and immediately before it, the A41 pre-launch gate (prelaunch_gate_a41.py, run with python -I; sha256 recorded in A41) must exit 0 '
+    '(Codex item 2); if it fails, nothing is invoked and the failure is reported. The gate asserts by explicit equality and fails on any mismatch: '
+    'working directory = the package root; IWO_MODEL_FILE = config/iwo_material_model_v3.yaml; IWO_ATLAS_VIEWERS and IWO_ATLAS_JOB unset; the sha256 '
+    'of this plan file, of every file in scripts/ (public-repo 1375164), of score_register.py and of regress_all_decks.py; the dry-built deck text '
+    'and material text sha256 of both entries (next rule); no running deckbuild, dbascii, atlas, atlas2, atlas3, atlasM, atlasMc, tonyplot, '
+    'tonyplot3d, athena, athena1d or devedit process and no python process whose command line names run_atlas or run_campaign (a runner crash can '
+    'leave DeckBuild running, and a resume would then start the next entry beside it); the RUN_INDEX state below; every started A41 run listed in '
+    'config/sealed_runs.json with its STARTED-row input columns as registered; the launch budget and the C10 cap. It prints the one command to use. '
+    '--retry rule (unchanged; RUN_INDEX columns run_id and label only): pass --retry S2-11 if and only if no c10_s2_11_2p0 row with a run id above '
+    'run_0075 exists; otherwise never pass it (a rerun start row counts as the one A41 rerun, finished or not; there is no third S2-11 launch), and '
+    'never repeat the stored command verbatim once the rerun has a RUN_INDEX row. --retry S2-11 deliberately bypasses the C10 label-reuse rule for '
+    'S2-11 only: run_0075 holds that label and its execution.json status is a runner success although it timed out, so without --retry run_campaign '
+    'would reuse run_0075 for S2-11 and go on to S0-02-DOS2. S0-02-DOS2 is never relaunched (label rule). A DIAGb record of S2-11 as run_0075 '
+    '"reused" is never the registered S2-11 result: it is reported and the --retry rule above is applied. The gate also stops for a main-session '
+    'decision on a c10_s0_02_dos2_2p0 row without a rerun row (order not followed), on more than one rerun or S0-02-DOS2 run id, and on any other '
+    'launch after run_0075 (expected ids shifted); once both A41 runs have started it reports that nothing remains to launch and exits non-zero.',
+    'Before the first invocation (main session, in the same PowerShell session and working directory as the launch, the package root): A41 logged '
+    'together with the resolution-method sign-off (register and decision log) after Codex review; the user\'s go for THIS launch; the deck regression '
+    'gate in its sealed-aware form, analysis_2026-10-10_campaign/regress_sealed_aware.py (the committed regress_all_decks.py, unchanged, over every run '
+    'except the ids of the explicit sealed-run inventory config/sealed_runs.json, whose RUN_INDEX rows and run directories are not read, plus each '
+    'sealed run\'s RUN_INDEX deck_sha256 and model_sha256 equal to the inventory and to the current rebuild of its matrix entry; A41 (e)) ending '
+    '"unexpected differences 0"; make_campaign_configs.py --check YES; score_register.py sha256 '
+    'c0f28bb942508a81a0f59b4a4c1e720bbfdbe8d9466d7e002476d64dcc10b55a with selftest 90/90; scripts/run_campaign.py, run_atlas.py, campaign_gates.py, '
+    'campaign_sealed.py, proc_guard.py as committed in public-repo 1375164; and the pre-launch gate of the previous rule, which checks, with '
+    'IWO_MODEL_FILE set as in the command, that run_campaign.current_deck_text gives deck text sha256 '
+    '3034b7e276d40f8f8e3587219cbafe82c97c9db43ce23706938e18b4285ee956 (S2-11) and 09bb893d3254c9f0de24238e5b6f5eca3fa99c549c8d3f9456709eec95ff8e85 '
+    '(S0-02-DOS2) and current_material_text sha256 974b23ea65ceaa38185221c1a62bb6f1b4eef54fd4884bb7eaadc38a83f18204 (= RUN_INDEX model_sha256 of '
+    'run_0067) for both entries; results/campaigns/campaign_C10_DIAGb.json and results/sealed/campaigns/campaign_C10_DIAGb.full.json / .console.log '
+    'absent.',
+    'State-only (Codex D7): the console and results/campaigns/campaign_C10_DIAGb.json carry state only; the full record and the launch output are sealed '
+    'under results/sealed/campaigns. No current, metric or note of either run is opened, printed or scored before both launches have ended and the '
+    'scoring order below starts. The only reads allowed before then are the input columns of each run\'s STARTED row in RUN_INDEX (run_id, label, '
+    'deck_sha256, model_sha256 and the STARTED note, written at launch before any output): deck_sha256 must equal the deck hash above for its entry, '
+    'model_sha256 974b23ea65ceaa38185221c1a62bb6f1b4eef54fd4884bb7eaadc38a83f18204, and the note must contain model=config/iwo_material_model_v3.yaml. '
+    'Sealed-run inventory (Codex item 5): each run of this plan is appended to config/sealed_runs.json (run id, label, entry, the registered deck and '
+    'model sha256 above, reason) as soon as its RUN_INDEX STARTED row exists, during or right after the invocation, and before any later regression '
+    'check or re-invocation; regress_sealed_aware.py refuses to run while a RUN_INDEX run with a state-only plan label is missing from the inventory, '
+    'and the pre-launch gate refuses a re-invocation while a started A41 run is missing. Removing an entry needs a logged decision. Viewer windows '
+    'are not looked at; a viewer recorded by the process guard is disclosed.',
+    'Failures: run_campaign records a failed launch and continues (no gates). A failed, timed-out or invalid launch is reported and kept, never deleted, '
+    'and not relaunched under A41. Validity is read from the RUN_INDEX exit_code of the run\'s finish row or from the frozen scorer\'s run_problems, '
+    'never from the state file (its projection carries no timed_out or return code: a timed-out run with complete exports shows as completed with status '
+    'REAL_ATLAS_SCORED, as run_0075 did). The viewer risk (policy record) applies to BOTH launches: a viewer holding DeckBuild makes the rerun time out '
+    'at 5400 s (invalid; S2-11 UNRESOLVED, QTNLSC convergence not demonstrated) or S0-02-DOS2 time out at 3600 s (invalid; no I_G pair; S2-11 at best '
+    'PROVISIONAL). With S2-11 first, the first real launch of runner 1375164 is the rerun itself: a runner defect that ends the invocation costs the one '
+    'rerun (S2-11 UNRESOLVED). Any further launch needs a new logged amendment and the user\'s go.',
+    'Scoring after both launches (frozen score_register.py c0f28bb9), in this order: (1) runner state and run validity only; (2) resolution_pair '
+    '<S0-02-DOS2 run> <run_0067> ig_raw_A -> PAIR.json; if the call raises (e.g. the frozen scorer\'s ZeroDivisionError when the only disagreeing points '
+    'are exact zeros in both runs) or writes no JSON, there is no pair; (3) the registered S2-11 score: hc_mesh <S2-11 rerun> <run_0067> --resolution-ig '
+    '<candidate_resolution_A_per_um of PAIR.json, verbatim; no larger value may be cited> --resolution-ig-source PAIR.json if the pair qualified, '
+    'otherwise hc_mesh <S2-11 rerun> <run_0067> without --resolution-ig (PROVISIONAL). The sha256 of PAIR.json and of the score JSON go into the action '
+    'note, with the candidate compared against the deck\'s ir.tol 1e-19 and cr.toler 1e-17 / 5e-18. A qualifying pair is a reproducibility floor under '
+    'the DOS quadrature intervention (numa/numd are the energy-level intervals of the continuous-defect integral): it is neither Newton-controlled '
+    'accuracy nor an absolute bound on the tunnelling discretization error. The registered S2-11 run is the rerun (pinned by A41; run_0075 is never '
+    'substituted); its verdict carries the A41 disclosure label "S1-informed operational method; S2 blinding cannot be demonstrated; possibly exposed; '
+    'not viewed according to the user\'s statement" (Codex item 6). The shared run_0067 baseline is recorded (resolution_pair_relation, independent '
+    'false).',
+    'After this plan: campaign_C10_DIAGa_S2-11 is held (runnable=false, superseded by this plan); campaign_C10_DIAG stays held for its own conditions and, '
+    'when launched, reuses S2-11 by label (the highest c10_s2_11_2p0 run id, the rerun). Matched oxide-mesh refinements follow only the frozen A41 trigger '
+    '(A41 (d): hc_explains of a QTNLSC mechanism run, read once from its JSON), each in its own plan after the trigger result and the scorer REG/PIN '
+    'extension are logged.']
 
 
 _DUP = None
@@ -182,6 +295,11 @@ def plan(mx, stem, sel, rules, runnable):
         gr = [GATED_GLOBAL_RULE if r.startswith('run_campaign.py records a failed launch and CONTINUES') else r for r in p['global_rules']]
         p = {**{k: v for k, v in p.items() if k != 'runs'}, 'global_rules': gr, 'stop_rules_enforced_by': GATES_ENFORCED_BY, 'gates': GATES[stem],
              **({'state_only': STATE_ONLY[stem]} if stem in STATE_ONLY else {}), 'runs': p['runs']}
+    elif stem in STATE_ONLY:   # 2026-10-13 A41: state-only surface WITHOUT gates (campaign_C10_DIAGb); the DIAG branch above is unchanged
+        gr = [STATE_ONLY_GLOBAL_RULE if r.startswith('run_campaign.py records a failed launch and CONTINUES') else r for r in p['global_rules']]
+        p = {**{k: v for k, v in p.items() if k != 'runs'}, 'purpose': p['purpose'].replace('(entries verbatim, matrix order)', '(entries verbatim, A41 launch order)'),
+             'global_rules': gr, 'stop_rules_enforced_by': STATE_ONLY_ENFORCED_BY, 'register_amendment': DIAGB_AMENDMENT,
+             'launch_command': DIAGB_COMMAND, 'state_only': STATE_ONLY[stem], 'runs': p['runs']}
     return p
 
 
@@ -206,8 +324,19 @@ def verify(mx):
         for e in dg:
             ref = next(r for r in mx['runs'] if r['id'] == e['id'])['campaign_entry']
             if any(e.get(k) != ref.get(k) for k in KEEP): bad += 1; print('MISMATCH', stem, e['id'])
+    stem, ids = DIAGB   # 2026-10-13 A41: the S2-11 rerun / S0-02-DOS2 plan (ids in launch order, entries verbatim, runnable, state-only, no gates)
+    if not (CFG / f'{stem}.json').is_file(): bad += 1; print(stem, 'missing')
+    else:
+        pb = json.loads((CFG / f'{stem}.json').read_text())
+        if [e['id'] for e in pb['runs']] != ids: bad += 1; print(stem, 'ids differ')
+        for e in pb['runs']:
+            ref = next(r for r in mx['runs'] if r['id'] == e['id'])['campaign_entry']
+            if any(e.get(k) != ref.get(k) for k in KEEP): bad += 1; print('MISMATCH', stem, e['id'])
+        if (pb.get('runnable') is not True or 'gates' in pb or pb.get('launch_command') != DIAGB_COMMAND or pb.get('stop_rules') != DIAGB_RULES
+                or pb.get('register_amendment') != DIAGB_AMENDMENT):
+            bad += 1; print(stem, 'runnable / gates / launch_command / stop_rules / register_amendment differ from make_campaign_configs (DIAGB)')
     held = []   # 2026-10-11 review: runnable flag = not HOLD for every non-template plan
-    for stem in [s for s, _, _ in PLANS] + ['campaign_C10_MIN10'] + [s for s, _ in DIAG_PLANS]:
+    for stem in [s for s, _, _ in PLANS] + ['campaign_C10_MIN10'] + [s for s, _ in DIAG_PLANS] + [DIAGB[0]]:
         if not (CFG / f'{stem}.json').is_file(): continue
         p = json.loads((CFG / f'{stem}.json').read_text())
         if p['runnable'] != (stem not in HOLD) or (stem in HOLD and p.get('not_runnable_reason') != HOLD[stem]): bad += 1; print('RUNNABLE FLAG wrong', stem)
@@ -225,7 +354,8 @@ def verify(mx):
     runnable = sum(len(json.loads((CFG / f'{s}.json').read_text())['runs']) for s, _, _ in PLANS if s not in HOLD)
     print(f'plans verified: {len(seen)} matrix entries in {len(PLANS)} stage plans ({len(PLANS) - sum(s in HOLD for s, _, _ in PLANS)} runnable, {runnable} entries) + '
           f'{len(TEMPLATES)} templates; verbatim and in matrix order: {"YES" if not bad else "NO"}; MIN10 plan: {m10}; held (runnable=false): {held}; '
-          f'register route: ' + ', '.join(f'{s} ({len(i)}{", HELD" if s in HOLD else ""})' for s, i in DIAG_PLANS))
+          f'register route: ' + ', '.join(f'{s} ({len(i)}{", HELD" if s in HOLD else ""})' for s, i in DIAG_PLANS)
+          + f'; A41 plan: {DIAGB[0]} ({" then ".join(DIAGB[1])}, state-only, A41 pre-launch gate before every invocation, --retry S2-11 by the STARTED-row rule)')
     return bad
 
 
@@ -267,6 +397,7 @@ def main(argv):
                  'S2 stop rules of campaign_C10_S2_offfloor apply; IGZO runs need post_run_checks.py activation; no S3 branch is adopted from this plan.']
         for stem, ids in DIAG_PLANS:
             (CFG / f'{stem}.json').write_text(json.dumps(plan(mx, stem, ids, rules, True), indent=1))
+        (CFG / f'{DIAGB[0]}.json').write_text(json.dumps(plan(mx, DIAGB[0], DIAGB[1], DIAGB_RULES, True), indent=1))   # 2026-10-13 A41
     return 1 if verify(mx) else 0
 
 

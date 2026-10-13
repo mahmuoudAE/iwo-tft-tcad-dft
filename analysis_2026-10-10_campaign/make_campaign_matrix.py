@@ -304,6 +304,29 @@ add('STRIP-6p3', 'S2_offfloor_mechanisms', 6.3, F(strip='separate_deck'), p,
     expected='I(0.7 V)/I(0.1 V) = 7.0 +- 0.5; with (W/L)_par fitted on S2-14 (13.2 nm) the predicted 6.3 and 2.0 nm floors lie within 0.5 dec '
              'of the measured ones (register H-B; score_register.py hb_ratio / hb_transfer)')
 
+# ================================================================ S2 resolution refinements (register amendment A41, 2026-10-13; launch only after A41 is logged)
+# Codex round 3 (CODEX_WORK_CHAT, reply under the 2026-10-12T15:50Z heading), adaptive amendment: ONE S0-02 DOS x2 run, whose I_G comparison
+# with run_0067 may qualify the S2-11 hc_mesh verdict. Definition: the S0-02 (run_0067) override list with ONLY the two DOS level counts doubled
+# in place, 384/192 -> 768/384 (the S1-04 DOS x2 keys and factor; S1-04 appended them after its base list, here they keep their S0-02 positions;
+# the deck and score_register.intervention are order-insensitive). NTD = NGD = 0, so the effective change is the acceptor energy quadrature
+# only (NUMD doubling is inert). Own stage and held stage plan, so that the existing stage plans are unchanged; it runs from
+# config/campaign_C10_DIAGb.json only. Timeout x3.0 = S0-02's x1.5 doubled, as S1-04 doubled S0-01's x1.0 (S1-04 took 476.8 s vs S0-01
+# 395.8 s; run_0067 took 1246 s).
+S002_OV = next(r for r in RUNS if r['id'] == 'S0-02')['campaign_entry']['overrides']
+DOS2 = {'solver.dos_levels.numa=384': 'solver.dos_levels.numa=768', 'solver.dos_levels.numd=192': 'solver.dos_levels.numd=384'}
+assert sum(o in DOS2 for o in S002_OV) == 2, 'S0-02 must carry exactly the two DOS overrides 384/192'
+p = P(2.0, oxide=OX['worst'])
+add('S0-02-DOS2', 'S2_resolution_refinements', 2.0, F(gate_tunnelling='qtnlsc_worst', dos='768/384'), p,
+    'Resolution refinement for S2-11 (register A41): S0-02 exactly as launched in run_0067 (QTNLSC worst set, automatic slicing, S/D exclude_near, '
+    'oxide mesh unchanged) with the DOS quadrature doubled (numa/numd 384/192 -> 768/384, the S1-04 DOS x2 knob); nothing else changes. Its I_G '
+    'comparison with run_0067 (score_register.py resolution_pair <this run> <run_0067> ig_raw_A) is the candidate I_G ceiling for hc_mesh '
+    '<S2-11 rerun> <run_0067>; the shared run_0067 baseline is recorded as NOT independent. Numerical stability under the DOS intervention only, '
+    'not an absolute error bound (ASSUMED operational method).',
+    [DOS2.get(o, o) for o in S002_OV], ['C1', 'C2', 'C4', 'C11'], timeout_mult=3.0,
+    expected='no physics prediction (a numerical refinement): the pair qualifies only under the frozen support rule (>= 3 agreeing points above the '
+             'candidate, one within 1 decade of it, full bias coverage, deck ratio tolerance 1e-3); a non-qualifying pair leaves S2-11 PROVISIONAL '
+             '(register section 0 censoring; A41)')
+
 # ================================================================ S3 model-form branches (26), fixed start parameters
 k3 = 1
 def s3(t, flags, p, purpose, ov, code=('C11',), mult=1.0, expected=None):
