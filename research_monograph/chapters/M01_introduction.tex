@@ -1,3 +1,120 @@
-% M01_introduction -- STUB (to be written). Label ch:mono-intro.
-\chapter{Introduction: the thickness limit of oxide-semiconductor channels}\label{ch:mono-intro}
-\pendingph{chapter M01-introduction not yet written}
+% M01_introduction.tex -- the scaling challenge and its costs, the research problem, the knowledge gap and the plan of
+% the monograph. Page-exact citations only for papers digested in report_latex_full/digest/papers; other sources are
+% cited at article level (DOI-verified) for their central statements only.
+\chapter{Introduction: the thickness limit of oxide-semiconductor channels}
+\label{ch:mono-intro}
+
+% =====================================================================================================================
+\section{The scaling challenge}
+\label{sec:mono-intro-scaling}
+
+For five decades the density and speed of integrated circuits grew by shrinking the transistor. That route has become
+expensive in three ways. Physically, the gains of geometric scaling have slowed since the end of constant-field
+(Dennard) scaling, when supply voltages and clock frequencies stopped falling and rising together
+\citep{Theis2017}; further performance must increasingly come from architecture, software and integration
+\citep{Leiserson2020,Salahuddin2018}. Industrially, keeping electrostatic control at short gate lengths has driven the
+move from planar devices to fins and to stacked nanosheets beyond the 3~nm node, and conventional semiconductors lose
+performance rapidly when their channels are thinned, below about 3~nm for silicon and 10~nm for InGaAs
+\citep[p.~164]{Si2022}. Energetically, the electricity used by computing infrastructure has become a measurable share of
+global consumption; one bottom-up estimate puts data centres at about 1\,\% of global electricity use in 2018
+\citep{Masanet2020}. Each further gain in logic or memory density therefore has to be bought with new device concepts
+rather than with the next lithography step alone.
+
+\paragraph{Monolithic three-dimensional integration.} One such concept is to build additional layers of transistors
+above the copper interconnect of a finished chip, for example as memory or select devices close to logic. Such
+back-end-of-line (BEOL) devices must be processed at temperatures that the interconnect survives, below about 400~\textdegree C
+\citep[p.~1]{Januar2026}, which excludes crystalline silicon and makes oxide semiconductors the leading candidates
+\citep{Datta2019,Salahuddin2018}. Amorphous oxide semiconductors were developed for display transistors
+\citep{Nomura2004,Kamiya2010,Fortunato2012}; their extremely low off-currents have since been exploited in
+capacitor-less DRAM cells with retention times beyond 400~s \citep{Belmonte2020}.
+
+\paragraph{Indium oxide at the thickness limit.} Indium oxide has a much higher mobility than the gallium- and
+zinc-containing amorphous oxides, but it is too conductive to switch off unless the channel is very thin. Atomic-layer
+deposited amorphous \InO{} channels as thin as 0.7~nm give enhancement-mode transistors whose threshold voltage and
+carrier density are tuned by the channel thickness, an effect attributed to quantum confinement shifting the Fermi level
+relative to the conduction band \citep[p.~500]{Si2021}; nanometre-thick \InO{} transistors reach drain currents above
+10~A/mm \citep[p.~21536]{Lin2022}. Doping with W is one way to control the carrier density and stability of such
+channels; its effect on stability depends on thickness \citep{Kim2024}.
+
+\paragraph{The cost of thinning.} Making the channel a few nanometres thick changes the material itself. The band gap
+opens and the band edges move by quantum confinement; every atom is close to a surface or an interface; the films are
+disordered; and transport becomes, in the words of the device paper's introduction, disorder-limited below about 10~nm
+for conventional amorphous oxides \citep[p.~1]{Januar2026}. Variability between nominally identical devices grows when a
+channel contains only a few hundred donors per square micrometre. Understanding these effects requires simulations at
+two very different scales, and both are costly: a first-principles calculation scales as the cube of the number of
+atoms (\cref{sec:mono-dft-cost}; \citealp{Goedecker1999}), and amorphous films need hundreds of atoms per cell and
+several independent samples; a device simulation must resolve nanometre-thick layers in micrometre-long devices, and
+each calibration run is a separate launch. The computational cost of this project is documented in
+\cref{app:mono-resources}.
+
+% =====================================================================================================================
+\section{The research problem}
+\label{sec:mono-intro-problem}
+
+The fabrication group of this project has published a thickness series of W-doped \InO{} (IWO, about 2\,\% W)
+bottom-gate transistors with channels of 2.0 to 13.2~nm, together with an analytic model in which the current is a blend
+of band, tail-state and interface-trap terms, eight parameters fitted per device, and crystalline density-functional
+calculations at 5.3\,\% W \citep{Januar2026}. The paper reports that W passivates oxygen vacancies and promotes charge
+delocalisation \citep[p.~4]{Januar2026}, and that a single model captures the crossover from near-band transport in
+thicker channels to disorder- and interface-limited transport in ultrathin films \citep[p.~4]{Januar2026}.
+
+Three questions remain open after that work, and they define the problem of this monograph:
+\begin{enumerate}
+\item Can a device model with one parameter set shared by all thicknesses, with inputs computed from first principles
+rather than fitted per device, account for the measured thickness dependence? The project's earlier per-film models
+reproduce each curve, but every attempt to predict the 6.3~nm device from the others failed (\claim{C014}).
+\item What does confinement actually do to the electronic structure of \InO{} films of one to two nanometres, how is the
+gap opening shared between the bands, and how much of it reaches the device threshold?
+\item What does a W atom do in a sub-nanometre amorphous film: does it still give its electron to extended states, or
+does dimensionality change its activity?
+\end{enumerate}
+
+\section{Approach and scope of this monograph}
+\label{sec:mono-intro-approach}
+
+The project combines (i) a registered extraction of the published devices' transfer curves, (ii) drift--diffusion device
+simulations from per-film calibrations to a shared-parameter campaign, (iii) density-functional calculations of crystalline
+\InO{} films from 0.46 to 1.96~nm, of W in crystalline cells and of oxygen vacancies, and (iv) a registered campaign on
+amorphous films from 0.7 to 2.0~nm. Every test was registered before its outcome where that was possible, and every
+statement carries a provenance label (\cref{ch:mono-questions}).
+
+This monograph is a versioned derivative of the project's full report of September 2026. It reuses the chapters of that
+report that are still correct, revises those that the later evidence corrected, and adds the evidence of 26 September to
+14 October 2026: the first-principles theory and its numerical checks, the masses and device parameters, tungsten and
+oxygen vacancies, the amorphous protocol, the shared-model campaign, the provenance of the published metrics, the
+multiscale synthesis, alternative explanations and an audit of publication constraints.
+
+\paragraph{What this monograph does not contain.} No electronic result of any amorphous film and no outcome of the
+device-simulation campaign from stage S2 on: both are sealed under the project's blind-analysis rules at the evidence
+state of this document, and appear only as placeholders. No new measurement exists. No claim in this document is approved
+for publication.
+
+\paragraph{Contributions that stand on the present evidence.} (1) A first-principles confinement series of crystalline
+\InO{} films, with masses on a stated basis, a band-edge partition, a hybrid-functional check, and laws with honest
+uncertainties (\cref{ch:dft,ch:mono-masses}). (2) The demonstration that the mass increase of the films follows, without
+fitting, from the bulk non-parabolicity at the computed subband energy, so that the device model carries one
+independent first-principles law (\cref{ch:mono-confinement-theory}). (3) A corrected picture of W in crystalline
+\InO{} as a resonant donor at high filling, with the earlier deep-donor reading withdrawn (\cref{ch:mono-w-vac}).
+(4) A registered crystalline vacancy test (\cref{ch:mono-w-vac}). (5) A fully specified, blind protocol for amorphous
+films, including the finding that its central hypothesis cannot return a crossover verdict (\cref{ch:mono-amorph}).
+(6) A quantitative account of why every 6.3~nm prediction failed in the same direction (\cref{ch:mono-multiscale}).
+(7) A reconciliation of the published and the derived device metrics (\cref{ch:mono-provenance}).
+
+\section{Structure}
+\label{sec:mono-intro-structure}
+
+Part~I states the problem, the questions and the literature basis. Part~II gives the theory: electronic structure, confinement,
+defects and localisation, and the device electrostatics and transport derivations of the earlier report. Part~III treats
+the device data and the device simulations, from calibration to the shared-model campaign. Part~IV reports the
+first-principles results. Part~V synthesises the multiscale link, the alternative explanations, the publication audit and
+the conclusions. The appendices hold the run catalogue, code and decks of the earlier report, the evidence registers, the
+corrections register and the computational resources.
+
+\begin{keyresult}
+Oxide semiconductors are candidates for transistors built above the interconnect of a chip, where only low process
+temperatures are allowed, and indium oxide is attractive there only as a film a few nanometres thick. Thinning changes the
+material: confinement, surfaces and disorder dominate. The published IWO thickness series was described by a per-device
+fitted model; this monograph asks whether a shared model with computed inputs can account for it, what confinement does
+to the electronic structure, and what W does in sub-nanometre amorphous films, and it reports what the evidence available
+on 14 October 2026 can and cannot answer.
+\end{keyresult}
