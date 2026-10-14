@@ -209,9 +209,13 @@ i.e.\ $1.66\times10^{12}$~cm$^{-2}$ for $m_\parallel = 0.154\,m_0$ and $2.19\tim
 2~nm mass of $0.203\,m_0$; its in-plane non-parabolicity raises this by about $1+2\alpha_\parallel\kT$ (2.4\,\% at 2~nm,
 logged $+2.5$\,\%). The registered device convention divides $N_{2D}$ by the thickness: with the deck mass at 2.0~nm
 ($0.208 + 0.046 = 0.254\,m_0$) this gives $1.373\times10^{19}$\cmcu{}, against $3.218\times10^{18}$\cmcu{} for the 3-D
-formula with the same mass, the two values named in the register's NC convention (\amend{A13}). A threshold voltage
-depends on the logarithm of this choice, $\kT\ln(4.27) = 38$~meV at 2~nm, which is why the register requires every fitted
-trap density or fixed charge to name its convention.
+formula with the same mass, the two values named in the register's NC convention (\amend{A13}). For free carriers alone the
+choice moves the band position needed for a given density by $\kT\ln(4.27) = 38$~meV at 2~nm. In the device model the
+threshold moved by much more: replacing the quasi-2-D by the 3-D value shifted $\Vthcc$ by $+142$~mV, against a
+registered expectation of $+40$ to $+70$~mV, because the extra band bending fills the 40~meV acceptor tail (an audit
+attributes $+37.5$~mV to the statistics, $+89.5$~mV to tail charge, and the rest to band bending, free carriers and the
+lateral channel; the effective slope factor at $10^{-9}$~A/\textmu m is about 3.5, not the assumed 1.47) (\amend{A13};
+\cref{ch:mono-c10}). This is why the register requires every fitted trap density or fixed charge to name its convention.
 
 \paragraph{When is a film two-dimensional?} The quasi-2-D form is appropriate when only one subband is occupied, i.e.\
 $E_2-E_1 \gg \kT$. With the fitted $\dEc$ law ($0.762\,t^{-1.478}$, H--H thickness) and the Kane band, the estimated

@@ -1,3 +1,213 @@
-% M08_c10_campaign -- STUB (to be written). Label ch:mono-c10.
-\chapter{The shared-model device-simulation campaign (C10)}\label{ch:mono-c10}
-\pendingph{chapter M08-c10-campaign not yet written}
+% M08_c10_campaign.tex -- the shared-model ATLAS campaign C10 (decision D-13): design, registered hypotheses H-A..H-F,
+% H-J, the S0/S1 results that were seen before register revision 2, and the sealed state.
+% Sources: analysis_2026-10-10_campaign/CAMPAIGN_DESIGN.md (sections 1-7), DFT_TO_TCAD.md, S2_PREP.md;
+% HYPOTHESIS_REGISTER.md section 0 (S0/S1 results "seen before revision 2") and H-A..H-F, H-J, A13, A41; decision log
+% D-13, D-17, D-44, D-58. SIGHT RULE: no outcome of S2 or later appears here (sealed runs 0075-0077, campaign
+% C10_DIAGb; commit messages that mention S2 scores are treated as sealed-adjacent and not used).
+\chapter{The shared-model device-simulation campaign (C10)}
+\label{ch:mono-c10}
+
+The V1 and V2 models of \cref{ch:calibration,ch:v2} fitted a threshold-setting charge and a mobility to each film, and
+every out-of-sample threshold test at 6.3~nm failed (\claim{C014}). On 10 October 2026 the user approved a campaign of
+up to 200 further ATLAS launches with a different aim (\dlog{D-13}): one parameter set shared by the 2.0, 6.3 and
+13.2~nm films, first-principles quantities entering as computed values or as laws fitted to computed points, explicit
+tests of the off-state floor, and every fitted versus computed parameter labelled. This chapter describes the design,
+the hypotheses registered for it before their outcomes, the two stages whose results were seen before the register was
+frozen, and the present state, in which every later outcome is sealed.
+
+% =====================================================================================================================
+\section{Design principles}
+\label{sec:mono-c10-design}
+
+\paragraph{One shared model.} Five fitted parameters are shared by all films: the alignment offset $\Delta V_0$ (carried
+by a front fixed charge $\Qf$), the bulk mobility $\mu_\infty$, a scattering length $\ell$, the integrated tail density
+$N_s$ (with $N_t = N_s/t$) and the tail width $W_T$; a sixth only if a percolation-mobility branch is adopted. No
+film-specific charge or mobility is allowed. First-principles inputs enter through the laws of
+\cref{tab:mono-mass-laws}: $\dEc(t)$ in the affinity, $\Delta\Eg(t)$ in the gap, $\Delta m^*(t)$ in $\Nc$ and in the
+mobility law, and a quasi-two-dimensional $\Nc$ at 2.0~nm ($1.373\times10^{19}$\cmcu{}, \cref{sec:mono-conf-dos}). The
+mobility of each film follows a Matthiessen form,
+\begin{equation}
+\mu_{\mathrm{band}}(t) = \mu_\infty\,\frac{0.208\,m_0}{m^*(t)}\,\frac{1}{1+\ell/t}\,\Big(1-\frac{0.287~\mathrm{nm}}{t}\Big)^2 ,
+\label{eq:mono-c10-mu}
+\end{equation}
+in which the mass ratio (literature bulk mass with the DFT increment) explains only a factor 0.83 of the drop from 13.2
+to 2.0~nm and the fitted $\ell$ must carry the rest; the last factor is the existing roughness term.
+
+\paragraph{Exact offline profiling.} Two of the shared parameters can be fitted without launches, because the
+drift--diffusion equations transform exactly. A uniform front sheet charge changes only the oxide field, so the transfer
+curve shifts rigidly, $\Id(\Vg;\Qf) = \Id(\Vg + q(\Qf-\Qf^{(0)})/\Cox;\Qf^{(0)})$; and with an electron-only model in
+which every mobility is multiplied by one constant, $\Id \propto$ MUN. The generation--recombination term breaks the
+second identity, but it is at most $10^{-28}$~A/\textmu m against currents of at least $10^{-15}$~A/\textmu m
+(calculated bound). $\Delta V_0$, $\mu_\infty$ and $\ell$ are therefore profiled offline for every launched film triple,
+leaving three degrees of freedom as the honest test of sharing; every optimum is confirmed natively.
+
+\paragraph{Objective and acceptance, fixed before any launch.} The objective weights the films equally,
+$J = \tfrac13\sum_t\tfrac12(\mathrm{RMSE}^2_{\mathrm{sub},t} + \mathrm{RMSE}^2_{\mathrm{on},t})$, with log-current residuals
+in the subthreshold window (measured $\Id$ between ten times the floor and $10^{-9}$~A/\textmu m) and over
+$\Vg = 1$--3~V. Acceptance per film (assumed engineering limits): active RMSE $\le0.15$~dec, $|\Delta\Vthcc|\le0.10$~V,
+$\Id(3~\mathrm{V})$ within $\pm30$\,\%, SS (registered window) within $\pm20$\,\%, $\muFE$ at 1.5, 2 and 3~V within
+$\pm20$\,\%. A film that fails any limit is reported as failed, and success on all three is still called calibration.
+
+\paragraph{Expected outcome, stated in the design.} The design states that the shared model will probably not fit the
+6.3~nm film: its on-current is \emph{below} that of the 2.0~nm film, which neither a monotonic mobility law nor a
+monotonic first-principles shift can produce. No per-film rescue parameter is allowed; instead the residual is split
+into a rigid shift and a shape part.
+
+\begin{table}[htbp]\centering\small
+\caption{Model set of the campaign (abridged; full list and reasons in \file{CAMPAIGN_DESIGN.md} section 3).}
+\label{tab:mono-c10-models}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{5.3cm}>{\raggedright\arraybackslash}p{2.1cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Model & Status & Reason \\\midrule
+Fermi--Dirac statistics & primary & degenerate accumulation ($\approx5.6\times10^{19}$\cmcu{} at 2~nm, 2~V overdrive) \\
+DFT confinement in affinity, gap, $\Nc$; quasi-2-D $\Nc$ at 2~nm & primary & computed points, fitted laws (fit3) \\
+Exponential acceptor tail, $N_t = N_s/t$ & primary, fitted & swing collapse in data and TCAD \\
+Deep Gaussian; interface acceptor sheet & on (assumed) & continuity with V1/V2 \\
+Uniform donors $2.5\times10^{17}$\cmcu{} & on (V1 fitted amplitude, fixed) & compensation not computed; thickness term retired \\
+Front fixed charge & primary, fitted & carries $\Delta V_0$ (degenerate with work function and affinity) \\
+Shared mobility law, \cref{eq:mono-c10-mu} & primary, fitted & Matthiessen form \\
+IGZO.TOKYO percolation mobility & branch (6 runs) & targets the rising $\muFE$ and $\gamma$ \\
+Schottky Pd contacts, shared barrier & branch (7 runs) & on-state shape \\
+Bohm quantum potential & test (2 runs) & never together with the DFT shift \\
+SRH, trap-assisted tunnelling, two carriers & test & quantitative null tests of generation \\
+Gate tunnelling (self-consistent), Fowler--Nordheim, oxide TAT & test & gate leakage as a floor candidate \\
+Ungated strip (separate deck, in-solver) & test & the only candidate that gives a $\Vg$-flat floor of the right size \\
+Field-dependent, silicon inversion-layer and doping mobility models; band-to-band tunnelling; lumped contact resistance & off & physically inapplicable or
+overwrite the material mobility \\\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Staged run matrix and stop rules}
+\label{sec:mono-c10-matrix}
+
+\begin{table}[htbp]\centering\small
+\caption{Planned stages (181 launches + 19 reserve = 200; the regenerated matrix has 184 entries and 16 reserve, a
+recorded inconsistency, \cref{app:mono-corrections}).}
+\label{tab:mono-c10-stages}
+\begin{tabularx}{\linewidth}{@{}lr>{\raggedright\arraybackslash}X@{}}
+\toprule
+Stage & Launches & Content \\\midrule
+S0 smoke & 2 & 2.0~nm primary baseline; the same with worst-case gate tunnelling \\
+S1 baselines and numerics & 7 & 6.3 and 13.2~nm baselines; mesh and DOS refinement; 3-D $\Nc$ at 2.0~nm; two carriers; native profiling check \\
+S2 off-floor mechanisms & 17 & generation bounds; gate leakage (nominal, worst case, FN, oxide TAT, mesh check); ungated-strip decks and controls \\
+S3 model-form branches & 27 & confinement off; tail placement; IGZO; Schottky; Bohm; Boltzmann; native check \\
+S4 calibration & 69 & 45 space-filling (Latin hypercube, seeds fixed), 18 adaptive, 3 native confirmation, 3 runner-up \\
+S5 leave-one-film-out & 30 & three folds; the held-out film is never tuned \\
+S6 sensitivity and frozen predictions & 27 & confinement low/HSE-high, bulk mass, $N_D$, $\varepsilon(\AlO)$, traps off, 6.3~nm quasi-2-D, frozen strip decks \\
+S7 31.8~nm stress & 2 & frozen model; documented, never fitted \\\bottomrule
+\end{tabularx}
+\end{table}
+
+The stop rules are fixed in the design: numerics refinements are adopted if they change the active RMSE by more than
+0.01~dec; a branch is adopted only if it lowers $\sqrt J$ by at least 0.03~dec without worsening any film by more than
+0.03~dec; if after S4a the best $\sqrt J$ exceeds 0.30~dec with systematic residuals at 6.3~nm, the shared model is
+reported as failed, with no per-film rescue; and if S5 confirms failure on two or more folds, the sensitivity stage is
+cut to the first-principles input profiles. Every launch counts, failures included; the cap of 200 is enforced in code;
+runs are strictly sequential.
+
+% =====================================================================================================================
+\section{Registered hypotheses}
+\label{sec:mono-c10-hyp}
+
+The hypotheses were frozen in register revision~2 on 2026-10-10T18:33:13Z (\dlog{D-17}), after the S0 and S1 results
+were seen and before any S2 or later launch. \Cref{tab:mono-c10-hyp} summarises the registered predictions; the
+register gives the scoring rules, the censoring rule (a quantity below the demonstrated numerical resolution counts as
+consistent with an upper bound only if the resolution is below the bound; otherwise unresolved) and the forecasts,
+which are recorded but not scored.
+
+\begin{table}[htbp]\centering\footnotesize
+\caption{Registered device-model hypotheses of campaign C10 (abridged). Outcomes: \sealedph{S2 and later}.}
+\label{tab:mono-c10-hyp}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{0.8cm}>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+ID & Hypothesis & Registered prediction \\\midrule
+H-A & the 2.0~nm floor is extrinsic or instrument-limited & converged intrinsic mechanisms stay $\ge1$~dec below
+$4.6\times10^{-15}$~A/\textmu m, with resolution shown below that bound; decisive part expected unresolved (no instrument records) \\
+H-B & an ungated strip sets the floors & $I(0.7~\mathrm{V})/I(0.1~\mathrm{V}) = 7.0\pm0.5$; with $(W/L)_{\mathrm{par}}$
+fitted on 13.2~nm, the 6.3 and 2.0~nm floors within 0.5~dec \\
+H-C & gate leakage and generation do not set the floor & nominal leakage $\le10^{-2}\times$ floor (if resolved);
+extreme generation $\le10^{-20}$~A/\textmu m; worst-case leakage fails flatness or thickness scaling \\
+H-D & band mobility needs $1/t$ scattering & scattering branch gives a 2.0/13.2~nm band-mobility ratio of 0.20--0.35
+with $\ell = 4$--12~nm (mass-only ratio unresolved: amorphous dispersion workflow descoped, \amend{A22}) \\
+H-E & confinement and the threshold & all inputs off: $\Delta\Vthcc = -0.13\pm0.03$~V (2.0~nm; revision-1 value $-0.23\pm0.04$
+kept and scored), $-0.062\pm0.015$ (6.3), $-0.023\pm0.008$~V (13.2); affinity-only runs rigid within $\pm5$~mV \\
+H-F & the 6.3~nm shape residual is unexplained & two-film reference needs a rigid shift of $+0.28\pm0.08$~V and a
+current scale of 0.15--0.35; baseline shape RMSE $>0.15$~dec \\
+H-J & one shared model transfers across 2.0, 6.3, 13.2~nm & acceptance of \cref{sec:mono-c10-design} for every film in
+every fold; any failure falsifies transfer \\\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Forecasts.} Recorded before the freeze: Claude forecast that transfer (H-J) fails, with a best space-filling
+$\sqrt J$ of 0.25--0.65~dec and, with 6.3~nm left out, a threshold miss of $-0.33\pm0.10$~V; Codex first forecast
+success and withdrew that forecast as overconfident on 11 October. For H-D, the mass alone is forecast to explain about
+14\,\% of the logarithmic mobility drop, with $\ell = 8\pm3$~nm. These are forecasts, not tests.
+
+% =====================================================================================================================
+\section{Results seen before the register freeze (S0, S1)}
+\label{sec:mono-c10-s1}
+
+Launches run\_0061 to run\_0074 (14 of the 200) were made and seen before revision 2 was frozen; the register lists their
+outcomes as known, and they are therefore reported here (\cref{tab:mono-c10-s1}). They are model-internal results, at the
+shared start parameters, not calibrations.
+
+\begin{table}[htbp]\centering\small
+\caption{Stages S0 and S1 (register section 0; runs 0061--0074). RMSE: active log-current residual against the measured
+curve at the shared start parameters.}
+\label{tab:mono-c10-s1}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{1.5cm}>{\raggedright\arraybackslash}p{4.4cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Run & What it tested & Result \\\midrule
+S0-01 & 2.0~nm primary baseline & deck parameters reproduced in the deck header (basis for later runs) \\
+S0-02 & 2.0~nm with worst-case gate tunnelling & needed six launches against a cap of three repairs (disclosed protocol deviation) \\
+S1-01 & 6.3~nm baseline & RMSE 1.18~dec; $\Id(3~\mathrm{V})$ $\times4.87$ the measured value \\
+S1-02 & 13.2~nm baseline & RMSE 0.056~dec \\
+S1-03 & 13.2~nm, mesh $\times0.7$ & passes the numerics rule ($\Delta$RMSE $-0.0005$~dec) \\
+S1-04 & 2.0~nm, DOS quadrature doubled & passes ($-0.00002$~dec) \\
+S1-05 & 2.0~nm, 3-D instead of quasi-2-D $\Nc$ & $\Delta\Vthcc = +142$~mV, outside the registered $+40$ to $+70$~mV:
+\textbf{failed}; $\Delta$SS $+49$~mV/dec; RMSE $0.367\to0.053$~dec \\
+S1-06 & 13.2~nm, two carriers & timed out: unresolved \\
+S1-07 & native check of the offline profiling & passed: largest deviation $2.05\times10^{-4}$~dec over both windows
+(validates the tested $\Qf$/MUN transformation only) \\\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{What S1 already shows.} The 6.3~nm baseline at the shared start parameters is off by more than a decade
+and overestimates the on-current almost five-fold, as the design anticipated; the 13.2~nm baseline is close. The failed
+S1-05 expectation was audited (\amend{A13}) and no implementation error was found: of the $+142$~mV, $+37.5$~mV come from
+the statistics change and $+89.5$~mV from additional charge in the 40~meV acceptor tail, because at $10^{-9}$~A/\textmu m
+the effective slope factor is about 3.5, not the 1.47 the registration assumed. The audit also showed that, at
+2.0~nm, the quasi-2-D $\Nc$ approximation differs from true two-dimensional statistics at matched sheet density by only
+0.86~mV at threshold but overstates the on-current by about 7--8\,\% (inferred), a disclosed model limitation. Because
+$\Nc$ cannot be separated from $\Qf$, $N_{TA}$ or the Gaussian depth using subthreshold transfer data, every fitted trap
+density and fixed charge must state its $\Nc$ convention. The H-E prediction at 2.0~nm was re-registered after S1 and
+before S3 ($-0.13\pm0.03$~V), with the original revision-1 value kept and scored as well.
+
+% =====================================================================================================================
+\section{Present state: sealed, budget and conditions}
+\label{sec:mono-c10-state}
+
+After the freeze, the campaign was prepared for S2 with a frozen scorer (\texttt{score\_register.py},
+sha256 \texttt{c0f28bb9}\ldots), a pre-launch gate and runner rules for state-only reporting of sealed runs
+(\amend{A41}, \dlog{D-44}). Three later launches (run\_0075 to run\_0077) and one diagnostic campaign are sealed under
+that rule; they are absent from this repository, and the monograph contains no outcome of them. By 14 October, 17 of the
+200 launches had been used. The user accepted a plan for the remaining campaign (\dlog{D-58}): a two-carrier repair of
+S1-06 first, the remaining diagnostic set (16 launches) and two further gate-leakage runs, then the tunnelling-mesh and
+Fowler--Nordheim branches (6 launches), each conditional on the independent reviewer's approval of its amendment and on
+the pre-launch gate; sensitivity runs are cut first if launches run short.
+
+\paragraph{What the campaign can establish.} Within the model: whether one parameter set transfers across the films
+(H-J), whether the off-state floors can be produced by gate leakage, generation or an ungated strip (H-A to H-C), and how
+much of the threshold shift the first-principles inputs carry (H-E). It cannot establish the device physics by itself:
+four single-device curves, one drain bias and no gate current leave several mechanisms indistinguishable, and the
+confinement inputs are not identifiable from transfer curves (\claim{C018}). The decisive measurements are listed in
+\cref{ch:mono-conclusions}.
+
+\begin{keyresult}
+Campaign C10 replaces per-film fitting by one shared parameter set with first-principles laws, exact offline profiling
+of the shift and scale, acceptance criteria and stop rules fixed before any launch, and a stated expectation that the
+6.3~nm film will not be fitted. The two stages seen before the register freeze show the 6.3~nm baseline off by more than
+a decade and a failed registered expectation for the density-of-states convention, explained by tail-state charging.
+All later outcomes, including every test of the off-state floor and the transfer test, are sealed at the evidence
+state of this monograph.
+\end{keyresult}
