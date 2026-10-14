@@ -1,3 +1,34 @@
-% M00_readers_guide -- STUB
-\chapter*{Reader's guide and evidence conventions}\addcontentsline{toc}{chapter}{Reader's guide and evidence conventions}\label{ch:mono-guide}
-\pendingph{readers guide}
+% M00_readers_guide.tex -- evidence conventions of the monograph.
+\chapter*{Reader's guide and evidence conventions}
+\addcontentsline{toc}{chapter}{Reader's guide and evidence conventions}
+\label{ch:mono-guide}
+
+\paragraph{What this document is.} An internal research monograph that derives from the project report of September
+2026 (\file{report_latex_full/}, repository commit 3fe6627). Unchanged chapters of that report are reused verbatim and
+pinned by sha256 (\file{research_monograph/baseline_manifest.tsv}); chapters whose statements were corrected by later
+evidence are reproduced as revised copies, each opening with a revision note; new chapters cover the evidence of
+26 September to 14 October 2026. It is not a manuscript and contains no claim approved for publication.
+
+\paragraph{Labels.} Every scientific statement carries one status label (\cref{sec:mono-q-gov}): \prov{measured},
+\prov{derived}, \prov{fitted}, \prov{computed}, \prov{observed}, \prov{literature-supported}, \prov{inferred},
+\prov{hypothesis}, \prov{unresolved} or \prov{falsified}; \prov{assumed}, \prov{estimated}, \prov{calculated} and
+\prov{theory} are used where the sources use them. The analyses written for this monograph are labelled
+\prov{derived} and carry the identifier of their script.
+
+\paragraph{Pointers.} \fact{001}: an entry of the fact registry (\cref{app:mono-registers}), with its raw-output pointer and
+the way it was verified. \claim{C022}: a claim of the project's claims ledger. \corr{X1}: an entry of the corrections
+register (\cref{app:mono-corrections}). \dlog{D-43}: a human decision of the decision log. \amend{A37}: an amendment of the
+frozen hypothesis register. \sealedph{...} and \pendingph{...} mark results that are sealed under the blind-analysis
+rules or not yet available.
+
+\paragraph{Source precedence.} The precedence of sources is topic-specific: frozen protocols and human decisions first,
+then raw data and raw computational output, reproducible extraction scripts, corrected dated logs, current syntheses,
+historical reports, and working hypotheses last (\file{evidence/SOURCE_MAP.tsv}). A later source wins only when it names
+the error it corrects and the evidence for the new statement.
+
+\paragraph{Blindness.} No electronic quantity of any amorphous cell and no outcome of the device-simulation campaign from
+stage S2 on was read for this monograph; the corresponding outputs are not in the repository. Where the record itself
+discloses an earlier exposure, the disclosure is cited and the values are not reproduced.
+
+\paragraph{Citations.} Statements from the papers that the project holds as page-split text carry the printed page; other
+references are cited at article level and were checked against Crossref (\file{evidence/REFERENCE_INDEX.tsv}).
