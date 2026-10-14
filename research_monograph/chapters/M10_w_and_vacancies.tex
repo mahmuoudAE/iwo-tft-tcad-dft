@@ -1,3 +1,212 @@
-% M10_w_and_vacancies -- STUB (to be written). Label ch:mono-w-vac.
-\chapter{Tungsten donor states and oxygen vacancies in crystalline \InO{}}\label{ch:mono-w-vac}
-\pendingph{chapter M10-w-and-vacancies not yet written}
+% M10_w_and_vacancies.tex -- W in crystalline In2O3 (claim C022, correction X1) and the registered crystalline
+% oxygen-vacancy test H-L (claim C038). Sources: RESULTS_LOG (2026-09-29, 2026-09-30, 2026-10-05 CORRECTION,
+% 2026-10-13 H-L, 2026-10-14 C022 caveat); out/f09_iwo_bulk.json, out/f10_iwo_slabs.json, out/f11_hl_vacancy.json,
+% out/f13_hl_raw.json; HYPOTHESIS_REGISTER H-L, A19, A20, A28, A42; evidence/derived/defect_estimates.json.
+\chapter{Tungsten donor states and oxygen vacancies in crystalline \texorpdfstring{\InO}{In2O3}}
+\label{ch:mono-w-vac}
+
+The published paper attributes the behaviour of the IWO films partly to tungsten: W doping ``passivates oxygen vacancies'', reducing deep traps, and ``promotes smoother charge
+delocalization'', lowering the tail-state density \citep[p.~4]{Januar2026} (\claim{C023}, \prov{literature-supported}, not
+tested by the paper's own crystalline DFT in this respect). This chapter reports what the project's crystalline
+calculations say about both statements: where the W level lies relative to the host band and what happens to the
+donated electrons (\claim{C022}), and whether W raises the energy of a neutral oxygen vacancy (\claim{C038}, register
+H-L). Both are crystalline, PBE, degenerately doped references; neither tests the amorphous films, which are the
+subject of \cref{ch:mono-amorph}.
+
+% =====================================================================================================================
+\section{Cells and settings}
+\label{sec:mono-w-cells}
+
+W was placed in the 80-atom conventional bixbyite cell on either cation site (In$_{31}$WO$_{48}$, 3.1\,\% W of the
+cations, fixed PBE lattice $a = 10.3061$~\AA) and on a central 24d site of the relaxed 1 and 2~nm films
+(In$_{23}$WO$_{48}$H$_{24}$, 4.2\,\%; In$_{55}$WO$_{96}$H$_{24}$, 1.8\,\%), with PAW-PBE at 71/568~Ry and
+Marzari--Vanderbilt smearing of 0.01~Ry; bulk relaxations on $3\times3\times3$ and single points on $4\times4\times4$
+grids. The donated densities, three electrons per W by formal counting, are $2.7\times10^{21}$ (bulk),
+$3.0\times10^{21}$ (1~nm) and $1.4\times10^{21}$\cmcu{} (2~nm), two to three orders of magnitude above the Mott density
+(\cref{sec:mono-defect-hydrogenic}). The valence-band top of every W cell is band $n_{\mathrm{pure}}-1$
+(\cref{eq:mono-dft-bands}).
+
+\section{Site, bonding and valence}
+\label{sec:mono-w-site}
+
+W prefers the 24d site: $E(8\mathrm{b}) - E(24\mathrm{d}) = 0.2579$~eV on the $3\times3\times3$ relaxation grid and
+0.2577~eV on the $4\times4\times4$ single point \fact{040}. With three times as many 24d as 8b sites, the equilibrium ratio
+$N_{24d}/N_{8b} = 3\exp(\Delta E/\kT)$ is about 430 at 600~K, so the 8b site is practically empty at any processing
+temperature of the devices. On 24d the W--O bonds are $1.892\times2$, $1.902\times2$ and $2.152\times2$~\AA{} (mean
+1.982~\AA); on 8b six bonds of 1.972~\AA; in the films the mean is 2.000~\AA{} (1~nm) and 1.977~\AA{} (2~nm). These means
+lie close to the 1.98~\AA{} expected from Shannon radii for W$^{6+}$ and well below the 2.04~\AA{} for W$^{4+}$
+\citep{Shannon1976}, which is consistent with W$^{6+}$ by the ionic-radius argument \fact{041}; the bond lengths do not
+measure a charge \corr{X11}.
+
+Spin-polarised calculations of the bulk cells on the $3\times3\times3$ grid find weak moments (0.62 and 0.74~$\mu_B$ per
+cell, 19.5 and 22.7~meV below the non-magnetic state). Coarse sampling of a degenerate electron gas can produce such
+Stoner-like moments spuriously; they are not interpreted \fact{046} \corr{X7}.
+
+% =====================================================================================================================
+\section{Where the W level lies and where the electrons go}
+\label{sec:mono-w-level}
+
+\paragraph{A corrected analysis.} On 30 September the W cells were analysed with the valence-band top taken as band
+$n_{\mathrm{pure}}$. That placed a conduction-band state at the valence-band top and produced a ``W-5d level 0.19~eV
+below the conduction band'' with $E_F$ pinned in it, which was read as a localised, deep donor in the 1~nm film, and an
+unexplained shift of 1.1--1.65~eV of all levels on the vacuum scale. Both were artefacts of the band count
+(\cref{sec:mono-dft-paw}). The analysis was corrected on 5 October and refined on 14 October with the wording below
+\corr{X1}. The episode is kept in the record because the wrong reading led to a physical conclusion, a deep W donor,
+that would have fitted the device data well and was nonetheless false.
+
+\begin{table}[htbp]\centering\small
+\caption{W in crystalline \InO{} (PBE, MV 0.01~Ry). Level positions at $\Gamma$ of the W-5d-rich state relative to the
+host conduction-band bottom and to $E_F$; W-5d electrons: L\"owdin projections of the occupied states above the
+valence-band top, weighted with the smearing occupations (not the W charge). \fact{042} \fact{043} \fact{045}}
+\label{tab:mono-w-cells}
+\begin{tabular}{lccccc}\toprule
+Cell & W fraction & donated density & $E_F - E_{\mathrm{CB}}$ & W level $- E_{\mathrm{CB}}$ & W level $- E_F$ \\
+ & & (cm$^{-3}$) & (eV) & (eV) & (eV) \\\midrule
+bulk, 8b & 3.1\,\% & $2.7\times10^{21}$ & 1.713 & 1.80 & $+0.090$ \\
+bulk, 24d & 3.1\,\% & $2.7\times10^{21}$ & 1.763 & 1.76 & $+0.001$ \\
+1~nm film, 24d & 4.2\,\% & $3.0\times10^{21}$ & 1.228 & 1.22 & $-0.005$ \\
+2~nm film, 24d & 1.8\,\% & $1.4\times10^{21}$ & 1.238 & 1.34 & $+0.103$ \\\midrule
+\multicolumn{6}{l}{W-5d projected electrons: 0.36 (8b), 0.29 (24d), 0.43 (1~nm), 0.09 (2~nm).} \\\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Computed result.} In every cell (\cref{tab:mono-w-cells}) the state with the largest W-5d weight
+(about 50--60\,\% at $\Gamma$) is a resonance inside the host conduction band, 1.2--1.8~eV above its bottom, and lies
+within about 0.1~eV of $E_F$ at $\Gamma$; the host band below it is filled. In the 1~nm film the lowest conduction band
+(band 312) lies below $E_F$ at every $k$ and holds two of the three donated electrons, and about one electron occupies the
+W-5d-derived band. In the bulk 24d cell the lowest conduction band holds 1.79 and the next 1.13 electrons (1.93 and 0.95
+for 8b). A Kane band with the computed bulk parameters can hold 2.0--2.2 electrons per cell up to the computed $E_F$
+(a parabolic band only 0.75), consistent with this partition \fact{082}. The W-5d projected counts (0.09--0.43~e) are
+smaller than the electrons in the W-rich band because that band is itself only about half W 5d.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{fig09_iwo_bulk_pdos}
+\caption{W in bulk \InO{} (80-atom cells, PBE, MV 0.01~Ry, $4\times4\times4$). (a) W on 24d, (b) W on 8b: total density
+of states and projections on In 5s, O 2p and W 5d (W 5d $\times5$) against $E - E_F$; dashed: $E_F$; dotted: bottom of the
+host conduction band at $\Gamma$. (c) W-5d weight of each state at $\Gamma$ against its energy relative to $E_F$, both
+sites. Source: \file{qe_workflow/analysis_2026-10-13_full/f09_iwo_bulk.py}.}
+\label{fig:mono-w-bulk}
+\end{figure}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{fig10_iwo_slabs}
+\caption{W on a central 24d site of the relaxed (a) 1~nm and (b) 2~nm films (PBE, MV 0.01~Ry): total and projected
+densities of states as in \cref{fig:mono-w-bulk}; dotted: host conduction-band bottom at $\Gamma$. (c) W-5d weight at
+$\Gamma$ against energy for the two films and the bulk 24d cell. Source: \file{f10_iwo_slabs.py}.}
+\label{fig:mono-w-slabs}
+\end{figure}
+
+\paragraph{Effect of W on the host bands.} W makes the host conduction band 5\,\% heavier in bulk \fact{047} and narrows
+the gap between the valence-band top and the host conduction-band bottom by 0.069~eV (1~nm) and 0.148~eV (2~nm), while
+the electron affinity of the host band rises by 0.14 and 0.25~eV \fact{048}. A narrowing of this size is consistent with
+the band-gap renormalisation expected in degenerately doped \InO{} \citep{Hamberg1986} (\prov{inferred}); the cells do not
+separate it from local strain and from the different valence-band character of the W films, whose valence-band top lies
+mostly on surface OH oxygens (OH share 0.72), unlike the bulk-like top of the pure 2~nm film.
+
+\paragraph{What is computed and what is inferred.} Computed, at the filling of the cells: the W-5d-rich level is
+resonant 1.2--1.8~eV above the host band bottom and lies near $E_F$; the host band holds most of the donated electrons.
+Interpreted: that the level is ``pinned'' at $E_F$ by the filling, which would need a series of cells with different
+electron densities. Inferred, not computed: that W remains a fully ionised resonant donor at device densities, where
+$E_F$ lies below the conduction-band edge; this needs a lower-density cell and a hybrid functional, because a hybrid
+can lower localised d levels \claim{C022}. If the level stays at least 1.2~eV above $\Ec$, its occupation at device
+densities is below $\exp(-1.2/0.0259)\approx10^{-20}$.
+
+% =====================================================================================================================
+\section{Oxygen vacancies near and far from W (register H-L)}
+\label{sec:mono-w-hl}
+
+\paragraph{Registration.} H-L was added to the frozen register by \amend{A17} on 2026-10-10T18:48Z, before any vacancy
+cell was built, and approved by the user (\dlog{D-19}). Six neutral 80-atom cells: In$_{32}$O$_{48}$ and
+In$_{31}$WO$_{48}$ (references), In$_{32}$O$_{47}$ (vacancy in pure \InO{}), and In$_{31}$WO$_{47}$ with the vacancy
+\emph{near} W (the O of the shortest W--O bond in the relaxed host) and \emph{far} from W (largest minimum-image distance,
+O32, 6.85~\AA). Because the two shortest W--O pairs differed by only 0.0105~\AA, both near candidates (O30 and O72) were
+computed, with the registered one chosen by the H-L-relaxed host (\amend{A19}). Settings: PBE, 71/568~Ry, $3\times3\times3$
+relaxation, Gaussian 0.005~Ry, spin-unpolarised, fixed cell, forces $10^{-3}$~Ry/bohr, $4\times4\times4$ single points on
+every relaxed geometry. The oxygen chemical potential cancels in both registered differences:
+\begin{align}
+\Delta E_{\mathrm{local}} &= E[\mathrm{In_{31}WO_{47}},\mathrm{near}] - E[\mathrm{In_{31}WO_{47}},\mathrm{far}]
+ \;\ge\; +0.3~\mathrm{eV}, \label{eq:mono-w-elocal}\\
+\Delta E_{\mathrm{dop}} &= \big(E[\mathrm{far}] - E[\mathrm{In_{31}WO_{48}}]\big) - \big(E[\mathrm{In_{32}O_{47}}] -
+ E[\mathrm{In_{32}O_{48}}]\big) \;>\; +0.05~\mathrm{eV}. \label{eq:mono-w-edop}
+\end{align}
+Robustness rules (\amend{A20}): a change above 10~meV between the $k3$ and $k4$ grids means ``unresolved significance''; a
+sensitivity (spin, smearing width 0.002~Ry) that shifts a difference by more than 50~meV or flips its verdict makes H-L
+``not robust''. Forecasts recorded before any result: $+0.5$ to $+1.5$~eV for $\Delta E_{\mathrm{local}}$ and $+0.5$ to
+$+3$~eV for $\Delta E_{\mathrm{dop}}$.
+
+\begin{table}[htbp]\centering\small
+\caption{Register H-L, scored (\claim{C038}, \prov{computed}). Six cells; all relaxations converged (BFGS steps:
+In$_{32}$O$_{47}$ 13, far 16, near 18, near72 29); the registered near cell needed one restart under a pre-declared rule
+(\amend{A28}); energies re-parsed from the raw outputs agree exactly (\fact{052}).}
+\label{tab:mono-w-hl}
+\begin{tabular}{lccccl}\toprule
+Difference & $k3$, G 0.005 & $k4$, G 0.005 & $k3$, G 0.002 & $k3\to k4$ & Verdict \\
+ & (eV) & (eV) & (eV) & (meV) & \\\midrule
+$\Delta E_{\mathrm{local}}$ (O30, registered) & $+0.5578$ & $+0.5321$ & $+0.5583$ & $-25.7$ & threshold met; \textsc{unresolved} significance \\
+$\Delta E_{\mathrm{local}}$ (O72, sensitivity) & $+0.6643$ & $+0.6230$ & $+0.6650$ & $-41.3$ & reported only \\
+$\Delta E_{\mathrm{dop}}$ & $+0.7259$ & $+0.7226$ & $+0.7261$ & $-3.4$ & \textsc{pass} under registered settings \\\midrule
+\multicolumn{6}{l}{Spin sensitivity A20(i): staged, not run (\textsc{unassessed}). Overall: H-L \textsc{unresolved}.} \\\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.95\linewidth]{fig11_hl_vacancy}
+\caption{Register H-L. (a) $\Delta E_{\mathrm{local}}$ for the registered near site O30 and the sensitivity site O72, and
+$\Delta E_{\mathrm{dop}}$, on the $3\times3\times3$ grid with Gaussian 0.005~Ry (circles), the $4\times4\times4$ grid
+(squares) and $3\times3\times3$ with 0.002~Ry (triangles); dashed: registered thresholds ($+0.3$ and $+0.05$~eV).
+(b) Per-cell total-energy changes from $k3$ to $k4$ (open) and from 0.005 to 0.002~Ry (hatched). Source:
+\file{qe_workflow/analysis_2026-10-13_full/f11_hl_vacancy.py}.}
+\label{fig:mono-w-hl}
+\end{figure}
+
+\paragraph{What the scores mean.} Both differences are positive and above their thresholds at every tested mesh and
+width (\cref{tab:mono-w-hl}, \cref{fig:mono-w-hl}). $\Delta E_{\mathrm{dop}}$ is $k$-converged within 3.4~meV and robust to
+the width: in this degenerate crystalline cell, W raises the energy of a neutral oxygen vacancy far from it by 0.73~eV.
+$\Delta E_{\mathrm{local}}$ changes by $-25.7$~meV from $k3$ to $k4$, more than the 10~meV rule allows, so its
+significance is unresolved although both values exceed $+0.3$~eV; a vacancy next to W costs a further 0.53--0.56~eV.
+The spin sensitivity was not run, so robustness is not established, and the overall register verdict is
+\textsc{unresolved}; the record states explicitly that ``H-L supported'' must not be written. Both outcomes fall within
+or below the forecast ranges.
+
+\paragraph{What the scores do not mean.} Neither difference is a formation energy at a device Fermi level
+(\cref{sec:mono-defect-formation}). In the W cell the vacancy electrons are added to a conduction band already filled to
+1.7~eV above its bottom, so $\Delta E_{\mathrm{dop}}$ mixes band filling with local chemistry, strain and image
+interactions; at the device carrier densities the filling term would be much smaller, and its sign or size there is not
+computed. The far site is only 6--8~\AA{} from W and its periodic images, so $\Delta E_{\mathrm{local}}$ is a cell-limited
+estimate. No charged state, no finite-size correction and no hybrid functional enters, so no charge-transition level
+follows \citep{Chatratin2019}. And the cells are crystalline. The result is therefore consistent in direction with the
+paper's statement that W suppresses oxygen vacancies, in a regime that does not map onto the devices; it does not test
+that statement for the films.
+
+% =====================================================================================================================
+\section{Alternative explanations and decisive calculations}
+\label{sec:mono-w-alt}
+
+\begin{table}[htbp]\centering\small
+\caption{Open questions about W and vacancies, with the calculation that would decide each (none submitted).}
+\label{tab:mono-w-open}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{4.8cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Question & Decisive calculation \\\midrule
+Is the W level pinned by the filling, or does it stay high at low density? & 160-atom cell with one W (1.6\,\%) and a series of
+compensated or lower-density cells; projected levels against $E_F$ \\
+Does a hybrid functional move the W-5d level below the host edge? & HSE06 on the 80-atom W cell at fixed geometry
+(registered as A23(ii)) \\
+Can W trap an electron as a polaron? & spin-polarised, symmetry-broken starts with PBE+$U$ or HSE06; relaxation in the
+charged and neutral states \\
+Is the vacancy shallow or deep, and does W shift its transition levels? & charged vacancy cells with image corrections and a
+hybrid functional \citep{Freysoldt2014} \\
+Does any of this hold in amorphous films? & the registered amorphous tests H-G and H-N (sealed, \cref{ch:mono-amorph}) \\\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{keyresult}
+In crystalline \InO{}, W substitutes on the 24d site (by 0.258~eV) with W--O bonds consistent with W$^{6+}$. At the
+computed fillings ($1.4$--$3.0\times10^{21}$\cmcu{}), its W-5d-rich level is a resonance 1.2--1.8~eV above the host
+conduction-band bottom, lying within about 0.1~eV of $E_F$, and the host band holds most of the donated electrons. An
+earlier reading of a deep, localised W donor was a band-counting artefact and is withdrawn. That W stays a fully
+ionised donor at device densities is inferred, not computed. In the registered vacancy test, W raises the neutral
+vacancy energy by 0.73~eV far from W (robust within the tested settings) and by a further 0.53--0.56~eV next to it
+(significance unresolved); H-L is unresolved overall, and its energies include band filling, so they are not formation
+energies at device conditions.
+\end{keyresult}
