@@ -1,0 +1,30 @@
+{
+ "entry": "S1-06R",
+ "run": "run_0078",
+ "run_dir": "results/runs/run_0078_13p2_c10_s1_06r_13p2",
+ "deck_sha256": "33ebe8d823c6902033083f968cc1e7885e33ff819e09d5c415714a39bfcc15df",
+ "exported_rows": 0,
+ "vg_m1p6_count": 0,
+ "continuation_rows_exported": 0,
+ "off_grid_trap_rows": 0,
+ "vg_set_complete": false,
+ "vg_unique": null,
+ "values_finite": null,
+ "log_reopen_ok": null,
+ "result": "FAIL",
+ "result_reason": "Runner-invalid S1-06R: TIMEOUT at 3600 s, no export (no idvg.dat, no terminal_currents.csv). The registered 76-point V_G set cannot be audited, so check 8 is not passed. Under PA-1 (register A45 (a)) S1-06R is invalid for scoring and electron-only stays ASSUMED; no relaunch, no second repair. The C10 gate does not require this record for a runner-invalid S1-06R (prelaunch_gate_c10.py docstring, S1 rule); it is written as the factual check-8 record. Nothing was deleted.",
+ "log_reopen_detail": "deckbuild.out echoes 'log off' (l.1546) and 'log outf=transfer.log append' (l.2626) where frozen. transfer.log is one DC log: a single 'v ATLAS' header (l.1), a single 'p' column line (l.23) and 7 'd' rows (l.24-30) at V_G -3.0, -2.8, -2.6, -2.4, -2.2, -2.0, -1.8 V, all on the registered grid. There are no continuation rows and no off-grid or trap rows. No solve converged after the reopen, so APPEND was never exercised with data: whether APPEND works on this install is still untested. log_reopen_ok is therefore left null (neither demonstrated nor refuted).",
+ "solver_record": "The continuation solve 'solve vstep=0.05 vfinal=-1.65 name=gate' (deckbuild.out l.1547) did not converge above V_G = -1.8 V. The first target was -1.75 V (l.1551). After 10 bias-step cut-backs (last attempt -1.79995 V, l.2531) ATLAS stopped with 'Warning: Bias step cut back more than 10 times. Cannot trap.' (l.2623-2624). In the failing Newton steps the hole-continuity update norm stays between -3.25 and -4.47 (log10; l.1547-2624), above the -5.00 target, while psi and n converge (e.g. l.1551-1600). The logged 'solve vstep=0.05 vfinal=-1.6 name=gate' (l.2627) failed the same way: 10 cut-backs, last attempt -1.79995 V (l.3611), 'Cannot trap' (l.3703-3704). The next solve, 'solve vstep=0.2 vfinal=-1 name=gate' (l.3706), had cut the bias step 8 times (last attempt -1.79922 V, l.4494) when the runner timeout killed the process tree. -1.8 V converged on the downward ramp (l.888) and on the logged upward segment (l.1510).",
+ "evidence": [
+  "results/runs/run_0078_13p2_c10_s1_06r_13p2/execution.json: status TIMEOUT, returncode 1, timed_out true, elapsed_s 3600.9, requested_points 76, scan.errors [], scan.finished false, scan.banner false, scan.static_solutions 76, process_guard.viewers [] (no viewer opened), process_guard.kill.reason timeout at 2026-10-14T20:55:27.228Z (7 processes terminated), post_export_hang false, post_export_hang_basis: idvg.dat exists false, transfer.log mtime 2026-10-14T19:59:16.551Z (before the kill); sha256 171e110693f69f27f23022ecebbae4ef4806d89932e52b6de7e088a876c8691d",
+  "results/runs/run_0078_13p2_c10_s1_06r_13p2/terminal_currents.csv: absent (no export)",
+  "results/runs/run_0078_13p2_c10_s1_06r_13p2/deckbuild.out l.1359 'ATLAS> log outf=transfer.log', l.1361 'ATLAS> solve vgate=-3 vstep=0.2 vfinal=-1.8 name=gate', l.1510 V(gate) = -1.8, l.1546 'ATLAS> log off', l.1547 continuation solve, l.2531 last attempt -1.79995 V, l.2623-2624 'Bias step cut back more than 10 times. Cannot trap.', l.2626 'ATLAS> log outf=transfer.log append', l.2627 'ATLAS> solve vstep=0.05 vfinal=-1.6 name=gate', l.3611 -1.79995 V, l.3703-3704 'Cannot trap', l.3706 'ATLAS> solve vstep=0.2 vfinal=-1 name=gate', l.4494 last attempt -1.79922 V; 4521 lines, no completion banner; sha256 5f527520139fe144f3bfcc317e9df54901e0a0833ead26e6534fcdeb0c1ead34",
+  "results/runs/run_0078_13p2_c10_s1_06r_13p2/transfer.log l.1 'v ATLAS' (only header), l.23 'p 12 ...' (only column line), l.24-30 'd' rows V_G -3.0 ... -1.8 V; sha256 0e0e99a29e8292f2653e3a8b3534c1578176aa1dd719a41665d91577eabed235",
+  "results/runs/run_0078_13p2_c10_s1_06r_13p2/device.in: text sha256 (LF) 33ebe8d823c6902033083f968cc1e7885e33ff819e09d5c415714a39bfcc15df = the pinned S1-06R deck; NO.TRAP not set",
+  "results/RUN_INDEX.csv run_0078 rows only: STARTED 2026-10-14T19:55:26Z (deck 33ebe8d8, material 974b23ea, model=config/iwo_material_model_v3.yaml, launch 78/260); finish 2026-10-14T20:55:27Z exit_code timeout, converged no, elapsed 3600.9, notes 'no idvg.dat'",
+  "frozen score_register.py c0f28bb9 run_problems(run_0078) = ['runner status TIMEOUT', 'return code 1', 'timed out', 'no ATLAS completion banner', 'no exported currents']; run_problems(run_0069) = []",
+  "S1 comparison command (frozen campaign_extract.py 1f6f324a): compare results/runs/run_0078_13p2_c10_s1_06r_13p2 results/runs/run_0069_13p2_c10_s1_02_13p2 --rule s1_06 -> FileNotFoundError (terminal_currents.csv of run_0078), exit 1; no compare record written"
+ ],
+ "auditor": "Claude (atlas-runner subagent), under D-59; manual reading of the run_0078 files listed above",
+ "utc": "2026-10-14T21:05Z"
+}
