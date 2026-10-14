@@ -1,5 +1,63 @@
 # CERN results log
 
+## 2026-10-14 (local): band structures, electron and hole masses, gaps vs thickness and TCAD-ready parameters of the crystalline DFT cells (read-only re-derivation, no new run; claims C039, C040)
+
+**Scope.** Re-derived from the raw pw.x / projwfc outputs (analysis files local: qe_workflow/analysis_2026-10-13_full/bands_masses, BANDS_MASSES.md with b01-b05 scripts, JSON and figures BM1-BM9; not yet in the repository). No amorphous output was opened. Codex review (work chat 2026-10-14T07:57Z and 08:48Z, both CONCERN) with its wording corrections applied. User go 2026-10-14.
+
+Line numbers: this entry sits above the 2026-10-14 errata entry; original line N of the entries before 2026-10-14 is now line N + 130 (the errata entry's "add 72" refers to the file before this entry).
+
+**Source runs (job ids).**
+- Bulk In2O3, local WSL runs: bulk_In2O3_protocol/bands_gamma.out (Gamma + 10 points along [100], [110], [111]), bands_path.out (G-H-N-G-P-H|P-N), vcrelax_ecut71_k3.out, scf_ecut71_k4.out.
+- Slabs: slab2_relax_c2 (12806569.0), slab1r_final_cpu (12783163.0; GPU twin slab1_relax_gpu 12759677.0), slabL1_relax_v2 / slabL2_relax_v2 (12835386.0 / .2); unrelaxed vacuum checks slab1_v15/v25/v35.
+- W cells: iwo_W8b / iwo_W24d (12756948.0 / .1), iwo_slab1_final_cpu (12790248.0), iwo_slab2_final_cpu (12835211.0).
+- HSE06 (SG15 NC, 80 Ry): nc_pbe_bulk_e80 (12790233.0), nc_hse_bulk_e80 (12790233.2), nc_hse_bulk_q3_f160_e80 (12790513.1), nc_pbe_slab1_e80 (12790233.3), nc_hse_slab1_f160_e80 (12790513.2).
+- H-L parent In32O48 (80-atom cell; relax 12886359 and its k4 FINAL, see the 2026-10-13 H-L entry): dispersion and valence-DOS check only.
+
+**Electrons (PBE, COMPUTED unless labelled).**
+- Bulk band-edge mass (10-point Kane fit) 0.1541 m0, isotropic within 0.2 %; Kane alpha 0.58 1/eV (0.55-0.63). The deck basis (4 points incl. Gamma, free intercept) gives 0.1588 m0; anchored parabolas grow from 0.156 (25 meV window) to 0.189 m0 (450 meV).
+- Bulk gap 0.8887 eV, indirect by 4.4 meV (VBM at 0.2 G-H, 0.122 1/A); direct gap at Gamma 0.8931 eV.
+- Slabs (H-H 0.461 / 0.695 / 0.930 / 1.962 nm): in-plane 2-D DOS band-edge masses 0.443 / 0.337 / 0.279 / 0.203 m0; alpha 0.24 / 0.31 / 0.36 / 0.47 1/eV.
+- FITTED dm = 0.1145 t^-1.2755 (fit3, band-edge basis). The quoted sigma is residual scatter only, with one residual degree of freedom; it excludes functional, termination, thickness-definition and polar-field errors.
+- Checks: GPU vs CPU agree within 0.0006 m0; vacuum 15 / 25 / 35 A agree within 0.0002 m0; relaxation raises the 1 nm mass by 18 %.
+- W (3.1 %, bulk): host-CB band-edge mass 0.162 m0 (+5 %). W slabs: ESTIMATED only, +6.5 % (1 nm) and +7.5 % (2 nm), from the SCF grid (no band run).
+- HSE06: ESTIMATED by a calibrated 3-point Kane fit on SCF grids. The estimates suggest a bulk mass of 0.159-0.193 m0 and a 1 nm mass of 0.283-0.293 m0; the range is a model sensitivity, not an uncertainty bound. The HSE confinement increment is unresolved.
+
+**Gaps and laws.**
+- r = dEg(HSE)/dEg(PBE) = 1.060 / 1.107. HSE-corrected Eg: 2.44-2.46 eV at 2 nm, 3.06 eV at 1 nm (ASSUMED r rule).
+- dEg fit3 = 0.8147 t^-1.3155 (equal to V3).
+- dEc: the primary fit without the polar 0.695 nm point is fit2, p = 1.478. dEc(6.3 nm) spans 0.050-0.075 eV over the fit options.
+- -dEv: no power law (0.052 / 0.054 eV at 0.93 / 1.96 nm).
+
+**TCAD.**
+- The C10 decks are reproduced to <= 0.11 meV in Eg and affinity, 0.0002 m0 in m* and 0.1 % in Nc.
+- Not in the decks: the Kane alpha (+5.7 % Nc 3-D, +2.5 % quasi-2-D) and the HSE r factor in dEg (+6 to +11 %).
+- The tunnelling (out-of-plane / evanescent) mass is not computed (ASSUMED in any use).
+- W level 1.2-1.8 eV above E_C at the DFT filling. "Fully ionised" holds only if the level stays high at device density (INFERRED).
+- OH slabs have no gap states.
+
+**Holes (PBE).**
+- **No single band-edge hole mass.** The bulk VB top is 3-fold degenerate at Gamma (bands 174-176) with a camel back. Off-Gamma maxima: +4.44 meV at 0.122 1/A along <100> (global VBM; longitudinal mass 4.03 +- 0.14 m0) and +1.62 meV at 0.175 1/A along <110> (17.8 m0). All lie far below kT.
+- **Directional curvature masses near Gamma** (windows 2-10 points; COMPUTED, primary result):
+  - band 174: 3.2-3.3 [100], 4.3-4.6 [110], 7.2-7.9 [111] m0;
+  - band 175: 6.9-8.9 [100], 8.7-19.8 [110], 7.2-7.9 [111] m0;
+  - band 176: rises along [100] and [110] (negative masses) and is unresolved or flat along [111].
+- **Angular averages** (ESTIMATED diagnostic under an untested 3-direction cubic-harmonic model, no transport significance): 4.4-4.6 m0 (band 174) and 7.9-11.0 m0 (band 175).
+- **Valence DOS.** Boltzmann integral of the grid DOS (window-saturated by 0.2-0.3 eV; k-mesh convergence not established): N_V(300 K) = 1.6-2.7e21 cm^-3 over four grids and two VBM references. That gives m_h,DOS = (N_V / 2.5094e19)^(2/3) = 16-22 m0; the 80-atom k4 grid gives 1.93e21 cm^-3 and 18.1 m0. HSE06 on the k3 grid gives 0.71-0.93 times the PBE m_h,DOS. The deck NV300 = 1e19 (ASSUMED) implies 0.54 m0.
+- **Slabs.** Only the 0.75 nm slab gives a resolved local curvature: 5.9 [100] / 3.3 [110] m0. That is an OH-derived band in a polar slab, with the next band 29 meV lower (Boltzmann factor 0.32), so it is not a single-band transport mass.
+  - 0.51 nm: Gamma masses 1.14 / 2.04 m0, but a second maximum on the grid lies 1.3 meV higher.
+  - 1 nm and 2 nm: the top two bands are within 3.3 and 9.3 meV.
+  - Quasi-3-D N_V 1.8-2.9e21 cm^-3.
+  - W slabs: chord masses only (SCF grid).
+- **TCAD impact.** The decks run carriers=1 electrons. With the computed N_V, n_i at 2 nm rises from 5.0e-10 to 6.7e-9 cm^-3, and the equilibrium SRH generation bound is 3.4e-3 cm^-3 s^-1. The hole emission rate is evaluated only at the centre of the E_C - 0.6 eV Gaussian: 4e-34 s^-1, with ASSUMED capture parameters; it is not a bound on the whole Gaussian or on field-assisted emission. A constant NV300 = 2e21 at every thickness would be ASSUMED (informed by the COMPUTED crystalline values); the frozen C10 parameters keep 1e19.
+- **Self-trapping.** Hybrid-functional work predicts that holes self-trap in In2O3 (Varley et al., PRB 85, 081109(R), 2012). N_V is a free-hole band integral, not a hole-transport description.
+
+**Caveats.**
+- PBE, crystalline (001) slabs with one OH termination. The device films are amorphous or nanocrystalline.
+- 0.51 nm is In8(OH)24, outside every law.
+- 0.695 nm is polar without dipole correction.
+- Coarse k-grids for every DOS quantity.
+- Proposed runs, with costs, are in BANDS_MASSES.md Section 6. Codex priority: the dipole-corrected 0.75 nm SCF first; dense-k N_V only if a claim depends on it.
+
 ## 2026-10-14 (local): errata to the entries of 2026-10-04, 2026-10-05 and 2026-10-12 (original lines kept unchanged)
 
 Found in the read-only re-derivation of the crystalline DFT outputs (qe_workflow/analysis_2026-10-13_full, local). Codex GO: work chat 2026-10-13T10:23Z (item 1) and 2026-10-13T22:06Z (items 2-4); item 5 is wording only. User go 2026-10-14. Only the 1 nm dEv of item 1 changes a number; no deck, law or verdict uses it. Line numbers below are those of the entries before this insertion (add 72 for the current file).
