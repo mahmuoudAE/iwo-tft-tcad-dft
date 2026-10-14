@@ -4,6 +4,11 @@ and campaign_C10_DIAG.json: plan/deck/model hashes, STARTED-row inputs, resume s
 Corrected 2026-10-15 for Codex 2026-10-14T19:02Z (b) FIX_FIRST and (d): the frozen run_problems on both S1 comparison endpoints before a PASS is
 accepted; STARTED-run order == a prefix of S1-06R -> DIAG; max_launches == 260 and the C10 cap 200; the comparison command with the actual run
 directories; check 8 on the complete V_G set, finite values and uniqueness (S1-06R computed and recorded; PA-2 runs by record).
+Changed 2026-10-15 for the PA-2 revert (register A46 / decision D-65; Claude go under D-59/D-63, no Codex review): S2-03, S2-01 and S2-02 are
+back on their registered (pre-PA-2) decks (5b3d2dfb / 3fe1042a / 0c5f903d; DIAG plan working-tree sha256 430a6d1a, LF blob = the pre-PA-2
+blob 670884a9); the PA-2 check-8 requirement is dropped (no continuation, no LOG APPEND in these decks); before any DIAG invocation the gate
+now requires the revert to be logged (register heading naming PA-2, revert, S2-01, S2-02, S2-03; decision row naming PA-2 and revert, IN FORCE)
+instead of PA-2 itself. Check 8 and NO.TRAP remain for S1-06R only.
 Modelled on prelaunch_gate_a41.py, which stays unchanged (it covers DIAGb only and exits 4 there); its process functions are imported from
 the file after its sha256 is checked. NO launch, NO file written, nothing sealed opened. Run it immediately before EVERY invocation of either
 plan (the first one and any resume), in the same PowerShell session and working directory (the package root) as the invocation:
@@ -18,7 +23,7 @@ Exit codes (ONLY 0 is a pass):
   0  the next run is launchable: every check holds by explicit equality; prints the ONE command to use
   1  a check failed or an input is unreadable (fail closed; any unexpected error is 1)
   3  STOP for a main-session decision: a runner-valid S1-06R or its reference run_0069 fails the frozen run_problems, a runner-valid S1-06R
-     or PA-2 run has no passing check 8, the S1 rule fired or has no evaluation record yet,
+     has no passing check 8, the S1 rule fired or has no evaluation record yet,
      a recorded DIAG gate stop is not acknowledged with a cited audit, or a started run has no finish row
   4  nothing to launch (S1-06R and every DIAG entry have started); not a pass
 
@@ -35,8 +40,9 @@ Checks
   dry build    run_campaign.current_deck_text / current_material_text (the runner's own code, imported after the file check) for S1-06R and
                all 19 DIAG entries == the pinned deck and material text sha256
   amendments   register (HYPOTHESIS_REGISTER.md) heading '### A<n>: ...' naming S1-06R and a decision-log row naming S1-06R and IN FORCE
-               (PA-1), before S1-06R; a heading naming S2-01, S2-02, S2-03 and 'continuation' and an IN FORCE decision row naming S2-01 and
-               'continuation' (PA-2), before any DIAG invocation (the DIAG plan carries the PA-2 decks). A heading containing 'draft' never counts.
+               (PA-1), before S1-06R; a heading naming PA-2, revert, S2-01, S2-02 and S2-03 and an IN FORCE decision row naming PA-2 and
+               revert (A46 / D-65), before any DIAG invocation (the DIAG plan carries the registered, pre-PA-2 decks). A heading containing
+               'draft' never counts.
   processes    as the A41 gate: no deckbuild/dbascii/atlas*/tonyplot*/athena*/devedit process and no python process whose command line names
                run_atlas or run_campaign; every other python process must have a readable command line (UNVERIFIABLE otherwise)
   RUN_INDEX    columns run_id and label of every row (counting); input columns of the first (STARTED) row and the presence of a finish row
@@ -60,11 +66,9 @@ Checks
                steps), "vg_set_complete" true (every registered V_G present), "vg_unique" true, "values_finite" true, "log_reopen_ok" true
                (deckbuild.out echoes 'log off' and 'log outf=transfer.log append' where frozen; transfer.log parses as one DC log), "result"
                "PASS", and a non-empty "evidence" (file:line for each value). Integers must be JSON integers, booleans JSON true.
-               PA-2 runs S2-03, S2-01, S2-02 (DIAG, sealed: the gate never opens their directories): each with a finish row exit_code 0
-               needs the record audits/<entry>_check8_<run>.json with the same keys (entry, run and pinned deck of that entry) before any
-               later DIAG invocation. Within one DIAG invocation the runner continues past them; the record is therefore checked at the next
-               invocation. Missing, unreadable, a failed computed check or any other value -> STOP (exit 3; the run is invalid for scoring,
-               UNVERIFIED, no row deleted, no relaunch; a main-session decision is needed). The S1-rule record is read only after check 8.
+               Missing, unreadable, a failed computed check or any other value -> STOP (exit 3; the run is invalid for scoring, UNVERIFIED,
+               no row deleted, no relaunch; a main-session decision is needed). The S1-rule record is read only after check 8.
+               PA-2 runs: none since the revert (A46 / D-65); S2-03, S2-01, S2-02 carry no continuation and need no check-8 record.
   S1 rule      after S1-06R (not sealed): RUN_INDEX finish row exit_code and its execution.json status. For a runner-valid S1-06R (exit_code 0,
                REAL_ATLAS_SCORED) the frozen run_problems (score_register.py c0f28bb9: runner status, return code, timeout, simulator
                errors, ATLAS completion banner, every requested point exported, finite values, no duplicate bias point) is applied to BOTH
@@ -108,7 +112,7 @@ CHECK8_TRUE = ('vg_set_complete', 'vg_unique', 'values_finite', 'log_reopen_ok')
 REG_GRID = tuple(sorted({round(-3 + 0.2 * k, 6) + 0.0 for k in range(11)} | {round(-0.95 + 0.05 * k, 6) + 0.0 for k in range(50)}
                         | {round(1.6 + 0.1 * k, 6) + 0.0 for k in range(15)}))   # the registered 76-point logged grid (S1-06R_freeze.md section 4)
 CONT_VG = (-1.75, -1.7, -1.65)   # continuation points, solved with the log closed (PA-1 (a)); never exported
-PA2 = ('S2-03', 'S2-01', 'S2-02')   # DIAG entries carrying the PA-1 continuation (PA-2); sealed (state-only plan)
+PA2_REVERTED = ('S2-03', 'S2-01', 'S2-02')   # carried the PA-1 continuation under PA-2; back on their registered decks since A46 / D-65
 SOLVER = PKG / 'config' / 'solver.yaml'
 MAX_LAUNCHES = 260   # config/solver.yaml max_launches; D-58 (4): not raised
 S1_02_DIR = 'results/runs/run_0069_13p2_c10_s1_02_13p2'   # S1-02 (run_0069, unsealed) output directory: the S1-rule reference endpoint
@@ -116,7 +120,7 @@ DIAG_STATE = PKG / 'results' / 'campaigns' / 'campaign_C10_DIAG.json'   # state 
 SEALED_DIR = PKG / 'results' / 'sealed' / 'campaigns'                  # existence only
 S1R_REL, DIAG_REL = 'config/campaign_C10_S1r_repair.json', 'config/campaign_C10_DIAG.json'
 PLAN_SHA = {S1R_REL: '6b73ffdd32576d86626cb4694a4bbf4630b5584a483b77b186de29eaff43e852',
-            DIAG_REL: 'd1131d8e8da386938f4c816f9827cd92bffa21fea7933c43dca9dcd1258db647'}
+            DIAG_REL: '430a6d1abc107ced12f6878047c1ddfaffc011d653fb840bcd10497e9dda8474'}   # A46 / D-65: PA-2 reverted (was d1131d8e)
 DIAG_ORDER = ['S2-11', 'S2-04', 'S2-06', 'S2-03', 'S2-01', 'S2-02', 'S2-08', 'S2-12', 'S2-13', 'S2-14', 'S2-15', 'S2-16', 'S2-17', 'STRIP-6p3',
               'S3-01', 'S3-02', 'S3-03', 'AFF-2p0', 'AFF-6p3']
 LAUNCH_ORDER = ['S1-06R'] + DIAG_ORDER[1:]   # STARTED runs above run_0077 must be a prefix (S2-11 is reused from run_0076, never launched again)
@@ -128,8 +132,9 @@ LABEL = {'S1-06R': 'c10_s1_06r_13p2', 'S2-11': 'c10_s2_11_2p0', 'S2-04': 'c10_s2
 DECK = {'S1-06R': '33ebe8d823c6902033083f968cc1e7885e33ff819e09d5c415714a39bfcc15df',
         'S2-11': '3034b7e276d40f8f8e3587219cbafe82c97c9db43ce23706938e18b4285ee956',   # = A41 rerun deck (run_0076)
         'S2-04': '17c3173678cbb88acdbf555fea2c1e3f240a45420943c7a84b0306ff3d6126a8', 'S2-06': '6a45e1c65832d401c5c84f151a84c72806d2b25e9f3c0febd325f6facec2f8d4',
-        'S2-03': 'bf291a5f0e3f30986dd837b07eafdf317f29b78bd0a4bc81272af58fa1af882e', 'S2-01': 'cb16ce3f2142d4c49fab5c08e7f42363ae159d118d4df0e25e93197bc1d7bc8b',
-        'S2-02': '5737f50ebf4ca900933a5d4376f68d540b742c11ec961907d3e91474ba767122', 'S2-08': '9a2a478161c379eeca3752b2b749187d95bbbbf86611e757b89a3cfaf9cf2954',
+        # A46 / D-65 (PA-2 revert): registered pre-PA-2 decks (PA-2 decks were bf291a5f / cb16ce3f / 5737f50e)
+        'S2-03': '5b3d2dfbd5b5f21a8bc2db3410165a710e98f5a649d63e185f06d07d46759f14', 'S2-01': '3fe1042a62d2d470cabbc515114b8b24f9aa752859ecd6a2866b5f18c6d6f116',
+        'S2-02': '0c5f903d191ee5639209337cb9d13f4d6d1df93debb9ccb7f4c8285a0b7b0202', 'S2-08': '9a2a478161c379eeca3752b2b749187d95bbbbf86611e757b89a3cfaf9cf2954',
         'S2-12': '72233118f83efc5e850b498b1ec8835bb5c22cb69eb40fb35adb73b869ea84ab', 'S2-13': '48dae160e6d5e0473deeeda924316b4d82775717611fef8655289dd93244f5c1',
         'S2-14': '6c8c8a3f4ca2727d7ad27427bac82652de2fb50596ceda73a20dc6e29312dbf3', 'S2-15': 'f25722024bf4fb2519b13c3f65daa7e1eb7028cad2775e98434a4b8110a27a10',
         'S2-16': '771b525b3342f4b72a5171ea326381158d9baf7996995a855507595d71a29ae0', 'S2-17': 'ad35e08c5c88522c01a9a33fa49ce5ecac3090a8a955732266470f2cab82bfdd',
@@ -337,8 +342,11 @@ def run(g, argv):
         bad_m = [i for i, e in entries.items() if tsha(rc.current_material_text(e['overrides'])) != MATERIAL[i]]
         g.check(not bad_d, f'dry-built deck text sha256 == pinned for S1-06R and the {len(DIAG_ORDER)} DIAG entries', f'differ: {bad_d}' if bad_d else '')
         g.check(not bad_m, 'dry-built material text sha256 == pinned for every entry', f'differ: {bad_m}' if bad_m else '')
-        nt = [i for i in ('S1-06R',) + PA2 if re.search(r'\bno\.trap\b', texts[i], re.I)]
-        g.check(not nt, 'NO.TRAP unset in the S1-06R and PA-2 decks (Codex 19:02Z (d); manual 5.28 l.53197)', f'set in {nt}' if nt else '')
+        nt = [i for i in ('S1-06R',) if re.search(r'\bno\.trap\b', texts[i], re.I)]
+        g.check(not nt, 'NO.TRAP unset in the S1-06R deck (Codex 19:02Z (d); manual 5.28 l.53197; PA-2 reverted, A46)', f'set in {nt}' if nt else '')
+        ap = [i for i in PA2_REVERTED if re.search(r'^\s*log\s+outf=\S+\s+append\b|^\s*solve\s+vstep=0\.05\s+vfinal=-1\.65\b', texts[i], re.I | re.M)]
+        g.check(not ap, 'PA-2 reverted (A46 / D-65): no continuation statement (LOG APPEND, 0.05 V solve to -1.65 V) in the S2-03/S2-01/S2-02 decks',
+                f'present in {ap}' if ap else '')
     else:
         g.check(False, 'dry build not run (file or plan check failed)')
 
@@ -457,17 +465,10 @@ def run(g, argv):
                     else: g.stop(f'S1 rule not evaluated (record {cp.name}: {verdict or "missing"}). Comparison command (actual run directories):\n    {cmp_cmd}')
         else:
             print(f'[INFO] S1-06R {rid} invalid (exit_code {ec}, status {status}): electron-only stays ASSUMED (Codex item 2); not interpreted, so no check-8 audit is required; DIAG may proceed', flush=True)
-        h, d = amendment_logged(['S2-01', 'S2-02', 'S2-03', 'continuation'], ['S2-01', 'continuation'])
-        g.check(h, 'PA-2 logged: register heading naming S2-01, S2-02, S2-03 and "continuation" (not draft)')
-        g.check(d, 'PA-2 logged: decision-log row naming S2-01 and "continuation", IN FORCE')
-        for e in PA2:   # check 8 for every PA-2 run that finished with exit_code 0 (record only: the sealed run directory is never opened)
-            if e in started and finished.get(e) == '0':
-                ok8, det8 = check8_audit(started[e], e)
-                if ok8: print(f'[OK] check 8 (PA-2 {e} {started[e]}, record): {det8}', flush=True)
-                else: g.stop(f'check 8 (PA-2 continuation log handling) not passed for {e} {started[e]}: {det8}. Required before its gate decision is '
-                             f'read and before any later DIAG invocation: {c8_path(started[e], e)} (same keys as for S1-06R, entry {e}, its pinned deck; '
-                             'value-free: V_G set, finiteness, uniqueness, log echo). A failed check makes the run invalid for scoring '
-                             '(UNVERIFIED; no row deleted, no relaunch): decide by hand')
+        h, d = amendment_logged(['PA-2', 'revert', 'S2-01', 'S2-02', 'S2-03'], ['PA-2', 'revert'])   # A46 / D-65 (was: PA-2 itself logged)
+        g.check(h, 'PA-2 revert logged: register heading naming PA-2, revert, S2-01, S2-02 and S2-03 (not draft)')
+        g.check(d, 'PA-2 revert logged: decision-log row naming PA-2 and revert, IN FORCE')
+        # no check 8 for S2-03/S2-01/S2-02 since the revert: their registered decks carry no continuation and no LOG APPEND
         todo = [e for e in DIAG_ORDER[1:] if e not in started]
         plan_rel = DIAG_REL if todo else None
         st = DIAG_STATE

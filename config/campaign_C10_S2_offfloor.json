@@ -45,8 +45,7 @@
     "solver.carriers=carriers=2",
     "bulk_reference.srh_tau_s.value=1e-9",
     "traps.bulk_acceptor_tail.capture_cm2=1e-13",
-    "solver.models=fermi srh temp=300 print trap.tunnel trap.hurkx mass.tunnel=0.2123",
-    "solver.sweep.continuation=-1.8:-1.6:0.05"
+    "solver.models=fermi srh temp=300 print trap.tunnel trap.hurkx mass.tunnel=0.2123"
    ],
    "timeout": 3600,
    "purpose": "SRH/TAT null test at 13.2 nm: two carriers, background lifetime 1e-9 s and capture cross-sections x100 (1e-13 cm2) - both beyond the reasonable range - plus field-enhanced trap capture (TRAP.TUNNEL, TRAP.HURKX, MASS.TUNNEL = DFT m*(t)). Upper bound on generation current inside the solver.",
@@ -83,8 +82,7 @@
     "solver.tmun=0",
     "solver.carriers=carriers=2",
     "traps.bulk_acceptor_tail.capture_cm2=1e-20",
-    "solver.models=fermi temp=300 print",
-    "solver.sweep.continuation=-1.8:-1.6:0.05"
+    "solver.models=fermi temp=300 print"
    ],
    "timeout": 3600,
    "purpose": "SRH-off reference at 13.2 nm (two carriers): SRH flag removed and all DEFECTS capture cross-sections x1e-5 (occupancy is unchanged because it depends on the ratio of capture rates). Isolates the recombination term.",
@@ -123,8 +121,7 @@
     "solver.carriers=carriers=2",
     "bulk_reference.srh_tau_s.value=1e-9",
     "traps.bulk_acceptor_tail.capture_cm2=1e-13",
-    "solver.models=fermi srh temp=300 print trap.tunnel trap.hurkx mass.tunnel=0.2543",
-    "solver.sweep.continuation=-1.8:-1.6:0.05"
+    "solver.models=fermi srh temp=300 print trap.tunnel trap.hurkx mass.tunnel=0.2543"
    ],
    "timeout": 1800,
    "purpose": "SRH/TAT null test at 2.0 nm: two carriers, background lifetime 1e-9 s and capture cross-sections x100 (1e-13 cm2) - both beyond the reasonable range - plus field-enhanced trap capture (TRAP.TUNNEL, TRAP.HURKX, MASS.TUNNEL = DFT m*(t)). Upper bound on generation current inside the solver.",

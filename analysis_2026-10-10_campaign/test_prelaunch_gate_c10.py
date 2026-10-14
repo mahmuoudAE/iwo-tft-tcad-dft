@@ -3,7 +3,7 @@
 Run from the package root with the project venv, isolated, IWO_MODEL_FILE set:
     $env:IWO_MODEL_FILE = "config/iwo_material_model_v3.yaml"; & <venv python> -I -B analysis_2026-10-10_campaign/test_prelaunch_gate_c10.py
 Subprocess cases run the real gate (environment, cwd, -I; the real state, where PA-1 is not logged yet). In-process cases import the gate and
-patch one constant or input: synthetic register / decision log (PA-1, PA-2 logged), synthetic RUN_INDEX (run_id/label of the real rows plus
+patch one constant or input: synthetic register / decision log (PA-1 and the PA-2 revert A46 / D-65 logged), synthetic RUN_INDEX (run_id/label of the real rows plus
 synthetic rows above run_0077: no real row content beyond run_id and label is copied), synthetic inventory, synthetic S1-06R execution.json
 and S1-rule record, synthetic check-8 audit (audits/S1-06R_check8_<run>.json), synthetic DIAG state projection and audit file, a fake process list.
 """
@@ -51,8 +51,10 @@ def inproc(name, want, *patches, show=(), argv=()):
     expect(name, rc, want); return out
 
 
-def real_pairs():   # run_id and label only
-    return [(r['run_id'], r['label']) for r in csv.DictReader((PKG / 'results' / 'RUN_INDEX.csv').open(newline=''))]
+def real_pairs():   # run_id and label only; real rows up to LAST_PRE (run_0077) only: the synthetic scenarios add every row above it
+    # (2026-10-15: since the real S1-06R row run_0078 exists, copying it as a bare run_id/label row broke the synthetic cases)
+    return [(r['run_id'], r['label']) for r in csv.DictReader((PKG / 'results' / 'RUN_INDEX.csv').open(newline=''))
+            if int(r['run_id'][4:]) <= int(G0.LAST_PRE[4:])]
 
 
 def synth_index(extra, fname):
@@ -71,14 +73,15 @@ def synth_inv(runs, fname):
 
 
 def synth_logs(pa1=True, pa2=True, draft=False):
+    """pa2 = the PA-2 REVERT (A46 / D-65) is logged; the original PA-2 heading and row (A45 / D-60) are always present and never suffice"""
     TMP.mkdir(exist_ok=True); tag = f'{int(pa1)}{int(pa2)}{int(draft)}'; reg, dec = TMP / f'register_{tag}.md', TMP / f'decisions_{tag}.md'   # one file pair per variant
-    h = ['### A40: unrelated']
+    h = ['### A40: unrelated', '### A44: PA-2, the same continuation in the S2-01, S2-02 and S2-03 decks']
     if pa1: h.append('### A45: S1-06 two-carrier continuation repair (one launch, S1-06R)' + (' (draft)' if draft else ''))
-    if pa2: h.append('### A46: the same continuation in the S2-01, S2-02 and S2-03 decks')
+    if pa2: h.append('### A46: PA-2 revert: S2-03, S2-01 and S2-02 back to their registered decks')
     reg.write_text('\n'.join(h) + '\n')
-    d = ['| D-58 | x | unrelated | IN FORCE |']
+    d = ['| D-58 | x | unrelated | IN FORCE |', '| D-57 | 2026-10-16 | PA-2 continuation in S2-01/02/03 | user | Codex | IN FORCE |']
     if pa1: d.append('| D-59 | 2026-10-16 | PA-1 S1-06R continuation repair logged | user | Codex | IN FORCE |')
-    if pa2: d.append('| D-60 | 2026-10-16 | PA-2 continuation in S2-01/02/03 | user | Codex | IN FORCE |')
+    if pa2: d.append('| D-60 | 2026-10-16 | PA-2 revert: S2-01/02/03 registered decks | Claude | no Codex review | IN FORCE |')
     dec.write_text('\n'.join(d) + '\n')
     return lambda g: (setattr(g, 'REGISTER', reg), setattr(g, 'DECISIONS', dec))
 
@@ -157,7 +160,7 @@ if __name__ == '__main__':
     shutil.rmtree(TMP, ignore_errors=True)   # no state left by an interrupted earlier run
     pa1_logged = all(G0.amendment_logged(['S1-06R'], ['S1-06R']))   # real register / decision log
     print(f'== subprocess cases (real gate process, real state: PA-1 {"logged" if pa1_logged else "not logged yet"})')
-    if pa1_logged: sub('real state (PA-1 logged, nothing started): exit 0, no failure', (0, 0), extra=('--check',))
+    if pa1_logged: sub('real state (PA-1 and the PA-2 revert logged): exit 0, no failure', (0, 0), extra=('--check',))
     else: sub('real state: exit 1 with exactly the two PA-1 failures', (1, 2), extra=('--check',))
     sub('IWO_MODEL_FILE unset', 1, env={'IWO_MODEL_FILE': None})
     sub('IWO_MODEL_FILE = V2 model', 1, env={'IWO_MODEL_FILE': 'config/iwo_material_model_v2.yaml'})
@@ -167,11 +170,14 @@ if __name__ == '__main__':
 
     print('== in-process: next run S1-06R')
     logs = synth_logs(); base_inv = synth_inv([], 'inv_base.json'); idx0 = synth_index([], 'idx0.csv')
-    out = inproc('PA-1/PA-2 logged, nothing started: PASS, next S1-06R', 0, logs, st(idx0, base_inv), show=('scripts/run_campaign.py',))
+    out = inproc('PA-1 and the PA-2 revert logged, nothing started: PASS, next S1-06R', 0, logs, st(idx0, base_inv), show=('scripts/run_campaign.py',))
     expect('  command names the S1R plan and no --retry', 'campaign_C10_S1r_repair.json' in out and '--retry' not in out, True)
     expect('  builder line: pinned bytes 734125a8, Codex 19:02Z (a) acceptance (no other review claim)',
            'pinned bytes 734125a8 (Codex 2026-10-14T19:02Z (a): builder accepted)' in out and 'reviewed 2026-10-15' not in out, True)
-    expect('  NO.TRAP unset in the S1-06R and PA-2 decks', '[OK] NO.TRAP unset' in out, True)
+    expect('  NO.TRAP unset in the S1-06R deck', '[OK] NO.TRAP unset in the S1-06R deck' in out, True)
+    expect('  PA-2 reverted: no continuation statement in the S2-03/S2-01/S2-02 decks', '[OK] PA-2 reverted (A46 / D-65): no continuation statement' in out, True)
+    expect('  pinned S2-03/S2-01/S2-02 decks = registered pre-PA-2 hashes 5b3d2dfb/3fe1042a/0c5f903d',
+           (G0.DECK['S2-03'][:8], G0.DECK['S2-01'][:8], G0.DECK['S2-02'][:8]) == ('5b3d2dfb', '3fe1042a', '0c5f903d'), True)
     expect('  budget: max_launches == 260 and C10 cap 200 checked', '[OK] config/solver.yaml: exactly one max_launches and it == 260' in out
            and '[OK] C10 cap == 200 (gate constant and run_campaign.C10_CAP' in out, True)
     expect('  REG_GRID: 76 points, -1.6 once, no continuation point, = the run_0069 (S1-02) V_G set',
@@ -186,6 +192,10 @@ if __name__ == '__main__':
     inproc('PA-1 not in the decision log / register', 1, synth_logs(pa1=False), st(idx0, base_inv))
     inproc('mismatched pinned S1-06R deck hash', 1, logs, st(idx0, base_inv), lambda g: setattr(g, 'DECK', dict(g.DECK, **{'S1-06R': '0' * 64})))
     inproc('mismatched pinned S2-03 material hash', 1, logs, st(idx0, base_inv), lambda g: setattr(g, 'MATERIAL', dict(g.MATERIAL, **{'S2-03': '1' * 64})))
+    inproc('PA-2 deck pinned again for S2-03 (bf291a5f, continuation)', 1, logs, st(idx0, base_inv),
+           lambda g: setattr(g, 'DECK', dict(g.DECK, **{'S2-03': 'bf291a5f0e3f30986dd837b07eafdf317f29b78bd0a4bc81272af58fa1af882e'})))
+    inproc('PA-2 plan hash pinned again (d1131d8e)', 1, logs, st(idx0, base_inv),
+           lambda g: setattr(g, 'PLAN_SHA', dict(g.PLAN_SHA, **{G0.DIAG_REL: 'd1131d8e8da386938f4c816f9827cd92bffa21fea7933c43dca9dcd1258db647'})))
     inproc('mismatched DIAG plan hash', 1, logs, st(idx0, base_inv), lambda g: setattr(g, 'PLAN_SHA', dict(g.PLAN_SHA, **{G0.DIAG_REL: '2' * 64})))
     inproc('builder hash = public-repo 1375164 (pre-change builder pinned)', 1, logs, st(idx0, base_inv),
            lambda g: setattr(g, 'SCRIPTS', dict(g.SCRIPTS, **{'build_iwo_decks.py': g.BUILDER_1375164})))
@@ -224,7 +234,8 @@ if __name__ == '__main__':
     expect('  command names the DIAG plan', 'campaign_C10_DIAG.json' in out and 'continues' in out.lower(), True)
     expect('  timed-out S1-06R is not interpreted: no check-8 audit required (none exists)',
            'no check-8 audit is required' in out and not (TMP / 'audits' / 'S1-06R_check8_run_0078.json').exists(), True)
-    inproc('S1-06R timed out, PA-2 not logged', 1, synth_logs(pa2=False), st(idx_to, base_inv))
+    out = inproc('S1-06R timed out, PA-2 revert not logged (only the original PA-2 heading/row): no DIAG', 1, synth_logs(pa2=False), st(idx_to, base_inv))
+    expect('  the failures are the two revert checks', out.count('[FAIL] PA-2 revert logged') == 2, True)
     d = s106r_dir(verdict='PASS')
     idx_ok = synth_index([started('run_0078', 'S1-06R', output_dir=d), finish('run_0078', 'S1-06R', '0', d)], 'idx_ok.csv')
     out = inproc('S1-06R valid, check-8 audit as required, S1 rule PASS: PASS, next S2-04', 0, logs, st(idx_ok, base_inv), show=('S1 rule', 'check 8', 'run_problems'))
@@ -314,26 +325,21 @@ if __name__ == '__main__':
     expect('  command carries --ack-gate G-S2-04-nominal', '--ack-gate G-S2-04-nominal' in out, True)
     bad = TMP / 'audit_bad.md'; bad.write_text('Audit of G-S2-04-nominal only.')
     inproc('DIAG gate stop, audit without the decision id: STOP', 3, logs, st(synth_index(rows4, 'idx_4.csv'), inv4, state=state_s), argv=('--ack-audit', str(bad)))
-    print('== in-process: check 8 for the PA-2 runs (record only; their sealed run directories are never opened)')
+    print('== in-process: PA-2 reverted (A46 / D-65): S2-03/S2-01/S2-02 need no check-8 record')
     rows_s206 = rows4 + [started('run_0080', 'S2-06'), finish('run_0080', 'S2-06', '0')]
     inv_pa2 = synth_inv([inv_row('run_0079', 'S2-04'), inv_row('run_0080', 'S2-06'), inv_row('run_0081', 'S2-03')], 'inv_pa2.json')
     idx_pa2 = synth_index(rows_s206 + [started('run_0081', 'S2-03'), finish('run_0081', 'S2-03', '0')], 'idx_pa2.csv')
-    out = inproc('S2-03 finished (exit 0) without a check-8 record: STOP', 3, logs, st(idx_pa2, inv_pa2, state=state))
-    expect('  stop names the S2-03 record', 'S2-03_check8_run_0081.json missing' in out, True)
-    check8('run_0081', ent='S2-03')
-    out = inproc('S2-03 check-8 record as required: PASS, next S2-01', 0, logs, st(idx_pa2, inv_pa2, state=state), show=('Next run', 'PA-2 S2-03'))
-    expect('  next run is S2-01', 'Next run: S2-01' in out and '[OK] check 8 (PA-2 S2-03 run_0081, record)' in out, True)
-    for name, kw in [('the S1-06R deck sha256', {'deck_sha256': G0.DECK['S1-06R']}), ('entry S1-06R', {'entry': 'S1-06R'}),
-                     ('an off-grid cut-back row (off_grid_trap_rows 1)', {'off_grid_trap_rows': 1}), ('vg_set_complete false', {'vg_set_complete': False}),
-                     ('result UNVERIFIED', {'result': 'UNVERIFIED'})]:
-        check8('run_0081', ent='S2-03', **kw); inproc(f'S2-03 check-8 record with {name}: STOP', 3, logs, st(idx_pa2, inv_pa2, state=state))
-    (TMP / 'audits' / 'S2-03_check8_run_0081.json').unlink()
+    out = inproc('S2-03 finished (exit 0), no check-8 record: PASS, next S2-01', 0, logs, st(idx_pa2, inv_pa2, state=state), show=('Next run',))
+    expect('  next run is S2-01; no check-8 line for S2-03', 'Next run: S2-01' in out and 'check 8 (PA-2' not in out
+           and not (TMP / 'audits' / 'S2-03_check8_run_0081.json').exists(), True)
+    inproc('S2-03 started with the PA-2 deck (STARTED-row deck bf291a5f)', 1, logs,
+           st(synth_index(rows_s206 + [started('run_0081', 'S2-03', deck_sha256='bf291a5f0e3f30986dd837b07eafdf317f29b78bd0a4bc81272af58fa1af882e'),
+                                       finish('run_0081', 'S2-03', '0')], 'idx_pa2d.csv'), inv_pa2, state=state))
     idx_pa2t = synth_index(rows_s206 + [started('run_0081', 'S2-03'), finish('run_0081', 'S2-03', 'timeout')], 'idx_pa2t.csv')
-    inproc('S2-03 timed out (not interpreted): no check-8 record required: PASS', 0, logs, st(idx_pa2t, inv_pa2, state=state))
+    inproc('S2-03 timed out (not interpreted): PASS, next S2-01', 0, logs, st(idx_pa2t, inv_pa2, state=state))
     rows_all = [started('run_0078', 'S1-06R', output_dir=d), finish('run_0078', 'S1-06R', '0', d)]; invs = []
     for k, e in enumerate(G0.DIAG_ORDER[1:]):
         rid = f'run_{79 + k:04d}'; rows_all += [started(rid, e), finish(rid, e, '0')]; invs.append(inv_row(rid, e))
-        if e in G0.PA2: check8(rid, ent=e)
     inproc('everything started: NOTHING TO LAUNCH (4, not a pass)', 4, logs, st(synth_index(rows_all, 'idx_all.csv'), synth_inv(invs, 'inv_all.json'), state=state))
     print('== check mode labels the output and keeps the exit code')
     out = inproc('--check, PASS state', 0, logs, st(idx0, base_inv), argv=('--check',))
