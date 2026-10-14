@@ -1,0 +1,582 @@
+{
+ "run": "nc_hse_slab1_e80",
+ "folder": "cern_htcondor/results/nc_hse_slab1_e80",
+ "files": [
+  {
+   "path": ".fetched",
+   "size": 0,
+   "sha256_16": "e3b0c44298fc1c14",
+   "src": "loose",
+   "kind": "other"
+  },
+  {
+   "path": "nc_hse_slab1_e80_driver.log",
+   "size": 439,
+   "sha256_16": "f5c7f1cea5b0f935",
+   "src": "loose",
+   "kind": "driver"
+  },
+  {
+   "path": "scf.in",
+   "size": 5062,
+   "sha256_16": "501dab8eca06e956",
+   "src": "loose",
+   "kind": "pw_in"
+  },
+  {
+   "path": "scf.out",
+   "size": 92209,
+   "sha256_16": "9fc2a8df7f0c1205",
+   "src": "loose",
+   "kind": "pw_out"
+  },
+  {
+   "path": "steps.sh",
+   "size": 27,
+   "sha256_16": "a7d5ef8aefb09efb",
+   "src": "loose",
+   "kind": "steps"
+  }
+ ],
+ "tarballs": [
+  {
+   "tarball": "nc_hse_slab1_e80_results.tar.gz",
+   "size": 16653,
+   "sha256": "5768e06a403968315301860366a26c08a1aa1e38a71479a60e593668f3854ce6",
+   "members": [
+    {
+     "name": "scf.out",
+     "size": 92209,
+     "sha256": "9fc2a8df7f0c12055bcc2b0f3d265117b172ea1f864d29579a3ad2637bbfd93f",
+     "equals_loose": true
+    },
+    {
+     "name": "scf.in",
+     "size": 5062,
+     "sha256": "501dab8eca06e95661ba5e19150603599bc4e8e156c7a707310a28a31c9b5e4e",
+     "equals_loose": true
+    },
+    {
+     "name": "nc_hse_slab1_e80_driver.log",
+     "size": 439,
+     "sha256": "f5c7f1cea5b0f9352c9a9218280e9fcc192571f5e8c4f69801cd8cc476eba45f",
+     "equals_loose": true
+    },
+    {
+     "name": "steps.sh",
+     "size": 27,
+     "sha256": "a7d5ef8aefb09efb336e8b2b82ddcb600bcb7dea5350f82ef0ff7f2f84e6061c",
+     "equals_loose": true
+    }
+   ]
+  }
+ ],
+ "pw": {
+  "scf.out": {
+   "header": {
+    "version": "v.7.3.1",
+    "start_date": "30Sep2026",
+    "start_time": "19:28:46",
+    "processor_cores": 1,
+    "parallel_mode": "Parallel version (MPI & OpenMP),",
+    "mpi_processes": 1,
+    "threads_per_mpi": 1,
+    "nodes": 1,
+    "node_memory_MiB": 98226.0,
+    "input": "scf.in",
+    "subspace_diag": "Subspace diagonalization in iterative solution of the eigenvalue problem: a serial algorithm will be used",
+    "fft_decomposition": "Using Slab Decomposition",
+    "gpu_lines": [
+     "GPU acceleration is ACTIVE.  1 visible GPUs per MPI rank",
+     "GPU-aware MPI enabled",
+     "GPU used by master process:"
+    ]
+   },
+   "params": {
+    "Exchange-correlation": "HSE",
+    "EXX-fraction": "0.25",
+    "EXX q-point mesh": "q-point mesh:     1    1    1",
+    "bravais-lattice index": "0",
+    "lattice parameter (alat)": "19.5330  a.u.",
+    "unit-cell volume": "25140.0035 (a.u.)^3",
+    "number of atoms/cell": "96",
+    "number of atomic types": "3",
+    "number of electrons": "624.00",
+    "number of Kohn-Sham states": "328",
+    "kinetic-energy cutoff": "80.0000  Ry",
+    "charge density cutoff": "320.0000  Ry",
+    "cutoff for Fock operator": "320.0000  Ry",
+    "scf convergence threshold": "1.0E-09",
+    "mixing beta": "0.3000",
+    "number of iterations used": "8  local-TF  mixing",
+    "celldm": [
+     19.533024,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "pseudos": [
+    {
+     "n": 1,
+     "element": "In",
+     "file": "./In_ONCV_PBE-1.2.upf",
+     "md5": "2123f823f6143602c63cd302e3a0bdd6",
+     "type": "Norm-conserving",
+     "Zval": 13.0,
+     "notes": [
+      "Generated using ONCVPSP code by D. R. Hamann"
+     ],
+     "radial_grid": "Using radial grid of  602 points,  6 beta functions with:"
+    },
+    {
+     "n": 2,
+     "element": "O",
+     "file": "./O_ONCV_PBE-1.2.upf",
+     "md5": "e36c48deb68f4e355fffe4602be2c42c",
+     "type": "Norm-conserving",
+     "Zval": 6.0,
+     "notes": [
+      "Generated using ONCVPSP code by D. R. Hamann"
+     ],
+     "radial_grid": "Using radial grid of  602 points,  4 beta functions with:"
+    },
+    {
+     "n": 3,
+     "element": "H",
+     "file": "./H_ONCV_PBE-1.2.upf",
+     "md5": "bf21e08b90ac4ce7d0149ac4e8138190",
+     "type": "Norm-conserving",
+     "Zval": 1.0,
+     "notes": [
+      "Generated using ONCVPSP code by D. R. Hamann"
+     ],
+     "radial_grid": "Using radial grid of  602 points,  2 beta functions with:"
+    }
+   ],
+   "pseudo_rereads": 0,
+   "species": [
+    {
+     "species": "In",
+     "valence": 13.0,
+     "mass": 114.818
+    },
+    {
+     "species": "O",
+     "valence": 6.0,
+     "mass": 15.999
+    },
+    {
+     "species": "H",
+     "valence": 1.0,
+     "mass": 1.008
+    }
+   ],
+   "symmetry": "8 Sym. Ops., with inversion, found ( 6 have fractional translation)",
+   "kpoints": {
+    "n": 4,
+    "line": "number of k points=     4",
+    "sum_wk": 2.0
+   },
+   "fft": {
+    "dense": "Dense  grid:  2430543 G-vectors     FFT dimensions: ( 120, 120, 375)"
+   },
+   "ram": {
+    "Estimated static dynamical RAM per process": "113.50 GB",
+    "Estimated max dynamical RAM per process": "120.05 GB"
+   },
+   "ram_components": [
+    "Dynamical RAM for                 wfc:    1520.35 MB",
+    "Dynamical RAM for     wfc (w. buffer):    7601.74 MB",
+    "Dynamical RAM for                 EXX:  103680.38 MB",
+    "Dynamical RAM for           str. fact:     111.26 MB",
+    "Dynamical RAM for           local pot:       0.00 MB",
+    "Dynamical RAM for          nlocal pot:    4004.82 MB",
+    "Dynamical RAM for                qrad:       4.35 MB",
+    "Dynamical RAM for          rho,v,vnew:     234.86 MB",
+    "Dynamical RAM for               rhoin:      78.29 MB",
+    "Dynamical RAM for            rho*nmix:     593.39 MB",
+    "Dynamical RAM for           G-vectors:     157.62 MB",
+    "Dynamical RAM for          h,s,v(r/c):      19.70 MB",
+    "Dynamical RAM for          <psi|beta>:       4.32 MB",
+    "Dynamical RAM for                 psi:    3040.70 MB",
+    "Dynamical RAM for                hpsi:    3040.70 MB",
+    "Dynamical RAM for      wfcinit/wfcrot:    3043.16 MB"
+   ],
+   "start": [
+    "Initial potential from superposition of free atoms",
+    "starting charge     621.3932, renormalised to     624.0000",
+    "Starting wfcs are random"
+   ],
+   "calc_type": "scf/relax",
+   "bands_calc": null,
+   "n_scf_steps": 1,
+   "steps": [
+    {
+     "iterations": 34,
+     "converged_iterations": 34,
+     "acc_final_Ry": 3e-10,
+     "E_Ry": -4073.90318614,
+     "HOMO_eV": -2.1683,
+     "LUMO_eV": -0.3615,
+     "negative_rho": [
+      6.06e-06,
+      0.0
+     ],
+     "beta": 0.3
+    }
+   ],
+   "final_step": {
+    "iterations": 34,
+    "ecut": 80.0,
+    "beta": 0.3,
+    "negative_rho": [
+     6.06e-06,
+     0.0
+    ],
+    "HOMO_eV": -2.1683,
+    "LUMO_eV": -0.3615,
+    "E_Ry": -4073.90318614,
+    "acc_final_Ry": 3e-10,
+    "converged_iterations": 34,
+    "E_trace_n": 33
+   },
+   "bfgs": {},
+   "exx": {
+    "cycles": [],
+    "grid": "EXX grid:  2430543 G-vectors     FFT dimensions: ( 120, 120, 375)"
+   },
+   "timing": {},
+   "terminated": null,
+   "done": false,
+   "messages": [
+    [
+     34,
+     "Message from routine setup: using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+    ]
+   ],
+   "errors": null,
+   "warnings": {
+    "message_from_routine": {
+     "count": 1,
+     "first": [
+      [
+       34,
+       "Message from routine setup:"
+      ]
+     ],
+     "last": [
+      34,
+      "Message from routine setup:"
+     ]
+    },
+    "c_bands_not_converged": {
+     "count": 2,
+     "first": [
+      [
+       663,
+       "c_bands:  1 eigenvalues not converged"
+      ],
+      [
+       824,
+       "c_bands:  1 eigenvalues not converged"
+      ]
+     ],
+     "last": [
+      824,
+      "c_bands:  1 eigenvalues not converged"
+     ]
+    },
+    "discouraged": {
+     "count": 1,
+     "first": [
+      [
+       35,
+       "using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+      ]
+     ],
+     "last": [
+      35,
+      "using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+     ]
+    },
+    "cuda_out_of_memory": {
+     "count": 1,
+     "first": [
+      [
+       1673,
+       "Accelerator Fatal Error: call to cuMemAlloc returned error 2 (CUDA_ERROR_OUT_OF_MEMORY): Out of memory"
+      ]
+     ],
+     "last": [
+      1673,
+      "Accelerator Fatal Error: call to cuMemAlloc returned error 2 (CUDA_ERROR_OUT_OF_MEMORY): Out of memory"
+     ]
+    },
+    "accelerator_fatal": {
+     "count": 1,
+     "first": [
+      [
+       1673,
+       "Accelerator Fatal Error: call to cuMemAlloc returned error 2 (CUDA_ERROR_OUT_OF_MEMORY): Out of memory"
+      ]
+     ],
+     "last": [
+      1673,
+      "Accelerator Fatal Error: call to cuMemAlloc returned error 2 (CUDA_ERROR_OUT_OF_MEMORY): Out of memory"
+     ]
+    },
+    "mpi_abort": {
+     "count": 1,
+     "first": [
+      [
+       1683,
+       "mpirun detected that one or more processes exited with non-zero status, thus causing"
+      ]
+     ],
+     "last": [
+      1683,
+      "mpirun detected that one or more processes exited with non-zero status, thus causing"
+     ]
+    }
+   },
+   "bands": {
+    "n_k": 4,
+    "n_bands": 328,
+    "n_occ": 312,
+    "VBM_eV": -2.1683,
+    "VBM_k_index": 0,
+    "CBM_eV": -0.3615,
+    "CBM_k_index": 0,
+    "gap_eV": 1.8068,
+    "direct_gap_min_eV": 1.8068,
+    "direct_gap_k_index": 0,
+    "gap_type": "direct",
+    "VB_width_top_band_eV": 0.0269,
+    "CB_width_bottom_band_eV": 0.8561,
+    "E2_minus_E1_at_k0_eV": 1.4962
+   },
+   "n_lines": 1688
+  }
+ },
+ "inputs": {
+  "scf.in": {
+   "namelists": {
+    "CONTROL": {
+     "calculation": "scf",
+     "prefix": "nc",
+     "outdir": "./tmp",
+     "pseudo_dir": "./",
+     "verbosity": "high",
+     "tprnfor": ".true.",
+     "tstress": ".true.",
+     "max_seconds": "257381"
+    },
+    "SYSTEM": {
+     "ibrav": "0",
+     "nat": "96",
+     "ntyp": "3",
+     "ecutwfc": "80",
+     "ecutrho": "320",
+     "occupations": "fixed",
+     "nbnd": "328",
+     "input_dft": "hse",
+     "nqx1": "1",
+     "nqx2": "1",
+     "nqx3": "1"
+    },
+    "ELECTRONS": {
+     "conv_thr": "1.0d-9",
+     "mixing_beta": "0.3",
+     "electron_maxstep": "150",
+     "mixing_mode": "local-TF"
+    }
+   },
+   "cards": {
+    "ATOMIC_SPECIES": [
+     {
+      "species": "In",
+      "mass": 114.818,
+      "pseudo": "In_ONCV_PBE-1.2.upf"
+     },
+     {
+      "species": "O",
+      "mass": 15.999,
+      "pseudo": "O_ONCV_PBE-1.2.upf"
+     },
+     {
+      "species": "H",
+      "mass": 1.008,
+      "pseudo": "H_ONCV_PBE-1.2.upf"
+     }
+    ],
+    "CELL_PARAMETERS": {
+     "unit": "angstrom",
+     "vectors": [
+      [
+       10.33643106,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.33450421,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ]
+    },
+    "K_POINTS": {
+     "mode": "automatic",
+     "grid": [
+      "3",
+      "3",
+      "1",
+      "0",
+      "0",
+      "0"
+     ]
+    }
+   },
+   "atomic_positions_summary": {
+    "unit": "crystal",
+    "n": 96,
+    "labels": [
+     "H",
+     "In",
+     "O"
+    ],
+    "n_constrained": 0
+   },
+   "geometry": {
+    "n_atoms": 96,
+    "composition": {
+     "H": 24,
+     "In": 24,
+     "O": 48
+    },
+    "cell_lengths_A": [
+     10.33643,
+     10.3345,
+     34.87454
+    ],
+    "cell_angles_deg": [
+     90.0,
+     90.0,
+     90.0
+    ],
+    "volume_A3": 3725.3642,
+    "density_g_cm3": 1.5814,
+    "bonds": {
+     "In-O": {
+      "cutoff_A": 2.6,
+      "n": 144,
+      "min": 2.1647,
+      "mean": 2.219,
+      "max": 2.3078,
+      "std": 0.0389,
+      "CN_In_hist": {
+       "6": 24
+      }
+     },
+     "O-H": {
+      "cutoff_A": 1.2,
+      "n": 24,
+      "min": 0.9719,
+      "mean": 0.9775,
+      "max": 0.9864,
+      "std": 0.0064,
+      "CN_O_hist": {
+       "0": 24,
+       "1": 24
+      }
+     }
+    },
+    "CN_O_by_cations_hist": {
+     "2": 24,
+     "4": 24
+    },
+    "slab": {
+     "vacuum_A": 25.571,
+     "extent_A": 9.303,
+     "thickness_H_H_A": 9.3033,
+     "thickness_O_O_A": 7.8762,
+     "thickness_In_In_A": 5.1515
+    }
+   }
+  }
+ },
+ "templates": {},
+ "projwfc": {},
+ "pp_avg": {},
+ "avg_dat": {},
+ "pdos": {},
+ "driver": {
+  "nc_hse_slab1_e80_driver.log": {
+   "lines": [
+    "[2026-09-30T17:28:26Z] job nc_hse_slab1_e80 host b9pgpun501.cern.ch cpus 11 limit 259200s",
+    "[2026-09-30T17:28:34Z] pw.x:/pool/condor/dir_2184600/qe-env/bin/pw.x  python: /pool/condor/dir_2184600/qe-env/bin/python",
+    "[2026-09-30T17:28:45Z] GPU mode: 1 GPU(s), NVIDIA H100 NVL, 95830 MiB",
+    "[2026-09-30T17:28:45Z] pw.x scf start (-nk 1, max_seconds 257381)",
+    "[2026-09-30T17:35:45Z] pw.x scf end rc=1",
+    "[2026-09-30T17:35:45Z] steps finished after 439 s"
+   ],
+   "host": "b9pgpun501.cern.ch",
+   "cpus": 11,
+   "limit_s": 259200,
+   "start": "2026-09-30T17:28:26Z",
+   "gpu": "1 GPU(s), NVIDIA H100 NVL, 95830 MiB",
+   "total_s": 439,
+   "steps": [
+    {
+     "step": "scf",
+     "start": "2026-09-30T17:28:45Z",
+     "nk": 1,
+     "max_seconds": 257381,
+     "end": "2026-09-30T17:35:45Z",
+     "rc": 1,
+     "time": ""
+    }
+   ]
+  }
+ },
+ "steps_sh": {
+  "steps.sh": "steps() {\n  run_pw scf 1\n}"
+ },
+ "other": {
+  ".fetched": ""
+ },
+ "mpi_errors": {},
+ "condor": [
+  {
+   "job": "nc_hse_slab1_e80",
+   "id": "12790233.4",
+   "first": "2026-09-30T16:47:32Z",
+   "last": "2026-09-30T17:32:55Z",
+   "samples": 5,
+   "states": {
+    "1": 4,
+    "2": 1
+   },
+   "cpus": 11,
+   "gpus": "1",
+   "gpu_hw": [
+    "1xNVIDIA H100 NVL|97%"
+   ],
+   "cpu_hw": [
+    "Intel(R) Xeon(R) Platinum 8468"
+   ],
+   "max_scf_it": 24,
+   "max_bfgs": 0,
+   "steps": [
+    "scf"
+   ]
+  }
+ ]
+}

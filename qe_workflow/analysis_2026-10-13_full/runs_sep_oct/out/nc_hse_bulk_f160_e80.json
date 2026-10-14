@@ -1,0 +1,909 @@
+{
+ "run": "nc_hse_bulk_f160_e80",
+ "folder": "cern_htcondor/results/nc_hse_bulk_f160_e80",
+ "files": [
+  {
+   "path": ".fetched",
+   "size": 0,
+   "sha256_16": "e3b0c44298fc1c14",
+   "src": "loose",
+   "kind": "other"
+  },
+  {
+   "path": "nc_hse_bulk_f160_e80_driver.log",
+   "size": 484,
+   "sha256_16": "2cc7d02328125af6",
+   "src": "loose",
+   "kind": "driver"
+  },
+  {
+   "path": "scf.in",
+   "size": 2503,
+   "sha256_16": "79bcc186d083fcf7",
+   "src": "loose",
+   "kind": "pw_in"
+  },
+  {
+   "path": "scf.out",
+   "size": 199180,
+   "sha256_16": "805332db4bd77ec7",
+   "src": "loose",
+   "kind": "pw_out"
+  },
+  {
+   "path": "steps.sh",
+   "size": 27,
+   "sha256_16": "a7d5ef8aefb09efb",
+   "src": "loose",
+   "kind": "steps"
+  }
+ ],
+ "tarballs": [
+  {
+   "tarball": "nc_hse_bulk_f160_e80_results.tar.gz",
+   "size": 24424,
+   "sha256": "cc4003bca6683cf324d3d0f67bdd464fcae1a827e53d35a5a668755fb2da4ef9",
+   "members": [
+    {
+     "name": "scf.out",
+     "size": 199180,
+     "sha256": "805332db4bd77ec78f26981d4e6a69c471566be491be3a561bddd2bf0af7354d",
+     "equals_loose": true
+    },
+    {
+     "name": "scf.in",
+     "size": 2503,
+     "sha256": "79bcc186d083fcf7f127903b35ab5a2f3f8246f1e7abc454f6ec24b889ef7b45",
+     "equals_loose": true
+    },
+    {
+     "name": "nc_hse_bulk_f160_e80_driver.log",
+     "size": 484,
+     "sha256": "2cc7d02328125af6df9c76bad72ec0a6171ff264343855e5ed2c63049f940811",
+     "equals_loose": true
+    },
+    {
+     "name": "steps.sh",
+     "size": 27,
+     "sha256": "a7d5ef8aefb09efb336e8b2b82ddcb600bcb7dea5350f82ef0ff7f2f84e6061c",
+     "equals_loose": true
+    }
+   ]
+  }
+ ],
+ "pw": {
+  "scf.out": {
+   "header": {
+    "version": "v.7.3.1",
+    "start_date": "30Sep2026",
+    "start_time": "22:39:21",
+    "processor_cores": 1,
+    "parallel_mode": "Parallel version (MPI & OpenMP),",
+    "mpi_processes": 1,
+    "threads_per_mpi": 1,
+    "nodes": 1,
+    "node_memory_MiB": 30549.0,
+    "input": "scf.in",
+    "subspace_diag": "Subspace diagonalization in iterative solution of the eigenvalue problem: a serial algorithm will be used",
+    "fft_decomposition": "Using Slab Decomposition",
+    "gpu_lines": [
+     "GPU acceleration is ACTIVE.  1 visible GPUs per MPI rank",
+     "GPU-aware MPI enabled",
+     "GPU used by master process:"
+    ]
+   },
+   "params": {
+    "Exchange-correlation": "HSE",
+    "EXX-fraction": "0.25",
+    "EXX q-point mesh": "q-point mesh:     1    1    1",
+    "bravais-lattice index": "0",
+    "lattice parameter (alat)": "16.8664  a.u.",
+    "unit-cell volume": "3693.5878 (a.u.)^3",
+    "number of atoms/cell": "40",
+    "number of atomic types": "2",
+    "number of electrons": "352.00",
+    "number of Kohn-Sham states": "192",
+    "kinetic-energy cutoff": "80.0000  Ry",
+    "charge density cutoff": "320.0000  Ry",
+    "cutoff for Fock operator": "160.0000  Ry",
+    "scf convergence threshold": "1.0E-09",
+    "mixing beta": "0.3000",
+    "number of iterations used": "8  plain     mixing",
+    "celldm": [
+     16.86644,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "pseudos": [
+    {
+     "n": 1,
+     "element": "In",
+     "file": "./In_ONCV_PBE-1.2.upf",
+     "md5": "2123f823f6143602c63cd302e3a0bdd6",
+     "type": "Norm-conserving",
+     "Zval": 13.0,
+     "notes": [
+      "Generated using ONCVPSP code by D. R. Hamann"
+     ],
+     "radial_grid": "Using radial grid of  602 points,  6 beta functions with:"
+    },
+    {
+     "n": 2,
+     "element": "O",
+     "file": "./O_ONCV_PBE-1.2.upf",
+     "md5": "e36c48deb68f4e355fffe4602be2c42c",
+     "type": "Norm-conserving",
+     "Zval": 6.0,
+     "notes": [
+      "Generated using ONCVPSP code by D. R. Hamann"
+     ],
+     "radial_grid": "Using radial grid of  602 points,  4 beta functions with:"
+    }
+   ],
+   "pseudo_rereads": 0,
+   "species": [
+    {
+     "species": "In",
+     "valence": 13.0,
+     "mass": 114.818
+    },
+    {
+     "species": "O",
+     "valence": 6.0,
+     "mass": 15.999
+    }
+   ],
+   "symmetry": "24 Sym. Ops., with inversion, found (18 have fractional translation)",
+   "kpoints": {
+    "n": 4,
+    "line": "number of k points=     4",
+    "sum_wk": 2.0
+   },
+   "fft": {
+    "dense": "Dense  grid:   356799 G-vectors     FFT dimensions: ( 100, 100, 100)"
+   },
+   "ram": {
+    "Estimated static dynamical RAM per process": "4.51 GB",
+    "Estimated max dynamical RAM per process": "5.12 GB"
+   },
+   "ram_components": [
+    "Dynamical RAM for                 wfc:     130.75 MB",
+    "Dynamical RAM for     wfc (w. buffer):     653.77 MB",
+    "Dynamical RAM for                 EXX:    3497.04 MB",
+    "Dynamical RAM for           str. fact:      10.89 MB",
+    "Dynamical RAM for           local pot:       0.00 MB",
+    "Dynamical RAM for          nlocal pot:     326.89 MB",
+    "Dynamical RAM for                qrad:       2.91 MB",
+    "Dynamical RAM for          rho,v,vnew:      39.22 MB",
+    "Dynamical RAM for               rhoin:      13.07 MB",
+    "Dynamical RAM for            rho*nmix:      87.11 MB",
+    "Dynamical RAM for           G-vectors:      23.14 MB",
+    "Dynamical RAM for          h,s,v(r/c):       6.75 MB",
+    "Dynamical RAM for          <psi|beta>:       1.41 MB",
+    "Dynamical RAM for                 psi:     261.51 MB",
+    "Dynamical RAM for                hpsi:     261.51 MB",
+    "Dynamical RAM for      wfcinit/wfcrot:     262.35 MB"
+   ],
+   "start": [
+    "Initial potential from superposition of free atoms",
+    "starting charge     350.3039, renormalised to     352.0000",
+    "Starting wfcs are random"
+   ],
+   "calc_type": "scf/relax",
+   "bands_calc": null,
+   "n_scf_steps": 7,
+   "steps": [
+    {
+     "iterations": 13,
+     "converged_iterations": 13,
+     "acc_final_Ry": 4e-10,
+     "E_Ry": -2441.24253197,
+     "HOMO_eV": 8.9005,
+     "LUMO_eV": 9.8209,
+     "beta": 0.3
+    },
+    {
+     "iterations": 11,
+     "converged_iterations": 11,
+     "acc_final_Ry": 2.9e-11,
+     "E_Ry": -2430.30016871,
+     "HOMO_eV": 7.8931,
+     "LUMO_eV": 9.9412,
+     "beta": 0.3
+    },
+    {
+     "iterations": 8,
+     "converged_iterations": 8,
+     "acc_final_Ry": 2e-10,
+     "E_Ry": -2430.30784691,
+     "HOMO_eV": 7.8857,
+     "LUMO_eV": 9.9884,
+     "beta": 0.3
+    },
+    {
+     "iterations": 5,
+     "converged_iterations": 5,
+     "acc_final_Ry": 5.9e-10,
+     "E_Ry": -2430.30794035,
+     "HOMO_eV": 7.8855,
+     "LUMO_eV": 9.993,
+     "beta": 0.3
+    },
+    {
+     "iterations": 4,
+     "converged_iterations": 4,
+     "acc_final_Ry": 2.5e-11,
+     "E_Ry": -2430.30794247,
+     "HOMO_eV": 7.8856,
+     "LUMO_eV": 9.9936,
+     "beta": 0.3
+    },
+    {
+     "iterations": 2,
+     "converged_iterations": 2,
+     "acc_final_Ry": 5.4e-10,
+     "E_Ry": -2430.30794254,
+     "HOMO_eV": 7.8856,
+     "LUMO_eV": 9.9936,
+     "beta": 0.3
+    },
+    {
+     "iterations": 1,
+     "converged_iterations": 1,
+     "acc_final_Ry": 6.6e-11,
+     "E_Ry": -2430.30794254,
+     "E_bang2_Ry": -2430.30794254,
+     "HOMO_eV": 7.8856,
+     "LUMO_eV": 9.9936,
+     "force_max_component_Ry_bohr": 0.00363675,
+     "force_rms_component_Ry_bohr": 0.0021328069006874488,
+     "total_force_Ry_bohr": 0.023364,
+     "total_scf_correction_Ry_bohr": 1.3e-05,
+     "pressure_kbar": 21.73,
+     "beta": 0.3
+    }
+   ],
+   "final_step": {
+    "iterations": 1,
+    "ecut": 80.0,
+    "beta": 0.3,
+    "HOMO_eV": 7.8856,
+    "LUMO_eV": 9.9936,
+    "E_Ry": -2430.30794254,
+    "acc_final_Ry": 6.6e-11,
+    "converged_iterations": 1,
+    "E_bang2_Ry": -2430.30794254,
+    "dexx_Ry": 1.2e-10,
+    "half_fock_Ry": 140.34746519,
+    "fock2_Ry": -70.17373107,
+    "force_max_component_Ry_bohr": 0.00363675,
+    "force_max_atom_Ry_bohr": 0.004761826639631057,
+    "force_rms_component_Ry_bohr": 0.0021328069006874488,
+    "force_max_atom_index": 17,
+    "total_force_Ry_bohr": 0.023364,
+    "total_scf_correction_Ry_bohr": 1.3e-05,
+    "pressure_kbar": 21.73,
+    "stress_kbar": [
+     [
+      21.73,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      21.73,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      21.73
+     ]
+    ],
+    "E_trace_n": 0
+   },
+   "bfgs": {},
+   "exx": {
+    "cycles": [
+     {
+      "line": 1005
+     },
+     {
+      "line": 1436
+     },
+     {
+      "line": 1813
+     },
+     {
+      "line": 2136
+     },
+     {
+      "line": 2441
+     },
+     {
+      "line": 2710
+     }
+    ],
+    "grid": "EXX grid:   125903 G-vectors     FFT dimensions: (  72,  72,  72)",
+    "dexx_trace": [
+     0.00699194,
+     8.2e-05,
+     1.8e-06,
+     6e-08,
+     2.6e-09,
+     1.2e-10
+    ],
+    "fock_trace_Ry": [
+     -70.1637939,
+     -70.17181856,
+     -70.17341253,
+     -70.17367877,
+     -70.17373412,
+     -70.17373107
+    ],
+    "reached": true
+   },
+   "timing": {
+    "init_run": {
+     "cpu": "0.69s",
+     "wall": "1.34s",
+     "calls": 1
+    },
+    "electrons": {
+     "cpu": "49.85s",
+     "wall": "50.68s",
+     "calls": 7
+    },
+    "forces": {
+     "cpu": "0.33s",
+     "wall": "0.34s",
+     "calls": 1
+    },
+    "stress": {
+     "cpu": "537.77s",
+     "wall": "541.69s",
+     "calls": 1
+    },
+    "aceinit0": {
+     "cpu": "0.00s",
+     "wall": "0.00s",
+     "calls": 1
+    },
+    "wfcinit": {
+     "cpu": "0.36s",
+     "wall": "0.71s",
+     "calls": 1
+    },
+    "wfcinit:wfcr": {
+     "cpu": "0.23s",
+     "wall": "0.46s",
+     "calls": 4
+    },
+    "potinit": {
+     "cpu": "0.04s",
+     "wall": "0.08s",
+     "calls": 1
+    },
+    "hinit0": {
+     "cpu": "0.09s",
+     "wall": "0.14s",
+     "calls": 1
+    },
+    "c_bands": {
+     "cpu": "39.85s",
+     "wall": "40.34s",
+     "calls": 45
+    },
+    "sum_band": {
+     "cpu": "7.79s",
+     "wall": "7.86s",
+     "calls": 45
+    },
+    "v_of_rho": {
+     "cpu": "0.58s",
+     "wall": "0.65s",
+     "calls": 46
+    },
+    "v_h": {
+     "cpu": "0.30s",
+     "wall": "0.32s",
+     "calls": 46
+    },
+    "v_xc": {
+     "cpu": "0.28s",
+     "wall": "0.33s",
+     "calls": 46
+    },
+    "mix_rho": {
+     "cpu": "1.19s",
+     "wall": "1.29s",
+     "calls": 45
+    },
+    "init_us_2": {
+     "cpu": "0.47s",
+     "wall": "0.49s",
+     "calls": 372
+    },
+    "cegterg": {
+     "cpu": "28.26s",
+     "wall": "28.62s",
+     "calls": 180
+    },
+    "sum_band:wei": {
+     "cpu": "0.00s",
+     "wall": "0.00s",
+     "calls": 45
+    },
+    "sum_band:loo": {
+     "cpu": "6.82s",
+     "wall": "6.87s",
+     "calls": 45
+    },
+    "sum_band:buf": {
+     "cpu": "4.81s",
+     "wall": "4.85s",
+     "calls": 180
+    },
+    "sum_band:ini": {
+     "cpu": "0.23s",
+     "wall": "0.23s",
+     "calls": 180
+    },
+    "cdiaghg": {
+     "cpu": "3.71s",
+     "wall": "3.89s",
+     "calls": 785
+    },
+    "cegterg:over": {
+     "cpu": "0.79s",
+     "wall": "0.80s",
+     "calls": 633
+    },
+    "cegterg:upda": {
+     "cpu": "1.26s",
+     "wall": "1.27s",
+     "calls": 633
+    },
+    "cegterg:last": {
+     "cpu": "0.60s",
+     "wall": "0.60s",
+     "calls": 514
+    },
+    "h_psi": {
+     "cpu": "21.34s",
+     "wall": "21.74s",
+     "calls": 817
+    },
+    "g_psi": {
+     "cpu": "0.00s",
+     "wall": "0.27s",
+     "calls": 633
+    },
+    "h_psi:calbec": {
+     "cpu": "0.07s",
+     "wall": "0.71s",
+     "calls": 817
+    },
+    "vloc_psi": {
+     "cpu": "10.92s",
+     "wall": "11.10s",
+     "calls": 817
+    },
+    "add_vuspsi": {
+     "cpu": "1.09s",
+     "wall": "1.64s",
+     "calls": 817
+    },
+    "calbec": {
+     "cpu": "4.49s",
+     "wall": "4.65s",
+     "calls": 865
+    },
+    "fft": {
+     "cpu": "0.01s",
+     "wall": "0.06s",
+     "calls": 460
+    },
+    "ffts": {
+     "cpu": "0.00s",
+     "wall": "0.00s",
+     "calls": 45
+    },
+    "fftw": {
+     "cpu": "0.20s",
+     "wall": "8.90s",
+     "calls": 16820
+    },
+    "fftc": {
+     "cpu": "300.05s",
+     "wall": "344.37s",
+     "calls": 436224
+    },
+    "fftcw": {
+     "cpu": "21.62s",
+     "wall": "22.06s",
+     "calls": 16896
+    },
+    "exx_grid": {
+     "cpu": "0.00s",
+     "wall": "0.00s",
+     "calls": 1
+    },
+    "exxinit": {
+     "cpu": "49.09s",
+     "wall": "50.10s",
+     "calls": 7
+    },
+    "vexx": {
+     "cpu": "68.00s",
+     "wall": "69.08s",
+     "calls": 28
+    },
+    "matcalc": {
+     "cpu": "4.65s",
+     "wall": "4.69s",
+     "calls": 682
+    },
+    "aceupdate": {
+     "cpu": "3.55s",
+     "wall": "3.58s",
+     "calls": 28
+    },
+    "vexxace": {
+     "cpu": "8.82s",
+     "wall": "9.04s",
+     "calls": 602
+    },
+    "aceinit": {
+     "cpu": "76.14s",
+     "wall": "77.28s",
+     "calls": 28
+    },
+    "PWSCF": {
+     "cpu": "11m57.50s",
+     "wall": "12m 6.01s",
+     "calls": null
+    }
+   },
+   "terminated": "22:51:27  30Sep2026",
+   "done": true,
+   "messages": [
+    [
+     34,
+     "Message from routine setup: using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+    ]
+   ],
+   "errors": null,
+   "warnings": {
+    "message_from_routine": {
+     "count": 1,
+     "first": [
+      [
+       34,
+       "Message from routine setup:"
+      ]
+     ],
+     "last": [
+      34,
+      "Message from routine setup:"
+     ]
+    },
+    "warning": {
+     "count": 4,
+     "first": [
+      [
+       3427,
+       "Warning: ieee_invalid is signaling"
+      ],
+      [
+       3428,
+       "Warning: ieee_divide_by_zero is signaling"
+      ],
+      [
+       3429,
+       "Warning: ieee_underflow is signaling"
+      ]
+     ],
+     "last": [
+      3430,
+      "Warning: ieee_inexact is signaling"
+     ]
+    },
+    "ieee": {
+     "count": 4,
+     "first": [
+      [
+       3427,
+       "Warning: ieee_invalid is signaling"
+      ],
+      [
+       3428,
+       "Warning: ieee_divide_by_zero is signaling"
+      ],
+      [
+       3429,
+       "Warning: ieee_underflow is signaling"
+      ]
+     ],
+     "last": [
+      3430,
+      "Warning: ieee_inexact is signaling"
+     ]
+    },
+    "discouraged": {
+     "count": 1,
+     "first": [
+      [
+       35,
+       "using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+      ]
+     ],
+     "last": [
+      35,
+      "using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+     ]
+    },
+    "fortran_stop": {
+     "count": 1,
+     "first": [
+      [
+       3431,
+       "FORTRAN STOP"
+      ]
+     ],
+     "last": [
+      3431,
+      "FORTRAN STOP"
+     ]
+    }
+   },
+   "bands": {
+    "n_k": 4,
+    "n_bands": 192,
+    "n_occ": 176,
+    "VBM_eV": 7.8856,
+    "VBM_k_index": 0,
+    "CBM_eV": 9.9936,
+    "CBM_k_index": 0,
+    "gap_eV": 2.108,
+    "direct_gap_min_eV": 2.108,
+    "direct_gap_k_index": 0,
+    "gap_type": "direct",
+    "VB_width_top_band_eV": 0.1181,
+    "CB_width_bottom_band_eV": 2.4848,
+    "E2_minus_E1_at_k0_eV": 4.4974
+   },
+   "n_lines": 3431
+  }
+ },
+ "inputs": {
+  "scf.in": {
+   "namelists": {
+    "CONTROL": {
+     "calculation": "scf",
+     "prefix": "nc",
+     "outdir": "./tmp",
+     "pseudo_dir": "./",
+     "verbosity": "high",
+     "tprnfor": ".true.",
+     "tstress": ".true.",
+     "max_seconds": "84575"
+    },
+    "SYSTEM": {
+     "ibrav": "0",
+     "nat": "40",
+     "ntyp": "2",
+     "ecutwfc": "80",
+     "ecutrho": "320",
+     "occupations": "fixed",
+     "nbnd": "192",
+     "input_dft": "hse",
+     "nqx1": "1",
+     "nqx2": "1",
+     "nqx3": "1",
+     "ecutfock": "160"
+    },
+    "ELECTRONS": {
+     "conv_thr": "1.0d-9",
+     "mixing_beta": "0.3",
+     "electron_maxstep": "150"
+    }
+   },
+   "cards": {
+    "ATOMIC_SPECIES": [
+     {
+      "species": "In",
+      "mass": 114.818,
+      "pseudo": "In_ONCV_PBE-1.2.upf"
+     },
+     {
+      "species": "O",
+      "mass": 15.999,
+      "pseudo": "O_ONCV_PBE-1.2.upf"
+     }
+    ],
+    "CELL_PARAMETERS": {
+     "unit": "angstrom",
+     "vectors": [
+      [
+       -5.1530451,
+       5.1530451,
+       5.1530451
+      ],
+      [
+       5.1530451,
+       -5.1530451,
+       5.1530451
+      ],
+      [
+       5.1530451,
+       5.1530451,
+       -5.1530451
+      ]
+     ]
+    },
+    "K_POINTS": {
+     "mode": "automatic",
+     "grid": [
+      "3",
+      "3",
+      "3",
+      "0",
+      "0",
+      "0"
+     ]
+    }
+   },
+   "atomic_positions_summary": {
+    "unit": "crystal",
+    "n": 40,
+    "labels": [
+     "In",
+     "O"
+    ],
+    "n_constrained": 0
+   },
+   "geometry": {
+    "n_atoms": 40,
+    "composition": {
+     "In": 16,
+     "O": 24
+    },
+    "cell_lengths_A": [
+     8.92534,
+     8.92534,
+     8.92534
+    ],
+    "cell_angles_deg": [
+     109.471,
+     109.471,
+     109.471
+    ],
+    "volume_A3": 547.3332,
+    "density_g_cm3": 6.7384,
+    "bonds": {
+     "In-O": {
+      "cutoff_A": 2.6,
+      "n": 96,
+      "min": 2.1671,
+      "mean": 2.2194,
+      "max": 2.2561,
+      "std": 0.0336,
+      "CN_In_hist": {
+       "6": 16
+      }
+     }
+    },
+    "CN_O_by_cations_hist": {
+     "4": 24
+    }
+   }
+  }
+ },
+ "templates": {},
+ "projwfc": {},
+ "pp_avg": {},
+ "avg_dat": {},
+ "pdos": {},
+ "driver": {
+  "nc_hse_bulk_f160_e80_driver.log": {
+   "lines": [
+    "[2026-09-30T20:38:54Z] job nc_hse_bulk_f160_e80 host b9pgpun009.cern.ch cpus 11 limit 86400s",
+    "[2026-09-30T20:39:03Z] pw.x:/pool/condor/dir_152445/qe-env/bin/pw.x  python: /pool/condor/dir_152445/qe-env/bin/python",
+    "[2026-09-30T20:39:19Z] GPU mode: 1 GPU(s), NVIDIA H100 NVL, 95830 MiB",
+    "[2026-09-30T20:39:19Z] pw.x scf start (-nk 1, max_seconds 84575)",
+    "[2026-09-30T20:52:19Z] pw.x scf end rc=0 PWSCF        :  11m57.50s CPU  12m 6.01s WALL",
+    "[2026-09-30T20:52:19Z] steps finished after 805 s"
+   ],
+   "host": "b9pgpun009.cern.ch",
+   "cpus": 11,
+   "limit_s": 86400,
+   "start": "2026-09-30T20:38:54Z",
+   "gpu": "1 GPU(s), NVIDIA H100 NVL, 95830 MiB",
+   "total_s": 805,
+   "steps": [
+    {
+     "step": "scf",
+     "start": "2026-09-30T20:39:19Z",
+     "nk": 1,
+     "max_seconds": 84575,
+     "end": "2026-09-30T20:52:19Z",
+     "rc": 0,
+     "time": "PWSCF        :  11m57.50s CPU  12m 6.01s WALL"
+    }
+   ]
+  }
+ },
+ "steps_sh": {
+  "steps.sh": "steps() {\n  run_pw scf 1\n}"
+ },
+ "other": {
+  ".fetched": ""
+ },
+ "mpi_errors": {},
+ "condor": [
+  {
+   "job": "nc_hse_bulk_f160_e80",
+   "id": "12790250.0",
+   "first": "2026-09-30T17:44:25Z",
+   "last": "2026-09-30T18:24:32Z",
+   "samples": 8,
+   "states": {
+    "1": 8
+   },
+   "cpus": 11,
+   "gpus": "1",
+   "gpu_hw": [],
+   "cpu_hw": [],
+   "max_scf_it": 0,
+   "max_bfgs": 0,
+   "steps": []
+  },
+  {
+   "job": "nc_hse_bulk_f160_e80",
+   "id": "12790499.0",
+   "first": "2026-09-30T20:14:01Z",
+   "last": "2026-09-30T20:14:01Z",
+   "samples": 1,
+   "states": {
+    "1": 1
+   },
+   "cpus": 11,
+   "gpus": "1",
+   "gpu_hw": [],
+   "cpu_hw": [],
+   "max_scf_it": 0,
+   "max_bfgs": 0,
+   "steps": []
+  },
+  {
+   "job": "nc_hse_bulk_f160_e80",
+   "id": "12790513.0",
+   "first": "2026-09-30T20:22:03Z",
+   "last": "2026-09-30T20:50:37Z",
+   "samples": 6,
+   "states": {
+    "1": 3,
+    "2": 3
+   },
+   "cpus": 11,
+   "gpus": "1",
+   "gpu_hw": [
+    "1xNVIDIA H100 NVL|0%",
+    "1xNVIDIA H100 NVL|3%"
+   ],
+   "cpu_hw": [
+    "Intel(R) Xeon(R) Platinum 8468"
+   ],
+   "max_scf_it": 44,
+   "max_bfgs": 0,
+   "steps": [
+    "scf"
+   ]
+  }
+ ]
+}

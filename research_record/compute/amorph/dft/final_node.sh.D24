@@ -1,0 +1,27 @@
+#!/bin/bash
+# DAG node FINAL: SCF at the protocol cutoff on the relaxed geometry, planar-averaged potential, projwfc (CPU, QE 7.5).
+# D-24 (2026-10-11): with the D-24 steps_final.sh (it defines export_final), exit 0 only if the final SCF converged:
+# scf.out has 'convergence has been achieved', a '!' total energy and 'JOB DONE', and no 'convergence NOT achieved'.
+# Before, 'JOB DONE' alone gave exit 0, and pw.x 7.5 prints JOB DONE also after 'convergence NOT achieved' and after a
+# max_seconds stop, so DAGMan marked a failed FINAL done. Exit 1 now makes DAGMan use 'RETRY FINAL 1': the retry is
+# submitted through final.sub, which has 'hold = True', so it waits on hold (the A15 gate is kept) until a person
+# decides; copy runs/<name>/final_results.tar.gz aside before releasing it (the retry writes the same name; the first
+# attempt is also on EOS as checkpoints/final_<ClusterId>.tar.gz). An incomplete EOS export does not change the exit
+# code: export_manifest_final.dat and the driver log say so.
+# With an older steps_final.sh (e.g. the A15 pilot until it gets the D-24 steps): the previous rule, unchanged.
+LIMIT=${1:-72000}
+cd "${_CONDOR_SCRATCH_DIR:-$PWD}" || exit 1
+cp steps_final.sh steps.sh
+bash driver.sh final "$LIMIT"
+[ -f final_results.tar.gz ] || touch final_results.tar.gz
+if ! grep -q '^export_final()' steps_final.sh 2>/dev/null; then
+  grep -q 'JOB DONE' scf.out 2>/dev/null; exit $?
+fi
+if grep -q 'convergence has been achieved' scf.out 2>/dev/null && grep -q '^!' scf.out && grep -q 'JOB DONE' scf.out \
+   && ! grep -q 'convergence NOT achieved' scf.out; then
+  echo "final SCF converged: $(grep '^!' scf.out | tail -1 | tr -s ' ')"
+  head -3 export_manifest_final.dat 2>/dev/null | grep -E '^# (export|LOST)' | sed 's/^# /note: /'
+  exit 0
+fi
+echo "final SCF not converged or not run (no converged '!' energy, or 'convergence NOT achieved', or a max_seconds stop): exit 1"
+exit 1

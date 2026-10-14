@@ -1,0 +1,81 @@
+% ===================================================================
+% paper_preamble.tex -- packages and macros for the paper draft (claude/paper_draft_2026-10-13).
+% Copied from IWO_PHYSICS_CONSTRAINED_MODEL_V1/report_latex_full/preamble.tex (notation macros unchanged) and
+% reduced to what an article needs. ASCII only. Writer-prefixed additions (\pd...) are at the end.
+% Build: pdflatex skeleton; bibtex skeleton; pdflatex skeleton; pdflatex skeleton
+% ===================================================================
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage[expansion=false]{microtype}
+\setlength{\emergencystretch}{3em}   % long typewriter tokens (tags, file names) in justified text
+\usepackage{amsmath}
+\usepackage{newtxtext,newtxmath}
+\usepackage{siunitx}
+\sisetup{separate-uncertainty=true, range-phrase={--}, range-units=single}
+\usepackage{graphicx}
+\usepackage{booktabs,longtable,array,tabularx}
+\usepackage{caption}
+\captionsetup{font=small,labelfont=bf,labelsep=period,format=plain}
+\usepackage{enumitem}
+\setlist{itemsep=2pt,topsep=4pt}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[hidelinks]{hyperref}
+\usepackage[capitalise,noabbrev]{cleveref}
+
+% ---------------- summary / note environments (plain text, as in the report) ----------------
+\newenvironment{keyresult}[1][]{\par\medskip\noindent\textit{Summary.}\ }{\par\medskip}
+\newenvironment{caveat}[1][]{\par\medskip\noindent\textit{Limitation.}\ }{\par\medskip}
+
+% ---------------- notation macros (identical to the report preamble) ----------------
+\newcommand{\run}[1]{\texttt{run\_#1}}
+\DeclareRobustCommand{\file}[1]{\texttt{\detokenize{#1}}}
+\newcommand{\prov}[1]{\textsc{\MakeLowercase{#1}}}
+\newcommand{\IWO}{IWO}
+\newcommand{\InO}{In$_2$O$_3$}
+\newcommand{\HfO}{HfO$_2$}
+\newcommand{\AlO}{Al$_2$O$_3$}
+\newcommand{\Vth}{V_{\mathrm{th}}}
+\newcommand{\Vthcc}{V_{\mathrm{th,cc}}}
+\newcommand{\Vg}{V_{\mathrm{G}}}
+\newcommand{\Vd}{V_{\mathrm{D}}}
+\newcommand{\Id}{I_{\mathrm{D}}}
+\newcommand{\Ig}{I_{\mathrm{G}}}
+\newcommand{\Ion}{I_{\mathrm{on}}}
+\newcommand{\Ioff}{I_{\mathrm{off}}}
+\newcommand{\gm}{g_{\mathrm{m}}}
+\newcommand{\muFE}{\mu_{\mathrm{FE}}}
+\newcommand{\muband}{\mu_{\mathrm{band}}}
+\newcommand{\Cox}{C_{\mathrm{ox}}}
+\newcommand{\Ec}{E_{\mathrm{c}}}
+\newcommand{\EF}{E_{\mathrm{F}}}
+\newcommand{\Eg}{E_{\mathrm{g}}}
+\newcommand{\dEc}{\Delta E_{\mathrm{c}}}
+\newcommand{\mstar}{m^{*}}
+\newcommand{\Nc}{N_{\mathrm{c}}}
+\newcommand{\Nt}{N_{\mathrm{t}}}
+\newcommand{\NTA}{N_{\mathrm{TA}}}
+\newcommand{\WTA}{W_{\mathrm{TA}}}
+\newcommand{\Dit}{D_{\mathrm{it}}}
+\newcommand{\Qf}{Q_{\mathrm{f}}}
+\newcommand{\Nd}{N_{\mathrm{d}}}
+\newcommand{\Dsr}{\Delta_{\mathrm{sr}}}
+\newcommand{\kT}{k_{\mathrm{B}}T}
+\newcommand{\mVdec}{\ensuremath{\,\mathrm{mV/dec}}}
+\newcommand{\Aum}{\ensuremath{\,\mathrm{A}/\mu\mathrm{m}}}
+\newcommand{\cmsq}{\ensuremath{\,\mathrm{cm}^{-2}}}
+\newcommand{\cmcu}{\ensuremath{\,\mathrm{cm}^{-3}}}
+\newcommand{\cmVs}{\ensuremath{\,\mathrm{cm}^{2}/\mathrm{V\,s}}}
+
+% ---------------- writer-prefixed additions (paper draft only) ----------------
+% \pdPending{Pnn}{KIND: text} marks a gap that waits for a result, a decision, a check or a citation.
+% Every Pnn is listed in TODO.md with what it waits for. KIND is one of RESULT PENDING, DECISION PENDING,
+% CHECK PENDING, CITATION PENDING, TEXT PENDING, DISCLOSURE PENDING.
+\newcommand{\pdPending}[2]{\textbf{[#1~#2]}}
+% \pdCell{name}: a DFT cell or run label in typewriter (underscores allowed).
+\DeclareRobustCommand{\pdCell}[1]{\texttt{\detokenize{#1}}}
+% \pdIntent{...}: the one-paragraph intent of a manuscript section (skeleton only).
+\newenvironment{pdIntent}{\par\noindent\textit{Intent.}\ }{\par\medskip}

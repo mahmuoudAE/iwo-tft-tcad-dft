@@ -1,0 +1,37 @@
+#!/bin/bash
+# Pull the D-24 export of running FINAL jobs whose in-job EOS copy failed (the job's Kerberos ticket expires after ~25 h
+# and is not renewed; 2026-10-03). Runs on lxplus with the author's credentials; safe to repeat (e.g. every 15 min from
+# the laptop loop, next to the snapshots):  bash ~/iwo_amorph/common/export_pull.sh
+# For each running job whose IWOJob ends in _final and whose sandbox holds exp/EXPORT_PENDING: stream every pending
+# file through condor_ssh_to_job to the EOS directory named in exp/MANIFEST, check its sha256 against the manifest, and
+# when all pending files are verified write exp/EXPORT_PULLED in the sandbox; the job then finishes. Read-only for
+# the job otherwise (never condor_rm / release / qedit). Log: ~/iwo_amorph/logs/export_pull.log
+LOG=${PULL_LOG:-$HOME/iwo_amorph/logs/export_pull.log}; mkdir -p "$(dirname "$LOG")"
+say() { echo "[$(date -u +%FT%TZ)] $*" | tee -a "$LOG"; }
+ssh_job() { timeout "${2:-300}" condor_ssh_to_job "$1" "$3"; }   # ssh_job <id> <timeout s> <command in the sandbox>
+while read -r id job st; do
+  [ "$st" = 2 ] || continue
+  pend=$(ssh_job "$id" 120 'cat exp/EXPORT_PENDING 2>/dev/null; true') || continue
+  [ -n "$pend" ] || continue
+  [ -n "$(ssh_job "$id" 60 'ls exp/EXPORT_PULLED 2>/dev/null; true')" ] && continue
+  man=$(ssh_job "$id" 120 'cat exp/MANIFEST') || continue
+  dest=$(awk '$1=="#" && $2=="eos_dest"{print $3}' <<< "$man")
+  case $dest in "${PULL_DEST_PREFIX:-/eos/user/m/melrashe/}"*) ;; *) say "$job ($id): bad eos_dest '$dest', skipped"; continue;; esac
+  mkdir -p "$dest" || { say "$job ($id): cannot create $dest"; continue; }
+  ok=(); bad=0
+  for f in $pend; do
+    case $f in *[!A-Za-z0-9._-]*) say "$job ($id): bad file name '$f'"; bad=1; continue;; esac
+    want=$(awk -v f="$f" '$1==f{print $3}' <<< "$man")
+    if [ -f "$dest/$f" ] && [ "$(sha256sum < "$dest/$f" | cut -c1-64)" = "$want" ]; then ok+=("$f"); continue; fi
+    if ssh_job "$id" 7200 "cat exp/$f" > "$dest/$f.part" && [ "$(sha256sum < "$dest/$f.part" | cut -c1-64)" = "$want" ]; then
+      mv -f "$dest/$f.part" "$dest/$f"; ok+=("$f"); say "$job ($id): $f pulled ($(stat -c %s "$dest/$f") bytes, sha256 ok)"
+    else
+      rm -f "$dest/$f.part"; bad=1; say "$job ($id): $f pull FAILED (retry next round)"
+    fi
+  done
+  if [ "$bad" = 0 ] && [ ${#ok[@]} -gt 0 ]; then
+    printf '%s\n' "$man" > "$dest/MANIFEST"
+    ssh_job "$id" 120 "printf '%s\n' ${ok[*]} > exp/EXPORT_PULLED.tmp && mv exp/EXPORT_PULLED.tmp exp/EXPORT_PULLED" \
+      && say "$job ($id): EXPORT_PULLED written (${#ok[@]} files) -> $dest"
+  fi
+done < <(condor_q -af ClusterId ProcId IWOJob JobStatus 2>/dev/null | awk '$3 ~ /_final$/ {print $1"."$2, $3, $4}')

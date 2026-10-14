@@ -1,0 +1,19 @@
+universe                = vanilla
+executable              = /afs/cern.ch/user/m/melrashe/iwo_amorph/runs/aIWO_bulk_s1/relax_node_bulk.sh
+arguments               = $(seg) 72000
+should_transfer_files   = YES
+transfer_input_files    = /afs/cern.ch/user/m/melrashe/iwo_amorph/common/driver.sh, /afs/cern.ch/user/m/melrashe/iwo_amorph/common/qeio.py, /afs/cern.ch/user/m/melrashe/iwo_amorph/common/dat2h5.py, /afs/cern.ch/user/m/melrashe/iwo_amorph/common/pseudo, relax.in, steps_relax.sh, geomsel.py
+when_to_transfer_output = ON_EXIT
+transfer_output_files   = relax_s$(seg)_results.tar.gz, relax.in, RELAX_STATUS, relax.out, SEGMENT_SUMMARY
+output                  = logs/relax_s$(seg).$(ClusterId).out
+error                   = logs/relax_s$(seg).$(ClusterId).err
+log                     = logs/relax.log
+request_cpus            = 8
+request_memory          = 64 GB
+request_disk            = 60 GB
+request_gpus            = 1
+environment             = "QE_NK=1"
+requirements            = regexp("H100|H200|A100", TARGET.GPUs_DeviceName) && !regexp("MIG", TARGET.GPUs_DeviceName)
++JobFlavour             = "tomorrow"
++IWOJob                 = "aIWO_bulk_s1_relax_s$(seg)"
+queue

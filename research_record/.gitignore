@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.venv/
+*.tmp
+~$*
+.DS_Store
+Thumbs.db
+# full agent transcripts of relay runs (prompts, final answers and summaries are kept)
+relay_logs/**/*.stream.log
+codex/work_chat/.lock
+archive/gemini_withdrawn/gemini_work_chat/.lock

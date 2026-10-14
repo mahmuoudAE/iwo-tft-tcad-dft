@@ -1,0 +1,166 @@
+#!/bin/bash
+# Relax-segment lineage of a run's final input (register A14: "final geometries, with their lineage (which segment and
+# validated step)" and "the actual inputs and logs of every segment"; D-24 v2, 2026-10-11, after the verification of v1).
+# Runs on lxplus (AFS + EOS FUSE), read-only except for its output:
+#     bash ~/iwo_amorph/common/lineage_relax.sh <name> [final_results.tar.gz] [--to-eos]
+# Segments: relax_s<seg>_results.tar.gz on AFS, logs/relax_s<seg>.<cluster>.out and the queue (IWOJob
+# <name>_relax_s<seg>); clusters in logs/relax.log that none of these names are reported. Per segment:
+#   - the AS-RUN input: relax_s<seg>_input.in in the AFS archive (D-24 item B segments), else relax.in in the driver's
+#     EOS checkpoint $CKPT_EOS/relax_s<seg>_<cluster>.tar.gz (packed after pw.x, before the steps rewrite relax.in).
+#     The AFS archive's relax.in is the segment's OUTPUT: the steps rewrite relax.in before the exit pack.
+#   - status (relax_s<seg>_lineage.log of item B, else the driver log), '!' energies, printed geometries, 'bfgs
+#     converged', sha256 of the output relax.in, and the validated step: the geomsel selection line of item B, else
+#     the pre-D-24 rule (relax.in = last printed geometry, SCF-validated or not).
+#   - chain check: the as-run input equals the previous segment's output (max_seconds masked: run_pw rewrites it).
+# relax.in written by segment: the highest segment whose status is CONVERGED or CONTINUE and whose output relax.in has
+# the sha256 of runs/<name>/relax.in (what FINAL transfers); a FAILED or stopped segment packs relax.in unchanged and
+# is never named. With a final archive: the relax.in sha256 that the FINAL job recorded in lineage_final.dat.
+# Run it at the A15 gate (before condor_release) and at collection. Output: runs/<name>/lineage_relax.dat (printed).
+# --to-eos: lineage_relax.dat, every AFS segment archive and every EOS checkpoint (relax_s<seg>_ckpt_<cluster>.tar.gz,
+# the as-run inputs of pre-item-B segments) are copied, sha256-checked, to $EXPORT_EOS/<name>/relax_segments/.
+# Exit: 0; 2 = a finished segment has no as-run input record (A14 incomplete); 1 = error.
+set -uo pipefail
+name=${1:?usage: lineage_relax.sh <name> [final_results.tar.gz] [--to-eos]}; R=${RUNS:-$HOME/iwo_amorph/runs}/$name
+cd "$R" || exit 1
+fin=${2:-final_results.tar.gz}; mode=${3:-}
+[ "$fin" = --to-eos ] && { fin=final_results.tar.gz; mode=--to-eos; }
+EXPORT_EOS=${EXPORT_EOS:-/eos/user/m/melrashe/qe/exports}
+CKPT_EOS=${CKPT_EOS:-/eos/user/m/melrashe/qe/checkpoints}
+tmp=$(mktemp -d); trap 'rm -rf "$tmp"' EXIT
+msk() { sed 's/max_seconds = [0-9.d]*/max_seconds = X/' "$1" | sha256sum | cut -c1-64; }   # sha256, max_seconds masked
+sha() { sha256sum < "$1" | cut -c1-64; }
+declare -A cls=() qst=() arc=() ckpts=() st=() outsha=() outmsk=() inmsk=()
+# 1. segments and their clusters
+for o in logs/relax_s*.*.out; do
+  [ -e "$o" ] || continue
+  [[ $o =~ relax_s([0-9]+)\.([0-9]+)\.out$ ]] || continue
+  cls[${BASH_REMATCH[1]}]="${cls[${BASH_REMATCH[1]}]:-} ${BASH_REMATCH[2]}"
+done
+qok=read
+q=$(condor_q -af ClusterId IWOJob JobStatus 2>/dev/null) || qok="not readable"
+while read -r c j s; do
+  case $j in "${name}_relax_s"*) k=${j#"${name}"_relax_s}; [[ $k =~ ^[0-9]+$ ]] || continue
+    cls[$k]="${cls[$k]:-} $c"; qst[$k]=$s;; esac
+done <<< "$q"
+for t in relax_s*_results.tar.gz; do
+  [ -e "$t" ] || continue; k=${t#relax_s}; k=${k%_results.tar.gz}; [[ $k =~ ^[0-9]+$ ]] && cls[$k]="${cls[$k]:-}"
+done
+maxs=-1; for k in "${!cls[@]}"; do [ "$k" -gt "$maxs" ] && maxs=$k; done
+for k in "${!cls[@]}"; do cls[$k]=$(tr ' ' '\n' <<< "${cls[$k]}" | grep . | sort -nu | paste -sd' ' -); done
+known=" $(printf '%s ' "${cls[@]}") "
+unattr=$(awk '$1=="000"{gsub(/[()]/, "", $2); split($2, a, "."); print a[1]}' logs/relax.log 2>/dev/null | sort -nu \
+         | while read -r c; do [[ $known == *" $c "* ]] || printf '%s ' "$c"; done)
+stname() { case $1 in 1) echo idle;; 2) echo running;; 5) echo held;; 7) echo suspended;; *) echo "status_$1";; esac; }
+gaps=(); match=none; cur=missing
+{
+  echo "# relax-segment lineage of $name, $(date -u +%FT%TZ) (common/lineage_relax.sh, D-24 v2)"
+  echo "# segments: $((maxs + 1)); queue $qok; EOS checkpoints $CKPT_EOS"
+  [ -n "$unattr" ] && echo "# note: cluster(s) ${unattr% } submitted (logs/relax.log) but not attributed to a segment (no stdout file, not in the queue)"
+  echo "# seg <cluster(s)> <status> n_scf=<'!' energies> n_geom=<printed geometries> last_E=<Ry> bfgs_converged=<yes|no>"
+  echo "#   out   <sha256 of the relax.in the segment wrote (AFS archive)>"
+  echo "#   input <sha256 of the as-run input> <source>   chain: <input = previous output, max_seconds masked>"
+  echo "#   step  <validated step>"
+  echo "#   files <AFS archive> | <EOS checkpoint(s)>"
+  prev=
+  for ((s = 0; s <= maxs; s++)); do
+    cl=${cls[$s]:-}; d="$tmp/s$s"; mkdir -p "$d"
+    [ -f "relax_s${s}_results.tar.gz" ] && arc[$s]="relax_s${s}_results.tar.gz" && tar xzf "${arc[$s]}" -C "$d" 2>/dev/null
+    ck=; for c in $cl; do [ -f "$CKPT_EOS/relax_s${s}_${c}.tar.gz" ] && ck="$ck $CKPT_EOS/relax_s${s}_${c}.tar.gz"; done
+    ckpts[$s]=${ck# }
+    # status
+    if [ -f "$d/relax_s${s}_lineage.log" ]; then
+      s1=$(head -1 "$d/relax_s${s}_lineage.log" | sed -E 's/^segment [^:]*: ([A-Z]+).*/\1/')
+    else
+      s1=$(grep -h 'relax status:' "$d/relax_s${s}_driver.log" 2>/dev/null | tail -1 | sed -E 's/.*relax status: ([A-Z]+).*/\1/')
+    fi
+    stopped=no; grep -q 'stopped before pw.x' "$d/relax_s${s}_driver.log" 2>/dev/null && stopped=yes
+    if [ -z "${arc[$s]:-}" ] && [ -n "${qst[$s]:-}" ]; then s1="IN_QUEUE($(stname "${qst[$s]}"))"; fi
+    st[$s]=${s1:-?}
+    read -r nscf ngeom < <(awk '/Begin final coordinates/{f=1} /^!/{e++} /ATOMIC_POSITIONS/ && !f {g++} END{print e+0, g+0}' "$d/relax.out" 2>/dev/null || echo "0 0")
+    en=$(grep '^!' "$d/relax.out" 2>/dev/null | tail -1 | awk '{print $5}')
+    conv=no; grep -q 'bfgs converged' "$d/relax.out" 2>/dev/null && conv=yes
+    echo "seg $s ${cl:-?} ${st[$s]} n_scf=${nscf:-0} n_geom=${ngeom:-0} last_E=${en:-NA} bfgs_converged=$conv"
+    # output relax.in
+    if [ -f "$d/relax.in" ]; then outsha[$s]=$(sha "$d/relax.in"); outmsk[$s]=$(msk "$d/relax.in"); echo "  out   ${outsha[$s]}"
+    else echo "  out   none (no AFS archive)"; fi
+    # as-run input
+    isrc=; ish=
+    if [ -f "$d/relax_s${s}_input.in" ]; then ish=$(sha "$d/relax_s${s}_input.in"); inmsk[$s]=$(msk "$d/relax_s${s}_input.in"); isrc="AFS relax_s${s}_input.in"; fi
+    for c in ${ckpts[$s]}; do
+      e="$tmp/ck$s"; rm -rf "$e"; mkdir -p "$e"
+      tar xzf "$c" -C "$e" relax.in 2>/dev/null || continue
+      h=$(sha "$e/relax.in")
+      if [ -z "$ish" ]; then ish=$h; inmsk[$s]=$(msk "$e/relax.in"); isrc="EOS checkpoint $(basename "$c")"
+      elif [ "$h" = "$ish" ]; then isrc="$isrc = EOS checkpoint $(basename "$c")"
+      else isrc="$isrc; EOS checkpoint $(basename "$c") DIFFERS ($h: another attempt of this segment?)"; fi
+    done
+    if [ "$stopped" = yes ]; then ish=-; isrc="none: stopped before pw.x (D-24 guard / preflight), nothing ran"
+    elif [ -z "$ish" ]; then
+      if [ -n "${qst[$s]:-}" ]; then ish=-; isrc="none yet (in the queue)"
+      else ish=MISSING; isrc="no relax_s${s}_input.in, no EOS checkpoint: as-run input LOST"; gaps+=("$s"); fi
+    fi
+    chain=unknown
+    if [ "$s" -gt 0 ] && [ -n "${inmsk[$s]:-}" ] && [ -n "$prev" ]; then
+      [ "${inmsk[$s]}" = "$prev" ] && chain=yes || chain="NO (relax.in changed between the segments, e.g. a reset)"
+    fi
+    [ "$s" = 0 ] && chain="n/a (first segment)"
+    echo "  input $ish $isrc   chain: $chain"
+    [ -n "${outmsk[$s]:-}" ] && [ "$stopped" = no ] && case ${st[$s]} in CONVERGED|CONTINUE) prev=${outmsk[$s]};; esac
+    # validated step
+    sel=$(sed -n 's/^geomsel: //p' "$d/relax_s${s}_lineage.log" 2>/dev/null | head -1)
+    best=$(grep -o 'best=[0-9a-z]*' <<< "$sel" | head -1); eb=$(grep -o 'Ebest=[^ ]*' <<< "$sel" | head -1)
+    case ${st[$s]} in
+      CONVERGED) step="final coordinates after 'bfgs converged' (geometry $ngeom, SCF-validated)";;
+      CONTINUE)
+        if [ -n "$sel" ]; then step="geometry ${best#best=} of this segment, the lowest-energy SCF-validated one (${eb:-Ebest=?} Ry; item B geomsel: $sel)"
+        else
+          v=no; [ "${nscf:-0}" -gt "${ngeom:-0}" ] && v=yes
+          step="pre-D-24 rule: relax.in = last printed geometry ($ngeom); SCF-validated: $v ($nscf '!' energies for geometries 0-$ngeom)"
+        fi;;
+      FAILED) step="none: relax.in left unchanged${sel:+ (geomsel: $sel)}";;
+      *) step="-";;
+    esac
+    echo "  step  $step"
+    echo "  files ${arc[$s]:-no AFS archive} | ${ckpts[$s]:-no EOS checkpoint}"
+  done
+  [ ${#gaps[@]} -gt 0 ] && echo "A14 INCOMPLETE: segment(s) ${gaps[*]} without an as-run input record"
+  [ -f relax.in ] && cur=$(sha relax.in)
+  echo "runs/$name/relax.in sha256 $cur RELAX_STATUS $(cat RELAX_STATUS 2>/dev/null || echo none)"
+  for ((s = 0; s <= maxs; s++)); do
+    case ${st[$s]:-} in CONVERGED|CONTINUE) [ "${outsha[$s]:-}" = "$cur" ] && match=$s;; esac
+  done
+  others=$(for ((s = 0; s <= maxs; s++)); do [ "${outsha[$s]:-}" = "$cur" ] && [ "$s" != "$match" ] && printf '%s(%s) ' "$s" "${st[$s]}"; done)
+  echo "relax.in written by segment: $match (status ${st[$match]:-none})${others:+; also packed unchanged by: $others}"
+  if [ "$match" = none ]; then
+    for b in relax.in.pre_*; do   # hand changes after a segment (reset, transition, A15 rescue) leave these backups
+      [ -f "$b" ] || continue; bs=$(sha "$b"); bm=none
+      for ((s = 0; s <= maxs; s++)); do [ "${outsha[$s]:-}" = "$bs" ] && bm="segment $s output (${st[$s]})"; done
+      echo "  backup $b ($(date -u -r "$b" +%FT%TZ)) sha256 $bs = $bm"
+    done
+    echo "validated step: UNKNOWN (no CONVERGED or CONTINUE segment wrote the current relax.in: changed by hand after the last segment? see the backups above)"
+  elif [ "${st[$match]}" = CONVERGED ]; then echo "validated step: converged relaxation, final coordinates of segment $match"
+  else echo "validated step: NOT converged; relax.in = the CONTINUE geometry of segment $match: a final on it is exploratory (register section 3)"; fi
+  if [ -f "$fin" ] && tar xzf "$fin" -C "$tmp" lineage_final.dat 2>/dev/null; then
+    used=$(awk '$1=="sha256" && $3=="relax.in"{print $2}' "$tmp/lineage_final.dat")
+    echo "final archive $fin: relax.in sha256 $used, $(grep '^geometry_check' "$tmp/lineage_final.dat")"
+    if [ "$used" = "$cur" ]; then echo "LINEAGE final input = runs/$name/relax.in = output of segment $match"
+    else
+      um=none; for ((s = 0; s <= maxs; s++)); do case ${st[$s]:-} in CONVERGED|CONTINUE) [ "${outsha[$s]:-}" = "$used" ] && um=$s;; esac; done
+      echo "LINEAGE MISMATCH: the final used a relax.in that is not the current one (segment match: $um)"
+    fi
+  else
+    echo "final archive: none yet (gate-time record: FINAL will transfer relax.in $cur)"
+  fi
+} > lineage_relax.dat   # not '| tee': the arrays filled in the loop are needed below
+cat lineage_relax.dat
+if [ "$mode" = --to-eos ]; then
+  dd="$EXPORT_EOS/$name/relax_segments"; mkdir -p "$dd" || { echo "cannot create $dd"; exit 1; }
+  cpv() { cp -f "$1" "$dd/$2" && [ "$(sha "$1")" = "$(sha "$dd/$2")" ] && echo "eos copy $2 ok" || { echo "eos copy $2 FAILED"; exit 1; }; }
+  for ((s = 0; s <= maxs; s++)); do
+    [ -n "${arc[$s]:-}" ] && cpv "${arc[$s]}" "${arc[$s]}"
+    for c in ${ckpts[$s]:-}; do cpv "$c" "relax_s${s}_ckpt_$(basename "$c" .tar.gz | sed 's/.*_//').tar.gz"; done
+  done
+  cpv lineage_relax.dat lineage_relax.dat
+fi
+[ ${#gaps[@]} -gt 0 ] && exit 2
+exit 0

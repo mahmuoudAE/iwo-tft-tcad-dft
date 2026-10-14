@@ -1,0 +1,5751 @@
+{
+ "run": "slab1_relax_gpu",
+ "folder": "cern_htcondor/results/slab1_relax_gpu",
+ "files": [
+  {
+   "path": ".fetched",
+   "size": 0,
+   "sha256_16": "e3b0c44298fc1c14",
+   "src": "loose",
+   "kind": "other"
+  },
+  {
+   "path": "avg_slab1_relax_gpu.in",
+   "size": 41,
+   "sha256_16": "15a09605d04f4693",
+   "src": "loose",
+   "kind": "avg_in"
+  },
+  {
+   "path": "avg_slab1_relax_gpu.out",
+   "size": 1598,
+   "sha256_16": "c274f7c625a96a5b",
+   "src": "loose",
+   "kind": "avg_out"
+  },
+  {
+   "path": "bands.in",
+   "size": 8462,
+   "sha256_16": "6d2621b3d5bb8243",
+   "src": "loose",
+   "kind": "pw_in"
+  },
+  {
+   "path": "bands.out",
+   "size": 101284,
+   "sha256_16": "224c9ec8ce1dd222",
+   "src": "loose",
+   "kind": "pw_out"
+  },
+  {
+   "path": "bands.tmpl",
+   "size": 5869,
+   "sha256_16": "4abafafcae1f4727",
+   "src": "loose",
+   "kind": "pw_tmpl"
+  },
+  {
+   "path": "pp_slab1_relax_gpu.in",
+   "size": 96,
+   "sha256_16": "953995c6d2caab4c",
+   "src": "loose",
+   "kind": "post_in"
+  },
+  {
+   "path": "pp_slab1_relax_gpu.out",
+   "size": 19957,
+   "sha256_16": "7ad2820a502a2c6d",
+   "src": "loose",
+   "kind": "pp_out"
+  },
+  {
+   "path": "scf.in",
+   "size": 7630,
+   "sha256_16": "3862a31488e350e7",
+   "src": "loose",
+   "kind": "pw_in"
+  },
+  {
+   "path": "scf.out",
+   "size": 159048,
+   "sha256_16": "7f6a5ca8c1edca40",
+   "src": "loose",
+   "kind": "pw_out"
+  },
+  {
+   "path": "scf.tmpl",
+   "size": 5037,
+   "sha256_16": "440478ce403aa22b",
+   "src": "loose",
+   "kind": "pw_tmpl"
+  },
+  {
+   "path": "slab1_relax_gpu_driver.log",
+   "size": 872,
+   "sha256_16": "af57359ccac7f0be",
+   "src": "loose",
+   "kind": "driver"
+  },
+  {
+   "path": "steps.sh",
+   "size": 310,
+   "sha256_16": "a96f86388fae0db4",
+   "src": "loose",
+   "kind": "steps"
+  },
+  {
+   "path": "vcrelax.in",
+   "size": 7804,
+   "sha256_16": "9524e9988513ecc4",
+   "src": "loose",
+   "kind": "pw_in"
+  },
+  {
+   "path": "vcrelax.out",
+   "size": 2512846,
+   "sha256_16": "575331c5b76407e8",
+   "src": "loose",
+   "kind": "pw_out"
+  },
+  {
+   "path": "vcrelax_initial.in",
+   "size": 5211,
+   "sha256_16": "4a7c9b91304eec58",
+   "src": "loose",
+   "kind": "pw_in"
+  }
+ ],
+ "tarballs": [
+  {
+   "tarball": "slab1_relax_gpu_results.tar.gz",
+   "size": 553166,
+   "sha256": "7c66d43cc12b301d8472c3cf5e8b2b51419708a982e3f981f97581bbfa8c3108",
+   "members": [
+    {
+     "name": "avg_slab1_relax_gpu.out",
+     "size": 1598,
+     "sha256": "c274f7c625a96a5bf23ea8c73bacb3c1c36725c195a6d0a959be5f6a54fe5b96",
+     "equals_loose": true
+    },
+    {
+     "name": "bands.out",
+     "size": 101284,
+     "sha256": "224c9ec8ce1dd22293cd691289c7811597689717f405d690f47d5a7ca3c67c44",
+     "equals_loose": true
+    },
+    {
+     "name": "pp_slab1_relax_gpu.out",
+     "size": 19957,
+     "sha256": "7ad2820a502a2c6d7d3b8b8dfc67869ce03df089796e86983cc2ef59ab38651a",
+     "equals_loose": true
+    },
+    {
+     "name": "scf.out",
+     "size": 159048,
+     "sha256": "7f6a5ca8c1edca40e86d6d50ca040759fa781dd0faefa52d9b748da7b10415ee",
+     "equals_loose": true
+    },
+    {
+     "name": "vcrelax.out",
+     "size": 2512846,
+     "sha256": "575331c5b76407e8e11680d00e9d5120fdd911db05ebfbea60e486f2a1870bd6",
+     "equals_loose": true
+    },
+    {
+     "name": "avg_slab1_relax_gpu.in",
+     "size": 41,
+     "sha256": "15a09605d04f4693c2c0d89a4123797aa4e7618bcffa1c3ac5b1ae9e270e0b21",
+     "equals_loose": true
+    },
+    {
+     "name": "bands.in",
+     "size": 8462,
+     "sha256": "6d2621b3d5bb824366b1e92adce8117789b1886ff63f4b663ea1f203ab80a5fd",
+     "equals_loose": true
+    },
+    {
+     "name": "pp_slab1_relax_gpu.in",
+     "size": 96,
+     "sha256": "953995c6d2caab4c05f5b99db8970f151a8552050a64c4b1c1defd0afbb0c2ba",
+     "equals_loose": true
+    },
+    {
+     "name": "scf.in",
+     "size": 7630,
+     "sha256": "3862a31488e350e73068f2f9fe86e75a4eac9a0bc4e2b0c79156f6d86805de7a",
+     "equals_loose": true
+    },
+    {
+     "name": "vcrelax.in",
+     "size": 7804,
+     "sha256": "9524e9988513ecc411f2bb1d1f9bba63faafd1d0ca8266217832234896ee3435",
+     "equals_loose": true
+    },
+    {
+     "name": "vcrelax_initial.in",
+     "size": 5211,
+     "sha256": "4a7c9b91304eec5859a1aa52e497b51d5116c41f39afbd6d719a6ba90715defa",
+     "equals_loose": true
+    },
+    {
+     "name": "bands.tmpl",
+     "size": 5869,
+     "sha256": "4abafafcae1f472731e7456a5c7d977d3bab8106ff938f4ed8f579667bb27a1c",
+     "equals_loose": true
+    },
+    {
+     "name": "scf.tmpl",
+     "size": 5037,
+     "sha256": "440478ce403aa22b339e9acfe21d46626c84ebde0d3532607c92b50f14ce8cc9",
+     "equals_loose": true
+    },
+    {
+     "name": "slab1_relax_gpu_driver.log",
+     "size": 872,
+     "sha256": "af57359ccac7f0be02c0250a859c5939de8b6840706f053c10b12483344ab7ee",
+     "equals_loose": true
+    },
+    {
+     "name": "steps.sh",
+     "size": 310,
+     "sha256": "a96f86388fae0db45ec9b53b0de2bf72e8094a1e276179fa4bc92a511b4d4aae",
+     "equals_loose": true
+    }
+   ]
+  }
+ ],
+ "pw": {
+  "bands.out": {
+   "header": {
+    "version": "v.7.3.1",
+    "start_date": "29Sep2026",
+    "start_time": "9:19:10",
+    "processor_cores": 1,
+    "parallel_mode": "Parallel version (MPI & OpenMP),",
+    "mpi_processes": 1,
+    "threads_per_mpi": 1,
+    "nodes": 1,
+    "node_memory_MiB": 61534.0,
+    "input": "bands.in",
+    "subspace_diag": "Subspace diagonalization in iterative solution of the eigenvalue problem: a serial algorithm will be used",
+    "fft_decomposition": "Using Slab Decomposition",
+    "gpu_lines": [
+     "GPU acceleration is ACTIVE.  1 visible GPUs per MPI rank",
+     "GPU-aware MPI enabled",
+     "GPU used by master process:"
+    ]
+   },
+   "params": {
+    "bravais-lattice index": "0",
+    "lattice parameter (alat)": "19.5330  a.u.",
+    "unit-cell volume": "25140.0035 (a.u.)^3",
+    "number of atoms/cell": "96",
+    "number of atomic types": "3",
+    "number of electrons": "624.00",
+    "number of Kohn-Sham states": "328",
+    "kinetic-energy cutoff": "71.0000  Ry",
+    "charge density cutoff": "568.0000  Ry",
+    "Exchange-correlation": "SLA  PW   PBX  PBC",
+    "celldm": [
+     19.533024,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "pseudos": [
+    {
+     "n": 1,
+     "element": "In",
+     "file": "./In.pbe-dn-kjpaw_psl.1.0.0.UPF",
+     "md5": "235b15e6a7fdfd96486e0ecdcb5b12c6",
+     "type": "Projector augmented-wave + core cor",
+     "Zval": 13.0,
+     "notes": [
+      "Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.3",
+      "Shape of augmentation charge: PSQ"
+     ],
+     "radial_grid": "Using radial grid of 1241 points,  6 beta functions with:"
+    },
+    {
+     "n": 2,
+     "element": "O",
+     "file": "./O.pbe-n-kjpaw_psl.1.0.0.UPF",
+     "md5": "e99d9cef9b487d1ca56f5b95ecd0fd7a",
+     "type": "Projector augmented-wave + core cor",
+     "Zval": 6.0,
+     "notes": [
+      "Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.3",
+      "Shape of augmentation charge: PSQ"
+     ],
+     "radial_grid": "Using radial grid of 1095 points,  4 beta functions with:"
+    },
+    {
+     "n": 3,
+     "element": "H",
+     "file": "./H.pbe-kjpaw_psl.1.0.0.UPF",
+     "md5": "d81a744832360e4a8af0b0b5b123bc2a",
+     "type": "Projector augmented-wave",
+     "Zval": 1.0,
+     "notes": [
+      "Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.3MaX",
+      "Shape of augmentation charge: PSQ"
+     ],
+     "radial_grid": "Using radial grid of  929 points,  2 beta functions with:"
+    }
+   ],
+   "pseudo_rereads": 0,
+   "species": [
+    {
+     "species": "In",
+     "valence": 13.0,
+     "mass": 114.818
+    },
+    {
+     "species": "O",
+     "valence": 6.0,
+     "mass": 15.999
+    },
+    {
+     "species": "H",
+     "valence": 1.0,
+     "mass": 1.008
+    }
+   ],
+   "symmetry": "8 Sym. Ops., with inversion, found ( 6 have fractional translation)",
+   "kpoints": {
+    "n": 21,
+    "line": "number of k points=    21",
+    "sum_wk": 2.0
+   },
+   "fft": {
+    "dense": "Dense  grid:  5746731 G-vectors     FFT dimensions: ( 150, 150, 500)",
+    "smooth": "Smooth grid:  2031701 G-vectors     FFT dimensions: ( 108, 108, 360)"
+   },
+   "ram": {
+    "Estimated static dynamical RAM per process": "6.38 GB",
+    "Estimated max dynamical RAM per process": "26.42 GB"
+   },
+   "ram_components": [
+    "Dynamical RAM for                 wfc:    1271.15 MB",
+    "Dynamical RAM for     wfc (w. buffer):    1271.15 MB",
+    "Dynamical RAM for           str. fact:     263.06 MB",
+    "Dynamical RAM for           local pot:       0.00 MB",
+    "Dynamical RAM for          nlocal pot:    3348.38 MB",
+    "Dynamical RAM for                qrad:       5.74 MB",
+    "Dynamical RAM for          rho,v,vnew:     520.56 MB",
+    "Dynamical RAM for           G-vectors:     344.33 MB",
+    "Dynamical RAM for          h,s,v(r/c):       4.92 MB",
+    "Dynamical RAM for          <psi|beta>:       4.32 MB",
+    "Dynamical RAM for      wfcinit/wfcrot:    3352.66 MB",
+    "Dynamical RAM for           addusdens:   20519.03 MB"
+   ],
+   "start": [
+    "Starting wfcs are  432 randomized atomic wfcs"
+   ],
+   "calc_type": "bands",
+   "bands_calc": {
+    "diag": "CG style diagonalization",
+    "kpts_done": 21,
+    "ethr": "ethr =  1.60E-13,  avg # of iterations = 78.1"
+   },
+   "n_scf_steps": 0,
+   "steps": [],
+   "final_step": {},
+   "bfgs": {},
+   "exx": {
+    "cycles": []
+   },
+   "timing": {
+    "init_run": {
+     "cpu": "17.50s",
+     "wall": "33.09s",
+     "calls": 1
+    },
+    "electrons": {
+     "cpu": "6590.58s",
+     "wall": "16660.19s",
+     "calls": 1
+    },
+    "wfcinit": {
+     "cpu": "0.00s",
+     "wall": "0.00s",
+     "calls": 1
+    },
+    "wfcinit:atom": {
+     "cpu": "0.22s",
+     "wall": "0.37s",
+     "calls": 21
+    },
+    "wfcinit:wfcr": {
+     "cpu": "1.99s",
+     "wall": "50.55s",
+     "calls": 21
+    },
+    "potinit": {
+     "cpu": "12.23s",
+     "wall": "24.25s",
+     "calls": 1
+    },
+    "hinit0": {
+     "cpu": "2.76s",
+     "wall": "2.94s",
+     "calls": 1
+    },
+    "c_bands": {
+     "cpu": "6590.58s",
+     "wall": "16660.12s",
+     "calls": 1
+    },
+    "v_of_rho": {
+     "cpu": "0.12s",
+     "wall": "0.24s",
+     "calls": 1
+    },
+    "v_h": {
+     "cpu": "0.06s",
+     "wall": "0.10s",
+     "calls": 1
+    },
+    "v_xc": {
+     "cpu": "0.06s",
+     "wall": "0.14s",
+     "calls": 1
+    },
+    "newd": {
+     "cpu": "0.09s",
+     "wall": "0.37s",
+     "calls": 1
+    },
+    "PAW_pot": {
+     "cpu": "7.13s",
+     "wall": "9.09s",
+     "calls": 1
+    },
+    "init_us_2": {
+     "cpu": "0.07s",
+     "wall": "0.28s",
+     "calls": 21
+    },
+    "ccgdiagg": {
+     "cpu": "6580.28s",
+     "wall": "16499.17s",
+     "calls": 126
+    },
+    "wfcrot": {
+     "cpu": "8.17s",
+     "wall": "127.05s",
+     "calls": 126
+    },
+    "h_psi": {
+     "cpu": "2290.85s",
+     "wall": "6223.80s",
+     "calls": 486439
+    },
+    "s_psi": {
+     "cpu": "3568.26s",
+     "wall": "6522.53s",
+     "calls": 972752
+    },
+    "h_psi:calbec": {
+     "cpu": "8.99s",
+     "wall": "1229.85s",
+     "calls": 486439
+    },
+    "vloc_psi": {
+     "cpu": "232.44s",
+     "wall": "884.96s",
+     "calls": 486439
+    },
+    "add_vuspsi": {
+     "cpu": "1727.29s",
+     "wall": "3995.37s",
+     "calls": 486439
+    },
+    "hs_1psi": {
+     "cpu": "4024.86s",
+     "wall": "10133.15s",
+     "calls": 486313
+    },
+    "s_1psi": {
+     "cpu": "1859.96s",
+     "wall": "5164.02s",
+     "calls": 486313
+    },
+    "calbec": {
+     "cpu": "8.47s",
+     "wall": "33.87s",
+     "calls": 972752
+    },
+    "fft": {
+     "cpu": "2.96s",
+     "wall": "6.36s",
+     "calls": 13
+    },
+    "ffts": {
+     "cpu": "1.97s",
+     "wall": "8.48s",
+     "calls": 1
+    },
+    "fftw": {
+     "cpu": "13.20s",
+     "wall": "517.26s",
+     "calls": 978170
+    },
+    "interpolate": {
+     "cpu": "4.91s",
+     "wall": "14.78s",
+     "calls": 1
+    },
+    "davcio": {
+     "cpu": "0.31s",
+     "wall": "35.02s",
+     "calls": 42
+    },
+    "PWSCF": {
+     "cpu": "1h50m",
+     "wall": "4h38m",
+     "calls": null
+    }
+   },
+   "terminated": "13:57:57  29Sep2026",
+   "done": true,
+   "messages": [
+    [
+     27,
+     "file In.pbe-dn-kjpaw_psl.1.0.0.UPF: wavefunction(s)  5S 5P 4D renormalized"
+    ],
+    [
+     28,
+     "file O.pbe-n-kjpaw_psl.1.0.0.UPF: wavefunction(s)  2S 2P renormalized"
+    ],
+    [
+     29,
+     "file H.pbe-kjpaw_psl.1.0.0.UPF: wavefunction(s)  1S renormalized"
+    ],
+    [
+     34,
+     "Message from routine setup: using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+    ]
+   ],
+   "errors": null,
+   "warnings": {
+    "message_from_routine": {
+     "count": 1,
+     "first": [
+      [
+       34,
+       "Message from routine setup:"
+      ]
+     ],
+     "last": [
+      34,
+      "Message from routine setup:"
+     ]
+    },
+    "warning": {
+     "count": 4,
+     "first": [
+      [
+       1,
+       "WARNING: Skipping mount /tmp [tmp]: /tmp doesn't exist in container"
+      ],
+      [
+       1604,
+       "Warning: ieee_invalid is signaling"
+      ],
+      [
+       1605,
+       "Warning: ieee_divide_by_zero is signaling"
+      ]
+     ],
+     "last": [
+      1606,
+      "Warning: ieee_inexact is signaling"
+     ]
+    },
+    "c_bands_not_converged": {
+     "count": 21,
+     "first": [
+      [
+       521,
+       "c_bands: 14 eigenvalues not converged"
+      ],
+      [
+       525,
+       "c_bands: 12 eigenvalues not converged"
+      ],
+      [
+       529,
+       "c_bands: 12 eigenvalues not converged"
+      ]
+     ],
+     "last": [
+      601,
+      "c_bands: 13 eigenvalues not converged"
+     ]
+    },
+    "ieee": {
+     "count": 3,
+     "first": [
+      [
+       1604,
+       "Warning: ieee_invalid is signaling"
+      ],
+      [
+       1605,
+       "Warning: ieee_divide_by_zero is signaling"
+      ],
+      [
+       1606,
+       "Warning: ieee_inexact is signaling"
+      ]
+     ],
+     "last": [
+      1606,
+      "Warning: ieee_inexact is signaling"
+     ]
+    },
+    "discouraged": {
+     "count": 1,
+     "first": [
+      [
+       35,
+       "using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+      ]
+     ],
+     "last": [
+      35,
+      "using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+     ]
+    },
+    "renormalized_wfc": {
+     "count": 3,
+     "first": [
+      [
+       27,
+       "file In.pbe-dn-kjpaw_psl.1.0.0.UPF: wavefunction(s)  5S 5P 4D renormalized"
+      ],
+      [
+       28,
+       "file O.pbe-n-kjpaw_psl.1.0.0.UPF: wavefunction(s)  2S 2P renormalized"
+      ],
+      [
+       29,
+       "file H.pbe-kjpaw_psl.1.0.0.UPF: wavefunction(s)  1S renormalized"
+      ]
+     ],
+     "last": [
+      29,
+      "file H.pbe-kjpaw_psl.1.0.0.UPF: wavefunction(s)  1S renormalized"
+     ]
+    },
+    "fortran_stop": {
+     "count": 1,
+     "first": [
+      [
+       1607,
+       "FORTRAN STOP"
+      ]
+     ],
+     "last": [
+      1607,
+      "FORTRAN STOP"
+     ]
+    }
+   },
+   "bands": {
+    "n_k": 21,
+    "n_bands": 328,
+    "n_occ": 312,
+    "VBM_eV": -2.3403,
+    "VBM_k_index": 0,
+    "CBM_eV": -0.5518,
+    "CBM_k_index": 0,
+    "gap_eV": 1.7885,
+    "direct_gap_min_eV": 1.7885,
+    "direct_gap_k_index": 0,
+    "gap_type": "direct",
+    "VB_width_top_band_eV": 0.0092,
+    "CB_width_bottom_band_eV": 0.2781,
+    "E2_minus_E1_at_k0_eV": 1.4988
+   },
+   "n_lines": 1607
+  },
+  "scf.out": {
+   "header": {
+    "version": "v.7.3.1",
+    "start_date": "29Sep2026",
+    "start_time": "8:47:27",
+    "processor_cores": 1,
+    "parallel_mode": "Parallel version (MPI & OpenMP),",
+    "mpi_processes": 1,
+    "threads_per_mpi": 1,
+    "nodes": 1,
+    "node_memory_MiB": 68788.0,
+    "input": "scf.in",
+    "subspace_diag": "Subspace diagonalization in iterative solution of the eigenvalue problem: a serial algorithm will be used",
+    "fft_decomposition": "Using Slab Decomposition",
+    "gpu_lines": [
+     "GPU acceleration is ACTIVE.  1 visible GPUs per MPI rank",
+     "GPU-aware MPI enabled",
+     "GPU used by master process:"
+    ]
+   },
+   "params": {
+    "bravais-lattice index": "0",
+    "lattice parameter (alat)": "19.5330  a.u.",
+    "unit-cell volume": "25140.0035 (a.u.)^3",
+    "number of atoms/cell": "96",
+    "number of atomic types": "3",
+    "number of electrons": "624.00",
+    "number of Kohn-Sham states": "328",
+    "kinetic-energy cutoff": "71.0000  Ry",
+    "charge density cutoff": "568.0000  Ry",
+    "scf convergence threshold": "1.0E-09",
+    "mixing beta": "0.2000",
+    "number of iterations used": "8  local-TF  mixing",
+    "Exchange-correlation": "SLA  PW   PBX  PBC",
+    "celldm": [
+     19.533024,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "pseudos": [
+    {
+     "n": 1,
+     "element": "In",
+     "file": "./In.pbe-dn-kjpaw_psl.1.0.0.UPF",
+     "md5": "235b15e6a7fdfd96486e0ecdcb5b12c6",
+     "type": "Projector augmented-wave + core cor",
+     "Zval": 13.0,
+     "notes": [
+      "Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.3",
+      "Shape of augmentation charge: PSQ"
+     ],
+     "radial_grid": "Using radial grid of 1241 points,  6 beta functions with:"
+    },
+    {
+     "n": 2,
+     "element": "O",
+     "file": "./O.pbe-n-kjpaw_psl.1.0.0.UPF",
+     "md5": "e99d9cef9b487d1ca56f5b95ecd0fd7a",
+     "type": "Projector augmented-wave + core cor",
+     "Zval": 6.0,
+     "notes": [
+      "Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.3",
+      "Shape of augmentation charge: PSQ"
+     ],
+     "radial_grid": "Using radial grid of 1095 points,  4 beta functions with:"
+    },
+    {
+     "n": 3,
+     "element": "H",
+     "file": "./H.pbe-kjpaw_psl.1.0.0.UPF",
+     "md5": "d81a744832360e4a8af0b0b5b123bc2a",
+     "type": "Projector augmented-wave",
+     "Zval": 1.0,
+     "notes": [
+      "Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.3MaX",
+      "Shape of augmentation charge: PSQ"
+     ],
+     "radial_grid": "Using radial grid of  929 points,  2 beta functions with:"
+    }
+   ],
+   "pseudo_rereads": 0,
+   "species": [
+    {
+     "species": "In",
+     "valence": 13.0,
+     "mass": 114.818
+    },
+    {
+     "species": "O",
+     "valence": 6.0,
+     "mass": 15.999
+    },
+    {
+     "species": "H",
+     "valence": 1.0,
+     "mass": 1.008
+    }
+   ],
+   "symmetry": "8 Sym. Ops., with inversion, found ( 6 have fractional translation)",
+   "kpoints": {
+    "n": 4,
+    "line": "number of k points=     4",
+    "sum_wk": 2.0
+   },
+   "fft": {
+    "dense": "Dense  grid:  5746731 G-vectors     FFT dimensions: ( 150, 150, 500)",
+    "smooth": "Smooth grid:  2031701 G-vectors     FFT dimensions: ( 108, 108, 360)"
+   },
+   "ram": {
+    "Estimated static dynamical RAM per process": "11.51 GB",
+    "Estimated max dynamical RAM per process": "41.02 GB"
+   },
+   "ram_components": [
+    "Dynamical RAM for                 wfc:    1271.15 MB",
+    "Dynamical RAM for     wfc (w. buffer):    6355.73 MB",
+    "Dynamical RAM for           str. fact:     263.06 MB",
+    "Dynamical RAM for           local pot:       0.00 MB",
+    "Dynamical RAM for          nlocal pot:    3348.38 MB",
+    "Dynamical RAM for                qrad:       5.74 MB",
+    "Dynamical RAM for          rho,v,vnew:     520.56 MB",
+    "Dynamical RAM for               rhoin:     173.52 MB",
+    "Dynamical RAM for            rho*nmix:    1403.01 MB",
+    "Dynamical RAM for           G-vectors:     344.33 MB",
+    "Dynamical RAM for          h,s,v(r/c):      19.70 MB",
+    "Dynamical RAM for          <psi|beta>:       4.32 MB",
+    "Dynamical RAM for                 psi:    2542.29 MB",
+    "Dynamical RAM for                hpsi:    2542.29 MB",
+    "Dynamical RAM for                spsi:    2542.29 MB",
+    "Dynamical RAM for      wfcinit/wfcrot:    3352.66 MB",
+    "Dynamical RAM for           addusdens:   20519.03 MB",
+    "Dynamical RAM for          addusforce:   28805.75 MB",
+    "Dynamical RAM for         addusstress:   17625.32 MB"
+   ],
+   "start": [
+    "Initial potential from superposition of free atoms",
+    "starting charge     623.9105, renormalised to     624.0000",
+    "Starting wfcs are  432 randomized atomic wfcs"
+   ],
+   "calc_type": "scf/relax",
+   "bands_calc": null,
+   "n_scf_steps": 1,
+   "steps": [
+    {
+     "iterations": 54,
+     "converged_iterations": 54,
+     "acc_final_Ry": 4.3e-10,
+     "E_Ry": -11888.81106216,
+     "HOMO_eV": -2.3402,
+     "LUMO_eV": -0.5517,
+     "force_max_component_Ry_bohr": 0.00076798,
+     "force_rms_component_Ry_bohr": 0.00035974153116431306,
+     "total_force_Ry_bohr": 0.006105,
+     "total_scf_correction_Ry_bohr": 3.6e-05,
+     "pressure_kbar": -0.32,
+     "negative_rho": [
+      0.00179,
+      0.0
+     ],
+     "beta": 0.2
+    }
+   ],
+   "final_step": {
+    "iterations": 54,
+    "ecut": 71.0,
+    "beta": 0.2,
+    "negative_rho": [
+     0.00179,
+     0.0
+    ],
+    "HOMO_eV": -2.3402,
+    "LUMO_eV": -0.5517,
+    "E_Ry": -11888.81106216,
+    "E_all_electron_Ry": -289578.062985,
+    "acc_final_Ry": 4.3e-10,
+    "one_electron_Ry": -78759.3520355,
+    "hartree_Ry": 39691.25649261,
+    "xc_Ry": -1487.94939565,
+    "ewald_Ry": 35670.75711453,
+    "paw_one_center_Ry": -7003.52323816,
+    "converged_iterations": 54,
+    "force_max_component_Ry_bohr": 0.00076798,
+    "force_max_atom_Ry_bohr": 0.000877719562559705,
+    "force_rms_component_Ry_bohr": 0.00035974153116431306,
+    "force_max_atom_index": 13,
+    "total_force_Ry_bohr": 0.006105,
+    "total_scf_correction_Ry_bohr": 3.6e-05,
+    "pressure_kbar": -0.32,
+    "stress_kbar": [
+     [
+      -0.06,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      -0.13,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      -0.77
+     ]
+    ],
+    "E_trace_n": 53
+   },
+   "bfgs": {},
+   "exx": {
+    "cycles": []
+   },
+   "timing": {
+    "init_run": {
+     "cpu": "18.93s",
+     "wall": "68.73s",
+     "calls": 1
+    },
+    "electrons": {
+     "cpu": "618.91s",
+     "wall": "1784.66s",
+     "calls": 1
+    },
+    "forces": {
+     "cpu": "3.66s",
+     "wall": "5.88s",
+     "calls": 1
+    },
+    "stress": {
+     "cpu": "3.27s",
+     "wall": "21.91s",
+     "calls": 1
+    },
+    "wfcinit": {
+     "cpu": "1.70s",
+     "wall": "35.81s",
+     "calls": 1
+    },
+    "wfcinit:atom": {
+     "cpu": "0.04s",
+     "wall": "0.07s",
+     "calls": 4
+    },
+    "wfcinit:wfcr": {
+     "cpu": "0.51s",
+     "wall": "33.61s",
+     "calls": 4
+    },
+    "potinit": {
+     "cpu": "12.13s",
+     "wall": "24.24s",
+     "calls": 1
+    },
+    "hinit0": {
+     "cpu": "2.79s",
+     "wall": "2.97s",
+     "calls": 1
+    },
+    "c_bands": {
+     "cpu": "159.19s",
+     "wall": "1090.24s",
+     "calls": 54
+    },
+    "sum_band": {
+     "cpu": "64.29s",
+     "wall": "165.62s",
+     "calls": 54
+    },
+    "v_of_rho": {
+     "cpu": "5.59s",
+     "wall": "9.36s",
+     "calls": 55
+    },
+    "v_h": {
+     "cpu": "3.01s",
+     "wall": "4.97s",
+     "calls": 55
+    },
+    "v_xc": {
+     "cpu": "2.66s",
+     "wall": "4.55s",
+     "calls": 57
+    },
+    "newd": {
+     "cpu": "2.54s",
+     "wall": "11.88s",
+     "calls": 55
+    },
+    "PAW_pot": {
+     "cpu": "361.95s",
+     "wall": "468.94s",
+     "calls": 55
+    },
+    "mix_rho": {
+     "cpu": "17.08s",
+     "wall": "30.93s",
+     "calls": 54
+    },
+    "init_us_2": {
+     "cpu": "1.61s",
+     "wall": "5.42s",
+     "calls": 444
+    },
+    "cegterg": {
+     "cpu": "59.16s",
+     "wall": "945.20s",
+     "calls": 216
+    },
+    "sum_band:wei": {
+     "cpu": "0.00s",
+     "wall": "0.00s",
+     "calls": 54
+    },
+    "sum_band:loo": {
+     "cpu": "41.33s",
+     "wall": "93.83s",
+     "calls": 54
+    },
+    "sum_band:buf": {
+     "cpu": "33.78s",
+     "wall": "44.98s",
+     "calls": 216
+    },
+    "sum_band:ini": {
+     "cpu": "0.82s",
+     "wall": "2.62s",
+     "calls": 216
+    },
+    "sum_band:cal": {
+     "cpu": "0.03s",
+     "wall": "8.75s",
+     "calls": 216
+    },
+    "sum_band:bec": {
+     "cpu": "1.13s",
+     "wall": "1.61s",
+     "calls": 216
+    },
+    "addusdens": {
+     "cpu": "3.28s",
+     "wall": "14.41s",
+     "calls": 54
+    },
+    "addusd:skk": {
+     "cpu": "0.16s",
+     "wall": "0.90s",
+     "calls": 162
+    },
+    "cdiaghg": {
+     "cpu": "4.06s",
+     "wall": "18.47s",
+     "calls": 1498
+    },
+    "cegterg:over": {
+     "cpu": "5.13s",
+     "wall": "56.66s",
+     "calls": 1282
+    },
+    "cegterg:upda": {
+     "cpu": "4.28s",
+     "wall": "21.33s",
+     "calls": 1282
+    },
+    "cegterg:last": {
+     "cpu": "3.52s",
+     "wall": "36.05s",
+     "calls": 565
+    },
+    "h_psi": {
+     "cpu": "34.55s",
+     "wall": "812.71s",
+     "calls": 1502
+    },
+    "s_psi": {
+     "cpu": "5.56s",
+     "wall": "9.77s",
+     "calls": 1502
+    },
+    "g_psi": {
+     "cpu": "0.01s",
+     "wall": "3.08s",
+     "calls": 1282
+    },
+    "h_psi:calbec": {
+     "cpu": "0.09s",
+     "wall": "30.23s",
+     "calls": 1502
+    },
+    "vloc_psi": {
+     "cpu": "23.34s",
+     "wall": "744.19s",
+     "calls": 1502
+    },
+    "add_vuspsi": {
+     "cpu": "5.64s",
+     "wall": "36.12s",
+     "calls": 1502
+    },
+    "calbec": {
+     "cpu": "0.09s",
+     "wall": "0.24s",
+     "calls": 1738
+    },
+    "fft": {
+     "cpu": "9.29s",
+     "wall": "13.54s",
+     "calls": 738
+    },
+    "ffts": {
+     "cpu": "3.87s",
+     "wall": "49.07s",
+     "calls": 6628
+    },
+    "fftw": {
+     "cpu": "2.32s",
+     "wall": "716.11s",
+     "calls": 32922
+    },
+    "interpolate": {
+     "cpu": "14.67s",
+     "wall": "26.04s",
+     "calls": 55
+    },
+    "PAW_symme": {
+     "cpu": "0.11s",
+     "wall": "0.12s",
+     "calls": 109
+    },
+    "PWSCF": {
+     "cpu": "10m46.87s",
+     "wall": "31m30.21s",
+     "calls": null
+    }
+   },
+   "terminated": "9:18:57  29Sep2026",
+   "done": true,
+   "messages": [
+    [
+     27,
+     "file In.pbe-dn-kjpaw_psl.1.0.0.UPF: wavefunction(s)  5S 5P 4D renormalized"
+    ],
+    [
+     28,
+     "file O.pbe-n-kjpaw_psl.1.0.0.UPF: wavefunction(s)  2S 2P renormalized"
+    ],
+    [
+     29,
+     "file H.pbe-kjpaw_psl.1.0.0.UPF: wavefunction(s)  1S renormalized"
+    ],
+    [
+     30,
+     "Message from routine setup: using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+    ]
+   ],
+   "errors": null,
+   "warnings": {
+    "message_from_routine": {
+     "count": 1,
+     "first": [
+      [
+       30,
+       "Message from routine setup:"
+      ]
+     ],
+     "last": [
+      30,
+      "Message from routine setup:"
+     ]
+    },
+    "warning": {
+     "count": 4,
+     "first": [
+      [
+       1,
+       "WARNING: Skipping mount /tmp [tmp]: /tmp doesn't exist in container"
+      ],
+      [
+       2803,
+       "Warning: ieee_invalid is signaling"
+      ],
+      [
+       2804,
+       "Warning: ieee_divide_by_zero is signaling"
+      ]
+     ],
+     "last": [
+      2805,
+      "Warning: ieee_inexact is signaling"
+     ]
+    },
+    "c_bands_not_converged": {
+     "count": 11,
+     "first": [
+      [
+       791,
+       "c_bands:  2 eigenvalues not converged"
+      ],
+      [
+       792,
+       "c_bands:  1 eigenvalues not converged"
+      ],
+      [
+       933,
+       "c_bands:  1 eigenvalues not converged"
+      ]
+     ],
+     "last": [
+      1061,
+      "c_bands:  1 eigenvalues not converged"
+     ]
+    },
+    "ieee": {
+     "count": 3,
+     "first": [
+      [
+       2803,
+       "Warning: ieee_invalid is signaling"
+      ],
+      [
+       2804,
+       "Warning: ieee_divide_by_zero is signaling"
+      ],
+      [
+       2805,
+       "Warning: ieee_inexact is signaling"
+      ]
+     ],
+     "last": [
+      2805,
+      "Warning: ieee_inexact is signaling"
+     ]
+    },
+    "discouraged": {
+     "count": 1,
+     "first": [
+      [
+       31,
+       "using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+      ]
+     ],
+     "last": [
+      31,
+      "using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+     ]
+    },
+    "renormalized_wfc": {
+     "count": 3,
+     "first": [
+      [
+       27,
+       "file In.pbe-dn-kjpaw_psl.1.0.0.UPF: wavefunction(s)  5S 5P 4D renormalized"
+      ],
+      [
+       28,
+       "file O.pbe-n-kjpaw_psl.1.0.0.UPF: wavefunction(s)  2S 2P renormalized"
+      ],
+      [
+       29,
+       "file H.pbe-kjpaw_psl.1.0.0.UPF: wavefunction(s)  1S renormalized"
+      ]
+     ],
+     "last": [
+      29,
+      "file H.pbe-kjpaw_psl.1.0.0.UPF: wavefunction(s)  1S renormalized"
+     ]
+    },
+    "fortran_stop": {
+     "count": 1,
+     "first": [
+      [
+       2806,
+       "FORTRAN STOP"
+      ]
+     ],
+     "last": [
+      2806,
+      "FORTRAN STOP"
+     ]
+    }
+   },
+   "bands": {
+    "n_k": 4,
+    "n_bands": 328,
+    "n_occ": 312,
+    "VBM_eV": -2.3402,
+    "VBM_k_index": 0,
+    "CBM_eV": -0.5517,
+    "CBM_k_index": 0,
+    "gap_eV": 1.7885,
+    "direct_gap_min_eV": 1.7885,
+    "direct_gap_k_index": 0,
+    "gap_type": "direct",
+    "VB_width_top_band_eV": 0.03,
+    "CB_width_bottom_band_eV": 0.8601,
+    "E2_minus_E1_at_k0_eV": 1.4988
+   },
+   "n_lines": 2806
+  },
+  "vcrelax.out": {
+   "header": {
+    "version": "v.7.3.1",
+    "start_date": "28Sep2026",
+    "start_time": "17:15:25",
+    "processor_cores": 1,
+    "parallel_mode": "Parallel version (MPI & OpenMP),",
+    "mpi_processes": 1,
+    "threads_per_mpi": 1,
+    "nodes": 1,
+    "node_memory_MiB": 71328.0,
+    "input": "vcrelax.in",
+    "subspace_diag": "Subspace diagonalization in iterative solution of the eigenvalue problem: a serial algorithm will be used",
+    "fft_decomposition": "Using Slab Decomposition",
+    "gpu_lines": [
+     "GPU acceleration is ACTIVE.  1 visible GPUs per MPI rank",
+     "GPU-aware MPI enabled",
+     "GPU acceleration is ACTIVE.  1 visible GPUs per MPI rank",
+     "GPU-aware MPI enabled"
+    ]
+   },
+   "params": {
+    "bravais-lattice index": "0",
+    "lattice parameter (alat)": "19.5432  a.u.",
+    "unit-cell volume": "25182.9640 (a.u.)^3",
+    "number of atoms/cell": "96",
+    "number of atomic types": "3",
+    "number of electrons": "624.00",
+    "number of Kohn-Sham states": "320",
+    "kinetic-energy cutoff": "71.0000  Ry",
+    "charge density cutoff": "568.0000  Ry",
+    "scf convergence threshold": "1.0E-09",
+    "mixing beta": "0.2000",
+    "number of iterations used": "8  local-TF  mixing",
+    "energy convergence thresh.": "1.0E-04",
+    "force convergence thresh.": "1.0E-03",
+    "press convergence thresh.": "5.0E-01",
+    "Exchange-correlation": "SLA  PW   PBX  PBC",
+    "nstep": "300",
+    "celldm": [
+     19.543201,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "pseudos": [
+    {
+     "n": 1,
+     "element": "In",
+     "file": "./In.pbe-dn-kjpaw_psl.1.0.0.UPF",
+     "md5": "235b15e6a7fdfd96486e0ecdcb5b12c6",
+     "type": "Projector augmented-wave + core cor",
+     "Zval": 13.0,
+     "notes": [
+      "Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.3",
+      "Shape of augmentation charge: PSQ"
+     ],
+     "radial_grid": "Using radial grid of 1241 points,  6 beta functions with:"
+    },
+    {
+     "n": 2,
+     "element": "O",
+     "file": "./O.pbe-n-kjpaw_psl.1.0.0.UPF",
+     "md5": "e99d9cef9b487d1ca56f5b95ecd0fd7a",
+     "type": "Projector augmented-wave + core cor",
+     "Zval": 6.0,
+     "notes": [
+      "Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.3",
+      "Shape of augmentation charge: PSQ"
+     ],
+     "radial_grid": "Using radial grid of 1095 points,  4 beta functions with:"
+    },
+    {
+     "n": 3,
+     "element": "H",
+     "file": "./H.pbe-kjpaw_psl.1.0.0.UPF",
+     "md5": "d81a744832360e4a8af0b0b5b123bc2a",
+     "type": "Projector augmented-wave",
+     "Zval": 1.0,
+     "notes": [
+      "Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.3MaX",
+      "Shape of augmentation charge: PSQ"
+     ],
+     "radial_grid": "Using radial grid of  929 points,  2 beta functions with:"
+    }
+   ],
+   "pseudo_rereads": 3,
+   "species": [
+    {
+     "species": "In",
+     "valence": 13.0,
+     "mass": 114.818
+    },
+    {
+     "species": "O",
+     "valence": 6.0,
+     "mass": 15.999
+    },
+    {
+     "species": "H",
+     "valence": 1.0,
+     "mass": 1.008
+    },
+    {
+     "species": "In",
+     "valence": 13.0,
+     "mass": 114.818
+    },
+    {
+     "species": "O",
+     "valence": 6.0,
+     "mass": 15.999
+    },
+    {
+     "species": "H",
+     "valence": 1.0,
+     "mass": 1.008
+    }
+   ],
+   "symmetry": "8 Sym. Ops., with inversion, found ( 6 have fractional translation)",
+   "kpoints": {
+    "n": 4,
+    "line": "number of k points=     4",
+    "sum_wk": 2.0
+   },
+   "fft": {
+    "dense": "Dense  grid:  5746731 G-vectors     FFT dimensions: ( 150, 150, 500)",
+    "smooth": "Smooth grid:  2031701 G-vectors     FFT dimensions: ( 108, 108, 360)"
+   },
+   "ram": {
+    "Estimated max dynamical RAM per process": "41.00 GB"
+   },
+   "ram_components": null,
+   "start": [
+    "Initial potential from superposition of free atoms",
+    "starting charge     623.9105, renormalised to     624.0000",
+    "Starting wfcs are  432 randomized atomic wfcs",
+    "Initial potential from superposition of free atoms",
+    "starting charge     623.9105, renormalised to     624.0000",
+    "Starting wfcs are  432 randomized atomic wfcs"
+   ],
+   "calc_type": "scf/relax",
+   "bands_calc": null,
+   "n_scf_steps": 58,
+   "steps": [
+    {
+     "iterations": 62,
+     "converged_iterations": 62,
+     "acc_final_Ry": 4.9e-10,
+     "E_Ry": -11888.5496256,
+     "enthalpy_new_Ry": -11888.5496256045,
+     "HOMO_eV": -1.693,
+     "LUMO_eV": 0.0042,
+     "force_max_component_Ry_bohr": 0.01076023,
+     "force_rms_component_Ry_bohr": 0.0038289533715558104,
+     "total_force_Ry_bohr": 0.064979,
+     "total_scf_correction_Ry_bohr": 3.5e-05,
+     "pressure_kbar": 2.74,
+     "volume_A3": 3736.62872,
+     "cell_A": [
+      [
+       10.348937607,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.353226244,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 0,
+     "bfgs_scf_cycles": 1,
+     "trust_radius_bohr": 0.0218543872,
+     "bfgs_energy_error_Ry": 0.0,
+     "bfgs_gradient_error": 0.011,
+     "bfgs_cell_gradient_error_kbar": 4.1,
+     "negative_rho": [
+      0.001776,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 30,
+     "converged_iterations": 30,
+     "acc_final_Ry": 6.6e-10,
+     "E_Ry": -11888.55265957,
+     "enthalpy_new_Ry": -11888.5526595661,
+     "HOMO_eV": -1.7229,
+     "LUMO_eV": -0.0244,
+     "force_max_component_Ry_bohr": 0.00870062,
+     "force_rms_component_Ry_bohr": 0.0036152426442469868,
+     "total_force_Ry_bohr": 0.061353,
+     "total_scf_correction_Ry_bohr": 9e-05,
+     "pressure_kbar": 2.9,
+     "volume_A3": 3747.90458,
+     "cell_A": [
+      [
+       10.365368784,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.36800725,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 1,
+     "bfgs_scf_cycles": 2,
+     "trust_radius_bohr": 0.0504244488,
+     "bfgs_energy_error_Ry": 0.003,
+     "bfgs_gradient_error": 0.0087,
+     "bfgs_cell_gradient_error_kbar": 3.5,
+     "negative_rho": [
+      0.001859,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 30,
+     "converged_iterations": 30,
+     "acc_final_Ry": 4.1e-11,
+     "E_Ry": -11888.55799897,
+     "enthalpy_new_Ry": -11888.5579989736,
+     "HOMO_eV": -1.7509,
+     "LUMO_eV": -0.0634,
+     "force_max_component_Ry_bohr": 0.00792706,
+     "force_rms_component_Ry_bohr": 0.0029509174456584966,
+     "total_force_Ry_bohr": 0.050079,
+     "total_scf_correction_Ry_bohr": 2.2e-05,
+     "pressure_kbar": 1.48,
+     "volume_A3": 3764.74514,
+     "cell_A": [
+      [
+       10.390015548,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.389889036,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 2,
+     "bfgs_scf_cycles": 3,
+     "trust_radius_bohr": 0.0756306299,
+     "bfgs_energy_error_Ry": 0.0053,
+     "bfgs_gradient_error": 0.0079,
+     "bfgs_cell_gradient_error_kbar": 1.9,
+     "negative_rho": [
+      0.002014,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 35,
+     "converged_iterations": 35,
+     "acc_final_Ry": 6.2e-11,
+     "E_Ry": -11888.56298355,
+     "enthalpy_new_Ry": -11888.562983554,
+     "HOMO_eV": -1.7951,
+     "LUMO_eV": -0.1288,
+     "force_max_component_Ry_bohr": 0.00574145,
+     "force_rms_component_Ry_bohr": 0.0022089138463950633,
+     "total_force_Ry_bohr": 0.037487,
+     "total_scf_correction_Ry_bohr": 2.2e-05,
+     "pressure_kbar": -0.76,
+     "volume_A3": 3774.82126,
+     "cell_A": [
+      [
+       10.404889159,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.40280505,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 3,
+     "bfgs_scf_cycles": 4,
+     "trust_radius_bohr": 0.0456348156,
+     "bfgs_energy_error_Ry": 0.005,
+     "bfgs_gradient_error": 0.0057,
+     "bfgs_cell_gradient_error_kbar": 0.61,
+     "negative_rho": [
+      0.002116,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 39,
+     "converged_iterations": 39,
+     "acc_final_Ry": 4e-11,
+     "E_Ry": -11888.56545272,
+     "enthalpy_new_Ry": -11888.5654527194,
+     "HOMO_eV": -1.8287,
+     "LUMO_eV": -0.1755,
+     "force_max_component_Ry_bohr": 0.00490384,
+     "force_rms_component_Ry_bohr": 0.0023471421378014274,
+     "total_force_Ry_bohr": 0.039832,
+     "total_scf_correction_Ry_bohr": 1.8e-05,
+     "pressure_kbar": -2.01,
+     "volume_A3": 3784.7828,
+     "cell_A": [
+      [
+       10.419795964,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.415335701,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 4,
+     "bfgs_scf_cycles": 5,
+     "trust_radius_bohr": 0.0535435825,
+     "bfgs_energy_error_Ry": 0.0025,
+     "bfgs_gradient_error": 0.0049,
+     "bfgs_cell_gradient_error_kbar": 1.9,
+     "negative_rho": [
+      0.002207,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 41,
+     "converged_iterations": 41,
+     "acc_final_Ry": 3.8e-11,
+     "E_Ry": -11888.5689238,
+     "enthalpy_new_Ry": -11888.5689238044,
+     "HOMO_eV": -1.874,
+     "LUMO_eV": -0.2319,
+     "force_max_component_Ry_bohr": 0.00628728,
+     "force_rms_component_Ry_bohr": 0.0025380390160912396,
+     "total_force_Ry_bohr": 0.043072,
+     "total_scf_correction_Ry_bohr": 2.1e-05,
+     "pressure_kbar": -3.16,
+     "volume_A3": 3790.813,
+     "cell_A": [
+      [
+       10.429180072,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.422543609,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 5,
+     "bfgs_scf_cycles": 6,
+     "trust_radius_bohr": 0.0773536661,
+     "bfgs_energy_error_Ry": 0.0035,
+     "bfgs_gradient_error": 0.0063,
+     "bfgs_cell_gradient_error_kbar": 3.2,
+     "negative_rho": [
+      0.002247,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 38,
+     "converged_iterations": 38,
+     "acc_final_Ry": 5.1e-11,
+     "E_Ry": -11888.57352428,
+     "enthalpy_new_Ry": -11888.5735242816,
+     "HOMO_eV": -1.9259,
+     "LUMO_eV": -0.2861,
+     "force_max_component_Ry_bohr": 0.00793328,
+     "force_rms_component_Ry_bohr": 0.0028824133691089586,
+     "total_force_Ry_bohr": 0.048916,
+     "total_scf_correction_Ry_bohr": 1.1e-05,
+     "pressure_kbar": -3.79,
+     "volume_A3": 3788.82922,
+     "cell_A": [
+      [
+       10.427019336,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.419248032,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 6,
+     "bfgs_scf_cycles": 7,
+     "trust_radius_bohr": 0.0956158647,
+     "bfgs_energy_error_Ry": 0.0046,
+     "bfgs_gradient_error": 0.0079,
+     "bfgs_cell_gradient_error_kbar": 4.0,
+     "negative_rho": [
+      0.002207,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 42,
+     "converged_iterations": 42,
+     "acc_final_Ry": 7.5e-11,
+     "E_Ry": -11888.57913209,
+     "enthalpy_new_Ry": -11888.5791320912,
+     "HOMO_eV": -1.9783,
+     "LUMO_eV": -0.3247,
+     "force_max_component_Ry_bohr": 0.0072336,
+     "force_rms_component_Ry_bohr": 0.003378052096822755,
+     "total_force_Ry_bohr": 0.057327,
+     "total_scf_correction_Ry_bohr": 2.3e-05,
+     "pressure_kbar": -3.47,
+     "volume_A3": 3778.9746,
+     "cell_A": [
+      [
+       10.413318682,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.4058207,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 7,
+     "bfgs_scf_cycles": 8,
+     "trust_radius_bohr": 0.113244763,
+     "bfgs_energy_error_Ry": 0.0056,
+     "bfgs_gradient_error": 0.0072,
+     "bfgs_cell_gradient_error_kbar": 3.7,
+     "negative_rho": [
+      0.002116,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 37,
+     "converged_iterations": 37,
+     "acc_final_Ry": 4.9e-11,
+     "E_Ry": -11888.58536902,
+     "enthalpy_new_Ry": -11888.5853690212,
+     "HOMO_eV": -2.0289,
+     "LUMO_eV": -0.35,
+     "force_max_component_Ry_bohr": 0.00992164,
+     "force_rms_component_Ry_bohr": 0.0039340876519289355,
+     "total_force_Ry_bohr": 0.066764,
+     "total_scf_correction_Ry_bohr": 1.1e-05,
+     "pressure_kbar": -2.36,
+     "volume_A3": 3761.13177,
+     "cell_A": [
+      [
+       10.387829375,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.382101404,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 8,
+     "bfgs_scf_cycles": 9,
+     "trust_radius_bohr": 0.1283707284,
+     "bfgs_energy_error_Ry": 0.0062,
+     "bfgs_gradient_error": 0.0099,
+     "bfgs_cell_gradient_error_kbar": 2.3,
+     "negative_rho": [
+      0.001997,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 41,
+     "converged_iterations": 41,
+     "acc_final_Ry": 6.2e-11,
+     "E_Ry": -11888.59300693,
+     "enthalpy_new_Ry": -11888.5930069345,
+     "HOMO_eV": -2.0817,
+     "LUMO_eV": -0.3689,
+     "force_max_component_Ry_bohr": 0.01203013,
+     "force_rms_component_Ry_bohr": 0.003995948426164342,
+     "total_force_Ry_bohr": 0.067813,
+     "total_scf_correction_Ry_bohr": 2.6e-05,
+     "pressure_kbar": -0.67,
+     "volume_A3": 3745.04125,
+     "cell_A": [
+      [
+       10.364727161,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.360727636,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 9,
+     "bfgs_scf_cycles": 10,
+     "trust_radius_bohr": 0.1465263888,
+     "bfgs_energy_error_Ry": 0.0076,
+     "bfgs_gradient_error": 0.012,
+     "bfgs_cell_gradient_error_kbar": 0.16,
+     "negative_rho": [
+      0.001902,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 40,
+     "converged_iterations": 40,
+     "acc_final_Ry": 1.1e-10,
+     "E_Ry": -11888.60044961,
+     "enthalpy_new_Ry": -11888.6004496065,
+     "HOMO_eV": -2.1539,
+     "LUMO_eV": -0.4161,
+     "force_max_component_Ry_bohr": 0.01118397,
+     "force_rms_component_Ry_bohr": 0.0032149210319935024,
+     "total_force_Ry_bohr": 0.054559,
+     "total_scf_correction_Ry_bohr": 2.1e-05,
+     "pressure_kbar": 0.16,
+     "volume_A3": 3734.95968,
+     "cell_A": [
+      [
+       10.349972559,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.347566941,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 10,
+     "bfgs_scf_cycles": 11,
+     "trust_radius_bohr": 0.0452612154,
+     "bfgs_energy_error_Ry": 0.0074,
+     "bfgs_gradient_error": 0.011,
+     "bfgs_cell_gradient_error_kbar": 1.2,
+     "negative_rho": [
+      0.001805,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 39,
+     "converged_iterations": 39,
+     "acc_final_Ry": 1e-10,
+     "E_Ry": -11888.60429933,
+     "enthalpy_new_Ry": -11888.6042993337,
+     "HOMO_eV": -2.1817,
+     "LUMO_eV": -0.426,
+     "force_max_component_Ry_bohr": 0.00732677,
+     "force_rms_component_Ry_bohr": 0.003095554574928556,
+     "total_force_Ry_bohr": 0.052533,
+     "total_scf_correction_Ry_bohr": 3.5e-05,
+     "pressure_kbar": 1.14,
+     "volume_A3": 3738.10407,
+     "cell_A": [
+      [
+       10.355023055,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.351227261,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 11,
+     "bfgs_scf_cycles": 12,
+     "trust_radius_bohr": 0.064972481,
+     "bfgs_energy_error_Ry": 0.0038,
+     "bfgs_gradient_error": 0.0073,
+     "bfgs_cell_gradient_error_kbar": 2.4,
+     "negative_rho": [
+      0.001807,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 39,
+     "converged_iterations": 39,
+     "acc_final_Ry": 3.2e-11,
+     "E_Ry": -11888.6061686,
+     "enthalpy_new_Ry": -11888.6061686004,
+     "HOMO_eV": -2.2395,
+     "LUMO_eV": -0.4842,
+     "force_max_component_Ry_bohr": 0.00730185,
+     "force_rms_component_Ry_bohr": 0.002842791039447657,
+     "total_force_Ry_bohr": 0.048244,
+     "total_scf_correction_Ry_bohr": 2.3e-05,
+     "pressure_kbar": -0.14,
+     "volume_A3": 3743.41031,
+     "cell_A": [
+      [
+       10.36312048,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.357821198,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 12,
+     "bfgs_scf_cycles": 13,
+     "trust_radius_bohr": 0.0250235743,
+     "bfgs_energy_error_Ry": 0.0019,
+     "bfgs_gradient_error": 0.0073,
+     "bfgs_cell_gradient_error_kbar": 1.1,
+     "negative_rho": [
+      0.001838,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 36,
+     "converged_iterations": 36,
+     "acc_final_Ry": 2.3e-11,
+     "E_Ry": -11888.60822622,
+     "enthalpy_new_Ry": -11888.6082262217,
+     "HOMO_eV": -2.2378,
+     "LUMO_eV": -0.4874,
+     "force_max_component_Ry_bohr": 0.00589671,
+     "force_rms_component_Ry_bohr": 0.0020787144937807517,
+     "total_force_Ry_bohr": 0.035277,
+     "total_scf_correction_Ry_bohr": 1.8e-05,
+     "pressure_kbar": -0.56,
+     "volume_A3": 3747.21037,
+     "cell_A": [
+      [
+       10.36994722,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.361510114,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 13,
+     "bfgs_scf_cycles": 14,
+     "trust_radius_bohr": 0.0275451618,
+     "bfgs_energy_error_Ry": 0.0021,
+     "bfgs_gradient_error": 0.0059,
+     "bfgs_cell_gradient_error_kbar": 0.57,
+     "negative_rho": [
+      0.001873,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 39,
+     "converged_iterations": 39,
+     "acc_final_Ry": 4.7e-11,
+     "E_Ry": -11888.61092474,
+     "enthalpy_new_Ry": -11888.6109247421,
+     "HOMO_eV": -2.2519,
+     "LUMO_eV": -0.5043,
+     "force_max_component_Ry_bohr": 0.00593792,
+     "force_rms_component_Ry_bohr": 0.0018071480360901386,
+     "total_force_Ry_bohr": 0.030668,
+     "total_scf_correction_Ry_bohr": 2.4e-05,
+     "pressure_kbar": -0.93,
+     "volume_A3": 3747.9174,
+     "cell_A": [
+      [
+       10.373273568,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.36014193,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 14,
+     "bfgs_scf_cycles": 15,
+     "trust_radius_bohr": 0.0413322289,
+     "bfgs_energy_error_Ry": 0.0027,
+     "bfgs_gradient_error": 0.0059,
+     "bfgs_cell_gradient_error_kbar": 0.49,
+     "negative_rho": [
+      0.001883,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 38,
+     "converged_iterations": 38,
+     "acc_final_Ry": 3.3e-11,
+     "E_Ry": -11888.61359782,
+     "enthalpy_new_Ry": -11888.6135978154,
+     "HOMO_eV": -2.2779,
+     "LUMO_eV": -0.5302,
+     "force_max_component_Ry_bohr": 0.00609838,
+     "force_rms_component_Ry_bohr": 0.002085946362649004,
+     "total_force_Ry_bohr": 0.0354,
+     "total_scf_correction_Ry_bohr": 2.1e-05,
+     "pressure_kbar": -1.01,
+     "volume_A3": 3745.92778,
+     "cell_A": [
+      [
+       10.373985483,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.353931544,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 15,
+     "bfgs_scf_cycles": 16,
+     "trust_radius_bohr": 0.0677994075,
+     "bfgs_energy_error_Ry": 0.0027,
+     "bfgs_gradient_error": 0.0061,
+     "bfgs_cell_gradient_error_kbar": 0.71,
+     "negative_rho": [
+      0.001874,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 39,
+     "converged_iterations": 39,
+     "acc_final_Ry": 4e-11,
+     "E_Ry": -11888.6163958,
+     "enthalpy_new_Ry": -11888.6163957976,
+     "HOMO_eV": -2.3187,
+     "LUMO_eV": -0.569,
+     "force_max_component_Ry_bohr": 0.00835425,
+     "force_rms_component_Ry_bohr": 0.0026292938886551733,
+     "total_force_Ry_bohr": 0.044621,
+     "total_scf_correction_Ry_bohr": 1.4e-05,
+     "pressure_kbar": -0.97,
+     "volume_A3": 3743.02646,
+     "cell_A": [
+      [
+       10.374305655,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.345592871,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 16,
+     "bfgs_scf_cycles": 17,
+     "trust_radius_bohr": 0.069656099,
+     "bfgs_energy_error_Ry": 0.0028,
+     "bfgs_gradient_error": 0.0084,
+     "bfgs_cell_gradient_error_kbar": 0.72,
+     "negative_rho": [
+      0.001857,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 45,
+     "converged_iterations": 45,
+     "acc_final_Ry": 4.4e-11,
+     "E_Ry": -11888.61942752,
+     "enthalpy_new_Ry": -11888.619427522,
+     "HOMO_eV": -2.3579,
+     "LUMO_eV": -0.6046,
+     "force_max_component_Ry_bohr": 0.00893581,
+     "force_rms_component_Ry_bohr": 0.0025703650719974477,
+     "total_force_Ry_bohr": 0.043621,
+     "total_scf_correction_Ry_bohr": 1.9e-05,
+     "pressure_kbar": -0.65,
+     "volume_A3": 3739.72566,
+     "cell_A": [
+      [
+       10.375894222,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.334887048,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 17,
+     "bfgs_scf_cycles": 18,
+     "trust_radius_bohr": 0.1009743521,
+     "bfgs_energy_error_Ry": 0.003,
+     "bfgs_gradient_error": 0.0089,
+     "bfgs_cell_gradient_error_kbar": 0.54,
+     "negative_rho": [
+      0.001843,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 34,
+     "converged_iterations": 34,
+     "acc_final_Ry": 7e-11,
+     "E_Ry": -11888.62301166,
+     "enthalpy_new_Ry": -11888.6230116612,
+     "HOMO_eV": -2.4171,
+     "LUMO_eV": -0.6607,
+     "force_max_component_Ry_bohr": 0.00916591,
+     "force_rms_component_Ry_bohr": 0.0035108815240465843,
+     "total_force_Ry_bohr": 0.059582,
+     "total_scf_correction_Ry_bohr": 1.4e-05,
+     "pressure_kbar": -0.74,
+     "volume_A3": 3738.7944,
+     "cell_A": [
+      [
+       10.383439901,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.324804932,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 18,
+     "bfgs_scf_cycles": 19,
+     "trust_radius_bohr": 0.1354636608,
+     "bfgs_energy_error_Ry": 0.0036,
+     "bfgs_gradient_error": 0.0092,
+     "bfgs_cell_gradient_error_kbar": 0.35,
+     "negative_rho": [
+      0.001837,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 51,
+     "converged_iterations": 51,
+     "acc_final_Ry": 8.9e-11,
+     "E_Ry": -11888.62793721,
+     "enthalpy_new_Ry": -11888.6279372139,
+     "HOMO_eV": -2.4493,
+     "LUMO_eV": -0.6871,
+     "force_max_component_Ry_bohr": 0.01096531,
+     "force_rms_component_Ry_bohr": 0.0040479801384900255,
+     "total_force_Ry_bohr": 0.068696,
+     "total_scf_correction_Ry_bohr": 2.4e-05,
+     "pressure_kbar": 0.3,
+     "volume_A3": 3741.73633,
+     "cell_A": [
+      [
+       10.396010531,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.320434828,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 19,
+     "bfgs_scf_cycles": 20,
+     "trust_radius_bohr": 0.1342315308,
+     "bfgs_energy_error_Ry": 0.0049,
+     "bfgs_gradient_error": 0.011,
+     "bfgs_cell_gradient_error_kbar": 0.48,
+     "negative_rho": [
+      0.001859,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 37,
+     "converged_iterations": 37,
+     "acc_final_Ry": 8.1e-11,
+     "E_Ry": -11888.63214322,
+     "enthalpy_new_Ry": -11888.6321432161,
+     "HOMO_eV": -2.5315,
+     "LUMO_eV": -0.7674,
+     "force_max_component_Ry_bohr": 0.01333808,
+     "force_rms_component_Ry_bohr": 0.005072047380812911,
+     "total_force_Ry_bohr": 0.086076,
+     "total_scf_correction_Ry_bohr": 2.5e-05,
+     "pressure_kbar": -0.95,
+     "volume_A3": 3751.23066,
+     "cell_A": [
+      [
+       10.415060791,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.327696958,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 20,
+     "bfgs_scf_cycles": 21,
+     "trust_radius_bohr": 0.1043651916,
+     "bfgs_energy_error_Ry": 0.0042,
+     "bfgs_gradient_error": 0.013,
+     "bfgs_cell_gradient_error_kbar": 0.56,
+     "negative_rho": [
+      0.001917,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 35,
+     "converged_iterations": 35,
+     "acc_final_Ry": 5.5e-11,
+     "E_Ry": -11888.6424845,
+     "enthalpy_new_Ry": -11888.6424844991,
+     "HOMO_eV": -2.5693,
+     "LUMO_eV": -0.7997,
+     "force_max_component_Ry_bohr": 0.01483386,
+     "force_rms_component_Ry_bohr": 0.004639760521951806,
+     "total_force_Ry_bohr": 0.078739,
+     "total_scf_correction_Ry_bohr": 3.1e-05,
+     "pressure_kbar": -1.79,
+     "volume_A3": 3755.76338,
+     "cell_A": [
+      [
+       10.427035035,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.328301708,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 21,
+     "bfgs_scf_cycles": 22,
+     "trust_radius_bohr": 0.1149084116,
+     "bfgs_energy_error_Ry": 0.01,
+     "bfgs_gradient_error": 0.015,
+     "bfgs_cell_gradient_error_kbar": 1.8,
+     "negative_rho": [
+      0.001967,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 42,
+     "converged_iterations": 42,
+     "acc_final_Ry": 1.3e-10,
+     "E_Ry": -11888.65154204,
+     "enthalpy_new_Ry": -11888.6515420428,
+     "HOMO_eV": -2.5844,
+     "LUMO_eV": -0.8073,
+     "force_max_component_Ry_bohr": 0.01620248,
+     "force_rms_component_Ry_bohr": 0.004920094659739226,
+     "total_force_Ry_bohr": 0.083497,
+     "total_scf_correction_Ry_bohr": 1.8e-05,
+     "pressure_kbar": -1.93,
+     "volume_A3": 3760.69968,
+     "cell_A": [
+      [
+       10.440173762,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.328861445,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 22,
+     "bfgs_scf_cycles": 23,
+     "trust_radius_bohr": 0.1724111702,
+     "bfgs_energy_error_Ry": 0.0091,
+     "bfgs_gradient_error": 0.016,
+     "bfgs_cell_gradient_error_kbar": 2.1,
+     "negative_rho": [
+      0.002044,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 44,
+     "converged_iterations": 44,
+     "acc_final_Ry": 6.4e-11,
+     "E_Ry": -11888.66579782,
+     "enthalpy_new_Ry": -11888.6657978179,
+     "HOMO_eV": -2.5426,
+     "LUMO_eV": -0.7694,
+     "force_max_component_Ry_bohr": 0.01223726,
+     "force_rms_component_Ry_bohr": 0.004216337671744052,
+     "total_force_Ry_bohr": 0.071554,
+     "total_scf_correction_Ry_bohr": 1e-05,
+     "pressure_kbar": -1.56,
+     "volume_A3": 3758.16167,
+     "cell_A": [
+      [
+       10.45904898,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.303263038,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 23,
+     "bfgs_scf_cycles": 24,
+     "trust_radius_bohr": 0.4820103331,
+     "bfgs_energy_error_Ry": 0.014,
+     "bfgs_gradient_error": 0.012,
+     "bfgs_cell_gradient_error_kbar": 2.5,
+     "negative_rho": [
+      0.002242,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 40,
+     "converged_iterations": 40,
+     "acc_final_Ry": 2.4e-11,
+     "E_Ry": -11888.61766097,
+     "enthalpy_new_Ry": -11888.6176609714,
+     "HOMO_eV": -2.5855,
+     "LUMO_eV": -0.8444,
+     "force_max_component_Ry_bohr": 0.08757147,
+     "force_rms_component_Ry_bohr": 0.024974440380009878,
+     "total_force_Ry_bohr": 0.42383,
+     "total_scf_correction_Ry_bohr": 1e-05,
+     "pressure_kbar": -3.67,
+     "volume_A3": 3760.27106,
+     "cell_A": [
+      [
+       10.443379092,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.324514404,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 24,
+     "bfgs_scf_cycles": 25,
+     "trust_radius_bohr": 0.0817321892,
+     "bfgs_energy_error_Ry": 0.048,
+     "bfgs_gradient_error": 0.088,
+     "bfgs_cell_gradient_error_kbar": 4.0,
+     "negative_rho": [
+      0.002001,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 45,
+     "converged_iterations": 45,
+     "acc_final_Ry": 5.8e-11,
+     "E_Ry": -11888.66887727,
+     "enthalpy_new_Ry": -11888.6688772732,
+     "HOMO_eV": -2.5501,
+     "LUMO_eV": -0.7793,
+     "force_max_component_Ry_bohr": 0.01983182,
+     "force_rms_component_Ry_bohr": 0.005645537040228104,
+     "total_force_Ry_bohr": 0.095808,
+     "total_scf_correction_Ry_bohr": 1.4e-05,
+     "pressure_kbar": -1.79,
+     "volume_A3": 3749.95467,
+     "cell_A": [
+      [
+       10.435539338,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.303923926,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 24,
+     "bfgs_scf_cycles": 26,
+     "trust_radius_bohr": 0.2051985651,
+     "bfgs_energy_error_Ry": 0.0031,
+     "bfgs_gradient_error": 0.02,
+     "bfgs_cell_gradient_error_kbar": 2.5,
+     "negative_rho": [
+      0.001979,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 42,
+     "converged_iterations": 42,
+     "acc_final_Ry": 1.6e-10,
+     "E_Ry": -11888.68001593,
+     "enthalpy_new_Ry": -11888.6800159261,
+     "HOMO_eV": -2.4963,
+     "LUMO_eV": -0.7246,
+     "force_max_component_Ry_bohr": 0.03168039,
+     "force_rms_component_Ry_bohr": 0.008074830557156791,
+     "total_force_Ry_bohr": 0.137034,
+     "total_scf_correction_Ry_bohr": 4.3e-05,
+     "pressure_kbar": -0.85,
+     "volume_A3": 3732.33155,
+     "cell_A": [
+      [
+       10.412002682,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.278682957,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 25,
+     "bfgs_scf_cycles": 27,
+     "trust_radius_bohr": 0.1319528196,
+     "bfgs_energy_error_Ry": 0.011,
+     "bfgs_gradient_error": 0.032,
+     "bfgs_cell_gradient_error_kbar": 1.3,
+     "negative_rho": [
+      0.001844,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 41,
+     "converged_iterations": 41,
+     "acc_final_Ry": 2.9e-10,
+     "E_Ry": -11888.69364623,
+     "enthalpy_new_Ry": -11888.6936462349,
+     "HOMO_eV": -2.414,
+     "LUMO_eV": -0.6224,
+     "force_max_component_Ry_bohr": 0.02388627,
+     "force_rms_component_Ry_bohr": 0.006290943151327197,
+     "total_force_Ry_bohr": 0.106761,
+     "total_scf_correction_Ry_bohr": 5.6e-05,
+     "pressure_kbar": 1.12,
+     "volume_A3": 3719.32096,
+     "cell_A": [
+      [
+       10.396174069,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.258447493,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 26,
+     "bfgs_scf_cycles": 28,
+     "trust_radius_bohr": 0.1580303772,
+     "bfgs_energy_error_Ry": 0.014,
+     "bfgs_gradient_error": 0.024,
+     "bfgs_cell_gradient_error_kbar": 0.98,
+     "negative_rho": [
+      0.001772,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 35,
+     "converged_iterations": 35,
+     "acc_final_Ry": 1.5e-10,
+     "E_Ry": -11888.70658436,
+     "enthalpy_new_Ry": -11888.7065843633,
+     "HOMO_eV": -2.3854,
+     "LUMO_eV": -0.5716,
+     "force_max_component_Ry_bohr": 0.02360858,
+     "force_rms_component_Ry_bohr": 0.006779413298980659,
+     "total_force_Ry_bohr": 0.11505,
+     "total_scf_correction_Ry_bohr": 2.2e-05,
+     "pressure_kbar": 1.86,
+     "volume_A3": 3711.53114,
+     "cell_A": [
+      [
+       10.385521974,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.24746172,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 27,
+     "bfgs_scf_cycles": 29,
+     "trust_radius_bohr": 0.1518613313,
+     "bfgs_energy_error_Ry": 0.013,
+     "bfgs_gradient_error": 0.024,
+     "bfgs_cell_gradient_error_kbar": 1.7,
+     "negative_rho": [
+      0.001715,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 34,
+     "converged_iterations": 34,
+     "acc_final_Ry": 6.2e-11,
+     "E_Ry": -11888.72249515,
+     "enthalpy_new_Ry": -11888.7224951498,
+     "HOMO_eV": -2.3848,
+     "LUMO_eV": -0.5536,
+     "force_max_component_Ry_bohr": 0.01934479,
+     "force_rms_component_Ry_bohr": 0.006348617501178571,
+     "total_force_Ry_bohr": 0.10774,
+     "total_scf_correction_Ry_bohr": 1.5e-05,
+     "pressure_kbar": 2.09,
+     "volume_A3": 3706.02354,
+     "cell_A": [
+      [
+       10.388464036,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.229357527,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 28,
+     "bfgs_scf_cycles": 30,
+     "trust_radius_bohr": 0.4552638663,
+     "bfgs_energy_error_Ry": 0.016,
+     "bfgs_gradient_error": 0.019,
+     "bfgs_cell_gradient_error_kbar": 2.0,
+     "negative_rho": [
+      0.001718,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 53,
+     "converged_iterations": 53,
+     "acc_final_Ry": 1.8e-10,
+     "E_Ry": -11888.69897385,
+     "enthalpy_new_Ry": -11888.6989738523,
+     "HOMO_eV": -2.4199,
+     "LUMO_eV": -0.6225,
+     "force_max_component_Ry_bohr": 0.05481976,
+     "force_rms_component_Ry_bohr": 0.022153004672233422,
+     "total_force_Ry_bohr": 0.375949,
+     "total_scf_correction_Ry_bohr": 3.1e-05,
+     "pressure_kbar": -2.23,
+     "volume_A3": 3709.91511,
+     "cell_A": [
+      [
+       10.38638543,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.242148379,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 29,
+     "bfgs_scf_cycles": 31,
+     "trust_radius_bohr": 0.1335205952,
+     "bfgs_energy_error_Ry": 0.024,
+     "bfgs_gradient_error": 0.055,
+     "bfgs_cell_gradient_error_kbar": 3.2,
+     "negative_rho": [
+      0.001681,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 51,
+     "converged_iterations": 51,
+     "acc_final_Ry": 6.4e-11,
+     "E_Ry": -11888.72919663,
+     "enthalpy_new_Ry": -11888.7291966341,
+     "HOMO_eV": -2.3978,
+     "LUMO_eV": -0.573,
+     "force_max_component_Ry_bohr": 0.02196885,
+     "force_rms_component_Ry_bohr": 0.00849146993455892,
+     "total_force_Ry_bohr": 0.144105,
+     "total_scf_correction_Ry_bohr": 2.3e-05,
+     "pressure_kbar": 1.0,
+     "volume_A3": 3715.12638,
+     "cell_A": [
+      [
+       10.395382265,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.247658723,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 29,
+     "bfgs_scf_cycles": 32,
+     "trust_radius_bohr": 0.19743982,
+     "bfgs_energy_error_Ry": 0.0067,
+     "bfgs_gradient_error": 0.022,
+     "bfgs_cell_gradient_error_kbar": 1.1,
+     "negative_rho": [
+      0.001715,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 43,
+     "converged_iterations": 43,
+     "acc_final_Ry": 1.8e-10,
+     "E_Ry": -11888.74659355,
+     "enthalpy_new_Ry": -11888.7465935507,
+     "HOMO_eV": -2.4511,
+     "LUMO_eV": -0.6514,
+     "force_max_component_Ry_bohr": 0.0209626,
+     "force_rms_component_Ry_bohr": 0.0085875317239765,
+     "total_force_Ry_bohr": 0.145735,
+     "total_scf_correction_Ry_bohr": 5.6e-05,
+     "pressure_kbar": -1.18,
+     "volume_A3": 3721.35536,
+     "cell_A": [
+      [
+       10.402255973,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.258057587,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 30,
+     "bfgs_scf_cycles": 33,
+     "trust_radius_bohr": 0.0855100929,
+     "bfgs_energy_error_Ry": 0.017,
+     "bfgs_gradient_error": 0.021,
+     "bfgs_cell_gradient_error_kbar": 1.3,
+     "negative_rho": [
+      0.001745,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 40,
+     "converged_iterations": 40,
+     "acc_final_Ry": 5.5e-11,
+     "E_Ry": -11888.7604874,
+     "enthalpy_new_Ry": -11888.7604874049,
+     "HOMO_eV": -2.475,
+     "LUMO_eV": -0.7001,
+     "force_max_component_Ry_bohr": 0.01216271,
+     "force_rms_component_Ry_bohr": 0.005033962607930975,
+     "total_force_Ry_bohr": 0.085429,
+     "total_scf_correction_Ry_bohr": 2.8e-05,
+     "pressure_kbar": -1.78,
+     "volume_A3": 3718.54181,
+     "cell_A": [
+      [
+       10.398193263,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.25430686,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 31,
+     "bfgs_scf_cycles": 34,
+     "trust_radius_bohr": 0.1881673197,
+     "bfgs_energy_error_Ry": 0.014,
+     "bfgs_gradient_error": 0.012,
+     "bfgs_cell_gradient_error_kbar": 2.2,
+     "negative_rho": [
+      0.001735,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 41,
+     "converged_iterations": 41,
+     "acc_final_Ry": 5.1e-11,
+     "E_Ry": -11888.77132985,
+     "enthalpy_new_Ry": -11888.771329853,
+     "HOMO_eV": -2.4348,
+     "LUMO_eV": -0.7058,
+     "force_max_component_Ry_bohr": 0.01653211,
+     "force_rms_component_Ry_bohr": 0.006195114264307847,
+     "total_force_Ry_bohr": 0.105135,
+     "total_scf_correction_Ry_bohr": 1.8e-05,
+     "pressure_kbar": -2.78,
+     "volume_A3": 3709.20992,
+     "cell_A": [
+      [
+       10.381335287,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.245183005,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 32,
+     "bfgs_scf_cycles": 35,
+     "trust_radius_bohr": 0.1174332998,
+     "bfgs_energy_error_Ry": 0.011,
+     "bfgs_gradient_error": 0.017,
+     "bfgs_cell_gradient_error_kbar": 3.2,
+     "negative_rho": [
+      0.001675,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 33,
+     "converged_iterations": 33,
+     "acc_final_Ry": 7e-11,
+     "E_Ry": -11888.78464974,
+     "enthalpy_new_Ry": -11888.7846497399,
+     "HOMO_eV": -2.3747,
+     "LUMO_eV": -0.6653,
+     "force_max_component_Ry_bohr": 0.01262725,
+     "force_rms_component_Ry_bohr": 0.004257473748751358,
+     "total_force_Ry_bohr": 0.072252,
+     "total_scf_correction_Ry_bohr": 2.2e-05,
+     "pressure_kbar": -1.31,
+     "volume_A3": 3698.10113,
+     "cell_A": [
+      [
+       10.363464124,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.232113785,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 33,
+     "bfgs_scf_cycles": 36,
+     "trust_radius_bohr": 0.1182354997,
+     "bfgs_energy_error_Ry": 0.013,
+     "bfgs_gradient_error": 0.013,
+     "bfgs_cell_gradient_error_kbar": 1.6,
+     "negative_rho": [
+      0.001603,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 35,
+     "converged_iterations": 35,
+     "acc_final_Ry": 6.2e-11,
+     "E_Ry": -11888.79232437,
+     "enthalpy_new_Ry": -11888.7923243704,
+     "HOMO_eV": -2.3314,
+     "LUMO_eV": -0.6036,
+     "force_max_component_Ry_bohr": 0.00995752,
+     "force_rms_component_Ry_bohr": 0.003839527823074227,
+     "total_force_Ry_bohr": 0.065159,
+     "total_scf_correction_Ry_bohr": 1.8e-05,
+     "pressure_kbar": -0.41,
+     "volume_A3": 3690.75995,
+     "cell_A": [
+      [
+       10.349090825,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.225984399,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 34,
+     "bfgs_scf_cycles": 37,
+     "trust_radius_bohr": 0.0438196812,
+     "bfgs_energy_error_Ry": 0.0077,
+     "bfgs_gradient_error": 0.01,
+     "bfgs_cell_gradient_error_kbar": 1.1,
+     "negative_rho": [
+      0.001545,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 49,
+     "converged_iterations": 49,
+     "acc_final_Ry": 9.6e-11,
+     "E_Ry": -11888.79755632,
+     "enthalpy_new_Ry": -11888.7975563231,
+     "HOMO_eV": -2.3012,
+     "LUMO_eV": -0.5335,
+     "force_max_component_Ry_bohr": 0.00663768,
+     "force_rms_component_Ry_bohr": 0.0029051332909767955,
+     "total_force_Ry_bohr": 0.049302,
+     "total_scf_correction_Ry_bohr": 1.4e-05,
+     "pressure_kbar": 1.42,
+     "volume_A3": 3691.92239,
+     "cell_A": [
+      [
+       10.348042013,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.230241935,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 35,
+     "bfgs_scf_cycles": 38,
+     "trust_radius_bohr": 0.0756971311,
+     "bfgs_energy_error_Ry": 0.0052,
+     "bfgs_gradient_error": 0.0066,
+     "bfgs_cell_gradient_error_kbar": 3.4,
+     "negative_rho": [
+      0.001519,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 35,
+     "converged_iterations": 35,
+     "acc_final_Ry": 4e-11,
+     "E_Ry": -11888.79998935,
+     "enthalpy_new_Ry": -11888.799989351,
+     "HOMO_eV": -2.277,
+     "LUMO_eV": -0.5154,
+     "force_max_component_Ry_bohr": 0.00779328,
+     "force_rms_component_Ry_bohr": 0.0027552949169629133,
+     "total_force_Ry_bohr": 0.046759,
+     "total_scf_correction_Ry_bohr": 1.9e-05,
+     "pressure_kbar": 0.67,
+     "volume_A3": 3699.3036,
+     "cell_A": [
+      [
+       10.354088515,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.244709011,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 36,
+     "bfgs_scf_cycles": 39,
+     "trust_radius_bohr": 0.0446425937,
+     "bfgs_energy_error_Ry": 0.0024,
+     "bfgs_gradient_error": 0.0078,
+     "bfgs_cell_gradient_error_kbar": 2.8,
+     "negative_rho": [
+      0.001547,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 37,
+     "converged_iterations": 37,
+     "acc_final_Ry": 5.3e-11,
+     "E_Ry": -11888.80256322,
+     "enthalpy_new_Ry": -11888.8025632245,
+     "HOMO_eV": -2.2991,
+     "LUMO_eV": -0.5356,
+     "force_max_component_Ry_bohr": 0.00453525,
+     "force_rms_component_Ry_bohr": 0.0020110125582091724,
+     "total_force_Ry_bohr": 0.034128,
+     "total_scf_correction_Ry_bohr": 1.4e-05,
+     "pressure_kbar": 0.01,
+     "volume_A3": 3708.25228,
+     "cell_A": [
+      [
+       10.357886377,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.265725684,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 37,
+     "bfgs_scf_cycles": 40,
+     "trust_radius_bohr": 0.0648265104,
+     "bfgs_energy_error_Ry": 0.0026,
+     "bfgs_gradient_error": 0.0045,
+     "bfgs_cell_gradient_error_kbar": 2.0,
+     "negative_rho": [
+      0.001585,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 31,
+     "converged_iterations": 31,
+     "acc_final_Ry": 4e-11,
+     "E_Ry": -11888.80449481,
+     "enthalpy_new_Ry": -11888.8044948141,
+     "HOMO_eV": -2.2981,
+     "LUMO_eV": -0.5384,
+     "force_max_component_Ry_bohr": 0.00564686,
+     "force_rms_component_Ry_bohr": 0.0019179079128035436,
+     "total_force_Ry_bohr": 0.032548,
+     "total_scf_correction_Ry_bohr": 3e-05,
+     "pressure_kbar": -0.66,
+     "volume_A3": 3711.1796,
+     "cell_A": [
+      [
+       10.354767036,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.276924492,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 38,
+     "bfgs_scf_cycles": 41,
+     "trust_radius_bohr": 0.0345139816,
+     "bfgs_energy_error_Ry": 0.0019,
+     "bfgs_gradient_error": 0.0056,
+     "bfgs_cell_gradient_error_kbar": 1.4,
+     "negative_rho": [
+      0.001631,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 48,
+     "converged_iterations": 48,
+     "acc_final_Ry": 3.9e-11,
+     "E_Ry": -11888.80576567,
+     "enthalpy_new_Ry": -11888.8057656699,
+     "HOMO_eV": -2.3107,
+     "LUMO_eV": -0.55,
+     "force_max_component_Ry_bohr": 0.0048098,
+     "force_rms_component_Ry_bohr": 0.00163406556295563,
+     "total_force_Ry_bohr": 0.027731,
+     "total_scf_correction_Ry_bohr": 5e-06,
+     "pressure_kbar": -0.75,
+     "volume_A3": 3713.96496,
+     "cell_A": [
+      [
+       10.346008916,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.293343802,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 39,
+     "bfgs_scf_cycles": 42,
+     "trust_radius_bohr": 0.0505680279,
+     "bfgs_energy_error_Ry": 0.0013,
+     "bfgs_gradient_error": 0.0048,
+     "bfgs_cell_gradient_error_kbar": 1.0,
+     "negative_rho": [
+      0.001642,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 35,
+     "converged_iterations": 35,
+     "acc_final_Ry": 2.2e-11,
+     "E_Ry": -11888.80727397,
+     "enthalpy_new_Ry": -11888.8072739742,
+     "HOMO_eV": -2.3064,
+     "LUMO_eV": -0.5502,
+     "force_max_component_Ry_bohr": 0.0045098,
+     "force_rms_component_Ry_bohr": 0.0017380553642509175,
+     "total_force_Ry_bohr": 0.029496,
+     "total_scf_correction_Ry_bohr": 1.9e-05,
+     "pressure_kbar": -0.86,
+     "volume_A3": 3715.43808,
+     "cell_A": [
+      [
+       10.338765877,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.304640677,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 40,
+     "bfgs_scf_cycles": 43,
+     "trust_radius_bohr": 0.0347495399,
+     "bfgs_energy_error_Ry": 0.0015,
+     "bfgs_gradient_error": 0.0045,
+     "bfgs_cell_gradient_error_kbar": 0.69,
+     "negative_rho": [
+      0.001661,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 44,
+     "converged_iterations": 44,
+     "acc_final_Ry": 2.5e-11,
+     "E_Ry": -11888.80814835,
+     "enthalpy_new_Ry": -11888.8081483487,
+     "HOMO_eV": -2.3075,
+     "LUMO_eV": -0.5457,
+     "force_max_component_Ry_bohr": 0.00430925,
+     "force_rms_component_Ry_bohr": 0.0015821302333413573,
+     "total_force_Ry_bohr": 0.02685,
+     "total_scf_correction_Ry_bohr": 1.3e-05,
+     "pressure_kbar": -0.87,
+     "volume_A3": 3717.23633,
+     "cell_A": [
+      [
+       10.333336424,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.31504505,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 41,
+     "bfgs_scf_cycles": 44,
+     "trust_radius_bohr": 0.0319754269,
+     "bfgs_energy_error_Ry": 0.00087,
+     "bfgs_gradient_error": 0.0043,
+     "bfgs_cell_gradient_error_kbar": 0.46,
+     "negative_rho": [
+      0.001674,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 37,
+     "converged_iterations": 37,
+     "acc_final_Ry": 2.6e-11,
+     "E_Ry": -11888.80881792,
+     "enthalpy_new_Ry": -11888.8088179246,
+     "HOMO_eV": -2.3057,
+     "LUMO_eV": -0.5416,
+     "force_max_component_Ry_bohr": 0.00306101,
+     "force_rms_component_Ry_bohr": 0.0011604176057566518,
+     "total_force_Ry_bohr": 0.019693,
+     "total_scf_correction_Ry_bohr": 6e-06,
+     "pressure_kbar": -0.93,
+     "volume_A3": 3719.0264,
+     "cell_A": [
+      [
+       10.330412592,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.32293325,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 42,
+     "bfgs_scf_cycles": 45,
+     "trust_radius_bohr": 0.0242239622,
+     "bfgs_energy_error_Ry": 0.00067,
+     "bfgs_gradient_error": 0.0031,
+     "bfgs_cell_gradient_error_kbar": 0.33,
+     "negative_rho": [
+      0.00169,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 36,
+     "converged_iterations": 36,
+     "acc_final_Ry": 1.9e-11,
+     "E_Ry": -11888.8093023,
+     "enthalpy_new_Ry": -11888.8093022983,
+     "HOMO_eV": -2.3055,
+     "LUMO_eV": -0.5413,
+     "force_max_component_Ry_bohr": 0.00214735,
+     "force_rms_component_Ry_bohr": 0.0008894309778409203,
+     "total_force_Ry_bohr": 0.015094,
+     "total_scf_correction_Ry_bohr": 6e-06,
+     "pressure_kbar": -1.0,
+     "volume_A3": 3720.22897,
+     "cell_A": [
+      [
+       10.328372075,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.328311348,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 43,
+     "bfgs_scf_cycles": 46,
+     "trust_radius_bohr": 0.0165070126,
+     "bfgs_energy_error_Ry": 0.00048,
+     "bfgs_gradient_error": 0.0021,
+     "bfgs_cell_gradient_error_kbar": 0.3,
+     "negative_rho": [
+      0.001703,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 37,
+     "converged_iterations": 37,
+     "acc_final_Ry": 1.5e-11,
+     "E_Ry": -11888.80969289,
+     "enthalpy_new_Ry": -11888.8096928878,
+     "HOMO_eV": -2.3084,
+     "LUMO_eV": -0.5433,
+     "force_max_component_Ry_bohr": 0.00194395,
+     "force_rms_component_Ry_bohr": 0.0008332701394289183,
+     "total_force_Ry_bohr": 0.014141,
+     "total_scf_correction_Ry_bohr": 1e-05,
+     "pressure_kbar": -1.0,
+     "volume_A3": 3720.48749,
+     "cell_A": [
+      [
+       10.325845606,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.331556312,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 44,
+     "bfgs_scf_cycles": 47,
+     "trust_radius_bohr": 0.0135351702,
+     "bfgs_energy_error_Ry": 0.00039,
+     "bfgs_gradient_error": 0.0019,
+     "bfgs_cell_gradient_error_kbar": 0.47,
+     "negative_rho": [
+      0.00171,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 31,
+     "converged_iterations": 31,
+     "acc_final_Ry": 1.4e-11,
+     "E_Ry": -11888.81003228,
+     "enthalpy_new_Ry": -11888.8100322794,
+     "HOMO_eV": -2.3138,
+     "LUMO_eV": -0.546,
+     "force_max_component_Ry_bohr": 0.0028494,
+     "force_rms_component_Ry_bohr": 0.0008224119724052876,
+     "total_force_Ry_bohr": 0.013957,
+     "total_scf_correction_Ry_bohr": 8e-06,
+     "pressure_kbar": -0.88,
+     "volume_A3": 3719.76171,
+     "cell_A": [
+      [
+       10.322628434,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.332760201,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 45,
+     "bfgs_scf_cycles": 48,
+     "trust_radius_bohr": 0.0114564632,
+     "bfgs_energy_error_Ry": 0.00034,
+     "bfgs_gradient_error": 0.0028,
+     "bfgs_cell_gradient_error_kbar": 0.47,
+     "negative_rho": [
+      0.00171,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 30,
+     "converged_iterations": 30,
+     "acc_final_Ry": 1.3e-11,
+     "E_Ry": -11888.81031697,
+     "enthalpy_new_Ry": -11888.8103169721,
+     "HOMO_eV": -2.3197,
+     "LUMO_eV": -0.5471,
+     "force_max_component_Ry_bohr": 0.00328234,
+     "force_rms_component_Ry_bohr": 0.000724460694272528,
+     "total_force_Ry_bohr": 0.012294,
+     "total_scf_correction_Ry_bohr": 1.2e-05,
+     "pressure_kbar": -0.65,
+     "volume_A3": 3718.54603,
+     "cell_A": [
+      [
+       10.319428717,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.332586071,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 46,
+     "bfgs_scf_cycles": 49,
+     "trust_radius_bohr": 0.0106723749,
+     "bfgs_energy_error_Ry": 0.00028,
+     "bfgs_gradient_error": 0.0033,
+     "bfgs_cell_gradient_error_kbar": 0.32,
+     "negative_rho": [
+      0.001705,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 33,
+     "converged_iterations": 33,
+     "acc_final_Ry": 2.8e-11,
+     "E_Ry": -11888.8105345,
+     "enthalpy_new_Ry": -11888.8105344966,
+     "HOMO_eV": -2.3244,
+     "LUMO_eV": -0.5459,
+     "force_max_component_Ry_bohr": 0.00233652,
+     "force_rms_component_Ry_bohr": 0.0005736321680310477,
+     "total_force_Ry_bohr": 0.009735,
+     "total_scf_correction_Ry_bohr": 1.3e-05,
+     "pressure_kbar": -0.38,
+     "volume_A3": 3717.77504,
+     "cell_A": [
+      [
+       10.317852864,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.332021515,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 47,
+     "bfgs_scf_cycles": 50,
+     "trust_radius_bohr": 0.0091838733,
+     "bfgs_energy_error_Ry": 0.00022,
+     "bfgs_gradient_error": 0.0023,
+     "bfgs_cell_gradient_error_kbar": 0.35,
+     "negative_rho": [
+      0.001699,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 31,
+     "converged_iterations": 31,
+     "acc_final_Ry": 1.2e-11,
+     "E_Ry": -11888.81067339,
+     "enthalpy_new_Ry": -11888.810673388,
+     "HOMO_eV": -2.3264,
+     "LUMO_eV": -0.5435,
+     "force_max_component_Ry_bohr": 0.00115205,
+     "force_rms_component_Ry_bohr": 0.0004641044614616532,
+     "total_force_Ry_bohr": 0.007876,
+     "total_scf_correction_Ry_bohr": 1e-05,
+     "pressure_kbar": -0.2,
+     "volume_A3": 3717.76495,
+     "cell_A": [
+      [
+       10.318079866,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.331766169,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 48,
+     "bfgs_scf_cycles": 51,
+     "trust_radius_bohr": 0.0077139412,
+     "bfgs_energy_error_Ry": 0.00014,
+     "bfgs_gradient_error": 0.0012,
+     "bfgs_cell_gradient_error_kbar": 0.5,
+     "negative_rho": [
+      0.001698,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 37,
+     "converged_iterations": 37,
+     "acc_final_Ry": 8.6e-12,
+     "E_Ry": -11888.8107802,
+     "enthalpy_new_Ry": -11888.8107802049,
+     "HOMO_eV": -2.3273,
+     "LUMO_eV": -0.5412,
+     "force_max_component_Ry_bohr": 0.00079914,
+     "force_rms_component_Ry_bohr": 0.0004095606178170292,
+     "total_force_Ry_bohr": 0.00695,
+     "total_scf_correction_Ry_bohr": 9e-06,
+     "pressure_kbar": -0.12,
+     "volume_A3": 3718.66764,
+     "cell_A": [
+      [
+       10.320168397,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.332183405,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 49,
+     "bfgs_scf_cycles": 52,
+     "trust_radius_bohr": 0.0075697435,
+     "bfgs_energy_error_Ry": 0.00011,
+     "bfgs_gradient_error": 0.0008,
+     "bfgs_cell_gradient_error_kbar": 0.55,
+     "negative_rho": [
+      0.001703,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 31,
+     "converged_iterations": 31,
+     "acc_final_Ry": 6.5e-12,
+     "E_Ry": -11888.81088081,
+     "enthalpy_new_Ry": -11888.8108808133,
+     "HOMO_eV": -2.3284,
+     "LUMO_eV": -0.5404,
+     "force_max_component_Ry_bohr": 0.00120975,
+     "force_rms_component_Ry_bohr": 0.00040267798402797406,
+     "total_force_Ry_bohr": 0.006834,
+     "total_scf_correction_Ry_bohr": 7e-06,
+     "pressure_kbar": -0.12,
+     "volume_A3": 3720.34979,
+     "cell_A": [
+      [
+       10.324059551,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.332961213,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 50,
+     "bfgs_scf_cycles": 53,
+     "trust_radius_bohr": 0.0119457557,
+     "bfgs_energy_error_Ry": 0.0001,
+     "bfgs_gradient_error": 0.0012,
+     "bfgs_cell_gradient_error_kbar": 0.49,
+     "negative_rho": [
+      0.001714,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 37,
+     "converged_iterations": 37,
+     "acc_final_Ry": 5.8e-12,
+     "E_Ry": -11888.81098371,
+     "enthalpy_new_Ry": -11888.8109837145,
+     "HOMO_eV": -2.3306,
+     "LUMO_eV": -0.5416,
+     "force_max_component_Ry_bohr": 0.00134817,
+     "force_rms_component_Ry_bohr": 0.0004160869481400492,
+     "total_force_Ry_bohr": 0.007061,
+     "total_scf_correction_Ry_bohr": 6e-06,
+     "pressure_kbar": -0.18,
+     "volume_A3": 3722.33254,
+     "cell_A": [
+      [
+       10.328663878,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.333859428,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 51,
+     "bfgs_scf_cycles": 54,
+     "trust_radius_bohr": 0.0141330485,
+     "bfgs_energy_error_Ry": 0.0001,
+     "bfgs_gradient_error": 0.0013,
+     "bfgs_cell_gradient_error_kbar": 0.34,
+     "negative_rho": [
+      0.001728,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 32,
+     "converged_iterations": 32,
+     "acc_final_Ry": 3.1e-12,
+     "E_Ry": -11888.81107521,
+     "enthalpy_new_Ry": -11888.8110752081,
+     "HOMO_eV": -2.3338,
+     "LUMO_eV": -0.5447,
+     "force_max_component_Ry_bohr": 0.00121148,
+     "force_rms_component_Ry_bohr": 0.0004017043424619378,
+     "total_force_Ry_bohr": 0.006817,
+     "total_scf_correction_Ry_bohr": 5e-06,
+     "pressure_kbar": -0.25,
+     "volume_A3": 3724.05281,
+     "cell_A": [
+      [
+       10.332875908,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.334420832,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 52,
+     "bfgs_scf_cycles": 55,
+     "trust_radius_bohr": 0.0129265672,
+     "bfgs_energy_error_Ry": 9.1e-05,
+     "bfgs_gradient_error": 0.0012,
+     "bfgs_cell_gradient_error_kbar": 0.17,
+     "negative_rho": [
+      0.001741,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 37,
+     "converged_iterations": 37,
+     "acc_final_Ry": 4.7e-12,
+     "E_Ry": -11888.81115338,
+     "enthalpy_new_Ry": -11888.8111533811,
+     "HOMO_eV": -2.3372,
+     "LUMO_eV": -0.5484,
+     "force_max_component_Ry_bohr": 0.00119693,
+     "force_rms_component_Ry_bohr": 0.0003697556615898907,
+     "total_force_Ry_bohr": 0.006275,
+     "total_scf_correction_Ry_bohr": 6e-06,
+     "pressure_kbar": -0.3,
+     "volume_A3": 3725.36417,
+     "cell_A": [
+      [
+       10.33643106,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.334504206,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 53,
+     "bfgs_scf_cycles": 56,
+     "trust_radius_bohr": 0.0109087043,
+     "bfgs_energy_error_Ry": 7.8e-05,
+     "bfgs_gradient_error": 0.0012,
+     "bfgs_cell_gradient_error_kbar": 0.11,
+     "negative_rho": [
+      0.001752,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 33,
+     "converged_iterations": 33,
+     "acc_final_Ry": 3.7e-12,
+     "E_Ry": -11888.81122571,
+     "HOMO_eV": -2.3403,
+     "LUMO_eV": -0.5517,
+     "force_max_component_Ry_bohr": 0.00076783,
+     "force_rms_component_Ry_bohr": 0.00035980258391080084,
+     "total_force_Ry_bohr": 0.006106,
+     "total_scf_correction_Ry_bohr": 9e-06,
+     "pressure_kbar": -0.31,
+     "bfgs_energy_error_Ry": 7.2e-05,
+     "bfgs_gradient_error": 0.00077,
+     "bfgs_cell_gradient_error_kbar": 0.12,
+     "negative_rho": [
+      0.00146,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 71,
+     "converged_iterations": 71,
+     "acc_final_Ry": 7.3e-12,
+     "E_Ry": -11888.81106217,
+     "HOMO_eV": -2.3403,
+     "LUMO_eV": -0.5518,
+     "force_max_component_Ry_bohr": 0.00076796,
+     "force_rms_component_Ry_bohr": 0.00035977238560766907,
+     "total_force_Ry_bohr": 0.006106,
+     "total_scf_correction_Ry_bohr": 6e-06,
+     "pressure_kbar": -0.31,
+     "negative_rho": [
+      0.00179,
+      0.0
+     ],
+     "beta": 0.2
+    }
+   ],
+   "final_step": {
+    "iterations": 71,
+    "ecut": 71.0,
+    "beta": 0.2,
+    "negative_rho": [
+     0.00179,
+     0.0
+    ],
+    "HOMO_eV": -2.3403,
+    "LUMO_eV": -0.5518,
+    "E_Ry": -11888.81106217,
+    "E_all_electron_Ry": -289578.062986,
+    "acc_final_Ry": 7.3e-12,
+    "one_electron_Ry": -78759.35282322,
+    "hartree_Ry": 39691.2573983,
+    "xc_Ry": -1487.94948743,
+    "ewald_Ry": 35670.75711171,
+    "paw_one_center_Ry": -7003.52326153,
+    "converged_iterations": 71,
+    "force_max_component_Ry_bohr": 0.00076796,
+    "force_max_atom_Ry_bohr": 0.0008772175398953215,
+    "force_rms_component_Ry_bohr": 0.00035977238560766907,
+    "force_max_atom_index": 13,
+    "total_force_Ry_bohr": 0.006106,
+    "total_scf_correction_Ry_bohr": 6e-06,
+    "pressure_kbar": -0.31,
+    "stress_kbar": [
+     [
+      -0.04,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      -0.12,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      -0.75
+     ]
+    ],
+    "E_trace_n": 70
+   },
+   "bfgs": {
+    "started": 1249,
+    "converged": "bfgs converged in  57 scf cycles and  54 bfgs steps",
+    "line": 49096,
+    "criteria": "(criteria: energy <  1.0E-04 Ry, force <  1.0E-03 Ry/Bohr, cell <  5.0E-01 kbar)",
+    "end": 49099,
+    "final_enthalpy": -11888.8112257101
+   },
+   "exx": {
+    "cycles": []
+   },
+   "timing": {
+    "init_run": {
+     "cpu": "31.63s",
+     "wall": "61.17s",
+     "calls": 2
+    },
+    "electrons": {
+     "cpu": "25749.04s",
+     "wall": "50387.58s",
+     "calls": 58
+    },
+    "update_pot": {
+     "cpu": "514.30s",
+     "wall": "627.26s",
+     "calls": 56
+    },
+    "forces": {
+     "cpu": "206.79s",
+     "wall": "327.82s",
+     "calls": 58
+    },
+    "stress": {
+     "cpu": "189.21s",
+     "wall": "1314.48s",
+     "calls": 58
+    },
+    "wfcinit": {
+     "cpu": "3.25s",
+     "wall": "11.50s",
+     "calls": 2
+    },
+    "potinit": {
+     "cpu": "18.73s",
+     "wall": "32.72s",
+     "calls": 2
+    },
+    "hinit0": {
+     "cpu": "5.21s",
+     "wall": "5.65s",
+     "calls": 2
+    },
+    "c_bands": {
+     "cpu": "6244.21s",
+     "wall": "22923.17s",
+     "calls": 2286
+    },
+    "sum_band": {
+     "cpu": "2662.59s",
+     "wall": "5277.97s",
+     "calls": 2286
+    },
+    "v_of_rho": {
+     "cpu": "251.24s",
+     "wall": "332.88s",
+     "calls": 2336
+    },
+    "newd": {
+     "cpu": "101.12s",
+     "wall": "501.19s",
+     "calls": 2336
+    },
+    "PAW_pot": {
+     "cpu": "15879.79s",
+     "wall": "20543.78s",
+     "calls": 2392
+    },
+    "mix_rho": {
+     "cpu": "703.46s",
+     "wall": "1114.19s",
+     "calls": 2286
+    },
+    "init_us_2": {
+     "cpu": "75.97s",
+     "wall": "287.26s",
+     "calls": 18984
+    },
+    "cegterg": {
+     "cpu": "2162.90s",
+     "wall": "17150.67s",
+     "calls": 9144
+    },
+    "cdiaghg": {
+     "cpu": "128.84s",
+     "wall": "589.55s",
+     "calls": 48000
+    },
+    "h_psi": {
+     "cpu": "1281.28s",
+     "wall": "11279.14s",
+     "calls": 48264
+    },
+    "s_psi": {
+     "cpu": "184.10s",
+     "wall": "326.75s",
+     "calls": 48264
+    },
+    "g_psi": {
+     "cpu": "0.49s",
+     "wall": "126.09s",
+     "calls": 39112
+    },
+    "h_psi:calbec": {
+     "cpu": "2.45s",
+     "wall": "1201.27s",
+     "calls": 48264
+    },
+    "vloc_psi": {
+     "cpu": "876.74s",
+     "wall": "8644.94s",
+     "calls": 48264
+    },
+    "add_vuspsi": {
+     "cpu": "182.33s",
+     "wall": "1344.52s",
+     "calls": 48264
+    },
+    "calbec": {
+     "cpu": "2582.82s",
+     "wall": "2588.15s",
+     "calls": 58792
+    },
+    "fft": {
+     "cpu": "279.03s",
+     "wall": "318.46s",
+     "calls": 31766
+    },
+    "ffts": {
+     "cpu": "76.07s",
+     "wall": "192.52s",
+     "calls": 277682
+    },
+    "fftw": {
+     "cpu": "18.68s",
+     "wall": "7471.84s",
+     "calls": 1317956
+    },
+    "interpolate": {
+     "cpu": "447.19s",
+     "wall": "462.13s",
+     "calls": 2336
+    },
+    "PWSCF": {
+     "cpu": "8h15m",
+     "wall": "15h31m",
+     "calls": null
+    }
+   },
+   "terminated": "8:47:21  29Sep2026",
+   "done": true,
+   "messages": [
+    [
+     26,
+     "file In.pbe-dn-kjpaw_psl.1.0.0.UPF: wavefunction(s)  5S 5P 4D renormalized"
+    ],
+    [
+     27,
+     "file O.pbe-n-kjpaw_psl.1.0.0.UPF: wavefunction(s)  2S 2P renormalized"
+    ],
+    [
+     28,
+     "file H.pbe-kjpaw_psl.1.0.0.UPF: wavefunction(s)  1S renormalized"
+    ],
+    [
+     29,
+     "Message from routine setup: using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+    ]
+   ],
+   "errors": null,
+   "warnings": {
+    "message_from_routine": {
+     "count": 1,
+     "first": [
+      [
+       29,
+       "Message from routine setup:"
+      ]
+     ],
+     "last": [
+      29,
+      "Message from routine setup:"
+     ]
+    },
+    "warning": {
+     "count": 3,
+     "first": [
+      [
+       50589,
+       "Warning: ieee_invalid is signaling"
+      ],
+      [
+       50590,
+       "Warning: ieee_divide_by_zero is signaling"
+      ],
+      [
+       50591,
+       "Warning: ieee_inexact is signaling"
+      ]
+     ],
+     "last": [
+      50591,
+      "Warning: ieee_inexact is signaling"
+     ]
+    },
+    "c_bands_not_converged": {
+     "count": 22,
+     "first": [
+      [
+       393,
+       "c_bands:  2 eigenvalues not converged"
+      ],
+      [
+       394,
+       "c_bands:  3 eigenvalues not converged"
+      ],
+      [
+       461,
+       "c_bands:  2 eigenvalues not converged"
+      ]
+     ],
+     "last": [
+      49874,
+      "c_bands:  3 eigenvalues not converged"
+     ]
+    },
+    "ieee": {
+     "count": 3,
+     "first": [
+      [
+       50589,
+       "Warning: ieee_invalid is signaling"
+      ],
+      [
+       50590,
+       "Warning: ieee_divide_by_zero is signaling"
+      ],
+      [
+       50591,
+       "Warning: ieee_inexact is signaling"
+      ]
+     ],
+     "last": [
+      50591,
+      "Warning: ieee_inexact is signaling"
+     ]
+    },
+    "discouraged": {
+     "count": 1,
+     "first": [
+      [
+       30,
+       "using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+      ]
+     ],
+     "last": [
+      30,
+      "using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+     ]
+    },
+    "renormalized_wfc": {
+     "count": 3,
+     "first": [
+      [
+       26,
+       "file In.pbe-dn-kjpaw_psl.1.0.0.UPF: wavefunction(s)  5S 5P 4D renormalized"
+      ],
+      [
+       27,
+       "file O.pbe-n-kjpaw_psl.1.0.0.UPF: wavefunction(s)  2S 2P renormalized"
+      ],
+      [
+       28,
+       "file H.pbe-kjpaw_psl.1.0.0.UPF: wavefunction(s)  1S renormalized"
+      ]
+     ],
+     "last": [
+      28,
+      "file H.pbe-kjpaw_psl.1.0.0.UPF: wavefunction(s)  1S renormalized"
+     ]
+    },
+    "fortran_stop": {
+     "count": 1,
+     "first": [
+      [
+       50592,
+       "FORTRAN STOP"
+      ]
+     ],
+     "last": [
+      50592,
+      "FORTRAN STOP"
+     ]
+    }
+   },
+   "bands": {
+    "n_k": 4,
+    "n_bands": 320,
+    "n_occ": 312,
+    "VBM_eV": -2.3403,
+    "VBM_k_index": 0,
+    "CBM_eV": -0.5518,
+    "CBM_k_index": 0,
+    "gap_eV": 1.7885,
+    "direct_gap_min_eV": 1.7885,
+    "direct_gap_k_index": 0,
+    "gap_type": "direct",
+    "VB_width_top_band_eV": 0.03,
+    "CB_width_bottom_band_eV": 0.8601,
+    "E2_minus_E1_at_k0_eV": 1.4988
+   },
+   "n_lines": 50592,
+   "final_geometry": {
+    "n_atoms": 96,
+    "composition": {
+     "H": 24,
+     "In": 24,
+     "O": 48
+    },
+    "cell_lengths_A": [
+     10.33643,
+     10.3345,
+     34.87454
+    ],
+    "cell_angles_deg": [
+     90.0,
+     90.0,
+     90.0
+    ],
+    "volume_A3": 3725.3642,
+    "density_g_cm3": 1.5814,
+    "bonds": {
+     "In-O": {
+      "cutoff_A": 2.6,
+      "n": 144,
+      "min": 2.1647,
+      "mean": 2.219,
+      "max": 2.3078,
+      "std": 0.0389,
+      "CN_In_hist": {
+       "6": 24
+      }
+     },
+     "O-H": {
+      "cutoff_A": 1.2,
+      "n": 24,
+      "min": 0.9719,
+      "mean": 0.9775,
+      "max": 0.9864,
+      "std": 0.0064,
+      "CN_O_hist": {
+       "0": 24,
+       "1": 24
+      }
+     }
+    },
+    "CN_O_by_cations_hist": {
+     "2": 24,
+     "4": 24
+    },
+    "slab": {
+     "vacuum_A": 25.571,
+     "extent_A": 9.303,
+     "thickness_H_H_A": 9.3033,
+     "thickness_O_O_A": 7.8762,
+     "thickness_In_In_A": 5.1515
+    },
+    "displacement_vs_initial": {
+     "max_A": 1.306,
+     "atom": "H73",
+     "mean_A": 0.2437,
+     "n_gt_0p1_A": 40,
+     "by_element_max_A": {
+      "H": 1.306,
+      "In": 0.0343,
+      "O": 0.3567
+     },
+     "outer_3A_mean_A": 0.3517,
+     "interior_mean_A": 0.0276
+    },
+    "reference_input": "vcrelax_initial.in"
+   },
+   "final_coordinates_line": 49104
+  }
+ },
+ "inputs": {
+  "bands.in": {
+   "namelists": {
+    "CONTROL": {
+     "calculation": "bands",
+     "prefix": "slab",
+     "outdir": "./tmp",
+     "pseudo_dir": "./",
+     "verbosity": "high",
+     "tprnfor": ".true.",
+     "tstress": ".true.",
+     "max_seconds": "199557"
+    },
+    "SYSTEM": {
+     "ibrav": "0",
+     "nat": "96",
+     "ntyp": "3",
+     "ecutwfc": "71",
+     "ecutrho": "568",
+     "occupations": "fixed",
+     "nbnd": "328"
+    },
+    "ELECTRONS": {
+     "conv_thr": "1.0d-9",
+     "mixing_beta": "0.2",
+     "electron_maxstep": "150",
+     "mixing_mode": "local-TF",
+     "diagonalization": "cg"
+    }
+   },
+   "cards": {
+    "ATOMIC_SPECIES": [
+     {
+      "species": "In",
+      "mass": 114.818,
+      "pseudo": "In.pbe-dn-kjpaw_psl.1.0.0.UPF"
+     },
+     {
+      "species": "O",
+      "mass": 15.999,
+      "pseudo": "O.pbe-n-kjpaw_psl.1.0.0.UPF"
+     },
+     {
+      "species": "H",
+      "mass": 1.008,
+      "pseudo": "H.pbe-kjpaw_psl.1.0.0.UPF"
+     }
+    ],
+    "CELL_PARAMETERS": {
+     "unit": "angstrom",
+     "vectors": [
+      [
+       10.33643106,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.334504206,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ]
+    },
+    "K_POINTS": {
+     "mode": "tpiba",
+     "n": 21,
+     "points_first_last": [
+      [
+       0.0,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.1739764,
+       0.1739764,
+       0.0,
+       1.0
+      ]
+     ],
+     "path_points": [
+      [
+       0.0,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.02460398,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.04920796,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.07381193,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.09841591,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.12301989,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.14762387,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.17222785,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.19683182,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.2214358,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.24603978,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.01739764,
+       0.01739764,
+       0.0,
+       1.0
+      ],
+      [
+       0.03479528,
+       0.03479528,
+       0.0,
+       1.0
+      ],
+      [
+       0.05219292,
+       0.05219292,
+       0.0,
+       1.0
+      ],
+      [
+       0.06959056,
+       0.06959056,
+       0.0,
+       1.0
+      ],
+      [
+       0.0869882,
+       0.0869882,
+       0.0,
+       1.0
+      ],
+      [
+       0.10438584,
+       0.10438584,
+       0.0,
+       1.0
+      ],
+      [
+       0.12178348,
+       0.12178348,
+       0.0,
+       1.0
+      ],
+      [
+       0.13918112,
+       0.13918112,
+       0.0,
+       1.0
+      ],
+      [
+       0.15657876,
+       0.15657876,
+       0.0,
+       1.0
+      ],
+      [
+       0.1739764,
+       0.1739764,
+       0.0,
+       1.0
+      ]
+     ]
+    }
+   },
+   "atomic_positions_summary": {
+    "unit": "crystal",
+    "n": 96,
+    "labels": [
+     "H",
+     "In",
+     "O"
+    ],
+    "n_constrained": 0
+   },
+   "geometry": {
+    "n_atoms": 96,
+    "composition": {
+     "H": 24,
+     "In": 24,
+     "O": 48
+    },
+    "cell_lengths_A": [
+     10.33643,
+     10.3345,
+     34.87454
+    ],
+    "cell_angles_deg": [
+     90.0,
+     90.0,
+     90.0
+    ],
+    "volume_A3": 3725.3642,
+    "density_g_cm3": 1.5814,
+    "bonds": {
+     "In-O": {
+      "cutoff_A": 2.6,
+      "n": 144,
+      "min": 2.1647,
+      "mean": 2.219,
+      "max": 2.3078,
+      "std": 0.0389,
+      "CN_In_hist": {
+       "6": 24
+      }
+     },
+     "O-H": {
+      "cutoff_A": 1.2,
+      "n": 24,
+      "min": 0.9719,
+      "mean": 0.9775,
+      "max": 0.9864,
+      "std": 0.0064,
+      "CN_O_hist": {
+       "0": 24,
+       "1": 24
+      }
+     }
+    },
+    "CN_O_by_cations_hist": {
+     "2": 24,
+     "4": 24
+    },
+    "slab": {
+     "vacuum_A": 25.571,
+     "extent_A": 9.303,
+     "thickness_H_H_A": 9.3033,
+     "thickness_O_O_A": 7.8762,
+     "thickness_In_In_A": 5.1515
+    }
+   }
+  },
+  "scf.in": {
+   "namelists": {
+    "CONTROL": {
+     "calculation": "scf",
+     "prefix": "slab",
+     "outdir": "./tmp",
+     "pseudo_dir": "./",
+     "verbosity": "high",
+     "tprnfor": ".true.",
+     "tstress": ".true.",
+     "max_seconds": "201460"
+    },
+    "SYSTEM": {
+     "ibrav": "0",
+     "nat": "96",
+     "ntyp": "3",
+     "ecutwfc": "71",
+     "ecutrho": "568",
+     "occupations": "fixed",
+     "nbnd": "328"
+    },
+    "ELECTRONS": {
+     "conv_thr": "1.0d-9",
+     "mixing_beta": "0.2",
+     "electron_maxstep": "150",
+     "mixing_mode": "local-TF"
+    }
+   },
+   "cards": {
+    "ATOMIC_SPECIES": [
+     {
+      "species": "In",
+      "mass": 114.818,
+      "pseudo": "In.pbe-dn-kjpaw_psl.1.0.0.UPF"
+     },
+     {
+      "species": "O",
+      "mass": 15.999,
+      "pseudo": "O.pbe-n-kjpaw_psl.1.0.0.UPF"
+     },
+     {
+      "species": "H",
+      "mass": 1.008,
+      "pseudo": "H.pbe-kjpaw_psl.1.0.0.UPF"
+     }
+    ],
+    "CELL_PARAMETERS": {
+     "unit": "angstrom",
+     "vectors": [
+      [
+       10.33643106,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.334504206,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ]
+    },
+    "K_POINTS": {
+     "mode": "automatic",
+     "grid": [
+      "3",
+      "3",
+      "1",
+      "0",
+      "0",
+      "0"
+     ]
+    }
+   },
+   "atomic_positions_summary": {
+    "unit": "crystal",
+    "n": 96,
+    "labels": [
+     "H",
+     "In",
+     "O"
+    ],
+    "n_constrained": 0
+   },
+   "geometry": {
+    "n_atoms": 96,
+    "composition": {
+     "H": 24,
+     "In": 24,
+     "O": 48
+    },
+    "cell_lengths_A": [
+     10.33643,
+     10.3345,
+     34.87454
+    ],
+    "cell_angles_deg": [
+     90.0,
+     90.0,
+     90.0
+    ],
+    "volume_A3": 3725.3642,
+    "density_g_cm3": 1.5814,
+    "bonds": {
+     "In-O": {
+      "cutoff_A": 2.6,
+      "n": 144,
+      "min": 2.1647,
+      "mean": 2.219,
+      "max": 2.3078,
+      "std": 0.0389,
+      "CN_In_hist": {
+       "6": 24
+      }
+     },
+     "O-H": {
+      "cutoff_A": 1.2,
+      "n": 24,
+      "min": 0.9719,
+      "mean": 0.9775,
+      "max": 0.9864,
+      "std": 0.0064,
+      "CN_O_hist": {
+       "0": 24,
+       "1": 24
+      }
+     }
+    },
+    "CN_O_by_cations_hist": {
+     "2": 24,
+     "4": 24
+    },
+    "slab": {
+     "vacuum_A": 25.571,
+     "extent_A": 9.303,
+     "thickness_H_H_A": 9.3033,
+     "thickness_O_O_A": 7.8762,
+     "thickness_In_In_A": 5.1515
+    }
+   }
+  },
+  "vcrelax.in": {
+   "namelists": {
+    "CONTROL": {
+     "calculation": "vc-relax",
+     "prefix": "vcr",
+     "outdir": "./tmp",
+     "pseudo_dir": "./",
+     "verbosity": "low",
+     "tprnfor": ".true.",
+     "tstress": ".true.",
+     "max_seconds": "257382",
+     "nstep": "300",
+     "etot_conv_thr": "1.0d-4",
+     "forc_conv_thr": "1.0d-3"
+    },
+    "SYSTEM": {
+     "ibrav": "0",
+     "nat": "96",
+     "ntyp": "3",
+     "ecutwfc": "71",
+     "ecutrho": "568",
+     "occupations": "fixed",
+     "nbnd": "320"
+    },
+    "ELECTRONS": {
+     "conv_thr": "1.0d-9",
+     "mixing_beta": "0.2",
+     "electron_maxstep": "150",
+     "mixing_mode": "local-TF"
+    },
+    "IONS": {
+     "ion_dynamics": "bfgs"
+    },
+    "CELL": {
+     "cell_dynamics": "bfgs",
+     "cell_dofree": "2Dxy",
+     "press_conv_thr": "0.5"
+    }
+   },
+   "cards": {
+    "ATOMIC_SPECIES": [
+     {
+      "species": "In",
+      "mass": 114.818,
+      "pseudo": "In.pbe-dn-kjpaw_psl.1.0.0.UPF"
+     },
+     {
+      "species": "O",
+      "mass": 15.999,
+      "pseudo": "O.pbe-n-kjpaw_psl.1.0.0.UPF"
+     },
+     {
+      "species": "H",
+      "mass": 1.008,
+      "pseudo": "H.pbe-kjpaw_psl.1.0.0.UPF"
+     }
+    ],
+    "CELL_PARAMETERS": {
+     "unit": "angstrom",
+     "vectors": [
+      [
+       10.341816426,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.346773563,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ]
+    },
+    "K_POINTS": {
+     "mode": "automatic",
+     "grid": [
+      "3",
+      "3",
+      "1",
+      "0",
+      "0",
+      "0"
+     ]
+    }
+   },
+   "atomic_positions_summary": {
+    "unit": "crystal",
+    "n": 96,
+    "labels": [
+     "H",
+     "In",
+     "O"
+    ],
+    "n_constrained": 0
+   },
+   "geometry": {
+    "n_atoms": 96,
+    "composition": {
+     "H": 24,
+     "In": 24,
+     "O": 48
+    },
+    "cell_lengths_A": [
+     10.34182,
+     10.34677,
+     34.87454
+    ],
+    "cell_angles_deg": [
+     90.0,
+     90.0,
+     90.0
+    ],
+    "volume_A3": 3731.7303,
+    "density_g_cm3": 1.5787,
+    "bonds": {
+     "In-O": {
+      "cutoff_A": 2.6,
+      "n": 144,
+      "min": 2.1514,
+      "mean": 2.2111,
+      "max": 2.299,
+      "std": 0.0377,
+      "CN_In_hist": {
+       "6": 24
+      }
+     },
+     "O-H": {
+      "cutoff_A": 1.2,
+      "n": 24,
+      "min": 0.9717,
+      "mean": 0.9727,
+      "max": 0.9732,
+      "std": 0.0007,
+      "CN_O_hist": {
+       "0": 24,
+       "1": 24
+      }
+     }
+    },
+    "CN_O_by_cations_hist": {
+     "2": 24,
+     "4": 24
+    },
+    "slab": {
+     "vacuum_A": 25.273,
+     "extent_A": 9.601,
+     "thickness_H_H_A": 9.6012,
+     "thickness_O_O_A": 7.9489,
+     "thickness_In_In_A": 5.1443
+    }
+   }
+  },
+  "vcrelax_initial.in": {
+   "namelists": {
+    "CONTROL": {
+     "calculation": "vc-relax",
+     "prefix": "vcr",
+     "outdir": "./tmp",
+     "pseudo_dir": "./",
+     "verbosity": "low",
+     "tprnfor": ".true.",
+     "tstress": ".true.",
+     "max_seconds": "1.0d8",
+     "nstep": "300",
+     "etot_conv_thr": "1.0d-4",
+     "forc_conv_thr": "1.0d-3"
+    },
+    "SYSTEM": {
+     "ibrav": "0",
+     "nat": "96",
+     "ntyp": "3",
+     "ecutwfc": "71",
+     "ecutrho": "568",
+     "occupations": "fixed",
+     "nbnd": "320"
+    },
+    "ELECTRONS": {
+     "conv_thr": "1.0d-9",
+     "mixing_beta": "0.2",
+     "electron_maxstep": "150",
+     "mixing_mode": "local-TF"
+    },
+    "IONS": {
+     "ion_dynamics": "bfgs"
+    },
+    "CELL": {
+     "cell_dynamics": "bfgs",
+     "cell_dofree": "2Dxy",
+     "press_conv_thr": "0.5"
+    }
+   },
+   "cards": {
+    "ATOMIC_SPECIES": [
+     {
+      "species": "In",
+      "mass": 114.818,
+      "pseudo": "In.pbe-dn-kjpaw_psl.1.0.0.UPF"
+     },
+     {
+      "species": "O",
+      "mass": 15.999,
+      "pseudo": "O.pbe-n-kjpaw_psl.1.0.0.UPF"
+     },
+     {
+      "species": "H",
+      "mass": 1.008,
+      "pseudo": "H.pbe-kjpaw_psl.1.0.0.UPF"
+     }
+    ],
+    "CELL_PARAMETERS": {
+     "unit": "angstrom",
+     "vectors": [
+      [
+       10.3060902,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.3060902,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ]
+    },
+    "K_POINTS": {
+     "mode": "automatic",
+     "grid": [
+      "3",
+      "3",
+      "1",
+      "0",
+      "0",
+      "0"
+     ]
+    }
+   },
+   "atomic_positions_summary": {
+    "unit": "crystal",
+    "n": 96,
+    "labels": [
+     "H",
+     "In",
+     "O"
+    ],
+    "n_constrained": 0
+   },
+   "geometry": {
+    "n_atoms": 96,
+    "composition": {
+     "H": 24,
+     "In": 24,
+     "O": 48
+    },
+    "cell_lengths_A": [
+     10.30609,
+     10.30609,
+     34.87454
+    ],
+    "cell_angles_deg": [
+     90.0,
+     90.0,
+     90.0
+    ],
+    "volume_A3": 3704.2164,
+    "density_g_cm3": 1.5904,
+    "bonds": {
+     "In-O": {
+      "cutoff_A": 2.6,
+      "n": 144,
+      "min": 2.1671,
+      "mean": 2.2189,
+      "max": 2.2561,
+      "std": 0.0317,
+      "CN_In_hist": {
+       "6": 24
+      }
+     },
+     "O-H": {
+      "cutoff_A": 1.2,
+      "n": 24,
+      "min": 0.97,
+      "mean": 0.97,
+      "max": 0.97,
+      "std": 0.0,
+      "CN_O_hist": {
+       "0": 24,
+       "1": 24
+      }
+     }
+    },
+    "CN_O_by_cations_hist": {
+     "2": 24,
+     "4": 24
+    },
+    "slab": {
+     "vacuum_A": 25.0,
+     "extent_A": 9.875,
+     "thickness_H_H_A": 9.8745,
+     "thickness_O_O_A": 8.0332,
+     "thickness_In_In_A": 5.153
+    }
+   }
+  }
+ },
+ "templates": {
+  "bands.tmpl": {
+   "namelists": {
+    "CONTROL": {
+     "calculation": "bands",
+     "prefix": "slab",
+     "outdir": "./tmp",
+     "pseudo_dir": "./",
+     "verbosity": "high",
+     "tprnfor": ".true.",
+     "tstress": ".true.",
+     "max_seconds": "1.0d8"
+    },
+    "SYSTEM": {
+     "ibrav": "0",
+     "nat": "96",
+     "ntyp": "3",
+     "ecutwfc": "71",
+     "ecutrho": "568",
+     "occupations": "fixed",
+     "nbnd": "328"
+    },
+    "ELECTRONS": {
+     "conv_thr": "1.0d-9",
+     "mixing_beta": "0.2",
+     "electron_maxstep": "150",
+     "mixing_mode": "local-TF",
+     "diagonalization": "cg"
+    }
+   },
+   "cards": {
+    "ATOMIC_SPECIES": [
+     {
+      "species": "In",
+      "mass": 114.818,
+      "pseudo": "In.pbe-dn-kjpaw_psl.1.0.0.UPF"
+     },
+     {
+      "species": "O",
+      "mass": 15.999,
+      "pseudo": "O.pbe-n-kjpaw_psl.1.0.0.UPF"
+     },
+     {
+      "species": "H",
+      "mass": 1.008,
+      "pseudo": "H.pbe-kjpaw_psl.1.0.0.UPF"
+     }
+    ],
+    "CELL_PARAMETERS": {
+     "unit": "angstrom",
+     "vectors": [
+      [
+       10.3060902,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.3060902,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ]
+    },
+    "K_POINTS": {
+     "mode": "tpiba",
+     "n": 21,
+     "points_first_last": [
+      [
+       0.0,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.1739764,
+       0.1739764,
+       0.0,
+       1.0
+      ]
+     ],
+     "path_points": [
+      [
+       0.0,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.02460398,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.04920796,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.07381193,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.09841591,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.12301989,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.14762387,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.17222785,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.19683182,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.2214358,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.24603978,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.01739764,
+       0.01739764,
+       0.0,
+       1.0
+      ],
+      [
+       0.03479528,
+       0.03479528,
+       0.0,
+       1.0
+      ],
+      [
+       0.05219292,
+       0.05219292,
+       0.0,
+       1.0
+      ],
+      [
+       0.06959056,
+       0.06959056,
+       0.0,
+       1.0
+      ],
+      [
+       0.0869882,
+       0.0869882,
+       0.0,
+       1.0
+      ],
+      [
+       0.10438584,
+       0.10438584,
+       0.0,
+       1.0
+      ],
+      [
+       0.12178348,
+       0.12178348,
+       0.0,
+       1.0
+      ],
+      [
+       0.13918112,
+       0.13918112,
+       0.0,
+       1.0
+      ],
+      [
+       0.15657876,
+       0.15657876,
+       0.0,
+       1.0
+      ],
+      [
+       0.1739764,
+       0.1739764,
+       0.0,
+       1.0
+      ]
+     ]
+    }
+   },
+   "atomic_positions_summary": {
+    "unit": "crystal",
+    "n": 96,
+    "labels": [
+     "H",
+     "In",
+     "O"
+    ],
+    "n_constrained": 0
+   },
+   "geometry": {
+    "n_atoms": 96,
+    "composition": {
+     "H": 24,
+     "In": 24,
+     "O": 48
+    },
+    "cell_lengths_A": [
+     10.30609,
+     10.30609,
+     34.87454
+    ],
+    "cell_angles_deg": [
+     90.0,
+     90.0,
+     90.0
+    ],
+    "volume_A3": 3704.2164,
+    "density_g_cm3": 1.5904,
+    "bonds": {
+     "In-O": {
+      "cutoff_A": 2.6,
+      "n": 144,
+      "min": 2.1671,
+      "mean": 2.2189,
+      "max": 2.2561,
+      "std": 0.0317,
+      "CN_In_hist": {
+       "6": 24
+      }
+     },
+     "O-H": {
+      "cutoff_A": 1.2,
+      "n": 24,
+      "min": 0.97,
+      "mean": 0.97,
+      "max": 0.97,
+      "std": 0.0,
+      "CN_O_hist": {
+       "0": 24,
+       "1": 24
+      }
+     }
+    },
+    "CN_O_by_cations_hist": {
+     "2": 24,
+     "4": 24
+    },
+    "slab": {
+     "vacuum_A": 25.0,
+     "extent_A": 9.875,
+     "thickness_H_H_A": 9.8745,
+     "thickness_O_O_A": 8.0332,
+     "thickness_In_In_A": 5.153
+    }
+   }
+  },
+  "scf.tmpl": {
+   "namelists": {
+    "CONTROL": {
+     "calculation": "scf",
+     "prefix": "slab",
+     "outdir": "./tmp",
+     "pseudo_dir": "./",
+     "verbosity": "high",
+     "tprnfor": ".true.",
+     "tstress": ".true.",
+     "max_seconds": "1.0d8"
+    },
+    "SYSTEM": {
+     "ibrav": "0",
+     "nat": "96",
+     "ntyp": "3",
+     "ecutwfc": "71",
+     "ecutrho": "568",
+     "occupations": "fixed",
+     "nbnd": "328"
+    },
+    "ELECTRONS": {
+     "conv_thr": "1.0d-9",
+     "mixing_beta": "0.2",
+     "electron_maxstep": "150",
+     "mixing_mode": "local-TF"
+    }
+   },
+   "cards": {
+    "ATOMIC_SPECIES": [
+     {
+      "species": "In",
+      "mass": 114.818,
+      "pseudo": "In.pbe-dn-kjpaw_psl.1.0.0.UPF"
+     },
+     {
+      "species": "O",
+      "mass": 15.999,
+      "pseudo": "O.pbe-n-kjpaw_psl.1.0.0.UPF"
+     },
+     {
+      "species": "H",
+      "mass": 1.008,
+      "pseudo": "H.pbe-kjpaw_psl.1.0.0.UPF"
+     }
+    ],
+    "CELL_PARAMETERS": {
+     "unit": "angstrom",
+     "vectors": [
+      [
+       10.3060902,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.3060902,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ]
+    },
+    "K_POINTS": {
+     "mode": "automatic",
+     "grid": [
+      "3",
+      "3",
+      "1",
+      "0",
+      "0",
+      "0"
+     ]
+    }
+   },
+   "atomic_positions_summary": {
+    "unit": "crystal",
+    "n": 96,
+    "labels": [
+     "H",
+     "In",
+     "O"
+    ],
+    "n_constrained": 0
+   },
+   "geometry": {
+    "n_atoms": 96,
+    "composition": {
+     "H": 24,
+     "In": 24,
+     "O": 48
+    },
+    "cell_lengths_A": [
+     10.30609,
+     10.30609,
+     34.87454
+    ],
+    "cell_angles_deg": [
+     90.0,
+     90.0,
+     90.0
+    ],
+    "volume_A3": 3704.2164,
+    "density_g_cm3": 1.5904,
+    "bonds": {
+     "In-O": {
+      "cutoff_A": 2.6,
+      "n": 144,
+      "min": 2.1671,
+      "mean": 2.2189,
+      "max": 2.2561,
+      "std": 0.0317,
+      "CN_In_hist": {
+       "6": 24
+      }
+     },
+     "O-H": {
+      "cutoff_A": 1.2,
+      "n": 24,
+      "min": 0.97,
+      "mean": 0.97,
+      "max": 0.97,
+      "std": 0.0,
+      "CN_O_hist": {
+       "0": 24,
+       "1": 24
+      }
+     }
+    },
+    "CN_O_by_cations_hist": {
+     "2": 24,
+     "4": 24
+    },
+    "slab": {
+     "vacuum_A": 25.0,
+     "extent_A": 9.875,
+     "thickness_H_H_A": 9.8745,
+     "thickness_O_O_A": 8.0332,
+     "thickness_In_In_A": 5.153
+    }
+   }
+  }
+ },
+ "projwfc": {},
+ "pp_avg": {
+  "avg_slab1_relax_gpu.in": {
+   "input": "1\nslab1_relax_gpu_v.pp\n1.0\n3000\n3\n4.8689"
+  },
+  "pp_slab1_relax_gpu.in": {
+   "input": "&INPUTPP\n  prefix = 'slab', outdir = './tmp', filplot = 'slab1_relax_gpu_v.pp', plot_num = 11\n/"
+  },
+  "avg_slab1_relax_gpu.out": {
+   "output": {
+    "done": false,
+    "key_lines": [
+     "Program AVERAGE v.7.5 starts on 29Sep2026 at  9:19: 7",
+     "Reading header from file  slab1_relax_gpu_v.pp"
+    ],
+    "warnings": {
+     "error": {
+      "count": 3,
+      "first": [
+       [
+        22,
+        "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+       ],
+       [
+        23,
+        "Error in routine plot_io (2):"
+       ],
+       [
+        25,
+        "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+       ]
+      ],
+      "last": [
+       25,
+       "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+      ]
+     },
+     "mpi_abort": {
+      "count": 1,
+      "first": [
+       [
+        29,
+        "MPI_ABORT was invoked on rank 0 in communicator MPI_COMM_WORLD"
+       ]
+      ],
+      "last": [
+       29,
+       "MPI_ABORT was invoked on rank 0 in communicator MPI_COMM_WORLD"
+      ]
+     }
+    }
+   }
+  },
+  "pp_slab1_relax_gpu.out": {
+   "output": {
+    "done": false,
+    "key_lines": [
+     "Program POST-PROC v.7.5 starts on 29Sep2026 at  9:19: 1",
+     "Reading xml data from directory:",
+     "terminated by signals sent by prterun (as reported here)."
+    ],
+    "warnings": {
+     "error": {
+      "count": 3,
+      "first": [
+       [
+        156,
+        "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+       ],
+       [
+        157,
+        "Error in routine read_rhog (1):"
+       ],
+       [
+        159,
+        "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+       ]
+      ],
+      "last": [
+       159,
+       "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+      ]
+     },
+     "renormalized_wfc": {
+      "count": 3,
+      "first": [
+       [
+        135,
+        "file In.pbe-dn-kjpaw_psl.1.0.0.UPF: wavefunction(s)  5S 5P 4D renormalized"
+       ],
+       [
+        136,
+        "file O.pbe-n-kjpaw_psl.1.0.0.UPF: wavefunction(s)  2S 2P renormalized"
+       ],
+       [
+        137,
+        "file H.pbe-kjpaw_psl.1.0.0.UPF: wavefunction(s)  1S renormalized"
+       ]
+      ],
+      "last": [
+       137,
+       "file H.pbe-kjpaw_psl.1.0.0.UPF: wavefunction(s)  1S renormalized"
+      ]
+     },
+     "mpi_abort": {
+      "count": 2,
+      "first": [
+       [
+        163,
+        "MPI_ABORT was invoked on rank 1 in communicator MPI_COMM_WORLD"
+       ],
+       [
+        172,
+        "prterun has exited due to process rank 6 with PID 0 on node b9g57n0021 calling"
+       ]
+      ],
+      "last": [
+       172,
+       "prterun has exited due to process rank 6 with PID 0 on node b9g57n0021 calling"
+      ]
+     }
+    }
+   }
+  }
+ },
+ "avg_dat": {},
+ "pdos": {},
+ "driver": {
+  "slab1_relax_gpu_driver.log": {
+   "lines": [
+    "[2026-09-28T15:15:04Z] job slab1_relax_gpu host b9g57n0021.cern.ch cpus 11 limit 259200s",
+    "[2026-09-28T15:15:14Z] pw.x:/pool/condor/dir_1394614/qe-env/bin/pw.x  python: /pool/condor/dir_1394614/qe-env/bin/python",
+    "[2026-09-28T15:15:22Z] GPU mode: 1 GPU(s), NVIDIA A100-PCIE-40GB, 40960 MiB",
+    "[2026-09-28T15:15:22Z] pw.x vcrelax start (-nk 2, max_seconds 257382)",
+    "[2026-09-29T06:47:23Z] pw.x vcrelax end rc=0 PWSCF        :      8h15m CPU     15h31m WALL",
+    "[2026-09-29T06:47:24Z] pw.x scf start (-nk 2, max_seconds 201460)",
+    "[2026-09-29T07:18:58Z] pw.x scf end rc=0 PWSCF        :  10m46.87s CPU  31m30.21s WALL",
+    "[2026-09-29T07:19:07Z] planar average slab1_relax_gpu: 0 lines",
+    "[2026-09-29T07:19:07Z] pw.x bands start (-nk 2, max_seconds 199557)",
+    "[2026-09-29T11:57:58Z] pw.x bands end rc=0 PWSCF        :      1h50m CPU      4h38m WALL",
+    "[2026-09-29T11:57:59Z] steps finished after 74575 s"
+   ],
+   "host": "b9g57n0021.cern.ch",
+   "cpus": 11,
+   "limit_s": 259200,
+   "start": "2026-09-28T15:15:04Z",
+   "gpu": "1 GPU(s), NVIDIA A100-PCIE-40GB, 40960 MiB",
+   "total_s": 74575,
+   "steps": [
+    {
+     "step": "vcrelax",
+     "start": "2026-09-28T15:15:22Z",
+     "nk": 2,
+     "max_seconds": 257382,
+     "end": "2026-09-29T06:47:23Z",
+     "rc": 0,
+     "time": "PWSCF        :      8h15m CPU     15h31m WALL"
+    },
+    {
+     "step": "scf",
+     "start": "2026-09-29T06:47:24Z",
+     "nk": 2,
+     "max_seconds": 201460,
+     "end": "2026-09-29T07:18:58Z",
+     "rc": 0,
+     "time": "PWSCF        :  10m46.87s CPU  31m30.21s WALL"
+    },
+    {
+     "step": "bands",
+     "start": "2026-09-29T07:19:07Z",
+     "nk": 2,
+     "max_seconds": 199557,
+     "end": "2026-09-29T11:57:58Z",
+     "rc": 0,
+     "time": "PWSCF        :      1h50m CPU      4h38m WALL"
+    }
+   ]
+  }
+ },
+ "steps_sh": {
+  "steps.sh": "steps() {\n  run_pw vcrelax 2\n  python qeio.py converged vcrelax.out || { log \"relaxation did not finish; later steps skipped\"; return 0; }\n  for t in scf bands; do python qeio.py newgeom $t.tmpl vcrelax.out > $t.in; done\n  clean_tmp\n  run_pw scf 2 || return 0\n  run_ppavg slab \"$JOB\" 4.8689\n  run_pw bands 2\n}"
+ },
+ "other": {
+  ".fetched": ""
+ },
+ "mpi_errors": {},
+ "geometry_consistency": {
+  "scf.in vs final of vcrelax.out": {
+   "max_pos_diff_A": 0.0,
+   "max_cell_diff_A": 0.0
+  },
+  "bands.in vs final of vcrelax.out": {
+   "max_pos_diff_A": 0.0,
+   "max_cell_diff_A": 0.0
+  }
+ },
+ "condor": [
+  {
+   "job": "slab1_relax_gpu",
+   "id": "12759677.0",
+   "first": "2026-09-28T15:17:28Z",
+   "last": "2026-09-29T11:54:19Z",
+   "samples": 181,
+   "states": {
+    "2": 181
+   },
+   "cpus": 11,
+   "gpus": null,
+   "gpu_hw": [
+    "1xNVIDIA A100-PCIE-40GB|0%",
+    "1xNVIDIA A100-PCIE-40GB|1%",
+    "1xNVIDIA A100-PCIE-40GB|10%",
+    "1xNVIDIA A100-PCIE-40GB|11%",
+    "1xNVIDIA A100-PCIE-40GB|12%",
+    "1xNVIDIA A100-PCIE-40GB|13%",
+    "1xNVIDIA A100-PCIE-40GB|15%",
+    "1xNVIDIA A100-PCIE-40GB|16%",
+    "1xNVIDIA A100-PCIE-40GB|27%",
+    "1xNVIDIA A100-PCIE-40GB|39%",
+    "1xNVIDIA A100-PCIE-40GB|4%",
+    "1xNVIDIA A100-PCIE-40GB|42%",
+    "1xNVIDIA A100-PCIE-40GB|43%",
+    "1xNVIDIA A100-PCIE-40GB|44%",
+    "1xNVIDIA A100-PCIE-40GB|45%",
+    "1xNVIDIA A100-PCIE-40GB|46%",
+    "1xNVIDIA A100-PCIE-40GB|47%",
+    "1xNVIDIA A100-PCIE-40GB|48%",
+    "1xNVIDIA A100-PCIE-40GB|49%",
+    "1xNVIDIA A100-PCIE-40GB|50%",
+    "1xNVIDIA A100-PCIE-40GB|51%",
+    "1xNVIDIA A100-PCIE-40GB|52%",
+    "1xNVIDIA A100-PCIE-40GB|53%",
+    "1xNVIDIA A100-PCIE-40GB|54%",
+    "1xNVIDIA A100-PCIE-40GB|58%",
+    "1xNVIDIA A100-PCIE-40GB|6%",
+    "1xNVIDIA A100-PCIE-40GB|60%",
+    "1xNVIDIA A100-PCIE-40GB|63%",
+    "1xNVIDIA A100-PCIE-40GB|7%",
+    "1xNVIDIA A100-PCIE-40GB|71%",
+    "1xNVIDIA A100-PCIE-40GB|73%",
+    "1xNVIDIA A100-PCIE-40GB|75%",
+    "1xNVIDIA A100-PCIE-40GB|78%",
+    "1xNVIDIA A100-PCIE-40GB|8%",
+    "1xNVIDIA A100-PCIE-40GB|80%",
+    "1xNVIDIA A100-PCIE-40GB|81%",
+    "1xNVIDIA A100-PCIE-40GB|83%",
+    "1xNVIDIA A100-PCIE-40GB|86%",
+    "1xNVIDIA A100-PCIE-40GB|87%",
+    "1xNVIDIA A100-PCIE-40GB|88%",
+    "1xNVIDIA A100-PCIE-40GB|90%",
+    "1xNVIDIA A100-PCIE-40GB|91%",
+    "1xNVIDIA A100-PCIE-40GB|92%",
+    "1xNVIDIA A100-PCIE-40GB|93%",
+    "1xNVIDIA A100-PCIE-40GB|94%",
+    "1xNVIDIA A100-PCIE-40GB|95%",
+    "1xNVIDIA A100-PCIE-40GB|96%",
+    "1xNVIDIA A100-PCIE-40GB|97%",
+    "1xNVIDIA A100-PCIE-40GB|98%"
+   ],
+   "cpu_hw": [
+    "AMD EPYC 7313 16-Core Processor"
+   ],
+   "max_scf_it": 2197,
+   "max_bfgs": 53,
+   "steps": [
+    "vcrelax",
+    "scf",
+    "bands"
+   ]
+  }
+ ]
+}

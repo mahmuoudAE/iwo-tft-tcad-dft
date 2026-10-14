@@ -1,0 +1,21 @@
+universe                = vanilla
+executable              = /afs/cern.ch/user/m/melrashe/iwo_amorph/common/relax_node.sh
+arguments               = $(seg) 72000
+should_transfer_files   = YES
+transfer_input_files    = /afs/cern.ch/user/m/melrashe/iwo_amorph/common/driver.sh, /afs/cern.ch/user/m/melrashe/iwo_amorph/common/qeio.py, /afs/cern.ch/user/m/melrashe/iwo_amorph/common/dat2h5.py, /afs/cern.ch/user/m/melrashe/iwo_amorph/common/pseudo, relax.in, steps_relax.sh, /afs/cern.ch/user/m/melrashe/iwo_amorph/common/geomsel.py, segment_guard, segment_stop
+when_to_transfer_output = ON_EXIT
+transfer_output_files   = relax_s$(seg)_results.tar.gz, relax.in, RELAX_STATUS, segment_guard
+output                  = logs/relax_s$(seg).$(ClusterId).out
+error                   = logs/relax_s$(seg).$(ClusterId).err
+log                     = logs/relax.log
+request_cpus            = 16
+request_memory          = 64 GB
+request_disk            = 60 GB
+request_gpus            = 1
+environment             = "QE_NK=1"
+requirements            = regexp("H200", TARGET.GPUs_DeviceName) && !regexp("MIG", TARGET.GPUs_DeviceName)
++JobFlavour             = "tomorrow"
++IWOJob                 = "aIWO_1p0_Al2O3_s2_relax_s$(seg)"
+# D-24 (2026-10-11): geomsel.py, segment_guard and segment_stop (fail-fast stops), MIG slices excluded; see common/README_D24_BD.txt
+# D-24 item D: single-H200 benchmark (was request_gpus 2, H100|H200). Revert = swap in relax.sub.D24_2gpu (never relax.sub.pre_D24 unless the full section 5 rollback is done), README_D24_BD.txt section 4
+queue

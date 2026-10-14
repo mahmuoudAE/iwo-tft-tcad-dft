@@ -1,0 +1,48 @@
+{
+ "checker": "f9_common v18 039ac64a (frozen dir f9_checker_v18)",
+ "note": "C4 polish 1-GPU route: GPU predicates resolved through the same-ad helper chain; the A25/A30/A34 split-route environment check does not apply (no label split)",
+ "ads": [
+  {
+   "cluster": "12920318",
+   "ad_sha256": "125023d45fe598a08c0bbbd4d148d97cb0c73ffb83c5812d6f465e7ed6de101a",
+   "clusterid": "12920318",
+   "procid": "0",
+   "requestgpus": "1",
+   "expansion": [
+    "requirements",
+    "pregpurequirements",
+    "preafsrequirements",
+    "precvmfsrequirements",
+    "preverrequirements"
+   ],
+   "H100_on": [
+    "TARGET.GPUs_DeviceName"
+   ],
+   "notMIG_on": [
+    "TARGET.GPUs_DeviceName"
+   ],
+   "audited_gpu_predicates": true
+  },
+  {
+   "cluster": "12920319",
+   "ad_sha256": "9bb78f698f270c0b5d4ca556bc2e2e1c691a90128682585e661e352f0734b02d",
+   "clusterid": "12920319",
+   "procid": "0",
+   "requestgpus": "1",
+   "expansion": [
+    "requirements",
+    "pregpurequirements",
+    "preafsrequirements",
+    "precvmfsrequirements",
+    "preverrequirements"
+   ],
+   "H100_on": [
+    "TARGET.GPUs_DeviceName"
+   ],
+   "notMIG_on": [
+    "TARGET.GPUs_DeviceName"
+   ],
+   "audited_gpu_predicates": true
+  }
+ ]
+}

@@ -1,0 +1,17 @@
+universe                = vanilla
+executable              = /afs/cern.ch/user/m/melrashe/iwo_amorph/hse/tools/nc_node.sh
+arguments               = $(nc_name) $(nc_tag) 250000 $(nc_pools)
+should_transfer_files   = YES
+transfer_input_files    = /afs/cern.ch/user/m/melrashe/iwo_amorph/common/driver.sh, /afs/cern.ch/user/m/melrashe/iwo_amorph/common/qeio.py, /afs/cern.ch/user/m/melrashe/iwo_amorph/hse/pseudo, /afs/cern.ch/user/m/melrashe/iwo_amorph/hse/pseudo_proj, /afs/cern.ch/user/m/melrashe/iwo_amorph/hse/tools/steps_nc.sh, /afs/cern.ch/user/m/melrashe/iwo_amorph/hse/tools/set_natomwfc.py, scf_$(nc_tag).in
+when_to_transfer_output = ON_EXIT
+transfer_output_files   = $(nc_name)_$(nc_tag)_results.tar.gz, scf_$(nc_tag).out, projwfc_$(nc_tag).out, atomic_proj_$(nc_tag).xml, data-file-schema_$(nc_tag).xml, STATUS_$(nc_tag)
+output                  = logs/$(nc_tag).$(ClusterId).out
+error                   = logs/$(nc_tag).$(ClusterId).err
+log                     = logs/nc.log
+request_cpus            = 32
+request_memory          = 100 GB
+request_disk            = 40 GB
+request_gpus            = 0
++JobFlavour             = "testmatch"
++IWOJob                 = "a23_$(nc_name)_$(nc_tag)"
+queue

@@ -1,0 +1,199 @@
+% ===================================================================
+% methods_registration.tex -- Methods: governance, the hypothesis register (rules, freeze tags), the amendment log
+% A1-A36 in summary, sight history and disclosures.
+% Draft 2026-10-13 (Claude), for human review; no claim here is approved for a manuscript (charter section 9).
+% SIGHT RULE: sight events are described by what was seen and when, never by the values seen.
+% ASCII only. Every number carries a source comment  % <!-- KEY:line -->  (file:line). KEY legend:
+%   PRIV    = iwo-tft-research-private/                     PKG    = IWO_PHYSICS_CONSTRAINED_MODEL_V1/
+%   CHARTER = PRIV/00_PROJECT_CHARTER.md                    CS     = PRIV/01_CURRENT_STATE.md
+%   LEDGER  = PRIV/03_CLAIMS_LEDGER.yaml                    DLOG   = PRIV/05_DECISION_LOG.md
+%   REG     = PRIV/codex/work_chat/HYPOTHESIS_REGISTER.md   SLAB   = PRIV/compute/amorph/SLAB_PROTOCOL.md
+%   MLV     = PRIV/claude/plans/ML_VALIDATION.md            NPLAN  = PRIV/claude/NATURE_PLAN.md
+%   CD      = PKG/analysis_2026-10-10_campaign/CAMPAIGN_DESIGN.md
+%   S2PREP  = PKG/analysis_2026-10-10_campaign/S2_PREP.md   S2FIX  = PKG/analysis_2026-10-10_campaign/S2_SCORER_FIXES_2026-10-12.md
+%   S2GATE  = PKG/analysis_2026-10-10_campaign/S2_RUNNER_GATES_2026-10-13.md
+%   RLOG    = PKG/qe_workflow/cern_htcondor/results/RESULTS_LOG.md   V2TEX = PKG/report_latex_full/chapters/14_model_v2.tex
+%   GIT     = local git tag records of PRIV (read 2026-10-13 with git for-each-ref; not a file:line source)
+% ===================================================================
+\subsection{Pre-registration, amendments and sight history}
+\label{sec:m-reg}
+
+\subsubsection{Governance}
+\label{sec:m-reg-governance}
+
+The work follows a written charter. Every scientific statement carries one status label (for example
+\prov{MEASURED}, \prov{DERIVED}, \prov{FITTED}, \prov{COMPUTED}, \prov{HYPOTHESIS}, \prov{UNRESOLVED},
+\prov{FALSIFIED}), and labels change only with new evidence, recorded in a claims ledger. % <!-- CHARTER:27-39 -->
+No target-device-specific post-hoc fitting is allowed: global parameters may be calibrated on a declared calibration
+set, and anything tuned after a holdout has been revealed is calibration, never prediction. % <!-- CHARTER:41-47 -->
+A prediction is registered against a frozen model with numerical pass/fail criteria and timestamped outside the
+repository before any holdout is released. % <!-- CHARTER:86-95 -->
+The AI agents had defined roles: Claude Code as computational lead and record keeper, Codex as independent reviewer
+and hypothesis challenger; agreement between AI systems is not counted as evidence, and the humans decide. % <!-- CHARTER:15-21 ; CHARTER:53 ; CHARTER:105-116 -->
+\pdPending{P26}{DECISION PENDING: the charter is still marked PROPOSED and its adoption (decision D-10) is pending; adopt
+it or describe the governance as practised}. % <!-- CHARTER:7 ; DLOG:21 -->
+
+No device data were withheld in this project: every measured curve was seen before any model of this paper was built.
+The registrations therefore protect the analysis and model choices against the outcome of our own calculations; they
+are not blind tests against unseen measurements. % <!-- REG:37 ; CD:18 ; CD:501 ; DLOG:22 -->
+
+\subsubsection{Registration record}
+\label{sec:m-reg-record}
+
+\Cref{tab:m-reg-record} lists the registered documents in time order.
+
+\begin{table}[htbp]\centering\footnotesize
+\caption{Registered documents and freezes. Times are UTC unless stated; decision-log dates are local dates (UTC+8).}
+\label{tab:m-reg-record}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{3.6cm}@{}}
+\toprule
+When & What was frozen & Record \\
+\midrule
+before the V2 launches & V2 pass/fail criteria and predictions; one correction before the held-out outcome & commits \texttt{7b75ee6}, \texttt{a914165}; outcome \texttt{852dc8a} \\ % <!-- CS:164 ; V2TEX:43-50 -->
+before any comparison & extraction protocol; amendment A1 (normalised SS window) & commits \texttt{7a61687}, \texttt{7ce7116} (D-05) \\ % <!-- CS:86-87 ; DLOG:16 -->
+2026-10-10, before any result & slab protocol revision 2 (D-14); force-validation criteria for the machine-learned structures & \file{SLAB_PROTOCOL.md}; \file{ML_VALIDATION.md} \\ % <!-- SLAB:1 ; DLOG:25 ; MLV:1 -->
+2026-10-10, before any launch & ATLAS campaign design (C10) & \file{CAMPAIGN_DESIGN.md} \\ % <!-- CD:1 ; CD:12 -->
+2026-10-10T18:33:13Z & hypothesis register, revision 2 (D-17) & tag \texttt{register-rev2-frozen-}\allowbreak\texttt{20261010T1833Z} \\ % <!-- REG:3 ; DLOG:28 ; GIT: creator date 2026-10-11 02:33:15 +0800 -->
+2026-10-11T09:09Z, before any slab electronic result was read & H-N read-out rules and controls (A27, D-28) & register A27 \\ % <!-- REG:610 ; DLOG:39 -->
+2026-10-11T22:49Z, before any slab read-out & DFT read-out code 1.0.0-rc7, 221 tests (D-32) & tag \texttt{readout-1.0.0-}\allowbreak\texttt{rc7-frozen-}\allowbreak\texttt{20261011T2249Z} \\ % <!-- DLOG:43 ; GIT -->
+before any force-check output was read & force comparator v1.0.0 & commit \texttt{d0179e1} \\ % <!-- LEDGER:229 ; RLOG:17 -->
+2026-10-12, before S2-11 was unsealed & TCAD register scorer (sha256 \texttt{c0f28bb9}\ldots) & \file{S2_SCORER_FIXES_}\allowbreak\file{2026-10-12.md} \\ % <!-- S2FIX:1 ; S2FIX:349 ; S2GATE:243 -->
+\bottomrule
+\end{tabularx}
+\end{table}
+\pdPending{P27}{CHECK PENDING: external timestamp of the register and read-out freezes (charter step 5: a Zenodo/OSF DOI,
+or at least the tags pushed to GitHub); the remote of the record is private}. % <!-- CHARTER:92 -->
+
+\subsubsection{The hypothesis register}
+\label{sec:m-reg-register}
+
+The register distinguishes a \emph{registered prediction} (a frozen pass/fail test) from a \emph{forecast} (a
+drafter's estimate, recorded but not tested); every threshold is an \prov{ASSUMED} decision threshold. % <!-- REG:13-15 -->
+Under its censoring rule a quantity below the demonstrated numerical resolution is \emph{below resolution}, counts as
+consistent with an upper bound only if that resolution lies below the bound, and is otherwise \emph{unresolved}, never
+a pass. % <!-- REG:16-20 -->
+Section~1 of the register freezes the read-out definitions (\cref{sec:m-dft-readout}); section~3 the experiment plan,
+deadlines and export list; section~4 lists what is frozen, including the scoring windows, stop rules, calibration
+membership, seed exclusions and the amendment log. % <!-- REG:43-93 ; REG:1030-1095 -->
+After the freeze every change is a logged amendment, and the frozen predictions are scored and reported whatever the
+outcome. % <!-- REG:3 ; DLOG:28 -->
+\Cref{tab:m-reg-hyp} lists the hypotheses.
+
+\begin{table}[htbp]\centering\footnotesize
+\caption{Hypotheses of the register. ``Registered'': frozen pass/fail predictions; ``exploratory'': frozen read-out
+rules, no direction scored.}
+\label{tab:m-reg-hyp}
+\begin{tabularx}{\linewidth}{@{}l>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{4.0cm}@{}}
+\toprule
+ID & Hypothesis (short) & Type; method \\
+\midrule
+H-A & The \SI{2.0}{nm} floor is extrinsic or instrument-limited & registered; decisive part expected unresolved (no instrument records) \\ % <!-- REG:99 ; REG:114-119 -->
+H-B & One shared ungated strip explains the floor scaling & registered; TCAD \\ % <!-- REG:100 ; REG:121-135 -->
+H-C & Gate leakage and generation do not set the floor & registered; TCAD \\ % <!-- REG:101 ; REG:137-158 -->
+H-D & Band mobility needs $1/t$ scattering, not only the mass & registered; TCAD (mass-only part not computed, A22) \\ % <!-- REG:102 ; REG:160-177 -->
+H-E & Confinement explains part of $\Vth(t)$ & registered (amended by A13); TCAD \\ % <!-- REG:103 ; REG:179-236 -->
+H-F & The \SI{6.3}{nm} shape residual is unexplained & registered; TCAD (scoring definitions pending) \\ % <!-- REG:104 ; REG:238-247 ; S2PREP:167-173 -->
+H-G & W behaves as a donor into host states, no pinning state & registered; DFT, \SI{2.0}{nm} \\ % <!-- REG:105 ; REG:249-263 -->
+H-H & OH termination moves dipoles, not the interior edge & registered; DFT \\ % <!-- REG:106 ; REG:265-271 -->
+H-I & \AlO{} changes the alignment without channel-edge traps & registered; DFT \\ % <!-- REG:107 ; REG:273-284 -->
+H-J & One shared model transfers across 2.0, 6.3, \SI{13.2}{nm} & registered; TCAD \\ % <!-- REG:108 ; REG:286-302 -->
+H-K & Amorphous confinement agrees with the crystalline laws & registered; DFT \\ % <!-- REG:109 ; REG:304-312 -->
+H-L & W suppresses O vacancies in crystalline \InO{} & registered after the freeze (A17), before any cell was built; DFT \\ % <!-- REG:110 ; REG:315 -->
+H-M & \HfO{} interface control at \SI{2.0}{nm} & registered after the freeze (A18), before any structure; DFT \\ % <!-- REG:111 ; REG:370 -->
+H-N & Extended-carrier efficacy of W against thickness & exploratory after the freeze (A27), before any slab electronic result; DFT \\ % <!-- REG:112 ; REG:405 ; DLOG:39 -->
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{Amendment log}
+\label{sec:m-reg-amendments}
+
+Amendments A1--A16 turned revision~1 into the frozen revision~2, in response to two Codex reviews, a numerical audit of
+the effective density of states and Codex's confirmation. % <!-- REG:5-9 ; REG:1097-1116 -->
+A17--A36 were added after the freeze; A32 and A33 are reserved for two pilots that have not been registered. % <!-- REG:4 ; REG:676 -->
+Each post-freeze amendment was approved by the user and recorded in the decision log, and most after a Codex review
+with requested changes applied. \Cref{tab:m-reg-amend} gives the post-freeze amendments with their timing relative to
+the results they govern.
+
+\begin{table}[htbp]\centering\footnotesize
+\caption{Amendments after the freeze (register section 2 and section 5). Times UTC.}
+\label{tab:m-reg-amend}
+\begin{tabularx}{\linewidth}{@{}l>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+\# & Logged & Content (timing) \\
+\midrule
+A17 & 10-10 18:48 & H-L added, before any vacancy cell was built or submitted (D-19) \\ % <!-- REG:315 ; REG:1117 ; DLOG:30 -->
+A18 & 10-10 18:52 & H-M added, before the Hf data set was installed or any structure built (D-20) \\ % <!-- REG:370 ; REG:1118 ; DLOG:31 -->
+A19 & 10-10 19:26 & H-L near/far site rule; ``bfgs converged'' convergence rule; settings fixed before submission \\ % <!-- REG:344 ; REG:1119 -->
+A20 & 10-10 20:42 & H-L robustness sensitivities and ``not robust'' rule, before any H-L result \\ % <!-- REG:352 ; REG:1120 -->
+A21 & 10-10 20:45 & H-M limited to an alternative-interface control; Hf force check; timing erratum (a non-production smoke build existed) \\ % <!-- REG:396-402 ; REG:1121 -->
+A22 & 10-10 20:45 & amorphous dispersion workflow descoped; mass-only H-D prediction reported ``unresolved: not computed'' \\ % <!-- REG:170-177 ; REG:1122 -->
+A23 & 10-10 21:06 & gap anchoring; amorphous bulk references; two hybrid checks with read-out rules (D-25) \\ % <!-- REG:539 ; REG:1123 ; DLOG:36 -->
+A24 & 10-11 03:13 & interface recipe kept; outer oxide face excluded from interface weights; crystallinity flags, before any interface DFT result (D-26) \\ % <!-- REG:567 ; REG:1124 ; DLOG:37 -->
+A25 & 10-11 08:14 & split species labels for one \SI{2.0}{nm} cell on one GPU, with energy gate and force qualification (D-27) \\ % <!-- REG:580 ; REG:1125 -->
+A26 & 10-11 08:14 & Gaussian 0.001~Ry reference finals before the smearing audit; classifications conditional (D-27) \\ % <!-- REG:600 ; REG:1126 -->
+A27 & 10-11 09:09 & H-N with classes, outcome rules and controls C1--C6, before any slab electronic result (D-28) \\ % <!-- REG:610 ; REG:1127 -->
+A28 & 10-11 10:06 & H-L near-cell restart and pre-declared fallback; erratum on the number of validated SCFs (D-29) \\ % <!-- REG:624-629 ; REG:1128 -->
+A29 & 10-11 12:53 & GPU allocator setting for one cell (cause \prov{ASSUMED}) (D-30) \\ % <!-- REG:631 ; REG:1129 -->
+A30 & 10-11 20:30 & one-GPU split-label route for seven idle chains; erratum on the out-of-memory path (D-31) \\ % <!-- REG:651 ; REG:659-663 ; REG:1130 -->
+A31 & 10-12 00:16 & smearing-audit route, SCF fallback, provisional width without the electron affinity, role substitution, before any \SI{2.0}{nm} final (D-33) \\ % <!-- REG:665 ; REG:1131 -->
+A34 & 10-12 06:06 & one-GPU routes for the \SI{2.0}{nm} force-check frames and one interface chain; recovery-rule correction; the interface route exploratory by scope (D-34, D-37) \\ % <!-- REG:675 ; REG:1132 ; DLOG:45 ; DLOG:48 -->
+A35 & 10-12 07:27 & Gaussian rescue of \pdCell{aIWO_0p8_s2}; restart gate and qualification SCF; exploratory rule; post-hoc disclosure (D-36) \\ % <!-- REG:866 ; REG:1133 ; DLOG:47 -->
+A36 & 10-12 13:21 & rescues of two \SI{2.0}{nm} W chains and a conditional third; H-N \SI{2.0}{nm} endpoint unresolved without a C4 polish; sight erratum (D-40, D-41) \\ % <!-- REG:984 ; REG:1134 ; DLOG:51-52 -->
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Two pre-freeze amendments matter for the reading of the TCAD results. A13 added a \SI{2.0}{nm} confinement band that
+was informed by the S1 results, before any S3 run; the original band is preserved and both are scored, and the failed
+S1-05 expectation stays recorded as a failure. A15 introduced the smearing rescue and audit
+(\cref{sec:m-dft-smearing}). % <!-- REG:1113 ; REG:1115 ; REG:184-190 ; REG:211-212 -->
+
+\subsubsection{Sight history and disclosures}
+\label{sec:m-reg-sight}
+
+Sight events are listed by what was seen and when; no value seen is reported here.
+\begin{enumerate}
+\item \emph{Before the freeze.} The smoke runs S0-01 and S0-02 and all of stage S1 had been seen. At the freeze the
+team was blind to S2--S7 and to every amorphous electronic target quantity; it had seen the SCF-convergence failures of
+two undoped slabs (convergence behaviour, one first-SCF energy and one force norm). % <!-- REG:21-36 -->
+\item \emph{Before A27.} No slab final had run. The electronic outputs seen were relaxation-SCF energies and iteration
+counts, and geometry-selection summaries that included Kohn--Sham gaps of \pdCell{aIO_0p8_s1}. % <!-- REG:615 -->
+\item \emph{After A27.} The results log of the split-label qualification records a Fermi energy of
+\pdCell{aIO_1p0_s1} at a non-final geometry. \pdPending{P28}{DISCLOSURE PENDING: this entry is not listed in the
+register's sight history; decide whether it needs a register erratum}. % <!-- RLOG:118-145 ; LEDGER:214-219 -->
+\item \emph{A35.} The relaxation outputs of segments s0--s2 of \pdCell{aIWO_0p8_s2} were read for energies, energy
+components, forces and SCF accuracy. Diagnostic scripts also parsed relaxation-SCF Fermi energies, which appeared in
+a review digest but were used for no conclusion or decision. % <!-- REG:944-948 ; RLOG:113-115 ; LEDGER:225 -->
+\item \emph{A36 erratum: partial electronic unblinding.} On 2026-10-12, before A36 was committed, a research agent
+parsed relaxation-SCF Fermi energies and Kohn--Sham band eigenvalues of four \SI{2.0}{nm} cells
+(\pdCell{aIO_2p0_s1}, \pdCell{aIWO_2p0_s2}, \pdCell{aIWO_2p0_comp_s1} and a thread-test SCF of
+\pdCell{aIWO_2p0_s1}) to derive the position of one high band relative to the Fermi level for a band-count proposal
+(team exposure about 12:49Z); the main session read the four derived values at about 13:28Z. No projections,
+participation ratios, gaps or edges were computed; the values informed no decision, the band-count change was
+dropped, and the files are quarantined with sha256. Every \SI{2.0}{nm} H-G and H-N table therefore carries a linked
+disclosure footnote; no statement that no electronic quantity was seen is made; the unchanged projection,
+participation-ratio and class tests are not automatically invalidated; and later control cuts or scoring amendments
+acknowledge this history and preserve the original unresolved scores. % <!-- REG:1027 ; DLOG:52 -->
+\item \emph{Procedural disclosure (A35).} After a pre-declared condition for switching \pdCell{aIWO_0p8_s2} to Gaussian
+smearing had been met, the chain was released once more on the original smearing on a user go; this was recorded only
+in a CERN log, not in the work chat as the reset procedure requires, and was disclosed after the fact. % <!-- REG:950-959 ; DLOG:47 -->
+\item \emph{Restart non-reproducibility.} The finding of claim C036 led to the restart gate and qualification SCF of
+\cref{sec:m-dft-restart}. % <!-- LEDGER:221-226 ; REG:960-976 -->
+\item \emph{TCAD.} The deviations of \cref{sec:m-tcad-controls}: the S0-02 repair cap, launches while the regression
+gate was red (R23), and the sealed S2-11 run with its pending ``possibly exposed'' ruling. % <!-- REG:39 ; S2PREP:82 ; S2GATE:123 -->
+\item \emph{Errata.} A21 (timing of a smoke build), A28 (number of validated SCFs) and A30 (out-of-memory path) were
+corrected in the register without changing any rule. % <!-- REG:401-403 ; REG:629 ; REG:659-663 -->
+\end{enumerate}
+\pdPending{P29}{TEXT PENDING: final sight-history table per cell (what was read, by whom, when, before or after each
+freeze) once all finals are released; release decision D-42}.
+
+\subsubsection{Reporting commitments}
+\label{sec:m-reg-reporting}
+
+Every frozen prediction is reported with its score, including failures and unresolved outcomes. Classes read on an
+exploratory geometry are reported but never count as resolved coverage; registered unresolved scores are not
+replaced by later analyses. The \SI{13.2}{nm} swing mismatch and every failed branch and launch are reported (decision
+D-06). Calibration is never called validation. % <!-- DLOG:28 ; REG:927 ; REG:1027 ; DLOG:17 ; CD:18 ; CD:511 -->
+\pdPending{P30}{RESULT PENDING: the scorecard of every registered prediction (H-A to H-M) and the H-N exploratory
+read-out, each with its unresolved checks}.

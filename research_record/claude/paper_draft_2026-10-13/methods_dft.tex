@@ -1,0 +1,379 @@
+% ===================================================================
+% methods_dft.tex -- Methods: first-principles calculations (Quantum ESPRESSO): crystalline references, the amorphous
+% workflow (MACE melt-quench, slab construction, QE settings, smearing families and amendments A15/A26/A31/A35/A36,
+% D-24 restart/guard rules, export and certification), read-out definitions and CERN resources.
+% Draft 2026-10-13 (Claude), for human review; no claim here is approved for a manuscript (charter section 9).
+% SIGHT RULE: no amorphous-slab electronic quantity (classes, PR_n, gaps, edges, Fermi levels, projections, band energies)
+% appears here. Only what RESULTS_LOG.md, the claims ledger and the register text already log was used; FINAL exports,
+% XML/projection outputs, relaxation outputs and scratchpad quarantine folders were NOT opened.
+% ASCII only. Every number carries a source comment  % <!-- KEY:line -->  (file:line). KEY legend:
+%   PKG    = IWO_PHYSICS_CONSTRAINED_MODEL_V1/              PRIV   = iwo-tft-research-private/
+%   DFTTEX = PKG/report_latex_full/chapters/13_dft.tex       RLOG   = PKG/qe_workflow/cern_htcondor/results/RESULTS_LOG.md
+%   V3     = PKG/config/iwo_material_model_v3.yaml
+%   SLAB   = PRIV/compute/amorph/SLAB_PROTOCOL.md            MLV    = PRIV/claude/plans/ML_VALIDATION.md
+%   MACE   = PRIV/compute/amorph/mace_amorph.py              MKSPEC = PRIV/compute/amorph/make_specs.py (docstring)
+%   MKDFT  = PRIV/compute/amorph/dft/make_dft.py
+%   ANINIT = PRIV/compute/amorph/analysis/__init__.py        ANCERT = PRIV/compute/amorph/analysis/certify.py (docstring)
+%   ANCLI  = PRIV/compute/amorph/analysis/cli.py (docstring) ANDATA = PRIV/compute/amorph/analysis/data.py (docstring)
+%   ANCRY  = PRIV/compute/amorph/analysis/crystalline.py (docstring)
+%   REG    = PRIV/codex/work_chat/HYPOTHESIS_REGISTER.md     LEDGER = PRIV/03_CLAIMS_LEDGER.yaml
+%   DLOG   = PRIV/05_DECISION_LOG.md                         CS     = PRIV/01_CURRENT_STATE.md
+%   CPLAN  = PRIV/claude/plans/COMPLETE_PLAN_2026-10.md
+% ===================================================================
+\subsection{First-principles calculations}
+\label{sec:m-dft}
+
+All first-principles results are \prov{COMPUTED}; the thickness laws derived from them for the device model are
+\prov{FITTED} to computed points and contain no device data. % <!-- V3:58-74 -->
+Every cell is neutral and spin-unpolarised, and no Hubbard correction is applied. % <!-- REG:585 ; REG:260-262 -->
+Such PBE cells can show \emph{consistency} with donor behaviour; they cannot establish full ionisation or
+thermodynamic charge-transition levels. % <!-- REG:260-262 -->
+Hybrid-functional and spin-polarised calculations enter only as pre-declared checks.
+
+\subsubsection{Codes, functional and pseudopotentials}
+\label{sec:m-dft-codes}
+
+All calculations use Quantum ESPRESSO \citep{Giannozzi2009,Giannozzi2017} with the PBE functional \citep{Perdew1996}
+and projector-augmented-wave data sets of pslibrary 1.0.0 \citep{Bloechl1994,DalCorso2014}. The In set has the 4d
+shell in the valence ($Z_{\mathrm{val}} = 13$), the W set the 5s5p shells (14); O has 6 and H 1. % <!-- RLOG:9 -->
+The Al set has $Z_{\mathrm{val}} = 3$ and the Hf set 12, with 4f frozen in the core; both suggest cutoffs below the ones
+used here. % <!-- SLAB:84-86 ; SLAB:145-147 -->
+CPU jobs run Quantum ESPRESSO 7.5; GPU jobs run the NVIDIA build of 7.3.1 from a container
+\citep{NvidiaQE,Kurtzer2017}. % <!-- DFTTEX:1352-1362 -->
+On one 96-atom slab the two builds gave total energies $5\times10^{-7}$~Ry apart with the same gap and iteration count. % <!-- DFTTEX:1396-1399 -->
+Structures were built with ASE \citep{Larsen2017} and verified with spglib \citep{Togo2018}; every input gives its
+cell explicitly (\texttt{ibrav = 0}). % <!-- DFTTEX:600-622 -->
+
+\subsubsection{Crystalline reference calculations}
+\label{sec:m-dft-crystal}
+
+\paragraph{Bulk.} Bixbyite \InO{} (Ia$\bar3$) \citep{Marezio1966} was converged on its 40-atom primitive cell:
+71~Ry (568~Ry for the density) and a $3\times3\times3$ grid meet the pre-registered criteria of 1~mRy/atom in energy,
+1~kbar in pressure and 10~meV in the gap. % <!-- DFTTEX:782 ; DFTTEX:875-879 -->
+The variable-cell relaxation gives $a = \SI{10.306}{\angstrom}$, 1.87\,\% above experiment. % <!-- DFTTEX:913-915 -->
+The fundamental PBE gap of the relaxed crystal, 0.8887~eV, is the reference for all confinement shifts, and the
+isotropic conduction-band mass is $0.159\,m_0$. % <!-- DFTTEX:932 ; DFTTEX:942-943 -->
+
+\paragraph{Thin films.} Hydrogen-terminated (001) slabs were built by the recipe of \citet[p.~21542]{Lin2022}:
+removal of the boundary In layer, one H on each O that lost In neighbours, and \SI{25}{\angstrom} of vacuum. % <!-- DFTTEX:634-644 -->
+Increasing the vacuum from 15 to \SI{35}{\angstrom} changed the electron affinity and ionisation potential by at most
+0.1~meV. % <!-- DFTTEX:966-969 -->
+Slabs were relaxed in atoms and in-plane cell (forces $10^{-3}$~Ry/bohr, energy $10^{-4}$~Ry) on a
+$3\times3\times1$ grid with fixed occupations. % <!-- DFTTEX:857-858 -->
+Band edges are read on the vacuum scale from the planar-averaged potential; the partition of the gap opening between
+the conduction and valence bands uses a two-step alignment to the bulk potential, averaged over $a/2$ (the period of
+bixbyite along [001]). % <!-- RLOG:213-219 -->
+A projection check showed that the band edges of the relaxed \SI{2}{nm} slab are interior, not surface, states. % <!-- RLOG:192-207 -->
+These calculations give the confinement shifts of claims C020 (\prov{COMPUTED}) and C021 (\prov{COMPUTED},
+preliminary, termination-dependent, not yet in the results log). % <!-- LEDGER:114-124 -->
+
+\paragraph{Tungsten in crystalline cells.} One In of the 80-atom cell was replaced by W on the 8b or the 24d site
+(In$_{31}$WO$_{48}$, 3.1\,\% W), with Marzari--Vanderbilt smearing of 0.01~Ry \citep{Marzari1999}. % <!-- DFTTEX:695-697 ; DFTTEX:860 -->
+W prefers the 24d site by 0.258~eV. % <!-- DFTTEX:1207-1210 -->
+For the doped cells the valence-band top lies one band below that of the undoped cell, because In carries five
+4d bands and W four semicore bands; an earlier analysis that missed this was corrected. % <!-- RLOG:256-263 ; CS:208 -->
+The resulting W-level placement is claim C022 (\prov{COMPUTED}, crystalline cells only). % <!-- LEDGER:126-130 -->
+
+\paragraph{Hybrid-functional check.} HSE06 \citep{Heyd2003,Krukau2006} single points at the PBE geometries used SG15
+norm-conserving pseudopotentials at 80~Ry \citep{Hamann2013,Schlipf2015} and an exact-exchange cutoff of 160~Ry. % <!-- DFTTEX:1129-1136 ; DFTTEX:862 -->
+The ratio of the HSE06 and PBE gap openings of the \SI{1}{nm} slab is 1.060, and 1.06--1.11 when the reduced
+exact-exchange $q$ grid is taken as an uncertainty. % <!-- DFTTEX:1158-1163 -->
+
+\paragraph{Oxygen vacancies (H-L).} Five crystalline 80-atom cells (In$_{32}$O$_{48}$, In$_{31}$WO$_{48}$,
+In$_{32}$O$_{47}$ and In$_{31}$WO$_{47}$ with the vacancy near and far from W) were registered before any was
+built. % <!-- REG:315 ; REG:324 ; DLOG:30 -->
+The cell is fixed at $a = \SI{10.3061}{\angstrom}$; the settings are PBE, 71/568~Ry, $3\times3\times3$ for relaxation,
+Gaussian smearing of 0.005~Ry, relaxation to $10^{-3}$~Ry/bohr and $10^{-4}$~Ry, W on 24d, and a
+$4\times4\times4$ single point on every relaxed geometry. % <!-- REG:317-323 -->
+Unfrozen numerical settings were fixed before submission (\texttt{conv\_thr} $10^{-8}$, $\beta = 0.3$, 100 SCF and
+300 ionic steps). % <!-- REG:350 -->
+The near site is the computed candidate with the strictly shorter W--O bond in the relaxed host (both O30 and O72 are
+computed because they differ by \SI{0.0105}{\angstrom}); the far site is the O with the largest minimum-image distance
+to W. % <!-- REG:345-348 ; REG:359-363 -->
+Spin-polarised and 0.002~Ry single points are reported as sensitivities; a shift above 50~meV or a flipped verdict
+makes the result ``not robust''. % <!-- REG:352-358 -->
+The registered near cell failed one SCF; it was restarted from its best validated geometry with a pre-declared
+fallback (A28). % <!-- REG:624-629 ; DLOG:40 -->
+\pdPending{P16}{RESULT PENDING: H-L energies $\Delta E_{\mathrm{local}}$ and $\Delta E_{\mathrm{dop}}$, k3/k4 check,
+A20 sensitivities; not yet in RESULTS\_LOG.md or the claims ledger}.
+
+\subsubsection{Amorphous structures: machine-learned melt--quench}
+\label{sec:m-dft-mace}
+
+Amorphous structures were generated with the MACE-MPA-0 ``medium'' foundation potential
+\pdPending{P17}{CITATION PENDING: MACE architecture and the MACE-MPA-0 model}, % <!-- MLV:3-5 -->
+using Langevin dynamics with a \SI{1}{fs} time step and a friction of \SI{0.01}{fs^{-1}}, single precision for the
+dynamics and double precision for relaxations. % <!-- MACE:124-128 ; MACE:442-443 -->
+For a film, a periodic box of height $t$ at the target density is pre-relaxed, held at \SI{3000}{K} for \SI{6}{ps},
+quenched linearly to \SI{300}{K} over \SI{9}{ps} and held at \SI{300}{K} for \SI{2}{ps}; a vacuum gap is then opened
+along $z$, the free slab is annealed at \SI{800}{K} for \SI{3}{ps} and cooled to \SI{300}{K} over \SI{3}{ps}, relaxed
+to \SI{0.05}{eV/\angstrom}, passivated and relaxed again to \SI{0.05}{eV/\angstrom}. % <!-- MACE:4-6 ; MACE:492-501 ; MACE:505-519 ; MACE:527 ; MACE:540 -->
+Bulk cells skip the cleave and the passivation. % <!-- MACE:7 -->
+For an interface cell the oxide is melt--quenched first (\SI{3000}{K} for \SI{4}{ps}, quench over \SI{6}{ps}) and then
+held fixed while the film is melted and quenched on it. % <!-- MACE:8-10 ; MACE:473-478 -->
+The seed fixes the random packing and initial velocities, but the Langevin noise comes from an unseeded global
+generator, so a re-run of the same specification gives a different structure. % <!-- SLAB:293 -->
+A structure enters DFT only after a quality-control gate on density, bond lengths and coordination. % <!-- CPLAN:45 ; MACE:53 -->
+
+\subsubsection{Slab construction}
+\label{sec:m-dft-slabs}
+
+The slab rules (revision 2) were registered before any machine-learned or DFT result (decision D-14) and are applied
+in code. % <!-- SLAB:1-3 ; DLOG:25 -->
+\begin{itemize}
+\item \emph{Doping.} W/(In+W) is exactly 2.0\,\% in every IWO cell; each W carries one extra O, which leaves one excess
+electron per W (In$_{49n}$W$_n$O$_{76n}$); the undoped twin is In$_{50n}$O$_{75n}$ in the same cell. W atoms start at
+least \SI{6}{\angstrom} apart. % <!-- SLAB:9-15 -->
+One electron per W corresponds to about $6\times10^{20}$\cmcu{}, far above the channel carrier density of the devices. % <!-- SLAB:126 -->
+\item \emph{Lateral size.} The number of W per cell is the smallest that gives an in-plane edge of at least
+\SI{12.5}{\angstrom} at \SI{7.0}{g/cm^3}, so the W volume density is the same at every thickness; all cells use a
+$2\times2\times1$ grid. % <!-- SLAB:22-34 -->
+\item \emph{Thickness.} The label is the mass-equivalent thickness $t_{\mathrm{eq}}$ (film mass over
+\SI{7.0}{g/cm^3} and area); the outer-atom span, the cation span and an electronic thickness from the planar-averaged
+density are also reported. % <!-- SLAB:39-46 -->
+\item \emph{Termination.} Dissociated water (OH on an under-coordinated cation, H on an under-coordinated O, in pairs,
+so the electron count is unchanged), with bare-surface controls at 2.0 and \SI{0.7}{nm}. % <!-- SLAB:50-62 -->
+A recombined water molecule is removed with its two H after the final relaxation and the structure is
+re-relaxed. % <!-- SLAB:113-118 -->
+\item \emph{Vacuum.} Every DFT slab gets exactly \SI{18}{\angstrom} of vacuum and a dipole correction along $z$. % <!-- SLAB:90-96 -->
+\item \emph{Rejection.} A structure that fails quality control for any reason other than the vacuum is replaced by the
+same recipe with the next seed; thresholds are never changed after a result. Three structures were replaced. % <!-- SLAB:104-111 -->
+\item \emph{Doping-regime control.} A fully compensated \SI{2.0}{nm} cell with zero excess electrons (decision D-15). % <!-- SLAB:122-133 ; DLOG:24 -->
+\item \emph{Interfaces.} About \SI{1}{nm} of amorphous \AlO{} (\SI{3.0}{g/cm^3}) is melt--quenched first, the film is
+melt--quenched on it with the oxide fixed, the stack is cleaved below the oxide, annealed at \SI{800}{K} with all atoms
+free and passivated on both outer faces. % <!-- SLAB:68-80 -->
+An \HfO{} control cell uses the same recipe at \SI{9.6}{g/cm^3} (\prov{ASSUMED}) and is an alternative-interface
+control only. % <!-- SLAB:139-143 ; REG:396-397 -->
+Because the periodic film melt deposits film material on the outer oxide face, atoms within \SI{3}{\angstrom} of the
+lowest substrate cation are excluded from every interface weight (A24, before any interface DFT result). % <!-- REG:567-574 ; SLAB:327 -->
+\end{itemize}
+
+\Cref{tab:m-dft-cells} lists the registered amorphous cells with their roles.
+
+\begin{table}[htbp]\centering\footnotesize
+\caption{Registered amorphous cells (one melt--quench sample per name). Atom counts include the passivating H where
+logged. Status at the relaxation cutoff is not part of this draft.}
+\label{tab:m-dft-cells}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Cell & Composition / atoms & Role and route \\
+\midrule
+\pdCell{aIWO_bulk_s1}, \pdCell{aIO_bulk_s1} & 50 cations, no surface & H-N bulk point; gap-anchoring references (A23); relaxed with Gaussian 0.005~Ry \\ % <!-- SLAB:35 ; REG:546-548 ; REG:408 -->
+\pdCell{aIWO_2p0_s1} & In$_{98}$W$_2$ film; 270 atoms & H-G, H-N (\SI{2.0}{nm} seed 1), A15 audit, H-M reference \\ % <!-- SLAB:28 ; REG:716 ; REG:250 ; REG:409 -->
+\pdCell{aIWO_2p0_s2} & In$_{98}$W$_2$O$_{156}$H$_8$; 264 & H-G, H-N (seed 2), A31 backup; Gaussian rescue (A36) \\ % <!-- REG:986 ; REG:1024 -->
+\pdCell{aIO_2p0_s1}, \pdCell{aIO_2p0_s2} & In$_{100}$O$_{156}$H$_{12}$; 268 (s1) & undoped partners; A15 audit (s1) \\ % <!-- REG:581 ; REG:667 -->
+\pdCell{aIWO_2p0_comp_s1} & In$_{98}$W$_2$O$_{160}$H$_{14}$; 274; $N_{\mathrm{ex}} = 0$ & H-G compensated cell; A15 audit; not an H-N cell \\ % <!-- REG:987 ; REG:1019 ; REG:1024 -->
+\pdCell{aIWO_2p0_s1_bare} & bare surfaces & H-H control; parked after an SCF failure (H-H at \SI{2.0}{nm} unresolved) \\ % <!-- DLOG:46 -->
+\pdCell{aIWO_1p5_s1}, \pdCell{aIO_1p5_s1} & -- & cut under the register's cut-first rule \\ % <!-- DLOG:46 ; REG:518-519 -->
+\pdCell{aIWO_1p0_s1} & In$_{49}$W$_1$O$_{80}$H$_8$; 138 & H-N intermediate point; first A26 reference FINAL \\ % <!-- LEDGER:211 ; REG:604 -->
+\pdCell{aIO_1p0_s1} & In$_{50}$O$_{78}$H$_6$; 134 & undoped partner; split-label qualification cell (C035) \\ % <!-- LEDGER:218 -->
+\pdCell{aIWO_0p8_s2} & In$_{49}$W$_1$O$_{76}$ film; 147 & H-N; replacement of a rejected seed; Gaussian rescue (A35) \\ % <!-- REG:867 ; LEDGER:225 ; SLAB:109 -->
+\pdCell{aIO_0p8_s1} & In$_{50}$O$_{75}$ film & undoped partner; A15 rescue pilot \\ % <!-- REG:412 ; SLAB:31 ; DLOG:27 -->
+\pdCell{aIWO_0p7_s1}, \pdCell{aIO_0p7_s1} & In$_{49}$W$_1$O$_{83}$H$_{14}$ (W cell) & H-N thin decisive endpoint; H-H at \SI{0.7}{nm} \\ % <!-- RLOG:46 ; REG:413 ; REG:443 ; REG:266 -->
+\pdCell{aIWO_0p7_s1_bare} & bare surfaces & H-H control \\ % <!-- SLAB:62 ; REG:266 -->
+\pdCell{aIWO_2p0_Al2O3_s2} & 414 atoms & H-I; no feasible GPU route, stopped (H-I expected unresolved) \\ % <!-- REG:818-823 ; DLOG:46 -->
+\pdCell{aIWO_1p0_Al2O3_s2} & Al$_{60}$H$_{16}$In$_{49}$O$_{174}$W$_1$; 300 & H-I; exploratory by scope (A34) \\ % <!-- REG:750 ; REG:806 -->
+\pdCell{aIWO_2p0_HfO2_s1} & film of the \AlO{} cell on Hf$_{46}$O$_{92}$ & H-M (alternative-interface control) \\ % <!-- SLAB:139-141 ; REG:372-374 -->
+\bottomrule
+\end{tabularx}
+\end{table}
+\pdPending{P18}{RESULT PENDING: relaxation status of every cell at the 17 Oct 10:00 UTC cutoff (converged, exploratory,
+unresolved), with segment counts, lineage and smearing family}.
+
+\subsubsection{Validation of the machine-learned structures}
+\label{sec:m-dft-mlval}
+
+The criteria were fixed before any result: MACE forces on selected snapshots are compared with DFT single-point forces
+(PBE, 60/480~Ry, Marzari--Vanderbilt 0.01~Ry, dipole correction for slabs) on the identical geometry, with limits of
+\SI{0.15}{eV/\angstrom} for the force RMSE, \SI{0.10}{eV/\angstrom} for the MAE and \SI{0.25}{eV/\angstrom} for the
+RMSE on W and its first-shell O; melt frames are reported, not scored. % <!-- MLV:1 ; MLV:7 ; MLV:18-26 -->
+The comparator was frozen in a commit before any output was read. % <!-- LEDGER:229 ; RLOG:17 -->
+The check is \textbf{failed overall} (claim C037, \prov{COMPUTED}): the undoped bulk passes (quenched RMSE 0.068, MAE
+\SI{0.052}{eV/\angstrom}); the W-doped bulk fails on the W first shell only (0.434 quenched, \SI{0.449}{eV/\angstrom}
+final); and the \SI{0.7}{nm} W slab fails all three limits (RMSE 0.206, MAE 0.110, W-shell
+\SI{0.815}{eV/\angstrom}). % <!-- LEDGER:229 ; RLOG:20-29 -->
+Most of the squared error sits in the W first shell. % <!-- LEDGER:232 ; RLOG:39 -->
+Under the pre-registered consequence, the machine-learned structures are only starting points relaxed by DFT, not
+validated amorphous models, and no structural statistic from the machine-learning stage alone is reported. % <!-- MLV:28-31 ; LEDGER:232 -->
+That the potential's training data treat W oxides with PBE+U while the reference here is plain PBE is a possible
+contributor (\prov{ASSUMED}, not tested). % <!-- LEDGER:232 ; RLOG:48 -->
+\pdPending{P19}{RESULT PENDING: the two 2.0 nm force-check frames (cannot change the overall verdict; the 2.0 nm stop
+rule is undetermined until they finish) and the Hf force check required by A21}. % <!-- LEDGER:229 ; REG:398-400 -->
+
+\subsubsection{DFT relaxation}
+\label{sec:m-dft-relax}
+
+Relaxations use 60/480~Ry, Marzari--Vanderbilt smearing of 0.01~Ry for the W-doped slabs, BFGS with
+$10^{-3}$~Ry/bohr and $10^{-4}$~Ry, at most 400 ionic steps, $2\times2\times1$ (slabs) or $2\times2\times2$ (bulk), a
+dipole correction along $z$ for slabs, and \texttt{conv\_thr} $10^{-7}$, on GPUs with the 7.3.1 build. % <!-- MKDFT:10-11 ; MKDFT:43 ; MKDFT:54-60 ; RLOG:58 -->
+The original SCF settings are $\beta = 0.2$, local-TF mixing and at most 200 iterations. % <!-- REG:799 ; REG:991 -->
+Each relaxation runs as a chain of segments (an HTCondor DAG) with a wall limit of \SI{79200}{s} per segment
+(\SI{165600}{s} for one cell, decision D-41). % <!-- DLOG:46 ; DLOG:52 -->
+The continuation rules (decision D-24 and amendments) are:
+\begin{itemize}
+\item A segment restarts only from a \emph{validated} geometry, one with a converged SCF and an accepted ionic step,
+and from the lowest-energy one; the restart input is a copy of the segment input in which only the atomic positions
+are replaced. % <!-- REG:1139 ; REG:349 ; REG:966 -->
+\item A relaxation counts as converged only if Quantum ESPRESSO prints ``bfgs converged''; it also prints final
+coordinates after a failed BFGS run (A19, decision D-22). % <!-- REG:349 ; DLOG:33 -->
+\item A segment ends with one of the classes converged, continue, or failed with a category (\texttt{[scf]},
+\texttt{[infra]}, \texttt{[early]}, \texttt{[noprogress]}, \texttt{[parse]}); a hard failure is not replayed
+(\texttt{RETRY 8 UNLESS-EXIT 2}), and a stopped segment exits with code 3 and is held for review (decision D-27). % <!-- REG:1138 ; REG:903 ; DLOG:38 -->
+\item A reset after a stop follows a written procedure: the previous input is archived, the guard files are kept and
+emptied, and the reset is logged in the work chat with its time, reason and input checksum. % <!-- REG:890-894 -->
+\item A fatal GPU error after a new validated geometry is classified as an infrastructure failure with the geometry
+archived (decisions D-37, D-38). % <!-- REG:791-797 ; DLOG:48-49 -->
+\end{itemize}
+To fit 250--300-atom cells on one GPU, the In and O species labels are split into two labels each with identical data
+sets and settings (A25, A30, A34); at a fixed geometry the split changed the energy by $10^{-8}$~Ry and no force
+component by more than $3\times10^{-8}$~Ry/bohr (claim C035, \prov{COMPUTED}). % <!-- REG:580-598 ; REG:651-658 ; LEDGER:214-219 -->
+A GPU allocator setting was also permitted on this route; its retained-memory explanation is \prov{ASSUMED}. % <!-- REG:632 -->
+Every final SCF restores the original labels. % <!-- REG:594 -->
+
+\subsubsection{Smearing families and their amendments}
+\label{sec:m-dft-smearing}
+
+The W-doped slabs were registered to relax with Marzari--Vanderbilt smearing (0.01~Ry), and the undoped slabs and bulk
+references relax with Gaussian smearing (0.005~Ry). The difference arose from SCF failures of undoped slabs and is
+handled by amendments, each logged before the result it governs:
+\begin{itemize}
+\item \emph{A15 (rescue and audit).} Gaussian 0.005~Ry with $\beta = 0.1$, local-TF, 12 mixing vectors and at most
+300 iterations, first as a pilot on one \SI{0.8}{nm} cell (decision D-16), then on the undoped slabs (D-26). The final
+smearing is selected by an audit at fixed geometry (0.005, 0.002, 0.001~Ry on the \SI{2.0}{nm} undoped, doped and
+compensated cells): edges and electron affinity within 0.05~eV, trap classes unchanged and donated charge within five
+percentage points; the largest width that agrees with 0.001~Ry is selected, otherwise the quantities are unresolved.
+A single-point force comparison of the two families on one \SI{2.0}{nm} doped geometry decides whether the family is a
+geometry uncertainty ($10^{-3}$~Ry/bohr). % <!-- REG:1136-1146 ; DLOG:27 ; DLOG:37 -->
+\item \emph{Screen at \SI{1.0}{nm}.} On the relaxed \pdCell{aIWO_1p0_s1}, switching the family changed no force
+component by more than $2.4\times10^{-4}$~Ry/bohr (claim C034, \prov{COMPUTED}); this screen does not replace the
+required Gaussian polish. % <!-- LEDGER:208-212 ; RLOG:169-189 -->
+\item \emph{A26 (reference finals).} Gaussian 0.001~Ry reference final SCFs are permitted before the audit; the audit
+rules are unchanged, self-comparison is not an audit pass, and classifications stay conditional. % <!-- REG:600-608 ; DLOG:38 -->
+\item \emph{A31 (audit route and provisional width).} The nine audit runs run as CPU finals with an identical SCF path
+per cell and a frozen fallback from a converged sibling width's density. Because the frozen reader does not compute
+the electron affinity, the audit outcome is partial by construction and the selected width is provisional: every
+dependent result carries ``A15 width provisional (EA not evaluated)''. Trap-class agreement is judged per state by the
+class predicates, and named backups may substitute for a \SI{2.0}{nm} cell only on relaxation status. % <!-- REG:665-673 ; DLOG:44 -->
+\item \emph{A27 controls C3 and C4.} C3 compares the 0.001~Ry reference with the audit width; C4 requires a Gaussian
+0.005~Ry polish from the Marzari--Vanderbilt geometry at 2.0, 1.0 and \SI{0.7}{nm}, and a crossover must hold on the
+polished geometries. % <!-- REG:493-501 ; REG:459-466 -->
+\item \emph{A35 (\pdCell{aIWO_0p8_s2}).} After three SCF failures this cell continues from its best validated geometry
+with Gaussian 0.005~Ry and the rescue aids, one attempt only; its class is read on a Gaussian-family geometry. % <!-- REG:866-903 ; REG:933-934 ; DLOG:47 -->
+\item \emph{A36 (\SI{2.0}{nm} doped chains).} \pdCell{aIWO_2p0_s2} continues with Gaussian 0.005~Ry plus the aids and
+\pdCell{aIWO_2p0_comp_s1} with Marzari--Vanderbilt 0.01~Ry plus the aids, one attempt each; \pdCell{aIWO_2p0_s1} gets
+the Gaussian route once only if it writes an SCF failure. % <!-- REG:984-1015 ; DLOG:51 -->
+\end{itemize}
+The W series therefore uses mixed relaxation smearing, and every table of H-G, H-M and H-N gives each cell's family
+and lineage. % <!-- REG:939-943 ; REG:1025 -->
+Because a Gaussian-rescued \pdCell{aIWO_2p0_s2} has no Marzari--Vanderbilt geometry, control C4 cannot be satisfied for
+it, and the H-N \SI{2.0}{nm} endpoint is \prov{UNRESOLVED}; neither a crossover nor its absence can be claimed from an
+A36 geometry. % <!-- REG:1016-1018 -->
+\pdPending{P20}{RESULT PENDING: A15 audit outcome and the provisional width (A31); whether aIWO\_2p0\_s1 needed the
+conditional A36 rescue; C4 polishes at 1.0 and 0.7 nm}.
+
+\subsubsection{Restart reproducibility and qualification of a relaxation}
+\label{sec:m-dft-restart}
+
+For \pdCell{aIWO_0p8_s2} a fresh SCF at a fixed geometry with identical settings did not reproduce the continued SCF
+at production tolerance: the energy differed by $1.18\times10^{-5}$~Ry and a force component by
+$4.99\times10^{-3}$~Ry/bohr (claim C036, \prov{COMPUTED}). % <!-- LEDGER:221-226 ; RLOG:77-84 -->
+Whether this is an incomplete-SCF force error or two converged electronic branches is open; the branch and dipole
+mechanism is \prov{ASSUMED}. Numerical-path invariance is therefore not assumed for this cell, and nothing is claimed
+for other cells. % <!-- REG:970-976 ; LEDGER:225 -->
+For every cell on a rescue route (A35, A36), two gates follow:
+\begin{itemize}
+\item \emph{Restart gate.} At every later segment restart the first, fresh SCF must reproduce the previous segment's
+value at the same geometry within $10^{-5}$~Ry in energy and $10^{-3}$~Ry/bohr in every force component; a failed gate
+does not stop the chain. % <!-- REG:911-916 ; REG:1021 -->
+\item \emph{Qualification SCF.} After convergence, a fresh SCF at the final geometry with the relaxation settings must
+reproduce the relaxation's last SCF within the same tolerances. % <!-- REG:917-921 ; REG:1022 -->
+\end{itemize}
+The gate evidence is bound with sha256 into the cell's run certificate. A failed or missing qualification, or any
+failed gate on the lineage, makes the relaxation \emph{exploratory}; the frozen reader then excludes the cell from
+primary scoring, and the flag is inherited by every geometry relaxed from it. % <!-- REG:922-927 ; REG:1023 -->
+Independently, any relaxation not converged at the 17 October 10:00~UTC cutoff is exploratory, and a primary test
+without a converged geometry is unresolved. % <!-- REG:1076 -->
+\pdPending{P21}{RESULT PENDING: restart-gate and qualification-SCF outcomes for aIWO\_0p8\_s2, aIWO\_2p0\_s2 and
+aIWO\_2p0\_comp\_s1}.
+
+\subsubsection{Final SCF, export and certification}
+\label{sec:m-dft-final}
+
+Final SCFs run on CPUs with Quantum ESPRESSO 7.5 at 71/568~Ry (the cutoff of the crystalline study), the
+$2\times2\times1$ grid and $1.3\times$ the occupied band count, followed by the planar-averaged potential and
+projections (\texttt{projwfc.x}); they are submitted on hold until their smearing gate is cleared. % <!-- MKDFT:12-14 ; DLOG:29 -->
+The reference finals use Gaussian 0.001~Ry with one $k$-point pool and the registered SCF settings
+(\texttt{conv\_thr} $10^{-7}$, $\beta = 0.2$, 200 iterations, local-TF). % <!-- REG:604-606 ; DLOG:50 -->
+Before scratch space is lost, the following are exported: per-state projections with atom and orbital maps and
+completeness values, projected densities of states, occupations and $k$ weights, planar averages, final geometries
+with their lineage, eigenvalues, the actual inputs and logs of every segment, and the charge density of the
+\SI{2.0}{nm} cells (A14). % <!-- REG:1078-1086 -->
+A corrected export (decision D-24, item C) was required before any final was released, and completeness is verified
+against this list, not inferred from job success. % <!-- DLOG:35 ; REG:607-608 -->
+
+The read-out is a frozen Python package (version 1.0.0-rc7; code sha256 \texttt{fff642a1}\ldots\texttt{e4f01158};
+221 tests), frozen after Codex reported it ready and before any slab read-out existed (decision D-32). % <!-- DLOG:43 ; ANINIT:8 -->
+It reads the registered export (the XML eigenvalue and projection files); a text route with rounded projections is
+used only for the crystalline reproduction. % <!-- ANDATA:4-10 -->
+Before use on amorphous cells it must reproduce two crystalline numbers: a 3\,\% W-5d share and
+$\dEc = \SI{0.281}{eV}$ at \SI{2}{nm}. % <!-- REG:1068 ; ANCRY:1-2 -->
+\pdPending{P22}{CHECK PENDING: record of the crystalline reproduction by the frozen reader (register section 3)}.
+For each final the DFT agent compiles a certificate holding the sha256 of every file the read-out consumes, the
+geometry and pseudopotential hashes, a composition manifest and one block per qualification (relaxation, smearing,
+geometry polish) with sha256-bound evidence; an automated gate recomputes every hash, and Codex audits the
+certificate. Without a valid certificate every primary score is unresolved. % <!-- ANCERT:4-17 ; ANCLI:3-6 -->
+Every output carries the code, register, input and certificate hashes and a self-hash. % <!-- ANCERT:17 ; ANCLI:19-21 -->
+
+\subsubsection{Read-out definitions}
+\label{sec:m-dft-readout}
+
+The definitions were frozen with the register (section 1, amended by A16 and A24 before any electronic result). % <!-- REG:43-93 -->
+\begin{itemize}
+\item \emph{Projections.} The weight of atom $i$ in state $(n,k)$ is its L\"owdin projection \citep{Lowdin1950} summed
+over orbitals and normalised over atoms; a state with completeness below 0.90 is flagged, and a test resting on flagged
+states is unresolved. % <!-- REG:45-49 -->
+\item \emph{Localisation.} $\mathrm{PR}_n = 1/(N\sum_i p_i^2)$ over all $N$ atoms of the cell; extended if
+$\mathrm{PR}_n \ge 0.20$, localised if $\le 0.05$. % <!-- REG:50-55 -->
+\item \emph{Occupations.} Each state contributes $f_{nk}w_k$, with $f_{nk}$ from the final SCF's own smearing
+function. % <!-- REG:56-59 -->
+\item \emph{Host edge.} The lowest eigenvalue above band $N_v$ of any extended, interior-weighted state (interior
+weight at least 0.8 times the interior atom fraction); unresolved if none qualifies within 1.0~eV or the interior is
+empty. A host valence edge is defined in the same way at or below $N_v$. % <!-- REG:60-67 ; REG:80 -->
+\item \emph{Electron accounting.} $N_v = (N_{\mathrm{el}} - N_{\mathrm{ex}})/2$ with $N_{\mathrm{ex}} = n_W$ in the
+W-doped cells and 0 in the compensated and undoped cells; the occupation above $N_v$ must equal $N_{\mathrm{ex}}$
+within 0.02~e, and every fraction uses the nominal denominator. % <!-- REG:72-82 -->
+\item \emph{Alignment.} Valid only with an interior plateau of the planar-averaged potential with a standard deviation
+of at most 0.05~eV. % <!-- REG:83-85 -->
+\end{itemize}
+H-N classifies each W-doped cell from these quantities as DONOR ($f_{\mathrm{ext}} \ge 0.80$, $\Delta_W > 0.3$~eV,
+$f_{\mathrm{locW}} < 0.10$), ECB ($f_{\mathrm{ext}} < 0.50$ or $f_{\mathrm{locW}} \ge 0.50$), PARTIAL or UNRESOLVED;
+these are \prov{ASSUMED} operational screens, not universal donor criteria. % <!-- REG:427-432 -->
+\pdPending{P23}{RESULT PENDING: H-N per-cell classes and the series outcome; H-G, H-H, H-K scores; release decision
+D-42 (not yet in the decision log)}.
+
+\subsubsection{Gap anchoring and hybrid-functional checks}
+\label{sec:m-dft-gap}
+
+Absolute gaps are not taken from PBE. The scheme $E_g(t) = E_{g,\mathrm{anchor}} + r\,\Delta E_g^{\mathrm{PBE}}(t)$
+uses a measured anchor (3.05~eV, \prov{LITERATURE}, a different sputtered IWO device \citep{Fan2021}), the host-edge
+gap of each slab minus that of the matching amorphous bulk, and the HSE06/PBE ratio $r$ = 1.06--1.11 with its spread as
+an uncertainty (A23). % <!-- REG:540-544 -->
+Two hybrid checks were registered with read-out rules: a crystalline W cell (is the W-5d state still above the host
+edge in HSE06?) and an amorphous bulk (does its HSE06--PBE gap offset differ from the crystalline 1.188~eV by more than
+0.10~eV?). % <!-- REG:550-563 -->
+\pdPending{P24}{RESULT PENDING: A23 (ii) W-cell and (iii) amorphous-bulk hybrid checks; amorphous bulk references}.
+
+\subsubsection{Computing resources}
+\label{sec:m-dft-resources}
+
+The amorphous and vacancy calculations ran on CERN's HTCondor batch system, submitted from lxplus, with inputs and
+results on EOS \citep{Thain2005}. % <!-- DFTTEX:1352-1357 ; CPLAN:94 -->
+Relaxations used single H100 NVL GPUs (A100 allowed for the vacancy cells); the H100/H200 pool was saturated, two-GPU
+requests matched no slot, and H200 nodes were not available to the group. % <!-- DLOG:34 ; REG:678-680 -->
+The \SI{2.0}{nm} chains used 85.6--90.2~GB of the 95.8~GB of GPU memory on the one-GPU route. % <!-- REG:715 ; REG:1007 -->
+Kerberos tickets of running jobs are not renewed, so long jobs need a separate credential-refresh job. % <!-- CS:307 ; DLOG:46 -->
+The registered deadlines were: relaxations by 17~October 10:00~UTC, single-point controls by 20~October 12:00~UTC, last
+submission 18~October 22:00~UTC, access ending 21~October; the observed throughput was about 0.8 GPU starts per hour,
+an observation, not a guaranteed capacity. % <!-- REG:530-532 ; REG:1067-1087 -->
+The crystalline stage used about 8300 weighted CPU core-hours and 85--90 GPU-hours. % <!-- DFTTEX:1517-1518 -->
+\pdPending{P25}{RESULT PENDING: total CPU and GPU hours of the amorphous, vacancy and validation campaign}.

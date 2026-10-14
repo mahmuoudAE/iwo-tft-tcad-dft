@@ -1,0 +1,205 @@
+% ===================================================================
+% skeleton.tex -- Manuscript skeleton: thickness-dependent W-doped In2O3 (IWO) thin-film transistors studied by
+% Silvaco ATLAS 5.28 device simulation calibrated on the fabrication group's data, Quantum ESPRESSO calculations of
+% crystalline and amorphous slabs, and a pre-registered hypothesis register.
+% Draft 2026-10-13 (Claude). Status: SKELETON FOR HUMAN REVIEW. Under charter section 9 no AI agent may put claims in a
+% manuscript without explicit approval; nothing here is approved. Scope: a computational paper; claude/NATURE_PLAN.md
+% stays a proposal (D-09) and no new measurements exist (D-11).
+% Build: pdflatex skeleton; bibtex skeleton; pdflatex skeleton; pdflatex skeleton
+% Placeholders: \pdPending{Pnn}{...}; every Pnn is listed in TODO.md with what it waits for.
+% Source comments: % <!-- KEY:line -->; KEY legends are at the top of each input file. Extra keys used here:
+%   PRIV = iwo-tft-research-private/   PKG = IWO_PHYSICS_CONSTRAINED_MODEL_V1/
+%   CS = PRIV/01_CURRENT_STATE.md   LEDGER = PRIV/03_CLAIMS_LEDGER.yaml   DLOG = PRIV/05_DECISION_LOG.md
+%   REG = PRIV/codex/work_chat/HYPOTHESIS_REGISTER.md   CHARTER = PRIV/00_PROJECT_CHARTER.md
+%   NPLAN = PRIV/claude/NATURE_PLAN.md   PFIG = PKG/analysis_2026-10-06_extraction/PAPER_FIGURES.md
+%   MEM = C:/Users/moham/.claude/projects/.../memory/iwo-paper-target.md (scope notes)
+% ===================================================================
+\documentclass[11pt]{article}
+\input{paper_preamble}
+
+% Working title (not approved): "Registered device-simulation and first-principles tests of thickness-dependent
+% W-doped In2O3 transistors". Title and abstract are written last, after the scorecard exists.
+\title{\pdPending{P32}{TITLE PENDING: written after the scorecard (P30)}}
+\author{\pdPending{P34}{DECISION PENDING: authors and affiliations}}
+\date{Draft of 13 October 2026 -- not for circulation}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\pdPending{P33}{TEXT PENDING: abstract, written last}
+
+\begin{pdIntent}
+In about 150 words: the question (what sets the thickness dependence of ultrathin IWO transistors, and can a model with
+shared parameters and computed inputs account for it); the approach (device simulation with one shared parameter set,
+first-principles calculations of crystalline and amorphous films, all tests registered before their outcome); the
+outcomes, including failed and unresolved predictions, stated with their labels; and the limits (one device per
+thickness, retrospective device comparisons, PBE without $+U$, machine-learned structures that failed their force
+check). It must not use the words ``predict'' or ``validate'' for anything fitted or retrospective.
+\end{pdIntent}
+\end{abstract}
+
+\section*{Status of this draft}
+This file is a skeleton. It fixes the section order and what each section is for, and it contains the Methods
+(\cref{sec:methods}) and Limitations (\cref{sec:limitations}) as drafts. No claim in it is approved for a manuscript
+(charter section 9). % <!-- CHARTER:105-116 -->
+The paper is computational: it uses the four transfer curves already published by the fabrication group and adds no
+measurement (decision D-11); the proposal for new devices (\file{claude/NATURE_PLAN.md}) is not part of it (decision
+D-09). % <!-- DLOG:22 ; DLOG:20 ; NPLAN:3 -->
+Results that are pending, sealed or blind appear only as placeholders.
+\pdPending{P36}{DECISION PENDING: target journal; the charter treats a Nature-family paper as the ambition, not the
+optimisation target, and the device data are already published}. % <!-- CHARTER:11-13 ; MEM:13-19 -->
+
+% =====================================================================================================================
+\section{Introduction}
+\label{sec:intro}
+\begin{pdIntent}
+State why the thickness limit of oxide-semiconductor channels matters and what is known for IWO: the published
+2--\SI{13}{nm} series with an analytic model of eight fitted parameters per device and crystalline DFT
+\citep{Januar2026}. % <!-- CS:41-50 -->
+Name the gap this paper addresses: whether a device model with one shared parameter set and inputs computed from first
+principles can account for the thickness dependence, and what amorphous-film calculations say about W doping at the
+thinnest thicknesses. Explain why every test was registered before its outcome, and say plainly that all device
+comparisons are retrospective (four devices, all seen). End with the list of hypotheses (\cref{tab:m-reg-hyp}). Do not
+present re-analysis of the published curves as the headline. % <!-- REG:37 ; MEM:19 -->
+\end{pdIntent}
+
+% =====================================================================================================================
+\section{Results}
+\label{sec:results}
+
+\subsection{The measured devices under one extraction protocol}
+\label{sec:r-data}
+\begin{pdIntent}
+Present the four transfer curves (one device each, $\Vd = \SI{0.7}{V}$) and the registered extraction: thresholds
+0.662, 0.644 and \SI{0.083}{V} for 2.0, 6.3 and \SI{13.2}{nm} (claim C002, \prov{DERIVED}); off-state floors
+(C003); the collapse of the local swing against $\Id/\Ion$ in measurement and simulation (C007, \prov{OBSERVED}); and
+how the source paper's mobility and swing relate to our definitions (C030--C033). The \SI{31.8}{nm} device is shown as
+context and model failure only. % <!-- LEDGER:11-20 ; LEDGER:40-44 ; LEDGER:178-205 ; LEDGER:172-176 -->
+\end{pdIntent}
+\pdPending{P35}{TEXT PENDING: figure plan for the main text and Extended Data (figure-maker), consistent with
+PAPER\_FIGURES.md}. % <!-- PFIG:5-36 -->
+
+\subsection{Calibrated models and the failed held-out test}
+\label{sec:r-history}
+\begin{pdIntent}
+Summarise in one paragraph why the earlier per-film models are not predictive: thresholds and on-currents agree by
+construction (C013, \prov{FITTED}), and every held-out \SI{6.3}{nm} threshold test failed, including the registered
+V2 test (C014, \prov{FALSIFIED}). This motivates the shared-parameter campaign. % <!-- LEDGER:74-84 -->
+\end{pdIntent}
+
+\subsection{What sets the off-state floor}
+\label{sec:r-floor}
+\begin{pdIntent}
+Report H-A, H-B and H-C as registered: strip ohmicity and transfer of the strip conductance from \SI{13.2}{nm} to the
+thinner films; nominal and worst-case gate leakage; generation bounds; the S2-11 convergence check. Every verdict with
+its censoring status (pass, fail, below resolution, provisional, unresolved). State what only a drain-bias measurement
+could decide.
+\end{pdIntent}
+\pdPending{P05}{RESULT PENDING: S2-14..S2-17, STRIP-6p3} \pdPending{P06}{RESULT PENDING: S2-11 (sealed), S2-01..S2-13}
+
+\subsection{Confinement, the threshold and the \texorpdfstring{\SI{6.3}{nm}}{6.3 nm} shape residual}
+\label{sec:r-confinement}
+\begin{pdIntent}
+Report H-E (all confinement inputs off; affinity-only rigidity), including the failed S1-05 expectation and both
+\SI{2.0}{nm} bands of A13, and H-F (two-film reference shift and scale, branch tests). Separate model-consistency
+checks from statements about the device. % <!-- REG:184-212 ; REG:243-247 -->
+\end{pdIntent}
+\pdPending{P08}{RESULT PENDING: S3-01..S3-03, AFF-2p0, AFF-6p3} \pdPending{P09}{RESULT PENDING: S3-10..S3-13, S3-27; H-F scoring not yet frozen}
+
+\subsection{One shared model across thickness}
+\label{sec:r-shared}
+\begin{pdIntent}
+Report the S4 calibration as calibration, the identifiability analysis (which parameter combinations are determined),
+the retrospective leave-one-film-out folds of H-J and the mobility scattering branch of H-D. If S4 reports the shared
+model as failed, show the shift/shape decomposition and stop there: no per-film rescue parameters. % <!-- CD:324-338 ; REG:286-302 ; REG:164-177 -->
+\end{pdIntent}
+\pdPending{P07}{RESULT PENDING: S4, native triples} \pdPending{P10}{RESULT PENDING: S4a, S4c, S5}
+
+\subsection{Crystalline first-principles inputs}
+\label{sec:r-crystal}
+\begin{pdIntent}
+Give the computed confinement inputs and their use: gap opening of \SI{0.335}{eV} and mass $0.206\,m_0$ for the
+\SI{2}{nm} slab, \SI{0.90}{eV} (\SI{0.95}{}--\SI{1.00}{eV} HSE-corrected) at \SI{1}{nm} (C020, \prov{COMPUTED}); the
+conduction-band share of the opening; the W donor level in crystalline cells (C022); the sub-nanometre slabs as
+preliminary (C021); and the oxygen-vacancy test H-L. State that these are crystalline while the films are amorphous or
+nanocrystalline. % <!-- LEDGER:114-130 ; CS:211 -->
+\end{pdIntent}
+\pdPending{P16}{RESULT PENDING: H-L energies, k3/k4 check, A20 sensitivities}
+
+\subsection{Amorphous films: W as an extended-carrier donor against thickness}
+\label{sec:r-hn}
+\begin{pdIntent}
+Report H-G at \SI{2.0}{nm} (registered) and H-N (exploratory) as per-cell classes with every unresolved check, the
+smearing family and lineage of each cell, and the linked disclosure footnote for the \SI{2.0}{nm} cells (A36 erratum).
+State that the \SI{2.0}{nm} H-N endpoint is \prov{UNRESOLVED}, so neither a crossover nor its absence can be claimed,
+and that a missing or exploratory \SI{0.8}{nm} cell also blocks a no-crossover statement. % <!-- REG:1016-1018 ; REG:1027 ; REG:900 -->
+\end{pdIntent}
+\pdPending{P23}{RESULT PENDING: H-N per-cell classes and the series outcome; H-G, H-H, H-K scores; release decision D-42
+(not yet in the decision log)}
+
+\subsection{Surfaces, gate-oxide interfaces and amorphous confinement}
+\label{sec:r-interfaces}
+\begin{pdIntent}
+Report H-H (termination; \SI{2.0}{nm} part unresolved because the bare control was parked), H-I (expected
+unresolved), H-M (alternative-interface control only) and H-K (amorphous against crystalline confinement), with the
+gap-anchoring scheme of A23. % <!-- DLOG:46 ; REG:823-827 ; REG:396-397 ; REG:304-312 ; REG:539-544 -->
+\end{pdIntent}
+\pdPending{P24}{RESULT PENDING: A23 hybrid checks; amorphous bulk references}
+
+\subsection{Scorecard of the registered predictions}
+\label{sec:r-scorecard}
+\begin{pdIntent}
+One table with every registered prediction (H-A to H-M), its frozen criterion, the outcome and its status, and the
+exploratory H-N read-out separately; failures and unresolved outcomes are listed in the same table as passes. % <!-- DLOG:28 -->
+\end{pdIntent}
+\pdPending{P30}{RESULT PENDING: the scorecard of every registered prediction and the H-N exploratory read-out}
+
+% =====================================================================================================================
+\section{Discussion}
+\label{sec:discussion}
+\begin{pdIntent}
+Say what the registered outcomes establish and what they do not: which mechanisms are excluded within the model, which
+remain open for lack of measurements (gate current, drain-bias series, device statistics), and which conclusions rest
+on PBE alone. Distinguish calibrated, computed and tested statements throughout. List the measurements that would
+decide the open questions (drain-bias dependence of the floor, devices per thickness, optical gap and Hall data),
+without presenting them as planned work of this paper. % <!-- CS:217-220 ; DLOG:22 -->
+\end{pdIntent}
+
+% =====================================================================================================================
+\section{Methods}
+\label{sec:methods}
+\input{methods_tcad}
+\input{methods_dft}
+\input{methods_registration}
+
+% =====================================================================================================================
+\section{Limitations}
+\input{limitations}
+
+% =====================================================================================================================
+\section*{Data availability}
+\pdPending{P37}{TEXT PENDING: data statement; depends on the fabrication group's permission (P01)}
+
+\section*{Code availability}
+\pdPending{P38}{TEXT PENDING: code statement (deck generator, scorer, read-out package with freeze tags, structure and
+input generators); archive with a DOI}
+
+\section*{Author contributions}
+\pdPending{P34}{DECISION PENDING: author list, order and affiliations, agreed with the fabrication group}
+
+\section*{Use of AI tools}
+\begin{pdIntent}
+Describe the roles of the AI agents as practised (computational execution and record keeping by Claude Code,
+independent review by Codex), that every amendment needed a human decision, and that agreement between AI systems was
+not treated as evidence. % <!-- CHARTER:15-21 ; CHARTER:53 -->
+\end{pdIntent}
+\pdPending{P39}{TEXT PENDING: AI-use statement in the wording the journal requires}
+
+\section*{Acknowledgements and competing interests}
+\pdPending{P40}{TEXT PENDING: acknowledgements (CERN computing resources, funding) and competing-interest statement}
+
+\bibliographystyle{unsrtnat}
+\bibliography{../../../IWO_PHYSICS_CONSTRAINED_MODEL_V1/report_latex_full/references,../../../IWO_PHYSICS_CONSTRAINED_MODEL_V1/report_latex_full/bib/extra_DFT}
+
+\end{document}

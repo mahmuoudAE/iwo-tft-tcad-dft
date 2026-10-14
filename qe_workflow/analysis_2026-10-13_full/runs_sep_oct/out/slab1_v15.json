@@ -1,0 +1,1731 @@
+{
+ "run": "slab1_v15",
+ "folder": "cern_htcondor/results/slab1_v15",
+ "files": [
+  {
+   "path": ".fetched",
+   "size": 0,
+   "sha256_16": "e3b0c44298fc1c14",
+   "src": "loose",
+   "kind": "other"
+  },
+  {
+   "path": "avg_slab1_v15.in",
+   "size": 35,
+   "sha256_16": "823f97e45ef86911",
+   "src": "loose",
+   "kind": "avg_in"
+  },
+  {
+   "path": "avg_slab1_v15.out",
+   "size": 1295,
+   "sha256_16": "6737ea5aa1d4ab2f",
+   "src": "loose",
+   "kind": "avg_out"
+  },
+  {
+   "path": "bands.in",
+   "size": 5869,
+   "sha256_16": "c5e61a733ebcdaa3",
+   "src": "loose",
+   "kind": "pw_in"
+  },
+  {
+   "path": "bands.out",
+   "size": 137444,
+   "sha256_16": "2e2c97ae81b18433",
+   "src": "loose",
+   "kind": "pw_out"
+  },
+  {
+   "path": "pp_slab1_v15.in",
+   "size": 90,
+   "sha256_16": "be47c48b921a6d34",
+   "src": "loose",
+   "kind": "post_in"
+  },
+  {
+   "path": "pp_slab1_v15.out",
+   "size": 39651,
+   "sha256_16": "203d8727f0fe4530",
+   "src": "loose",
+   "kind": "pp_out"
+  },
+  {
+   "path": "scf.in",
+   "size": 5037,
+   "sha256_16": "6e9f53620955d2ba",
+   "src": "loose",
+   "kind": "pw_in"
+  },
+  {
+   "path": "scf.out",
+   "size": 180078,
+   "sha256_16": "a6243c1b9a6e42d5",
+   "src": "loose",
+   "kind": "pw_out"
+  },
+  {
+   "path": "slab1_v15_avg.dat",
+   "size": 138000,
+   "sha256_16": "834a1baf4a092821",
+   "src": "loose",
+   "kind": "avg_dat"
+  },
+  {
+   "path": "slab1_v15_driver.log",
+   "size": 623,
+   "sha256_16": "cd4240757fbec755",
+   "src": "loose",
+   "kind": "driver"
+  },
+  {
+   "path": "steps.sh",
+   "size": 87,
+   "sha256_16": "f095ead260c50369",
+   "src": "loose",
+   "kind": "steps"
+  }
+ ],
+ "tarballs": [
+  {
+   "tarball": "slab1_v15_results.tar.gz",
+   "size": 101979,
+   "sha256": "6950fba96e2989e3adf9ae6c95371242e1d471c2489ad68e84be52864faf021e",
+   "members": [
+    {
+     "name": "avg_slab1_v15.out",
+     "size": 1295,
+     "sha256": "6737ea5aa1d4ab2f1d0240e0fead7a569eae4409174b8e4271412a9db14f4fd1",
+     "equals_loose": true
+    },
+    {
+     "name": "bands.out",
+     "size": 137444,
+     "sha256": "2e2c97ae81b18433a69c22fc48efd9c5abb14802306f63a8a8794f4e291d253e",
+     "equals_loose": true
+    },
+    {
+     "name": "pp_slab1_v15.out",
+     "size": 39651,
+     "sha256": "203d8727f0fe45301193beb2b37aad106c3c7d41038c005510a0b3efb2334435",
+     "equals_loose": true
+    },
+    {
+     "name": "scf.out",
+     "size": 180078,
+     "sha256": "a6243c1b9a6e42d543d2da1c497c69fc122e771b72ad52eb3af5968c65375e75",
+     "equals_loose": true
+    },
+    {
+     "name": "avg_slab1_v15.in",
+     "size": 35,
+     "sha256": "823f97e45ef869117bd30ab38d2b1fea7d99551907319607c3be8cac6918589c",
+     "equals_loose": true
+    },
+    {
+     "name": "bands.in",
+     "size": 5869,
+     "sha256": "c5e61a733ebcdaa36ba546372ebaa57b53f19f77c56f4e56e368f8493811cc55",
+     "equals_loose": true
+    },
+    {
+     "name": "pp_slab1_v15.in",
+     "size": 90,
+     "sha256": "be47c48b921a6d34bf896ffa1a46650acba92376f4e31c7c12f1b117ebc82b01",
+     "equals_loose": true
+    },
+    {
+     "name": "scf.in",
+     "size": 5037,
+     "sha256": "6e9f53620955d2bac0a4ae57a777049e35fb88b18f62b6a038c3af5e1f1c2b1a",
+     "equals_loose": true
+    },
+    {
+     "name": "slab1_v15_avg.dat",
+     "size": 138000,
+     "sha256": "834a1baf4a092821ff960111569086981c79c7acee68c14e9f00efb4e8ca8859",
+     "equals_loose": true
+    },
+    {
+     "name": "slab1_v15_driver.log",
+     "size": 623,
+     "sha256": "cd4240757fbec755cd14ed5551826657a5569533bdfb42996296e9a20e226c88",
+     "equals_loose": true
+    },
+    {
+     "name": "steps.sh",
+     "size": 87,
+     "sha256": "f095ead260c503695698401fb795cc52415110100f93fff3c75edf1c5e3d3b10",
+     "equals_loose": true
+    }
+   ]
+  }
+ ],
+ "pw": {
+  "bands.out": {
+   "header": {
+    "version": "v.7.5",
+    "start_date": "27Sep2026",
+    "start_time": "12: 3:31",
+    "processor_cores": 16,
+    "parallel_mode": "Parallel version (MPI & OpenMP),",
+    "mpi_processes": 16,
+    "threads_per_mpi": 1,
+    "nodes": 1,
+    "node_memory_MiB": 146687.0,
+    "input": "bands.in",
+    "npool": 4,
+    "RG_division": "4",
+    "subspace_diag": "Subspace diagonalization in iterative solution of the eigenvalue problem: one sub-group per band group will be used",
+    "fft_decomposition": "Using Slab Decomposition"
+   },
+   "params": {
+    "bravais-lattice index": "0",
+    "lattice parameter (alat)": "19.4757  a.u.",
+    "unit-cell volume": "17829.5146 (a.u.)^3",
+    "number of atoms/cell": "96",
+    "number of atomic types": "3",
+    "number of electrons": "624.00",
+    "number of Kohn-Sham states": "328",
+    "kinetic-energy cutoff": "71.0000  Ry",
+    "charge density cutoff": "568.0000  Ry",
+    "Exchange-correlation": "SLA  PW   PBX  PBC",
+    "celldm": [
+     19.475688,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "pseudos": [
+    {
+     "n": 1,
+     "element": "In",
+     "file": "./In.pbe-dn-kjpaw_psl.1.0.0.UPF",
+     "md5": "235b15e6a7fdfd96486e0ecdcb5b12c6",
+     "type": "Projector augmented-wave + core cor",
+     "Zval": 13.0,
+     "notes": [
+      "Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.3",
+      "Shape of augmentation charge: PSQ"
+     ],
+     "radial_grid": "Using radial grid of 1241 points,  6 beta functions with:"
+    },
+    {
+     "n": 2,
+     "element": "O",
+     "file": "./O.pbe-n-kjpaw_psl.1.0.0.UPF",
+     "md5": "e99d9cef9b487d1ca56f5b95ecd0fd7a",
+     "type": "Projector augmented-wave + core cor",
+     "Zval": 6.0,
+     "notes": [
+      "Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.3",
+      "Shape of augmentation charge: PSQ"
+     ],
+     "radial_grid": "Using radial grid of 1095 points,  4 beta functions with:"
+    },
+    {
+     "n": 3,
+     "element": "H",
+     "file": "./H.pbe-kjpaw_psl.1.0.0.UPF",
+     "md5": "d81a744832360e4a8af0b0b5b123bc2a",
+     "type": "Projector augmented-wave",
+     "Zval": 1.0,
+     "notes": [
+      "Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.3MaX",
+      "Shape of augmentation charge: PSQ"
+     ],
+     "radial_grid": "Using radial grid of  929 points,  2 beta functions with:"
+    }
+   ],
+   "pseudo_rereads": 0,
+   "species": [
+    {
+     "species": "In",
+     "valence": 13.0,
+     "mass": 114.818
+    },
+    {
+     "species": "O",
+     "valence": 6.0,
+     "mass": 15.999
+    },
+    {
+     "species": "H",
+     "valence": 1.0,
+     "mass": 1.008
+    }
+   ],
+   "symmetry": "8 Sym. Ops., with inversion, found ( 6 have fractional translation)",
+   "kpoints": {
+    "n": 21,
+    "line": "number of k points=    21",
+    "sum_wk": 2.0
+   },
+   "fft": {
+    "dense": "Dense  grid:  4075609 G-vectors     FFT dimensions: ( 150, 150, 360)",
+    "smooth": "Smooth grid:  1441173 G-vectors     FFT dimensions: ( 108, 108, 256)"
+   },
+   "ram": {
+    "Estimated static dynamical RAM per process": "1.14 GB",
+    "Estimated max dynamical RAM per process": "2.04 GB",
+    "Estimated total dynamical RAM": "32.59 GB"
+   },
+   "ram_components": [
+    "Dynamical RAM for                 wfc:     225.37 MB",
+    "Dynamical RAM for     wfc (w. buffer):     225.37 MB",
+    "Dynamical RAM for           str. fact:      46.64 MB",
+    "Dynamical RAM for           local pot:       0.00 MB",
+    "Dynamical RAM for          nlocal pot:     593.67 MB",
+    "Dynamical RAM for                qrad:       5.74 MB",
+    "Dynamical RAM for          rho,v,vnew:      92.99 MB",
+    "Dynamical RAM for           G-vectors:      61.05 MB",
+    "Dynamical RAM for          h,s,v(r/c):       1.23 MB",
+    "Dynamical RAM for          <psi|beta>:       4.32 MB",
+    "Dynamical RAM for      wfcinit/wfcrot:     453.21 MB",
+    "Dynamical RAM for           addusdens:     921.17 MB"
+   ],
+   "start": [
+    "Starting wfcs are  432 randomized atomic wfcs"
+   ],
+   "calc_type": "bands",
+   "bands_calc": {
+    "diag": "CG style diagonalization",
+    "kpts_done": 6,
+    "ethr": "ethr =  1.60E-13,  avg # of iterations = 78.7"
+   },
+   "n_scf_steps": 0,
+   "steps": [],
+   "final_step": {},
+   "bfgs": {},
+   "exx": {
+    "cycles": []
+   },
+   "timing": {
+    "init_run": {
+     "cpu": "7.69s",
+     "wall": "8.04s",
+     "calls": 1
+    },
+    "electrons": {
+     "cpu": "49374.50s",
+     "wall": "50064.93s",
+     "calls": 1
+    },
+    "wfcinit": {
+     "cpu": "0.00s",
+     "wall": "0.00s",
+     "calls": 1
+    },
+    "wfcinit:atom": {
+     "cpu": "0.52s",
+     "wall": "0.71s",
+     "calls": 6
+    },
+    "wfcinit:wfcr": {
+     "cpu": "152.60s",
+     "wall": "156.30s",
+     "calls": 6
+    },
+    "potinit": {
+     "cpu": "2.89s",
+     "wall": "3.03s",
+     "calls": 1
+    },
+    "hinit0": {
+     "cpu": "1.68s",
+     "wall": "1.72s",
+     "calls": 1
+    },
+    "c_bands": {
+     "cpu": "49374.45s",
+     "wall": "50064.87s",
+     "calls": 1
+    },
+    "v_of_rho": {
+     "cpu": "0.89s",
+     "wall": "0.96s",
+     "calls": 1
+    },
+    "v_h": {
+     "cpu": "0.05s",
+     "wall": "0.06s",
+     "calls": 1
+    },
+    "v_xc": {
+     "cpu": "0.84s",
+     "wall": "0.90s",
+     "calls": 1
+    },
+    "newd": {
+     "cpu": "1.31s",
+     "wall": "1.44s",
+     "calls": 1
+    },
+    "PAW_pot": {
+     "cpu": "1.62s",
+     "wall": "1.63s",
+     "calls": 1
+    },
+    "init_us_2": {
+     "cpu": "0.93s",
+     "wall": "1.08s",
+     "calls": 6
+    },
+    "ccgdiagg": {
+     "cpu": "46716.74s",
+     "wall": "47367.99s",
+     "calls": 36
+    },
+    "wfcrot": {
+     "cpu": "773.36s",
+     "wall": "792.32s",
+     "calls": 36
+    },
+    "h_psi": {
+     "cpu": "18958.99s",
+     "wall": "19305.27s",
+     "calls": 139829
+    },
+    "s_psi": {
+     "cpu": "9259.76s",
+     "wall": "9370.66s",
+     "calls": 279622
+    },
+    "h_psi:calbec": {
+     "cpu": "7181.99s",
+     "wall": "7264.89s",
+     "calls": 139829
+    },
+    "vloc_psi": {
+     "cpu": "3706.98s",
+     "wall": "3875.35s",
+     "calls": 139829
+    },
+    "add_vuspsi": {
+     "cpu": "8055.34s",
+     "wall": "8150.79s",
+     "calls": 139829
+    },
+    "hs_1psi": {
+     "cpu": "23048.89s",
+     "wall": "23435.01s",
+     "calls": 139793
+    },
+    "s_1psi": {
+     "cpu": "11505.35s",
+     "wall": "11640.59s",
+     "calls": 139793
+    },
+    "calbec": {
+     "cpu": "14090.01s",
+     "wall": "14254.25s",
+     "calls": 279622
+    },
+    "fft": {
+     "cpu": "1.17s",
+     "wall": "1.24s",
+     "calls": 13
+    },
+    "ffts": {
+     "cpu": "0.26s",
+     "wall": "0.26s",
+     "calls": 1
+    },
+    "fftw": {
+     "cpu": "3379.79s",
+     "wall": "3540.79s",
+     "calls": 304450
+    },
+    "interpolate": {
+     "cpu": "0.31s",
+     "wall": "0.32s",
+     "calls": 1
+    },
+    "davcio": {
+     "cpu": "0.00s",
+     "wall": "1.31s",
+     "calls": 12
+    },
+    "PWSCF": {
+     "cpu": "13h43m",
+     "wall": "13h54m",
+     "calls": null
+    }
+   },
+   "terminated": "1:58:14  28Sep2026",
+   "done": true,
+   "messages": [
+    [
+     266,
+     "file In.pbe-dn-kjpaw_psl.1.0.0.UPF: wavefunction(s)  5S 5P 4D renormalized"
+    ],
+    [
+     267,
+     "file O.pbe-n-kjpaw_psl.1.0.0.UPF: wavefunction(s)  2S 2P renormalized"
+    ],
+    [
+     268,
+     "file H.pbe-kjpaw_psl.1.0.0.UPF: wavefunction(s)  1S renormalized"
+    ],
+    [
+     273,
+     "Message from routine setup: using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+    ]
+   ],
+   "errors": null,
+   "warnings": {
+    "message_from_routine": {
+     "count": 1,
+     "first": [
+      [
+       273,
+       "Message from routine setup:"
+      ]
+     ],
+     "last": [
+      273,
+      "Message from routine setup:"
+     ]
+    },
+    "c_bands_not_converged": {
+     "count": 6,
+     "first": [
+      [
+       756,
+       "c_bands: 14 eigenvalues not converged"
+      ],
+      [
+       760,
+       "c_bands: 15 eigenvalues not converged"
+      ],
+      [
+       764,
+       "c_bands: 14 eigenvalues not converged"
+      ]
+     ],
+     "last": [
+      776,
+      "c_bands: 13 eigenvalues not converged"
+     ]
+    },
+    "ieee": {
+     "count": 16,
+     "first": [
+      [
+       1770,
+       "Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL"
+      ],
+      [
+       1771,
+       "Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL"
+      ],
+      [
+       1772,
+       "Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL"
+      ]
+     ],
+     "last": [
+      1785,
+      "Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL"
+     ]
+    },
+    "discouraged": {
+     "count": 1,
+     "first": [
+      [
+       274,
+       "using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+      ]
+     ],
+     "last": [
+      274,
+      "using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+     ]
+    },
+    "renormalized_wfc": {
+     "count": 3,
+     "first": [
+      [
+       266,
+       "file In.pbe-dn-kjpaw_psl.1.0.0.UPF: wavefunction(s)  5S 5P 4D renormalized"
+      ],
+      [
+       267,
+       "file O.pbe-n-kjpaw_psl.1.0.0.UPF: wavefunction(s)  2S 2P renormalized"
+      ],
+      [
+       268,
+       "file H.pbe-kjpaw_psl.1.0.0.UPF: wavefunction(s)  1S renormalized"
+      ]
+     ],
+     "last": [
+      268,
+      "file H.pbe-kjpaw_psl.1.0.0.UPF: wavefunction(s)  1S renormalized"
+     ]
+    }
+   },
+   "bands": {
+    "n_k": 21,
+    "n_bands": 328,
+    "n_occ": 312,
+    "VBM_eV": -0.0473,
+    "VBM_k_index": 20,
+    "CBM_eV": 0.9366,
+    "CBM_k_index": 0,
+    "gap_eV": 0.9839,
+    "direct_gap_min_eV": 1.0153,
+    "direct_gap_k_index": 0,
+    "gap_type": "indirect",
+    "VB_width_top_band_eV": 0.0314,
+    "CB_width_bottom_band_eV": 0.3165,
+    "E2_minus_E1_at_k0_eV": 1.5679
+   },
+   "n_lines": 1785
+  },
+  "scf.out": {
+   "header": {
+    "version": "v.7.5",
+    "start_date": "27Sep2026",
+    "start_time": "10:47: 8",
+    "processor_cores": 16,
+    "parallel_mode": "Parallel version (MPI & OpenMP),",
+    "mpi_processes": 16,
+    "threads_per_mpi": 1,
+    "nodes": 1,
+    "node_memory_MiB": 187138.0,
+    "input": "scf.in",
+    "npool": 4,
+    "RG_division": "4",
+    "subspace_diag": "Subspace diagonalization in iterative solution of the eigenvalue problem: one sub-group per band group will be used",
+    "fft_decomposition": "Using Slab Decomposition"
+   },
+   "params": {
+    "bravais-lattice index": "0",
+    "lattice parameter (alat)": "19.4757  a.u.",
+    "unit-cell volume": "17829.5146 (a.u.)^3",
+    "number of atoms/cell": "96",
+    "number of atomic types": "3",
+    "number of electrons": "624.00",
+    "number of Kohn-Sham states": "328",
+    "kinetic-energy cutoff": "71.0000  Ry",
+    "charge density cutoff": "568.0000  Ry",
+    "scf convergence threshold": "1.0E-09",
+    "mixing beta": "0.2000",
+    "number of iterations used": "8  local-TF  mixing",
+    "Exchange-correlation": "SLA  PW   PBX  PBC",
+    "celldm": [
+     19.475688,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "pseudos": [
+    {
+     "n": 1,
+     "element": "In",
+     "file": "./In.pbe-dn-kjpaw_psl.1.0.0.UPF",
+     "md5": "235b15e6a7fdfd96486e0ecdcb5b12c6",
+     "type": "Projector augmented-wave + core cor",
+     "Zval": 13.0,
+     "notes": [
+      "Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.3",
+      "Shape of augmentation charge: PSQ"
+     ],
+     "radial_grid": "Using radial grid of 1241 points,  6 beta functions with:"
+    },
+    {
+     "n": 2,
+     "element": "O",
+     "file": "./O.pbe-n-kjpaw_psl.1.0.0.UPF",
+     "md5": "e99d9cef9b487d1ca56f5b95ecd0fd7a",
+     "type": "Projector augmented-wave + core cor",
+     "Zval": 6.0,
+     "notes": [
+      "Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.3",
+      "Shape of augmentation charge: PSQ"
+     ],
+     "radial_grid": "Using radial grid of 1095 points,  4 beta functions with:"
+    },
+    {
+     "n": 3,
+     "element": "H",
+     "file": "./H.pbe-kjpaw_psl.1.0.0.UPF",
+     "md5": "d81a744832360e4a8af0b0b5b123bc2a",
+     "type": "Projector augmented-wave",
+     "Zval": 1.0,
+     "notes": [
+      "Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.3MaX",
+      "Shape of augmentation charge: PSQ"
+     ],
+     "radial_grid": "Using radial grid of  929 points,  2 beta functions with:"
+    }
+   ],
+   "pseudo_rereads": 0,
+   "species": [
+    {
+     "species": "In",
+     "valence": 13.0,
+     "mass": 114.818
+    },
+    {
+     "species": "O",
+     "valence": 6.0,
+     "mass": 15.999
+    },
+    {
+     "species": "H",
+     "valence": 1.0,
+     "mass": 1.008
+    }
+   ],
+   "symmetry": "8 Sym. Ops., with inversion, found ( 6 have fractional translation)",
+   "kpoints": {
+    "n": 4,
+    "line": "number of k points=     4",
+    "sum_wk": 2.0
+   },
+   "fft": {
+    "dense": "Dense  grid:  4075609 G-vectors     FFT dimensions: ( 150, 150, 360)",
+    "smooth": "Smooth grid:  1441173 G-vectors     FFT dimensions: ( 108, 108, 256)"
+   },
+   "ram": {
+    "Estimated static dynamical RAM per process": "1.17 GB",
+    "Estimated max dynamical RAM per process": "2.74 GB",
+    "Estimated total dynamical RAM": "40.93 GB"
+   },
+   "ram_components": [
+    "Dynamical RAM for                 wfc:     225.37 MB",
+    "Dynamical RAM for     wfc (w. buffer):     225.37 MB",
+    "Dynamical RAM for           str. fact:      46.64 MB",
+    "Dynamical RAM for           local pot:       0.00 MB",
+    "Dynamical RAM for          nlocal pot:     593.67 MB",
+    "Dynamical RAM for                qrad:       5.74 MB",
+    "Dynamical RAM for          rho,v,vnew:      92.99 MB",
+    "Dynamical RAM for               rhoin:      31.00 MB",
+    "Dynamical RAM for            rho*nmix:     248.75 MB",
+    "Dynamical RAM for           G-vectors:      61.05 MB",
+    "Dynamical RAM for          h,s,v(r/c):       4.92 MB",
+    "Dynamical RAM for          <psi|beta>:       4.32 MB",
+    "Dynamical RAM for                 psi:     450.75 MB",
+    "Dynamical RAM for                hpsi:     450.75 MB",
+    "Dynamical RAM for                spsi:     450.75 MB",
+    "Dynamical RAM for      wfcinit/wfcrot:     453.21 MB",
+    "Dynamical RAM for           addusdens:     921.17 MB",
+    "Dynamical RAM for          addusforce:    1282.83 MB",
+    "Dynamical RAM for         addusstress:     787.07 MB"
+   ],
+   "start": [
+    "Initial potential from superposition of free atoms",
+    "starting charge     623.9105, renormalised to     624.0000",
+    "Starting wfcs are  432 randomized atomic wfcs"
+   ],
+   "calc_type": "scf/relax",
+   "bands_calc": null,
+   "n_scf_steps": 1,
+   "steps": [
+    {
+     "iterations": 46,
+     "converged_iterations": 46,
+     "acc_final_Ry": 6.3e-10,
+     "E_Ry": -11888.29271155,
+     "HOMO_eV": -0.0219,
+     "LUMO_eV": 0.9367,
+     "force_max_component_Ry_bohr": 0.0492068,
+     "force_rms_component_Ry_bohr": 0.015663184346235592,
+     "total_force_Ry_bohr": 0.265813,
+     "total_scf_correction_Ry_bohr": 8.2e-05,
+     "pressure_kbar": -4.35,
+     "negative_rho": [
+      0.0009706,
+      0.0
+     ],
+     "beta": 0.2
+    }
+   ],
+   "final_step": {
+    "iterations": 46,
+    "ecut": 71.0,
+    "beta": 0.2,
+    "negative_rho": [
+     0.0009706,
+     0.0
+    ],
+    "HOMO_eV": -0.0219,
+    "LUMO_eV": 0.9367,
+    "E_Ry": -11888.29271155,
+    "E_all_electron_Ry": -289577.544635,
+    "acc_final_Ry": 6.3e-10,
+    "one_electron_Ry": -41586.6205769,
+    "hartree_Ry": 21147.14640284,
+    "xc_Ry": -1487.76946405,
+    "ewald_Ry": 17042.38348439,
+    "paw_one_center_Ry": -7003.43255782,
+    "converged_iterations": 46,
+    "force_max_component_Ry_bohr": 0.0492068,
+    "force_max_atom_Ry_bohr": 0.051356773481107634,
+    "force_rms_component_Ry_bohr": 0.015663184346235592,
+    "force_max_atom_index": 5,
+    "total_force_Ry_bohr": 0.265813,
+    "total_scf_correction_Ry_bohr": 8.2e-05,
+    "pressure_kbar": -4.35,
+    "stress_kbar": [
+     [
+      4.81,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      3.92,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      -21.77
+     ]
+    ],
+    "E_trace_n": 45
+   },
+   "bfgs": {},
+   "exx": {
+    "cycles": []
+   },
+   "timing": {
+    "init_run": {
+     "cpu": "32.63s",
+     "wall": "33.67s",
+     "calls": 1
+    },
+    "electrons": {
+     "cpu": "4314.25s",
+     "wall": "4426.73s",
+     "calls": 1
+    },
+    "forces": {
+     "cpu": "33.15s",
+     "wall": "33.76s",
+     "calls": 1
+    },
+    "stress": {
+     "cpu": "64.55s",
+     "wall": "65.45s",
+     "calls": 1
+    },
+    "wfcinit": {
+     "cpu": "21.90s",
+     "wall": "22.55s",
+     "calls": 1
+    },
+    "wfcinit:atom": {
+     "cpu": "0.06s",
+     "wall": "0.09s",
+     "calls": 1
+    },
+    "wfcinit:wfcr": {
+     "cpu": "20.96s",
+     "wall": "21.51s",
+     "calls": 1
+    },
+    "potinit": {
+     "cpu": "3.08s",
+     "wall": "3.20s",
+     "calls": 1
+    },
+    "hinit0": {
+     "cpu": "1.37s",
+     "wall": "1.41s",
+     "calls": 1
+    },
+    "c_bands": {
+     "cpu": "3614.70s",
+     "wall": "3687.61s",
+     "calls": 46
+    },
+    "sum_band": {
+     "cpu": "392.86s",
+     "wall": "410.14s",
+     "calls": 46
+    },
+    "v_of_rho": {
+     "cpu": "50.43s",
+     "wall": "54.29s",
+     "calls": 47
+    },
+    "v_h": {
+     "cpu": "2.61s",
+     "wall": "3.16s",
+     "calls": 47
+    },
+    "v_xc": {
+     "cpu": "49.89s",
+     "wall": "53.35s",
+     "calls": 49
+    },
+    "newd": {
+     "cpu": "66.76s",
+     "wall": "73.10s",
+     "calls": 47
+    },
+    "PAW_pot": {
+     "cpu": "67.34s",
+     "wall": "67.97s",
+     "calls": 47
+    },
+    "mix_rho": {
+     "cpu": "120.47s",
+     "wall": "131.68s",
+     "calls": 46
+    },
+    "init_us_2": {
+     "cpu": "15.87s",
+     "wall": "16.16s",
+     "calls": 94
+    },
+    "cegterg": {
+     "cpu": "3308.44s",
+     "wall": "3378.90s",
+     "calls": 46
+    },
+    "sum_band:wei": {
+     "cpu": "0.07s",
+     "wall": "0.07s",
+     "calls": 46
+    },
+    "sum_band:loo": {
+     "cpu": "290.67s",
+     "wall": "299.33s",
+     "calls": 46
+    },
+    "sum_band:buf": {
+     "cpu": "0.00s",
+     "wall": "0.00s",
+     "calls": 46
+    },
+    "sum_band:ini": {
+     "cpu": "7.85s",
+     "wall": "7.98s",
+     "calls": 46
+    },
+    "sum_band:cal": {
+     "cpu": "137.74s",
+     "wall": "139.13s",
+     "calls": 46
+    },
+    "sum_band:bec": {
+     "cpu": "0.07s",
+     "wall": "0.07s",
+     "calls": 46
+    },
+    "addusdens": {
+     "cpu": "59.49s",
+     "wall": "66.70s",
+     "calls": 46
+    },
+    "addusd:skk": {
+     "cpu": "3.72s",
+     "wall": "5.55s",
+     "calls": 138
+    },
+    "cdiaghg": {
+     "cpu": "37.37s",
+     "wall": "39.11s",
+     "calls": 328
+    },
+    "cegterg:over": {
+     "cpu": "436.16s",
+     "wall": "439.97s",
+     "calls": 282
+    },
+    "cegterg:upda": {
+     "cpu": "231.27s",
+     "wall": "235.75s",
+     "calls": 282
+    },
+    "cegterg:last": {
+     "cpu": "564.40s",
+     "wall": "569.55s",
+     "calls": 119
+    },
+    "cdiaghg:chol": {
+     "cpu": "2.60s",
+     "wall": "2.64s",
+     "calls": 328
+    },
+    "cdiaghg:inve": {
+     "cpu": "0.71s",
+     "wall": "0.72s",
+     "calls": 328
+    },
+    "cdiaghg:para": {
+     "cpu": "10.55s",
+     "wall": "11.44s",
+     "calls": 656
+    },
+    "h_psi": {
+     "cpu": "1554.72s",
+     "wall": "1602.45s",
+     "calls": 329
+    },
+    "s_psi": {
+     "cpu": "348.92s",
+     "wall": "352.40s",
+     "calls": 329
+    },
+    "g_psi": {
+     "cpu": "8.33s",
+     "wall": "8.43s",
+     "calls": 282
+    },
+    "h_psi:calbec": {
+     "cpu": "410.50s",
+     "wall": "414.55s",
+     "calls": 329
+    },
+    "vloc_psi": {
+     "cpu": "786.99s",
+     "wall": "825.09s",
+     "calls": 329
+    },
+    "add_vuspsi": {
+     "cpu": "354.78s",
+     "wall": "358.31s",
+     "calls": 329
+    },
+    "calbec": {
+     "cpu": "601.54s",
+     "wall": "607.46s",
+     "calls": 392
+    },
+    "fft": {
+     "cpu": "39.34s",
+     "wall": "42.29s",
+     "calls": 634
+    },
+    "ffts": {
+     "cpu": "63.90s",
+     "wall": "73.42s",
+     "calls": 5392
+    },
+    "fftw": {
+     "cpu": "850.21s",
+     "wall": "894.15s",
+     "calls": 101060
+    },
+    "interpolate": {
+     "cpu": "3.82s",
+     "wall": "4.11s",
+     "calls": 47
+    },
+    "PAW_symme": {
+     "cpu": "0.16s",
+     "wall": "0.18s",
+     "calls": 93
+    },
+    "PWSCF": {
+     "cpu": "1h14m",
+     "wall": "1h16m",
+     "calls": null
+    }
+   },
+   "terminated": "12: 3: 9  27Sep2026",
+   "done": true,
+   "messages": [
+    [
+     266,
+     "file In.pbe-dn-kjpaw_psl.1.0.0.UPF: wavefunction(s)  5S 5P 4D renormalized"
+    ],
+    [
+     267,
+     "file O.pbe-n-kjpaw_psl.1.0.0.UPF: wavefunction(s)  2S 2P renormalized"
+    ],
+    [
+     268,
+     "file H.pbe-kjpaw_psl.1.0.0.UPF: wavefunction(s)  1S renormalized"
+    ],
+    [
+     269,
+     "Message from routine setup: using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+    ]
+   ],
+   "errors": null,
+   "warnings": {
+    "message_from_routine": {
+     "count": 1,
+     "first": [
+      [
+       269,
+       "Message from routine setup:"
+      ]
+     ],
+     "last": [
+      269,
+      "Message from routine setup:"
+     ]
+    },
+    "c_bands_not_converged": {
+     "count": 3,
+     "first": [
+      [
+       969,
+       "c_bands:  2 eigenvalues not converged"
+      ],
+      [
+       987,
+       "c_bands:  1 eigenvalues not converged"
+      ],
+      [
+       1107,
+       "c_bands:  1 eigenvalues not converged"
+      ]
+     ],
+     "last": [
+      1107,
+      "c_bands:  1 eigenvalues not converged"
+     ]
+    },
+    "ieee": {
+     "count": 14,
+     "first": [
+      [
+       2708,
+       "Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL"
+      ],
+      [
+       2709,
+       "Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL"
+      ],
+      [
+       2710,
+       "Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL"
+      ]
+     ],
+     "last": [
+      2721,
+      "Note: The following floating-point exceptions are signalling: IEEE_DENORMAL"
+     ]
+    },
+    "discouraged": {
+     "count": 1,
+     "first": [
+      [
+       270,
+       "using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+      ]
+     ],
+     "last": [
+      270,
+      "using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+     ]
+    },
+    "renormalized_wfc": {
+     "count": 3,
+     "first": [
+      [
+       266,
+       "file In.pbe-dn-kjpaw_psl.1.0.0.UPF: wavefunction(s)  5S 5P 4D renormalized"
+      ],
+      [
+       267,
+       "file O.pbe-n-kjpaw_psl.1.0.0.UPF: wavefunction(s)  2S 2P renormalized"
+      ],
+      [
+       268,
+       "file H.pbe-kjpaw_psl.1.0.0.UPF: wavefunction(s)  1S renormalized"
+      ]
+     ],
+     "last": [
+      268,
+      "file H.pbe-kjpaw_psl.1.0.0.UPF: wavefunction(s)  1S renormalized"
+     ]
+    }
+   },
+   "bands": {
+    "n_k": 4,
+    "n_bands": 328,
+    "n_occ": 312,
+    "VBM_eV": -0.0219,
+    "VBM_k_index": 2,
+    "CBM_eV": 0.9367,
+    "CBM_k_index": 0,
+    "gap_eV": 0.9586,
+    "direct_gap_min_eV": 1.0153,
+    "direct_gap_k_index": 0,
+    "gap_type": "indirect",
+    "VB_width_top_band_eV": 0.0567,
+    "CB_width_bottom_band_eV": 0.9363,
+    "E2_minus_E1_at_k0_eV": 1.5679
+   },
+   "n_lines": 2721
+  }
+ },
+ "inputs": {
+  "bands.in": {
+   "namelists": {
+    "CONTROL": {
+     "calculation": "bands",
+     "prefix": "slab",
+     "outdir": "./tmp",
+     "pseudo_dir": "./",
+     "verbosity": "high",
+     "tprnfor": ".true.",
+     "tstress": ".true.",
+     "max_seconds": "80006"
+    },
+    "SYSTEM": {
+     "ibrav": "0",
+     "nat": "96",
+     "ntyp": "3",
+     "ecutwfc": "71",
+     "ecutrho": "568",
+     "occupations": "fixed",
+     "nbnd": "328"
+    },
+    "ELECTRONS": {
+     "conv_thr": "1.0d-9",
+     "mixing_beta": "0.2",
+     "electron_maxstep": "150",
+     "mixing_mode": "local-TF",
+     "diagonalization": "cg"
+    }
+   },
+   "cards": {
+    "ATOMIC_SPECIES": [
+     {
+      "species": "In",
+      "mass": 114.818,
+      "pseudo": "In.pbe-dn-kjpaw_psl.1.0.0.UPF"
+     },
+     {
+      "species": "O",
+      "mass": 15.999,
+      "pseudo": "O.pbe-n-kjpaw_psl.1.0.0.UPF"
+     },
+     {
+      "species": "H",
+      "mass": 1.008,
+      "pseudo": "H.pbe-kjpaw_psl.1.0.0.UPF"
+     }
+    ],
+    "CELL_PARAMETERS": {
+     "unit": "angstrom",
+     "vectors": [
+      [
+       10.3060902,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.3060902,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       24.87453893
+      ]
+     ]
+    },
+    "K_POINTS": {
+     "mode": "tpiba",
+     "n": 21,
+     "points_first_last": [
+      [
+       0.0,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.1739764,
+       0.1739764,
+       0.0,
+       1.0
+      ]
+     ],
+     "path_points": [
+      [
+       0.0,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.02460398,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.04920796,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.07381193,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.09841591,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.12301989,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.14762387,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.17222785,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.19683182,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.2214358,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.24603978,
+       0.0,
+       0.0,
+       1.0
+      ],
+      [
+       0.01739764,
+       0.01739764,
+       0.0,
+       1.0
+      ],
+      [
+       0.03479528,
+       0.03479528,
+       0.0,
+       1.0
+      ],
+      [
+       0.05219292,
+       0.05219292,
+       0.0,
+       1.0
+      ],
+      [
+       0.06959056,
+       0.06959056,
+       0.0,
+       1.0
+      ],
+      [
+       0.0869882,
+       0.0869882,
+       0.0,
+       1.0
+      ],
+      [
+       0.10438584,
+       0.10438584,
+       0.0,
+       1.0
+      ],
+      [
+       0.12178348,
+       0.12178348,
+       0.0,
+       1.0
+      ],
+      [
+       0.13918112,
+       0.13918112,
+       0.0,
+       1.0
+      ],
+      [
+       0.15657876,
+       0.15657876,
+       0.0,
+       1.0
+      ],
+      [
+       0.1739764,
+       0.1739764,
+       0.0,
+       1.0
+      ]
+     ]
+    }
+   },
+   "atomic_positions_summary": {
+    "unit": "crystal",
+    "n": 96,
+    "labels": [
+     "H",
+     "In",
+     "O"
+    ],
+    "n_constrained": 0
+   },
+   "geometry": {
+    "n_atoms": 96,
+    "composition": {
+     "H": 24,
+     "In": 24,
+     "O": 48
+    },
+    "cell_lengths_A": [
+     10.30609,
+     10.30609,
+     24.87454
+    ],
+    "cell_angles_deg": [
+     90.0,
+     90.0,
+     90.0
+    ],
+    "volume_A3": 2642.0615,
+    "density_g_cm3": 2.2298,
+    "bonds": {
+     "In-O": {
+      "cutoff_A": 2.6,
+      "n": 144,
+      "min": 2.1671,
+      "mean": 2.2189,
+      "max": 2.2561,
+      "std": 0.0317,
+      "CN_In_hist": {
+       "6": 24
+      }
+     },
+     "O-H": {
+      "cutoff_A": 1.2,
+      "n": 24,
+      "min": 0.97,
+      "mean": 0.97,
+      "max": 0.97,
+      "std": 0.0,
+      "CN_O_hist": {
+       "0": 24,
+       "1": 24
+      }
+     }
+    },
+    "CN_O_by_cations_hist": {
+     "2": 24,
+     "4": 24
+    },
+    "slab": {
+     "vacuum_A": 15.0,
+     "extent_A": 9.875,
+     "thickness_H_H_A": 9.8745,
+     "thickness_O_O_A": 8.0332,
+     "thickness_In_In_A": 5.153
+    }
+   }
+  },
+  "scf.in": {
+   "namelists": {
+    "CONTROL": {
+     "calculation": "scf",
+     "prefix": "slab",
+     "outdir": "./tmp",
+     "pseudo_dir": "./",
+     "verbosity": "high",
+     "tprnfor": ".true.",
+     "tstress": ".true.",
+     "max_seconds": "84589"
+    },
+    "SYSTEM": {
+     "ibrav": "0",
+     "nat": "96",
+     "ntyp": "3",
+     "ecutwfc": "71",
+     "ecutrho": "568",
+     "occupations": "fixed",
+     "nbnd": "328"
+    },
+    "ELECTRONS": {
+     "conv_thr": "1.0d-9",
+     "mixing_beta": "0.2",
+     "electron_maxstep": "150",
+     "mixing_mode": "local-TF"
+    }
+   },
+   "cards": {
+    "ATOMIC_SPECIES": [
+     {
+      "species": "In",
+      "mass": 114.818,
+      "pseudo": "In.pbe-dn-kjpaw_psl.1.0.0.UPF"
+     },
+     {
+      "species": "O",
+      "mass": 15.999,
+      "pseudo": "O.pbe-n-kjpaw_psl.1.0.0.UPF"
+     },
+     {
+      "species": "H",
+      "mass": 1.008,
+      "pseudo": "H.pbe-kjpaw_psl.1.0.0.UPF"
+     }
+    ],
+    "CELL_PARAMETERS": {
+     "unit": "angstrom",
+     "vectors": [
+      [
+       10.3060902,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.3060902,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       24.87453893
+      ]
+     ]
+    },
+    "K_POINTS": {
+     "mode": "automatic",
+     "grid": [
+      "3",
+      "3",
+      "1",
+      "0",
+      "0",
+      "0"
+     ]
+    }
+   },
+   "atomic_positions_summary": {
+    "unit": "crystal",
+    "n": 96,
+    "labels": [
+     "H",
+     "In",
+     "O"
+    ],
+    "n_constrained": 0
+   },
+   "geometry": {
+    "n_atoms": 96,
+    "composition": {
+     "H": 24,
+     "In": 24,
+     "O": 48
+    },
+    "cell_lengths_A": [
+     10.30609,
+     10.30609,
+     24.87454
+    ],
+    "cell_angles_deg": [
+     90.0,
+     90.0,
+     90.0
+    ],
+    "volume_A3": 2642.0615,
+    "density_g_cm3": 2.2298,
+    "bonds": {
+     "In-O": {
+      "cutoff_A": 2.6,
+      "n": 144,
+      "min": 2.1671,
+      "mean": 2.2189,
+      "max": 2.2561,
+      "std": 0.0317,
+      "CN_In_hist": {
+       "6": 24
+      }
+     },
+     "O-H": {
+      "cutoff_A": 1.2,
+      "n": 24,
+      "min": 0.97,
+      "mean": 0.97,
+      "max": 0.97,
+      "std": 0.0,
+      "CN_O_hist": {
+       "0": 24,
+       "1": 24
+      }
+     }
+    },
+    "CN_O_by_cations_hist": {
+     "2": 24,
+     "4": 24
+    },
+    "slab": {
+     "vacuum_A": 15.0,
+     "extent_A": 9.875,
+     "thickness_H_H_A": 9.8745,
+     "thickness_O_O_A": 8.0332,
+     "thickness_In_In_A": 5.153
+    }
+   }
+  }
+ },
+ "templates": {},
+ "projwfc": {},
+ "pp_avg": {
+  "avg_slab1_v15.in": {
+   "input": "1\nslab1_v15_v.pp\n1.0\n3000\n3\n4.8689"
+  },
+  "pp_slab1_v15.in": {
+   "input": "&INPUTPP\n  prefix = 'slab', outdir = './tmp', filplot = 'slab1_v15_v.pp', plot_num = 11\n/"
+  },
+  "avg_slab1_v15.out": {
+   "output": {
+    "done": true,
+    "key_lines": [
+     "Program AVERAGE v.7.5 starts on 27Sep2026 at 12: 3:25",
+     "Reading header from file  slab1_v15_v.pp",
+     "Reading data from file  slab1_v15_v.pp",
+     "AVERAGE      :      3.29s CPU      3.37s WALL",
+     "This run was terminated on:  12: 3:29  27Sep2026"
+    ],
+    "warnings": {}
+   }
+  },
+  "pp_slab1_v15.out": {
+   "output": {
+    "done": true,
+    "key_lines": [
+     "Program POST-PROC v.7.5 starts on 27Sep2026 at 12: 3:11",
+     "Reading xml data from directory:",
+     "Calling punch_plot, plot_num =  11",
+     "Writing data to file  slab1_v15_v.pp",
+     "POST-PROC    :     11.64s CPU     12.28s WALL",
+     "This run was terminated on:  12: 3:23  27Sep2026"
+    ],
+    "warnings": {
+     "message_from_routine": {
+      "count": 1,
+      "first": [
+       [
+        290,
+        "Message from routine chdens:"
+       ]
+      ],
+      "last": [
+       290,
+       "Message from routine chdens:"
+      ]
+     },
+     "renormalized_wfc": {
+      "count": 3,
+      "first": [
+       [
+        265,
+        "file In.pbe-dn-kjpaw_psl.1.0.0.UPF: wavefunction(s)  5S 5P 4D renormalized"
+       ],
+       [
+        266,
+        "file O.pbe-n-kjpaw_psl.1.0.0.UPF: wavefunction(s)  2S 2P renormalized"
+       ],
+       [
+        267,
+        "file H.pbe-kjpaw_psl.1.0.0.UPF: wavefunction(s)  1S renormalized"
+       ]
+      ],
+      "last": [
+       267,
+       "file H.pbe-kjpaw_psl.1.0.0.UPF: wavefunction(s)  1S renormalized"
+      ]
+     }
+    }
+   }
+  }
+ },
+ "avg_dat": {
+  "slab1_v15_avg.dat": {
+   "n_points": 3000,
+   "V_min_eV": -8.4585,
+   "V_max_eV": 4.3698,
+   "window_A": 0.00829,
+   "z_mean_V_eV": 1.38311,
+   "E_vac_eV": 4.36983,
+   "vacuum_flatness_meV": 0.008,
+   "vacuum_slope_meV_per_A": -0.0001,
+   "IP_eV": 4.3917,
+   "EA_eV": 3.4331
+  }
+ },
+ "pdos": {},
+ "driver": {
+  "slab1_v15_driver.log": {
+   "lines": [
+    "[2026-09-27T08:46:55Z] job slab1_v15 host b9p12p6840.cern.ch cpus 16 limit 86400s",
+    "[2026-09-27T08:47:06Z] pw.x:/pool/condor/dir_3671167/qe-env/bin/pw.x  python: /pool/condor/dir_3671167/qe-env/bin/python",
+    "[2026-09-27T08:47:06Z] pw.x scf start (-nk 4, max_seconds 84589)",
+    "[2026-09-27T10:03:09Z] pw.x scf end rc=0 PWSCF        :      1h14m CPU      1h16m WALL",
+    "[2026-09-27T10:03:29Z] planar average slab1_v15: 3000 lines",
+    "[2026-09-27T10:03:29Z] pw.x bands start (-nk 4, max_seconds 80006)",
+    "[2026-09-27T23:58:14Z] pw.x bands end rc=0 PWSCF        :     13h43m CPU     13h54m WALL",
+    "[2026-09-27T23:58:14Z] steps finished after 54679 s"
+   ],
+   "host": "b9p12p6840.cern.ch",
+   "cpus": 16,
+   "limit_s": 86400,
+   "start": "2026-09-27T08:46:55Z",
+   "total_s": 54679,
+   "steps": [
+    {
+     "step": "scf",
+     "start": "2026-09-27T08:47:06Z",
+     "nk": 4,
+     "max_seconds": 84589,
+     "end": "2026-09-27T10:03:09Z",
+     "rc": 0,
+     "time": "PWSCF        :      1h14m CPU      1h16m WALL"
+    },
+    {
+     "step": "bands",
+     "start": "2026-09-27T10:03:29Z",
+     "nk": 4,
+     "max_seconds": 80006,
+     "end": "2026-09-27T23:58:14Z",
+     "rc": 0,
+     "time": "PWSCF        :     13h43m CPU     13h54m WALL"
+    }
+   ]
+  }
+ },
+ "steps_sh": {
+  "steps.sh": "steps() {\n  run_pw scf 4 || return 0\n  run_ppavg slab \"$JOB\" 4.8689\n  run_pw bands 4\n}"
+ },
+ "other": {
+  ".fetched": ""
+ },
+ "mpi_errors": {},
+ "condor": []
+}

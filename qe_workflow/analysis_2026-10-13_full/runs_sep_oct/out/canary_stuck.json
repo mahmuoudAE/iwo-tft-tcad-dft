@@ -1,0 +1,78 @@
+{
+ "run": "canary_stuck",
+ "folder": "cern_htcondor/results/canary_stuck",
+ "files": [
+  {
+   "path": ".fetched",
+   "size": 0,
+   "sha256_16": "e3b0c44298fc1c14",
+   "src": "loose",
+   "kind": "other"
+  },
+  {
+   "path": "canary_stuck_driver.log",
+   "size": 255,
+   "sha256_16": "255f67f3d0aeaade",
+   "src": "loose",
+   "kind": "driver"
+  },
+  {
+   "path": "steps.sh",
+   "size": 25,
+   "sha256_16": "fb349771440d1c41",
+   "src": "loose",
+   "kind": "steps"
+  }
+ ],
+ "tarballs": [
+  {
+   "tarball": "canary_stuck_results.tar.gz",
+   "size": 345,
+   "sha256": "33fe829808ce41da258092cb69ddbcb9043a73eccdac5eeeee1507b1b9ec61ad",
+   "members": [
+    {
+     "name": "canary_stuck_driver.log",
+     "size": 255,
+     "sha256": "255f67f3d0aeaade2d0c8d8b3f6a8523a5cd12f3079fdd1bed1f9b5490f84200",
+     "equals_loose": true
+    },
+    {
+     "name": "steps.sh",
+     "size": 25,
+     "sha256": "fb349771440d1c41304a2064c70fbb604cd8051f2515f633945b3648ec97f971",
+     "equals_loose": true
+    }
+   ]
+  }
+ ],
+ "pw": {},
+ "inputs": {},
+ "templates": {},
+ "projwfc": {},
+ "pp_avg": {},
+ "avg_dat": {},
+ "pdos": {},
+ "driver": {
+  "canary_stuck_driver.log": {
+   "lines": [
+    "[2026-09-30T08:06:13Z] job canary_stuck host b9g42p1019.cern.ch cpus 2 limit 7200s",
+    "[2026-09-30T08:06:30Z] pw.x:/pool/condor/dir_3629977/qe-env/bin/pw.x  python: /pool/condor/dir_3629977/qe-env/bin/python",
+    "[2026-09-30T09:21:30Z] steps finished after 4517 s"
+   ],
+   "host": "b9g42p1019.cern.ch",
+   "cpus": 2,
+   "limit_s": 7200,
+   "start": "2026-09-30T08:06:13Z",
+   "total_s": 4517,
+   "steps": []
+  }
+ },
+ "steps_sh": {
+  "steps.sh": "steps() {\n  sleep 4500\n}"
+ },
+ "other": {
+  ".fetched": ""
+ },
+ "mpi_errors": {},
+ "condor": []
+}

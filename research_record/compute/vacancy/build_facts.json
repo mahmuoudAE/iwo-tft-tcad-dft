@@ -1,0 +1,700 @@
+{
+ "sources": {
+  "host": {
+   "file": "IWO_PHYSICS_CONSTRAINED_MODEL_V1/qe_workflow/structures_v2/relaxed_pbe/bulk_conv.json",
+   "sha256": "9990c582297ccb7e927e0a4fbe4db0996e4e208c216053ae87daa4996194b333"
+  },
+  "W": {
+   "geometry": "RELAXED stage-4 iwo_W24d (relax.out, Begin final coordinates)",
+   "file": "IWO_PHYSICS_CONSTRAINED_MODEL_V1/qe_workflow/cern_htcondor/results/iwo_W24d/relax.out",
+   "sha256": "67f29bad194b112b8f728086f21aeb605b9b070f8fe45c72d7ec7768c9a4d0d5",
+   "bfgs": "bfgs converged in  19 scf cycles and  18 bfgs steps",
+   "E_final_Ry_stage4": -15496.3666036746,
+   "stage4_settings": "mv smearing 0.01 Ry, conv_thr 1e-9, k 3x3x3, QE 7.5 CPU",
+   "cell_check": "stage-4 relax.in CELL_PARAMETERS == host cell (|diff| < 1e-8 A); fixed-cell relax, so no rescaling was needed",
+   "max_displacement_vs_unrelaxed_json_A": 0.3922,
+   "W_displacement_A": 0.056,
+   "W_index0": 4,
+   "W_qe1": 5,
+   "note_iwo_W24d_json": "structures_v2/relaxed_pbe/iwo_W24d.json is the UNRELAXED W substitution (only the host lattice is PBE-relaxed); the relaxed In31WO48 geometry is results/iwo_W24d/relax.out",
+   "max_abs_dfrac_vs_unrelaxed_json": 0.02457
+  }
+ },
+ "cells": {
+  "In32O48": {
+   "name": "In32O48",
+   "n_atoms": 80,
+   "composition": {
+    "In": 32,
+    "O": 48
+   },
+   "n_electrons": 704,
+   "min_distance_A": 2.1671,
+   "min_pair_A": {
+    "In-O": 2.1671,
+    "O-O": 2.842,
+    "In-In": 3.4063
+   },
+   "cation_O_shell": {
+    "In": {
+     "bond_min": 2.1671,
+     "bond_max": 2.2561,
+     "CN_counts": {
+      "6": 32
+     }
+    }
+   },
+   "spacegroup": "Ia-3 (206)",
+   "n_ops": 48,
+   "irr_k_333_spglib": 4,
+   "irr_k_444_spglib": 11,
+   "origin": "host, bulk_conv.json"
+  },
+  "In31WO48": {
+   "name": "In31WO48",
+   "n_atoms": 80,
+   "composition": {
+    "In": 31,
+    "W": 1,
+    "O": 48
+   },
+   "n_electrons": 705,
+   "min_distance_A": 1.8919,
+   "min_pair_A": {
+    "In-O": 2.1246,
+    "W-O": 1.8919,
+    "O-O": 2.579,
+    "In-In": 3.3719,
+    "In-W": 3.4618
+   },
+   "cation_O_shell": {
+    "In": {
+     "bond_min": 2.1246,
+     "bond_max": 2.4784,
+     "CN_counts": {
+      "6": 31
+     }
+    },
+    "W": {
+     "bond_min": 1.8919,
+     "bond_max": 2.1523,
+     "CN_counts": {
+      "6": 1
+     }
+    }
+   },
+   "spacegroup": "P2 (3)",
+   "n_ops": 2,
+   "irr_k_333_spglib": 10,
+   "irr_k_444_spglib": 30,
+   "origin": "relaxed stage-4 iwo_W24d"
+  },
+  "In32O47": {
+   "name": "In32O47",
+   "n_atoms": 79,
+   "composition": {
+    "In": 32,
+    "O": 47
+   },
+   "n_electrons": 698,
+   "min_distance_A": 2.1671,
+   "min_pair_A": {
+    "In-O": 2.1671,
+    "O-O": 2.842,
+    "In-In": 3.4063
+   },
+   "cation_O_shell": {
+    "In": {
+     "bond_min": 2.1671,
+     "bond_max": 4.0763,
+     "CN_counts": {
+      "5": 4,
+      "6": 28
+     }
+    }
+   },
+   "spacegroup": "P1 (1)",
+   "n_ops": 1,
+   "irr_k_333_spglib": 14,
+   "irr_k_444_spglib": 36,
+   "origin": "In32O48 minus O index0 17 (QE atom 18)"
+  },
+  "In31WO47_near": {
+   "name": "In31WO47_near",
+   "n_atoms": 79,
+   "composition": {
+    "In": 31,
+    "W": 1,
+    "O": 47
+   },
+   "n_electrons": 699,
+   "min_distance_A": 1.8919,
+   "min_pair_A": {
+    "In-O": 2.1246,
+    "W-O": 1.8919,
+    "O-O": 2.579,
+    "In-In": 3.3719,
+    "In-W": 3.4618
+   },
+   "cation_O_shell": {
+    "In": {
+     "bond_min": 2.1246,
+     "bond_max": 4.0077,
+     "CN_counts": {
+      "5": 3,
+      "6": 28
+     }
+    },
+    "W": {
+     "bond_min": 1.8919,
+     "bond_max": 3.9002,
+     "CN_counts": {
+      "5": 1
+     }
+    }
+   },
+   "spacegroup": "P1 (1)",
+   "n_ops": 1,
+   "irr_k_333_spglib": 14,
+   "irr_k_444_spglib": 36,
+   "origin": "relaxed In31WO48 minus O index0 30 (QE atom 31) (near)"
+  },
+  "In31WO47_near72": {
+   "name": "In31WO47_near72",
+   "n_atoms": 79,
+   "composition": {
+    "In": 31,
+    "W": 1,
+    "O": 47
+   },
+   "n_electrons": 699,
+   "min_distance_A": 1.8919,
+   "min_pair_A": {
+    "In-O": 2.1246,
+    "W-O": 1.8919,
+    "O-O": 2.579,
+    "In-In": 3.3719,
+    "In-W": 3.4618
+   },
+   "cation_O_shell": {
+    "In": {
+     "bond_min": 2.1246,
+     "bond_max": 3.8968,
+     "CN_counts": {
+      "5": 3,
+      "6": 28
+     }
+    },
+    "W": {
+     "bond_min": 1.8919,
+     "bond_max": 3.9002,
+     "CN_counts": {
+      "5": 1
+     }
+    }
+   },
+   "spacegroup": "P1 (1)",
+   "n_ops": 1,
+   "irr_k_333_spglib": 14,
+   "irr_k_444_spglib": 36,
+   "origin": "relaxed In31WO48 minus O index0 72 (QE atom 73) (near72, A19)"
+  },
+  "In31WO47_far": {
+   "name": "In31WO47_far",
+   "n_atoms": 79,
+   "composition": {
+    "In": 31,
+    "W": 1,
+    "O": 47
+   },
+   "n_electrons": 699,
+   "min_distance_A": 1.8919,
+   "min_pair_A": {
+    "In-O": 2.1246,
+    "W-O": 1.8919,
+    "O-O": 2.579,
+    "In-In": 3.3719,
+    "In-W": 3.4618
+   },
+   "cation_O_shell": {
+    "In": {
+     "bond_min": 2.1246,
+     "bond_max": 4.0349,
+     "CN_counts": {
+      "5": 4,
+      "6": 27
+     }
+    },
+    "W": {
+     "bond_min": 1.8919,
+     "bond_max": 2.1523,
+     "CN_counts": {
+      "6": 1
+     }
+    }
+   },
+   "spacegroup": "P1 (1)",
+   "n_ops": 1,
+   "irr_k_333_spglib": 14,
+   "irr_k_444_spglib": 36,
+   "origin": "relaxed In31WO48 minus O index0 32 (QE atom 33) (far)"
+  }
+ },
+ "selection": {
+  "index_convention": "index0 = 0-based position in the 80-atom list (Python); qe1 = index0 + 1 = the atom number QE prints in its output",
+  "W_cell_symmetry": "P2 (3), 2 ops",
+  "W_O_sorted_columns": [
+   "index0",
+   "qe1",
+   "d_WO_A"
+  ],
+  "W_O_sorted_A": [
+   [
+    30,
+    31,
+    1.8919
+   ],
+   [
+    69,
+    70,
+    1.8919
+   ],
+   [
+    72,
+    73,
+    1.9024
+   ],
+   [
+    73,
+    74,
+    1.9024
+   ],
+   [
+    25,
+    26,
+    2.1523
+   ],
+   [
+    27,
+    28,
+    2.1523
+   ],
+   [
+    62,
+    63,
+    3.9002
+   ],
+   [
+    63,
+    64,
+    3.9002
+   ],
+   [
+    31,
+    32,
+    4.0672
+   ],
+   [
+    68,
+    69,
+    4.0672
+   ],
+   [
+    74,
+    75,
+    4.2168
+   ],
+   [
+    75,
+    76,
+    4.2168
+   ],
+   [
+    17,
+    18,
+    4.2828
+   ],
+   [
+    58,
+    59,
+    4.2828
+   ],
+   [
+    76,
+    77,
+    4.3025
+   ],
+   [
+    78,
+    79,
+    4.3025
+   ],
+   [
+    20,
+    21,
+    4.3255
+   ],
+   [
+    21,
+    22,
+    4.3255
+   ],
+   [
+    77,
+    78,
+    4.3786
+   ],
+   [
+    79,
+    80,
+    4.3786
+   ],
+   [
+    64,
+    65,
+    4.5474
+   ],
+   [
+    66,
+    67,
+    4.5474
+   ],
+   [
+    19,
+    20,
+    4.7178
+   ],
+   [
+    56,
+    57,
+    4.7178
+   ],
+   [
+    24,
+    25,
+    5.0963
+   ],
+   [
+    26,
+    27,
+    5.0963
+   ],
+   [
+    16,
+    17,
+    5.2905
+   ],
+   [
+    59,
+    60,
+    5.2905
+   ],
+   [
+    37,
+    38,
+    5.2957
+   ],
+   [
+    39,
+    40,
+    5.2957
+   ],
+   [
+    18,
+    19,
+    5.3595
+   ],
+   [
+    57,
+    58,
+    5.3595
+   ],
+   [
+    36,
+    37,
+    5.5204
+   ],
+   [
+    38,
+    39,
+    5.5204
+   ],
+   [
+    28,
+    29,
+    5.544
+   ],
+   [
+    71,
+    72,
+    5.544
+   ],
+   [
+    60,
+    61,
+    5.9312
+   ],
+   [
+    61,
+    62,
+    5.9312
+   ],
+   [
+    22,
+    23,
+    5.9967
+   ],
+   [
+    23,
+    24,
+    5.9967
+   ],
+   [
+    34,
+    35,
+    6.0589
+   ],
+   [
+    35,
+    36,
+    6.0589
+   ],
+   [
+    65,
+    66,
+    6.6304
+   ],
+   [
+    67,
+    68,
+    6.6304
+   ],
+   [
+    29,
+    30,
+    6.7658
+   ],
+   [
+    70,
+    71,
+    6.7658
+   ],
+   [
+    32,
+    33,
+    6.8478
+   ],
+   [
+    33,
+    34,
+    6.8478
+   ]
+  ],
+  "near": {
+   "index0": 30,
+   "qe1": 31,
+   "d_WO_A": 1.8919,
+   "ties_index0": [
+    30,
+    69
+   ],
+   "ties_qe1": [
+    31,
+    70
+   ],
+   "ties_symmetry_equivalent": true,
+   "next_distinct_A": 1.9024,
+   "next_distinct_index0": [
+    72,
+    73
+   ],
+   "next_distinct_qe1": [
+    73,
+    74
+   ],
+   "margin_A": 0.0104,
+   "frac": [
+    0.414302,
+    0.368253,
+    0.864266
+   ],
+   "cation_neighbours": [
+    [
+     "W",
+     4,
+     5,
+     1.8919
+    ],
+    [
+     "In",
+     9,
+     10,
+     2.3388
+    ],
+    [
+     "In",
+     2,
+     3,
+     2.4563
+    ],
+    [
+     "In",
+     13,
+     14,
+     2.4784
+    ],
+    [
+     "O",
+     27,
+     28,
+     2.579
+    ]
+   ]
+  },
+  "far": {
+   "index0": 32,
+   "qe1": 33,
+   "d_WO_A": 6.8478,
+   "ties_index0": [
+    32,
+    33
+   ],
+   "ties_qe1": [
+    33,
+    34
+   ],
+   "ties_symmetry_equivalent": true,
+   "next_distinct_A": 6.7658,
+   "next_distinct_index0": [
+    29,
+    70
+   ],
+   "next_distinct_qe1": [
+    30,
+    71
+   ],
+   "margin_A": 0.082,
+   "frac": [
+    0.117717,
+    0.10943,
+    0.345408
+   ],
+   "max_possible_A": 8.9253,
+   "cation_neighbours": [
+    [
+     "In",
+     44,
+     45,
+     2.1602
+    ],
+    [
+     "In",
+     0,
+     1,
+     2.212
+    ],
+    [
+     "In",
+     7,
+     8,
+     2.2192
+    ],
+    [
+     "In",
+     15,
+     16,
+     2.2682
+    ]
+   ]
+  },
+  "near72": {
+   "index0": 72,
+   "qe1": 73,
+   "d_WO_A": 1.9024,
+   "ties_index0": [
+    72,
+    73
+   ],
+   "ties_qe1": [
+    73,
+    74
+   ],
+   "ties_symmetry_equivalent": true,
+   "gap_to_near_A": 0.0104,
+   "rule": "A19: second near candidate; the registered near cell is chosen by select_near.py on the H-L-relaxed In31WO48",
+   "frac": [
+    0.604578,
+    0.596862,
+    0.833744
+   ],
+   "cation_neighbours": [
+    [
+     "W",
+     4,
+     5,
+     1.9024
+    ],
+    [
+     "In",
+     40,
+     41,
+     2.3854
+    ],
+    [
+     "In",
+     55,
+     56,
+     2.3996
+    ],
+    [
+     "In",
+     47,
+     48,
+     2.4461
+    ]
+   ]
+  },
+  "host": {
+   "index0": 17,
+   "qe1": 18,
+   "d_centre_A": 2.3012,
+   "ties_index0": [
+    17,
+    21,
+    25,
+    69,
+    73,
+    77
+   ],
+   "ties_qe1": [
+    18,
+    22,
+    26,
+    70,
+    74,
+    78
+   ],
+   "frac": [
+    0.610268,
+    0.345527,
+    0.382377
+   ],
+   "rule": "O nearest the cell centre (0.5,0.5,0.5); lowest index among ties"
+  }
+ },
+ "host": {
+  "a_A": 10.3060902,
+  "spacegroup_conv": "Ia-3 (206)",
+  "n_ops_conv_cell": 48,
+  "primitive_atoms": 40,
+  "n_ops_primitive": 24,
+  "primitive_spacegroup": "Ia-3 (206)",
+  "O_orbits": 1,
+  "In_orbits": 2
+ },
+ "pilot_copies_sha256": {
+  "relax_node_vac.sh": "e055edc2938551807c128c0adc96095b6da8362d30eaee5190e7d551e0caaf30",
+  "steps_relax.sh": "cf6f515ae6530697839620b4912e8ebfc4bd23795710874e935b02870531f7ba",
+  "geomsel.py": "eec79aa5f7ae6010ea797dfbf163147413df385e6e42402996685d9ca434a54a"
+ }
+}

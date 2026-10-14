@@ -1,0 +1,58 @@
+{
+ "run": "slabL1_relax_gpu",
+ "folder": "cern_htcondor/results/slabL1_relax_gpu",
+ "files": [
+  {
+   "path": ".fetched",
+   "size": 0,
+   "sha256_16": "e3b0c44298fc1c14",
+   "src": "loose",
+   "kind": "other"
+  },
+  {
+   "path": "SUPERSEDED.txt",
+   "size": 239,
+   "sha256_16": "189f6bf23009db19",
+   "src": "loose",
+   "kind": "other"
+  }
+ ],
+ "tarballs": [],
+ "pw": {},
+ "inputs": {},
+ "templates": {},
+ "projwfc": {},
+ "pp_avg": {},
+ "avg_dat": {},
+ "pdos": {},
+ "driver": {},
+ "steps_sh": {},
+ "other": {
+  ".fetched": "",
+  "SUPERSEDED.txt": "Removed 2026-10-05T21:14Z: superseded by the faster copy slabL1_relax_v2 (and its CPU twin slabL1_relax_v2__cpu), identical inputs. The .fetched marker stops dft_flow.sh from fetching or continuing this job; no results were kept from it."
+ },
+ "mpi_errors": {},
+ "condor": [
+  {
+   "job": "slabL1_relax_gpu",
+   "id": "12835237.0",
+   "first": "2026-10-05T17:51:31Z",
+   "last": "2026-10-05T21:12:33Z",
+   "samples": 34,
+   "states": {
+    "2": 34
+   },
+   "cpus": 16,
+   "gpus": "0",
+   "gpu_hw": [],
+   "cpu_hw": [
+    "AMD EPYC 9655 96-Core Processor"
+   ],
+   "max_scf_it": 475,
+   "max_bfgs": 10,
+   "steps": [
+    "vcrelax"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,530 @@
+{
+ "bulk_gap_eV": 0.8887,
+ "bulk_mass_m0": 0.1588,
+ "bulk_mass_origin_m0": 0.1583,
+ "slabs": {
+  "0.51": {
+   "job": "slabL1_relax_v2",
+   "relax_job": "slabL1_relax_v2",
+   "version": "v.7.5",
+   "symops": {
+    "value": 8,
+    "src": "cern_htcondor/results/slabL1_relax_v2/scf.out:125",
+    "label": "COMPUTED"
+   },
+   "n_electrons": {
+    "value": 272.0,
+    "src": "cern_htcondor/results/slabL1_relax_v2/scf.out:54",
+    "label": "COMPUTED"
+   },
+   "n_occ": 136,
+   "VBM_eV": {
+    "value": -4.7219,
+    "src": "cern_htcondor/results/slabL1_relax_v2/scf.out:1389",
+    "label": "COMPUTED"
+   },
+   "CBM_eV": {
+    "value": -1.5818,
+    "src": "cern_htcondor/results/slabL1_relax_v2/scf.out:1389",
+    "label": "COMPUTED"
+   },
+   "gap_eV": 3.1401,
+   "dEg_eV": 2.2514,
+   "E_vac_eV": {
+    "value": 1.6099,
+    "src": "cern_htcondor/results/slabL1_relax_v2/slabL1_relax_v2_avg.dat",
+    "label": "COMPUTED"
+   },
+   "E_vac_spread_meV": 0.01,
+   "vacuum_top_minus_bottom_meV": -0.0,
+   "EA_eV": 3.1917,
+   "IP_eV": 6.3318,
+   "vacuum_ramp_slope_meV_per_A": 0.0,
+   "vacuum_ramp_over_window_meV": 0.0,
+   "vacuum_ramp_over_gap_meV": 0.0,
+   "scf_iterations": {
+    "value": 46,
+    "src": "cern_htcondor/results/slabL1_relax_v2/scf.out:1408",
+    "label": "COMPUTED"
+   },
+   "thickness_HH_nm": {
+    "value": 0.4612,
+    "src": "cern_htcondor/results/slabL1_relax_v2/scf.in:21",
+    "label": "COMPUTED"
+   },
+   "thickness_OO_nm": 0.3046,
+   "thickness_InIn_nm": 0.0843,
+   "inplane_A": [
+    10.6955,
+    10.0188
+   ],
+   "composition": {
+    "H": 24,
+    "In": 8,
+    "O": 24
+   },
+   "O_bonded_to_H": 24,
+   "O_total": 24,
+   "In_CN_mean": 6.0,
+   "In_CN_hist": {
+    "6": 8
+   },
+   "relax": {
+    "bfgs": {
+     "value": "83 scf cycles, 82 bfgs steps",
+     "src": "cern_htcondor/results/slabL1_relax_v2/vcrelax.out:55348",
+     "label": "COMPUTED"
+    },
+    "final_enthalpy_Ry": {
+     "value": -4315.414870707,
+     "src": "cern_htcondor/results/slabL1_relax_v2/vcrelax.out:55353",
+     "label": "COMPUTED"
+    },
+    "max_force_component_Ry_bohr": {
+     "value": 0.000536,
+     "src": "cern_htcondor/results/slabL1_relax_v2/vcrelax.out:55273",
+     "label": "COMPUTED"
+    },
+    "total_force_Ry_bohr": {
+     "value": 0.002755,
+     "src": "cern_htcondor/results/slabL1_relax_v2/vcrelax.out:55332",
+     "label": "COMPUTED"
+    },
+    "n_atoms_forces": 56
+   },
+   "mass": {
+    "n_k": 21,
+    "alat_A": 10.69547,
+    "[100]": {
+     "m_intercept_m0": 0.4282,
+     "m_origin_m0": 0.4292,
+     "n_fit": 4,
+     "kmax_fit_invA": 0.0434
+    },
+    "[110]": {
+     "m_intercept_m0": 0.4451,
+     "m_origin_m0": 0.4446,
+     "n_fit": 4,
+     "kmax_fit_invA": 0.0434
+    },
+    "E21_Gamma_eV": {
+     "value": 1.8872,
+     "src": "cern_htcondor/results/slabL1_relax_v2/bands.out:530",
+     "label": "COMPUTED"
+    },
+    "CBM_Gamma_bands_eV": -1.5819,
+    "src": "cern_htcondor/results/slabL1_relax_v2/bands.out:530 .. cern_htcondor/results/slabL1_relax_v2/bands.out:970"
+   },
+   "dm_m0": 0.2694,
+   "dm_origin_m0": 0.2709,
+   "dEc_eV": 1.5845,
+   "dEv_eV": -0.6669,
+   "dEc_route": "2 nm two-step + EA(2 nm) - EA(t)",
+   "CB_share": 0.704
+  },
+  "0.75": {
+   "job": "slabL2_relax_v2",
+   "relax_job": "slabL2_relax_v2",
+   "version": "v.7.5",
+   "symops": {
+    "value": 4,
+    "src": "cern_htcondor/results/slabL2_relax_v2/scf.out:125",
+    "label": "COMPUTED"
+   },
+   "n_electrons": {
+    "value": 448.0,
+    "src": "cern_htcondor/results/slabL2_relax_v2/scf.out:54",
+    "label": "COMPUTED"
+   },
+   "n_occ": 224,
+   "VBM_eV": {
+    "value": -3.3537,
+    "src": "cern_htcondor/results/slabL2_relax_v2/scf.out:1771",
+    "label": "COMPUTED"
+   },
+   "CBM_eV": {
+    "value": -1.1551,
+    "src": "cern_htcondor/results/slabL2_relax_v2/scf.out:1771",
+    "label": "COMPUTED"
+   },
+   "gap_eV": 2.1986,
+   "dEg_eV": 1.3099,
+   "E_vac_eV": {
+    "value": 2.5622,
+    "src": "cern_htcondor/results/slabL2_relax_v2/slabL2_relax_v2_avg.dat",
+    "label": "COMPUTED"
+   },
+   "E_vac_spread_meV": 210.98,
+   "vacuum_top_minus_bottom_meV": 105.56,
+   "EA_eV": 3.7173,
+   "IP_eV": 5.9159,
+   "vacuum_ramp_slope_meV_per_A": -13.597,
+   "vacuum_ramp_over_window_meV": -211.0,
+   "vacuum_ramp_over_gap_meV": -347.1,
+   "scf_iterations": {
+    "value": 63,
+    "src": "cern_htcondor/results/slabL2_relax_v2/scf.out:1790",
+    "label": "COMPUTED"
+   },
+   "thickness_HH_nm": {
+    "value": 0.6953,
+    "src": "cern_htcondor/results/slabL2_relax_v2/scf.in:21",
+    "label": "COMPUTED"
+   },
+   "thickness_OO_nm": 0.5421,
+   "thickness_InIn_nm": 0.2921,
+   "inplane_A": [
+    10.4284,
+    10.2928
+   ],
+   "composition": {
+    "H": 24,
+    "In": 16,
+    "O": 36
+   },
+   "O_bonded_to_H": 24,
+   "O_total": 36,
+   "In_CN_mean": 6.0,
+   "In_CN_hist": {
+    "6": 16
+   },
+   "relax": {
+    "bfgs": {
+     "value": "79 scf cycles, 78 bfgs steps",
+     "src": "cern_htcondor/results/slabL2_relax_v2/vcrelax.out:65346",
+     "label": "COMPUTED"
+    },
+    "final_enthalpy_Ry": {
+     "value": -8102.1054119767,
+     "src": "cern_htcondor/results/slabL2_relax_v2/vcrelax.out:65351",
+     "label": "COMPUTED"
+    },
+    "max_force_component_Ry_bohr": {
+     "value": 0.00099,
+     "src": "cern_htcondor/results/slabL2_relax_v2/vcrelax.out:65251",
+     "label": "COMPUTED"
+    },
+    "total_force_Ry_bohr": {
+     "value": 0.006128,
+     "src": "cern_htcondor/results/slabL2_relax_v2/vcrelax.out:65330",
+     "label": "COMPUTED"
+    },
+    "n_atoms_forces": 76
+   },
+   "mass": {
+    "n_k": 21,
+    "alat_A": 10.42839,
+    "[100]": {
+     "m_intercept_m0": 0.3348,
+     "m_origin_m0": 0.3348,
+     "n_fit": 4,
+     "kmax_fit_invA": 0.0445
+    },
+    "[110]": {
+     "m_intercept_m0": 0.3382,
+     "m_origin_m0": 0.338,
+     "n_fit": 4,
+     "kmax_fit_invA": 0.0445
+    },
+    "E21_Gamma_eV": {
+     "value": 1.8152,
+     "src": "cern_htcondor/results/slabL2_relax_v2/bands.out:526",
+     "label": "COMPUTED"
+    },
+    "CBM_Gamma_bands_eV": -1.1551,
+    "src": "cern_htcondor/results/slabL2_relax_v2/bands.out:526 .. cern_htcondor/results/slabL2_relax_v2/bands.out:1186"
+   },
+   "dm_m0": 0.176,
+   "dm_origin_m0": 0.1765,
+   "dEc_eV": 1.0589,
+   "dEv_eV": -0.251,
+   "dEc_route": "2 nm two-step + EA(2 nm) - EA(t)",
+   "CB_share": 0.808
+  },
+  "1.0": {
+   "job": "slab1r_final_cpu",
+   "relax_job": "slab1_relax_gpu",
+   "version": "v.7.5",
+   "symops": {
+    "value": 8,
+    "src": "cern_htcondor/results/slab1r_final_cpu/scf.out:366",
+    "label": "COMPUTED"
+   },
+   "n_electrons": {
+    "value": 624.0,
+    "src": "cern_htcondor/results/slab1r_final_cpu/scf.out:295",
+    "label": "COMPUTED"
+   },
+   "n_occ": 312,
+   "VBM_eV": {
+    "value": -2.3403,
+    "src": "cern_htcondor/results/slab1r_final_cpu/scf.out:1884",
+    "label": "COMPUTED"
+   },
+   "CBM_eV": {
+    "value": -0.5518,
+    "src": "cern_htcondor/results/slab1r_final_cpu/scf.out:1884",
+    "label": "COMPUTED"
+   },
+   "gap_eV": 1.7885,
+   "dEg_eV": 0.8998,
+   "E_vac_eV": {
+    "value": 3.3767,
+    "src": "cern_htcondor/results/slab1r_final_cpu/slab1r_final_cpu_avg.dat",
+    "label": "COMPUTED"
+   },
+   "E_vac_spread_meV": 0.02,
+   "vacuum_top_minus_bottom_meV": 0.0,
+   "EA_eV": 3.9285,
+   "IP_eV": 5.717,
+   "vacuum_ramp_slope_meV_per_A": -0.0,
+   "vacuum_ramp_over_window_meV": -0.0,
+   "vacuum_ramp_over_gap_meV": -0.0,
+   "scf_iterations": {
+    "value": 47,
+    "src": "cern_htcondor/results/slab1r_final_cpu/scf.out:1903",
+    "label": "COMPUTED"
+   },
+   "thickness_HH_nm": {
+    "value": 0.9303,
+    "src": "cern_htcondor/results/slab1r_final_cpu/scf.in:21",
+    "label": "COMPUTED"
+   },
+   "thickness_OO_nm": 0.7876,
+   "thickness_InIn_nm": 0.5151,
+   "inplane_A": [
+    10.3364,
+    10.3345
+   ],
+   "composition": {
+    "H": 24,
+    "In": 24,
+    "O": 48
+   },
+   "O_bonded_to_H": 24,
+   "O_total": 48,
+   "In_CN_mean": 6.0,
+   "In_CN_hist": {
+    "6": 24
+   },
+   "relax": {
+    "bfgs": {
+     "value": "57 scf cycles, 54 bfgs steps",
+     "src": "cern_htcondor/results/slab1_relax_gpu/vcrelax.out:49096",
+     "label": "COMPUTED"
+    },
+    "final_enthalpy_Ry": {
+     "value": -11888.8112257101,
+     "src": "cern_htcondor/results/slab1_relax_gpu/vcrelax.out:49101",
+     "label": "COMPUTED"
+    },
+    "max_force_component_Ry_bohr": {
+     "value": 0.000768,
+     "src": "cern_htcondor/results/slab1_relax_gpu/vcrelax.out:48981",
+     "label": "COMPUTED"
+    },
+    "total_force_Ry_bohr": {
+     "value": 0.006106,
+     "src": "cern_htcondor/results/slab1_relax_gpu/vcrelax.out:49080",
+     "label": "COMPUTED"
+    },
+    "n_atoms_forces": 96
+   },
+   "mass": {
+    "n_k": 21,
+    "alat_A": 10.33642,
+    "[100]": {
+     "m_intercept_m0": 0.2811,
+     "m_origin_m0": 0.2814,
+     "n_fit": 4,
+     "kmax_fit_invA": 0.045
+    },
+    "[110]": {
+     "m_intercept_m0": 0.282,
+     "m_origin_m0": 0.282,
+     "n_fit": 4,
+     "kmax_fit_invA": 0.045
+    },
+    "E21_Gamma_eV": {
+     "value": 1.4988,
+     "src": "cern_htcondor/results/slab1r_final_cpu/bands.out:791",
+     "label": "COMPUTED"
+    },
+    "CBM_Gamma_bands_eV": -0.5517,
+    "src": "cern_htcondor/results/slab1r_final_cpu/bands.out:791 .. cern_htcondor/results/slab1r_final_cpu/bands.out:1671"
+   },
+   "dm_m0": 0.1223,
+   "dm_origin_m0": 0.1231,
+   "dEc_eV": 0.8477,
+   "dEv_eV": -0.0521,
+   "dEc_route": "2 nm two-step + EA(2 nm) - EA(t)",
+   "CB_share": 0.942
+  },
+  "2.0": {
+   "job": "slab2_relax_c2",
+   "relax_job": "slab2_relax_c2",
+   "version": "v.7.3.1",
+   "symops": {
+    "value": 8,
+    "src": "cern_htcondor/results/slab2_relax_c2/scf.out:136",
+    "label": "COMPUTED"
+   },
+   "n_electrons": {
+    "value": 1328.0,
+    "src": "cern_htcondor/results/slab2_relax_c2/scf.out:51",
+    "label": "COMPUTED"
+   },
+   "n_occ": 664,
+   "VBM_eV": {
+    "value": 0.0473,
+    "src": "cern_htcondor/results/slab2_relax_c2/scf.out:2855",
+    "label": "COMPUTED"
+   },
+   "CBM_eV": {
+    "value": 1.2712,
+    "src": "cern_htcondor/results/slab2_relax_c2/scf.out:2855",
+    "label": "COMPUTED"
+   },
+   "gap_eV": 1.2239,
+   "dEg_eV": 0.3352,
+   "E_vac_eV": {
+    "value": 5.7662,
+    "src": "cern_htcondor/results/slab2_relax_c2/slab2_relax_c2_avg.dat",
+    "label": "COMPUTED"
+   },
+   "E_vac_spread_meV": 0.02,
+   "vacuum_top_minus_bottom_meV": -0.0,
+   "EA_eV": 4.495,
+   "IP_eV": 5.7189,
+   "vacuum_ramp_slope_meV_per_A": 0.0,
+   "vacuum_ramp_over_window_meV": 0.0,
+   "vacuum_ramp_over_gap_meV": 0.0,
+   "scf_iterations": {
+    "value": 75,
+    "src": "cern_htcondor/results/slab2_relax_c2/scf.out:2874",
+    "label": "COMPUTED"
+   },
+   "thickness_HH_nm": {
+    "value": 1.9623,
+    "src": "cern_htcondor/results/slab2_relax_c2/scf.in:21",
+    "label": "COMPUTED"
+   },
+   "thickness_OO_nm": 1.8214,
+   "thickness_InIn_nm": 1.5486,
+   "inplane_A": [
+    10.3179,
+    10.3085
+   ],
+   "composition": {
+    "H": 24,
+    "In": 56,
+    "O": 96
+   },
+   "O_bonded_to_H": 24,
+   "O_total": 96,
+   "In_CN_mean": 6.0,
+   "In_CN_hist": {
+    "6": 56
+   },
+   "relax": {
+    "bfgs": {
+     "value": "72 scf cycles, 70 bfgs steps",
+     "src": "cern_htcondor/results/slab2_relax_c2/vcrelax.out:94165",
+     "label": "COMPUTED"
+    },
+    "final_enthalpy_Ry": {
+     "value": -27035.6654809032,
+     "src": "cern_htcondor/results/slab2_relax_c2/vcrelax.out:94170",
+     "label": "COMPUTED"
+    },
+    "max_force_component_Ry_bohr": {
+     "value": 0.000863,
+     "src": "cern_htcondor/results/slab2_relax_c2/vcrelax.out:93970",
+     "label": "COMPUTED"
+    },
+    "total_force_Ry_bohr": {
+     "value": 0.007153,
+     "src": "cern_htcondor/results/slab2_relax_c2/vcrelax.out:94149",
+     "label": "COMPUTED"
+    },
+    "n_atoms_forces": 176
+   },
+   "mass": {
+    "n_k": 21,
+    "alat_A": 10.3179,
+    "[100]": {
+     "m_intercept_m0": 0.2064,
+     "m_origin_m0": 0.206,
+     "n_fit": 4,
+     "kmax_fit_invA": 0.0449
+    },
+    "[110]": {
+     "m_intercept_m0": 0.2059,
+     "m_origin_m0": 0.2057,
+     "n_fit": 4,
+     "kmax_fit_invA": 0.045
+    },
+    "E21_Gamma_eV": {
+     "value": 0.7191,
+     "src": "cern_htcondor/results/slab2_relax_c2/bands.out:770",
+     "label": "COMPUTED"
+    },
+    "CBM_Gamma_bands_eV": 1.2714,
+    "src": "cern_htcondor/results/slab2_relax_c2/bands.out:770 .. cern_htcondor/results/slab2_relax_c2/bands.out:2530"
+   },
+   "dm_m0": 0.0476,
+   "dm_origin_m0": 0.0477,
+   "dEc_eV": 0.2812,
+   "dEv_eV": -0.054,
+   "dEc_route": "two-step a/2 (f03)",
+   "CB_share": 0.839
+  }
+ },
+ "extra": {
+  "1.0:slab1_relax_gpu": {
+   "job": "slab1_relax_gpu",
+   "version": "v.7.3.1",
+   "gap_eV": {
+    "value": 1.7885,
+    "src": "cern_htcondor/results/slab1_relax_gpu/scf.out:1938",
+    "label": "COMPUTED"
+   },
+   "VBM_eV": -2.3402,
+   "CBM_eV": -0.5517,
+   "mass_100_intercept_m0": 0.2811,
+   "mass_110_intercept_m0": 0.2823,
+   "E21_Gamma_eV": 1.4988
+  },
+  "2.0:slab2r_pdos_cpu": {
+   "job": "slab2r_pdos_cpu",
+   "version": "v.7.5",
+   "gap_eV": {
+    "value": 1.2238,
+    "src": "cern_htcondor/results/slab2r_pdos_cpu/scf.out:2646",
+    "label": "COMPUTED"
+   },
+   "VBM_eV": 0.0475,
+   "CBM_eV": 1.2713,
+   "EA_eV": 4.495,
+   "IP_eV": 5.7188
+  },
+  "2.0:slab2r_final_cpu_checkpoint": {
+   "job": "slab2r_final_cpu_checkpoint",
+   "version": "v.7.5",
+   "gap_eV": {
+    "value": 1.2239,
+    "src": "cern_htcondor/results/slab2r_final_cpu_checkpoint/scf.out:2544",
+    "label": "COMPUTED"
+   },
+   "VBM_eV": 0.0474,
+   "CBM_eV": 1.2713,
+   "EA_eV": 4.4949,
+   "IP_eV": 5.7188
+  }
+ },
+ "partition_1_to_2": {
+  "EA2_minus_EA1": 0.5665,
+  "IP1_minus_IP2": -0.0019,
+  "dEg1_minus_dEg2": 0.5646
+ }
+}

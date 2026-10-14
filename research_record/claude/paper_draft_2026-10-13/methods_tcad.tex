@@ -1,0 +1,394 @@
+% ===================================================================
+% methods_tcad.tex -- Methods: device simulation (Silvaco ATLAS 5.28), measured data, extraction protocol,
+% campaign design and pre-registration, scoring/resolution method, execution controls, launch accounting.
+% Draft 2026-10-13 (Claude), for human review; no claim here is approved for a manuscript (charter section 9).
+% ASCII only. Every number carries a source comment  % <!-- KEY:line -->  (file:line). KEY legend:
+%   PKG    = IWO_PHYSICS_CONSTRAINED_MODEL_V1/              PRIV   = iwo-tft-research-private/
+%   GEOM   = PKG/config/geometry.yaml                       SOLV   = PKG/config/solver.yaml
+%   PHYS   = PKG/config/physics_options.yaml                V3     = PKG/config/iwo_material_model_v3.yaml
+%   PROT   = PKG/analysis_2026-10-06_extraction/PROTOCOL.md A1R    = PKG/analysis_2026-10-06_extraction/A1_RESULTS.md
+%   PFIG   = PKG/analysis_2026-10-06_extraction/PAPER_FIGURES.md
+%   CD     = PKG/analysis_2026-10-10_campaign/CAMPAIGN_DESIGN.md
+%   S2PREP = PKG/analysis_2026-10-10_campaign/S2_PREP.md
+%   S2FIX  = PKG/analysis_2026-10-10_campaign/S2_SCORER_FIXES_2026-10-12.md
+%   S2GATE = PKG/analysis_2026-10-10_campaign/S2_RUNNER_GATES_2026-10-13.md
+%   DEVTEX = PKG/report_latex_full/chapters/03_device_data.tex   V2TEX = PKG/report_latex_full/chapters/14_model_v2.tex
+%   MAIN   = PKG/report_latex_full/main.tex
+%   REG    = PRIV/codex/work_chat/HYPOTHESIS_REGISTER.md    LEDGER = PRIV/03_CLAIMS_LEDGER.yaml
+%   DLOG   = PRIV/05_DECISION_LOG.md                        CS     = PRIV/01_CURRENT_STATE.md
+% Not opened: PKG/results/runs/run_0075_* and PKG/results/sealed/ (S2-11 is sealed).
+% ===================================================================
+\subsection{Device simulation}
+\label{sec:m-tcad}
+
+\subsubsection{Devices and measured data}
+\label{sec:m-tcad-data}
+
+The simulated transistors are the bottom-gate W-doped \InO{} (IWO) thin-film transistors of the thickness series
+published by \citet[pp.~2--3]{Januar2026}; the page is the one verified for the stack in
+\file{report_latex_full/chapters/03_device_data.tex}. % <!-- DEVTEX:18-19 -->
+The devices were made and measured by the fabrication group (National Taiwan University); this work adds no
+measurement (decision D-11). % <!-- DLOG:22 ; CS:27 -->
+From the gate upwards the stack is a \SI{50}{nm} TiN gate on n$^+$ Si, \SI{15.0}{nm} \HfO{}, \SI{2.0}{nm} \AlO{}, the
+sputtered IWO channel (about 2\,\% W, composition basis not stated by the source) and \SI{70}{nm} Pd source and drain
+contacts on top of the channel, with no passivation layer. % <!-- GEOM:4-9 ; DEVTEX:23-31 ; V3:19-21 -->
+Both oxides were grown by atomic-layer deposition at \SI{250}{\celsius}, and the process ends with a rapid thermal
+anneal at \SI{150}{\celsius} for \SI{600}{s}; these enter no parameter. % <!-- DEVTEX:25 ; DEVTEX:33-34 -->
+\Cref{tab:m-tcad-stack} lists every structural item with its provenance label.
+
+\begin{table}[htbp]\centering\footnotesize
+\caption{Structural items of the simulated device and their provenance labels.}
+\label{tab:m-tcad-stack}
+\begin{tabularx}{\linewidth}{@{}l>{\raggedright\arraybackslash}Xl@{}}
+\toprule
+Item & Value & Label \\
+\midrule
+Gate & TiN \SI{50}{nm} (Si support screened, omitted) & \prov{MEASURED} (schematic) \\ % <!-- GEOM:3-4 -->
+Gate dielectric & \HfO{} \SI{15.0}{nm}, $\varepsilon_r = 19.57$ & thickness from schematic; $\varepsilon_r$ \prov{MEASURED} (C--V, SI Fig.~S1) \\ % <!-- GEOM:5 -->
+Interlayer & \AlO{} \SI{2.0}{nm}, $\varepsilon_r = 9.0$, touching the channel & thickness from schematic; $\varepsilon_r$ and position \prov{ASSUMED} \\ % <!-- GEOM:6 ; CD:168 -->
+Channel & IWO, $t = 2.0$, 6.3, 13.2, \SI{31.8}{nm} (nominal), $\varepsilon_r = 9.3$ & \prov{MEASURED} ($\varepsilon_r$ from C--V, SI Fig.~S1) \\ % <!-- GEOM:7 ; V3:43-46 -->
+Source/drain & Pd \SI{70}{nm}, top contacts, ideal Ohmic & geometry from schematic; contact model \prov{ASSUMED} \\ % <!-- GEOM:8 ; V3:209-211 -->
+Contact overlap & \SI{2.0}{\micro\metre} per side & \prov{ASSUMED} \\ % <!-- GEOM:14 -->
+$L$, $W$ & \SI{20}{\micro\metre}, \SI{290}{\micro\metre} & schematic \\ % <!-- GEOM:11-12 -->
+Geometric $\Cox$ & \SI{8.9554e-7}{\farad\per\centi\metre\squared} & \prov{DERIVED} from the rows above \\ % <!-- PROT:20 -->
+Gate work function & \SI{4.7}{eV} & \prov{ASSUMED} (TiN 4.5--4.9~eV); degenerate with $\Qf$ and $\chi$ \\ % <!-- V3:206-208 -->
+Temperature & \SI{300}{K} & \prov{ASSUMED} (not recorded) \\ % <!-- V3:22-25 -->
+Above the channel & air (no cap) & as specified \\ % <!-- GEOM:9 -->
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Measured data.} One transfer curve per film was available: $\Vg$ from $-3$ to $+3$~V in \SI{50}{mV} steps
+(121 points) at $\Vd = \SI{0.7}{V}$, for 2.0, 6.3, 13.2 and \SI{31.8}{nm}
+(\prov{MEASURED}, claim C001). % <!-- CS:73-76 ; LEDGER:5-9 -->
+There is no reverse sweep, no gate current, no second drain bias and only one device per thickness. % <!-- LEDGER:9 ; CS:77 -->
+The thicknesses are nominal and the method of their measurement is unknown. % <!-- CS:253 -->
+The \SI{31.8}{nm} device is not modelled (decision D-01); it never turns off ($\Id(-3\,\mathrm{V}) =
+\SI{3.0e-7}{\Aum}$, claim C029, \prov{DERIVED}) and, having been in the data file since September, it is not a
+holdout. % <!-- DLOG:12 ; LEDGER:172-176 -->
+Every comparison between simulation and measurement in this work is therefore retrospective. % <!-- REG:37 ; CD:501 -->
+The off-state floors, the median current over $\Vg = -2$ to $-0.5$~V, are $4.61\times10^{-15}$, $1.53\times10^{-13}$
+and \SI{6.60e-12}{\Aum} for 2.0, 6.3 and \SI{13.2}{nm} (claim C003, \prov{DERIVED}). % <!-- LEDGER:16-20 ; CD:344 -->
+\pdPending{P01}{DECISION PENDING: written permission of the fabrication group to use and publish the raw curves
+(they are already in the public repository), data custody and authorship; charter section 8}.
+
+\subsubsection{Simulation domain and numerical method}
+\label{sec:m-tcad-numerics}
+
+All device simulations use two-dimensional drift--diffusion in Silvaco ATLAS 5.28.1.R driven by DeckBuild 5.0.10.R
+\citep{AtlasManual,DeckBuildManual}. % <!-- MAIN:35 -->
+The domain contains the physical volumes: air above the channel, the Pd contacts, the \AlO{} and \HfO{} regions and
+the TiN gate as a conductor volume. % <!-- GEOM:10 -->
+The mesh width is \SI{1}{\micro\metre}, so currents are reported in A/\textmu m. % <!-- GEOM:13 -->
+The $x$ mesh is refined to \SI{10}{nm} at the contact edges; along $y$ the spacing is \SI{0.0625}{nm} at the
+IWO/\AlO{} interface, $\min(1.0\,\mathrm{nm}, t/8)$ in the film, \SI{0.25}{nm} in \AlO{} and \SI{1.0}{nm} in \HfO{}. % <!-- GEOM:18 ; GEOM:20-23 -->
+The interface trap sheet is regularised as a \SI{0.25}{nm} IWO layer; halving that layer changes $\Id$ by
+\SI{0.009}{dec}. % <!-- GEOM:19 -->
+
+The solver uses Fermi--Dirac statistics, a Shockley--Read--Hall background and electrons only
+(\texttt{carriers=1}); the hole current is numerically zero in every recorded run. % <!-- SOLV:2-3 -->
+The Newton scheme includes trap occupancy (\texttt{newton trap}, \texttt{maxtraps=10}, \texttt{itlimit=80},
+\texttt{climit=1e-6}, \texttt{ir.tol=1e-19}). % <!-- SOLV:4 -->
+In depletion, convergence is accepted with \texttt{XANDRNORM} and a continuity tolerance
+$\max(10^{-17}\,\mathrm{A},\ 10^{-5}\times$ the smallest measured active current$)$, up to a measured current of
+\SI{1e-9}{\Aum}. % <!-- SOLV:5-8 -->
+The trap density of states is integrated on 384/192 levels in the campaign (768/384 in the S1-04 check). % <!-- CD:195 -->
+Gate sweeps are stepped \texttt{SOLVE VSTEP/VFINAL} blocks from $-3$~V: \SI{0.2}{V} steps to $-1.0$~V,
+\SI{0.05}{V} to \SI{1.5}{V} and \SI{0.1}{V} to \SI{3.0}{V}, after a \SI{0.1}{V} ramp to the sweep start. % <!-- SOLV:10-13 -->
+Launches run strictly one at a time (parallel launches failed), with thickness-dependent time limits of 1200, 1500,
+2400 and \SI{3000}{s} for 2.0, 6.3, 13.2 and \SI{31.8}{nm} (multiplied per entry where listed). % <!-- CS:285 ; CD:289 ; CD:479 -->
+A run passes the current-balance (KCL) check when
+$|I_D + I_S + I_G| \le \max(10^{-17}\,\mathrm{A},\ 0.1\times\mathrm{floor}) + 1\,\%\ \sum|I|$. % <!-- CD:356 ; SOLV:19-21 -->
+Three tool facts constrain the decks: \texttt{MOBILITY} statements placed between \texttt{SOLVE}s are ignored, at most
+ten trap distributions are allowed, and \texttt{DEFECTS} and \texttt{INTDEFECTS} take densities per volume and per
+area, respectively. % <!-- CS:288-290 -->
+
+\paragraph{Numerical verification.} Before any hypothesis-scoring launch, the baseline physics was checked under
+refinement: mesh $\times0.7$ at \SI{13.2}{nm} (S1-03) changed the active log-current error by $-0.0005$~dec and a
+doubled trap-DOS grid at \SI{2.0}{nm} (S1-04) by $-0.00002$~dec, both inside the pre-registered numerics rule
+(\SI{0.01}{dec}, \SI{5}{mV} in $\Vthcc$, \SI{3}{mV/dec} in SS). % <!-- REG:29-30 ; CD:298 -->
+A native launch (S1-07) confirmed the offline shift/scale transformation used for profiling to a maximum deviation of
+$2.05\times10^{-4}$~dec; this validates that transformation only. % <!-- REG:33 -->
+The extraction carries a separate numerical budget of $\pm1.5$~mV in $\Vth$, $\pm1$~mV/dec in SS and $\pm0.7\,\%$ in
+$\gm$. % <!-- PROT:67 -->
+
+\paragraph{TCAD check rule.} Every change of the deck generator or of a scoring rule is reviewed by Codex and checked
+by hand against the ATLAS 5.28 manual, which governs, with the 2004 manual as a second reference; manual pages are
+quoted where a model's numerical control is at stake (for example the oxide mesh as the accuracy control of
+self-consistent tunnelling). % <!-- S2PREP:158-160 ; S2PREP:174 -->
+A regression script rebuilds every launched deck from its recorded overrides and must report no unexpected
+difference before the next launch. % <!-- CD:290 -->
+
+\subsubsection{Physical model}
+\label{sec:m-tcad-model}
+
+The campaign model (V3) uses one parameter set for the 2.0, 6.3 and \SI{13.2}{nm} films; film dependence enters only
+through the thickness $t$ in physical laws. % <!-- CD:24-27 ; CD:487-489 -->
+Its ingredients and their labels are listed in \cref{tab:m-tcad-params}.
+\begin{itemize}
+\item \emph{Confinement.} The conduction-band shift $\dEc(t)$ (in \texttt{AFFINITY}), the gap opening
+$\Delta E_g(t)$ (in \texttt{EG300}) and the mass increment $\Delta m^*(t)$ (in \texttt{NC300}) follow power laws fitted
+to our crystalline PBE slab points at H--H thicknesses 0.695, 0.930 and \SI{1.962}{nm}; no device data enter these
+laws (\prov{FITTED} to \prov{COMPUTED} points). % <!-- V3:58-74 ; V3:84-97 ; V3:154-172 -->
+Values at 6.3 and \SI{13.2}{nm} are extrapolations, and identifying the device thickness with the slab H--H thickness
+is \prov{ASSUMED}. % <!-- CD:151 -->
+The \SI{0.695}{nm} point comes from a slab whose result is still marked preliminary and is not yet entered in the DFT
+results log \pdPending{P02}{CHECK PENDING: enter the 0.75 nm (H--H 0.695 nm) slab in RESULTS\_LOG.md, or refit the
+laws without it; claim C021}. % <!-- LEDGER:120-124 ; V3:68 -->
+\item \emph{Quasi-two-dimensional density of states.} At \SI{2.0}{nm} only, $\Nc$ is replaced by $N_{2D}/t$
+(\prov{CALCULATED}) under a pre-registered single-subband rule (DFT subband spacing \SI{0.7191}{eV} $\gg \kT$). This
+substitution inside the 3-D Fermi--Dirac form overstates the degenerate on-state density by up to $1.7\times$. % <!-- V3:98-105 ; CD:63 ; CD:111 -->
+\item \emph{Traps.} An exponential acceptor tail with integrated density $N_s$ spread uniformly over the film
+($\Nt = N_s/t$, $\NTA = \Nt/\WTA$); a deep acceptor Gaussian; and an interface acceptor sheet at the IWO/\AlO{}
+interface. Trap levels are referenced to $\Ec$. % <!-- V3:106-118 ; V3:178-195 -->
+\item \emph{Charges and donors.} A uniform front fixed charge $\Qf$ at $y = 0$ carries the alignment offset
+$\Delta V_0$; it is degenerate with the gate work function and the bulk affinity, which are therefore held fixed.
+The donor density is constant: the fitted V1 amplitude is kept, and the constant form is \prov{ASSUMED}. % <!-- CD:50 ; CD:116 ; V3:119-130 -->
+\item \emph{Mobility.} A constant band mobility per film from one shared Matthiessen law,
+$\muband(t) = \mu_\infty\,(0.208\,m_0/\mstar(t))/(1+\ell/t)$, multiplied by the roughness factor $(1-\Dsr/t)^2$ with
+$\Dsr = \SI{0.287}{nm}$ from the source paper. % <!-- V3:131-153 -->
+\end{itemize}
+Models switched off, each with a stated reason, are field-dependent mobility, the silicon low-field and inversion-layer
+mobility laws, band-to-band tunnelling, Coulombic trap barrier lowering, lumped contact resistance, a back-surface
+charge sheet and the density-gradient model. % <!-- CD:129-137 -->
+Branches tested once and adopted only by a pre-registered rule are the IGZO.TOKYO carrier-density mobility, Schottky
+Pd contacts with a shared barrier from $\{0.2, 0.5\}$~eV, and a Bohm-potential pair test at \SI{2.0}{nm}. % <!-- CD:118-120 ; CD:308-321 -->
+
+\begin{table}[htbp]\centering\footnotesize
+\caption{Campaign model V3. Values at 2.0 / 6.3 / \SI{13.2}{nm}. Fitted values are the S4 start values; they are not
+calibration results. Labels follow the claims-ledger vocabulary.}
+\label{tab:m-tcad-params}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{4.6cm}@{}}
+\toprule
+Parameter & Value & Label and basis \\
+\midrule
+Bulk gap, affinity & 3.05~eV; 4.3~eV & \prov{LITERATURE} (another sputtered IWO device) \\ % <!-- V3:27-37 -->
+Bulk mass & $0.208\,m_0$ & \prov{LITERATURE} (optical Hall, \InO{}) \\ % <!-- V3:38-42 -->
+$\dEc(t)$ & $0.70147\,t^{-1.31669}$~eV: 0.2816 / 0.0622 / 0.0235~eV & \prov{FITTED} to \prov{COMPUTED} DFT points \\ % <!-- V3:155-159 -->
+$\Delta E_g(t)$ & $0.81431\,t^{-1.31518}$~eV & \prov{FITTED} to \prov{COMPUTED} DFT points \\ % <!-- V3:60-63 -->
+$\mstar(t)$ & $0.208 + 0.11116\,t^{-1.26387}$: 0.2543 / 0.2189 / 0.2123~$m_0$ & \prov{LITERATURE} + \prov{FITTED} increment \\ % <!-- V3:84-89 -->
+$\Nc$ (\SI{300}{K}) & $1.373\times10^{19}$ (quasi-2D) at \SI{2.0}{nm}; 3-D formula otherwise & \prov{CALCULATED} \\ % <!-- V3:98-105 -->
+Tail $N_s$, $\WTA$ & $4\times10^{12}$\cmsq{}, \SI{40}{meV} (start) & \prov{FITTED} shared (S4) \\ % <!-- V3:106-116 -->
+Deep acceptor Gaussian & $5\times10^{16}$~cm$^{-3}$\,eV$^{-1}$ at $\Ec - 0.6$~eV, width 0.15~eV & \prov{ASSUMED}; zero in S6 \\ % <!-- V3:178-182 -->
+Interface acceptor sheet & $3\times10^{11}$~cm$^{-2}$\,eV$^{-1}$ at $\Ec - 0.3$~eV, width 0.12~eV & \prov{ASSUMED}; zero in S6 \\ % <!-- V3:189-195 -->
+Donors $\Nd$ & $2.5\times10^{17}$\cmcu{}, constant & \prov{FITTED} (V1 amplitude, kept); form \prov{ASSUMED} \\ % <!-- V3:119-128 -->
+Front charge $\Qf$ & $1.38345\times10^{12}$\cmsq{} (start) & \prov{FITTED} shared, profiled \\ % <!-- V3:196-199 -->
+Mobility law & $\mu_\infty = 100.0$\cmVs{}, $\ell = 7.25$~nm (start) & \prov{FITTED} shared, profiled \\ % <!-- V3:147-153 ; CD:178-179 -->
+Capture cross-sections, SRH lifetime & $10^{-15}$~cm$^2$; $10^{-6}$~s & \prov{ASSUMED} \\ % <!-- V3:176-177 ; V3:54-57 -->
+Valence-band DOS, hole mobility & $10^{19}$\cmcu{}; 0.01\cmVs{} & \prov{ASSUMED} (holes not solved) \\ % <!-- V3:47-53 -->
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{Model history: per-film calibration and the registered held-out test}
+\label{sec:m-tcad-history}
+
+Model V1 was calibrated per film: $\Qf$ to the constant-current threshold and the band mobility to $\Ion$, with the
+tail width fitted on the \SI{2.0}{nm} subthreshold region (\prov{FITTED}). % <!-- CS:141-148 -->
+Model V2 replaced the literature confinement laws by our DFT laws. Its pass/fail criteria were committed before the
+launches (commit \texttt{7b75ee6}); one error in the registered transformation was corrected and published
+(\texttt{a914165}) before the held-out outcome existed, and both versions were scored (\texttt{852dc8a}). % <!-- CS:164 ; V2TEX:43-50 -->
+The held-out \SI{6.3}{nm} threshold prediction failed in both variants (predicted $\Vthcc$ 0.270 and 0.417~V against
+0.644~V measured), as did the earlier shared-parameter V1 test (claim C014, \prov{FALSIFIED}). % <!-- LEDGER:80-84 ; CS:173-178 -->
+The V2 off-state strip, a gate-independent parallel conductance with one geometric factor fitted on \SI{13.2}{nm}, is
+a \prov{HYPOTHESIS} (claim C006). % <!-- LEDGER:34-38 ; V2TEX:137-145 -->
+V1 and V2 enter this paper only as the documented starting point of the campaign below.
+
+\subsubsection{Extraction protocol}
+\label{sec:m-tcad-extraction}
+
+Threshold, subthreshold swing and mobility are extracted by one code path for measured and simulated curves, under a
+protocol written and committed (\texttt{7a61687}) before any measured-versus-TCAD number was computed. % <!-- PROT:3 ; CS:86 ; DLOG:16 -->
+\begin{itemize}
+\item \emph{Threshold (primary).} $\Vthcc$ is $\Vg$ at $\Id = \SI{1e-9}{\Aum}$, by log-linear interpolation at the
+last upward crossing below +3~V; \SI{5e-10}{\Aum} is also reported. % <!-- PROT:32 -->
+\item \emph{Subthreshold swing (registered window).} One decade between $5\times10^{-11}$ and \SI{5e-10}{\Aum},
+admissible when the lower edge is at least ten times the floor; otherwise a floor-corrected value is primary, which
+assumes an additive, gate-independent parallel current. % <!-- PROT:38-43 -->
+\item \emph{Amendment A1 (secondary window).} Because the films differ in current scale, a window normalised by each
+film's measured on-current, $[r, 10r]\times\Ion$ with $r = 10\times\max_t(\mathrm{floor}/\Ion) = 2.15\times10^{-5}$,
+was added (commit \texttt{7ce7116}) after the measured values under the registered rule had been computed and before
+any simulated value under the new rule existed; the disclosure is part of the amendment. % <!-- PROT:80-98 ; A1R:3 ; CS:87 -->
+\item \emph{Mobility.} $\muFE = L\,\gm/(W\Cox\Vd)$ from central-difference $\gm$, reported at 1.0--3.0~V; it equals a
+carrier mobility only where $\Vg - V_T \ge \Vd$ and the mobility is gate independent, and is otherwise a normalised
+transconductance. A gradual-channel power-law fit $\mu = \mu_0 (u/1\,\mathrm{V})^\gamma$ over 1.0--3.0~V gives a
+model-based channel mobility. % <!-- PROT:50-58 -->
+\item \emph{Uncertainties and comparison.} Measurement noise from local quadratic residuals, interpolation-method
+differences and the TCAD numerical budget are combined in quadrature; a difference is ``consistent'' if it is within
+$2\sigma$. $\Cox$, the charge-centroid ratio $C_{\mathrm{eff}}/\Cox = 0.87$, contact resistance and device-to-device
+spread are stated separately and not included. % <!-- PROT:63-78 -->
+\end{itemize}
+The source paper's peak mobilities are reproduced numerically on our curves by the peak of the saturation-formula
+mobility (claim C030, \prov{DERIVED}); that this is the paper's method is only the leading candidate (C031,
+\prov{INFERRED}), and the paper's near-thermal swing at \SI{2}{nm} remains \prov{UNRESOLVED} (C025). We report our
+definitions throughout. % <!-- LEDGER:178-191 ; LEDGER:146-152 -->
+The \SI{13.2}{nm} swing mismatch is reported as a finding; no window or floor treatment was chosen to remove it
+(decision D-06). % <!-- DLOG:17 -->
+\pdPending{P03}{CHECK PENDING: the fabrication group's mobility and SS recipe (formula, $\Cox$, $W/L$, current
+normalisation, sweep provenance); claims C024, C025, C031}.
+
+\subsubsection{Campaign design}
+\label{sec:m-tcad-campaign}
+
+The campaign (C10) was designed before its first launch from three independent inputs (the DFT-to-TCAD extraction, an
+audit of the deck generator and ATLAS 5.28, and an independent design by Codex), merged, and reviewed read-only by
+Codex. % <!-- CD:3-10 -->
+Its budget was 200 sequential launches (decision D-13). % <!-- DLOG:23 ; CD:39-41 -->
+\begin{itemize}
+\item \emph{Shared fitted parameters.} Five values for all three films: $\Delta V_0$ (written as one $\Qf$), $\mu_\infty$,
+$\ell$, $N_s$ and $\WTA$, plus a sixth only if a mobility branch is adopted. No per-film charge or mobility exists. % <!-- CD:24-27 -->
+\item \emph{Exact profiling.} A uniform front charge shifts a transfer curve rigidly, and with a constant (or
+IGZO-type) mobility the current is proportional to \texttt{MUN}; both hold in the continuum equations up to the
+generation term, bounded at \SI{1e-28}{\Aum} against currents of at least \SI{1e-15}{\Aum} (\prov{CALCULATED}). % <!-- CD:228-233 -->
+$\Delta V_0$, $\mu_\infty$ and $\ell$ are
+therefore profiled offline on each launched film triple, without extrapolation beyond the solved $\Vg$ range, and every
+optimum is confirmed natively within \SI{0.01}{dec}. % <!-- CD:28-32 ; CD:225-243 -->
+\item \emph{Objective.} $J = \tfrac13\sum_t (\mathrm{RMSE}^2_{\mathrm{sub},t} + \mathrm{RMSE}^2_{\mathrm{on},t})/2$,
+with log residuals over the measured subthreshold range from ten times the floor to \SI{1e-9}{\Aum} and over
+$\Vg = 1$--3~V; no film is weighted by current or point count. % <!-- CD:215-223 -->
+\item \emph{Acceptance} (\prov{ASSUMED} engineering limits, not confidence intervals). Per film: active log-RMSE
+$\le \SI{0.15}{dec}$, $|\Delta\Vthcc| \le \SI{0.10}{V}$, $\Id(3\,\mathrm{V})$ within $\pm30\,\%$, SS in the A1 window
+within $\pm20\,\%$, $\muFE$ at 1.5, 2 and 3~V within $\pm20\,\%$. Success on all three films is still called
+calibration. % <!-- CD:246-255 -->
+\item \emph{Identifiability.} A scaled residual Jacobian from the calibration archive; a condition number above 100 or
+$|\mathrm{corr}| > 0.95$ (\prov{ASSUMED}) means only a parameter combination is reported. % <!-- CD:257-261 -->
+\item \emph{Stages.} S0 smoke (2 launches), S1 baselines and numerics (7), S2 off-floor mechanisms (17), S3 model-form
+branches (27), S4 calibration (45 space-filling + 18 adaptive + 3 native confirmation + 3 runner-up), S5
+leave-one-film-out (30, retrospective), S6 sensitivities and frozen predictions (27), S7 \SI{31.8}{nm} stress (2),
+reserve ($\le 19$). % <!-- CD:269-282 -->
+\item \emph{Stop rules.} Among them: if the best $\sqrt J$ after S4a exceeds \SI{0.30}{dec} with systematic residuals,
+the shared model is reported as failed and no per-film rescue parameter is introduced; a held-out film that fails the
+acceptance falsifies transferability of the model form and is not repaired. % <!-- CD:324-338 -->
+\end{itemize}
+
+\paragraph{Off-state floor tests.} Gate leakage is computed in the solver with self-consistent tunnelling
+(\texttt{QTNLSC.EL}), a second Fowler--Nordheim formulation (\texttt{FNORD}) and defect-assisted oxide tunnelling
+(\texttt{ITAT.SC.EL}); generation is bounded with extreme SRH and trap-assisted tunnelling in two-carrier runs; and an
+ungated IWO strip is simulated as a separate deck. % <!-- CD:34-38 ; CD:121-128 -->
+Two oxide parameter sets are used: a nominal set from the literature (\HfO{}/\AlO{} affinities 2.5/1.25~eV, gaps
+5.8/8.8~eV, tunnelling masses \prov{ASSUMED} inside literature ranges) and a deliberately leakage-maximising set
+(TiN/\HfO{} barrier 1.5~eV, \prov{ASSUMED}), which is an optimistic scenario, not a rigorous upper bound. % <!-- CD:200-206 ; CD:82 ; CD:376 ; PHYS:58-78 -->
+Because \texttt{FNORD} evaluates the field in the \AlO{} at the semiconductor interface, the \HfO{}-barrier constants
+are transferred to that field ($r = \varepsilon_{\mathrm{HfO_2}}/\varepsilon_{\mathrm{Al_2O_3}} = 2.174$). % <!-- CD:81 ; PHYS:34-40 -->
+\pdPending{P04}{CITATION PENDING: oxide band parameters (Robertson 2000, J. Vac. Sci. Technol. B 18, 1785, as cited in
+the campaign design), tunnelling-mass sources, Lenzlinger--Snow constants, Ielmini trap-assisted tunnelling,
+IGZO.TOKYO (Abe 2014); not yet in the bibliography}.
+A mechanism explains a film's floor only if at least 80\,\% of the window points are valid, its own contribution
+(against a matched control) lies within \SI{0.5}{dec} of the floor, its slope is within twice the measured slope plus
+$2\sigma$, and the current balance passes; it explains the thickness scaling only if the three films agree within
+\SI{0.5}{dec}. At \SI{2.0}{nm} an under-prediction does not falsify a mechanism, because that floor may be
+instrument-limited. % <!-- CD:358-371 -->
+
+\subsubsection{Pre-registered TCAD predictions}
+\label{sec:m-tcad-register}
+
+Before any S2 launch, the hypothesis register (\cref{sec:m-reg}) froze which launches score which hypothesis, the
+predictions, the stop rules and the calibration membership. % <!-- REG:1089-1095 ; DLOG:28 -->
+\Cref{tab:m-tcad-reg} summarises the registered TCAD predictions; every one is scored and reported whatever the
+outcome. The diagnostic set comprises 26 launches, with the oxide-mesh check S2-11 first. % <!-- REG:1031-1045 ; REG:1054-1064 -->
+
+\begin{table}[htbp]\centering\footnotesize
+\caption{Registered TCAD predictions (register revision 2 and its amendments). Every threshold is an \prov{ASSUMED}
+decision threshold. Outcomes are not part of this draft.}
+\label{tab:m-tcad-reg}
+\begin{tabularx}{\linewidth}{@{}l>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{3.4cm}@{}}
+\toprule
+ID & Registered prediction & Outcome \\
+\midrule
+H-B & Strip $I(0.7\,\mathrm{V})/I(0.1\,\mathrm{V}) = 7.0\pm0.5$; with $(W/L)_{\mathrm{par}}$ fitted on \SI{13.2}{nm} only, the floors at 6.3 and \SI{2.0}{nm} within \SI{0.5}{dec} of the measured ones & \pdPending{P05}{RESULT PENDING: S2-14..S2-17, STRIP-6p3} \\ % <!-- REG:126-131 -->
+H-C & Nominal leakage at $-3$~V $\le 10^{-2}\times$ floor (only with a demonstrated ceiling below that bound); extreme generation $\le \SI{1e-20}{\Aum}$ or below resolution; worst-case leakage fails flatness or thickness scaling; resolved leakage changes by $\le\SI{0.1}{dec}$ under the S2-11 oxide-mesh refinement & \pdPending{P06}{RESULT PENDING: S2-11 (sealed), S2-01..S2-13} \\ % <!-- REG:139-151 -->
+H-D & Band-mobility ratio \SI{2.0}{nm}/\SI{13.2}{nm}: mass-only 0.75--0.95 (reported ``unresolved: not computed'', A22); scattering branch 0.20--0.35 with $\ell = 4$--\SI{12}{nm} (crystalline mass inputs) & \pdPending{P07}{RESULT PENDING: S4, native triples} \\ % <!-- REG:164-176 -->
+H-E & All confinement inputs off: $\Delta\Vthcc = -0.13\pm0.03$~V at \SI{2.0}{nm} (A13; the original $-0.23\pm0.04$~V is also scored), $-0.062\pm0.015$~V at 6.3, $-0.023\pm0.008$~V at \SI{13.2}{nm}; S3-01 $-$ S1-05 $= -0.272\pm0.010$~V; affinity-only shifts $-281.6\pm5$ and $-62.2\pm5$~mV, rigid within \SI{5}{mV} & \pdPending{P08}{RESULT PENDING: S3-01..S3-03, AFF-2p0, AFF-6p3} \\ % <!-- REG:184-204 -->
+H-F & Two-film reference: \SI{6.3}{nm} needs a rigid shift of $+0.28\pm0.08$~V and a current scale of 0.15--0.35; baseline shape RMSE $> \SI{0.15}{dec}$ & \pdPending{P09}{RESULT PENDING: S3-10..S3-13, S3-27; H-F scoring not yet frozen} \\ % <!-- REG:243-247 ; S2PREP:167-173 -->
+H-J & Every film: RMSE $\le\SI{0.15}{dec}$, $\Vth$ within $\pm0.10$~V, $\Ion$ within $\pm30\,\%$, SS and $\muFE$ within $\pm20\,\%$; any failure falsifies transfer & \pdPending{P10}{RESULT PENDING: S4a, S4c, S5} \\ % <!-- REG:286-293 -->
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{Scoring and the resolution method}
+\label{sec:m-tcad-scoring}
+
+All registered TCAD scores come from one frozen scorer (\file{score_register.py}, sha256 \texttt{c0f28bb9}\ldots
+\texttt{b55a}; self-test 90/90). % <!-- S2FIX:349 ; S2GATE:222 ; S2GATE:243 -->
+It applies the register's censoring rule: a quantity below the demonstrated numerical resolution is reported as
+\emph{below resolution}, counts as consistent with an upper bound only if that resolution is itself below the bound, and
+is otherwise \emph{unresolved}, never a pass. % <!-- REG:16-20 -->
+The register does not define ``demonstrated resolution''. The scorer therefore uses an operational method, which we
+label \prov{ASSUMED}:
+\begin{itemize}
+\item a resolution is demonstrated only by a pair of two distinct completed runs that differ by one verified numerical
+intervention (trap-DOS levels, global mesh factor, or oxide $y$-mesh factor), checked against the actual deck values
+and recomputed from the run files, which are bound by sha256, at every use; % <!-- S2FIX:20 ; S2FIX:150 -->
+\item the pair must agree at least at three points above the candidate resolution, one of them within one decade, over
+the full bias range, with a deck-ratio tolerance of $10^{-3}$; % <!-- S2FIX:162-170 -->
+\item a resolution applies only to its own quantity, film, physical settings, bias range and numerical endpoint; it is
+never transferred between films, and for an upper-bound test the pair may not contain a tested run; % <!-- S2FIX:156-160 ; S2FIX:273 -->
+\item a verdict computed with the runner's current-balance limit as a proxy is labelled \emph{provisional} and can
+never pass an upper bound. % <!-- S2PREP:122 ; S2FIX:23 -->
+\end{itemize}
+Pair agreement establishes numerical stability under the tested intervention, not an absolute error bound. The
+one-decade support value was chosen knowing the two numerical pairs already seen in S1; it is prospective for S2 only. % <!-- S2FIX:288-291 ; S2FIX:167 -->
+With the current run plan, almost every primary S2 and affinity-only verdict will therefore be provisional or
+unresolved. % <!-- S2FIX:238-247 -->
+\pdPending{P11}{DECISION PENDING: the user's sign-off of the resolution method as a logged amendment, required before
+the S2-11 outputs are unsealed}. % <!-- S2FIX:129 ; S2GATE:248 -->
+\pdPending{P12}{DECISION PENDING: whether to add matched numerical refinement runs (a logged plan change) so that
+primary S2 verdicts can become demonstrated}. % <!-- S2FIX:247 -->
+The \SI{6.3}{nm} shape-residual hypothesis (H-F) has no frozen operational scoring yet; its five launches are held. % <!-- S2PREP:137 ; S2PREP:167-173 -->
+The oxide trap-assisted tunnelling runs (S2-12, S2-13) cannot count as converged without a further logged amendment
+(for example a \texttt{TAT.SLICEPTS} sensitivity launch), because the S2-11 verdict covers \texttt{QTNLSC} only. % <!-- S2PREP:164 -->
+
+\subsubsection{Execution controls, sealing and protocol deviations}
+\label{sec:m-tcad-controls}
+
+The campaign runner enforces the budget cap, sequential execution and refusal of held plans in code. % <!-- CD:288-289 ; S2PREP:37 -->
+For the diagnostic stage, executable stop gates evaluate the frozen leakage and generation scorers in an isolated
+process and expose only a state (fired, not fired, unresolved); every gate decision is bound by sha256 to its
+declaration, the scorer, the scored run files and the cited evidence, and an unresolved or fired gate stops the plan
+until an audit file citing that decision is supplied. % <!-- S2GATE:32-60 ; S2GATE:186-207 -->
+A state-only mode keeps metrics, error texts and launch output in a sealed side record, so that run status can be
+followed without exposing results; timeout clean-up terminates only identified processes of the launch and never the
+licence daemons. % <!-- S2GATE:112-123 ; S2GATE:82-88 ; S2GATE:186-191 -->
+\pdPending{P13}{CHECK PENDING: the runner revision 3 (stop gates, sealing, clean-up) was uncommitted and DIAG not
+launched as of S2\_RUNNER\_GATES\_2026-10-13.md; record the commit and the Codex verdict}. % <!-- S2GATE:3 -->
+
+The following deviations are disclosed.
+\begin{itemize}
+\item The smoke run S0-02 needed six launches against a cap of three repairs. % <!-- REG:39 -->
+\item The regression gate read five unexpected differences while runs \run{0067} to \run{0074} were launched, against
+the rule that it must read zero; the five were reclassified as known after line-by-line verification on 2026-10-11
+(review item R23). % <!-- S2PREP:82 -->
+\item The registered S1-05 expectation ($+40$ to $+70$~mV) failed ($+142$~mV) and stays recorded as a failure; the
+\SI{2.0}{nm} confinement band was re-registered after S1 had been seen and before any S3 run, and both bands are scored
+(A13). % <!-- REG:31 ; REG:184-190 ; REG:211-212 -->
+\item The two-carrier check S1-06 timed out and is unresolved. % <!-- REG:32 -->
+\item S2-11 (\run{0075}) has been launched; its outputs are sealed and were not opened for this draft. Its eligibility
+under the timeout rule and its ``possibly exposed'' label await rulings. % <!-- S2GATE:11-16 ; S2GATE:123 ; S2GATE:212 ; S2GATE:249 -->
+\pdPending{P14}{DECISION PENDING: run\_0075 rulings (timeout eligibility, ``possibly exposed'' label) and the
+unsealing of S2-11}.
+\end{itemize}
+
+\subsubsection{Launch accounting}
+\label{sec:m-tcad-launches}
+
+Every launch counts, failures included. % <!-- CD:287 -->
+\Cref{tab:m-tcad-launches} gives the accounting as recorded.
+
+\begin{table}[htbp]\centering\footnotesize
+\caption{ATLAS launch accounting (global counter and the C10 campaign counter).}
+\label{tab:m-tcad-launches}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{4.6cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Stage & Launches \\
+\midrule
+V1 report (2026-09-25) & 52 recorded launches \\ % <!-- MAIN:13 ; MAIN:35 -->
+Before the campaign (2026-10-07) & 60 of 71 approved \\ % <!-- CS:1 ; CS:276 -->
+Campaign approval (D-13) & 200 more; global cap 260 $= 60 + 200$, enforced in code \\ % <!-- DLOG:23 ; SOLV:18 -->
+At the register freeze & 14 C10 launches used (\run{0061}--\run{0074}), 186 remaining \\ % <!-- REG:38 -->
+As of 2026-10-13 & 75 of 260 global; 15 of 200 C10 (including S2-11, \run{0075}) \\ % <!-- S2GATE:1 ; S2GATE:9 -->
+Planned diagnostic set & 26 launches; C10 use 40 of 200 at its end \\ % <!-- REG:1038 ; S2PREP:141 -->
+Projected total & about 110--140 launches \\ % <!-- REG:1066 -->
+Final count & \pdPending{P15}{RESULT PENDING: final launch count and status of every launch} \\
+\bottomrule
+\end{tabularx}
+\end{table}

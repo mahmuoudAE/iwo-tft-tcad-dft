@@ -1,0 +1,5 @@
+Local CPU HSE06 benchmark (2026-10-11T00:00Z, i7-12700H, WSL Ubuntu-22.04, QE 7.5 conda, 8 MPI ranks -nk 2, OMP 1).
+Input = qe_workflow/cern_htcondor/results/nc_hse_bulk_f160_e80/scf.in (40-atom In2O3, SG15 80 Ry, q=1, ecutfock 160), tstress off.
+Stopped by hand after the second EXX initialisation (memory 15/15.8 GB, 2 GB swap, no active paging).
+PBE converged 518.1 s (GPU H100 14.1 s); first EXX cycle 518.1->1926.7 s = 1409 s (GPU 34.2 s); dexx + 2nd ACE init 1926.7->2852.1 s = 925 s.
+First EXX-iteration energy -2430.30223556 Ry (GPU -2430.30223315 Ry).

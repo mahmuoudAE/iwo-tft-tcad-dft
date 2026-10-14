@@ -1,0 +1,97 @@
+% ===================================================================
+% limitations.tex -- Limitations of the computational study (data, device model, first-principles calculations,
+% procedure). Draft 2026-10-13 (Claude), for human review; no claim here is approved for a manuscript (charter section 9).
+% ASCII only. Every number carries a source comment  % <!-- KEY:line -->  (file:line). KEY legend:
+%   PRIV    = iwo-tft-research-private/                     PKG    = IWO_PHYSICS_CONSTRAINED_MODEL_V1/
+%   CHARTER = PRIV/00_PROJECT_CHARTER.md                    CS     = PRIV/01_CURRENT_STATE.md
+%   LEDGER  = PRIV/03_CLAIMS_LEDGER.yaml                    DLOG   = PRIV/05_DECISION_LOG.md
+%   REG     = PRIV/codex/work_chat/HYPOTHESIS_REGISTER.md   SLAB   = PRIV/compute/amorph/SLAB_PROTOCOL.md
+%   MLV     = PRIV/claude/plans/ML_VALIDATION.md            V3     = PKG/config/iwo_material_model_v3.yaml
+%   CD      = PKG/analysis_2026-10-10_campaign/CAMPAIGN_DESIGN.md
+%   S2PREP  = PKG/analysis_2026-10-10_campaign/S2_PREP.md   S2FIX  = PKG/analysis_2026-10-10_campaign/S2_SCORER_FIXES_2026-10-12.md
+%   V2TEX   = PKG/report_latex_full/chapters/14_model_v2.tex
+% ===================================================================
+\label{sec:limitations}
+
+\paragraph{Measured data.}
+\begin{itemize}
+\item One device per thickness, one drain bias (\SI{0.7}{V}), no gate current and no reverse sweep: device-to-device
+spread cannot be quoted, and no thickness trend can be separated from it. % <!-- LEDGER:5-9 ; LEDGER:26 -->
+\item The thicknesses are nominal, and whether the devices come from one fabrication run, and their sweep history,
+are unknown. % <!-- CS:253-254 -->
+\item The \SI{2.0}{nm} off-state floor (\SI{1.3}{pA} in total) is at the level of the measurement set-up. % <!-- LEDGER:20 -->
+\item The \SI{31.8}{nm} device never turns off; it is a documented model failure and not a holdout. % <!-- LEDGER:172-176 ; CS:245-246 -->
+\item The source paper's mobility and near-thermal swing differ from ours on the same curves; a definition difference
+reconciles the mobility numerically but the paper's recipe is unconfirmed (claims C024, C025 \prov{UNRESOLVED}). % <!-- LEDGER:138-152 -->
+\item No new measurements were possible (decision D-11). The measurement that separates an ohmic parallel strip
+(floor $\times7$ from 0.1 to \SI{0.7}{V}) from a diffusion form ($\times1.02$) could not be made, so the TCAD floor
+tests bound and rank mechanisms only within the model. % <!-- DLOG:22 ; CS:219-220 ; CD:395 -->
+\item Which oxide touches the channel is not confirmed by the fabrication group; the model places \AlO{} against the
+channel. % <!-- CS:241 ; SLAB:68-70 -->
+\item Every comparison with device data is retrospective; leave-one-film-out tests measure transferability within four
+already-seen devices, not independent prediction. % <!-- REG:37 ; CD:501 -->
+\end{itemize}
+
+\paragraph{Device model.}
+\begin{itemize}
+\item The parameters are not unique: work function, affinity, fixed charge and conduction-band shift act as one number,
+the band mobility trades off against the tail density, and series resistance against the mobility exponent (claim
+C018). Confinement is physically expected but cannot be identified from transfer curves. % <!-- LEDGER:104-107 ; LEDGER:118 ; CS:153-155 -->
+\item Every out-of-sample test of the \SI{6.3}{nm} threshold has failed (claim C014, \prov{FALSIFIED}); the earlier
+models are calibrated descriptions, not predictive models of the thickness dependence. % <!-- LEDGER:80-84 ; V2TEX:334-335 -->
+\item The earlier calibrated model did not reproduce the gate-voltage dependence of $\muFE$ at 2.0 and \SI{6.3}{nm}, and
+its \SI{13.2}{nm} swing is too large (claims C012, C010). % <!-- LEDGER:57-61 ; LEDGER:69-72 -->
+\item The quasi-two-dimensional density of states at \SI{2.0}{nm} is a substitution inside the 3-D Fermi--Dirac form; it
+overstates the degenerate on-state density by up to $1.7\times$, and the on-current at \SI{3}{V} by an inferred
+7--8\,\%. The density-of-states convention cannot be told apart from fixed charge, tail density and Gaussian depth in
+subthreshold data. % <!-- CD:111 ; REG:226-228 -->
+\item The rigid-shift interpretation of the confinement tests holds only because trap levels follow $\Ec$ in the model
+(\prov{ASSUMED}). % <!-- REG:206 -->
+\item The DFT laws are extrapolated beyond \SI{2}{nm}, the HSE06/PBE ratio was measured at \SI{1}{nm} only, and the
+device thickness is identified with the slab H--H thickness (\prov{ASSUMED}). % <!-- CD:151 ; V3:76 -->
+\item Contacts are ideal Ohmic and unconstrained (no transfer-length data); the solution is electron-only; the donor
+density is constant by assumption. % <!-- V3:209-211 ; V3:124-125 -->
+\item The leakage-maximising oxide set is an optimistic scenario, not a bound: pinholes, local thinning and percolation
+paths are not modelled. The oxide trap-assisted tunnelling runs are not convergence-qualified. % <!-- CD:376 ; REG:157 ; S2PREP:164 -->
+\item The numerical-resolution method of the scorer is an \prov{ASSUMED} operational method; with the current run plan
+most primary leakage and affinity-only verdicts will be provisional or unresolved. % <!-- S2FIX:238-247 ; S2FIX:288-291 -->
+\end{itemize}
+
+\paragraph{First-principles calculations.}
+\begin{itemize}
+\item PBE without a Hubbard correction, spin-unpolarised and neutral cells: the results can show consistency with
+donor behaviour, not full ionisation or charge-transition levels. Hybrid functionals enter only as checks, and HSE06
+itself underestimates the \InO{} gap. % <!-- REG:260-262 ; REG:585 ; REG:544 -->
+\item The absolute gap is anchored to a measurement on a different sputtered IWO device. % <!-- REG:541 -->
+\item The machine-learned structures failed the pre-registered force check on the W first shell and are DFT starting
+points, not validated amorphous models (claim C037). % <!-- LEDGER:228-233 -->
+\item One melt--quench sample per structure (two at \SI{2.0}{nm}); two seeds give diagnostic variability, not a
+confidence interval, and a difference smaller than the gap between the two \SI{2.0}{nm} samples is not a result.
+Force agreement on a few snapshots would not show that the ensemble represents sputtered films. % <!-- MLV:35-36 ; REG:282 -->
+\item Small cells: W images at least \SI{12.5}{\angstrom} apart are only partly controlled, and one excess electron per W
+gives about $6\times10^{20}$\cmcu{}, far above the channel carrier density. % <!-- REG:622 ; SLAB:126 -->
+\item One state per DFT cell corresponds to about $6\times10^{13}$\cmsq{}, so the fitted fixed charge and interface
+trap density of the device model cannot be tested by DFT. % <!-- REG:40 -->
+\item Mixed relaxation-smearing families in the W series; a provisional final-SCF width without an electron-affinity
+comparison; restart non-reproducibility at production tolerance in one cell (claim C036). % <!-- REG:939-943 ; REG:1025 ; REG:670 ; LEDGER:221-226 -->
+\item Deadline effects: relaxations not converged at the cutoff are exploratory; the \SI{1.5}{nm} cells were cut, the
+\SI{2.0}{nm} \AlO{} interface cell was stopped and the \SI{2.0}{nm} bare control parked, so H-I is expected to be
+unresolved and H-H unresolved at \SI{2.0}{nm}. % <!-- REG:1076 ; DLOG:46 ; REG:823-827 -->
+\item H-N is exploratory, and its \SI{2.0}{nm} endpoint is unresolved without a certified C4 polish of both seeds. % <!-- DLOG:39 ; REG:1016-1018 -->
+\item The amorphous effective-mass workflow was descoped, so the mass-only mobility prediction is not computed. % <!-- REG:170-171 -->
+\item The \HfO{} cell is one seed with a different oxide and bonding; it cannot establish the stack order, and its
+oxide density and possible partial crystallisation are assumptions to be checked by the registered flags. % <!-- REG:391-397 ; SLAB:141 ; SLAB:185 -->
+\item The sub-nanometre crystalline slab results depend on the termination recipe and are preliminary (claim C021). % <!-- LEDGER:120-124 -->
+\item Fixed-geometry hybrid results support electronic robustness only; equilibrium self-trapping would need a
+structural qualification, which is not claimed. % <!-- REG:452 -->
+\end{itemize}
+
+\paragraph{Procedure.}
+\begin{itemize}
+\item Partial electronic unblinding of four \SI{2.0}{nm} cells (A36 erratum) and a procedural post-hoc disclosure (A35)
+are part of the record (\cref{sec:m-reg-sight}). % <!-- REG:1027 ; REG:950-959 -->
+\item TCAD protocol deviations: the S0-02 repair cap and launches while the regression gate was red. % <!-- REG:39 ; S2PREP:82 -->
+\item AI reviewers share training priors and can share blind spots; holdout custody, external timestamps and human
+judgement are the real safeguards. In this work there is no holdout and the external timestamp is pending. % <!-- CHARTER:84-85 -->
+\pdPending{P31}{TEXT PENDING: final wording once the external timestamp (P27) and the charter adoption (P26) are settled}.
+\end{itemize}

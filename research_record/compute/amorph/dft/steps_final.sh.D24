@@ -1,0 +1,490 @@
+# steps() for the DAG node FINAL, sourced by driver.sh (JOB=final): final SCF on the relaxed geometry, planar-averaged
+# potential, projwfc, then the register A14/A16 export (D-24, staging v2 of 2026-10-11, after the verification of v1).
+# driver.sh and qeio.py are unchanged. common/final_node.sh.D24 gives the node exit 0 only for a converged final SCF.
+# Everything below runs on the worker with the python of the QE environment (standard library only).
+#   AFS: final_results.tar.gz (driver.sh packs *.out *.in *.tmpl *.dat *.log steps.sh pdos/*): inputs, logs, scf.out
+#     (verbosity 'high': occupations), the planar average, pdos_tot and these tables, which carry the A16 analysis
+#     without EOS:
+#       occ_kw_final.dat          eigenvalues, f_nk and normalised k-weights w_k (spin factor 2 included)
+#       projwfc_map_final.dat     projwfc state -> atom, species, wfc, l, m
+#       projwfc_states_final.dat  per-state energy and completeness, from projwfc.out and from atomic_proj.xml
+#       proj_atoms_final.dat      (v2) every band at every k: the unnormalised Loewdin weight of every atom (its orbitals
+#                                 summed) and the l = 2 (5d) weight of every W atom, from atomic_proj.xml, in units of
+#                                 1e-6, with f_nk, w_k, completeness and PR_n (A16 atom domain: all atoms, H included)
+#       pdos_species_final.dat, export_checks_final.dat, lineage_final.dat, export_manifest_final.dat and
+#       projwfc_final_summary.out (projwfc.out without the per-state component lines)
+#   EOS: $EXPORT_EOS/<name>/final_<ClusterId>/ with a sha256 MANIFEST: atomic_proj.xml.gz (complex projections, every
+#     orbital), data-file-schema.xml.gz, projwfc_final.out.gz, pdos_atoms.tar.gz, final_small.tar.gz (the AFS set) and,
+#     for the 2.0 nm cells, save_nowfc.tar.gz (charge density + XML + pseudopotentials, no wavefunctions).
+#   EOS access. Running jobs lose their Kerberos ticket after ~25 h (2026-10-03), so the in-job copy can fail on long
+#   finals. (v2) Before pw.x the job writes one small file to its EOS directory (exp/EOS_PROBE, lineage_final.dat,
+#   driver log), so a stale credential shows minutes after condor_release. Every EOS call has a timeout; after a
+#   timeout, or past the driver deadline, the remaining in-job copies are skipped. Files not copied are listed in
+#   exp/EXPORT_PENDING and the job waits (at most EXPORT_WAIT_S, never past the driver deadline + 1 h) for
+#   common/export_pull.sh on lxplus, which copies them through condor_ssh_to_job, checks their sha256 and answers with
+#   exp/EXPORT_PULLED. Without a pull the per-atom PDOS and the full projwfc output stay in the AFS tarball next to
+#   proj_atoms_final.dat; the complex projections and the charge density are then lost, and the first lines of
+#   export_manifest_final.dat say so ('# export INCOMPLETE: ...', '# LOST with the sandbox: ...').
+EXPORT_EOS=${EXPORT_EOS:-/eos/user/m/melrashe/qe/exports}
+EXPORT_RHO_RE=${EXPORT_RHO_RE:-_2p0(_|$)}     # run names whose save (charge density) is exported: the 2.0 nm cells
+EXPORT_WAIT_S=${EXPORT_WAIT_S:-21600}
+EXPORT_RETRY_SLEEP=${EXPORT_RETRY_SLEEP:-30}
+EXPORT_IO_TIMEOUT=${EXPORT_IO_TIMEOUT:-900}   # s per EOS copy (+1 s per 2 MB); the XRootD default would be 1800 s
+EXPORT_PROBE_TIMEOUT=${EXPORT_PROBE_TIMEOUT:-120}
+EOS_HUNG=                                     # set by eos_call when an EOS call times out
+EOS_ST=                                       # result of the last eos_put
+
+steps() {
+  python qeio.py newgeom final.tmpl relax.in > scf.in
+  cp scf.in .scf.in.prerun   # dot file, not packed: compared with the as-run scf.in after pw.x
+  write_lineage
+  NKP=1; for p in 4 3 2; do [ $((NCPU % p)) -eq 0 ] && { NKP=$p; break; }; done
+  log "pools: $NKP (NCPU $NCPU)"
+  export FORCE_CPU=1   # one QE version (CPU 7.5) for scf, pp.x and projwfc.x
+  local scf_ok=1
+  run_pw scf $NKP || scf_ok=0
+  lineage_asrun
+  if [ $scf_ok = 0 ] || ! grep -q 'convergence has been achieved' scf.out; then
+    # also catches a stop by max_seconds, after which pw.x still prints JOB DONE (final_node.sh.D24 then exits 1)
+    log "export NONE: the final SCF failed or did not converge; no pp.x, projwfc.x or export"
+    echo "# export NONE: the final SCF did not converge (see scf.out); D-24 export not run" > export_manifest_final.dat
+    return 0
+  fi
+  run_ppavg slab "$JOB" 4.0
+  run_pdos slab "$JOB" "$(python qeio.py fermi scf.out)" $NKP
+  export_final
+}
+
+iwo_name() {   # run name from the job ad (+IWOJob = "<name>_final")
+  local n
+  n=$(awk -F' = ' '/^IWOJob = /{gsub(/"/, "", $2); print $2; exit}' "${_CONDOR_JOB_AD:-/dev/null}" 2>/dev/null)
+  n=${n%_final}
+  echo "${n:-${IWO_NAME:-unknown}}"
+}
+
+export_dest() { echo "$EXPORT_EOS/$(iwo_name)/final_${CLUSTER:-0}"; }
+
+krb_line() {   # validity of the job's Kerberos ticket, as klist prints it (no principal)
+  command -v klist > /dev/null 2>&1 || { echo "kerberos: no klist on this worker"; return 0; }
+  klist 2>/dev/null | awk '/krbtgt\//{print "kerberos: krbtgt valid", $1, $2, "to", $3, $4; f=1; exit}
+                           END{if (!f) print "kerberos: no krbtgt ticket"}'
+}
+
+eos_call() {   # eos_call <timeout s> <command ...>: output to ${JOB}_export.log; a timeout sets EOS_HUNG
+  local to=$1 rc; shift
+  timeout -k 30 "$to" "$@" >> "${JOB}_export.log" 2>&1 < /dev/null; rc=$?
+  if [ $rc = 124 ] || [ $rc = 137 ]; then
+    EOS_HUNG="$(date -u +%FT%TZ) '$1 ${*: -1}' timed out after ${to} s"
+    echo "# EOS call timed out: $EOS_HUNG" >> "${JOB}_export.log"
+  fi
+  return $rc
+}
+
+eos_put() {   # eos_put <file> <EOS dir>: sets EOS_ST = XRD_ADLER32 | XRD_SIZE | FUSE_SIZE | FAILED | SKIPPED
+  # Never call it in a subshell ($(...)): EOS_HUNG must reach the caller.
+  local f=$1 d=$2 b sz to rs t
+  b=$(basename "$f"); sz=$(stat -c %s "$f"); to=$(( EXPORT_IO_TIMEOUT + sz / 2000000 ))
+  EOS_ST=SKIPPED
+  if [ -n "$EOS_HUNG" ]; then echo "# $b: in-job copy skipped, an earlier EOS call hung ($EOS_HUNG)" >> "${JOB}_export.log"; return 1; fi
+  if [ "$(date +%s)" -ge "$DEADLINE" ]; then echo "# $b: in-job copy skipped, past the driver deadline" >> "${JOB}_export.log"; return 1; fi
+  EOS_ST=FAILED
+  eos_call "$EXPORT_PROBE_TIMEOUT" xrdfs root://eosuser.cern.ch mkdir -p "$d"
+  for t in 1 2; do
+    [ -n "$EOS_HUNG" ] && return 1
+    if eos_call "$to" xrdcp -f -s -C adler32 "$f" "root://eosuser.cern.ch/$d/$b"; then EOS_ST=XRD_ADLER32; return 0; fi
+    sleep "$EXPORT_RETRY_SLEEP"
+  done
+  [ -n "$EOS_HUNG" ] && return 1
+  if eos_call "$to" xrdcp -f -s "$f" "root://eosuser.cern.ch/$d/$b"; then
+    rs=$(timeout -k 10 "$EXPORT_PROBE_TIMEOUT" xrdfs root://eosuser.cern.ch stat "$d/$b" 2>/dev/null < /dev/null | awk '/^Size:/{print $2}')
+    if [ "$rs" = "$sz" ]; then EOS_ST=XRD_SIZE; return 0; fi
+  fi
+  [ -n "$EOS_HUNG" ] && return 1
+  if eos_call "$EXPORT_PROBE_TIMEOUT" mkdir -p "$d" && eos_call "$to" cp -f "$f" "$d/$b" \
+     && [ "$(timeout -k 10 "$EXPORT_PROBE_TIMEOUT" stat -c %s "$d/$b" 2>/dev/null)" = "$sz" ]; then
+    EOS_ST=FUSE_SIZE; return 0
+  fi
+  return 1
+}
+
+eos_probe() {   # one small EOS write before pw.x: exp/EOS_PROBE = 'OK|FAILED <utc> <method>; <kerberos validity>'
+  local dest io=$EXPORT_IO_TIMEOUT
+  dest=$(export_dest); mkdir -p exp
+  { echo "D-24 EOS write probe: $(iwo_name) cluster ${CLUSTER:-0} on $(hostname) at $(date -u +%FT%TZ)"; krb_line; } > exp/eos_probe_start.txt
+  EXPORT_IO_TIMEOUT=$EXPORT_PROBE_TIMEOUT
+  eos_put exp/eos_probe_start.txt "$dest"
+  EXPORT_IO_TIMEOUT=$io
+  case $EOS_ST in XRD_*|FUSE_*) echo "OK $(date -u +%FT%TZ) $EOS_ST; $(krb_line)";;
+                  *) echo "FAILED $(date -u +%FT%TZ) $EOS_ST${EOS_HUNG:+ (timeout)}; $(krb_line)";; esac > exp/EOS_PROBE
+  EOS_HUNG=   # a hang now says nothing about EOS days later: the export tries again
+  log "EOS write probe -> $dest: $(cat exp/EOS_PROBE)"
+}
+
+write_lineage() {   # lineage_final.dat: what this SCF was built from (register A14 "geometry lineage")
+  local f
+  eos_probe
+  {
+    echo "# geometry lineage of the final SCF (register A14; D-24 v2), written on the worker before pw.x"
+    echo "run $(iwo_name)"
+    echo "written_utc $(date -u +%FT%TZ)"
+    echo "host $(hostname)"
+    grep -E '^(ClusterId|ProcId|GlobalJobId|IWOJob|DAGManJobId|DAGNodeName|DAGParentNodeNames|QDate|JobCurrentStartDate|NumJobStarts) = ' \
+      "${_CONDOR_JOB_AD:-/dev/null}" 2>/dev/null | sed 's/^/jobad /'
+    echo "eos_probe $(cat exp/EOS_PROBE 2>/dev/null)"
+    for f in relax.in final.tmpl scf.in steps.sh driver.sh qeio.py dat2h5.py pseudo/*; do
+      [ -f "$f" ] || continue
+      if [ "$f" = scf.in ]; then echo "sha256 $(sha256sum "$f" | cut -c1-64) scf.in pre-run (run_pw then sets max_seconds: see 'as-run' below)"
+      else echo "sha256 $(sha256sum "$f" | cut -c1-64) $f"; fi
+    done
+    echo "# relax.in is runs/<name>/relax.in as transferred at job start, i.e. the geometry written by the last RELAX"
+    echo "# segment. The segment list is not on the worker: common/lineage_relax.sh <name> (lxplus) lists the segments,"
+    echo "# their as-run inputs and the segment whose output relax.in has the sha256 above."
+    python - relax.in scf.in <<'PY'
+import re
+import sys
+
+
+def cards(path):
+    lines = open(path).read().splitlines()
+    out = {}
+    for key, nrow in (('CELL_PARAMETERS', 3), ('ATOMIC_POSITIONS', 0)):
+        heads = [i for i, l in enumerate(lines) if l.strip().upper().startswith(key)]
+        if not heads:
+            out[key] = ('', [], [])
+            continue
+        i = heads[-1]
+        lab, val = [], []
+        for l in lines[i + 1:]:
+            s = l.split()
+            try:
+                v = [float(x) for x in (s[0:3] if nrow else s[1:4])]
+            except (ValueError, IndexError):
+                break
+            if len(v) < 3:
+                break
+            lab.append('' if nrow else s[0])
+            val.append(v)
+            if nrow and len(val) == nrow:
+                break
+        unit = re.sub(r'[(){}]', ' ', lines[i]).split()[1:2]
+        out[key] = (unit[0].lower() if unit else '', lab, val)
+    return out
+
+
+a, b = cards(sys.argv[1]), cards(sys.argv[2])
+ok = True
+for key in ('CELL_PARAMETERS', 'ATOMIC_POSITIONS'):
+    (ua, la, va), (ub, lb, vb) = a[key], b[key]
+    d = max((abs(x - y) for p, q in zip(va, vb) for x, y in zip(p, q)), default=float('nan'))
+    good = ua == ub and la == lb and len(va) == len(vb) > 0 and d < 1e-8
+    ok &= good
+    print(f'geometry {key}: relax.in {len(va)} rows ({ua}), scf.in {len(vb)} rows ({ub}), '
+          f'labels identical {la == lb}, max |diff| {d:.2e} -> {"PASS" if good else "FAIL"}')
+m = re.search(r'nat\s*=\s*(\d+)', open(sys.argv[2]).read())
+nat = int(m.group(1)) if m else -1
+ok &= nat == len(b['ATOMIC_POSITIONS'][2])
+print(f'geometry nat (scf.in &SYSTEM) {nat}, positions {len(b["ATOMIC_POSITIONS"][2])}')
+print('geometry_check', 'PASS' if ok else 'FAIL')
+PY
+  } > lineage_final.dat 2>&1
+  log "lineage: $(grep '^geometry_check' lineage_final.dat)"
+}
+
+lineage_asrun() {   # lineage_final.dat: sha256 of scf.in as pw.x read it (run_pw rewrites max_seconds first)
+  local h same
+  [ -s scf.out ] || { echo "scf.in as-run: none, pw.x was not started" >> lineage_final.dat; return 0; }
+  h=$(sha256sum scf.in | cut -c1-64)
+  if cmp -s <(sed 's/max_seconds = [0-9.d]*/max_seconds = X/' .scf.in.prerun) <(sed 's/max_seconds = [0-9.d]*/max_seconds = X/' scf.in)
+  then same=yes; else same=NO; fi
+  echo "sha256 $h scf.in as-run ($(grep -o 'max_seconds = [0-9.d]*' scf.in | head -1); identical to the pre-run scf.in apart from max_seconds: $same)" >> lineage_final.dat
+}
+
+export_final() {
+  local name dest sv=tmp/slab.save f sz sh st wait_s t_end nfail lost chk_fail
+  local -a small fails=()
+  name=$(iwo_name); dest=$(export_dest)
+  mkdir -p exp
+  rm -f "$sv"/wfc*.dat "$sv"/wfc*.hdf5   # wavefunctions are not exported; pp.x and projwfc.x are done: free the disk
+  log "export $name: tables"
+  export_tables "$sv" "$JOB" >> "${JOB}_export.log" 2>&1 || log "export tables: python error (see ${JOB}_export.log)"
+  # a failed projwfc.x (e.g. out of memory) or a failed table check must not read as a complete export
+  if [ ! -s "export_checks_${JOB}.dat" ]; then chk_fail="export_checks_${JOB}.dat missing: the table step failed"
+  else chk_fail=$(grep -E ' (FAIL|MISSING)$' "export_checks_${JOB}.dat" | paste -sd ';' -); fi
+  [ -n "$chk_fail" ] && log "export checks FAILED: $chk_fail"
+  [ -f "projwfc_${JOB}.out" ] && grep -v '\*\[#' "projwfc_${JOB}.out" > "projwfc_${JOB}_summary.out"
+  [ -f "$sv/atomic_proj.xml" ] && gzip -c "$sv/atomic_proj.xml" > exp/atomic_proj.xml.gz
+  [ -f "$sv/data-file-schema.xml" ] && gzip -c "$sv/data-file-schema.xml" > exp/data-file-schema.xml.gz
+  [ -f "projwfc_${JOB}.out" ] && gzip -c "projwfc_${JOB}.out" > "exp/projwfc_${JOB}.out.gz"
+  compgen -G 'pdos/*pdos_atm*' > /dev/null && tar czf exp/pdos_atoms.tar.gz pdos/*pdos_atm*
+  if [[ $name =~ $EXPORT_RHO_RE ]]; then
+    tar czf exp/save_nowfc.tar.gz -C tmp --exclude='wfc*' --exclude=atomic_proj.xml slab.save
+  fi
+  shopt -s nullglob
+  small=( *.out *.in *.tmpl *.dat *.log steps.sh pdos/*pdos_tot )
+  shopt -u nullglob
+  tar czf exp/final_small.tar.gz --exclude="projwfc_${JOB}.out" "${small[@]}"
+  {
+    echo "# eos_dest $dest"
+    echo "# run $name cluster ${CLUSTER:-0} written_utc $(date -u +%FT%TZ)"
+    for f in exp/*; do
+      case $f in exp/MANIFEST|exp/EXPORT_*|exp/EOS_PROBE|exp/eos_probe_start.txt|exp/STATUS) continue;; esac
+      echo "$(basename "$f") $(stat -c %s "$f") $(sha256sum "$f" | cut -c1-64)"
+    done
+  } > exp/MANIFEST
+  log "export $name: $(grep -vc '^#' exp/MANIFEST) files, $(du -sh exp | cut -f1) -> $dest; $(krb_line)"
+  : > exp/STATUS
+  EOS_HUNG=
+  while read -r f sz sh; do
+    eos_put "exp/$f" "$dest"; st=$EOS_ST   # not $(eos_put ...): EOS_HUNG must stay in this shell
+    echo "$f $sz $sh $st" >> exp/STATUS
+    if [ "$st" = FAILED ] || [ "$st" = SKIPPED ]; then fails+=("$f"); fi
+  done < <(grep -v '^#' exp/MANIFEST)
+  if [ ${#fails[@]} -gt 0 ]; then
+    printf '%s\n' "${fails[@]}" > exp/EXPORT_PENDING
+    wait_s=$(( DEADLINE + 3600 - $(date +%s) )); [ "$wait_s" -gt "$EXPORT_WAIT_S" ] && wait_s=$EXPORT_WAIT_S
+    log "export: ${#fails[@]} file(s) not copied in-job${EOS_HUNG:+ (EOS hung: $EOS_HUNG)}; waiting up to ${wait_s}s for export_pull.sh (exp/EXPORT_PENDING)"
+    t_end=$(( $(date +%s) + wait_s ))
+    while [ "$(date +%s)" -lt "$t_end" ] && [ ! -f exp/EXPORT_PULLED ]; do sleep 60; done
+    for f in "${fails[@]}"; do
+      grep -qx "$f" exp/EXPORT_PULLED 2>/dev/null && sed -i -E "s/^($f .*) (FAILED|SKIPPED)\$/\1 PULLED/" exp/STATUS
+    done
+  fi
+  # what is safely on EOS no longer needs to travel back to AFS
+  grep -q '^pdos_atoms.tar.gz .* \(XRD\|FUSE\|PULLED\)' exp/STATUS && rm -f pdos/*pdos_atm*
+  grep -q "^projwfc_${JOB}.out.gz .* \(XRD\|FUSE\|PULLED\)" exp/STATUS && rm -f "projwfc_${JOB}.out"
+  nfail=$(grep -cE ' (FAILED|SKIPPED)$' exp/STATUS)
+  lost=$(awk '($4 == "FAILED" || $4 == "SKIPPED") && ($1 == "atomic_proj.xml.gz" || $1 == "save_nowfc.tar.gz" || $1 == "data-file-schema.xml.gz") {print $1}' exp/STATUS | paste -sd ' ' -)
+  {
+    # first lines: the status for the collection check
+    [ "$nfail" -gt 0 ] && echo "# export INCOMPLETE: $nfail file(s) not on EOS: $(awk '$4 == "FAILED" || $4 == "SKIPPED" {print $1}' exp/STATUS | paste -sd ' ' -)"
+    [ -n "$lost" ] && echo "# LOST with the sandbox (not in this tarball either): $lost. Kept here instead: proj_atoms_${JOB}.dat (A16 per-state atom and W-5d weights), occ_kw_${JOB}.dat, the per-atom PDOS and projwfc_${JOB}.out"
+    [ -n "$chk_fail" ] && echo "# export INCOMPLETE: projection checks ($chk_fail)"
+    [ "$nfail" = 0 ] && [ -z "$chk_fail" ] && echo "# export complete: $(wc -l < exp/STATUS) files on EOS, projection checks passed"
+    echo "# D-24 export of $name (cluster ${CLUSTER:-0}), $(date -u +%FT%TZ); EOS directory $dest"
+    echo "# status: XRD_ADLER32 / XRD_SIZE / FUSE_SIZE = copied in-job; PULLED = copied by export_pull.sh (sha256 checked);"
+    echo "# FAILED = in-job copy failed; SKIPPED = not tried in-job (an earlier EOS call hung, or past the driver deadline);"
+    echo "# FAILED and SKIPPED files are not on EOS (per-atom PDOS and the full projwfc output then stay in this tarball)"
+    echo "# EOS write probe at job start: $(cat exp/EOS_PROBE 2>/dev/null || echo none)"
+    echo "# file bytes sha256 status"
+    cat exp/STATUS
+  } > export_manifest_final.dat
+  [ "$nfail" -gt 0 ] && log "export INCOMPLETE: $nfail file(s) not on EOS${lost:+; LOST: $lost}"
+  [ "$nfail" = 0 ] && [ -z "$chk_fail" ] && log "export complete: $(wc -l < exp/STATUS) files on EOS"
+  if [ ! -f exp/EXPORT_PULLED ]; then eos_put export_manifest_final.dat "$dest" || true; fi
+}
+
+export_tables() {   # export_tables <save dir> <job>: the AFS tables and export_checks_final.dat
+  python - "$1" "$2" <<'PY'
+import glob
+import os
+import re
+import sys
+import xml.etree.ElementTree as ET
+from operator import add
+
+sv, job = sys.argv[1], sys.argv[2]
+HA = 27.211386245988          # eV per Hartree (the QE 7.5 value)
+chk = []
+
+# 1. eigenvalues, occupations and k-weights: data-file-schema.xml of the final SCF
+root = ET.parse(os.path.join(sv, 'data-file-schema.xml')).getroot()
+bs = root.find('output/band_structure')
+lsda = (bs.findtext('lsda') or 'false').strip() == 'true'
+nbnd = int(bs.findtext('nbnd') or bs.findtext('nbnd_up'))
+nelec = float(bs.findtext('nelec'))
+ef = bs.findtext('fermi_energy')
+ef_ev = float(ef) * HA if ef else float('nan')
+sm = root.find('input/bands/smearing')
+smear = sm.text.strip() if sm is not None else 'none'
+degauss_ry = 2 * float(sm.get('degauss')) if sm is not None and sm.get('degauss') else 0.0
+kinfo, rows = [], []
+for ik, ks in enumerate(bs.findall('ks_energies'), 1):
+    kp = ks.find('k_point')
+    w = float(kp.get('weight'))
+    e = [float(x) * HA for x in ks.findtext('eigenvalues').split()]
+    f = [float(x) for x in ks.findtext('occupations').split()]
+    kinfo.append((ik, [float(x) for x in kp.text.split()], w, ks.findtext('npw', '').strip()))
+    rows += [(ik, n, en, fn) for n, (en, fn) in enumerate(zip(e, f), 1)]
+sw = sum(k[2] for k in kinfo)
+wscale = (1.0 if lsda else 2.0) / sw          # normalised k-weight including the spin factor 2 (register A16)
+wk = {k[0]: k[2] * wscale for k in kinfo}
+sfw = sum(fn * wk[ik] for ik, n, en, fn in rows)
+with open(f'occ_kw_{job}.dat', 'w') as o:
+    o.write(f'# eigenvalues, occupations and k-weights of the final SCF (tmp/slab.save/data-file-schema.xml, QE)\n'
+            f'# nelec {nelec:.4f}  nbnd {nbnd}  nks {len(kinfo)}  lsda {lsda}  fermi_energy_eV {ef_ev:.6f}  '
+            f'smearing {smear}  degauss_Ry {degauss_ry:.6g}\n'
+            f'# w_k = normalised k-weight including the spin factor 2 (raw XML weights sum to {sw:.6f}); f_nk in [0,1] is\n'
+            f"# QE's own occupation for this smearing; check: sum_nk f_nk w_k = {sfw:.6f} (nelec {nelec:.4f})\n")
+    for ik, kv, w, npw in kinfo:
+        o.write(f'# k {ik} {kv[0]:.10f} {kv[1]:.10f} {kv[2]:.10f} (cartesian, 2pi/alat)  w_k {wk[ik]:.10f}  npw {npw}\n')
+    o.write('# ik ibnd e_eV f_nk w_k\n')
+    for ik, n, en, fn in rows:
+        o.write(f'{ik} {n} {en:.6f} {fn:.10f} {wk[ik]:.10f}\n')
+chk += [f'xml_nks {len(kinfo)}', f'xml_nbnd {nbnd}', f'xml_nelec {nelec:.4f}', f'xml_fermi_eV {ef_ev:.6f}',
+        f'xml_smearing {smear} {degauss_ry:.6g} Ry', f'xml_sum_wk_raw {sw:.6f}', f'sum_f_w {sfw:.6f}',
+        f'electron_count_check {"PASS" if abs(sfw - nelec) < 0.02 else "FAIL"}']
+
+# 2. projwfc output: atom/orbital map and per-state energy and completeness |psi|^2
+re_map = re.compile(r'state #\s*(\d+):\s*atom\s+(\d+)\s*\(\s*(\S+?)\s*\)\s*,\s*wfc\s+(\d+)\s*\(l=\s*(\d+)\s+m=\s*(-?\d+)\)')
+re_k = re.compile(r'^\s*k =\s+(-?[\d.]+)\s+(-?[\d.]+)\s+(-?[\d.]+)')
+re_e = re.compile(r'==== e\(\s*(\d+)\) =\s+(-?[\d.]+) eV')
+re_p = re.compile(r'\|psi\|\^2 = ([\d.]+)')
+pmap, states, ik, cur = [], [], 0, None
+pw_out = f'projwfc_{job}.out'
+if os.path.exists(pw_out):
+    for line in open(pw_out):
+        m = re_map.search(line)
+        if m:
+            pmap.append(m.groups())
+            continue
+        if re_k.match(line):
+            ik += 1
+            continue
+        m = re_e.search(line)
+        if m:
+            cur = [ik, int(m.group(1)), float(m.group(2)), float('nan'), float('nan')]
+            states.append(cur)
+            continue
+        m = re_p.search(line)
+        if m and cur is not None:
+            cur[3] = float(m.group(1))
+with open(f'projwfc_map_{job}.dat', 'w') as o:
+    o.write('# projwfc atomic states (index in atomic_proj.xml ATOMIC_WFC): state atom species wfc l m\n')
+    o.writelines(' '.join(g) + '\n' for g in pmap)
+chk += [f'projwfc_map_states {len(pmap)}', f'projwfc_k {ik}', f'projwfc_states {len(states)}']
+
+# 3. atomic_proj.xml, streamed: counts, the completeness sum_i |<phi_i|psi_nk>|^2 of every state and (v2) the
+#    per-state, per-atom weights in proj_atoms_<job>.dat (the AFS and repository copy of the A16 projections)
+ap = os.path.join(sv, 'atomic_proj.xml')
+names = [a.get('name') for a in root.find('output/atomic_structure/atomic_positions').findall('atom')]
+nat = len(names)
+elem = [re.sub(r'[^A-Za-z]', '', s) for s in names]                 # species label -> element ('W1' -> 'W')
+atom_of = [int(g[1]) - 1 for g in pmap]                             # projwfc state - 1 -> atom - 1
+map_species_ok = all(0 <= a < nat and re.sub(r'[^A-Za-z]', '', g[2]) == elem[a] for a, g in zip(atom_of, pmap))
+w_atoms = [i for i, e in enumerate(elem) if e == 'W']
+w_col = {a: c for c, a in enumerate(w_atoms)}
+is_wd = [0 <= a < nat and elem[a] == 'W' and g[4] == '2' for a, g in zip(atom_of, pmap)]   # W 5d (set: 5s5p, 5d, 6s)
+occ = {(k, n): (en, fn) for k, n, en, fn in rows}
+comp, hdr, nk_ap, nwfc_ap, ne_ap = {}, {}, 0, set(), set()
+pa = None
+pa_rows, pa_dmax, pa_wdmax = 0, 0.0, 0.0
+if os.path.exists(ap) and pmap and map_species_ok:
+    pa = open(f'proj_atoms_{job}.dat', 'w')
+    runs = []
+    for i, s in enumerate(names, 1):
+        if runs and runs[-1][0] == s and runs[-1][2] == i - 1:
+            runs[-1][2] = i
+        else:
+            runs.append([s, i, i])
+    pa.write('# per-state, per-atom Loewdin weights of the final SCF (tmp/slab.save/atomic_proj.xml; D-24 v2, register A16)\n'
+             '# w_i = sum over the atomic orbitals of atom i of |<phi|psi_nk>|^2 (unnormalised, as projwfc.x), written as\n'
+             '#   round(1e6 w_i). A16: p_i = w_i / sum_i w_i; completeness = sum_i w_i (unrounded, flag < 0.90);\n'
+             '#   PR_n = 1 / (N sum_i p_i^2) over all N = nat atoms (H and oxide atoms included)\n'
+             '# d_W<a> = l = 2 (5d) weight of W atom a, unnormalised, units of 1e-6 (W-5d fraction = 1e-6 sum d / completeness)\n'
+             '# f_nk = QE occupation (final smearing), w_k = normalised k-weight with the spin factor 2 (as occ_kw_' + job + '.dat)\n'
+             f'# nat {nat}  nbnd {nbnd}  nks {len(kinfo)}  fermi_energy_eV {ef_ev:.6f}  all bands of every k\n'
+             '# atoms (pw.x order = ATOMIC_POSITIONS of scf.in): ' + ', '.join(f'{s} {a}-{b}' for s, a, b in runs) + '\n'
+             '# columns: ik ibnd e_eV f_nk w_k completeness PR_n w_1 ... w_' + str(nat)
+             + ''.join(f' d_W{a + 1}' for a in w_atoms) + '\n')
+if os.path.exists(ap):
+    acc, nw, per, wd = None, 0, None, None
+    for ev, el in ET.iterparse(ap, events=('start', 'end')):
+        if ev == 'start':
+            if el.tag == 'HEADER':
+                hdr = dict(el.attrib)
+            elif el.tag == 'PROJS':
+                acc, nw, per, wd = None, 0, [None] * nat, [None] * len(w_atoms)
+            continue
+        if el.tag == 'K-POINT':
+            nk_ap += 1
+        elif el.tag == 'E':
+            ne_ap.add(len(el.text.split()))
+            el.clear()
+        elif el.tag == 'ATOMIC_WFC':
+            v = [float(x) for x in el.text.split()]
+            sq = [a * a + b * b for a, b in zip(v[0::2], v[1::2])]
+            acc = sq if acc is None else list(map(add, acc, sq))
+            iw = int(el.get('index', nw + 1)) - 1
+            if pa is not None and iw < len(atom_of):
+                a = atom_of[iw]
+                per[a] = sq if per[a] is None else list(map(add, per[a], sq))
+                if is_wd[iw]:
+                    c = w_col[a]
+                    wd[c] = sq if wd[c] is None else list(map(add, wd[c], sq))
+            nw += 1
+            el.clear()
+        elif el.tag == 'PROJS':
+            nwfc_ap.add(nw)
+            for n, c in enumerate(acc or [], 1):
+                comp[(nk_ap, n)] = c
+            if pa is not None and acc:
+                kw = wk.get(nk_ap, float('nan'))
+                for n in range(len(acc)):
+                    en, fn = occ.get((nk_ap, n + 1), (float('nan'), float('nan')))
+                    ws = [p[n] if p is not None else 0.0 for p in per]
+                    tot, s2 = sum(ws), sum(x * x for x in ws)
+                    ints = [round(x * 1e6) for x in ws]
+                    dints = [round(p[n] * 1e6) if p is not None else 0 for p in wd]
+                    pa_dmax = max(pa_dmax, abs(sum(ints) * 1e-6 - acc[n]))
+                    if dints:
+                        pa_wdmax = max(pa_wdmax, max(d - ints[a] for d, a in zip(dints, w_atoms)))
+                    pa.write(f'{nk_ap} {n + 1} {en:.5f} {fn:.8f} {kw:.8f} {acc[n]:.6f} '
+                             f'{tot * tot / (nat * s2) if s2 > 0 else 0.0:.5f} '
+                             + ' '.join(map(str, ints + dints)) + '\n')
+                    pa_rows += 1
+            el.clear()
+    chk += ['atomic_proj_header ' + ' '.join(f'{k}={v}' for k, v in hdr.items()),
+            f'atomic_proj_k {nk_ap}', f'atomic_proj_bands {sorted(ne_ap)}', f'atomic_proj_wfc {sorted(nwfc_ap)}']
+else:
+    chk.append('atomic_proj MISSING')
+if pa is not None:
+    pa.close()
+    mapped = set(atom_of)
+    pa_ok = (pa_rows == len(kinfo) * nbnd and nk_ap == len(kinfo) and mapped == set(range(nat))
+             and pa_dmax <= nat * 5e-7 + 1e-6 and pa_wdmax <= 1)
+    chk += [f'proj_atoms_rows {pa_rows} (expected {len(kinfo) * nbnd})', f'proj_atoms_atoms_mapped {len(mapped)} of {nat}',
+            f'proj_atoms_W_atoms {len(w_atoms)}', f'proj_atoms_max_abs_rounded_sum_vs_completeness {pa_dmax:.2e}',
+            f'proj_atoms_check {"PASS" if pa_ok else "FAIL"}']
+else:
+    chk.append('proj_atoms MISSING' if map_species_ok else 'proj_atoms map_species FAIL')
+dmax, nlow, cmin = 0.0, 0, 9.0
+for s in states:
+    s[4] = comp.get((s[0], s[1]), float('nan'))
+    if s[4] == s[4] and s[3] == s[3]:
+        dmax = max(dmax, abs(s[4] - s[3]))
+    c = s[4] if s[4] == s[4] else s[3]
+    cmin, nlow = min(cmin, c), nlow + (c < 0.90)
+with open(f'projwfc_states_{job}.dat', 'w') as o:
+    o.write('# per-state completeness (1 - spilling): ik ibnd e_eV psi2_projwfc(3 dp) psi2_atomic_proj\n')
+    o.writelines(f'{a} {b} {e:.5f} {p:.3f} {c:.6f}\n' for a, b, e, p, c in states)
+consistent = (len(states) == nk_ap * nbnd and set(ne_ap) == {nbnd} and nwfc_ap == {len(pmap)} and len(comp) == len(states)
+              and ik == nk_ap == len(kinfo) and dmax <= 0.0006)
+chk += [f'max_abs_psi2_projwfc_vs_atomic_proj {dmax:.6f}', f'min_completeness {cmin:.4f}',
+        f'states_completeness_below_0.90 {nlow}', f'projection_consistency {"PASS" if consistent else "FAIL"}']
+
+# 4. PDOS summed per species and atomic shell (the per-atom files go to EOS)
+re_f = re.compile(r'pdos_atm#(\d+)\((\w+)\)_wfc#(\d+)\((\w)\)$')
+sums, egrid, natm = {}, None, set()
+for fn in sorted(glob.glob(f'pdos/{job}.pdos_atm#*')):
+    m = re_f.search(fn)
+    if not m:
+        continue
+    natm.add(int(m.group(1)))
+    data = [l.split() for l in open(fn) if l.strip() and not l.startswith('#')]
+    if egrid is None:
+        egrid = [r[0] for r in data]
+    s = sums.setdefault(f'{m.group(2)}_wfc{m.group(3)}_{m.group(4)}', [0.0] * len(data))
+    for i, r in enumerate(data):
+        s[i] += float(r[1])
+if egrid:
+    keys = sorted(sums)
+    with open(f'pdos_species_{job}.dat', 'w') as o:
+        o.write('# PDOS (ldos, states/eV) summed over the atoms of each species, per atomic shell; E_eV ' + ' '.join(keys) + '\n')
+        o.writelines(egrid[i] + ' ' + ' '.join(f'{sums[k][i]:.6e}' for k in keys) + '\n' for i in range(len(egrid)))
+chk += [f'pdos_atoms {len(natm)}', f'pdos_species_columns {len(sums)}']
+with open(f'export_checks_{job}.dat', 'w') as o:
+    o.write('# D-24 export checks (written on the worker)\n')
+    o.writelines(c + '\n' for c in chk)
+print('\n'.join(chk))
+PY
+}

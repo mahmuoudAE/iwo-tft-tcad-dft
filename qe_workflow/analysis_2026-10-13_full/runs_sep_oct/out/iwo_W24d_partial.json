@@ -1,0 +1,1235 @@
+{
+ "run": "iwo_W24d_partial",
+ "folder": "cern_htcondor/results/iwo_W24d_partial",
+ "files": [
+  {
+   "path": "iwo_W24d_driver.log",
+   "size": 427,
+   "sha256_16": "69449e791db41f1c",
+   "src": "loose",
+   "kind": "driver"
+  },
+  {
+   "path": "relax.in",
+   "size": 4414,
+   "sha256_16": "211e0b2cc32cdeb1",
+   "src": "loose",
+   "kind": "pw_in"
+  },
+  {
+   "path": "relax.out",
+   "size": 1335990,
+   "sha256_16": "67f29bad194b112b",
+   "src": "loose",
+   "kind": "pw_out"
+  }
+ ],
+ "tarballs": [
+  {
+   "tarball": "part.tgz",
+   "size": 366623,
+   "sha256": "af1da104a7c49dac45808804a1e50e653e7de39e81c67ea1ee5776c5e2c5ba90",
+   "members": [
+    {
+     "name": "relax.in",
+     "size": 4414,
+     "sha256": "211e0b2cc32cdeb1a322f69a81c6da86fbbf6d8f8a45e042043d7dacfcb37122",
+     "equals_loose": true
+    },
+    {
+     "name": "relax.out",
+     "size": 1335990,
+     "sha256": "67f29bad194b112b8f728086f21aeb605b9b070f8fe45c72d7ec7768c9a4d0d5",
+     "equals_loose": true
+    },
+    {
+     "name": "iwo_W24d_driver.log",
+     "size": 427,
+     "sha256": "69449e791db41f1c1db3923e1dcb5f71818ab73dcbc368e54d0ad1038a7deb2a",
+     "equals_loose": true
+    }
+   ]
+  }
+ ],
+ "pw": {
+  "relax.out": {
+   "header": {
+    "version": "v.7.5",
+    "start_date": "27Sep2026",
+    "start_time": "10:47:18",
+    "processor_cores": 32,
+    "parallel_mode": "Parallel version (MPI & OpenMP),",
+    "mpi_processes": 32,
+    "threads_per_mpi": 1,
+    "nodes": 1,
+    "node_memory_MiB": 120010.0,
+    "input": "relax.in",
+    "npool": 8,
+    "RG_division": "4",
+    "subspace_diag": "Subspace diagonalization in iterative solution of the eigenvalue problem: one sub-group per band group will be used",
+    "fft_decomposition": "Using Slab Decomposition"
+   },
+   "params": {
+    "bravais-lattice index": "0",
+    "lattice parameter (alat)": "19.4757  a.u.",
+    "unit-cell volume": "7387.1755 (a.u.)^3",
+    "number of atoms/cell": "80",
+    "number of atomic types": "3",
+    "number of electrons": "705.00",
+    "number of Kohn-Sham states": "424",
+    "kinetic-energy cutoff": "71.0000  Ry",
+    "charge density cutoff": "568.0000  Ry",
+    "scf convergence threshold": "1.0E-09",
+    "mixing beta": "0.3000",
+    "number of iterations used": "8  plain     mixing",
+    "energy convergence thresh.": "1.0E-04",
+    "force convergence thresh.": "1.0E-03",
+    "Exchange-correlation": "SLA  PW   PBX  PBC",
+    "nstep": "300",
+    "celldm": [
+     19.475688,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "pseudos": [
+    {
+     "n": 1,
+     "element": "In",
+     "file": "./In.pbe-dn-kjpaw_psl.1.0.0.UPF",
+     "md5": "235b15e6a7fdfd96486e0ecdcb5b12c6",
+     "type": "Projector augmented-wave + core cor",
+     "Zval": 13.0,
+     "notes": [
+      "Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.3",
+      "Shape of augmentation charge: PSQ"
+     ],
+     "radial_grid": "Using radial grid of 1241 points,  6 beta functions with:"
+    },
+    {
+     "n": 2,
+     "element": "O",
+     "file": "./O.pbe-n-kjpaw_psl.1.0.0.UPF",
+     "md5": "e99d9cef9b487d1ca56f5b95ecd0fd7a",
+     "type": "Projector augmented-wave + core cor",
+     "Zval": 6.0,
+     "notes": [
+      "Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.3",
+      "Shape of augmentation charge: PSQ"
+     ],
+     "radial_grid": "Using radial grid of 1095 points,  4 beta functions with:"
+    },
+    {
+     "n": 3,
+     "element": "W",
+     "file": "./W.pbe-spn-kjpaw_psl.1.0.0.UPF",
+     "md5": "03c3df5b60893f488392c7401945500a",
+     "type": "Projector augmented-wave + core cor",
+     "Zval": 14.0,
+     "notes": [
+      "Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.2.2",
+      "Shape of augmentation charge: PSQ"
+     ],
+     "radial_grid": "Using radial grid of 1273 points,  6 beta functions with:"
+    }
+   ],
+   "pseudo_rereads": 0,
+   "species": [
+    {
+     "species": "In",
+     "valence": 13.0,
+     "mass": 114.818
+    },
+    {
+     "species": "O",
+     "valence": 6.0,
+     "mass": 15.999
+    },
+    {
+     "species": "W",
+     "valence": 14.0,
+     "mass": 183.84
+    }
+   ],
+   "symmetry": "2 Sym. Ops. (no inversion) found ( 1 have fractional translation)",
+   "kpoints": {
+    "n": 10,
+    "line": "number of k points=    10  Marzari-Vanderbilt smearing, width (Ry)=  0.0100",
+    "smearing": "Marzari-Vanderbilt smearing",
+    "width_Ry": 0.01,
+    "sum_wk": 2.0
+   },
+   "fft": {
+    "dense": "Dense  grid:  1688647 G-vectors     FFT dimensions: ( 150, 150, 150)",
+    "smooth": "Smooth grid:   596713 G-vectors     FFT dimensions: ( 108, 108, 108)"
+   },
+   "ram": {
+    "Estimated max dynamical RAM per process": "1.60 GB",
+    "Estimated total dynamical RAM": "48.36 GB"
+   },
+   "ram_components": null,
+   "start": [
+    "Initial potential from superposition of free atoms",
+    "starting charge     704.8841, renormalised to     705.0000",
+    "Starting wfcs are  484 randomized atomic wfcs"
+   ],
+   "calc_type": "scf/relax",
+   "bands_calc": null,
+   "n_scf_steps": 19,
+   "steps": [
+    {
+     "iterations": 23,
+     "converged_iterations": 23,
+     "acc_final_Ry": 7.8e-10,
+     "E_Ry": -15496.17531085,
+     "mTS_Ry": -0.00623866,
+     "E_F_eV": 10.2649,
+     "force_max_component_Ry_bohr": 0.0740546,
+     "force_rms_component_Ry_bohr": 0.017008110454816195,
+     "total_force_Ry_bohr": 0.263489,
+     "total_scf_correction_Ry_bohr": 2.4e-05,
+     "pressure_kbar": -1.95,
+     "bfgs_steps": 0,
+     "bfgs_scf_cycles": 1,
+     "trust_radius_bohr": 0.107033729,
+     "bfgs_energy_error_Ry": 0.069,
+     "bfgs_gradient_error": 0.074,
+     "negative_rho": [
+      0.0005909,
+      0.0
+     ],
+     "beta": 0.3
+    },
+    {
+     "iterations": 18,
+     "converged_iterations": 18,
+     "acc_final_Ry": 3.4e-10,
+     "E_Ry": -15496.23828788,
+     "mTS_Ry": -0.00506428,
+     "E_F_eV": 10.3477,
+     "force_max_component_Ry_bohr": 0.06412861,
+     "force_rms_component_Ry_bohr": 0.014028923550344808,
+     "total_force_Ry_bohr": 0.217335,
+     "total_scf_correction_Ry_bohr": 6.7e-05,
+     "pressure_kbar": -0.73,
+     "bfgs_steps": 1,
+     "bfgs_scf_cycles": 2,
+     "trust_radius_bohr": 0.1177371019,
+     "bfgs_energy_error_Ry": 0.063,
+     "bfgs_gradient_error": 0.064,
+     "negative_rho": [
+      0.002482,
+      0.0
+     ],
+     "beta": 0.3
+    },
+    {
+     "iterations": 19,
+     "converged_iterations": 19,
+     "acc_final_Ry": 1.1e-10,
+     "E_Ry": -15496.29025251,
+     "mTS_Ry": -0.00583702,
+     "E_F_eV": 10.535,
+     "force_max_component_Ry_bohr": 0.0525192,
+     "force_rms_component_Ry_bohr": 0.010571172067272606,
+     "total_force_Ry_bohr": 0.163768,
+     "total_scf_correction_Ry_bohr": 2.6e-05,
+     "pressure_kbar": 1.39,
+     "bfgs_steps": 2,
+     "bfgs_scf_cycles": 3,
+     "trust_radius_bohr": 0.1766056528,
+     "bfgs_energy_error_Ry": 0.052,
+     "bfgs_gradient_error": 0.053,
+     "negative_rho": [
+      0.005297,
+      0.0
+     ],
+     "beta": 0.3
+    },
+    {
+     "iterations": 18,
+     "converged_iterations": 18,
+     "acc_final_Ry": 5.2e-10,
+     "E_Ry": -15496.33861554,
+     "mTS_Ry": -0.00432943,
+     "E_F_eV": 10.6706,
+     "force_max_component_Ry_bohr": 0.03139133,
+     "force_rms_component_Ry_bohr": 0.006010169196741052,
+     "total_force_Ry_bohr": 0.093109,
+     "total_scf_correction_Ry_bohr": 7.1e-05,
+     "pressure_kbar": 6.78,
+     "bfgs_steps": 3,
+     "bfgs_scf_cycles": 4,
+     "trust_radius_bohr": 0.2140497349,
+     "bfgs_energy_error_Ry": 0.048,
+     "bfgs_gradient_error": 0.031,
+     "negative_rho": [
+      0.01213,
+      0.0
+     ],
+     "beta": 0.3
+    },
+    {
+     "iterations": 20,
+     "converged_iterations": 20,
+     "acc_final_Ry": 9.7e-11,
+     "E_Ry": -15496.35020484,
+     "mTS_Ry": -0.00221366,
+     "E_F_eV": 10.8642,
+     "force_max_component_Ry_bohr": 0.02422213,
+     "force_rms_component_Ry_bohr": 0.00549368471697992,
+     "total_force_Ry_bohr": 0.085108,
+     "total_scf_correction_Ry_bohr": 1.9e-05,
+     "pressure_kbar": 16.35,
+     "bfgs_steps": 4,
+     "bfgs_scf_cycles": 5,
+     "trust_radius_bohr": 0.0676486904,
+     "bfgs_energy_error_Ry": 0.012,
+     "bfgs_gradient_error": 0.024,
+     "negative_rho": [
+      0.02524,
+      0.0
+     ],
+     "beta": 0.3
+    },
+    {
+     "iterations": 18,
+     "converged_iterations": 18,
+     "acc_final_Ry": 5.4e-11,
+     "E_Ry": -15496.35561796,
+     "mTS_Ry": -0.00250657,
+     "E_F_eV": 10.7907,
+     "force_max_component_Ry_bohr": 0.01399884,
+     "force_rms_component_Ry_bohr": 0.002677526063668273,
+     "total_force_Ry_bohr": 0.04148,
+     "total_scf_correction_Ry_bohr": 9e-06,
+     "pressure_kbar": 12.24,
+     "bfgs_steps": 5,
+     "bfgs_scf_cycles": 6,
+     "trust_radius_bohr": 0.0199176273,
+     "bfgs_energy_error_Ry": 0.0054,
+     "bfgs_gradient_error": 0.014,
+     "negative_rho": [
+      0.02069,
+      0.0
+     ],
+     "beta": 0.3
+    },
+    {
+     "iterations": 17,
+     "converged_iterations": 17,
+     "acc_final_Ry": 6.9e-11,
+     "E_Ry": -15496.3576998,
+     "mTS_Ry": -0.00255058,
+     "E_F_eV": 10.7957,
+     "force_max_component_Ry_bohr": 0.01228848,
+     "force_rms_component_Ry_bohr": 0.002228330559446354,
+     "total_force_Ry_bohr": 0.034521,
+     "total_scf_correction_Ry_bohr": 1.1e-05,
+     "pressure_kbar": 12.25,
+     "bfgs_steps": 6,
+     "bfgs_scf_cycles": 7,
+     "trust_radius_bohr": 0.02190939,
+     "bfgs_energy_error_Ry": 0.0021,
+     "bfgs_gradient_error": 0.012,
+     "negative_rho": [
+      0.02182,
+      0.0
+     ],
+     "beta": 0.3
+    },
+    {
+     "iterations": 17,
+     "converged_iterations": 17,
+     "acc_final_Ry": 9.7e-11,
+     "E_Ry": -15496.35948528,
+     "mTS_Ry": -0.00257673,
+     "E_F_eV": 10.8035,
+     "force_max_component_Ry_bohr": 0.01063259,
+     "force_rms_component_Ry_bohr": 0.0018706643808097743,
+     "total_force_Ry_bohr": 0.02898,
+     "total_scf_correction_Ry_bohr": 1.7e-05,
+     "pressure_kbar": 12.43,
+     "bfgs_steps": 7,
+     "bfgs_scf_cycles": 8,
+     "trust_radius_bohr": 0.032864085,
+     "bfgs_energy_error_Ry": 0.0018,
+     "bfgs_gradient_error": 0.011,
+     "negative_rho": [
+      0.02324,
+      0.0
+     ],
+     "beta": 0.3
+    },
+    {
+     "iterations": 20,
+     "converged_iterations": 20,
+     "acc_final_Ry": 1.4e-11,
+     "E_Ry": -15496.36155891,
+     "mTS_Ry": -0.00258887,
+     "E_F_eV": 10.8154,
+     "force_max_component_Ry_bohr": 0.00835211,
+     "force_rms_component_Ry_bohr": 0.0014849216303919317,
+     "total_force_Ry_bohr": 0.023004,
+     "total_scf_correction_Ry_bohr": 4e-06,
+     "pressure_kbar": 12.76,
+     "bfgs_steps": 8,
+     "bfgs_scf_cycles": 9,
+     "trust_radius_bohr": 0.0492961275,
+     "bfgs_energy_error_Ry": 0.0021,
+     "bfgs_gradient_error": 0.0084,
+     "negative_rho": [
+      0.02518,
+      0.0
+     ],
+     "beta": 0.3
+    },
+    {
+     "iterations": 19,
+     "converged_iterations": 19,
+     "acc_final_Ry": 3.3e-11,
+     "E_Ry": -15496.36359917,
+     "mTS_Ry": -0.00253464,
+     "E_F_eV": 10.8321,
+     "force_max_component_Ry_bohr": 0.00619052,
+     "force_rms_component_Ry_bohr": 0.0012189768342791287,
+     "total_force_Ry_bohr": 0.018884,
+     "total_scf_correction_Ry_bohr": 1.4e-05,
+     "pressure_kbar": 13.31,
+     "bfgs_steps": 9,
+     "bfgs_scf_cycles": 10,
+     "trust_radius_bohr": 0.058387,
+     "bfgs_energy_error_Ry": 0.002,
+     "bfgs_gradient_error": 0.0062,
+     "negative_rho": [
+      0.02778,
+      0.0
+     ],
+     "beta": 0.3
+    },
+    {
+     "iterations": 21,
+     "converged_iterations": 21,
+     "acc_final_Ry": 2.5e-11,
+     "E_Ry": -15496.36471942,
+     "mTS_Ry": -0.00237704,
+     "E_F_eV": 10.8487,
+     "force_max_component_Ry_bohr": 0.00503879,
+     "force_rms_component_Ry_bohr": 0.001293128209504153,
+     "total_force_Ry_bohr": 0.020033,
+     "total_scf_correction_Ry_bohr": 4e-06,
+     "pressure_kbar": 13.97,
+     "bfgs_steps": 10,
+     "bfgs_scf_cycles": 11,
+     "trust_radius_bohr": 0.0149739795,
+     "bfgs_energy_error_Ry": 0.0011,
+     "bfgs_gradient_error": 0.005,
+     "negative_rho": [
+      0.02967,
+      0.0
+     ],
+     "beta": 0.3
+    },
+    {
+     "iterations": 20,
+     "converged_iterations": 20,
+     "acc_final_Ry": 5e-11,
+     "E_Ry": -15496.36511591,
+     "mTS_Ry": -0.00233377,
+     "E_F_eV": 10.8501,
+     "force_max_component_Ry_bohr": 0.0045073,
+     "force_rms_component_Ry_bohr": 0.001152389251942278,
+     "total_force_Ry_bohr": 0.017853,
+     "total_scf_correction_Ry_bohr": 6e-06,
+     "pressure_kbar": 13.99,
+     "bfgs_steps": 11,
+     "bfgs_scf_cycles": 12,
+     "trust_radius_bohr": 0.0164713774,
+     "bfgs_energy_error_Ry": 0.0004,
+     "bfgs_gradient_error": 0.0045,
+     "negative_rho": [
+      0.02942,
+      0.0
+     ],
+     "beta": 0.3
+    },
+    {
+     "iterations": 20,
+     "converged_iterations": 20,
+     "acc_final_Ry": 3.2e-11,
+     "E_Ry": -15496.36569035,
+     "mTS_Ry": -0.00228143,
+     "E_F_eV": 10.8508,
+     "force_max_component_Ry_bohr": 0.00307238,
+     "force_rms_component_Ry_bohr": 0.0008402031010225543,
+     "total_force_Ry_bohr": 0.013016,
+     "total_scf_correction_Ry_bohr": 7e-06,
+     "pressure_kbar": 13.98,
+     "bfgs_steps": 12,
+     "bfgs_scf_cycles": 13,
+     "trust_radius_bohr": 0.0245237501,
+     "bfgs_energy_error_Ry": 0.00057,
+     "bfgs_gradient_error": 0.0031,
+     "negative_rho": [
+      0.03006,
+      0.0
+     ],
+     "beta": 0.3
+    },
+    {
+     "iterations": 20,
+     "converged_iterations": 20,
+     "acc_final_Ry": 2.4e-11,
+     "E_Ry": -15496.36620704,
+     "mTS_Ry": -0.00220817,
+     "E_F_eV": 10.8509,
+     "force_max_component_Ry_bohr": 0.00214159,
+     "force_rms_component_Ry_bohr": 0.000612147360131393,
+     "total_force_Ry_bohr": 0.009483,
+     "total_scf_correction_Ry_bohr": 8e-06,
+     "pressure_kbar": 13.96,
+     "bfgs_steps": 13,
+     "bfgs_scf_cycles": 14,
+     "trust_radius_bohr": 0.0048366948,
+     "bfgs_energy_error_Ry": 0.00052,
+     "bfgs_gradient_error": 0.0021,
+     "negative_rho": [
+      0.0313,
+      0.0
+     ],
+     "beta": 0.3
+    },
+    {
+     "iterations": 17,
+     "converged_iterations": 17,
+     "acc_final_Ry": 1.5e-11,
+     "E_Ry": -15496.36630869,
+     "mTS_Ry": -0.0022014,
+     "E_F_eV": 10.8505,
+     "force_max_component_Ry_bohr": 0.00225589,
+     "force_rms_component_Ry_bohr": 0.0005502756286322944,
+     "total_force_Ry_bohr": 0.008525,
+     "total_scf_correction_Ry_bohr": 7e-06,
+     "pressure_kbar": 13.93,
+     "bfgs_steps": 14,
+     "bfgs_scf_cycles": 15,
+     "trust_radius_bohr": 0.0053203643,
+     "bfgs_energy_error_Ry": 0.0001,
+     "bfgs_gradient_error": 0.0023,
+     "negative_rho": [
+      0.03134,
+      0.0
+     ],
+     "beta": 0.3
+    },
+    {
+     "iterations": 19,
+     "converged_iterations": 19,
+     "acc_final_Ry": 4.8e-12,
+     "E_Ry": -15496.3664176,
+     "mTS_Ry": -0.00219776,
+     "E_F_eV": 10.8502,
+     "force_max_component_Ry_bohr": 0.00200634,
+     "force_rms_component_Ry_bohr": 0.0004394145273168416,
+     "total_force_Ry_bohr": 0.006807,
+     "total_scf_correction_Ry_bohr": 4e-06,
+     "pressure_kbar": 13.9,
+     "bfgs_steps": 15,
+     "bfgs_scf_cycles": 16,
+     "trust_radius_bohr": 0.0079805464,
+     "bfgs_energy_error_Ry": 0.00011,
+     "bfgs_gradient_error": 0.002,
+     "negative_rho": [
+      0.03149,
+      0.0
+     ],
+     "beta": 0.3
+    },
+    {
+     "iterations": 21,
+     "converged_iterations": 21,
+     "acc_final_Ry": 1.3e-12,
+     "E_Ry": -15496.36651724,
+     "mTS_Ry": -0.00219524,
+     "E_F_eV": 10.8499,
+     "force_max_component_Ry_bohr": 0.00146861,
+     "force_rms_component_Ry_bohr": 0.0003263043007927314,
+     "total_force_Ry_bohr": 0.005055,
+     "total_scf_correction_Ry_bohr": 2e-06,
+     "pressure_kbar": 13.85,
+     "bfgs_steps": 16,
+     "bfgs_scf_cycles": 17,
+     "trust_radius_bohr": 0.0087079868,
+     "bfgs_energy_error_Ry": 0.0001,
+     "bfgs_gradient_error": 0.0015,
+     "negative_rho": [
+      0.03181,
+      0.0
+     ],
+     "beta": 0.3
+    },
+    {
+     "iterations": 20,
+     "converged_iterations": 20,
+     "acc_final_Ry": 2.3e-12,
+     "E_Ry": -15496.3665725,
+     "mTS_Ry": -0.00219326,
+     "E_F_eV": 10.8501,
+     "force_max_component_Ry_bohr": 0.00112587,
+     "force_rms_component_Ry_bohr": 0.00030026581229387406,
+     "total_force_Ry_bohr": 0.004652,
+     "total_scf_correction_Ry_bohr": 6e-06,
+     "pressure_kbar": 13.8,
+     "bfgs_steps": 17,
+     "bfgs_scf_cycles": 18,
+     "trust_radius_bohr": 0.0060093152,
+     "bfgs_energy_error_Ry": 5.5e-05,
+     "bfgs_gradient_error": 0.0011,
+     "negative_rho": [
+      0.03214,
+      0.0
+     ],
+     "beta": 0.3
+    },
+    {
+     "iterations": 21,
+     "converged_iterations": 21,
+     "acc_final_Ry": 1e-12,
+     "E_Ry": -15496.36660367,
+     "mTS_Ry": -0.00219209,
+     "E_F_eV": 10.8507,
+     "force_max_component_Ry_bohr": 0.00093808,
+     "force_rms_component_Ry_bohr": 0.00027773591182542456,
+     "total_force_Ry_bohr": 0.004303,
+     "total_scf_correction_Ry_bohr": 2e-06,
+     "pressure_kbar": 13.78,
+     "bfgs_energy_error_Ry": 3.1e-05,
+     "bfgs_gradient_error": 0.00094,
+     "negative_rho": [
+      0.03236,
+      0.0
+     ],
+     "beta": 0.3
+    }
+   ],
+   "final_step": {
+    "iterations": 21,
+    "ecut": 71.0,
+    "beta": 0.3,
+    "negative_rho": [
+     0.03236,
+     0.0
+    ],
+    "E_F_eV": 10.8507,
+    "E_Ry": -15496.36660367,
+    "E_all_electron_Ry": -404180.077014,
+    "acc_final_Ry": 1e-12,
+    "mTS_Ry": -0.00219209,
+    "internal_energy_Ry": -15496.36441159,
+    "one_electron_Ry": -1472.33806959,
+    "hartree_Ry": 1366.99156216,
+    "xc_Ry": -1835.23351299,
+    "ewald_Ry": -4038.12338231,
+    "paw_one_center_Ry": -9517.66100886,
+    "converged_iterations": 21,
+    "force_max_component_Ry_bohr": 0.00093808,
+    "force_max_atom_Ry_bohr": 0.0012371663384120987,
+    "force_rms_component_Ry_bohr": 0.00027773591182542456,
+    "force_max_atom_index": 26,
+    "total_force_Ry_bohr": 0.004303,
+    "total_scf_correction_Ry_bohr": 2e-06,
+    "pressure_kbar": 13.78,
+    "stress_kbar": [
+     [
+      13.11,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      14.23,
+      0.46
+     ],
+     [
+      0.0,
+      0.46,
+      14.0
+     ]
+    ],
+    "bfgs_energy_error_Ry": 3.1e-05,
+    "bfgs_gradient_error": 0.00094,
+    "E_trace_n": 20
+   },
+   "bfgs": {
+    "started": 2165,
+    "converged": "bfgs converged in  19 scf cycles and  18 bfgs steps",
+    "line": 20088,
+    "criteria": "(criteria: energy <  1.0E-04 Ry, force <  1.0E-03 Ry/Bohr)",
+    "end": 20091,
+    "final_energy": -15496.3666036746
+   },
+   "exx": {
+    "cycles": []
+   },
+   "timing": {
+    "init_run": {
+     "cpu": "60.78s",
+     "wall": "69.20s",
+     "calls": 1
+    },
+    "electrons": {
+     "cpu": "74036.83s",
+     "wall": "82121.29s",
+     "calls": 19
+    },
+    "update_pot": {
+     "cpu": "60.92s",
+     "wall": "69.02s",
+     "calls": 18
+    },
+    "forces": {
+     "cpu": "769.72s",
+     "wall": "842.58s",
+     "calls": 19
+    },
+    "stress": {
+     "cpu": "2107.04s",
+     "wall": "2397.50s",
+     "calls": 19
+    },
+    "wfcinit": {
+     "cpu": "53.27s",
+     "wall": "61.00s",
+     "calls": 1
+    },
+    "potinit": {
+     "cpu": "3.51s",
+     "wall": "3.75s",
+     "calls": 1
+    },
+    "hinit0": {
+     "cpu": "1.78s",
+     "wall": "1.88s",
+     "calls": 1
+    },
+    "c_bands": {
+     "cpu": "65939.29s",
+     "wall": "73108.37s",
+     "calls": 368
+    },
+    "sum_band": {
+     "cpu": "6681.85s",
+     "wall": "7405.27s",
+     "calls": 368
+    },
+    "v_of_rho": {
+     "cpu": "444.40s",
+     "wall": "499.96s",
+     "calls": 387
+    },
+    "newd": {
+     "cpu": "328.70s",
+     "wall": "391.83s",
+     "calls": 387
+    },
+    "PAW_pot": {
+     "cpu": "620.43s",
+     "wall": "679.03s",
+     "calls": 405
+    },
+    "mix_rho": {
+     "cpu": "47.29s",
+     "wall": "56.52s",
+     "calls": 368
+    },
+    "init_us_2": {
+     "cpu": "384.90s",
+     "wall": "388.45s",
+     "calls": 1586
+    },
+    "cegterg": {
+     "cpu": "63542.31s",
+     "wall": "69209.21s",
+     "calls": 737
+    },
+    "cdiaghg": {
+     "cpu": "1876.27s",
+     "wall": "2162.09s",
+     "calls": 4375
+    },
+    "h_psi": {
+     "cpu": "29256.22s",
+     "wall": "31881.21s",
+     "calls": 4413
+    },
+    "s_psi": {
+     "cpu": "6262.17s",
+     "wall": "6290.60s",
+     "calls": 4413
+    },
+    "g_psi": {
+     "cpu": "140.96s",
+     "wall": "141.92s",
+     "calls": 3674
+    },
+    "h_psi:calbec": {
+     "cpu": "7111.42s",
+     "wall": "7632.23s",
+     "calls": 4413
+    },
+    "vloc_psi": {
+     "cpu": "15661.37s",
+     "wall": "17684.35s",
+     "calls": 4413
+    },
+    "add_vuspsi": {
+     "cpu": "6415.37s",
+     "wall": "6446.48s",
+     "calls": 4413
+    },
+    "calbec": {
+     "cpu": "11998.39s",
+     "wall": "12980.19s",
+     "calls": 5831
+    },
+    "fft": {
+     "cpu": "324.99s",
+     "wall": "386.44s",
+     "calls": 5486
+    },
+    "ffts": {
+     "cpu": "16.96s",
+     "wall": "20.28s",
+     "calls": 755
+    },
+    "fftw": {
+     "cpu": "16396.39s",
+     "wall": "18806.27s",
+     "calls": 1980230
+    },
+    "interpolate": {
+     "cpu": "39.96s",
+     "wall": "45.19s",
+     "calls": 387
+    },
+    "PWSCF": {
+     "cpu": "21h26m",
+     "wall": "23h48m",
+     "calls": null
+    }
+   },
+   "terminated": "10:35:44  28Sep2026",
+   "done": true,
+   "messages": [
+    [
+     1018,
+     "file In.pbe-dn-kjpaw_psl.1.0.0.UPF: wavefunction(s)  5S 5P 4D renormalized"
+    ],
+    [
+     1019,
+     "file O.pbe-n-kjpaw_psl.1.0.0.UPF: wavefunction(s)  2S 2P renormalized"
+    ],
+    [
+     1020,
+     "file W.pbe-spn-kjpaw_psl.1.0.0.UPF: wavefunction(s)  6S 5P 5D renormalized"
+    ],
+    [
+     1021,
+     "Message from routine setup: using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+    ]
+   ],
+   "errors": null,
+   "warnings": {
+    "message_from_routine": {
+     "count": 1,
+     "first": [
+      [
+       1021,
+       "Message from routine setup:"
+      ]
+     ],
+     "last": [
+      1021,
+      "Message from routine setup:"
+     ]
+    },
+    "warning": {
+     "count": 2,
+     "first": [
+      [
+       3159,
+       "WARNING: bfgs curvature condition failed, Theta= 0.986"
+      ],
+      [
+       8097,
+       "WARNING: bfgs curvature condition failed, Theta= 0.972"
+      ]
+     ],
+     "last": [
+      8097,
+      "WARNING: bfgs curvature condition failed, Theta= 0.972"
+     ]
+    },
+    "c_bands_not_converged": {
+     "count": 12,
+     "first": [
+      [
+       1338,
+       "c_bands:  2 eigenvalues not converged"
+      ],
+      [
+       2276,
+       "c_bands:  1 eigenvalues not converged"
+      ],
+      [
+       2299,
+       "c_bands:  1 eigenvalues not converged"
+      ]
+     ],
+     "last": [
+      17306,
+      "c_bands:  1 eigenvalues not converged"
+     ]
+    },
+    "ieee": {
+     "count": 24,
+     "first": [
+      [
+       20238,
+       "Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL"
+      ],
+      [
+       20239,
+       "Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL"
+      ],
+      [
+       20240,
+       "Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL"
+      ]
+     ],
+     "last": [
+      20261,
+      "Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL"
+     ]
+    },
+    "discouraged": {
+     "count": 1,
+     "first": [
+      [
+       1022,
+       "using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+      ]
+     ],
+     "last": [
+      1022,
+      "using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+     ]
+    },
+    "renormalized_wfc": {
+     "count": 3,
+     "first": [
+      [
+       1018,
+       "file In.pbe-dn-kjpaw_psl.1.0.0.UPF: wavefunction(s)  5S 5P 4D renormalized"
+      ],
+      [
+       1019,
+       "file O.pbe-n-kjpaw_psl.1.0.0.UPF: wavefunction(s)  2S 2P renormalized"
+      ],
+      [
+       1020,
+       "file W.pbe-spn-kjpaw_psl.1.0.0.UPF: wavefunction(s)  6S 5P 5D renormalized"
+      ]
+     ],
+     "last": [
+      1020,
+      "file W.pbe-spn-kjpaw_psl.1.0.0.UPF: wavefunction(s)  6S 5P 5D renormalized"
+     ]
+    }
+   },
+   "bands": {
+    "n_k": 10,
+    "n_bands": 424,
+    "E_F_eV": 10.8507,
+    "bands_fully_below_EF": 352,
+    "bands_crossing_EF_1based": [
+     353
+    ],
+    "highest_band_below_EF_max_eV": 10.5683,
+    "lowest_band_above_EF_min_eV": 10.9046
+   },
+   "n_lines": 20261,
+   "final_geometry": {
+    "n_atoms": 80,
+    "composition": {
+     "In": 31,
+     "O": 48,
+     "W": 1
+    },
+    "cell_lengths_A": [
+     10.30609,
+     10.30609,
+     10.30609
+    ],
+    "cell_angles_deg": [
+     90.0,
+     90.0,
+     90.0
+    ],
+    "volume_A3": 1094.6665,
+    "density_g_cm3": 6.8431,
+    "bonds": {
+     "In-O": {
+      "cutoff_A": 2.6,
+      "n": 186,
+      "min": 2.1246,
+      "mean": 2.2298,
+      "max": 2.4784,
+      "std": 0.0648,
+      "CN_In_hist": {
+       "6": 31
+      }
+     },
+     "W-O": {
+      "cutoff_A": 2.6,
+      "n": 6,
+      "min": 1.8919,
+      "mean": 1.9822,
+      "max": 2.1523,
+      "std": 0.1204,
+      "CN_W_hist": {
+       "6": 1
+      }
+     }
+    },
+    "CN_O_by_cations_hist": {
+     "4": 48
+    },
+    "displacement_vs_initial": {
+     "max_A": 0.3922,
+     "atom": "O31",
+     "mean_A": 0.054,
+     "n_gt_0p1_A": 6,
+     "by_element_max_A": {
+      "In": 0.0821,
+      "O": 0.3922,
+      "W": 0.056
+     }
+    },
+    "reference_input": "relax.in"
+   },
+   "final_coordinates_line": 20096
+  }
+ },
+ "inputs": {
+  "relax.in": {
+   "namelists": {
+    "CONTROL": {
+     "calculation": "relax",
+     "prefix": "rel",
+     "outdir": "./tmp",
+     "pseudo_dir": "./",
+     "verbosity": "low",
+     "tprnfor": ".true.",
+     "tstress": ".true.",
+     "max_seconds": "257380",
+     "nstep": "300",
+     "etot_conv_thr": "1.0d-4",
+     "forc_conv_thr": "1.0d-3"
+    },
+    "SYSTEM": {
+     "ibrav": "0",
+     "nat": "80",
+     "ntyp": "3",
+     "ecutwfc": "71",
+     "ecutrho": "568",
+     "occupations": "smearing",
+     "smearing": "mv",
+     "degauss": "0.01"
+    },
+    "ELECTRONS": {
+     "conv_thr": "1.0d-9",
+     "mixing_beta": "0.3",
+     "electron_maxstep": "100"
+    },
+    "IONS": {
+     "ion_dynamics": "bfgs"
+    }
+   },
+   "cards": {
+    "ATOMIC_SPECIES": [
+     {
+      "species": "In",
+      "mass": 114.818,
+      "pseudo": "In.pbe-dn-kjpaw_psl.1.0.0.UPF"
+     },
+     {
+      "species": "O",
+      "mass": 15.999,
+      "pseudo": "O.pbe-n-kjpaw_psl.1.0.0.UPF"
+     },
+     {
+      "species": "W",
+      "mass": 183.84,
+      "pseudo": "W.pbe-spn-kjpaw_psl.1.0.0.UPF"
+     }
+    ],
+    "CELL_PARAMETERS": {
+     "unit": "angstrom",
+     "vectors": [
+      [
+       10.3060902,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.3060902,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       10.3060902
+      ]
+     ]
+    },
+    "K_POINTS": {
+     "mode": "automatic",
+     "grid": [
+      "3",
+      "3",
+      "3",
+      "0",
+      "0",
+      "0"
+     ]
+    }
+   },
+   "atomic_positions_summary": {
+    "unit": "crystal",
+    "n": 80,
+    "labels": [
+     "In",
+     "O",
+     "W"
+    ],
+    "n_constrained": 0
+   },
+   "geometry": {
+    "n_atoms": 80,
+    "composition": {
+     "In": 31,
+     "O": 48,
+     "W": 1
+    },
+    "cell_lengths_A": [
+     10.30609,
+     10.30609,
+     10.30609
+    ],
+    "cell_angles_deg": [
+     90.0,
+     90.0,
+     90.0
+    ],
+    "volume_A3": 1094.6665,
+    "density_g_cm3": 6.8431,
+    "bonds": {
+     "In-O": {
+      "cutoff_A": 2.6,
+      "n": 186,
+      "min": 2.1671,
+      "mean": 2.2193,
+      "max": 2.2561,
+      "std": 0.0334,
+      "CN_In_hist": {
+       "6": 31
+      }
+     },
+     "W-O": {
+      "cutoff_A": 2.6,
+      "n": 6,
+      "min": 2.1671,
+      "mean": 2.221,
+      "max": 2.2561,
+      "std": 0.0387,
+      "CN_W_hist": {
+       "6": 1
+      }
+     }
+    },
+    "CN_O_by_cations_hist": {
+     "4": 48
+    }
+   }
+  }
+ },
+ "templates": {},
+ "projwfc": {},
+ "pp_avg": {},
+ "avg_dat": {},
+ "pdos": {},
+ "driver": {
+  "iwo_W24d_driver.log": {
+   "lines": [
+    "[2026-09-27T08:46:56Z] job iwo_W24d host b9g12p0056.cern.ch cpus 32 limit 259200s",
+    "[2026-09-27T08:47:16Z] pw.x:/pool/condor/dir_183639/qe-env/bin/pw.x  python: /pool/condor/dir_183639/qe-env/bin/python",
+    "[2026-09-27T08:47:16Z] pw.x relax start (-nk 8, max_seconds 257380)",
+    "[2026-09-28T08:35:44Z] pw.x relax end rc=0 PWSCF        :     21h26m CPU     23h48m WALL",
+    "[2026-09-28T08:35:45Z] pw.x scf_k4 start (-nk 8, max_seconds 171671)"
+   ],
+   "host": "b9g12p0056.cern.ch",
+   "cpus": 32,
+   "limit_s": 259200,
+   "start": "2026-09-27T08:46:56Z",
+   "steps": [
+    {
+     "step": "relax",
+     "start": "2026-09-27T08:47:16Z",
+     "nk": 8,
+     "max_seconds": 257380,
+     "end": "2026-09-28T08:35:44Z",
+     "rc": 0,
+     "time": "PWSCF        :     21h26m CPU     23h48m WALL"
+    },
+    {
+     "step": "scf_k4",
+     "start": "2026-09-28T08:35:45Z",
+     "nk": 8,
+     "max_seconds": 171671
+    }
+   ]
+  }
+ },
+ "steps_sh": {},
+ "other": {},
+ "mpi_errors": {},
+ "condor": [
+  {
+   "job": "iwo_W24d",
+   "id": "12756948.1",
+   "first": "2026-09-28T14:19:54Z",
+   "last": "2026-09-29T08:54:19Z",
+   "samples": 154,
+   "states": {
+    "2": 154
+   },
+   "cpus": 32,
+   "gpus": null,
+   "gpu_hw": [],
+   "cpu_hw": [
+    "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz"
+   ],
+   "max_scf_it": 26,
+   "max_bfgs": 0,
+   "steps": [
+    "bands",
+    "spin_k3"
+   ]
+  }
+ ]
+}

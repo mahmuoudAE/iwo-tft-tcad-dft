@@ -1,0 +1,16 @@
+--- REF_run0066.in
++++ T2b.in
+@@ -69,2 +69,2 @@
+-# [T] OPTION gate tunnelling mesh: rectangle enclosing only the gate insulator (Al2O3 + HfO2), one y-slice every 0.2 um,
+-# 0.5 nm points along it. Auto-slicing from every interface node ran out of memory at the old 2 GB limit (run_0062);
++# [T] OPTION gate tunnelling mesh: rectangle enclosing only the gate insulator (Al2O3 + HfO2), one y-slice every 0.1 um,
++# 0.25 nm points along it. Auto-slicing from every interface node ran out of memory at the old 2 GB limit (run_0062);
+@@ -74,4 +74,4 @@
+-qtx.mesh loc=0 spac=0.2
+-qtx.mesh loc=24 spac=0.2
+-qty.mesh loc=-0.0005 spac=0.0005
+-qty.mesh loc=0.0175 spac=0.0005
++qtx.mesh loc=0 spac=0.1
++qtx.mesh loc=24 spac=0.1
++qty.mesh loc=-0.00025 spac=0.00025
++qty.mesh loc=0.01725 spac=0.00025

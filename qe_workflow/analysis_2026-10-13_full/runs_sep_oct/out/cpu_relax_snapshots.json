@@ -1,0 +1,1331 @@
+{
+ "run": "cpu_relax_snapshots",
+ "folder": "cern_htcondor/results/cpu_relax_snapshots",
+ "files": [
+  {
+   "path": "slab1_relax_vcrelax.out",
+   "size": 690230,
+   "sha256_16": "04679d12ee427684",
+   "src": "loose",
+   "kind": "pw_out"
+  },
+  {
+   "path": "slab2_relax_vcrelax.out",
+   "size": 429936,
+   "sha256_16": "fd09f113acc8578c",
+   "src": "loose",
+   "kind": "pw_out"
+  }
+ ],
+ "tarballs": [],
+ "pw": {
+  "slab1_relax_vcrelax.out": {
+   "header": {
+    "version": "v.7.5",
+    "start_date": "27Sep2026",
+    "start_time": "16:36:25",
+    "processor_cores": 16,
+    "parallel_mode": "Parallel version (MPI & OpenMP),",
+    "mpi_processes": 16,
+    "threads_per_mpi": 1,
+    "nodes": 1,
+    "node_memory_MiB": 122054.0,
+    "input": "vcrelax.in",
+    "npool": 4,
+    "RG_division": "4",
+    "subspace_diag": "Subspace diagonalization in iterative solution of the eigenvalue problem: one sub-group per band group will be used",
+    "fft_decomposition": "Using Slab Decomposition"
+   },
+   "params": {
+    "bravais-lattice index": "0",
+    "lattice parameter (alat)": "19.4757  a.u.",
+    "unit-cell volume": "24997.2915 (a.u.)^3",
+    "number of atoms/cell": "96",
+    "number of atomic types": "3",
+    "number of electrons": "624.00",
+    "number of Kohn-Sham states": "320",
+    "kinetic-energy cutoff": "71.0000  Ry",
+    "charge density cutoff": "568.0000  Ry",
+    "scf convergence threshold": "1.0E-09",
+    "mixing beta": "0.2000",
+    "number of iterations used": "8  local-TF  mixing",
+    "energy convergence thresh.": "1.0E-04",
+    "force convergence thresh.": "1.0E-03",
+    "press convergence thresh.": "5.0E-01",
+    "Exchange-correlation": "SLA  PW   PBX  PBC",
+    "nstep": "300",
+    "celldm": [
+     19.475688,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "pseudos": [
+    {
+     "n": 1,
+     "element": "In",
+     "file": "./In.pbe-dn-kjpaw_psl.1.0.0.UPF",
+     "md5": "235b15e6a7fdfd96486e0ecdcb5b12c6",
+     "type": "Projector augmented-wave + core cor",
+     "Zval": 13.0,
+     "notes": [
+      "Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.3",
+      "Shape of augmentation charge: PSQ"
+     ],
+     "radial_grid": "Using radial grid of 1241 points,  6 beta functions with:"
+    },
+    {
+     "n": 2,
+     "element": "O",
+     "file": "./O.pbe-n-kjpaw_psl.1.0.0.UPF",
+     "md5": "e99d9cef9b487d1ca56f5b95ecd0fd7a",
+     "type": "Projector augmented-wave + core cor",
+     "Zval": 6.0,
+     "notes": [
+      "Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.3",
+      "Shape of augmentation charge: PSQ"
+     ],
+     "radial_grid": "Using radial grid of 1095 points,  4 beta functions with:"
+    },
+    {
+     "n": 3,
+     "element": "H",
+     "file": "./H.pbe-kjpaw_psl.1.0.0.UPF",
+     "md5": "d81a744832360e4a8af0b0b5b123bc2a",
+     "type": "Projector augmented-wave",
+     "Zval": 1.0,
+     "notes": [
+      "Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.3MaX",
+      "Shape of augmentation charge: PSQ"
+     ],
+     "radial_grid": "Using radial grid of  929 points,  2 beta functions with:"
+    }
+   ],
+   "pseudo_rereads": 0,
+   "species": [
+    {
+     "species": "In",
+     "valence": 13.0,
+     "mass": 114.818
+    },
+    {
+     "species": "O",
+     "valence": 6.0,
+     "mass": 15.999
+    },
+    {
+     "species": "H",
+     "valence": 1.0,
+     "mass": 1.008
+    }
+   ],
+   "symmetry": "8 Sym. Ops., with inversion, found ( 6 have fractional translation)",
+   "kpoints": {
+    "n": 4,
+    "line": "number of k points=     4",
+    "sum_wk": 2.0
+   },
+   "fft": {
+    "dense": "Dense  grid:  5713967 G-vectors     FFT dimensions: ( 150, 150, 500)",
+    "smooth": "Smooth grid:  2020553 G-vectors     FFT dimensions: ( 108, 108, 360)"
+   },
+   "ram": {
+    "Estimated max dynamical RAM per process": "3.79 GB",
+    "Estimated total dynamical RAM": "56.51 GB"
+   },
+   "ram_components": null,
+   "start": [
+    "Initial potential from superposition of free atoms",
+    "starting charge     623.9105, renormalised to     624.0000",
+    "Starting wfcs are  432 randomized atomic wfcs"
+   ],
+   "calc_type": "scf/relax",
+   "bands_calc": null,
+   "n_scf_steps": 15,
+   "steps": [
+    {
+     "iterations": 72,
+     "converged_iterations": 72,
+     "acc_final_Ry": 7.9e-10,
+     "E_Ry": -11888.29270282,
+     "enthalpy_new_Ry": -11888.2927028213,
+     "HOMO_eV": -1.275,
+     "LUMO_eV": -0.3164,
+     "force_max_component_Ry_bohr": 0.04921008,
+     "force_rms_component_Ry_bohr": 0.0156650367214592,
+     "total_force_Ry_bohr": 0.265845,
+     "total_scf_correction_Ry_bohr": 4.8e-05,
+     "pressure_kbar": -3.08,
+     "volume_A3": 3708.16153,
+     "cell_A": [
+      [
+       10.312129767,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.311024039,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 0,
+     "bfgs_scf_cycles": 1,
+     "trust_radius_bohr": 0.0513605,
+     "bfgs_energy_error_Ry": 0.069,
+     "bfgs_gradient_error": 0.049,
+     "bfgs_cell_gradient_error_kbar": 3.4,
+     "negative_rho": [
+      0.001672,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 42,
+     "converged_iterations": 42,
+     "acc_final_Ry": 5.1e-10,
+     "E_Ry": -11888.34222222,
+     "enthalpy_new_Ry": -11888.3422222219,
+     "HOMO_eV": -1.3266,
+     "LUMO_eV": -0.0911,
+     "force_max_component_Ry_bohr": 0.02967554,
+     "force_rms_component_Ry_bohr": 0.010883747885233259,
+     "total_force_Ry_bohr": 0.184703,
+     "total_scf_correction_Ry_bohr": 0.000132,
+     "pressure_kbar": -4.08,
+     "volume_A3": 3718.12866,
+     "cell_A": [
+      [
+       10.327106208,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.323745641,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 1,
+     "bfgs_scf_cycles": 2,
+     "trust_radius_bohr": 0.0800607698,
+     "bfgs_energy_error_Ry": 0.05,
+     "bfgs_gradient_error": 0.03,
+     "bfgs_cell_gradient_error_kbar": 3.3,
+     "negative_rho": [
+      0.001687,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 58,
+     "converged_iterations": 58,
+     "acc_final_Ry": 2.7e-10,
+     "E_Ry": -11888.38374683,
+     "enthalpy_new_Ry": -11888.3837468303,
+     "HOMO_eV": -1.3134,
+     "LUMO_eV": 0.1423,
+     "force_max_component_Ry_bohr": 0.0211402,
+     "force_rms_component_Ry_bohr": 0.009048981150954618,
+     "total_force_Ry_bohr": 0.153566,
+     "total_scf_correction_Ry_bohr": 4.1e-05,
+     "pressure_kbar": -1.48,
+     "volume_A3": 3724.69688,
+     "cell_A": [
+      [
+       10.336607133,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.332477061,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 2,
+     "bfgs_scf_cycles": 3,
+     "trust_radius_bohr": 0.0388616536,
+     "bfgs_energy_error_Ry": 0.042,
+     "bfgs_gradient_error": 0.021,
+     "bfgs_cell_gradient_error_kbar": 2.8,
+     "negative_rho": [
+      0.001811,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 36,
+     "converged_iterations": 36,
+     "acc_final_Ry": 2.1e-10,
+     "E_Ry": -11888.40488977,
+     "enthalpy_new_Ry": -11888.4048897742,
+     "HOMO_eV": -1.3078,
+     "LUMO_eV": 0.1466,
+     "force_max_component_Ry_bohr": 0.02141496,
+     "force_rms_component_Ry_bohr": 0.007718110304159806,
+     "total_force_Ry_bohr": 0.130981,
+     "total_scf_correction_Ry_bohr": 4.2e-05,
+     "pressure_kbar": -2.42,
+     "volume_A3": 3732.15759,
+     "cell_A": [
+      [
+       10.34714418,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.342630242,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 3,
+     "bfgs_scf_cycles": 4,
+     "trust_radius_bohr": 0.0427783683,
+     "bfgs_energy_error_Ry": 0.021,
+     "bfgs_gradient_error": 0.021,
+     "bfgs_cell_gradient_error_kbar": 2.3,
+     "negative_rho": [
+      0.001873,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 35,
+     "converged_iterations": 35,
+     "acc_final_Ry": 9.6e-11,
+     "E_Ry": -11888.42557007,
+     "enthalpy_new_Ry": -11888.4255700702,
+     "HOMO_eV": -1.3505,
+     "LUMO_eV": 0.1191,
+     "force_max_component_Ry_bohr": 0.01776028,
+     "force_rms_component_Ry_bohr": 0.006786708638034816,
+     "total_force_Ry_bohr": 0.115174,
+     "total_scf_correction_Ry_bohr": 2.3e-05,
+     "pressure_kbar": -3.09,
+     "volume_A3": 3742.6102,
+     "cell_A": [
+      [
+       10.361677164,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.357049807,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 4,
+     "bfgs_scf_cycles": 5,
+     "trust_radius_bohr": 0.0642254352,
+     "bfgs_energy_error_Ry": 0.021,
+     "bfgs_gradient_error": 0.018,
+     "bfgs_cell_gradient_error_kbar": 1.5,
+     "negative_rho": [
+      0.001987,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 38,
+     "converged_iterations": 38,
+     "acc_final_Ry": 1.2e-10,
+     "E_Ry": -11888.44896637,
+     "enthalpy_new_Ry": -11888.4489663689,
+     "HOMO_eV": -1.3999,
+     "LUMO_eV": 0.0707,
+     "force_max_component_Ry_bohr": 0.01305964,
+     "force_rms_component_Ry_bohr": 0.006120517151031507,
+     "total_force_Ry_bohr": 0.103869,
+     "total_scf_correction_Ry_bohr": 1.8e-05,
+     "pressure_kbar": -3.91,
+     "volume_A3": 3756.84726,
+     "cell_A": [
+      [
+       10.380887182,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.377209709,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 5,
+     "bfgs_scf_cycles": 6,
+     "trust_radius_bohr": 0.0964625312,
+     "bfgs_energy_error_Ry": 0.023,
+     "bfgs_gradient_error": 0.013,
+     "bfgs_cell_gradient_error_kbar": 0.39,
+     "negative_rho": [
+      0.00215,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 37,
+     "converged_iterations": 37,
+     "acc_final_Ry": 4.7e-11,
+     "E_Ry": -11888.46937619,
+     "enthalpy_new_Ry": -11888.46937619,
+     "HOMO_eV": -1.4469,
+     "LUMO_eV": -0.0088,
+     "force_max_component_Ry_bohr": 0.01654453,
+     "force_rms_component_Ry_bohr": 0.00690796580226247,
+     "total_force_Ry_bohr": 0.117232,
+     "total_scf_correction_Ry_bohr": 2.7e-05,
+     "pressure_kbar": -4.91,
+     "volume_A3": 3761.80835,
+     "cell_A": [
+      [
+       10.387166058,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.384632138,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 6,
+     "bfgs_scf_cycles": 7,
+     "trust_radius_bohr": 0.047828279,
+     "bfgs_energy_error_Ry": 0.02,
+     "bfgs_gradient_error": 0.017,
+     "bfgs_cell_gradient_error_kbar": 1.8,
+     "negative_rho": [
+      0.002143,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 38,
+     "converged_iterations": 38,
+     "acc_final_Ry": 5.9e-11,
+     "E_Ry": -11888.47934136,
+     "enthalpy_new_Ry": -11888.4793413561,
+     "HOMO_eV": -1.454,
+     "LUMO_eV": -0.0416,
+     "force_max_component_Ry_bohr": 0.01601884,
+     "force_rms_component_Ry_bohr": 0.006250138496516608,
+     "total_force_Ry_bohr": 0.106068,
+     "total_scf_correction_Ry_bohr": 3.2e-05,
+     "pressure_kbar": -4.96,
+     "volume_A3": 3764.35149,
+     "cell_A": [
+      [
+       10.389134706,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.389683457,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 7,
+     "bfgs_scf_cycles": 8,
+     "trust_radius_bohr": 0.0791665096,
+     "bfgs_energy_error_Ry": 0.01,
+     "bfgs_gradient_error": 0.016,
+     "bfgs_cell_gradient_error_kbar": 2.5,
+     "negative_rho": [
+      0.002206,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 48,
+     "converged_iterations": 48,
+     "acc_final_Ry": 3.4e-11,
+     "E_Ry": -11888.49473128,
+     "enthalpy_new_Ry": -11888.4947312836,
+     "HOMO_eV": -1.4734,
+     "LUMO_eV": -0.0727,
+     "force_max_component_Ry_bohr": 0.01286929,
+     "force_rms_component_Ry_bohr": 0.00459600802504754,
+     "total_force_Ry_bohr": 0.077997,
+     "total_scf_correction_Ry_bohr": 1e-05,
+     "pressure_kbar": -4.35,
+     "volume_A3": 3759.9845,
+     "cell_A": [
+      [
+       10.381756129,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.385006121,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 8,
+     "bfgs_scf_cycles": 9,
+     "trust_radius_bohr": 0.0627001104,
+     "bfgs_energy_error_Ry": 0.015,
+     "bfgs_gradient_error": 0.013,
+     "bfgs_cell_gradient_error_kbar": 2.7,
+     "negative_rho": [
+      0.002165,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 43,
+     "converged_iterations": 43,
+     "acc_final_Ry": 6.8e-11,
+     "E_Ry": -11888.50609379,
+     "enthalpy_new_Ry": -11888.5060937908,
+     "HOMO_eV": -1.4915,
+     "LUMO_eV": -0.0479,
+     "force_max_component_Ry_bohr": 0.0117877,
+     "force_rms_component_Ry_bohr": 0.004692081617887085,
+     "total_force_Ry_bohr": 0.079627,
+     "total_scf_correction_Ry_bohr": 2.8e-05,
+     "pressure_kbar": -3.35,
+     "volume_A3": 3752.27089,
+     "cell_A": [
+      [
+       10.370000984,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.375449296,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 9,
+     "bfgs_scf_cycles": 10,
+     "trust_radius_bohr": 0.0579132509,
+     "bfgs_energy_error_Ry": 0.011,
+     "bfgs_gradient_error": 0.012,
+     "bfgs_cell_gradient_error_kbar": 2.1,
+     "negative_rho": [
+      0.002113,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 38,
+     "converged_iterations": 38,
+     "acc_final_Ry": 1.1e-10,
+     "E_Ry": -11888.51474754,
+     "enthalpy_new_Ry": -11888.5147475398,
+     "HOMO_eV": -1.5097,
+     "LUMO_eV": -0.0106,
+     "force_max_component_Ry_bohr": 0.01158821,
+     "force_rms_component_Ry_bohr": 0.004341507303530142,
+     "total_force_Ry_bohr": 0.073678,
+     "total_scf_correction_Ry_bohr": 2.5e-05,
+     "pressure_kbar": -2.2,
+     "volume_A3": 3742.79952,
+     "cell_A": [
+      [
+       10.356223093,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.363028518,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 10,
+     "bfgs_scf_cycles": 11,
+     "trust_radius_bohr": 0.0541750197,
+     "bfgs_energy_error_Ry": 0.0087,
+     "bfgs_gradient_error": 0.012,
+     "bfgs_cell_gradient_error_kbar": 1.1,
+     "negative_rho": [
+      0.002045,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 33,
+     "converged_iterations": 33,
+     "acc_final_Ry": 3.9e-11,
+     "E_Ry": -11888.52299753,
+     "enthalpy_new_Ry": -11888.5229975349,
+     "HOMO_eV": -1.5337,
+     "LUMO_eV": 0.0261,
+     "force_max_component_Ry_bohr": 0.01454366,
+     "force_rms_component_Ry_bohr": 0.004507291045312337,
+     "total_force_Ry_bohr": 0.076491,
+     "total_scf_correction_Ry_bohr": 1.7e-05,
+     "pressure_kbar": -0.82,
+     "volume_A3": 3731.37836,
+     "cell_A": [
+      [
+       10.340041782,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.347573495,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 11,
+     "bfgs_scf_cycles": 12,
+     "trust_radius_bohr": 0.0828889565,
+     "bfgs_energy_error_Ry": 0.0082,
+     "bfgs_gradient_error": 0.015,
+     "bfgs_cell_gradient_error_kbar": 0.71,
+     "negative_rho": [
+      0.001976,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 45,
+     "converged_iterations": 45,
+     "acc_final_Ry": 1.2e-10,
+     "E_Ry": -11888.53345838,
+     "enthalpy_new_Ry": -11888.5334583805,
+     "HOMO_eV": -1.5674,
+     "LUMO_eV": 0.0594,
+     "force_max_component_Ry_bohr": 0.01313632,
+     "force_rms_component_Ry_bohr": 0.0048998774099343265,
+     "total_force_Ry_bohr": 0.083154,
+     "total_scf_correction_Ry_bohr": 4.1e-05,
+     "pressure_kbar": 1.08,
+     "volume_A3": 3726.9117,
+     "cell_A": [
+      [
+       10.334268103,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.340961101,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 12,
+     "bfgs_scf_cycles": 13,
+     "trust_radius_bohr": 0.0653391224,
+     "bfgs_energy_error_Ry": 0.01,
+     "bfgs_gradient_error": 0.013,
+     "bfgs_cell_gradient_error_kbar": 2.8,
+     "negative_rho": [
+      0.001932,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 39,
+     "converged_iterations": 39,
+     "acc_final_Ry": 5.9e-11,
+     "E_Ry": -11888.54170682,
+     "enthalpy_new_Ry": -11888.5417068187,
+     "HOMO_eV": -1.6226,
+     "LUMO_eV": 0.0496,
+     "force_max_component_Ry_bohr": 0.01121415,
+     "force_rms_component_Ry_bohr": 0.0044699971311936175,
+     "total_force_Ry_bohr": 0.075858,
+     "total_scf_correction_Ry_bohr": 2.3e-05,
+     "pressure_kbar": 2.44,
+     "volume_A3": 3731.73026,
+     "cell_A": [
+      [
+       10.341816426,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.346773563,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ],
+     "bfgs_steps": 13,
+     "bfgs_scf_cycles": 14,
+     "trust_radius_bohr": 0.0628822509,
+     "bfgs_energy_error_Ry": 0.0082,
+     "bfgs_gradient_error": 0.011,
+     "bfgs_cell_gradient_error_kbar": 4.2,
+     "negative_rho": [
+      0.00196,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 34,
+     "negative_rho": [
+      0.00196,
+      0.0
+     ],
+     "beta": 0.2
+    }
+   ],
+   "final_step": {
+    "iterations": 34,
+    "ecut": 71.0,
+    "beta": 0.2,
+    "negative_rho": [
+     0.00196,
+     0.0
+    ],
+    "E_trace_n": 33
+   },
+   "bfgs": {
+    "started": 1646
+   },
+   "exx": {
+    "cycles": []
+   },
+   "timing": {},
+   "terminated": null,
+   "done": false,
+   "messages": [
+    [
+     314,
+     "file In.pbe-dn-kjpaw_psl.1.0.0.UPF: wavefunction(s)  5S 5P 4D renormalized"
+    ],
+    [
+     315,
+     "file O.pbe-n-kjpaw_psl.1.0.0.UPF: wavefunction(s)  2S 2P renormalized"
+    ],
+    [
+     316,
+     "file H.pbe-kjpaw_psl.1.0.0.UPF: wavefunction(s)  1S renormalized"
+    ],
+    [
+     317,
+     "Message from routine setup: using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+    ]
+   ],
+   "errors": null,
+   "warnings": {
+    "message_from_routine": {
+     "count": 1,
+     "first": [
+      [
+       317,
+       "Message from routine setup:"
+      ]
+     ],
+     "last": [
+      317,
+      "Message from routine setup:"
+     ]
+    },
+    "c_bands_not_converged": {
+     "count": 3,
+     "first": [
+      [
+       884,
+       "c_bands:  1 eigenvalues not converged"
+      ],
+      [
+       896,
+       "c_bands:  1 eigenvalues not converged"
+      ],
+      [
+       2734,
+       "c_bands:  2 eigenvalues not converged"
+      ]
+     ],
+     "last": [
+      2734,
+      "c_bands:  2 eigenvalues not converged"
+     ]
+    },
+    "error": {
+     "count": 32,
+     "first": [
+      [
+       1,
+       "[1790519785.584810] [b9p06p3387:212  :0]        ib_iface.c:1376 UCX  ERROR bnxt_re0: ibv_create_cq(cqe=256) failed: Input/output error"
+      ],
+      [
+       2,
+       "[1790519785.584919] [b9p06p3387:212  :0]      ucp_worker.c:1492 UCX  ERROR uct_iface_open(ud_verbs/bnxt_re0:1) failed: Input/output error"
+      ],
+      [
+       3,
+       "[1790519785.585270] [b9p06p3387:213  :0]        ib_iface.c:1376 UCX  ERROR bnxt_re0: ibv_create_cq(cqe=256) failed: Input/output error"
+      ]
+     ],
+     "last": [
+      47,
+      "[1790519785.592532] [b9p06p3387:217  :0]      ucp_worker.c:1492 UCX  ERROR uct_iface_open(ud_verbs/bnxt_re0:1) failed: Input/output error"
+     ]
+    },
+    "discouraged": {
+     "count": 1,
+     "first": [
+      [
+       318,
+       "using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+      ]
+     ],
+     "last": [
+      318,
+      "using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+     ]
+    },
+    "renormalized_wfc": {
+     "count": 3,
+     "first": [
+      [
+       314,
+       "file In.pbe-dn-kjpaw_psl.1.0.0.UPF: wavefunction(s)  5S 5P 4D renormalized"
+      ],
+      [
+       315,
+       "file O.pbe-n-kjpaw_psl.1.0.0.UPF: wavefunction(s)  2S 2P renormalized"
+      ],
+      [
+       316,
+       "file H.pbe-kjpaw_psl.1.0.0.UPF: wavefunction(s)  1S renormalized"
+      ]
+     ],
+     "last": [
+      316,
+      "file H.pbe-kjpaw_psl.1.0.0.UPF: wavefunction(s)  1S renormalized"
+     ]
+    },
+    "ucx_error": {
+     "count": 32,
+     "first": [
+      [
+       1,
+       "[1790519785.584810] [b9p06p3387:212  :0]        ib_iface.c:1376 UCX  ERROR bnxt_re0: ibv_create_cq(cqe=256) failed: Input/output error"
+      ],
+      [
+       2,
+       "[1790519785.584919] [b9p06p3387:212  :0]      ucp_worker.c:1492 UCX  ERROR uct_iface_open(ud_verbs/bnxt_re0:1) failed: Input/output error"
+      ],
+      [
+       3,
+       "[1790519785.585270] [b9p06p3387:213  :0]        ib_iface.c:1376 UCX  ERROR bnxt_re0: ibv_create_cq(cqe=256) failed: Input/output error"
+      ]
+     ],
+     "last": [
+      47,
+      "[1790519785.592532] [b9p06p3387:217  :0]      ucp_worker.c:1492 UCX  ERROR uct_iface_open(ud_verbs/bnxt_re0:1) failed: Input/output error"
+     ]
+    }
+   },
+   "bands": {
+    "n_k": 4,
+    "n_bands": 320,
+    "n_occ": 312,
+    "VBM_eV": -1.6226,
+    "VBM_k_index": 3,
+    "CBM_eV": 0.0496,
+    "CBM_k_index": 0,
+    "gap_eV": 1.6722,
+    "direct_gap_min_eV": 1.6727,
+    "direct_gap_k_index": 0,
+    "gap_type": "indirect",
+    "VB_width_top_band_eV": 0.0217,
+    "CB_width_bottom_band_eV": 0.8789,
+    "E2_minus_E1_at_k0_eV": 1.2025
+   },
+   "n_lines": 13631
+  },
+  "slab2_relax_vcrelax.out": {
+   "header": {
+    "version": "v.7.5",
+    "start_date": "29Sep2026",
+    "start_time": "14:11:22",
+    "processor_cores": 32,
+    "parallel_mode": "Parallel version (MPI & OpenMP),",
+    "mpi_processes": 32,
+    "threads_per_mpi": 1,
+    "nodes": 1,
+    "node_memory_MiB": 642658.0,
+    "input": "vcrelax.in",
+    "npool": 2,
+    "RG_division": "16",
+    "subspace_diag": "Subspace diagonalization in iterative solution of the eigenvalue problem: one sub-group per band group will be used",
+    "fft_decomposition": "Using Slab Decomposition"
+   },
+   "params": {
+    "bravais-lattice index": "0",
+    "lattice parameter (alat)": "19.4757  a.u.",
+    "unit-cell volume": "32384.4670 (a.u.)^3",
+    "number of atoms/cell": "176",
+    "number of atomic types": "3",
+    "number of electrons": "1328.00",
+    "number of Kohn-Sham states": "672",
+    "kinetic-energy cutoff": "71.0000  Ry",
+    "charge density cutoff": "568.0000  Ry",
+    "scf convergence threshold": "1.0E-09",
+    "mixing beta": "0.2000",
+    "number of iterations used": "8  local-TF  mixing",
+    "energy convergence thresh.": "1.0E-04",
+    "force convergence thresh.": "1.0E-03",
+    "press convergence thresh.": "5.0E-01",
+    "Exchange-correlation": "SLA  PW   PBX  PBC",
+    "nstep": "300",
+    "celldm": [
+     19.475688,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "pseudos": [
+    {
+     "n": 1,
+     "element": "In",
+     "file": "./In.pbe-dn-kjpaw_psl.1.0.0.UPF",
+     "md5": "235b15e6a7fdfd96486e0ecdcb5b12c6",
+     "type": "Projector augmented-wave + core cor",
+     "Zval": 13.0,
+     "notes": [
+      "Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.3",
+      "Shape of augmentation charge: PSQ"
+     ],
+     "radial_grid": "Using radial grid of 1241 points,  6 beta functions with:"
+    },
+    {
+     "n": 2,
+     "element": "O",
+     "file": "./O.pbe-n-kjpaw_psl.1.0.0.UPF",
+     "md5": "e99d9cef9b487d1ca56f5b95ecd0fd7a",
+     "type": "Projector augmented-wave + core cor",
+     "Zval": 6.0,
+     "notes": [
+      "Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.3",
+      "Shape of augmentation charge: PSQ"
+     ],
+     "radial_grid": "Using radial grid of 1095 points,  4 beta functions with:"
+    },
+    {
+     "n": 3,
+     "element": "H",
+     "file": "./H.pbe-kjpaw_psl.1.0.0.UPF",
+     "md5": "d81a744832360e4a8af0b0b5b123bc2a",
+     "type": "Projector augmented-wave",
+     "Zval": 1.0,
+     "notes": [
+      "Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.3MaX",
+      "Shape of augmentation charge: PSQ"
+     ],
+     "radial_grid": "Using radial grid of  929 points,  2 beta functions with:"
+    }
+   ],
+   "pseudo_rereads": 0,
+   "species": [
+    {
+     "species": "In",
+     "valence": 13.0,
+     "mass": 114.818
+    },
+    {
+     "species": "O",
+     "valence": 6.0,
+     "mass": 15.999
+    },
+    {
+     "species": "H",
+     "valence": 1.0,
+     "mass": 1.008
+    }
+   ],
+   "symmetry": "8 Sym. Ops., with inversion, found ( 6 have fractional translation)",
+   "kpoints": {
+    "n": 4,
+    "line": "number of k points=     4",
+    "sum_wk": 2.0
+   },
+   "fft": {
+    "dense": "Dense  grid:  7403139 G-vectors     FFT dimensions: ( 150, 150, 648)",
+    "smooth": "Smooth grid:  2617449 G-vectors     FFT dimensions: ( 108, 108, 480)"
+   },
+   "ram": {
+    "Estimated max dynamical RAM per process": "3.09 GB",
+    "Estimated total dynamical RAM": "97.03 GB"
+   },
+   "ram_components": null,
+   "start": [
+    "Initial potential from superposition of free atoms",
+    "starting charge    1327.7914, renormalised to    1328.0000",
+    "Starting wfcs are  912 randomized atomic wfcs"
+   ],
+   "calc_type": "scf/relax",
+   "bands_calc": null,
+   "n_scf_steps": 4,
+   "steps": [
+    {
+     "iterations": 86,
+     "converged_iterations": 86,
+     "acc_final_Ry": 7.3e-10,
+     "E_Ry": -27035.14864497,
+     "enthalpy_new_Ry": -27035.1486449703,
+     "HOMO_eV": 1.0113,
+     "LUMO_eV": 1.5075,
+     "force_max_component_Ry_bohr": 0.04927707,
+     "force_rms_component_Ry_bohr": 0.01156965479219303,
+     "total_force_Ry_bohr": 0.26585,
+     "total_scf_correction_Ry_bohr": 0.000129,
+     "pressure_kbar": -2.28,
+     "volume_A3": 4802.99625,
+     "cell_A": [
+      [
+       10.310933804,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.310078577,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       45.18062913
+      ]
+     ],
+     "bfgs_steps": 0,
+     "bfgs_scf_cycles": 1,
+     "trust_radius_bohr": 0.0513599286,
+     "bfgs_energy_error_Ry": 0.069,
+     "bfgs_gradient_error": 0.049,
+     "bfgs_cell_gradient_error_kbar": 2.8,
+     "negative_rho": [
+      0.001998,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 54,
+     "converged_iterations": 54,
+     "acc_final_Ry": 4.4e-10,
+     "E_Ry": -27035.19809269,
+     "enthalpy_new_Ry": -27035.1980926942,
+     "HOMO_eV": 0.8844,
+     "LUMO_eV": 1.7237,
+     "force_max_component_Ry_bohr": 0.02967992,
+     "force_rms_component_Ry_bohr": 0.00806626031220375,
+     "total_force_Ry_bohr": 0.185349,
+     "total_scf_correction_Ry_bohr": 7.5e-05,
+     "pressure_kbar": -3.29,
+     "volume_A3": 4812.6606,
+     "cell_A": [
+      [
+       10.322142472,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.3196059,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       45.18062913
+      ]
+     ],
+     "bfgs_steps": 1,
+     "bfgs_scf_cycles": 2,
+     "trust_radius_bohr": 0.0804870591,
+     "bfgs_energy_error_Ry": 0.049,
+     "bfgs_gradient_error": 0.03,
+     "bfgs_cell_gradient_error_kbar": 2.4,
+     "negative_rho": [
+      0.002072,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 88,
+     "converged_iterations": 88,
+     "acc_final_Ry": 2.6e-10,
+     "E_Ry": -27035.23976791,
+     "enthalpy_new_Ry": -27035.2397679134,
+     "HOMO_eV": 0.8408,
+     "LUMO_eV": 1.9472,
+     "force_max_component_Ry_bohr": 0.02112483,
+     "force_rms_component_Ry_bohr": 0.006845680709770798,
+     "total_force_Ry_bohr": 0.157302,
+     "total_scf_correction_Ry_bohr": 4.3e-05,
+     "pressure_kbar": -1.79,
+     "volume_A3": 4817.97704,
+     "cell_A": [
+      [
+       10.328080023,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.325066496,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       45.18062913
+      ]
+     ],
+     "bfgs_steps": 2,
+     "bfgs_scf_cycles": 3,
+     "trust_radius_bohr": 0.0393436411,
+     "bfgs_energy_error_Ry": 0.042,
+     "bfgs_gradient_error": 0.021,
+     "bfgs_cell_gradient_error_kbar": 1.4,
+     "negative_rho": [
+      0.002145,
+      0.0
+     ],
+     "beta": 0.2
+    },
+    {
+     "iterations": 30,
+     "negative_rho": [
+      0.002145,
+      0.0
+     ],
+     "beta": 0.2
+    }
+   ],
+   "final_step": {
+    "iterations": 30,
+    "ecut": 71.0,
+    "beta": 0.2,
+    "negative_rho": [
+     0.002145,
+     0.0
+    ],
+    "E_trace_n": 29
+   },
+   "bfgs": {
+    "started": 2840
+   },
+   "exx": {
+    "cycles": []
+   },
+   "timing": {},
+   "terminated": null,
+   "done": false,
+   "messages": [
+    [
+     1018,
+     "file In.pbe-dn-kjpaw_psl.1.0.0.UPF: wavefunction(s)  5S 5P 4D renormalized"
+    ],
+    [
+     1019,
+     "file O.pbe-n-kjpaw_psl.1.0.0.UPF: wavefunction(s)  2S 2P renormalized"
+    ],
+    [
+     1020,
+     "file H.pbe-kjpaw_psl.1.0.0.UPF: wavefunction(s)  1S renormalized"
+    ],
+    [
+     1021,
+     "Message from routine setup: using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+    ]
+   ],
+   "errors": null,
+   "warnings": {
+    "message_from_routine": {
+     "count": 1,
+     "first": [
+      [
+       1021,
+       "Message from routine setup:"
+      ]
+     ],
+     "last": [
+      1021,
+      "Message from routine setup:"
+     ]
+    },
+    "c_bands_not_converged": {
+     "count": 8,
+     "first": [
+      [
+       1635,
+       "c_bands:  1 eigenvalues not converged"
+      ],
+      [
+       1658,
+       "c_bands:  1 eigenvalues not converged"
+      ],
+      [
+       3111,
+       "c_bands:  1 eigenvalues not converged"
+      ]
+     ],
+     "last": [
+      4756,
+      "c_bands:  2 eigenvalues not converged"
+     ]
+    },
+    "discouraged": {
+     "count": 1,
+     "first": [
+      [
+       1022,
+       "using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+      ]
+     ],
+     "last": [
+      1022,
+      "using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+     ]
+    },
+    "renormalized_wfc": {
+     "count": 3,
+     "first": [
+      [
+       1018,
+       "file In.pbe-dn-kjpaw_psl.1.0.0.UPF: wavefunction(s)  5S 5P 4D renormalized"
+      ],
+      [
+       1019,
+       "file O.pbe-n-kjpaw_psl.1.0.0.UPF: wavefunction(s)  2S 2P renormalized"
+      ],
+      [
+       1020,
+       "file H.pbe-kjpaw_psl.1.0.0.UPF: wavefunction(s)  1S renormalized"
+      ]
+     ],
+     "last": [
+      1020,
+      "file H.pbe-kjpaw_psl.1.0.0.UPF: wavefunction(s)  1S renormalized"
+     ]
+    }
+   },
+   "bands": {
+    "n_k": 4,
+    "n_bands": 672,
+    "n_occ": 664,
+    "VBM_eV": 0.8408,
+    "VBM_k_index": 0,
+    "CBM_eV": 1.9472,
+    "CBM_k_index": 0,
+    "gap_eV": 1.1064,
+    "direct_gap_min_eV": 1.1064,
+    "direct_gap_k_index": 0,
+    "gap_type": "direct",
+    "VB_width_top_band_eV": 0.0151,
+    "CB_width_bottom_band_eV": 1.0923,
+    "E2_minus_E1_at_k0_eV": 0.6374
+   },
+   "n_lines": 6484
+  }
+ },
+ "inputs": {},
+ "templates": {},
+ "projwfc": {},
+ "pp_avg": {},
+ "avg_dat": {},
+ "pdos": {},
+ "driver": {},
+ "steps_sh": {},
+ "other": {},
+ "mpi_errors": {},
+ "condor": []
+}

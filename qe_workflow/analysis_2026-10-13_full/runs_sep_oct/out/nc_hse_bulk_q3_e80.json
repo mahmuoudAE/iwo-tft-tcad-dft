@@ -1,0 +1,273 @@
+{
+ "run": "nc_hse_bulk_q3_e80",
+ "folder": "cern_htcondor/results/nc_hse_bulk_q3_e80",
+ "files": [
+  {
+   "path": ".fetched",
+   "size": 0,
+   "sha256_16": "e3b0c44298fc1c14",
+   "src": "loose",
+   "kind": "other"
+  },
+  {
+   "path": "nc_hse_bulk_q3_e80_driver.log",
+   "size": 436,
+   "sha256_16": "05bc1eef89e5f641",
+   "src": "loose",
+   "kind": "driver"
+  },
+  {
+   "path": "scf.in",
+   "size": 2487,
+   "sha256_16": "b254f45ae2ea635c",
+   "src": "loose",
+   "kind": "pw_in"
+  },
+  {
+   "path": "scf.out",
+   "size": 1960,
+   "sha256_16": "bb7b35897c3ca189",
+   "src": "loose",
+   "kind": "mpi_error"
+  },
+  {
+   "path": "steps.sh",
+   "size": 27,
+   "sha256_16": "a7d5ef8aefb09efb",
+   "src": "loose",
+   "kind": "steps"
+  }
+ ],
+ "tarballs": [
+  {
+   "tarball": "nc_hse_bulk_q3_e80_results.tar.gz",
+   "size": 2030,
+   "sha256": "0683ba44b1b3d4487c328161cdb8cceb4fdd0257d56131880b100fd82f823ab1",
+   "members": [
+    {
+     "name": "scf.out",
+     "size": 1960,
+     "sha256": "bb7b35897c3ca18908608e1f6f14e22e5b4a8a60c521968e32a122e78a36ec29",
+     "equals_loose": true
+    },
+    {
+     "name": "scf.in",
+     "size": 2487,
+     "sha256": "b254f45ae2ea635c1cfc54ff4e3aeff0199def0fd7df2994cee4e1099142c3e3",
+     "equals_loose": true
+    },
+    {
+     "name": "nc_hse_bulk_q3_e80_driver.log",
+     "size": 436,
+     "sha256": "05bc1eef89e5f64126c0ceb55ddcca92810b6f84d21d26fc630a07a89c46d53b",
+     "equals_loose": true
+    },
+    {
+     "name": "steps.sh",
+     "size": 27,
+     "sha256": "a7d5ef8aefb09efb336e8b2b82ddcb600bcb7dea5350f82ef0ff7f2f84e6061c",
+     "equals_loose": true
+    }
+   ]
+  }
+ ],
+ "pw": {},
+ "inputs": {
+  "scf.in": {
+   "namelists": {
+    "CONTROL": {
+     "calculation": "scf",
+     "prefix": "nc",
+     "outdir": "./tmp",
+     "pseudo_dir": "./",
+     "verbosity": "high",
+     "tprnfor": ".true.",
+     "tstress": ".true.",
+     "max_seconds": "84565"
+    },
+    "SYSTEM": {
+     "ibrav": "0",
+     "nat": "40",
+     "ntyp": "2",
+     "ecutwfc": "80",
+     "ecutrho": "320",
+     "occupations": "fixed",
+     "nbnd": "192",
+     "input_dft": "hse",
+     "nqx1": "3",
+     "nqx2": "3",
+     "nqx3": "3"
+    },
+    "ELECTRONS": {
+     "conv_thr": "1.0d-9",
+     "mixing_beta": "0.3",
+     "electron_maxstep": "150"
+    }
+   },
+   "cards": {
+    "ATOMIC_SPECIES": [
+     {
+      "species": "In",
+      "mass": 114.818,
+      "pseudo": "In_ONCV_PBE-1.2.upf"
+     },
+     {
+      "species": "O",
+      "mass": 15.999,
+      "pseudo": "O_ONCV_PBE-1.2.upf"
+     }
+    ],
+    "CELL_PARAMETERS": {
+     "unit": "angstrom",
+     "vectors": [
+      [
+       -5.1530451,
+       5.1530451,
+       5.1530451
+      ],
+      [
+       5.1530451,
+       -5.1530451,
+       5.1530451
+      ],
+      [
+       5.1530451,
+       5.1530451,
+       -5.1530451
+      ]
+     ]
+    },
+    "K_POINTS": {
+     "mode": "automatic",
+     "grid": [
+      "3",
+      "3",
+      "3",
+      "0",
+      "0",
+      "0"
+     ]
+    }
+   },
+   "atomic_positions_summary": {
+    "unit": "crystal",
+    "n": 40,
+    "labels": [
+     "In",
+     "O"
+    ],
+    "n_constrained": 0
+   },
+   "geometry": {
+    "n_atoms": 40,
+    "composition": {
+     "In": 16,
+     "O": 24
+    },
+    "cell_lengths_A": [
+     8.92534,
+     8.92534,
+     8.92534
+    ],
+    "cell_angles_deg": [
+     109.471,
+     109.471,
+     109.471
+    ],
+    "volume_A3": 547.3332,
+    "density_g_cm3": 6.7384,
+    "bonds": {
+     "In-O": {
+      "cutoff_A": 2.6,
+      "n": 96,
+      "min": 2.1671,
+      "mean": 2.2194,
+      "max": 2.2561,
+      "std": 0.0336,
+      "CN_In_hist": {
+       "6": 16
+      }
+     }
+    },
+    "CN_O_by_cations_hist": {
+     "4": 24
+    }
+   }
+  }
+ },
+ "templates": {},
+ "projwfc": {},
+ "pp_avg": {},
+ "avg_dat": {},
+ "pdos": {},
+ "driver": {
+  "nc_hse_bulk_q3_e80_driver.log": {
+   "lines": [
+    "[2026-09-30T17:34:46Z] job nc_hse_bulk_q3_e80 host b9pgpun003.cern.ch cpus 11 limit 86400s",
+    "[2026-09-30T17:35:09Z] pw.x:/pool/condor/dir_315343/qe-env/bin/pw.x  python: /pool/condor/dir_315343/qe-env/bin/python",
+    "[2026-09-30T17:35:21Z] GPU mode: 1 GPU(s), NVIDIA H100 NVL, 95830 MiB",
+    "[2026-09-30T17:35:21Z] pw.x scf start (-nk 1, max_seconds 84565)",
+    "[2026-09-30T17:36:21Z] pw.x scf end rc=1",
+    "[2026-09-30T17:36:21Z] steps finished after 95 s"
+   ],
+   "host": "b9pgpun003.cern.ch",
+   "cpus": 11,
+   "limit_s": 86400,
+   "start": "2026-09-30T17:34:46Z",
+   "gpu": "1 GPU(s), NVIDIA H100 NVL, 95830 MiB",
+   "total_s": 95,
+   "steps": [
+    {
+     "step": "scf",
+     "start": "2026-09-30T17:35:21Z",
+     "nk": 1,
+     "max_seconds": 84565,
+     "end": "2026-09-30T17:36:21Z",
+     "rc": 1,
+     "time": ""
+    }
+   ]
+  }
+ },
+ "steps_sh": {
+  "steps.sh": "steps() {\n  run_pw scf 1\n}"
+ },
+ "other": {
+  ".fetched": ""
+ },
+ "mpi_errors": {
+  "scf.out": {
+   "key_lines": [
+    "As of version 3.0.0, the \"sm\" BTL is no longer available in Open MPI.",
+    "Host:      b9pgpun003.cern.ch",
+    "Component: sm",
+    "It looks like MPI_INIT failed for some reason; your parallel process is",
+    "mca_bml_base_open() failed"
+   ],
+   "warnings": {
+    "mpi_init_failed": {
+     "count": 3,
+     "first": [
+      [
+       2,
+       "As of version 3.0.0, the \"sm\" BTL is no longer available in Open MPI."
+      ],
+      [
+       22,
+       "It looks like MPI_INIT failed for some reason; your parallel process is"
+      ],
+      [
+       29,
+       "mca_bml_base_open() failed"
+      ]
+     ],
+     "last": [
+      29,
+      "mca_bml_base_open() failed"
+     ]
+    }
+   }
+  }
+ },
+ "condor": []
+}

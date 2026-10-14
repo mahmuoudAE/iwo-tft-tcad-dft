@@ -1,0 +1,180 @@
+{
+ "vcrelax": {
+  "a_conv_A": {
+   "value": 10.30609,
+   "src": "bulk_In2O3_protocol/vcrelax_ecut71_k3.out:4565",
+   "label": "COMPUTED",
+   "note": "a = 2 |a1_x| of the primitive cell in the final coordinates"
+  },
+  "volume_prim_A3": {
+   "value": 547.3332,
+   "src": "bulk_In2O3_protocol/vcrelax_ecut71_k3.out:4565",
+   "label": "COMPUTED"
+  },
+  "a_exp_A": {
+   "value": 10.117,
+   "src": "PROTOCOL.md section 2 (Marezio 1966)",
+   "label": "LITERATURE"
+  },
+  "deviation_pct": 1.869,
+  "final_enthalpy_Ry": {
+   "value": -7573.4246380162,
+   "src": "bulk_In2O3_protocol/vcrelax_ecut71_k3.out:4562",
+   "label": "COMPUTED"
+  },
+  "bfgs": {
+   "value": "12 scf cycles, 11 bfgs steps",
+   "src": "bulk_In2O3_protocol/vcrelax_ecut71_k3.out:4557",
+   "label": "COMPUTED"
+  },
+  "last_step_P_kbar": {
+   "value": -0.08,
+   "src": "bulk_In2O3_protocol/vcrelax_ecut71_k3.out:4548",
+   "label": "COMPUTED"
+  },
+  "last_step_total_force_Ry_bohr": {
+   "value": 0.000211,
+   "src": "bulk_In2O3_protocol/vcrelax_ecut71_k3.out:4543",
+   "label": "COMPUTED"
+  },
+  "final_scf_E_Ry": {
+   "value": -7573.42780341,
+   "src": "bulk_In2O3_protocol/vcrelax_ecut71_k3.out:5264",
+   "label": "COMPUTED"
+  },
+  "final_scf_P_kbar": {
+   "value": 0.41,
+   "src": "bulk_In2O3_protocol/vcrelax_ecut71_k3.out:5325",
+   "label": "COMPUTED"
+  },
+  "final_scf_total_force_Ry_bohr": {
+   "value": 0.000172,
+   "src": "bulk_In2O3_protocol/vcrelax_ecut71_k3.out:5320",
+   "label": "COMPUTED"
+  },
+  "symops_primitive": {
+   "value": 24,
+   "src": "bulk_In2O3_protocol/vcrelax_ecut71_k3.out:117",
+   "label": "COMPUTED"
+  },
+  "In_O_by_site_A": {
+   "8b": [
+    [
+     2.215,
+     2.215,
+     2.215,
+     2.215,
+     2.215,
+     2.215
+    ]
+   ],
+   "24d": [
+    [
+     2.167,
+     2.167,
+     2.24,
+     2.24,
+     2.256,
+     2.256
+    ]
+   ]
+  }
+ },
+ "bands_path": {
+  "n_k": 80,
+  "labels_at_index": {
+   "0": "G",
+   "15": "H",
+   "33": "N",
+   "44": "G",
+   "57": "P",
+   "70": "H",
+   "71": "P",
+   "79": "N"
+  },
+  "alat_A": {
+   "value": 8.76159,
+   "src": "bulk_In2O3_protocol/bands_path.out:58",
+   "label": "COMPUTED"
+  },
+  "VBM_eV": {
+   "value": 8.0785,
+   "src": "bulk_In2O3_protocol/bands_path.out:931",
+   "label": "COMPUTED",
+   "note": "k index 3, crystal [0.1, 0.1, -0.1]"
+  },
+  "CBM_eV": {
+   "value": 8.9672,
+   "src": "bulk_In2O3_protocol/bands_path.out:850",
+   "label": "COMPUTED",
+   "note": "k index 0, crystal [0.0, 0.0, 0.0]"
+  },
+  "VB_Gamma_eV": {
+   "value": 8.0741,
+   "src": "bulk_In2O3_protocol/bands_path.out:850",
+   "label": "COMPUTED"
+  },
+  "CB_Gamma_eV": {
+   "value": 8.9672,
+   "src": "bulk_In2O3_protocol/bands_path.out:850",
+   "label": "COMPUTED"
+  },
+  "Eg_fundamental_eV": 0.8887,
+  "Eg_direct_Gamma_eV": 0.8931,
+  "VBM_minus_VBGamma_meV": 4.4,
+  "VBM_k_cart_2pi_over_a": [
+   0.0,
+   0.0,
+   0.2
+  ]
+ },
+ "mass": {
+  "[100]": {
+   "m_parabolic_intercept_m0": 0.1588,
+   "m_parabolic_origin_m0": 0.1583,
+   "n_points_fit": 4,
+   "k_max_fit_invA": 0.0458,
+   "m_kane_m0": 0.1539,
+   "alpha_kane_per_eV": 0.63,
+   "k_max_invA": 0.1528,
+   "E_at_kmax_eV": 0.4503,
+   "src": "bulk_In2O3_protocol/bands_gamma.out:656 .. bulk_In2O3_protocol/bands_gamma.out:926"
+  },
+  "[110]": {
+   "m_parabolic_intercept_m0": 0.1587,
+   "m_parabolic_origin_m0": 0.158,
+   "n_points_fit": 4,
+   "k_max_fit_invA": 0.0458,
+   "m_kane_m0": 0.1542,
+   "alpha_kane_per_eV": 0.57,
+   "k_max_invA": 0.1528,
+   "E_at_kmax_eV": 0.4577,
+   "src": "bulk_In2O3_protocol/bands_gamma.out:656 .. bulk_In2O3_protocol/bands_gamma.out:1196"
+  },
+  "[111]": {
+   "m_parabolic_intercept_m0": 0.1587,
+   "m_parabolic_origin_m0": 0.158,
+   "n_points_fit": 4,
+   "k_max_fit_invA": 0.0458,
+   "m_kane_m0": 0.1542,
+   "alpha_kane_per_eV": 0.551,
+   "k_max_invA": 0.1528,
+   "E_at_kmax_eV": 0.4601,
+   "src": "bulk_In2O3_protocol/bands_gamma.out:656 .. bulk_In2O3_protocol/bands_gamma.out:1466"
+  },
+  "mean_parabolic_intercept_m0": 0.1587
+ },
+ "gamma_run": {
+  "VB_Gamma_eV": {
+   "value": 8.0741,
+   "src": "bulk_In2O3_protocol/bands_gamma.out:656",
+   "label": "COMPUTED"
+  },
+  "CB_Gamma_eV": {
+   "value": 8.9672,
+   "src": "bulk_In2O3_protocol/bands_gamma.out:656",
+   "label": "COMPUTED"
+  },
+  "Eg_direct_Gamma_eV": 0.8931
+ }
+}

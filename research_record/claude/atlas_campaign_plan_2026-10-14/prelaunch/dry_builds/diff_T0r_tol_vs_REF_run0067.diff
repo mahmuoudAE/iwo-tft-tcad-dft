@@ -1,0 +1,12 @@
+--- REF_run0067.in
++++ T0r_tol.in
+@@ -109,3 +109,3 @@
+-# Strict acceptance (XANDRNORM, cr.toler 1e-17) up to Vg = 0.7 V; default acceptance above.
+-method newton trap maxtraps=10 itlimit=80 climit=1e-6 ir.tol=1e-19 \
+- cr.toler=1e-17 xandrnorm carriers=1 electrons
++# Strict acceptance (XANDRNORM, cr.toler 1.37e-18) up to Vg = 0.7 V; default acceptance above.
++method newton trap maxtraps=10 itlimit=80 climit=1e-6 ir.tol=1e-21 \
++ cr.toler=1.37e-18 xandrnorm carriers=1 electrons
+@@ -128 +128 @@
+-method newton trap maxtraps=10 itlimit=80 climit=1e-6 ir.tol=1e-19 \
++method newton trap maxtraps=10 itlimit=80 climit=1e-6 ir.tol=1e-21 \

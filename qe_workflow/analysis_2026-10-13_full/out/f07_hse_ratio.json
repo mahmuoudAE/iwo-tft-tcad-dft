@@ -1,0 +1,141 @@
+{
+ "runs": {
+  "nc_pbe_bulk_e80": {
+   "functional": "pbe",
+   "nq": null,
+   "ecutfock": null,
+   "done": true,
+   "exx_converged": null,
+   "VBM_eV": 8.9005,
+   "CBM_eV": 9.8209,
+   "gap_eV": {
+    "value": 0.9204,
+    "src": "cern_htcondor/results/nc_pbe_bulk_e80/scf.out:973",
+    "label": "COMPUTED"
+   },
+   "usable": true
+  },
+  "nc_pbe_bulk_e100": {
+   "functional": "pbe",
+   "nq": null,
+   "ecutfock": null,
+   "done": true,
+   "exx_converged": null,
+   "VBM_eV": 8.9008,
+   "CBM_eV": 9.8211,
+   "gap_eV": {
+    "value": 0.9203,
+    "src": "cern_htcondor/results/nc_pbe_bulk_e100/scf.out:955",
+    "label": "COMPUTED"
+   },
+   "usable": true
+  },
+  "nc_pbe_slab1_e80": {
+   "functional": "pbe",
+   "nq": null,
+   "ecutfock": null,
+   "done": true,
+   "exx_converged": null,
+   "VBM_eV": -2.1683,
+   "CBM_eV": -0.3615,
+   "gap_eV": {
+    "value": 1.8068,
+    "src": "cern_htcondor/results/nc_pbe_slab1_e80/scf.out:1499",
+    "label": "COMPUTED"
+   },
+   "usable": true
+  },
+  "nc_hse_bulk_e80": {
+   "functional": "hse",
+   "nq": 1,
+   "ecutfock": null,
+   "done": true,
+   "exx_converged": true,
+   "VBM_eV": 7.8856,
+   "CBM_eV": 9.9936,
+   "gap_eV": {
+    "value": 2.108,
+    "src": "cern_htcondor/results/nc_hse_bulk_e80/scf.out:2958",
+    "label": "COMPUTED"
+   },
+   "usable": true
+  },
+  "nc_hse_bulk_f160_e80": {
+   "functional": "hse",
+   "nq": 1,
+   "ecutfock": 160.0,
+   "done": true,
+   "exx_converged": true,
+   "VBM_eV": 7.8856,
+   "CBM_eV": 9.9936,
+   "gap_eV": {
+    "value": 2.108,
+    "src": "cern_htcondor/results/nc_hse_bulk_f160_e80/scf.out:2958",
+    "label": "COMPUTED"
+   },
+   "usable": true
+  },
+  "nc_hse_bulk_q3_e80": {
+   "functional": "hse",
+   "nq": 3,
+   "ecutfock": null,
+   "done": false,
+   "exx_converged": false,
+   "gap_eV": null,
+   "usable": false
+  },
+  "nc_hse_bulk_q3_f160_e80": {
+   "functional": "hse",
+   "nq": 3,
+   "ecutfock": 160.0,
+   "done": true,
+   "exx_converged": true,
+   "VBM_eV": 7.877,
+   "CBM_eV": 9.9432,
+   "gap_eV": {
+    "value": 2.0662,
+    "src": "cern_htcondor/results/nc_hse_bulk_q3_f160_e80/scf.out:2981",
+    "label": "COMPUTED"
+   },
+   "usable": true
+  },
+  "nc_hse_slab1_e80": {
+   "functional": "hse",
+   "nq": 1,
+   "ecutfock": null,
+   "done": false,
+   "exx_converged": false,
+   "VBM_eV": -2.1683,
+   "CBM_eV": -0.3615,
+   "gap_eV": {
+    "value": 1.8068,
+    "src": "cern_htcondor/results/nc_hse_slab1_e80/scf.out:1519",
+    "label": "COMPUTED"
+   },
+   "usable": false
+  },
+  "nc_hse_slab1_f160_e80": {
+   "functional": "hse",
+   "nq": 1,
+   "ecutfock": 160.0,
+   "done": true,
+   "exx_converged": true,
+   "VBM_eV": -3.1764,
+   "CBM_eV": -0.1289,
+   "gap_eV": {
+    "value": 3.0475,
+    "src": "cern_htcondor/results/nc_hse_slab1_f160_e80/scf.out:5162",
+    "label": "COMPUTED"
+   },
+   "usable": true
+  }
+ },
+ "dEg_PBE_NC_eV": 0.8864,
+ "dEg_HSE_q1_eV": 0.9395,
+ "dEg_HSE_q3bulk_eV": 0.9813,
+ "r_q1": 1.0599,
+ "r_q3_worst": 1.1071,
+ "ecutfock_bulk_160_vs_default_meV": 0.0,
+ "q3_minus_q1_bulk_gap_meV": -41.8,
+ "pbe_cutoff_80_vs_100_bulk_gap_meV": -0.1
+}

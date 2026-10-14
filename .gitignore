@@ -30,3 +30,18 @@ qe_workflow/cern_htcondor/jobs/gen_*/pseudo/
 *.synctex.gz
 *.fdb_latexmk
 *.fls
+# blind guard (see research_record/PUBLIC_EXCLUSIONS.md): sealed ATLAS runs and amorphous DFT outputs
+results/sealed/
+results/runs/run_0075_*/
+results/runs/run_0076_*/
+results/runs/run_0077_*/
+results/campaigns/campaign_C10_DIAGb.json
+report_latex_full/tools/atlas_user_manual_740p.txt
+qe_workflow/analysis_2026-10-13_full/raw_cern/amorph_forces_allowlist/**/*
+!qe_workflow/analysis_2026-10-13_full/raw_cern/amorph_forces_allowlist/**/
+!qe_workflow/analysis_2026-10-13_full/raw_cern/amorph_forces_allowlist/**/*.in
+!qe_workflow/analysis_2026-10-13_full/raw_cern/amorph_forces_allowlist/**/*.sh
+qe_workflow/analysis_2026-10-13_full/out/f14_amorph_force_checks.json
+qe_workflow/analysis_2026-10-13_full/figures/fig14_amorph_force_checks.*
+qe_workflow/analysis_2026-10-13_full/DFT_FULL_STUDY.md
+qe_workflow/analysis_2026-10-13_full/digest_codex_ext.md

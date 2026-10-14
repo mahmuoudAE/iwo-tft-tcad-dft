@@ -1,0 +1,873 @@
+{
+ "bulk": {
+  "Eg_fundamental_eV": 0.8887,
+  "Eg_direct_Gamma_eV": 0.8931,
+  "VBM_src": "bulk_In2O3_protocol/bands_path.out:931",
+  "CBM_src": "bulk_In2O3_protocol/bands_path.out:850",
+  "note": "PAW-PBE, vc-relaxed a = 10.306 A; VBM 4.4 meV above VB(Gamma) at 0.2 G-H: the fundamental gap is formally indirect"
+ },
+ "anchor_2nm_two_step": {
+  "dEc_eV": 0.2812,
+  "dEv_eV": -0.054,
+  "plateau_spread_meV": 8.4,
+  "src": "out/f03_bulk_alignment.json two_step.slab2_relax_c2.a/2 (UPF G=0 bulk <V> 4.16867 eV)"
+ },
+ "hse": {
+  "NC_PBE_bulk": {
+   "gap_eV": {
+    "value": 0.9204,
+    "src": "cern_htcondor/results/nc_pbe_bulk_e80/scf.out:973",
+    "label": "COMPUTED"
+   },
+   "gap_direct_Gamma_eV": 0.9216,
+   "VB_grid_max_at_k_invA": 0.2874
+  },
+  "HSE_bulk_q1": {
+   "gap_eV": {
+    "value": 2.108,
+    "src": "cern_htcondor/results/nc_hse_bulk_e80/scf.out:2958",
+    "label": "COMPUTED"
+   },
+   "gap_direct_Gamma_eV": 2.108,
+   "VB_grid_max_at_k_invA": 0.0
+  },
+  "HSE_bulk_q3_f160": {
+   "gap_eV": {
+    "value": 2.0662,
+    "src": "cern_htcondor/results/nc_hse_bulk_q3_f160_e80/scf.out:2981",
+    "label": "COMPUTED"
+   },
+   "gap_direct_Gamma_eV": 2.0662,
+   "VB_grid_max_at_k_invA": 0.0
+  },
+  "NC_PBE_slab1": {
+   "gap_eV": {
+    "value": 1.8068,
+    "src": "cern_htcondor/results/nc_pbe_slab1_e80/scf.out:1499",
+    "label": "COMPUTED"
+   },
+   "gap_direct_Gamma_eV": 1.8068,
+   "VB_grid_max_at_k_invA": 0.0
+  },
+  "HSE_slab1_f160": {
+   "gap_eV": {
+    "value": 3.0475,
+    "src": "cern_htcondor/results/nc_hse_slab1_f160_e80/scf.out:5162",
+    "label": "COMPUTED"
+   },
+   "gap_direct_Gamma_eV": 3.0475,
+   "VB_grid_max_at_k_invA": 0.0
+  },
+  "dEg_NC_PBE_1nm": 0.8864,
+  "r_q1": 1.0599,
+  "r_q3bulk": 1.1071,
+  "note": "r = dEg(HSE)/dEg(PBE) at 1 nm only (SG15 NC, 80 Ry, PBE-PAW geometries, slab EXX q 1x1x1 with ecutfock 160 Ry; bulk q1 and q3 bracket the bulk EXX q-convergence); the slab q-convergence is untested"
+ },
+ "slabs": {
+  "0.51": {
+   "job": "slabL1_relax_v2",
+   "t_HH_nm": 0.4612,
+   "Eg_fundamental_eV": 3.1401,
+   "Eg_direct_Gamma_eV": 3.1413,
+   "Eg_bands_plus_grid_eV": 3.14,
+   "edge_beyond_scf_grid_meV": {
+    "VB": 0.0,
+    "CB": 0.1,
+    "note": "bands.out (non-SCF) vs scf.out eigenvalues; <= 0.3 meV is diagonalisation noise"
+   },
+   "VBM_eV": -4.7219,
+   "CBM_eV": -1.5818,
+   "edges_src": "cern_htcondor/results/slabL1_relax_v2/scf.out:1389",
+   "VBM_location": "SCF grid k [0.1958, 0.0, 0.0] 1/A",
+   "E_vac_eV": 1.6099,
+   "vac_src": "cern_htcondor/results/slabL1_relax_v2/slabL1_relax_v2_avg.dat",
+   "vac_spread_meV": 0.01,
+   "ramp_over_gap_meV": 0.0,
+   "half_ramp_sensitivity_eV": 0.0,
+   "EA_eV": 3.1917,
+   "IP_eV": 6.3318,
+   "dEg_eV": 2.2514,
+   "dEg_direct_eV": 2.2482,
+   "E21_eV": 1.8872,
+   "E31_eV": 1.8878,
+   "dEc_eV": 1.5845,
+   "dEv_eV": -0.6669,
+   "dEc_route": "2 nm two-step + EA(2 nm) - EA(t) (same termination)",
+   "CB_share": 0.704,
+   "E1_eV": 1.5845,
+   "E2_eV": 3.4717,
+   "E3_eV": 3.4723,
+   "E21_over_E1": 1.191,
+   "label": "COMPUTED (PBE)",
+   "Eg_HSE_corrected_eV": [
+    4.4943,
+    4.5587
+   ],
+   "Eg_exp_anchored_eV": {
+    "King2009_fundamental": [
+     5.3163,
+     5.4225
+    ],
+    "deck_Fan2021": [
+     5.4363,
+     5.5425
+    ]
+   },
+   "dEc_HSE_assumed_eV": [
+    1.6794,
+    1.7542
+   ]
+  },
+  "0.75": {
+   "job": "slabL2_relax_v2",
+   "t_HH_nm": 0.6953,
+   "Eg_fundamental_eV": 2.1986,
+   "Eg_direct_Gamma_eV": 2.1985,
+   "Eg_bands_plus_grid_eV": 2.1985,
+   "edge_beyond_scf_grid_meV": {
+    "VB": 0.1,
+    "CB": 0.0,
+    "note": "bands.out (non-SCF) vs scf.out eigenvalues; <= 0.3 meV is diagonalisation noise"
+   },
+   "VBM_eV": -3.3537,
+   "CBM_eV": -1.1551,
+   "edges_src": "cern_htcondor/results/slabL2_relax_v2/scf.out:1771",
+   "VBM_location": "Gamma",
+   "E_vac_eV": 2.5622,
+   "vac_src": "cern_htcondor/results/slabL2_relax_v2/slabL2_relax_v2_avg.dat",
+   "vac_spread_meV": 210.98,
+   "ramp_over_gap_meV": 347.1,
+   "half_ramp_sensitivity_eV": 0.1736,
+   "EA_eV": 3.7173,
+   "IP_eV": 5.9159,
+   "dEg_eV": 1.3099,
+   "dEg_direct_eV": 1.3054,
+   "E21_eV": 1.8152,
+   "E31_eV": 2.1642,
+   "dEc_eV": 1.0589,
+   "dEv_eV": -0.251,
+   "dEc_route": "2 nm two-step + EA(2 nm) - EA(t) (same termination)",
+   "CB_share": 0.808,
+   "E1_eV": 1.0589,
+   "E2_eV": 2.8741,
+   "E3_eV": 3.2231,
+   "E21_over_E1": 1.714,
+   "label": "COMPUTED (PBE)",
+   "Eg_HSE_corrected_eV": [
+    3.4964,
+    3.5164
+   ],
+   "Eg_exp_anchored_eV": {
+    "King2009_fundamental": [
+     4.3184,
+     4.3802
+    ],
+    "deck_Fan2021": [
+     4.4384,
+     4.5002
+    ]
+   },
+   "dEc_HSE_assumed_eV": [
+    1.1223,
+    1.1723
+   ],
+   "dEc_sensitivity_eV": [
+    0.8853,
+    1.2325
+   ]
+  },
+  "1.0": {
+   "job": "slab1r_final_cpu",
+   "t_HH_nm": 0.9303,
+   "Eg_fundamental_eV": 1.7885,
+   "Eg_direct_Gamma_eV": 1.7885,
+   "Eg_bands_plus_grid_eV": 1.7884,
+   "edge_beyond_scf_grid_meV": {
+    "VB": 0.1,
+    "CB": 0.0,
+    "note": "bands.out (non-SCF) vs scf.out eigenvalues; <= 0.3 meV is diagonalisation noise"
+   },
+   "VBM_eV": -2.3403,
+   "CBM_eV": -0.5518,
+   "edges_src": "cern_htcondor/results/slab1r_final_cpu/scf.out:1884",
+   "VBM_location": "Gamma",
+   "E_vac_eV": 3.3767,
+   "vac_src": "cern_htcondor/results/slab1r_final_cpu/slab1r_final_cpu_avg.dat",
+   "vac_spread_meV": 0.02,
+   "ramp_over_gap_meV": 0.0,
+   "half_ramp_sensitivity_eV": 0.0,
+   "EA_eV": 3.9285,
+   "IP_eV": 5.717,
+   "dEg_eV": 0.8998,
+   "dEg_direct_eV": 0.8954,
+   "E21_eV": 1.4988,
+   "E31_eV": 2.4483,
+   "dEc_eV": 0.8477,
+   "dEv_eV": -0.0521,
+   "dEc_route": "2 nm two-step + EA(2 nm) - EA(t) (same termination)",
+   "CB_share": 0.942,
+   "E1_eV": 0.8477,
+   "E2_eV": 2.3465,
+   "E3_eV": 3.296,
+   "E21_over_E1": 1.768,
+   "label": "COMPUTED (PBE)",
+   "Eg_HSE_corrected_eV": [
+    3.0617,
+    3.0624
+   ],
+   "Eg_exp_anchored_eV": {
+    "King2009_fundamental": [
+     3.8837,
+     3.9262
+    ],
+    "deck_Fan2021": [
+     4.0037,
+     4.0462
+    ]
+   },
+   "dEc_HSE_assumed_eV": [
+    0.8985,
+    0.9385
+   ]
+  },
+  "2.0": {
+   "job": "slab2_relax_c2",
+   "t_HH_nm": 1.9623,
+   "Eg_fundamental_eV": 1.2239,
+   "Eg_direct_Gamma_eV": 1.2239,
+   "Eg_bands_plus_grid_eV": 1.2237,
+   "edge_beyond_scf_grid_meV": {
+    "VB": 0.2,
+    "CB": 0.0,
+    "note": "bands.out (non-SCF) vs scf.out eigenvalues; <= 0.3 meV is diagonalisation noise"
+   },
+   "VBM_eV": 0.0473,
+   "CBM_eV": 1.2712,
+   "edges_src": "cern_htcondor/results/slab2_relax_c2/scf.out:2855",
+   "VBM_location": "Gamma",
+   "E_vac_eV": 5.7662,
+   "vac_src": "cern_htcondor/results/slab2_relax_c2/slab2_relax_c2_avg.dat",
+   "vac_spread_meV": 0.02,
+   "ramp_over_gap_meV": 0.0,
+   "half_ramp_sensitivity_eV": 0.0,
+   "EA_eV": 4.495,
+   "IP_eV": 5.7189,
+   "dEg_eV": 0.3352,
+   "dEg_direct_eV": 0.3308,
+   "E21_eV": 0.7191,
+   "E31_eV": 1.5261,
+   "dEc_eV": 0.2812,
+   "dEv_eV": -0.054,
+   "dEc_route": "2 nm two-step (a/2)",
+   "CB_share": 0.839,
+   "E1_eV": 0.2812,
+   "E2_eV": 1.0003,
+   "E3_eV": 1.8073,
+   "E21_over_E1": 2.557,
+   "label": "COMPUTED (PBE)",
+   "Eg_HSE_corrected_eV": [
+    2.4633,
+    2.4373
+   ],
+   "Eg_exp_anchored_eV": {
+    "King2009_fundamental": [
+     3.2853,
+     3.3011
+    ],
+    "deck_Fan2021": [
+     3.4053,
+     3.4211
+    ]
+   },
+   "dEc_HSE_assumed_eV": [
+    0.298,
+    0.3113
+   ]
+  }
+ },
+ "bulk_equivalent": {
+  "EA_eV": 4.7762,
+  "IP_eV": 5.6649,
+  "note": "EA(2 nm) + dEc(2 nm): H-(001) termination-specific, PBE"
+ },
+ "check_vs_f05": {
+  "0.51": {
+   "EA_b03": 3.1917,
+   "EA_f05": 3.1917,
+   "dEc_b03": 1.5845,
+   "dEc_f05": 1.5845
+  },
+  "0.75": {
+   "EA_b03": 3.7173,
+   "EA_f05": 3.7173,
+   "dEc_b03": 1.0589,
+   "dEc_f05": 1.0589
+  },
+  "1.0": {
+   "EA_b03": 3.9285,
+   "EA_f05": 3.9285,
+   "dEc_b03": 0.8477,
+   "dEc_f05": 0.8477
+  },
+  "2.0": {
+   "EA_b03": 4.495,
+   "EA_f05": 4.495,
+   "dEc_b03": 0.2812,
+   "dEc_f05": 0.2812
+  }
+ },
+ "W_slabs": {
+  "1 nm": {
+   "job": "iwo_slab1_final_cpu",
+   "E_vac_eV": 3.4228,
+   "vac_spread_meV": 0.02,
+   "ramp_over_gap_meV": 0.0,
+   "EA_hostCB_eV": 4.0693,
+   "IP_VBtop_eV": 5.7885,
+   "work_function_eV": 2.8417,
+   "E_F_eV": {
+    "value": 0.5811,
+    "src": "cern_htcondor/results/iwo_slab1_final_cpu/scf.out:1840",
+    "label": "COMPUTED"
+   },
+   "gap_VBtop_hostCB_eV": 1.7192,
+   "EF_minus_hostCB_min_eV": 1.2276,
+   "f10_EA_hostCB_eV": 4.0693,
+   "f10_IP_VBtop_eV": 5.7885,
+   "note": "host CB min / VB top over the 3x3x1 grid; metallic cell (3 donated electrons), E_F inside the host CB"
+  },
+  "2 nm": {
+   "job": "iwo_slab2_final_cpu",
+   "E_vac_eV": 5.8576,
+   "vac_spread_meV": 0.03,
+   "ramp_over_gap_meV": 0.0,
+   "EA_hostCB_eV": 4.7463,
+   "IP_VBtop_eV": 5.8226,
+   "work_function_eV": 3.508,
+   "E_F_eV": {
+    "value": 2.3496,
+    "src": "cern_htcondor/results/iwo_slab2_final_cpu/scf.out:2872",
+    "label": "COMPUTED"
+   },
+   "gap_VBtop_hostCB_eV": 1.0763,
+   "EF_minus_hostCB_min_eV": 1.2383,
+   "f10_EA_hostCB_eV": 4.7463,
+   "f10_IP_VBtop_eV": 5.8226,
+   "note": "host CB min / VB top over the 3x3x1 grid; metallic cell (3 donated electrons), E_F inside the host CB"
+  }
+ },
+ "laws": {
+  "dEg_eV": {
+   "fit3": {
+    "ok": true,
+    "a": 0.81466,
+    "p": 1.3155,
+    "n": 3,
+    "t_nm": [
+     0.6953,
+     0.9303,
+     1.9623
+    ],
+    "y": [
+     1.3099,
+     0.8998,
+     0.3352
+    ],
+    "rel_resid": [
+     -0.0031,
+     0.0044,
+     -0.0012
+    ],
+    "sigma_ln_a": 0.0032,
+    "sigma_a": 0.00263,
+    "sigma_p": 0.0073,
+    "dof": 1,
+    "loo_a": [
+     0.81265,
+     0.81974
+    ],
+    "loo_p": [
+     1.2898,
+     1.323
+    ],
+    "at_nm": {
+     "2.0": 0.3273,
+     "6.3": 0.0724,
+     "13.2": 0.0273
+    }
+   },
+   "fit2_1and2nm": {
+    "ok": true,
+    "a": 0.81778,
+    "p": 1.323,
+    "n": 2,
+    "t_nm": [
+     0.9303,
+     1.9623
+    ],
+    "y": [
+     0.8998,
+     0.3352
+    ],
+    "rel_resid": [
+     0.0,
+     0.0
+    ],
+    "at_nm": {
+     "2.0": 0.3269,
+     "6.3": 0.0716,
+     "13.2": 0.0269
+    }
+   },
+   "fit4_with_0p46_diagnostic": {
+    "ok": true,
+    "a": 0.81443,
+    "p": 1.3146,
+    "n": 4,
+    "t_nm": [
+     0.4612,
+     0.6953,
+     0.9303,
+     1.9623
+    ],
+    "y": [
+     2.2514,
+     1.3099,
+     0.8998,
+     0.3352
+    ],
+    "rel_resid": [
+     -0.0006,
+     -0.0025,
+     0.0047,
+     -0.0016
+    ],
+    "sigma_ln_a": 0.002,
+    "sigma_a": 0.00166,
+    "sigma_p": 0.0037,
+    "dof": 2,
+    "loo_a": [
+     0.81312,
+     0.81708
+    ],
+    "loo_p": [
+     1.3079,
+     1.3155
+    ],
+    "at_nm": {
+     "2.0": 0.3274,
+     "6.3": 0.0725,
+     "13.2": 0.0274
+    }
+   }
+  },
+  "dEc_eV": {
+   "fit3": {
+    "ok": true,
+    "a": 0.70176,
+    "p": 1.3176,
+    "n": 3,
+    "t_nm": [
+     0.6953,
+     0.9303,
+     1.9623
+    ],
+    "y": [
+     1.0589,
+     0.8477,
+     0.2812
+    ],
+    "rel_resid": [
+     -0.0652,
+     0.0983,
+     -0.026
+    ],
+    "sigma_ln_a": 0.0695,
+    "sigma_a": 0.04877,
+    "sigma_p": 0.1565,
+    "dof": 1,
+    "loo_a": [
+     0.66551,
+     0.80217
+    ],
+    "loo_p": [
+     0.764,
+     1.4784
+    ],
+    "at_nm": {
+     "2.0": 0.2815,
+     "6.3": 0.0621,
+     "13.2": 0.0234
+    }
+   },
+   "fit2_1and2nm": {
+    "ok": true,
+    "a": 0.76182,
+    "p": 1.4784,
+    "n": 2,
+    "t_nm": [
+     0.9303,
+     1.9623
+    ],
+    "y": [
+     0.8477,
+     0.2812
+    ],
+    "rel_resid": [
+     -0.0,
+     -0.0
+    ],
+    "at_nm": {
+     "2.0": 0.2734,
+     "6.3": 0.0501,
+     "13.2": 0.0168
+    }
+   },
+   "fit4_with_0p46_diagnostic": {
+    "ok": true,
+    "a": 0.67721,
+    "p": 1.2002,
+    "n": 4,
+    "t_nm": [
+     0.4612,
+     0.6953,
+     0.9303,
+     1.9623
+    ],
+    "y": [
+     1.5845,
+     1.0589,
+     0.8477,
+     0.2812
+    ],
+    "rel_resid": [
+     -0.0758,
+     0.0109,
+     0.1478,
+     -0.0675
+    ],
+    "sigma_ln_a": 0.0634,
+    "sigma_a": 0.04292,
+    "sigma_p": 0.1162,
+    "dof": 2,
+    "loo_a": [
+     0.64579,
+     0.78318
+    ],
+    "loo_p": [
+     0.8974,
+     1.3176
+    ],
+    "at_nm": {
+     "2.0": 0.2947,
+     "6.3": 0.0744,
+     "13.2": 0.0306
+    }
+   },
+   "fit3_0p695_low": {
+    "ok": true,
+    "a": 0.65386,
+    "p": 1.1791,
+    "n": 3,
+    "t_nm": [
+     0.6953,
+     0.9303,
+     1.9623
+    ],
+    "y": [
+     0.8853,
+     0.8477,
+     0.2812
+    ],
+    "rel_resid": [
+     -0.1179,
+     0.1906,
+     -0.0478
+    ],
+    "sigma_ln_a": 0.1293,
+    "sigma_a": 0.08456,
+    "sigma_p": 0.2912,
+    "dof": 1,
+    "loo_a": [
+     0.59242,
+     0.83862
+    ],
+    "loo_p": [
+     0.1491,
+     1.4784
+    ],
+    "at_nm": {
+     "2.0": 0.2888,
+     "6.3": 0.0746,
+     "13.2": 0.0312
+    }
+   },
+   "fit3_0p695_high": {
+    "ok": true,
+    "a": 0.74511,
+    "p": 1.435,
+    "n": 3,
+    "t_nm": [
+     0.6953,
+     0.9303,
+     1.9623
+    ],
+    "y": [
+     1.2325,
+     0.8477,
+     0.2812
+    ],
+    "rel_resid": [
+     -0.0181,
+     0.0256,
+     -0.0071
+    ],
+    "sigma_ln_a": 0.0188,
+    "sigma_a": 0.01399,
+    "sigma_p": 0.0423,
+    "dof": 1,
+    "loo_a": [
+     0.73451,
+     0.77252
+    ],
+    "loo_p": [
+     1.2854,
+     1.4784
+    ],
+    "at_nm": {
+     "2.0": 0.2756,
+     "6.3": 0.0531,
+     "13.2": 0.0184
+    }
+   }
+  },
+  "minus_dEv_eV": {
+   "fit3": {
+    "ok": true,
+    "a": 0.0978,
+    "p": 1.1786,
+    "n": 3,
+    "t_nm": [
+     0.6953,
+     0.9303,
+     1.9623
+    ],
+    "y": [
+     0.251,
+     0.0521,
+     0.054
+    ],
+    "rel_resid": [
+     0.6724,
+     -0.5107,
+     0.2222
+    ],
+    "sigma_ln_a": 0.53,
+    "sigma_a": 0.05183,
+    "sigma_p": 1.1934,
+    "dof": 1,
+    "loo_a": [
+     0.03527,
+     0.14654
+    ],
+    "loo_p": [
+     -0.048,
+     5.4
+    ]
+   },
+   "fit2_1and2nm": {
+    "ok": true,
+    "a": 0.05228,
+    "p": -0.048,
+    "n": 2,
+    "t_nm": [
+     0.9303,
+     1.9623
+    ],
+    "y": [
+     0.0521,
+     0.054
+    ],
+    "rel_resid": [
+     -0.0,
+     -0.0
+    ]
+   },
+   "verdict": "no meaningful power law: -dEv is 0.0521 eV at 0.930 nm and 0.0540 eV at 1.962 nm (equal within the 15-30 meV spread of the alignment routes, non-monotonic); VB-top character (../out/f08): OH-surface O 2p at 0.51 nm (OH share 0.98) and 0.75 nm (0.75), 0.72 in the 1 nm W slab (no projection of the pure 1 nm), bulk-like interior O 2p in the pure 2 nm slab (0.001)"
+  },
+  "dm_e_band_edge": {
+   "fit3": {
+    "ok": true,
+    "a": 0.1145,
+    "p": 1.2755,
+    "n": 3,
+    "t_nm": [
+     0.6953,
+     0.9303,
+     1.9623
+    ],
+    "y": [
+     0.1824,
+     0.1252,
+     0.0485
+    ],
+    "rel_resid": [
+     0.0021,
+     -0.0028,
+     0.0008
+    ],
+    "sigma_ln_a": 0.0021,
+    "sigma_a": 0.00024,
+    "sigma_p": 0.0048,
+    "dof": 1,
+    "loo_a": [
+     0.11404,
+     0.11469
+    ],
+    "loo_p": [
+     1.2706,
+     1.2924
+    ],
+    "at_nm": {
+     "2.0": 0.0473,
+     "6.3": 0.0109,
+     "13.2": 0.0043
+    }
+   },
+   "fit2_1and2nm": {
+    "ok": true,
+    "a": 0.11422,
+    "p": 1.2706,
+    "n": 2,
+    "t_nm": [
+     0.9303,
+     1.9623
+    ],
+    "y": [
+     0.1252,
+     0.0485
+    ],
+    "rel_resid": [
+     -0.0,
+     -0.0
+    ],
+    "at_nm": {
+     "2.0": 0.0473,
+     "6.3": 0.011,
+     "13.2": 0.0043
+    }
+   },
+   "m_bulk": 0.1541,
+   "basis": "Kane band-edge 2-D DOS mass minus bulk Kane band-edge mass (b01)"
+  },
+  "dm_e_4pt_deck_basis": {
+   "fit3": {
+    "ok": true,
+    "a": 0.11144,
+    "p": 1.2611,
+    "n": 3,
+    "t_nm": [
+     0.6953,
+     0.9303,
+     1.9623
+    ],
+    "y": [
+     0.176,
+     0.1223,
+     0.0476
+    ],
+    "rel_resid": [
+     -0.0013,
+     0.0019,
+     -0.0005
+    ],
+    "sigma_ln_a": 0.0014,
+    "sigma_a": 0.00015,
+    "sigma_p": 0.0031,
+    "dof": 1,
+    "loo_a": [
+     0.11133,
+     0.11174
+    ],
+    "loo_p": [
+     1.2502,
+     1.2643
+    ],
+    "at_nm": {
+     "2.0": 0.0465,
+     "6.3": 0.0109,
+     "13.2": 0.0043
+    }
+   },
+   "m_bulk": 0.1588,
+   "basis": "4-point free-intercept parabola [100] minus bulk 4-point (the V2/V3 deck basis)"
+  },
+  "m_h": {
+   "verdict": "no law: a single-band hole mass is meaningful only at 0.75 nm (b01 criteria); the hole DOS-equivalent mass from the Boltzmann sum does not vary monotonically with t"
+  },
+  "config_V3": {
+   "dEg": {
+    "a": 0.81431,
+    "p": 1.31518,
+    "src": [
+     "../config/iwo_material_model_v3.yaml:61",
+     "../config/iwo_material_model_v3.yaml:62"
+    ]
+   },
+   "dEc": {
+    "a": 0.70147,
+    "p": 1.31669,
+    "src": [
+     "../config/iwo_material_model_v3.yaml:156",
+     "../config/iwo_material_model_v3.yaml:157"
+    ]
+   },
+   "dm": {
+    "a": 0.11116,
+    "p": 1.26387,
+    "src": [
+     "../config/iwo_material_model_v3.yaml:85",
+     "../config/iwo_material_model_v3.yaml:86"
+    ]
+   }
+  },
+  "config_V2": {
+   "dEg": {
+    "a": 0.83997,
+    "p": 1.34569,
+    "src": [
+     "../config/iwo_material_model_v2.yaml:52",
+     "../config/iwo_material_model_v2.yaml:53"
+    ]
+   },
+   "dEc": {
+    "a": 0.78504,
+    "p": 1.504,
+    "src": [
+     "../config/iwo_material_model_v2.yaml:128",
+     "../config/iwo_material_model_v2.yaml:129"
+    ]
+   },
+   "dm": {
+    "a": 0.11416,
+    "p": 1.29453,
+    "src": [
+     "../config/iwo_material_model_v2.yaml:75",
+     "../config/iwo_material_model_v2.yaml:76"
+    ]
+   }
+  },
+  "HSE_scaled_dEg": {
+   "rule": "ASSUMED: dEg_HSE(t) = r dEg_PBE(t), r in [r_q1, r_q3bulk], thickness-independent",
+   "r": [
+    1.0599,
+    1.1071
+   ],
+   "fit3_a_scaled": [
+    0.86346,
+    0.90191
+   ],
+   "p": 1.3155
+  }
+ }
+}

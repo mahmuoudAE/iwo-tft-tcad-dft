@@ -1,0 +1,46 @@
+#!/bin/bash
+# DAG node RELAX: one <= 20 h segment of a QE relaxation. Exit 0 when BFGS converged (DAG moves on to FINAL),
+# exit 1 otherwise; DAGMan then retries the node, i.e. submits the next segment from the updated relax.in.
+# relax.in, RELAX_STATUS and relax_s<seg>_results.tar.gz always exist at the end, so the output transfer never fails.
+# D-24 (2026-10-11): two fail-fast stops before driver.sh unpacks anything; each ends the job within seconds:
+#  1. segment_guard. steps_relax.sh writes 'FAILED <utc> <reason>' into it when a segment fails. The file travels
+#     with the job (relax.sub transfer_input_files and transfer_output_files), so every later retry of the chain stops
+#     here instead of replaying the failed segment for hours (these DAGs have no UNLESS-EXIT). Inert when the node does
+#     not transfer a segment_guard (vac DAGs, the A15 pilot, ads submitted before D-24) or when the file holds no
+#     FAILED line. Reset: ~/iwo_amorph/common/README_D24_BD.txt.
+#  2. preflight. A steps_relax.sh that needs geomsel.py, started by a job ad that does not transfer it (submitted
+#     before D-24), stops without running pw.x; the DAG retry is submitted from the new relax.sub.
+SEG=${1:-0}; LIMIT=${2:-72000}
+cd "${_CONDOR_SCRATCH_DIR:-$PWD}" || exit 1
+
+stop_now() {   # stop_now <reason>: RELAX_STATUS FAILED, a small note as the segment tarball, all outputs present, exit 1
+  echo FAILED > RELAX_STATUS
+  # the note uses the driver-log name and 'relax status:' line, so common/lineage_relax.sh and the dashboard read it
+  echo "[$(date -u +%FT%TZ)] relax status: FAILED (stopped before pw.x on $(hostname)); $1" > "relax_s${SEG}_driver.log"
+  local f m=("relax_s${SEG}_driver.log")
+  for f in relax.in segment_guard; do [ -f "$f" ] && m+=("$f"); done
+  tar czf "relax_s${SEG}_results.tar.gz" "${m[@]}" 2>/dev/null || touch "relax_s${SEG}_results.tar.gz"
+  for f in $(awk -F' = ' '/^TransferOutput /{print $2}' "${_CONDOR_JOB_AD:-/dev/null}" 2>/dev/null | tr -d '"' | tr ',' ' '); do
+    case "$f" in
+      *.in) ;;   # never create an empty relax.in: it would replace the chain's geometry on the access point
+      *) [ -e "$f" ] || touch "$f" ;;
+    esac
+  done
+  echo "segment $SEG stopped: $1"
+  exit 1
+}
+
+if [ -s segment_guard ] && grep -q '^FAILED' segment_guard; then
+  stop_now "segment_guard: $(grep -m1 '^FAILED' segment_guard)"
+fi
+if grep -q 'geomsel\.py' steps_relax.sh 2>/dev/null && [ ! -f geomsel.py ]; then
+  stop_now "preflight: steps_relax.sh needs geomsel.py, which this job ad does not transfer (submitted before D-24)"
+fi
+
+cp steps_relax.sh steps.sh
+echo FAILED > RELAX_STATUS
+bash driver.sh "relax_s${SEG}" "$LIMIT"
+[ -f "relax_s${SEG}_results.tar.gz" ] || tar czf "relax_s${SEG}_results.tar.gz" ./*.log 2>/dev/null || touch "relax_s${SEG}_results.tar.gz"
+STATUS=$(cat RELAX_STATUS)
+echo "segment $SEG finished with status $STATUS"
+[ "$STATUS" = CONVERGED ]

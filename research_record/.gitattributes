@@ -1,0 +1,14 @@
+# Keep LF line endings for every text file, whichever git (Windows or WSL) touches the checkout:
+# the .sh scripts must stay runnable in WSL.
+* text=auto eol=lf
+*.pdf  binary
+*.png  binary
+*.xlsx binary
+# F9 release-gate checker v15 (frozen 2026-10-14): stored byte-exact so blob sha256 == frozen sha256 (mixed CRLF/LF as reviewed)
+compute/amorph/f9_checker/* -text
+# F9 release-gate checker v18 (frozen 2026-10-14, D-49): byte-exact storage, as for v15
+compute/amorph/f9_checker_v18/* -text
+# F9 release-gate checker v19 (frozen 2026-10-14, D-50): byte-exact storage
+compute/amorph/f9_checker_v19/* -text
+# F9 release-gate checker v20 (frozen 2026-10-14, D-52): byte-exact storage
+compute/amorph/f9_checker_v20/* -text

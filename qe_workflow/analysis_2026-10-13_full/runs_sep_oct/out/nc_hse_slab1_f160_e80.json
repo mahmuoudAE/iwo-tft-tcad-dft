@@ -1,0 +1,998 @@
+{
+ "run": "nc_hse_slab1_f160_e80",
+ "folder": "cern_htcondor/results/nc_hse_slab1_f160_e80",
+ "files": [
+  {
+   "path": ".fetched",
+   "size": 0,
+   "sha256_16": "e3b0c44298fc1c14",
+   "src": "loose",
+   "kind": "other"
+  },
+  {
+   "path": "nc_hse_slab1_f160_e80_driver.log",
+   "size": 491,
+   "sha256_16": "0bc6b8533f9b6a15",
+   "src": "loose",
+   "kind": "driver"
+  },
+  {
+   "path": "scf.in",
+   "size": 5078,
+   "sha256_16": "6c3a7fe28cc8e050",
+   "src": "loose",
+   "kind": "pw_in"
+  },
+  {
+   "path": "scf.out",
+   "size": 367735,
+   "sha256_16": "2a4c19d37763ed14",
+   "src": "loose",
+   "kind": "pw_out"
+  },
+  {
+   "path": "steps.sh",
+   "size": 27,
+   "sha256_16": "a7d5ef8aefb09efb",
+   "src": "loose",
+   "kind": "steps"
+  }
+ ],
+ "tarballs": [
+  {
+   "tarball": "nc_hse_slab1_f160_e80_results.tar.gz",
+   "size": 53014,
+   "sha256": "c54e9fe262cf0e5ca064ec0b8b912a484177dd783de74369a9e51a5f95502b6c",
+   "members": [
+    {
+     "name": "scf.out",
+     "size": 367735,
+     "sha256": "2a4c19d37763ed14573bc5742061192a35d2563cc79c2ced8dda1323e7c6dfc6",
+     "equals_loose": true
+    },
+    {
+     "name": "scf.in",
+     "size": 5078,
+     "sha256": "6c3a7fe28cc8e05057fc453857511a29ffa6343bf5ba012d429c55f88c5eb32c",
+     "equals_loose": true
+    },
+    {
+     "name": "nc_hse_slab1_f160_e80_driver.log",
+     "size": 491,
+     "sha256": "0bc6b8533f9b6a15e52f9be48ad7084822f76714f3aacaec17f0026df256e9b5",
+     "equals_loose": true
+    },
+    {
+     "name": "steps.sh",
+     "size": 27,
+     "sha256": "a7d5ef8aefb09efb336e8b2b82ddcb600bcb7dea5350f82ef0ff7f2f84e6061c",
+     "equals_loose": true
+    }
+   ]
+  }
+ ],
+ "pw": {
+  "scf.out": {
+   "header": {
+    "version": "v.7.3.1",
+    "start_date": "1Oct2026",
+    "start_time": "0:59:11",
+    "processor_cores": 1,
+    "parallel_mode": "Parallel version (MPI & OpenMP),",
+    "mpi_processes": 1,
+    "threads_per_mpi": 1,
+    "nodes": 1,
+    "node_memory_MiB": 310917.0,
+    "input": "scf.in",
+    "subspace_diag": "Subspace diagonalization in iterative solution of the eigenvalue problem: a serial algorithm will be used",
+    "fft_decomposition": "Using Slab Decomposition",
+    "gpu_lines": [
+     "GPU acceleration is ACTIVE.  1 visible GPUs per MPI rank",
+     "GPU-aware MPI enabled",
+     "GPU used by master process:"
+    ]
+   },
+   "params": {
+    "Exchange-correlation": "HSE",
+    "EXX-fraction": "0.25",
+    "EXX q-point mesh": "q-point mesh:     1    1    1",
+    "bravais-lattice index": "0",
+    "lattice parameter (alat)": "19.5330  a.u.",
+    "unit-cell volume": "25140.0035 (a.u.)^3",
+    "number of atoms/cell": "96",
+    "number of atomic types": "3",
+    "number of electrons": "624.00",
+    "number of Kohn-Sham states": "328",
+    "kinetic-energy cutoff": "80.0000  Ry",
+    "charge density cutoff": "320.0000  Ry",
+    "cutoff for Fock operator": "160.0000  Ry",
+    "scf convergence threshold": "1.0E-09",
+    "mixing beta": "0.3000",
+    "number of iterations used": "8  local-TF  mixing",
+    "celldm": [
+     19.533024,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "pseudos": [
+    {
+     "n": 1,
+     "element": "In",
+     "file": "./In_ONCV_PBE-1.2.upf",
+     "md5": "2123f823f6143602c63cd302e3a0bdd6",
+     "type": "Norm-conserving",
+     "Zval": 13.0,
+     "notes": [
+      "Generated using ONCVPSP code by D. R. Hamann"
+     ],
+     "radial_grid": "Using radial grid of  602 points,  6 beta functions with:"
+    },
+    {
+     "n": 2,
+     "element": "O",
+     "file": "./O_ONCV_PBE-1.2.upf",
+     "md5": "e36c48deb68f4e355fffe4602be2c42c",
+     "type": "Norm-conserving",
+     "Zval": 6.0,
+     "notes": [
+      "Generated using ONCVPSP code by D. R. Hamann"
+     ],
+     "radial_grid": "Using radial grid of  602 points,  4 beta functions with:"
+    },
+    {
+     "n": 3,
+     "element": "H",
+     "file": "./H_ONCV_PBE-1.2.upf",
+     "md5": "bf21e08b90ac4ce7d0149ac4e8138190",
+     "type": "Norm-conserving",
+     "Zval": 1.0,
+     "notes": [
+      "Generated using ONCVPSP code by D. R. Hamann"
+     ],
+     "radial_grid": "Using radial grid of  602 points,  2 beta functions with:"
+    }
+   ],
+   "pseudo_rereads": 0,
+   "species": [
+    {
+     "species": "In",
+     "valence": 13.0,
+     "mass": 114.818
+    },
+    {
+     "species": "O",
+     "valence": 6.0,
+     "mass": 15.999
+    },
+    {
+     "species": "H",
+     "valence": 1.0,
+     "mass": 1.008
+    }
+   ],
+   "symmetry": "8 Sym. Ops., with inversion, found ( 6 have fractional translation)",
+   "kpoints": {
+    "n": 4,
+    "line": "number of k points=     4",
+    "sum_wk": 2.0
+   },
+   "fft": {
+    "dense": "Dense  grid:  2430543 G-vectors     FFT dimensions: ( 120, 120, 375)"
+   },
+   "ram": {
+    "Estimated static dynamical RAM per process": "51.89 GB",
+    "Estimated max dynamical RAM per process": "58.43 GB"
+   },
+   "ram_components": [
+    "Dynamical RAM for                 wfc:    1520.35 MB",
+    "Dynamical RAM for     wfc (w. buffer):    7601.74 MB",
+    "Dynamical RAM for                 EXX:   40587.84 MB",
+    "Dynamical RAM for           str. fact:     111.26 MB",
+    "Dynamical RAM for           local pot:       0.00 MB",
+    "Dynamical RAM for          nlocal pot:    4004.82 MB",
+    "Dynamical RAM for                qrad:       4.35 MB",
+    "Dynamical RAM for          rho,v,vnew:     234.86 MB",
+    "Dynamical RAM for               rhoin:      78.29 MB",
+    "Dynamical RAM for            rho*nmix:     593.39 MB",
+    "Dynamical RAM for           G-vectors:     157.62 MB",
+    "Dynamical RAM for          h,s,v(r/c):      19.70 MB",
+    "Dynamical RAM for          <psi|beta>:       4.32 MB",
+    "Dynamical RAM for                 psi:    3040.70 MB",
+    "Dynamical RAM for                hpsi:    3040.70 MB",
+    "Dynamical RAM for      wfcinit/wfcrot:    3043.16 MB"
+   ],
+   "start": [
+    "Initial potential from superposition of free atoms",
+    "starting charge     621.3932, renormalised to     624.0000",
+    "Starting wfcs are random"
+   ],
+   "calc_type": "scf/relax",
+   "bands_calc": null,
+   "n_scf_steps": 8,
+   "steps": [
+    {
+     "iterations": 34,
+     "converged_iterations": 34,
+     "acc_final_Ry": 3e-10,
+     "E_Ry": -4073.90318614,
+     "HOMO_eV": -2.1683,
+     "LUMO_eV": -0.3615,
+     "negative_rho": [
+      6.06e-06,
+      0.0
+     ],
+     "beta": 0.3
+    },
+    {
+     "iterations": 23,
+     "converged_iterations": 23,
+     "acc_final_Ry": 7.2e-10,
+     "E_Ry": -4057.47346112,
+     "HOMO_eV": -3.176,
+     "LUMO_eV": -0.1837,
+     "negative_rho": [
+      1.842e-06,
+      0.0
+     ],
+     "beta": 0.3
+    },
+    {
+     "iterations": 14,
+     "converged_iterations": 14,
+     "acc_final_Ry": 4.7e-10,
+     "E_Ry": -4057.48842462,
+     "HOMO_eV": -3.177,
+     "LUMO_eV": -0.1355,
+     "negative_rho": [
+      9.247e-06,
+      0.0
+     ],
+     "beta": 0.3
+    },
+    {
+     "iterations": 9,
+     "converged_iterations": 9,
+     "acc_final_Ry": 3.4e-10,
+     "E_Ry": -4057.48872348,
+     "HOMO_eV": -3.1765,
+     "LUMO_eV": -0.1299,
+     "beta": 0.3
+    },
+    {
+     "iterations": 5,
+     "converged_iterations": 5,
+     "acc_final_Ry": 6.5e-10,
+     "E_Ry": -4057.48873434,
+     "HOMO_eV": -3.1765,
+     "LUMO_eV": -0.1292,
+     "beta": 0.3
+    },
+    {
+     "iterations": 3,
+     "converged_iterations": 3,
+     "acc_final_Ry": 7.6e-10,
+     "E_Ry": -4057.48873484,
+     "HOMO_eV": -3.1764,
+     "LUMO_eV": -0.129,
+     "beta": 0.3
+    },
+    {
+     "iterations": 3,
+     "converged_iterations": 3,
+     "acc_final_Ry": 2.6e-10,
+     "E_Ry": -4057.48873487,
+     "HOMO_eV": -3.1765,
+     "LUMO_eV": -0.129,
+     "beta": 0.3
+    },
+    {
+     "iterations": 1,
+     "converged_iterations": 1,
+     "acc_final_Ry": 8.5e-10,
+     "E_Ry": -4057.48873487,
+     "E_bang2_Ry": -4057.48873487,
+     "HOMO_eV": -3.1764,
+     "LUMO_eV": -0.1289,
+     "force_max_component_Ry_bohr": 0.02379598,
+     "force_rms_component_Ry_bohr": 0.01098891189401364,
+     "total_force_Ry_bohr": 0.186488,
+     "total_scf_correction_Ry_bohr": 0.000195,
+     "pressure_kbar": 5.1,
+     "beta": 0.3
+    }
+   ],
+   "final_step": {
+    "iterations": 1,
+    "ecut": 80.0,
+    "beta": 0.3,
+    "HOMO_eV": -3.1764,
+    "LUMO_eV": -0.1289,
+    "E_Ry": -4057.48873487,
+    "acc_final_Ry": 8.5e-10,
+    "converged_iterations": 1,
+    "E_bang2_Ry": -4057.48873487,
+    "dexx_Ry": 1.9e-10,
+    "half_fock_Ry": 252.29433788,
+    "fock2_Ry": -126.14718385,
+    "force_max_component_Ry_bohr": 0.02379598,
+    "force_max_atom_Ry_bohr": 0.028219323827122434,
+    "force_rms_component_Ry_bohr": 0.01098891189401364,
+    "force_max_atom_index": 75,
+    "total_force_Ry_bohr": 0.186488,
+    "total_scf_correction_Ry_bohr": 0.000195,
+    "pressure_kbar": 5.1,
+    "stress_kbar": [
+     [
+      7.12,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      6.28,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.9
+     ]
+    ],
+    "E_trace_n": 0
+   },
+   "bfgs": {},
+   "exx": {
+    "cycles": [
+     {
+      "line": 1531
+     },
+     {
+      "line": 2330
+     },
+     {
+      "line": 2955
+     },
+     {
+      "line": 3486
+     },
+     {
+      "line": 3945
+     },
+     {
+      "line": 4368
+     },
+     {
+      "line": 4791
+     }
+    ],
+    "grid": "EXX grid:   859245 G-vectors     FFT dimensions: (  80,  80, 270)",
+    "dexx_trace": [
+     0.01333401,
+     0.00025321,
+     8.97e-06,
+     4.1e-07,
+     2e-08,
+     1.4e-09,
+     1.9e-10
+    ],
+    "fock_trace_Ry": [
+     -126.11869902,
+     -126.14150182,
+     -126.14603117,
+     -126.14696008,
+     -126.14710608,
+     -126.14715403,
+     -126.14718385
+    ],
+    "reached": true
+   },
+   "timing": {
+    "init_run": {
+     "cpu": "4.36s",
+     "wall": "7.11s",
+     "calls": 1
+    },
+    "electrons": {
+     "cpu": "1038.40s",
+     "wall": "1053.58s",
+     "calls": 8
+    },
+    "forces": {
+     "cpu": "3.12s",
+     "wall": "3.15s",
+     "calls": 1
+    },
+    "stress": {
+     "cpu": "11670.58s",
+     "wall": "11724.19s",
+     "calls": 1
+    },
+    "aceinit0": {
+     "cpu": "0.00s",
+     "wall": "0.00s",
+     "calls": 1
+    },
+    "wfcinit": {
+     "cpu": "2.67s",
+     "wall": "3.66s",
+     "calls": 1
+    },
+    "wfcinit:wfcr": {
+     "cpu": "1.65s",
+     "wall": "1.88s",
+     "calls": 4
+    },
+    "potinit": {
+     "cpu": "0.15s",
+     "wall": "0.20s",
+     "calls": 1
+    },
+    "hinit0": {
+     "cpu": "0.78s",
+     "wall": "0.87s",
+     "calls": 1
+    },
+    "c_bands": {
+     "cpu": "836.38s",
+     "wall": "841.69s",
+     "calls": 92
+    },
+    "sum_band": {
+     "cpu": "158.81s",
+     "wall": "160.88s",
+     "calls": 92
+    },
+    "v_of_rho": {
+     "cpu": "5.78s",
+     "wall": "7.16s",
+     "calls": 94
+    },
+    "v_h": {
+     "cpu": "3.27s",
+     "wall": "4.56s",
+     "calls": 94
+    },
+    "v_xc": {
+     "cpu": "2.51s",
+     "wall": "2.60s",
+     "calls": 94
+    },
+    "mix_rho": {
+     "cpu": "31.91s",
+     "wall": "37.71s",
+     "calls": 92
+    },
+    "init_us_2": {
+     "cpu": "4.63s",
+     "wall": "4.72s",
+     "calls": 748
+    },
+    "cegterg": {
+     "cpu": "608.28s",
+     "wall": "611.31s",
+     "calls": 372
+    },
+    "sum_band:wei": {
+     "cpu": "0.00s",
+     "wall": "0.00s",
+     "calls": 92
+    },
+    "sum_band:loo": {
+     "cpu": "145.88s",
+     "wall": "146.66s",
+     "calls": 92
+    },
+    "sum_band:buf": {
+     "cpu": "107.07s",
+     "wall": "107.66s",
+     "calls": 368
+    },
+    "sum_band:ini": {
+     "cpu": "2.28s",
+     "wall": "2.32s",
+     "calls": 368
+    },
+    "cdiaghg": {
+     "cpu": "21.85s",
+     "wall": "22.20s",
+     "calls": 1926
+    },
+    "cegterg:over": {
+     "cpu": "44.19s",
+     "wall": "44.37s",
+     "calls": 1586
+    },
+    "cegterg:upda": {
+     "cpu": "17.39s",
+     "wall": "17.46s",
+     "calls": 1586
+    },
+    "cegterg:last": {
+     "cpu": "23.49s",
+     "wall": "23.58s",
+     "calls": 935
+    },
+    "h_psi": {
+     "cpu": "483.71s",
+     "wall": "486.24s",
+     "calls": 1962
+    },
+    "g_psi": {
+     "cpu": "0.01s",
+     "wall": "7.17s",
+     "calls": 1586
+    },
+    "h_psi:calbec": {
+     "cpu": "0.12s",
+     "wall": "32.26s",
+     "calls": 1962
+    },
+    "vloc_psi": {
+     "cpu": "224.81s",
+     "wall": "225.94s",
+     "calls": 1962
+    },
+    "add_vuspsi": {
+     "cpu": "6.01s",
+     "wall": "34.79s",
+     "calls": 1962
+    },
+    "calbec": {
+     "cpu": "87.99s",
+     "wall": "88.54s",
+     "calls": 2014
+    },
+    "fft": {
+     "cpu": "0.02s",
+     "wall": "0.28s",
+     "calls": 938
+    },
+    "ffts": {
+     "cpu": "0.10s",
+     "wall": "2.70s",
+     "calls": 10306
+    },
+    "fftw": {
+     "cpu": "0.58s",
+     "wall": "204.48s",
+     "calls": 55670
+    },
+    "fftc": {
+     "cpu": "5156.35s",
+     "wall": "5922.11s",
+     "calls": 1395968
+    },
+    "fftcw": {
+     "cpu": "255.98s",
+     "wall": "259.17s",
+     "calls": 32800
+    },
+    "exx_grid": {
+     "cpu": "0.00s",
+     "wall": "0.00s",
+     "calls": 1
+    },
+    "exxinit": {
+     "cpu": "513.00s",
+     "wall": "520.14s",
+     "calls": 8
+    },
+    "vexx": {
+     "cpu": "921.25s",
+     "wall": "931.17s",
+     "calls": 32
+    },
+    "matcalc": {
+     "cpu": "97.71s",
+     "wall": "98.22s",
+     "calls": 1274
+    },
+    "aceupdate": {
+     "cpu": "61.14s",
+     "wall": "61.44s",
+     "calls": 32
+    },
+    "vexxace": {
+     "cpu": "195.51s",
+     "wall": "202.91s",
+     "calls": 1182
+    },
+    "aceinit": {
+     "cpu": "1072.43s",
+     "wall": "1083.13s",
+     "calls": 32
+    },
+    "PWSCF": {
+     "cpu": "3h59m",
+     "wall": "4h 0m",
+     "calls": null
+    }
+   },
+   "terminated": "4:59:51   1Oct2026",
+   "done": true,
+   "messages": [
+    [
+     34,
+     "Message from routine setup: using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+    ]
+   ],
+   "errors": null,
+   "warnings": {
+    "message_from_routine": {
+     "count": 1,
+     "first": [
+      [
+       34,
+       "Message from routine setup:"
+      ]
+     ],
+     "last": [
+      34,
+      "Message from routine setup:"
+     ]
+    },
+    "warning": {
+     "count": 4,
+     "first": [
+      [
+       6023,
+       "Warning: ieee_invalid is signaling"
+      ],
+      [
+       6024,
+       "Warning: ieee_divide_by_zero is signaling"
+      ],
+      [
+       6025,
+       "Warning: ieee_underflow is signaling"
+      ]
+     ],
+     "last": [
+      6026,
+      "Warning: ieee_inexact is signaling"
+     ]
+    },
+    "c_bands_not_converged": {
+     "count": 2,
+     "first": [
+      [
+       663,
+       "c_bands:  1 eigenvalues not converged"
+      ],
+      [
+       824,
+       "c_bands:  1 eigenvalues not converged"
+      ]
+     ],
+     "last": [
+      824,
+      "c_bands:  1 eigenvalues not converged"
+     ]
+    },
+    "ieee": {
+     "count": 4,
+     "first": [
+      [
+       6023,
+       "Warning: ieee_invalid is signaling"
+      ],
+      [
+       6024,
+       "Warning: ieee_divide_by_zero is signaling"
+      ],
+      [
+       6025,
+       "Warning: ieee_underflow is signaling"
+      ]
+     ],
+     "last": [
+      6026,
+      "Warning: ieee_inexact is signaling"
+     ]
+    },
+    "discouraged": {
+     "count": 1,
+     "first": [
+      [
+       35,
+       "using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+      ]
+     ],
+     "last": [
+      35,
+      "using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead"
+     ]
+    },
+    "fortran_stop": {
+     "count": 1,
+     "first": [
+      [
+       6027,
+       "FORTRAN STOP"
+      ]
+     ],
+     "last": [
+      6027,
+      "FORTRAN STOP"
+     ]
+    }
+   },
+   "bands": {
+    "n_k": 4,
+    "n_bands": 328,
+    "n_occ": 312,
+    "VBM_eV": -3.1764,
+    "VBM_k_index": 0,
+    "CBM_eV": -0.1289,
+    "CBM_k_index": 0,
+    "gap_eV": 3.0475,
+    "direct_gap_min_eV": 3.0475,
+    "direct_gap_k_index": 0,
+    "gap_type": "direct",
+    "VB_width_top_band_eV": 0.0241,
+    "CB_width_bottom_band_eV": 0.8648,
+    "E2_minus_E1_at_k0_eV": 1.6049
+   },
+   "n_lines": 6027
+  }
+ },
+ "inputs": {
+  "scf.in": {
+   "namelists": {
+    "CONTROL": {
+     "calculation": "scf",
+     "prefix": "nc",
+     "outdir": "./tmp",
+     "pseudo_dir": "./",
+     "verbosity": "high",
+     "tprnfor": ".true.",
+     "tstress": ".true.",
+     "max_seconds": "257376"
+    },
+    "SYSTEM": {
+     "ibrav": "0",
+     "nat": "96",
+     "ntyp": "3",
+     "ecutwfc": "80",
+     "ecutrho": "320",
+     "occupations": "fixed",
+     "nbnd": "328",
+     "input_dft": "hse",
+     "nqx1": "1",
+     "nqx2": "1",
+     "nqx3": "1",
+     "ecutfock": "160"
+    },
+    "ELECTRONS": {
+     "conv_thr": "1.0d-9",
+     "mixing_beta": "0.3",
+     "electron_maxstep": "150",
+     "mixing_mode": "local-TF"
+    }
+   },
+   "cards": {
+    "ATOMIC_SPECIES": [
+     {
+      "species": "In",
+      "mass": 114.818,
+      "pseudo": "In_ONCV_PBE-1.2.upf"
+     },
+     {
+      "species": "O",
+      "mass": 15.999,
+      "pseudo": "O_ONCV_PBE-1.2.upf"
+     },
+     {
+      "species": "H",
+      "mass": 1.008,
+      "pseudo": "H_ONCV_PBE-1.2.upf"
+     }
+    ],
+    "CELL_PARAMETERS": {
+     "unit": "angstrom",
+     "vectors": [
+      [
+       10.33643106,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       10.33450421,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       34.87453893
+      ]
+     ]
+    },
+    "K_POINTS": {
+     "mode": "automatic",
+     "grid": [
+      "3",
+      "3",
+      "1",
+      "0",
+      "0",
+      "0"
+     ]
+    }
+   },
+   "atomic_positions_summary": {
+    "unit": "crystal",
+    "n": 96,
+    "labels": [
+     "H",
+     "In",
+     "O"
+    ],
+    "n_constrained": 0
+   },
+   "geometry": {
+    "n_atoms": 96,
+    "composition": {
+     "H": 24,
+     "In": 24,
+     "O": 48
+    },
+    "cell_lengths_A": [
+     10.33643,
+     10.3345,
+     34.87454
+    ],
+    "cell_angles_deg": [
+     90.0,
+     90.0,
+     90.0
+    ],
+    "volume_A3": 3725.3642,
+    "density_g_cm3": 1.5814,
+    "bonds": {
+     "In-O": {
+      "cutoff_A": 2.6,
+      "n": 144,
+      "min": 2.1647,
+      "mean": 2.219,
+      "max": 2.3078,
+      "std": 0.0389,
+      "CN_In_hist": {
+       "6": 24
+      }
+     },
+     "O-H": {
+      "cutoff_A": 1.2,
+      "n": 24,
+      "min": 0.9719,
+      "mean": 0.9775,
+      "max": 0.9864,
+      "std": 0.0064,
+      "CN_O_hist": {
+       "0": 24,
+       "1": 24
+      }
+     }
+    },
+    "CN_O_by_cations_hist": {
+     "2": 24,
+     "4": 24
+    },
+    "slab": {
+     "vacuum_A": 25.571,
+     "extent_A": 9.303,
+     "thickness_H_H_A": 9.3033,
+     "thickness_O_O_A": 7.8762,
+     "thickness_In_In_A": 5.1515
+    }
+   }
+  }
+ },
+ "templates": {},
+ "projwfc": {},
+ "pp_avg": {},
+ "avg_dat": {},
+ "pdos": {},
+ "driver": {
+  "nc_hse_slab1_f160_e80_driver.log": {
+   "lines": [
+    "[2026-09-30T22:58:45Z] job nc_hse_slab1_f160_e80 host b9pgpun002.cern.ch cpus 11 limit 259200s",
+    "[2026-09-30T22:58:53Z] pw.x:/pool/condor/dir_4013980/qe-env/bin/pw.x  python: /pool/condor/dir_4013980/qe-env/bin/python",
+    "[2026-09-30T22:59:09Z] GPU mode: 1 GPU(s), NVIDIA H100 NVL, 95830 MiB",
+    "[2026-09-30T22:59:09Z] pw.x scf start (-nk 1, max_seconds 257376)",
+    "[2026-10-01T03:00:11Z] pw.x scf end rc=0 PWSCF        :      3h59m CPU      4h 0m WALL",
+    "[2026-10-01T03:00:11Z] steps finished after 14486 s"
+   ],
+   "host": "b9pgpun002.cern.ch",
+   "cpus": 11,
+   "limit_s": 259200,
+   "start": "2026-09-30T22:58:45Z",
+   "gpu": "1 GPU(s), NVIDIA H100 NVL, 95830 MiB",
+   "total_s": 14486,
+   "steps": [
+    {
+     "step": "scf",
+     "start": "2026-09-30T22:59:09Z",
+     "nk": 1,
+     "max_seconds": 257376,
+     "end": "2026-10-01T03:00:11Z",
+     "rc": 0,
+     "time": "PWSCF        :      3h59m CPU      4h 0m WALL"
+    }
+   ]
+  }
+ },
+ "steps_sh": {
+  "steps.sh": "steps() {\n  run_pw scf 1\n}"
+ },
+ "other": {
+  ".fetched": ""
+ },
+ "mpi_errors": {},
+ "condor": [
+  {
+   "job": "nc_hse_slab1_f160_e80",
+   "id": "12790250.2",
+   "first": "2026-09-30T17:44:25Z",
+   "last": "2026-09-30T20:02:28Z",
+   "samples": 25,
+   "states": {
+    "1": 25
+   },
+   "cpus": 11,
+   "gpus": "1",
+   "gpu_hw": [],
+   "cpu_hw": [],
+   "max_scf_it": 0,
+   "max_bfgs": 0,
+   "steps": []
+  },
+  {
+   "job": "nc_hse_slab1_f160_e80",
+   "id": "12790499.2",
+   "first": "2026-09-30T20:14:01Z",
+   "last": "2026-09-30T20:14:01Z",
+   "samples": 1,
+   "states": {
+    "1": 1
+   },
+   "cpus": 11,
+   "gpus": "1",
+   "gpu_hw": [],
+   "cpu_hw": [],
+   "max_scf_it": 0,
+   "max_bfgs": 0,
+   "steps": []
+  },
+  {
+   "job": "nc_hse_slab1_f160_e80",
+   "id": "12790513.2",
+   "first": "2026-09-30T20:22:03Z",
+   "last": "2026-10-01T02:56:40Z",
+   "samples": 71,
+   "states": {
+    "1": 28,
+    "2": 43
+   },
+   "cpus": 11,
+   "gpus": "1",
+   "gpu_hw": [
+    "1xNVIDIA H100 NVL|0%",
+    "1xNVIDIA H100 NVL|98%",
+    "1xNVIDIA H100 NVL|99%"
+   ],
+   "cpu_hw": [
+    "Intel(R) Xeon(R) Platinum 8468"
+   ],
+   "max_scf_it": 92,
+   "max_bfgs": 0,
+   "steps": [
+    "scf"
+   ]
+  }
+ ]
+}

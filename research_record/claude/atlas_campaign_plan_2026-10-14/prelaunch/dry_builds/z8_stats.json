@@ -1,0 +1,820 @@
+{
+ "regression": {
+  "REF_run0067": [
+   true,
+   104,
+   []
+  ],
+  "REF_run0066": [
+   true,
+   106,
+   []
+  ]
+ },
+ "stats": {
+  "REF_run0067": {
+   "x_lines": 117,
+   "y_lines": 82,
+   "nodes": 9594,
+   "layers": {
+    "Air": {
+     "y_lines_incl_faces": 15,
+     "y_intervals": 14,
+     "nodes_incl_faces": 1755,
+     "dy_min_nm": 0.2526,
+     "dy_max_nm": 20.2107
+    },
+    "IWO": {
+     "y_lines_incl_faces": 18,
+     "y_intervals": 17,
+     "nodes_incl_faces": 2106,
+     "dy_min_nm": 0.0614,
+     "dy_max_nm": 0.2456
+    },
+    "Al2O3": {
+     "y_lines_incl_faces": 16,
+     "y_intervals": 15,
+     "nodes_incl_faces": 1872,
+     "dy_min_nm": 0.0609,
+     "dy_max_nm": 0.2437
+    },
+    "HfO2": {
+     "y_lines_incl_faces": 29,
+     "y_intervals": 28,
+     "nodes_incl_faces": 3393,
+     "dy_min_nm": 0.2461,
+     "dy_max_nm": 0.9845
+    },
+    "Conductor": {
+     "y_lines_incl_faces": 8,
+     "y_intervals": 7,
+     "nodes_incl_faces": 936,
+     "dy_min_nm": 1.0133,
+     "dy_max_nm": 20.267
+    }
+   },
+   "interfaces_um": {
+    "air/IWO(top)": -0.002,
+    "IWO r1/r2": -0.00025,
+    "IWO/Al2O3": 0.0,
+    "Al2O3/HfO2": 0.002,
+    "HfO2/Conductor(gate)": 0.017
+   },
+   "interfaces_on_mesh": true,
+   "mesh_lines": [
+    "x.mesh loc=0 spac=0.3",
+    "x.mesh loc=1.8 spac=0.05",
+    "x.mesh loc=2 spac=0.01",
+    "x.mesh loc=2.2 spac=0.05",
+    "x.mesh loc=3 spac=0.2",
+    "x.mesh loc=12 spac=0.7",
+    "x.mesh loc=21 spac=0.2",
+    "x.mesh loc=21.8 spac=0.05",
+    "x.mesh loc=22 spac=0.01",
+    "x.mesh loc=22.2 spac=0.05",
+    "x.mesh loc=24 spac=0.3",
+    "y.mesh loc=-0.072 spac=0.02",
+    "y.mesh loc=-0.002 spac=0.00025",
+    "y.mesh loc=-0.00025 spac=6.25e-05",
+    "y.mesh loc=-0.000125 spac=6.25e-05",
+    "y.mesh loc=0 spac=6.25e-05",
+    "y.mesh loc=0.002 spac=0.00025",
+    "y.mesh loc=0.017 spac=0.001",
+    "y.mesh loc=0.067 spac=0.02"
+   ],
+   "qt": null,
+   "checks": {
+    "qtnlsc.el": true,
+    "qtnl.derivs": true,
+    "exclude_near_SD": true,
+    "oxide_barriers": [
+     "material region=3 affinity=1.6 eg300=8.8 me.tunnel=0.3",
+     "material region=4 affinity=3.2 eg300=5.8 me.tunnel=0.1"
+    ],
+    "method": [
+     "method newton trap maxtraps=10 itlimit=80 climit=1e-6 ir.tol=1e-19 \\\n cr.toler=1e-17 xandrnorm carriers=1 electrons",
+     "method newton trap maxtraps=10 itlimit=80 climit=1e-6 ir.tol=1e-19 \\\n cr.toler=5e-18 ^xandrnorm carriers=1 electrons"
+    ]
+   }
+  },
+  "REF_run0066": {
+   "x_lines": 117,
+   "y_lines": 82,
+   "nodes": 9594,
+   "layers": {
+    "Air": {
+     "y_lines_incl_faces": 15,
+     "y_intervals": 14,
+     "nodes_incl_faces": 1755,
+     "dy_min_nm": 0.2526,
+     "dy_max_nm": 20.2107
+    },
+    "IWO": {
+     "y_lines_incl_faces": 18,
+     "y_intervals": 17,
+     "nodes_incl_faces": 2106,
+     "dy_min_nm": 0.0614,
+     "dy_max_nm": 0.2456
+    },
+    "Al2O3": {
+     "y_lines_incl_faces": 16,
+     "y_intervals": 15,
+     "nodes_incl_faces": 1872,
+     "dy_min_nm": 0.0609,
+     "dy_max_nm": 0.2437
+    },
+    "HfO2": {
+     "y_lines_incl_faces": 29,
+     "y_intervals": 28,
+     "nodes_incl_faces": 3393,
+     "dy_min_nm": 0.2461,
+     "dy_max_nm": 0.9845
+    },
+    "Conductor": {
+     "y_lines_incl_faces": 8,
+     "y_intervals": 7,
+     "nodes_incl_faces": 936,
+     "dy_min_nm": 1.0133,
+     "dy_max_nm": 20.267
+    }
+   },
+   "interfaces_um": {
+    "air/IWO(top)": -0.002,
+    "IWO r1/r2": -0.00025,
+    "IWO/Al2O3": 0.0,
+    "Al2O3/HfO2": 0.002,
+    "HfO2/Conductor(gate)": 0.017
+   },
+   "interfaces_on_mesh": true,
+   "mesh_lines": [
+    "x.mesh loc=0 spac=0.3",
+    "x.mesh loc=1.8 spac=0.05",
+    "x.mesh loc=2 spac=0.01",
+    "x.mesh loc=2.2 spac=0.05",
+    "x.mesh loc=3 spac=0.2",
+    "x.mesh loc=12 spac=0.7",
+    "x.mesh loc=21 spac=0.2",
+    "x.mesh loc=21.8 spac=0.05",
+    "x.mesh loc=22 spac=0.01",
+    "x.mesh loc=22.2 spac=0.05",
+    "x.mesh loc=24 spac=0.3",
+    "y.mesh loc=-0.072 spac=0.02",
+    "y.mesh loc=-0.002 spac=0.00025",
+    "y.mesh loc=-0.00025 spac=6.25e-05",
+    "y.mesh loc=-0.000125 spac=6.25e-05",
+    "y.mesh loc=0 spac=6.25e-05",
+    "y.mesh loc=0.002 spac=0.00025",
+    "y.mesh loc=0.017 spac=0.001",
+    "y.mesh loc=0.067 spac=0.02",
+    "qtx.mesh loc=0 spac=0.2",
+    "qtx.mesh loc=24 spac=0.2",
+    "qty.mesh loc=-0.0005 spac=0.0005",
+    "qty.mesh loc=0.0175 spac=0.0005"
+   ],
+   "qt": {
+    "y_range_um": [
+     -0.0005,
+     0.0175
+    ],
+    "x_range_um": [
+     0.0,
+     24.0
+    ],
+    "encloses_oxide_strictly": true,
+    "overextension_nm": [
+     0.5,
+     0.5
+    ],
+    "qt_points": 4477,
+    "grid": "121 x 37"
+   },
+   "checks": {
+    "qtnlsc.el": true,
+    "qtnl.derivs": true,
+    "exclude_near_SD": false,
+    "oxide_barriers": [
+     "material region=3 affinity=1.6 eg300=8.8 me.tunnel=0.3",
+     "material region=4 affinity=3.2 eg300=5.8 me.tunnel=0.1"
+    ],
+    "method": [
+     "method newton trap maxtraps=10 itlimit=80 climit=1e-6 ir.tol=1e-19 \\\n cr.toler=1e-17 xandrnorm carriers=1 electrons",
+     "method newton trap maxtraps=10 itlimit=80 climit=1e-6 ir.tol=1e-19 \\\n cr.toler=5e-18 ^xandrnorm carriers=1 electrons"
+    ]
+   }
+  },
+  "REF_S2-11_run0076form": {
+   "x_lines": 117,
+   "y_lines": 117,
+   "nodes": 13689,
+   "layers": {
+    "Air": {
+     "y_lines_incl_faces": 15,
+     "y_intervals": 14,
+     "nodes_incl_faces": 1755,
+     "dy_min_nm": 0.2526,
+     "dy_max_nm": 20.2107
+    },
+    "IWO": {
+     "y_lines_incl_faces": 18,
+     "y_intervals": 17,
+     "nodes_incl_faces": 2106,
+     "dy_min_nm": 0.0614,
+     "dy_max_nm": 0.2456
+    },
+    "Al2O3": {
+     "y_lines_incl_faces": 23,
+     "y_intervals": 22,
+     "nodes_incl_faces": 2691,
+     "dy_min_nm": 0.0629,
+     "dy_max_nm": 0.1258
+    },
+    "HfO2": {
+     "y_lines_incl_faces": 56,
+     "y_intervals": 55,
+     "nodes_incl_faces": 6552,
+     "dy_min_nm": 0.1257,
+     "dy_max_nm": 0.5027
+    },
+    "Conductor": {
+     "y_lines_incl_faces": 9,
+     "y_intervals": 8,
+     "nodes_incl_faces": 1053,
+     "dy_min_nm": 0.5197,
+     "dy_max_nm": 20.7876
+    }
+   },
+   "interfaces_um": {
+    "air/IWO(top)": -0.002,
+    "IWO r1/r2": -0.00025,
+    "IWO/Al2O3": 0.0,
+    "Al2O3/HfO2": 0.002,
+    "HfO2/Conductor(gate)": 0.017
+   },
+   "interfaces_on_mesh": true,
+   "mesh_lines": [
+    "x.mesh loc=0 spac=0.3",
+    "x.mesh loc=1.8 spac=0.05",
+    "x.mesh loc=2 spac=0.01",
+    "x.mesh loc=2.2 spac=0.05",
+    "x.mesh loc=3 spac=0.2",
+    "x.mesh loc=12 spac=0.7",
+    "x.mesh loc=21 spac=0.2",
+    "x.mesh loc=21.8 spac=0.05",
+    "x.mesh loc=22 spac=0.01",
+    "x.mesh loc=22.2 spac=0.05",
+    "x.mesh loc=24 spac=0.3",
+    "y.mesh loc=-0.072 spac=0.02",
+    "y.mesh loc=-0.002 spac=0.00025",
+    "y.mesh loc=-0.00025 spac=6.25e-05",
+    "y.mesh loc=-0.000125 spac=6.25e-05",
+    "y.mesh loc=0 spac=6.25e-05",
+    "y.mesh loc=0.002 spac=0.000125",
+    "y.mesh loc=0.017 spac=0.0005",
+    "y.mesh loc=0.067 spac=0.02"
+   ],
+   "qt": null,
+   "checks": {
+    "qtnlsc.el": true,
+    "qtnl.derivs": true,
+    "exclude_near_SD": true,
+    "oxide_barriers": [
+     "material region=3 affinity=1.6 eg300=8.8 me.tunnel=0.3",
+     "material region=4 affinity=3.2 eg300=5.8 me.tunnel=0.1"
+    ],
+    "method": [
+     "method newton trap maxtraps=10 itlimit=80 climit=1e-6 ir.tol=1e-19 \\\n cr.toler=1e-17 xandrnorm carriers=1 electrons",
+     "method newton trap maxtraps=10 itlimit=80 climit=1e-6 ir.tol=1e-19 \\\n cr.toler=5e-18 ^xandrnorm carriers=1 electrons"
+    ]
+   }
+  },
+  "T1a": {
+   "x_lines": 117,
+   "y_lines": 185,
+   "nodes": 21645,
+   "layers": {
+    "Air": {
+     "y_lines_incl_faces": 15,
+     "y_intervals": 14,
+     "nodes_incl_faces": 1755,
+     "dy_min_nm": 0.2526,
+     "dy_max_nm": 20.2107
+    },
+    "IWO": {
+     "y_lines_incl_faces": 18,
+     "y_intervals": 17,
+     "nodes_incl_faces": 2106,
+     "dy_min_nm": 0.0614,
+     "dy_max_nm": 0.2456
+    },
+    "Al2O3": {
+     "y_lines_incl_faces": 33,
+     "y_intervals": 32,
+     "nodes_incl_faces": 3861,
+     "dy_min_nm": 0.0625,
+     "dy_max_nm": 0.0625
+    },
+    "HfO2": {
+     "y_lines_incl_faces": 112,
+     "y_intervals": 111,
+     "nodes_incl_faces": 13104,
+     "dy_min_nm": 0.0624,
+     "dy_max_nm": 0.2494
+    },
+    "Conductor": {
+     "y_lines_incl_faces": 11,
+     "y_intervals": 10,
+     "nodes_incl_faces": 1287,
+     "dy_min_nm": 0.2428,
+     "dy_max_nm": 19.4225
+    }
+   },
+   "interfaces_um": {
+    "air/IWO(top)": -0.002,
+    "IWO r1/r2": -0.00025,
+    "IWO/Al2O3": 0.0,
+    "Al2O3/HfO2": 0.002,
+    "HfO2/Conductor(gate)": 0.017
+   },
+   "interfaces_on_mesh": true,
+   "mesh_lines": [
+    "x.mesh loc=0 spac=0.3",
+    "x.mesh loc=1.8 spac=0.05",
+    "x.mesh loc=2 spac=0.01",
+    "x.mesh loc=2.2 spac=0.05",
+    "x.mesh loc=3 spac=0.2",
+    "x.mesh loc=12 spac=0.7",
+    "x.mesh loc=21 spac=0.2",
+    "x.mesh loc=21.8 spac=0.05",
+    "x.mesh loc=22 spac=0.01",
+    "x.mesh loc=22.2 spac=0.05",
+    "x.mesh loc=24 spac=0.3",
+    "y.mesh loc=-0.072 spac=0.02",
+    "y.mesh loc=-0.002 spac=0.00025",
+    "y.mesh loc=-0.00025 spac=6.25e-05",
+    "y.mesh loc=-0.000125 spac=6.25e-05",
+    "y.mesh loc=0 spac=6.25e-05",
+    "y.mesh loc=0.002 spac=6.25e-05",
+    "y.mesh loc=0.017 spac=0.00025",
+    "y.mesh loc=0.067 spac=0.02"
+   ],
+   "qt": null,
+   "checks": {
+    "qtnlsc.el": true,
+    "qtnl.derivs": true,
+    "exclude_near_SD": true,
+    "oxide_barriers": [
+     "material region=3 affinity=1.6 eg300=8.8 me.tunnel=0.3",
+     "material region=4 affinity=3.2 eg300=5.8 me.tunnel=0.1"
+    ],
+    "method": [
+     "method newton trap maxtraps=10 itlimit=80 climit=1e-6 ir.tol=1e-19 \\\n cr.toler=1e-17 xandrnorm carriers=1 electrons",
+     "method newton trap maxtraps=10 itlimit=80 climit=1e-6 ir.tol=1e-19 \\\n cr.toler=5e-18 ^xandrnorm carriers=1 electrons"
+    ]
+   }
+  },
+  "T2a": {
+   "x_lines": 117,
+   "y_lines": 82,
+   "nodes": 9594,
+   "layers": {
+    "Air": {
+     "y_lines_incl_faces": 15,
+     "y_intervals": 14,
+     "nodes_incl_faces": 1755,
+     "dy_min_nm": 0.2526,
+     "dy_max_nm": 20.2107
+    },
+    "IWO": {
+     "y_lines_incl_faces": 18,
+     "y_intervals": 17,
+     "nodes_incl_faces": 2106,
+     "dy_min_nm": 0.0614,
+     "dy_max_nm": 0.2456
+    },
+    "Al2O3": {
+     "y_lines_incl_faces": 16,
+     "y_intervals": 15,
+     "nodes_incl_faces": 1872,
+     "dy_min_nm": 0.0609,
+     "dy_max_nm": 0.2437
+    },
+    "HfO2": {
+     "y_lines_incl_faces": 29,
+     "y_intervals": 28,
+     "nodes_incl_faces": 3393,
+     "dy_min_nm": 0.2461,
+     "dy_max_nm": 0.9845
+    },
+    "Conductor": {
+     "y_lines_incl_faces": 8,
+     "y_intervals": 7,
+     "nodes_incl_faces": 936,
+     "dy_min_nm": 1.0133,
+     "dy_max_nm": 20.267
+    }
+   },
+   "interfaces_um": {
+    "air/IWO(top)": -0.002,
+    "IWO r1/r2": -0.00025,
+    "IWO/Al2O3": 0.0,
+    "Al2O3/HfO2": 0.002,
+    "HfO2/Conductor(gate)": 0.017
+   },
+   "interfaces_on_mesh": true,
+   "mesh_lines": [
+    "x.mesh loc=0 spac=0.3",
+    "x.mesh loc=1.8 spac=0.05",
+    "x.mesh loc=2 spac=0.01",
+    "x.mesh loc=2.2 spac=0.05",
+    "x.mesh loc=3 spac=0.2",
+    "x.mesh loc=12 spac=0.7",
+    "x.mesh loc=21 spac=0.2",
+    "x.mesh loc=21.8 spac=0.05",
+    "x.mesh loc=22 spac=0.01",
+    "x.mesh loc=22.2 spac=0.05",
+    "x.mesh loc=24 spac=0.3",
+    "y.mesh loc=-0.072 spac=0.02",
+    "y.mesh loc=-0.002 spac=0.00025",
+    "y.mesh loc=-0.00025 spac=6.25e-05",
+    "y.mesh loc=-0.000125 spac=6.25e-05",
+    "y.mesh loc=0 spac=6.25e-05",
+    "y.mesh loc=0.002 spac=0.00025",
+    "y.mesh loc=0.017 spac=0.001",
+    "y.mesh loc=0.067 spac=0.02",
+    "qtx.mesh loc=0 spac=0.2",
+    "qtx.mesh loc=24 spac=0.2",
+    "qty.mesh loc=-0.00025 spac=0.00025",
+    "qty.mesh loc=0.01725 spac=0.00025"
+   ],
+   "qt": {
+    "y_range_um": [
+     -0.00025,
+     0.01725
+    ],
+    "x_range_um": [
+     0.0,
+     24.0
+    ],
+    "encloses_oxide_strictly": true,
+    "overextension_nm": [
+     0.25,
+     0.25
+    ],
+    "qt_points": 8591,
+    "grid": "121 x 71"
+   },
+   "checks": {
+    "qtnlsc.el": true,
+    "qtnl.derivs": true,
+    "exclude_near_SD": false,
+    "oxide_barriers": [
+     "material region=3 affinity=1.6 eg300=8.8 me.tunnel=0.3",
+     "material region=4 affinity=3.2 eg300=5.8 me.tunnel=0.1"
+    ],
+    "method": [
+     "method newton trap maxtraps=10 itlimit=80 climit=1e-6 ir.tol=1e-19 \\\n cr.toler=1e-17 xandrnorm carriers=1 electrons",
+     "method newton trap maxtraps=10 itlimit=80 climit=1e-6 ir.tol=1e-19 \\\n cr.toler=5e-18 ^xandrnorm carriers=1 electrons"
+    ]
+   }
+  },
+  "T2b": {
+   "x_lines": 117,
+   "y_lines": 82,
+   "nodes": 9594,
+   "layers": {
+    "Air": {
+     "y_lines_incl_faces": 15,
+     "y_intervals": 14,
+     "nodes_incl_faces": 1755,
+     "dy_min_nm": 0.2526,
+     "dy_max_nm": 20.2107
+    },
+    "IWO": {
+     "y_lines_incl_faces": 18,
+     "y_intervals": 17,
+     "nodes_incl_faces": 2106,
+     "dy_min_nm": 0.0614,
+     "dy_max_nm": 0.2456
+    },
+    "Al2O3": {
+     "y_lines_incl_faces": 16,
+     "y_intervals": 15,
+     "nodes_incl_faces": 1872,
+     "dy_min_nm": 0.0609,
+     "dy_max_nm": 0.2437
+    },
+    "HfO2": {
+     "y_lines_incl_faces": 29,
+     "y_intervals": 28,
+     "nodes_incl_faces": 3393,
+     "dy_min_nm": 0.2461,
+     "dy_max_nm": 0.9845
+    },
+    "Conductor": {
+     "y_lines_incl_faces": 8,
+     "y_intervals": 7,
+     "nodes_incl_faces": 936,
+     "dy_min_nm": 1.0133,
+     "dy_max_nm": 20.267
+    }
+   },
+   "interfaces_um": {
+    "air/IWO(top)": -0.002,
+    "IWO r1/r2": -0.00025,
+    "IWO/Al2O3": 0.0,
+    "Al2O3/HfO2": 0.002,
+    "HfO2/Conductor(gate)": 0.017
+   },
+   "interfaces_on_mesh": true,
+   "mesh_lines": [
+    "x.mesh loc=0 spac=0.3",
+    "x.mesh loc=1.8 spac=0.05",
+    "x.mesh loc=2 spac=0.01",
+    "x.mesh loc=2.2 spac=0.05",
+    "x.mesh loc=3 spac=0.2",
+    "x.mesh loc=12 spac=0.7",
+    "x.mesh loc=21 spac=0.2",
+    "x.mesh loc=21.8 spac=0.05",
+    "x.mesh loc=22 spac=0.01",
+    "x.mesh loc=22.2 spac=0.05",
+    "x.mesh loc=24 spac=0.3",
+    "y.mesh loc=-0.072 spac=0.02",
+    "y.mesh loc=-0.002 spac=0.00025",
+    "y.mesh loc=-0.00025 spac=6.25e-05",
+    "y.mesh loc=-0.000125 spac=6.25e-05",
+    "y.mesh loc=0 spac=6.25e-05",
+    "y.mesh loc=0.002 spac=0.00025",
+    "y.mesh loc=0.017 spac=0.001",
+    "y.mesh loc=0.067 spac=0.02",
+    "qtx.mesh loc=0 spac=0.1",
+    "qtx.mesh loc=24 spac=0.1",
+    "qty.mesh loc=-0.00025 spac=0.00025",
+    "qty.mesh loc=0.01725 spac=0.00025"
+   ],
+   "qt": {
+    "y_range_um": [
+     -0.00025,
+     0.01725
+    ],
+    "x_range_um": [
+     0.0,
+     24.0
+    ],
+    "encloses_oxide_strictly": true,
+    "overextension_nm": [
+     0.25,
+     0.25
+    ],
+    "qt_points": 17111,
+    "grid": "241 x 71"
+   },
+   "checks": {
+    "qtnlsc.el": true,
+    "qtnl.derivs": true,
+    "exclude_near_SD": false,
+    "oxide_barriers": [
+     "material region=3 affinity=1.6 eg300=8.8 me.tunnel=0.3",
+     "material region=4 affinity=3.2 eg300=5.8 me.tunnel=0.1"
+    ],
+    "method": [
+     "method newton trap maxtraps=10 itlimit=80 climit=1e-6 ir.tol=1e-19 \\\n cr.toler=1e-17 xandrnorm carriers=1 electrons",
+     "method newton trap maxtraps=10 itlimit=80 climit=1e-6 ir.tol=1e-19 \\\n cr.toler=5e-18 ^xandrnorm carriers=1 electrons"
+    ]
+   }
+  },
+  "T0r_tol": {
+   "x_lines": 117,
+   "y_lines": 82,
+   "nodes": 9594,
+   "layers": {
+    "Air": {
+     "y_lines_incl_faces": 15,
+     "y_intervals": 14,
+     "nodes_incl_faces": 1755,
+     "dy_min_nm": 0.2526,
+     "dy_max_nm": 20.2107
+    },
+    "IWO": {
+     "y_lines_incl_faces": 18,
+     "y_intervals": 17,
+     "nodes_incl_faces": 2106,
+     "dy_min_nm": 0.0614,
+     "dy_max_nm": 0.2456
+    },
+    "Al2O3": {
+     "y_lines_incl_faces": 16,
+     "y_intervals": 15,
+     "nodes_incl_faces": 1872,
+     "dy_min_nm": 0.0609,
+     "dy_max_nm": 0.2437
+    },
+    "HfO2": {
+     "y_lines_incl_faces": 29,
+     "y_intervals": 28,
+     "nodes_incl_faces": 3393,
+     "dy_min_nm": 0.2461,
+     "dy_max_nm": 0.9845
+    },
+    "Conductor": {
+     "y_lines_incl_faces": 8,
+     "y_intervals": 7,
+     "nodes_incl_faces": 936,
+     "dy_min_nm": 1.0133,
+     "dy_max_nm": 20.267
+    }
+   },
+   "interfaces_um": {
+    "air/IWO(top)": -0.002,
+    "IWO r1/r2": -0.00025,
+    "IWO/Al2O3": 0.0,
+    "Al2O3/HfO2": 0.002,
+    "HfO2/Conductor(gate)": 0.017
+   },
+   "interfaces_on_mesh": true,
+   "mesh_lines": [
+    "x.mesh loc=0 spac=0.3",
+    "x.mesh loc=1.8 spac=0.05",
+    "x.mesh loc=2 spac=0.01",
+    "x.mesh loc=2.2 spac=0.05",
+    "x.mesh loc=3 spac=0.2",
+    "x.mesh loc=12 spac=0.7",
+    "x.mesh loc=21 spac=0.2",
+    "x.mesh loc=21.8 spac=0.05",
+    "x.mesh loc=22 spac=0.01",
+    "x.mesh loc=22.2 spac=0.05",
+    "x.mesh loc=24 spac=0.3",
+    "y.mesh loc=-0.072 spac=0.02",
+    "y.mesh loc=-0.002 spac=0.00025",
+    "y.mesh loc=-0.00025 spac=6.25e-05",
+    "y.mesh loc=-0.000125 spac=6.25e-05",
+    "y.mesh loc=0 spac=6.25e-05",
+    "y.mesh loc=0.002 spac=0.00025",
+    "y.mesh loc=0.017 spac=0.001",
+    "y.mesh loc=0.067 spac=0.02"
+   ],
+   "qt": null,
+   "checks": {
+    "qtnlsc.el": true,
+    "qtnl.derivs": true,
+    "exclude_near_SD": true,
+    "oxide_barriers": [
+     "material region=3 affinity=1.6 eg300=8.8 me.tunnel=0.3",
+     "material region=4 affinity=3.2 eg300=5.8 me.tunnel=0.1"
+    ],
+    "method": [
+     "method newton trap maxtraps=10 itlimit=80 climit=1e-6 ir.tol=1e-21 \\\n cr.toler=1.37e-18 xandrnorm carriers=1 electrons",
+     "method newton trap maxtraps=10 itlimit=80 climit=1e-6 ir.tol=1e-21 \\\n cr.toler=5e-18 ^xandrnorm carriers=1 electrons"
+    ]
+   }
+  },
+  "T2a-E_handedit": {
+   "x_lines": 117,
+   "y_lines": 82,
+   "nodes": 9594,
+   "layers": {
+    "Air": {
+     "y_lines_incl_faces": 15,
+     "y_intervals": 14,
+     "nodes_incl_faces": 1755,
+     "dy_min_nm": 0.2526,
+     "dy_max_nm": 20.2107
+    },
+    "IWO": {
+     "y_lines_incl_faces": 18,
+     "y_intervals": 17,
+     "nodes_incl_faces": 2106,
+     "dy_min_nm": 0.0614,
+     "dy_max_nm": 0.2456
+    },
+    "Al2O3": {
+     "y_lines_incl_faces": 16,
+     "y_intervals": 15,
+     "nodes_incl_faces": 1872,
+     "dy_min_nm": 0.0609,
+     "dy_max_nm": 0.2437
+    },
+    "HfO2": {
+     "y_lines_incl_faces": 29,
+     "y_intervals": 28,
+     "nodes_incl_faces": 3393,
+     "dy_min_nm": 0.2461,
+     "dy_max_nm": 0.9845
+    },
+    "Conductor": {
+     "y_lines_incl_faces": 8,
+     "y_intervals": 7,
+     "nodes_incl_faces": 936,
+     "dy_min_nm": 1.0133,
+     "dy_max_nm": 20.267
+    }
+   },
+   "interfaces_um": {
+    "air/IWO(top)": -0.002,
+    "IWO r1/r2": -0.00025,
+    "IWO/Al2O3": 0.0,
+    "Al2O3/HfO2": 0.002,
+    "HfO2/Conductor(gate)": 0.017
+   },
+   "interfaces_on_mesh": true,
+   "mesh_lines": [
+    "x.mesh loc=0 spac=0.3",
+    "x.mesh loc=1.8 spac=0.05",
+    "x.mesh loc=2 spac=0.01",
+    "x.mesh loc=2.2 spac=0.05",
+    "x.mesh loc=3 spac=0.2",
+    "x.mesh loc=12 spac=0.7",
+    "x.mesh loc=21 spac=0.2",
+    "x.mesh loc=21.8 spac=0.05",
+    "x.mesh loc=22 spac=0.01",
+    "x.mesh loc=22.2 spac=0.05",
+    "x.mesh loc=24 spac=0.3",
+    "y.mesh loc=-0.072 spac=0.02",
+    "y.mesh loc=-0.002 spac=0.00025",
+    "y.mesh loc=-0.00025 spac=6.25e-05",
+    "y.mesh loc=-0.000125 spac=6.25e-05",
+    "y.mesh loc=0 spac=6.25e-05",
+    "y.mesh loc=0.002 spac=0.00025",
+    "y.mesh loc=0.017 spac=0.001",
+    "y.mesh loc=0.067 spac=0.02",
+    "qtx.mesh loc=0 spac=0.2",
+    "qtx.mesh loc=24 spac=0.2",
+    "qty.mesh loc=-0.0005 spac=0.00025",
+    "qty.mesh loc=0.0175 spac=0.00025"
+   ],
+   "qt": {
+    "y_range_um": [
+     -0.0005,
+     0.0175
+    ],
+    "x_range_um": [
+     0.0,
+     24.0
+    ],
+    "encloses_oxide_strictly": true,
+    "overextension_nm": [
+     0.5,
+     0.5
+    ],
+    "qt_points": 8833,
+    "grid": "121 x 73"
+   },
+   "checks": {
+    "qtnlsc.el": true,
+    "qtnl.derivs": true,
+    "exclude_near_SD": false,
+    "oxide_barriers": [
+     "material region=3 affinity=1.6 eg300=8.8 me.tunnel=0.3",
+     "material region=4 affinity=3.2 eg300=5.8 me.tunnel=0.1"
+    ],
+    "method": [
+     "method newton trap maxtraps=10 itlimit=80 climit=1e-6 ir.tol=1e-19 \\\n cr.toler=1e-17 xandrnorm carriers=1 electrons",
+     "method newton trap maxtraps=10 itlimit=80 climit=1e-6 ir.tol=1e-19 \\\n cr.toler=5e-18 ^xandrnorm carriers=1 electrons"
+    ]
+   }
+  }
+ },
+ "stmt_diffs": {
+  "T1a__stmts": [
+   "-y.mesh loc=0.002 spac=0.000125",
+   "-y.mesh loc=0.017 spac=0.0005",
+   "+y.mesh loc=0.002 spac=6.25e-05",
+   "+y.mesh loc=0.017 spac=0.00025"
+  ],
+  "REF_S2-11_run0076form__stmts": [
+   "-y.mesh loc=0.002 spac=0.00025",
+   "-y.mesh loc=0.017 spac=0.001",
+   "+y.mesh loc=0.002 spac=0.000125",
+   "+y.mesh loc=0.017 spac=0.0005"
+  ],
+  "T2a__stmts": [
+   "-qty.mesh loc=-0.0005 spac=0.0005",
+   "-qty.mesh loc=0.0175 spac=0.0005",
+   "+qty.mesh loc=-0.00025 spac=0.00025",
+   "+qty.mesh loc=0.01725 spac=0.00025"
+  ],
+  "T2b__stmts": [
+   "-qtx.mesh loc=0 spac=0.2",
+   "-qtx.mesh loc=24 spac=0.2",
+   "-qty.mesh loc=-0.0005 spac=0.0005",
+   "-qty.mesh loc=0.0175 spac=0.0005",
+   "+qtx.mesh loc=0 spac=0.1",
+   "+qtx.mesh loc=24 spac=0.1",
+   "+qty.mesh loc=-0.00025 spac=0.00025",
+   "+qty.mesh loc=0.01725 spac=0.00025"
+  ],
+  "T2a-E_handedit__stmts": [
+   "-qty.mesh loc=-0.0005 spac=0.0005",
+   "-qty.mesh loc=0.0175 spac=0.0005",
+   "+qty.mesh loc=-0.0005 spac=0.00025",
+   "+qty.mesh loc=0.0175 spac=0.00025"
+  ],
+  "T0r_tol__stmts": [
+   "-method newton trap maxtraps=10 itlimit=80 climit=1e-6 ir.tol=1e-19 \\",
+   "- cr.toler=1e-17 xandrnorm carriers=1 electrons",
+   "+method newton trap maxtraps=10 itlimit=80 climit=1e-6 ir.tol=1e-21 \\",
+   "+ cr.toler=1.37e-18 xandrnorm carriers=1 electrons",
+   "-method newton trap maxtraps=10 itlimit=80 climit=1e-6 ir.tol=1e-19 \\",
+   "+method newton trap maxtraps=10 itlimit=80 climit=1e-6 ir.tol=1e-21 \\"
+  ]
+ }
+}

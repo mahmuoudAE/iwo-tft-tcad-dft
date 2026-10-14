@@ -1,0 +1,932 @@
+{
+ "1 nm": {
+  "job": "iwo_slab1_final_cpu",
+  "relax_job": "iwo_slab1_W24d_x1",
+  "version": "v.7.5",
+  "relax": {
+   "bfgs": {
+    "value": "28 scf, 27 bfgs",
+    "src": "cern_htcondor/results/iwo_slab1_W24d_x1/relax.out:24563",
+    "label": "COMPUTED"
+   },
+   "E_final_Ry": {
+    "value": -12238.2891089616,
+    "src": "cern_htcondor/results/iwo_slab1_W24d_x1/relax.out:24568",
+    "label": "COMPUTED"
+   }
+  },
+  "E_scf_Ry": {
+   "value": -12238.28910785,
+   "src": "cern_htcondor/results/iwo_slab1_final_cpu/scf.out:1842",
+   "label": "COMPUTED"
+  },
+  "E_scf_minus_relax_Ry": 1.11e-06,
+  "scf_iterations": {
+   "value": 60,
+   "src": "cern_htcondor/results/iwo_slab1_final_cpu/scf.out:1861",
+   "label": "COMPUTED"
+  },
+  "W_O_A": {
+   "value": [
+    1.88,
+    1.88,
+    1.9067,
+    1.9067,
+    2.212,
+    2.212
+   ],
+   "src": "cern_htcondor/results/iwo_slab1_W24d_x1/relax.out:24571",
+   "label": "COMPUTED"
+  },
+  "W_O_mean_A": 1.9996,
+  "max_displacement_A": 0.401,
+  "W_displacement_A": 0.074,
+  "scf_geometry_minus_relax_final_A": 0.0,
+  "composition": {
+   "H": 24,
+   "In": 23,
+   "O": 48,
+   "W": 1
+  },
+  "filling": {
+   "E_F_eV": {
+    "value": 0.5811,
+    "src": "cern_htcondor/results/iwo_slab1_final_cpu/scf.out:1840",
+    "label": "COMPUTED"
+   },
+   "n_electrons": {
+    "value": 625.0,
+    "src": "cern_htcondor/results/iwo_slab1_final_cpu/scf.out:55",
+    "label": "COMPUTED"
+   },
+   "degauss_eV": 0.13606,
+   "n_k": 4,
+   "n_bands": 336,
+   "sum_wk": 2.0,
+   "eig_src": "cern_htcondor/results/iwo_slab1_final_cpu/scf.out:1484",
+   "N_from_MV": 625.0002,
+   "N_from_printed_occ": 624.9999,
+   "max_abs_MV_minus_printed_occ": 0.00026194385960126576,
+   "electrons_above_VB_top": 3.0,
+   "electrons_per_band": {
+    "310": 2.0,
+    "311": 2.0,
+    "312": 2.0007,
+    "313": 0.9858,
+    "314": 0.0134,
+    "315": 0.0,
+    "316": 0.0,
+    "317": 0.0,
+    "318": 0.0
+   },
+   "W5d_projected_electrons": 0.4276,
+   "projwfc": "cern_htcondor/results/iwo_slab1_final_cpu/projwfc_iwo_slab1_final_cpu.out",
+   "bands": {
+    "310": {
+     "E_Gamma_minus_EF_eV": -2.9828,
+     "src": "cern_htcondor/results/iwo_slab1_final_cpu/projwfc_iwo_slab1_final_cpu.out:7340",
+     "Wd_Gamma": 0.0,
+     "Ins_Gamma": 0.0,
+     "Op_Gamma": 0.946,
+     "Os_Gamma": 0.0,
+     "Wd_kavg": 0.0,
+     "Ins_kavg": 0.0,
+     "Op_kavg": 0.939,
+     "width_eV": 0.0332,
+     "electrons": 2.0
+    },
+    "311": {
+     "E_Gamma_minus_EF_eV": -2.9468,
+     "src": "cern_htcondor/results/iwo_slab1_final_cpu/projwfc_iwo_slab1_final_cpu.out:7364",
+     "Wd_Gamma": 0.0,
+     "Ins_Gamma": 0.0,
+     "Op_Gamma": 0.944,
+     "Os_Gamma": 0.0,
+     "Wd_kavg": 0.0,
+     "Ins_kavg": 0.0,
+     "Op_kavg": 0.937,
+     "width_eV": 0.0236,
+     "electrons": 2.0
+    },
+    "312": {
+     "E_Gamma_minus_EF_eV": -1.2276,
+     "src": "cern_htcondor/results/iwo_slab1_final_cpu/projwfc_iwo_slab1_final_cpu.out:7378",
+     "Wd_Gamma": 0.002,
+     "Ins_Gamma": 0.496,
+     "Op_Gamma": 0.122,
+     "Os_Gamma": 0.214,
+     "Wd_kavg": 0.006,
+     "Ins_kavg": 0.407,
+     "Op_kavg": 0.198,
+     "width_eV": 0.8012,
+     "electrons": 2.0007
+    },
+    "313": {
+     "E_Gamma_minus_EF_eV": -0.0048,
+     "src": "cern_htcondor/results/iwo_slab1_final_cpu/projwfc_iwo_slab1_final_cpu.out:7410",
+     "Wd_Gamma": 0.557,
+     "Ins_Gamma": 0.129,
+     "Op_Gamma": 0.168,
+     "Os_Gamma": 0.018,
+     "Wd_kavg": 0.442,
+     "Ins_kavg": 0.182,
+     "Op_kavg": 0.171,
+     "width_eV": 0.0868,
+     "electrons": 0.9858
+    },
+    "314": {
+     "E_Gamma_minus_EF_eV": 0.1851,
+     "src": "cern_htcondor/results/iwo_slab1_final_cpu/projwfc_iwo_slab1_final_cpu.out:7430",
+     "Wd_Gamma": 0.024,
+     "Ins_Gamma": 0.294,
+     "Op_Gamma": 0.166,
+     "Os_Gamma": 0.178,
+     "Wd_kavg": 0.294,
+     "Ins_kavg": 0.212,
+     "Op_kavg": 0.205,
+     "width_eV": 0.1321,
+     "electrons": 0.0134
+    },
+    "315": {
+     "E_Gamma_minus_EF_eV": 0.2889,
+     "src": "cern_htcondor/results/iwo_slab1_final_cpu/projwfc_iwo_slab1_final_cpu.out:7463",
+     "Wd_Gamma": 0.497,
+     "Ins_Gamma": 0.122,
+     "Op_Gamma": 0.222,
+     "Os_Gamma": 0.024,
+     "Wd_kavg": 0.348,
+     "Ins_kavg": 0.181,
+     "Op_kavg": 0.222,
+     "width_eV": 0.1293,
+     "electrons": 0.0
+    },
+    "316": {
+     "E_Gamma_minus_EF_eV": 0.9525,
+     "src": "cern_htcondor/results/iwo_slab1_final_cpu/projwfc_iwo_slab1_final_cpu.out:7484",
+     "Wd_Gamma": 0.256,
+     "Ins_Gamma": 0.244,
+     "Op_Gamma": 0.241,
+     "Os_Gamma": 0.08,
+     "Wd_kavg": 0.118,
+     "Ins_kavg": 0.275,
+     "Op_kavg": 0.225,
+     "width_eV": 0.5358,
+     "electrons": 0.0
+    },
+    "317": {
+     "E_Gamma_minus_EF_eV": 1.1495,
+     "src": "cern_htcondor/results/iwo_slab1_final_cpu/projwfc_iwo_slab1_final_cpu.out:7516",
+     "Wd_Gamma": 0.015,
+     "Ins_Gamma": 0.312,
+     "Op_Gamma": 0.261,
+     "Os_Gamma": 0.138,
+     "Wd_kavg": 0.136,
+     "Ins_kavg": 0.273,
+     "Op_kavg": 0.214,
+     "width_eV": 0.5008,
+     "electrons": 0.0
+    },
+    "318": {
+     "E_Gamma_minus_EF_eV": 1.2145,
+     "src": "cern_htcondor/results/iwo_slab1_final_cpu/projwfc_iwo_slab1_final_cpu.out:7547",
+     "Wd_Gamma": 0.098,
+     "Ins_Gamma": 0.233,
+     "Op_Gamma": 0.288,
+     "Os_Gamma": 0.122,
+     "Wd_kavg": 0.091,
+     "Ins_kavg": 0.282,
+     "Op_kavg": 0.24,
+     "width_eV": 0.3088,
+     "electrons": 0.0
+    }
+   },
+   "gap_VBtop_to_hostCB_Gamma_eV": 1.7191,
+   "EF_minus_hostCB_Gamma_eV": 1.2276,
+   "hostCB_min_over_k_minus_EF_eV": -1.2276,
+   "VB_top_max_over_k_eV": -2.3657,
+   "W_rich_band_Gamma": 313,
+   "W_rich_minus_hostCB_Gamma_eV": 1.2228,
+   "W_rich_minus_EF_Gamma_eV": -0.0048,
+   "gamma_scatter": [
+    [
+     -3.7748,
+     0.0
+    ],
+    [
+     -3.7636,
+     0.0
+    ],
+    [
+     -3.7482,
+     0.008
+    ],
+    [
+     -3.6904,
+     0.003
+    ],
+    [
+     -3.6655,
+     0.005
+    ],
+    [
+     -3.6434,
+     0.003
+    ],
+    [
+     -3.5973,
+     0.0
+    ],
+    [
+     -3.5388,
+     0.002
+    ],
+    [
+     -3.5266,
+     0.0
+    ],
+    [
+     -3.5049,
+     0.0
+    ],
+    [
+     -3.4717,
+     0.002
+    ],
+    [
+     -3.4632,
+     0.005
+    ],
+    [
+     -3.4362,
+     0.0
+    ],
+    [
+     -3.4298,
+     0.002
+    ],
+    [
+     -3.41,
+     0.0
+    ],
+    [
+     -3.3952,
+     0.0
+    ],
+    [
+     -3.3578,
+     0.0
+    ],
+    [
+     -3.3195,
+     0.0
+    ],
+    [
+     -3.3087,
+     0.0
+    ],
+    [
+     -3.3065,
+     0.0
+    ],
+    [
+     -3.2694,
+     0.0
+    ],
+    [
+     -3.2465,
+     0.0
+    ],
+    [
+     -3.2233,
+     0.0
+    ],
+    [
+     -3.2138,
+     0.0
+    ],
+    [
+     -3.2038,
+     0.0
+    ],
+    [
+     -3.1546,
+     0.0
+    ],
+    [
+     -3.1415,
+     0.0
+    ],
+    [
+     -3.0501,
+     0.0
+    ],
+    [
+     -3.0395,
+     0.0
+    ],
+    [
+     -2.9828,
+     0.0
+    ],
+    [
+     -2.9468,
+     0.0
+    ],
+    [
+     -1.2276,
+     0.002
+    ],
+    [
+     -0.0048,
+     0.557
+    ],
+    [
+     0.1851,
+     0.024
+    ],
+    [
+     0.2889,
+     0.497
+    ],
+    [
+     0.9525,
+     0.256
+    ],
+    [
+     1.1495,
+     0.015
+    ],
+    [
+     1.2145,
+     0.098
+    ],
+    [
+     1.2199,
+     0.127
+    ],
+    [
+     1.4221,
+     0.031
+    ],
+    [
+     1.5444,
+     0.056
+    ],
+    [
+     1.8292,
+     0.023
+    ],
+    [
+     1.8654,
+     0.05
+    ],
+    [
+     1.8804,
+     0.035
+    ],
+    [
+     1.9099,
+     0.032
+    ],
+    [
+     2.1149,
+     0.049
+    ],
+    [
+     2.1791,
+     0.0
+    ],
+    [
+     2.2149,
+     0.002
+    ],
+    [
+     2.2643,
+     0.007
+    ],
+    [
+     2.352,
+     0.047
+    ],
+    [
+     2.4098,
+     0.008
+    ],
+    [
+     2.411,
+     0.048
+    ],
+    [
+     2.5968,
+     0.0
+    ],
+    [
+     2.642,
+     0.003
+    ],
+    [
+     2.7542,
+     0.004
+    ],
+    [
+     2.7851,
+     0.01
+    ]
+   ]
+  },
+  "vacuum": {
+   "E_vac_eV": {
+    "value": 3.4228,
+    "src": "cern_htcondor/results/iwo_slab1_final_cpu/iwo_slab1_final_cpu_avg.dat",
+    "label": "COMPUTED"
+   },
+   "spread_meV": 0.02,
+   "ramp_over_gap_meV": -0.0
+  },
+  "EA_hostCB_eV": 4.0693,
+  "IP_VBtop_eV": 5.7885,
+  "work_function_eV": 2.8417,
+  "pure_twin": {
+   "job": "slab1r_final_cpu",
+   "gap_eV": {
+    "value": 1.7885,
+    "src": "cern_htcondor/results/slab1r_final_cpu/scf.out:1884",
+    "label": "COMPUTED"
+   },
+   "EA_eV": 3.9285,
+   "IP_eV": 5.717
+  },
+  "W_effect": {
+   "dGap_eV": -0.0694,
+   "dEA_eV": 0.1408,
+   "dIP_eV": 0.0715
+  },
+  "donated_sheet_density_cm2": 280840000000000.0,
+  "donated_density_cm3_HH": 2.9695e+21
+ },
+ "2 nm": {
+  "job": "iwo_slab2_final_cpu",
+  "relax_job": "iwo_slab2_W24d_checkpoint",
+  "version": "v.7.5",
+  "relax": {
+   "bfgs": {
+    "value": "29 scf, 28 bfgs",
+    "src": "cern_htcondor/results/iwo_slab2_W24d_checkpoint/relax.out:39464",
+    "label": "COMPUTED"
+   },
+   "E_final_Ry": {
+    "value": -27385.206187481,
+    "src": "cern_htcondor/results/iwo_slab2_W24d_checkpoint/relax.out:39469",
+    "label": "COMPUTED"
+   }
+  },
+  "E_scf_Ry": {
+   "value": -27385.20618325,
+   "src": "cern_htcondor/results/iwo_slab2_final_cpu/scf.out:2874",
+   "label": "COMPUTED"
+  },
+  "E_scf_minus_relax_Ry": 4.23e-06,
+  "scf_iterations": {
+   "value": 91,
+   "src": "cern_htcondor/results/iwo_slab2_final_cpu/scf.out:2893",
+   "label": "COMPUTED"
+  },
+  "W_O_A": {
+   "value": [
+    1.8665,
+    1.8665,
+    1.874,
+    1.874,
+    2.1897,
+    2.1897
+   ],
+   "src": "cern_htcondor/results/iwo_slab2_W24d_checkpoint/relax.out:39472",
+   "label": "COMPUTED"
+  },
+  "W_O_mean_A": 1.9767,
+  "max_displacement_A": 0.426,
+  "W_displacement_A": 0.094,
+  "scf_geometry_minus_relax_final_A": 0.0,
+  "composition": {
+   "H": 24,
+   "In": 55,
+   "O": 96,
+   "W": 1
+  },
+  "filling": {
+   "E_F_eV": {
+    "value": 2.3496,
+    "src": "cern_htcondor/results/iwo_slab2_final_cpu/scf.out:2872",
+    "label": "COMPUTED"
+   },
+   "n_electrons": {
+    "value": 1329.0,
+    "src": "cern_htcondor/results/iwo_slab2_final_cpu/scf.out:55",
+    "label": "COMPUTED"
+   },
+   "degauss_eV": 0.13606,
+   "n_k": 4,
+   "n_bands": 688,
+   "sum_wk": 2.0,
+   "eig_src": "cern_htcondor/results/iwo_slab2_final_cpu/scf.out:2164",
+   "N_from_MV": 1329.0001,
+   "N_from_printed_occ": 1329.0,
+   "max_abs_MV_minus_printed_occ": 0.0002425870065704272,
+   "electrons_above_VB_top": 3.0,
+   "electrons_per_band": {
+    "662": 2.0,
+    "663": 2.0,
+    "664": 2.0409,
+    "665": 0.8614,
+    "666": 0.0968,
+    "667": 0.0009,
+    "668": 0.0,
+    "669": 0.0,
+    "670": 0.0
+   },
+   "W5d_projected_electrons": 0.0865,
+   "projwfc": "cern_htcondor/results/iwo_slab2_final_cpu/projwfc_iwo_slab2_final_cpu.out",
+   "bands": {
+    "662": {
+     "E_Gamma_minus_EF_eV": -2.3187,
+     "src": "cern_htcondor/results/iwo_slab2_final_cpu/projwfc_iwo_slab2_final_cpu.out:22012",
+     "Wd_Gamma": 0.0,
+     "Ins_Gamma": 0.0,
+     "Op_Gamma": 0.92,
+     "Os_Gamma": 0.0,
+     "Wd_kavg": 0.0,
+     "Ins_kavg": 0.0,
+     "Op_kavg": 0.912,
+     "width_eV": 0.0237,
+     "electrons": 2.0
+    },
+    "663": {
+     "E_Gamma_minus_EF_eV": -2.3146,
+     "src": "cern_htcondor/results/iwo_slab2_final_cpu/projwfc_iwo_slab2_final_cpu.out:22036",
+     "Wd_Gamma": 0.0,
+     "Ins_Gamma": 0.0,
+     "Op_Gamma": 0.896,
+     "Os_Gamma": 0.0,
+     "Wd_kavg": 0.0,
+     "Ins_kavg": 0.0,
+     "Op_kavg": 0.902,
+     "width_eV": 0.0254,
+     "electrons": 2.0
+    },
+    "664": {
+     "E_Gamma_minus_EF_eV": -1.2383,
+     "src": "cern_htcondor/results/iwo_slab2_final_cpu/projwfc_iwo_slab2_final_cpu.out:22058",
+     "Wd_Gamma": 0.0,
+     "Ins_Gamma": 0.555,
+     "Op_Gamma": 0.06,
+     "Os_Gamma": 0.218,
+     "Wd_kavg": 0.008,
+     "Ins_kavg": 0.423,
+     "Op_kavg": 0.157,
+     "width_eV": 0.9734,
+     "electrons": 2.0409
+    },
+    "665": {
+     "E_Gamma_minus_EF_eV": -0.4829,
+     "src": "cern_htcondor/results/iwo_slab2_final_cpu/projwfc_iwo_slab2_final_cpu.out:22093",
+     "Wd_Gamma": 0.005,
+     "Ins_Gamma": 0.446,
+     "Op_Gamma": 0.131,
+     "Os_Gamma": 0.182,
+     "Wd_kavg": 0.225,
+     "Ins_kavg": 0.272,
+     "Op_kavg": 0.179,
+     "width_eV": 0.6172,
+     "electrons": 0.8614
+    },
+    "666": {
+     "E_Gamma_minus_EF_eV": 0.1031,
+     "src": "cern_htcondor/results/iwo_slab2_final_cpu/projwfc_iwo_slab2_final_cpu.out:22138",
+     "Wd_Gamma": 0.524,
+     "Ins_Gamma": 0.106,
+     "Op_Gamma": 0.2,
+     "Os_Gamma": 0.018,
+     "Wd_kavg": 0.277,
+     "Ins_kavg": 0.227,
+     "Op_kavg": 0.187,
+     "width_eV": 0.2391,
+     "electrons": 0.0968
+    },
+    "667": {
+     "E_Gamma_minus_EF_eV": 0.2192,
+     "src": "cern_htcondor/results/iwo_slab2_final_cpu/projwfc_iwo_slab2_final_cpu.out:22158",
+     "Wd_Gamma": 0.26,
+     "Ins_Gamma": 0.229,
+     "Op_Gamma": 0.191,
+     "Os_Gamma": 0.075,
+     "Wd_kavg": 0.367,
+     "Ins_kavg": 0.162,
+     "Op_kavg": 0.208,
+     "width_eV": 0.1354,
+     "electrons": 0.0009
+    },
+    "668": {
+     "E_Gamma_minus_EF_eV": 0.5276,
+     "src": "cern_htcondor/results/iwo_slab2_final_cpu/projwfc_iwo_slab2_final_cpu.out:22196",
+     "Wd_Gamma": 0.279,
+     "Ins_Gamma": 0.188,
+     "Op_Gamma": 0.209,
+     "Os_Gamma": 0.081,
+     "Wd_kavg": 0.204,
+     "Ins_kavg": 0.224,
+     "Op_kavg": 0.233,
+     "width_eV": 0.1162,
+     "electrons": 0.0
+    },
+    "669": {
+     "E_Gamma_minus_EF_eV": 0.9807,
+     "src": "cern_htcondor/results/iwo_slab2_final_cpu/projwfc_iwo_slab2_final_cpu.out:22238",
+     "Wd_Gamma": 0.199,
+     "Ins_Gamma": 0.234,
+     "Op_Gamma": 0.198,
+     "Os_Gamma": 0.096,
+     "Wd_kavg": 0.086,
+     "Ins_kavg": 0.278,
+     "Op_kavg": 0.208,
+     "width_eV": 0.2518,
+     "electrons": 0.0
+    },
+    "670": {
+     "E_Gamma_minus_EF_eV": 1.231,
+     "src": "cern_htcondor/results/iwo_slab2_final_cpu/projwfc_iwo_slab2_final_cpu.out:22281",
+     "Wd_Gamma": 0.13,
+     "Ins_Gamma": 0.228,
+     "Op_Gamma": 0.227,
+     "Os_Gamma": 0.109,
+     "Wd_kavg": 0.086,
+     "Ins_kavg": 0.288,
+     "Op_kavg": 0.211,
+     "width_eV": 0.4332,
+     "electrons": 0.0
+    }
+   },
+   "gap_VBtop_to_hostCB_Gamma_eV": 1.0763,
+   "EF_minus_hostCB_Gamma_eV": 1.2383,
+   "hostCB_min_over_k_minus_EF_eV": -1.2383,
+   "VB_top_max_over_k_eV": 0.035,
+   "W_rich_band_Gamma": 666,
+   "W_rich_minus_hostCB_Gamma_eV": 1.3414,
+   "W_rich_minus_EF_Gamma_eV": 0.1031,
+   "gamma_scatter": [
+    [
+     -2.717,
+     0.0
+    ],
+    [
+     -2.7072,
+     0.0
+    ],
+    [
+     -2.705,
+     0.0
+    ],
+    [
+     -2.6994,
+     0.0
+    ],
+    [
+     -2.6871,
+     0.0
+    ],
+    [
+     -2.6858,
+     0.0
+    ],
+    [
+     -2.6735,
+     0.0
+    ],
+    [
+     -2.6484,
+     0.0
+    ],
+    [
+     -2.6432,
+     0.0
+    ],
+    [
+     -2.6339,
+     0.0
+    ],
+    [
+     -2.6283,
+     0.0
+    ],
+    [
+     -2.625,
+     0.0
+    ],
+    [
+     -2.6111,
+     0.0
+    ],
+    [
+     -2.5682,
+     0.0
+    ],
+    [
+     -2.5678,
+     0.0
+    ],
+    [
+     -2.5457,
+     0.0
+    ],
+    [
+     -2.5323,
+     0.0
+    ],
+    [
+     -2.523,
+     0.0
+    ],
+    [
+     -2.5201,
+     0.0
+    ],
+    [
+     -2.5184,
+     0.0
+    ],
+    [
+     -2.5032,
+     0.0
+    ],
+    [
+     -2.5018,
+     0.0
+    ],
+    [
+     -2.4728,
+     0.0
+    ],
+    [
+     -2.4725,
+     0.0
+    ],
+    [
+     -2.4663,
+     0.0
+    ],
+    [
+     -2.4461,
+     0.0
+    ],
+    [
+     -2.4306,
+     0.0
+    ],
+    [
+     -2.3244,
+     0.0
+    ],
+    [
+     -2.3205,
+     0.0
+    ],
+    [
+     -2.3187,
+     0.0
+    ],
+    [
+     -2.3146,
+     0.0
+    ],
+    [
+     -1.2383,
+     0.0
+    ],
+    [
+     -0.4829,
+     0.005
+    ],
+    [
+     0.1031,
+     0.524
+    ],
+    [
+     0.2192,
+     0.26
+    ],
+    [
+     0.5276,
+     0.279
+    ],
+    [
+     0.9807,
+     0.199
+    ],
+    [
+     1.231,
+     0.13
+    ],
+    [
+     1.3744,
+     0.008
+    ],
+    [
+     1.4589,
+     0.079
+    ],
+    [
+     1.4638,
+     0.073
+    ],
+    [
+     1.6108,
+     0.031
+    ],
+    [
+     1.7909,
+     0.019
+    ],
+    [
+     1.8306,
+     0.016
+    ],
+    [
+     1.8584,
+     0.001
+    ],
+    [
+     1.864,
+     0.027
+    ],
+    [
+     1.9169,
+     0.044
+    ],
+    [
+     2.2394,
+     0.005
+    ],
+    [
+     2.2574,
+     0.011
+    ],
+    [
+     2.2937,
+     0.0
+    ],
+    [
+     2.3195,
+     0.005
+    ],
+    [
+     2.3688,
+     0.034
+    ],
+    [
+     2.4391,
+     0.002
+    ],
+    [
+     2.5216,
+     0.022
+    ],
+    [
+     2.5617,
+     0.002
+    ],
+    [
+     2.6581,
+     0.016
+    ]
+   ]
+  },
+  "vacuum": {
+   "E_vac_eV": {
+    "value": 5.8576,
+    "src": "cern_htcondor/results/iwo_slab2_final_cpu/iwo_slab2_final_cpu_avg.dat",
+    "label": "COMPUTED"
+   },
+   "spread_meV": 0.03,
+   "ramp_over_gap_meV": 0.0
+  },
+  "EA_hostCB_eV": 4.7463,
+  "IP_VBtop_eV": 5.8226,
+  "work_function_eV": 3.508,
+  "pure_twin": {
+   "job": "slab2r_pdos_cpu",
+   "gap_eV": {
+    "value": 1.2238,
+    "src": "cern_htcondor/results/slab2r_pdos_cpu/scf.out:2646",
+    "label": "COMPUTED"
+   },
+   "EA_eV": 4.495,
+   "IP_eV": 5.7188
+  },
+  "W_effect": {
+   "dGap_eV": -0.1475,
+   "dEA_eV": 0.2513,
+   "dIP_eV": 0.1038
+  },
+  "donated_sheet_density_cm2": 282060000000000.0,
+  "donated_density_cm3_HH": 1.4301e+21
+ }
+}

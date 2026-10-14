@@ -1,0 +1,55 @@
+#!/bin/bash
+# Relax-segment lineage of a run's final input (register A14 "geometry lineage"; D-24). Runs on lxplus (AFS), read-only
+# except for the output file:  bash ~/iwo_amorph/common/lineage_relax.sh <name> [final_results.tar.gz]
+# Lists every RELAX segment archive runs/<name>/relax_s<seg>_results.tar.gz (cluster from logs/, status from the
+# segment's driver log, BFGS '!' steps, last energy, 'bfgs converged', sha256 of the relax.in the segment wrote), then
+# the sha256 of runs/<name>/relax.in (what FINAL transfers) and, when a final archive exists, the relax.in sha256 that
+# the FINAL job recorded in lineage_final.dat. Run it at the A15 gate (before condor_release) and again at collection.
+# Output: runs/<name>/lineage_relax.dat (also printed). With --to-eos as third argument, lineage_relax.dat and every
+# relax_s<seg>_results.tar.gz (inputs, outputs and logs of each segment) are also copied, sha256-checked, to
+# $EXPORT_EOS/<name>/relax_segments/ (register A14: "the actual inputs and logs of every segment").
+set -uo pipefail
+name=$1; R=${RUNS:-$HOME/iwo_amorph/runs}/$name
+cd "$R" || exit 1
+fin=${2:-final_results.tar.gz}
+EXPORT_EOS=${EXPORT_EOS:-/eos/user/m/melrashe/qe/exports}
+tmp=$(mktemp -d); trap 'rm -rf "$tmp"' EXIT
+{
+  echo "# relax-segment lineage of $name, $(date -u +%FT%TZ) (common/lineage_relax.sh, D-24)"
+  echo "# seg cluster(s) status bfgs_steps last_energy_Ry bfgs_converged sha256(relax.in written by the segment)"
+  declare -A segsha=()
+  for t in $(ls -v relax_s*_results.tar.gz 2>/dev/null); do
+    seg=${t#relax_s}; seg=${seg%_results.tar.gz}
+    cl=$(ls logs/relax_s"$seg".*.out 2>/dev/null | sed -E 's/.*\.([0-9]+)\.out$/\1/' | paste -sd, -)
+    d="$tmp/s$seg"; mkdir -p "$d"
+    tar xzf "$t" -C "$d" relax.in relax.out "relax_s${seg}_driver.log" 2>/dev/null
+    st=$(grep -h 'relax status:' "$d/relax_s${seg}_driver.log" 2>/dev/null | tail -1 | sed -E 's/.*relax status: ([A-Z]+).*/\1/')
+    nst=$(grep -c '^!' "$d/relax.out" 2>/dev/null); en=$(grep '^!' "$d/relax.out" 2>/dev/null | tail -1 | awk '{print $5}')
+    conv=no; grep -q 'bfgs converged' "$d/relax.out" 2>/dev/null && conv=yes
+    sh=$( [ -f "$d/relax.in" ] && sha256sum "$d/relax.in" | cut -c1-64 || echo missing)
+    segsha[$seg]=$sh
+    echo "seg $seg ${cl:-?} ${st:-?} ${nst:-0} ${en:-NA} $conv $sh"
+  done
+  cur=$( [ -f relax.in ] && sha256sum relax.in | cut -c1-64 || echo missing)
+  echo "runs/$name/relax.in sha256 $cur RELAX_STATUS $(cat RELAX_STATUS 2>/dev/null || echo none)"
+  match=none
+  for s in "${!segsha[@]}"; do [ "${segsha[$s]}" = "$cur" ] && { [ "$match" = none ] || [ "$s" -gt "$match" ]; } && match=$s; done
+  echo "relax.in written by segment: $match"
+  if [ -f "$fin" ] && tar xzf "$fin" -C "$tmp" lineage_final.dat 2>/dev/null; then
+    used=$(awk '$1=="sha256" && $3=="relax.in"{print $2}' "$tmp/lineage_final.dat")
+    echo "final archive $fin: relax.in sha256 $used, $(grep '^geometry_check' "$tmp/lineage_final.dat")"
+    if [ "$used" = "$cur" ]; then echo "LINEAGE final input = runs/$name/relax.in = output of segment $match"
+    else
+      um=none; for s in "${!segsha[@]}"; do [ "${segsha[$s]}" = "$used" ] && um=$s; done
+      echo "LINEAGE MISMATCH: the final used a relax.in that is not the current one (segment match: $um)"
+    fi
+  else
+    echo "final archive: none yet (gate-time record: FINAL will transfer relax.in $cur)"
+  fi
+} | tee lineage_relax.dat
+if [ "${3:-}" = --to-eos ]; then
+  d="$EXPORT_EOS/$name/relax_segments"; mkdir -p "$d" || exit 1
+  for f in lineage_relax.dat $(ls -v relax_s*_results.tar.gz 2>/dev/null); do
+    cp -f "$f" "$d/$f" && [ "$(sha256sum < "$f")" = "$(sha256sum < "$d/$f")" ] && echo "eos copy $f ok" || { echo "eos copy $f FAILED"; exit 1; }
+  done
+fi

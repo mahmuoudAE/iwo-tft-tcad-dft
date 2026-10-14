@@ -1,0 +1,646 @@
+{
+ "schema": "iwo-f10-c3-plan/2",
+ "version": 2,
+ "export_root": "/eos/user/m/melrashe/qe/exports",
+ "slots": [
+  {
+   "slot": "c3_aIWO_0p7_s1_mv_c3_w002",
+   "order": 1,
+   "cell": "aIWO_0p7_s1",
+   "width_Ry": 0.002,
+   "status": "active",
+   "roles": [
+    "aIWO_0p7_s1 MV geometry: H-H 0.7 nm reference (A40 rule 3), now",
+    "aIWO_0p7_s1 polished (zero-step, A40 rule 4): only if F5 qualification 12924835 passes"
+   ],
+   "runs": [
+    "aIWO_0p7_s1_mv_c3_w002",
+    "aIWO_0p7_s1_mv_c3_w002_fb"
+   ],
+   "fresh_run": "aIWO_0p7_s1_mv_c3_w002",
+   "fallback_run": "aIWO_0p7_s1_mv_c3_w002_fb",
+   "user_log": "/afs/cern.ch/user/m/melrashe/iwo_amorph/runs/aIWO_0p7_s1_mv_c3_w002/logs/final.log",
+   "export_destinations": [
+    "/eos/user/m/melrashe/qe/exports/aIWO_0p7_s1_mv_c3_w002/final_<ClusterId>",
+    "/eos/user/m/melrashe/qe/exports/aIWO_0p7_s1_mv_c3_w002_fb/final_<ClusterId>"
+   ],
+   "geometry_sha256": "e12113949ba30b7b6841c4cb19a209dc8353ad77ce80c2985bc6fa3852043d16",
+   "priority": 28,
+   "reference": {
+    "cell": "aIWO_0p7_s1",
+    "final_cluster": 12902517,
+    "asrun_scf_sha256": "fbec60794d23a4f23ed05fb3c94bbca4735ae54e2ff951c7d173358bfa539bcb",
+    "certify_geometry_sha256": "e12113949ba30b7b6841c4cb19a209dc8353ad77ce80c2985bc6fa3852043d16"
+   },
+   "companion_settings_sha256": "9f574766883b54a23d0a40288041319dd647e8b8f63dcead97711aa8386c5d65",
+   "upf_sha256": {
+    "H.pbe-kjpaw_psl.1.0.0.UPF": "dd48be99c7a91c4163ed123cdac938af189a9f62f382c41e3f664d00a586839d",
+    "In.pbe-dn-kjpaw_psl.1.0.0.UPF": "dbaf7975f6dee30d1413a30cf04fef714eedd8325a417ec01913eaf15de65e4a",
+    "O.pbe-n-kjpaw_psl.1.0.0.UPF": "6d4f573d1f5d8fab1d334ed76fefbac21fdbb2c406af7f85ab8c6aab0e84ccc0",
+    "W.pbe-spn-kjpaw_psl.1.0.0.UPF": "10810897c4da7ba6a78be544cab4339026c68c5bce7e224b2cf4bdc365d25cb1"
+   },
+   "diff_gate": "PASS",
+   "start_mode": "fresh",
+   "staged": "checks/c3_companions/aIWO_0p7_s1_mv_c3_w002/ (render sha256 fd9ace827fdc7d3a23d97d347693489f2c57e3e9cb18126a96a0cf399261d239)"
+  },
+  {
+   "slot": "c3_aIWO_0p7_s1_mv_c3_w005",
+   "order": 2,
+   "cell": "aIWO_0p7_s1",
+   "width_Ry": 0.005,
+   "status": "active",
+   "roles": [
+    "aIWO_0p7_s1 MV geometry: H-H 0.7 nm reference (A40 rule 3), now",
+    "aIWO_0p7_s1 polished (zero-step, A40 rule 4): only if F5 qualification 12924835 passes"
+   ],
+   "runs": [
+    "aIWO_0p7_s1_mv_c3_w005",
+    "aIWO_0p7_s1_mv_c3_w005_fb"
+   ],
+   "fresh_run": "aIWO_0p7_s1_mv_c3_w005",
+   "fallback_run": "aIWO_0p7_s1_mv_c3_w005_fb",
+   "user_log": "/afs/cern.ch/user/m/melrashe/iwo_amorph/runs/aIWO_0p7_s1_mv_c3_w005/logs/final.log",
+   "export_destinations": [
+    "/eos/user/m/melrashe/qe/exports/aIWO_0p7_s1_mv_c3_w005/final_<ClusterId>",
+    "/eos/user/m/melrashe/qe/exports/aIWO_0p7_s1_mv_c3_w005_fb/final_<ClusterId>"
+   ],
+   "geometry_sha256": "e12113949ba30b7b6841c4cb19a209dc8353ad77ce80c2985bc6fa3852043d16",
+   "priority": 27,
+   "reference": {
+    "cell": "aIWO_0p7_s1",
+    "final_cluster": 12902517,
+    "asrun_scf_sha256": "fbec60794d23a4f23ed05fb3c94bbca4735ae54e2ff951c7d173358bfa539bcb",
+    "certify_geometry_sha256": "e12113949ba30b7b6841c4cb19a209dc8353ad77ce80c2985bc6fa3852043d16"
+   },
+   "companion_settings_sha256": "6ea3319890674c688f9ca63d1623c018ec06f2e19ddae92f67446f80a80c298b",
+   "upf_sha256": {
+    "H.pbe-kjpaw_psl.1.0.0.UPF": "dd48be99c7a91c4163ed123cdac938af189a9f62f382c41e3f664d00a586839d",
+    "In.pbe-dn-kjpaw_psl.1.0.0.UPF": "dbaf7975f6dee30d1413a30cf04fef714eedd8325a417ec01913eaf15de65e4a",
+    "O.pbe-n-kjpaw_psl.1.0.0.UPF": "6d4f573d1f5d8fab1d334ed76fefbac21fdbb2c406af7f85ab8c6aab0e84ccc0",
+    "W.pbe-spn-kjpaw_psl.1.0.0.UPF": "10810897c4da7ba6a78be544cab4339026c68c5bce7e224b2cf4bdc365d25cb1"
+   },
+   "diff_gate": "PASS",
+   "start_mode": "fresh",
+   "staged": "checks/c3_companions/aIWO_0p7_s1_mv_c3_w005/ (render sha256 96924fc4ccbe39860f7cfba2ec20e8425cef4b6abab7dd1f5c6f6414505bd645)"
+  },
+  {
+   "slot": "c3_aIO_0p7_s1_c3_w002",
+   "order": 3,
+   "cell": "aIO_0p7_s1",
+   "width_Ry": 0.002,
+   "status": "deferred",
+   "roles": [
+    "aIO_0p7_s1 A15 Gaussian (relaxation unknown: no verifiable rescue authorization; Codex: defer, keep MISSING)"
+   ],
+   "runs": [
+    "aIO_0p7_s1_c3_w002",
+    "aIO_0p7_s1_c3_w002_fb"
+   ],
+   "fresh_run": "aIO_0p7_s1_c3_w002",
+   "fallback_run": "aIO_0p7_s1_c3_w002_fb",
+   "user_log": "/afs/cern.ch/user/m/melrashe/iwo_amorph/runs/aIO_0p7_s1_c3_w002/logs/final.log",
+   "export_destinations": [
+    "/eos/user/m/melrashe/qe/exports/aIO_0p7_s1_c3_w002/final_<ClusterId>",
+    "/eos/user/m/melrashe/qe/exports/aIO_0p7_s1_c3_w002_fb/final_<ClusterId>"
+   ],
+   "geometry_sha256": "65cd628002d22aee7b4597364ce3f61861e8e31d30acc5839308a7faa365ead0",
+   "priority": 30,
+   "reference": {
+    "cell": "aIO_0p7_s1",
+    "final_cluster": 12894279,
+    "asrun_scf_sha256": "f9d8ae11faa6a666c87bcc4b77c714e5972e727149e035fe2186e79610ee3a96",
+    "certify_geometry_sha256": "65cd628002d22aee7b4597364ce3f61861e8e31d30acc5839308a7faa365ead0"
+   },
+   "companion_settings_sha256": "65aefcff960f905d5f6c13c675f317c140b49ff41c1220e7173354b09205d829",
+   "upf_sha256": {
+    "H.pbe-kjpaw_psl.1.0.0.UPF": "dd48be99c7a91c4163ed123cdac938af189a9f62f382c41e3f664d00a586839d",
+    "In.pbe-dn-kjpaw_psl.1.0.0.UPF": "dbaf7975f6dee30d1413a30cf04fef714eedd8325a417ec01913eaf15de65e4a",
+    "O.pbe-n-kjpaw_psl.1.0.0.UPF": "6d4f573d1f5d8fab1d334ed76fefbac21fdbb2c406af7f85ab8c6aab0e84ccc0"
+   },
+   "diff_gate": "PASS",
+   "start_mode": "fresh",
+   "staged": "checks/c3_companions/aIO_0p7_s1_c3_w002/ (render sha256 f954c8b5f921c53ae804ef171778114c51c8732ff9c2fef04713e211ed2ef087)"
+  },
+  {
+   "slot": "c3_aIO_0p7_s1_c3_w005",
+   "order": 4,
+   "cell": "aIO_0p7_s1",
+   "width_Ry": 0.005,
+   "status": "deferred",
+   "roles": [
+    "aIO_0p7_s1 A15 Gaussian (relaxation unknown: no verifiable rescue authorization; Codex: defer, keep MISSING)"
+   ],
+   "runs": [
+    "aIO_0p7_s1_c3_w005",
+    "aIO_0p7_s1_c3_w005_fb"
+   ],
+   "fresh_run": "aIO_0p7_s1_c3_w005",
+   "fallback_run": "aIO_0p7_s1_c3_w005_fb",
+   "user_log": "/afs/cern.ch/user/m/melrashe/iwo_amorph/runs/aIO_0p7_s1_c3_w005/logs/final.log",
+   "export_destinations": [
+    "/eos/user/m/melrashe/qe/exports/aIO_0p7_s1_c3_w005/final_<ClusterId>",
+    "/eos/user/m/melrashe/qe/exports/aIO_0p7_s1_c3_w005_fb/final_<ClusterId>"
+   ],
+   "geometry_sha256": "65cd628002d22aee7b4597364ce3f61861e8e31d30acc5839308a7faa365ead0",
+   "priority": 29,
+   "reference": {
+    "cell": "aIO_0p7_s1",
+    "final_cluster": 12894279,
+    "asrun_scf_sha256": "f9d8ae11faa6a666c87bcc4b77c714e5972e727149e035fe2186e79610ee3a96",
+    "certify_geometry_sha256": "65cd628002d22aee7b4597364ce3f61861e8e31d30acc5839308a7faa365ead0"
+   },
+   "companion_settings_sha256": "e23649b7f78de002e808be4a10997947f72680dffaea328e037a48408023ce49",
+   "upf_sha256": {
+    "H.pbe-kjpaw_psl.1.0.0.UPF": "dd48be99c7a91c4163ed123cdac938af189a9f62f382c41e3f664d00a586839d",
+    "In.pbe-dn-kjpaw_psl.1.0.0.UPF": "dbaf7975f6dee30d1413a30cf04fef714eedd8325a417ec01913eaf15de65e4a",
+    "O.pbe-n-kjpaw_psl.1.0.0.UPF": "6d4f573d1f5d8fab1d334ed76fefbac21fdbb2c406af7f85ab8c6aab0e84ccc0"
+   },
+   "diff_gate": "PASS",
+   "start_mode": "fresh",
+   "staged": "checks/c3_companions/aIO_0p7_s1_c3_w005/ (render sha256 388c95d86252a116dc2a7fa8b6b0b4ed3bc76f5f98036b2c83f6cee2d3e064ac)"
+  },
+  {
+   "slot": "c3_aIWO_1p0_s1_c3_w002",
+   "order": 5,
+   "cell": "aIWO_1p0_s1",
+   "width_Ry": 0.002,
+   "status": "active (proposed; Codex to confirm)",
+   "roles": [
+    "aIWO_1p0_s1 polished (zero-step, A40 rule 4): only if F5 qualification 12924836 passes; 1.0 nm C3 reported"
+   ],
+   "runs": [
+    "aIWO_1p0_s1_c3_w002",
+    "aIWO_1p0_s1_c3_w002_fb"
+   ],
+   "fresh_run": "aIWO_1p0_s1_c3_w002",
+   "fallback_run": "aIWO_1p0_s1_c3_w002_fb",
+   "user_log": "/afs/cern.ch/user/m/melrashe/iwo_amorph/runs/aIWO_1p0_s1_c3_w002/logs/final.log",
+   "export_destinations": [
+    "/eos/user/m/melrashe/qe/exports/aIWO_1p0_s1_c3_w002/final_<ClusterId>",
+    "/eos/user/m/melrashe/qe/exports/aIWO_1p0_s1_c3_w002_fb/final_<ClusterId>"
+   ],
+   "geometry_sha256": "bfbbd842c918f453e90a06f053a48776f5a22aaca95dc63a5e67923727d6ae9e",
+   "priority": 26,
+   "reference": {
+    "cell": "aIWO_1p0_s1",
+    "final_cluster": 12889857,
+    "asrun_scf_sha256": "33c5a164860d6cf748259a6c246836bf4a04c21a1847509ca3422ab46d9604d5",
+    "certify_geometry_sha256": "bfbbd842c918f453e90a06f053a48776f5a22aaca95dc63a5e67923727d6ae9e"
+   },
+   "companion_settings_sha256": "7d64780fd990c742013238158a3d8f10a5ea9a17fc7a4dd3c7b32a24d125526f",
+   "upf_sha256": {
+    "H.pbe-kjpaw_psl.1.0.0.UPF": "dd48be99c7a91c4163ed123cdac938af189a9f62f382c41e3f664d00a586839d",
+    "In.pbe-dn-kjpaw_psl.1.0.0.UPF": "dbaf7975f6dee30d1413a30cf04fef714eedd8325a417ec01913eaf15de65e4a",
+    "O.pbe-n-kjpaw_psl.1.0.0.UPF": "6d4f573d1f5d8fab1d334ed76fefbac21fdbb2c406af7f85ab8c6aab0e84ccc0",
+    "W.pbe-spn-kjpaw_psl.1.0.0.UPF": "10810897c4da7ba6a78be544cab4339026c68c5bce7e224b2cf4bdc365d25cb1"
+   },
+   "diff_gate": "PASS",
+   "start_mode": "fresh",
+   "staged": "checks/c3_companions/aIWO_1p0_s1_c3_w002/ (render sha256 b41aa82a484c61e48c6fb685d1ab9afe0bd8d79e19de30fd672f8269469e6340)"
+  },
+  {
+   "slot": "c3_aIWO_1p0_s1_c3_w005",
+   "order": 6,
+   "cell": "aIWO_1p0_s1",
+   "width_Ry": 0.005,
+   "status": "active (proposed; Codex to confirm)",
+   "roles": [
+    "aIWO_1p0_s1 polished (zero-step, A40 rule 4): only if F5 qualification 12924836 passes; 1.0 nm C3 reported"
+   ],
+   "runs": [
+    "aIWO_1p0_s1_c3_w005",
+    "aIWO_1p0_s1_c3_w005_fb"
+   ],
+   "fresh_run": "aIWO_1p0_s1_c3_w005",
+   "fallback_run": "aIWO_1p0_s1_c3_w005_fb",
+   "user_log": "/afs/cern.ch/user/m/melrashe/iwo_amorph/runs/aIWO_1p0_s1_c3_w005/logs/final.log",
+   "export_destinations": [
+    "/eos/user/m/melrashe/qe/exports/aIWO_1p0_s1_c3_w005/final_<ClusterId>",
+    "/eos/user/m/melrashe/qe/exports/aIWO_1p0_s1_c3_w005_fb/final_<ClusterId>"
+   ],
+   "geometry_sha256": "bfbbd842c918f453e90a06f053a48776f5a22aaca95dc63a5e67923727d6ae9e",
+   "priority": 25,
+   "reference": {
+    "cell": "aIWO_1p0_s1",
+    "final_cluster": 12889857,
+    "asrun_scf_sha256": "33c5a164860d6cf748259a6c246836bf4a04c21a1847509ca3422ab46d9604d5",
+    "certify_geometry_sha256": "bfbbd842c918f453e90a06f053a48776f5a22aaca95dc63a5e67923727d6ae9e"
+   },
+   "companion_settings_sha256": "1884cb1b7339619d8d428cd09146e3aa6ef4f2ad782182360b8515c455bb99e7",
+   "upf_sha256": {
+    "H.pbe-kjpaw_psl.1.0.0.UPF": "dd48be99c7a91c4163ed123cdac938af189a9f62f382c41e3f664d00a586839d",
+    "In.pbe-dn-kjpaw_psl.1.0.0.UPF": "dbaf7975f6dee30d1413a30cf04fef714eedd8325a417ec01913eaf15de65e4a",
+    "O.pbe-n-kjpaw_psl.1.0.0.UPF": "6d4f573d1f5d8fab1d334ed76fefbac21fdbb2c406af7f85ab8c6aab0e84ccc0",
+    "W.pbe-spn-kjpaw_psl.1.0.0.UPF": "10810897c4da7ba6a78be544cab4339026c68c5bce7e224b2cf4bdc365d25cb1"
+   },
+   "diff_gate": "PASS",
+   "start_mode": "fresh",
+   "staged": "checks/c3_companions/aIWO_1p0_s1_c3_w005/ (render sha256 6cde556159e3b793e86f0e46976380ee0a93a4e51675992b85e44aa50a63c545)"
+  },
+  {
+   "slot": "c3_aIO_1p0_s1_c3_w002",
+   "order": 7,
+   "cell": "aIO_1p0_s1",
+   "width_Ry": 0.002,
+   "status": "active",
+   "roles": [
+    "aIO_1p0_s1 A15 Gaussian (relaxation converged, F9 v19 CLAIMS_OK)"
+   ],
+   "runs": [
+    "aIO_1p0_s1_c3_w002",
+    "aIO_1p0_s1_c3_w002_fb"
+   ],
+   "fresh_run": "aIO_1p0_s1_c3_w002",
+   "fallback_run": "aIO_1p0_s1_c3_w002_fb",
+   "user_log": "/afs/cern.ch/user/m/melrashe/iwo_amorph/runs/aIO_1p0_s1_c3_w002/logs/final.log",
+   "export_destinations": [
+    "/eos/user/m/melrashe/qe/exports/aIO_1p0_s1_c3_w002/final_<ClusterId>",
+    "/eos/user/m/melrashe/qe/exports/aIO_1p0_s1_c3_w002_fb/final_<ClusterId>"
+   ],
+   "geometry_sha256": "677adb5e5a64b2c853fd15a3130b20c779b1b89cca9c3040e511c2eb749462dd",
+   "priority": 26,
+   "reference": {
+    "cell": "aIO_1p0_s1",
+    "final_cluster": 12891132,
+    "asrun_scf_sha256": "e74a17cf9401d2556c74bf2df6eba2d8919740a5f418890af76880a16923aa50",
+    "certify_geometry_sha256": "677adb5e5a64b2c853fd15a3130b20c779b1b89cca9c3040e511c2eb749462dd"
+   },
+   "companion_settings_sha256": "cce63239c6dc1978c619f931e61eef7a3673245698baf5b3d43772ea62813cc4",
+   "upf_sha256": {
+    "H.pbe-kjpaw_psl.1.0.0.UPF": "dd48be99c7a91c4163ed123cdac938af189a9f62f382c41e3f664d00a586839d",
+    "In.pbe-dn-kjpaw_psl.1.0.0.UPF": "dbaf7975f6dee30d1413a30cf04fef714eedd8325a417ec01913eaf15de65e4a",
+    "O.pbe-n-kjpaw_psl.1.0.0.UPF": "6d4f573d1f5d8fab1d334ed76fefbac21fdbb2c406af7f85ab8c6aab0e84ccc0"
+   },
+   "diff_gate": "PASS",
+   "start_mode": "fresh",
+   "staged": "checks/c3_companions/aIO_1p0_s1_c3_w002/ (render sha256 310ce6430605d434cb16b6229b7a6ea7172f33bdfcfcb9122ee5c9ae635f339e)"
+  },
+  {
+   "slot": "c3_aIO_1p0_s1_c3_w005",
+   "order": 8,
+   "cell": "aIO_1p0_s1",
+   "width_Ry": 0.005,
+   "status": "active",
+   "roles": [
+    "aIO_1p0_s1 A15 Gaussian (relaxation converged, F9 v19 CLAIMS_OK)"
+   ],
+   "runs": [
+    "aIO_1p0_s1_c3_w005",
+    "aIO_1p0_s1_c3_w005_fb"
+   ],
+   "fresh_run": "aIO_1p0_s1_c3_w005",
+   "fallback_run": "aIO_1p0_s1_c3_w005_fb",
+   "user_log": "/afs/cern.ch/user/m/melrashe/iwo_amorph/runs/aIO_1p0_s1_c3_w005/logs/final.log",
+   "export_destinations": [
+    "/eos/user/m/melrashe/qe/exports/aIO_1p0_s1_c3_w005/final_<ClusterId>",
+    "/eos/user/m/melrashe/qe/exports/aIO_1p0_s1_c3_w005_fb/final_<ClusterId>"
+   ],
+   "geometry_sha256": "677adb5e5a64b2c853fd15a3130b20c779b1b89cca9c3040e511c2eb749462dd",
+   "priority": 25,
+   "reference": {
+    "cell": "aIO_1p0_s1",
+    "final_cluster": 12891132,
+    "asrun_scf_sha256": "e74a17cf9401d2556c74bf2df6eba2d8919740a5f418890af76880a16923aa50",
+    "certify_geometry_sha256": "677adb5e5a64b2c853fd15a3130b20c779b1b89cca9c3040e511c2eb749462dd"
+   },
+   "companion_settings_sha256": "45a413e367f2ddf49163963c5af22f84446537f30601ca3632ec91d239f21aed",
+   "upf_sha256": {
+    "H.pbe-kjpaw_psl.1.0.0.UPF": "dd48be99c7a91c4163ed123cdac938af189a9f62f382c41e3f664d00a586839d",
+    "In.pbe-dn-kjpaw_psl.1.0.0.UPF": "dbaf7975f6dee30d1413a30cf04fef714eedd8325a417ec01913eaf15de65e4a",
+    "O.pbe-n-kjpaw_psl.1.0.0.UPF": "6d4f573d1f5d8fab1d334ed76fefbac21fdbb2c406af7f85ab8c6aab0e84ccc0"
+   },
+   "diff_gate": "PASS",
+   "start_mode": "fresh",
+   "staged": "checks/c3_companions/aIO_1p0_s1_c3_w005/ (render sha256 785f1124638d5d54e0264d9bfbc69ffa60b712f8ac9f4be4ec6557a0f4cfab57)"
+  },
+  {
+   "slot": "c3_aIO_0p8_s1_c3_w002",
+   "order": 9,
+   "cell": "aIO_0p8_s1",
+   "width_Ry": 0.002,
+   "status": "deferred",
+   "roles": [
+    "aIO_0p8_s1 A15 Gaussian (relaxation unknown: pilot s0 input underivable; Codex: defer, keep MISSING)"
+   ],
+   "runs": [
+    "aIO_0p8_s1_c3_w002",
+    "aIO_0p8_s1_c3_w002_fb"
+   ],
+   "fresh_run": "aIO_0p8_s1_c3_w002",
+   "fallback_run": "aIO_0p8_s1_c3_w002_fb",
+   "user_log": "/afs/cern.ch/user/m/melrashe/iwo_amorph/runs/aIO_0p8_s1_c3_w002/logs/final.log",
+   "export_destinations": [
+    "/eos/user/m/melrashe/qe/exports/aIO_0p8_s1_c3_w002/final_<ClusterId>",
+    "/eos/user/m/melrashe/qe/exports/aIO_0p8_s1_c3_w002_fb/final_<ClusterId>"
+   ],
+   "geometry_sha256": "86a6ec4ea72daf066a92078ce993fcbaa7fd728dc7029a97ab41ab720c8cf92c",
+   "priority": 24,
+   "reference": {
+    "cell": "aIO_0p8_s1",
+    "final_cluster": 12904001,
+    "asrun_scf_sha256": "a3c355318793999c5821da699d8528e21ce9fb152d8abc02684a4ecef0925230",
+    "certify_geometry_sha256": "86a6ec4ea72daf066a92078ce993fcbaa7fd728dc7029a97ab41ab720c8cf92c"
+   },
+   "companion_settings_sha256": "14254ecdcb4996495ffdcaf5b2bb53009b4e47a9202de3c65701750ac3eb774e",
+   "upf_sha256": {
+    "H.pbe-kjpaw_psl.1.0.0.UPF": "dd48be99c7a91c4163ed123cdac938af189a9f62f382c41e3f664d00a586839d",
+    "In.pbe-dn-kjpaw_psl.1.0.0.UPF": "dbaf7975f6dee30d1413a30cf04fef714eedd8325a417ec01913eaf15de65e4a",
+    "O.pbe-n-kjpaw_psl.1.0.0.UPF": "6d4f573d1f5d8fab1d334ed76fefbac21fdbb2c406af7f85ab8c6aab0e84ccc0"
+   },
+   "diff_gate": "PASS",
+   "start_mode": "fresh",
+   "staged": "checks/c3_companions/aIO_0p8_s1_c3_w002/ (render sha256 687e19e165cb77e7a9e885e2d5ce6f1a54e9122f3eaa1cdcebc785eb48470e49)"
+  },
+  {
+   "slot": "c3_aIO_0p8_s1_c3_w005",
+   "order": 10,
+   "cell": "aIO_0p8_s1",
+   "width_Ry": 0.005,
+   "status": "deferred",
+   "roles": [
+    "aIO_0p8_s1 A15 Gaussian (relaxation unknown: pilot s0 input underivable; Codex: defer, keep MISSING)"
+   ],
+   "runs": [
+    "aIO_0p8_s1_c3_w005",
+    "aIO_0p8_s1_c3_w005_fb"
+   ],
+   "fresh_run": "aIO_0p8_s1_c3_w005",
+   "fallback_run": "aIO_0p8_s1_c3_w005_fb",
+   "user_log": "/afs/cern.ch/user/m/melrashe/iwo_amorph/runs/aIO_0p8_s1_c3_w005/logs/final.log",
+   "export_destinations": [
+    "/eos/user/m/melrashe/qe/exports/aIO_0p8_s1_c3_w005/final_<ClusterId>",
+    "/eos/user/m/melrashe/qe/exports/aIO_0p8_s1_c3_w005_fb/final_<ClusterId>"
+   ],
+   "geometry_sha256": "86a6ec4ea72daf066a92078ce993fcbaa7fd728dc7029a97ab41ab720c8cf92c",
+   "priority": 23,
+   "reference": {
+    "cell": "aIO_0p8_s1",
+    "final_cluster": 12904001,
+    "asrun_scf_sha256": "a3c355318793999c5821da699d8528e21ce9fb152d8abc02684a4ecef0925230",
+    "certify_geometry_sha256": "86a6ec4ea72daf066a92078ce993fcbaa7fd728dc7029a97ab41ab720c8cf92c"
+   },
+   "companion_settings_sha256": "c330f6f60f130ecf66138966720c79db3fba160b16ed89303a2b3c58956e184e",
+   "upf_sha256": {
+    "H.pbe-kjpaw_psl.1.0.0.UPF": "dd48be99c7a91c4163ed123cdac938af189a9f62f382c41e3f664d00a586839d",
+    "In.pbe-dn-kjpaw_psl.1.0.0.UPF": "dbaf7975f6dee30d1413a30cf04fef714eedd8325a417ec01913eaf15de65e4a",
+    "O.pbe-n-kjpaw_psl.1.0.0.UPF": "6d4f573d1f5d8fab1d334ed76fefbac21fdbb2c406af7f85ab8c6aab0e84ccc0"
+   },
+   "diff_gate": "PASS",
+   "start_mode": "fresh",
+   "staged": "checks/c3_companions/aIO_0p8_s1_c3_w005/ (render sha256 f5e0539364eab161a06c77074d9b9534f2d18a010854864abeb30a014877fa64)"
+  },
+  {
+   "slot": "c3_aIWO_0p8_s2_c3_w002",
+   "order": 11,
+   "cell": "aIWO_0p8_s2",
+   "width_Ry": 0.002,
+   "status": "pending",
+   "roles": [
+    "aIWO_0p8_s2 A35 Gaussian"
+   ],
+   "runs": [
+    "aIWO_0p8_s2_c3_w002",
+    "aIWO_0p8_s2_c3_w002_fb"
+   ],
+   "fresh_run": "aIWO_0p8_s2_c3_w002",
+   "fallback_run": "aIWO_0p8_s2_c3_w002_fb",
+   "user_log": "/afs/cern.ch/user/m/melrashe/iwo_amorph/runs/aIWO_0p8_s2_c3_w002/logs/final.log",
+   "export_destinations": [
+    "/eos/user/m/melrashe/qe/exports/aIWO_0p8_s2_c3_w002/final_<ClusterId>",
+    "/eos/user/m/melrashe/qe/exports/aIWO_0p8_s2_c3_w002_fb/final_<ClusterId>"
+   ],
+   "geometry_sha256": null,
+   "geometry_rule": "its A35 FINAL geometry: the actual verified A19 final geometry, A35-qualified, filled by a versioned addendum before submission"
+  },
+  {
+   "slot": "c3_aIWO_0p8_s2_c3_w005",
+   "order": 12,
+   "cell": "aIWO_0p8_s2",
+   "width_Ry": 0.005,
+   "status": "pending",
+   "roles": [
+    "aIWO_0p8_s2 A35 Gaussian"
+   ],
+   "runs": [
+    "aIWO_0p8_s2_c3_w005",
+    "aIWO_0p8_s2_c3_w005_fb"
+   ],
+   "fresh_run": "aIWO_0p8_s2_c3_w005",
+   "fallback_run": "aIWO_0p8_s2_c3_w005_fb",
+   "user_log": "/afs/cern.ch/user/m/melrashe/iwo_amorph/runs/aIWO_0p8_s2_c3_w005/logs/final.log",
+   "export_destinations": [
+    "/eos/user/m/melrashe/qe/exports/aIWO_0p8_s2_c3_w005/final_<ClusterId>",
+    "/eos/user/m/melrashe/qe/exports/aIWO_0p8_s2_c3_w005_fb/final_<ClusterId>"
+   ],
+   "geometry_sha256": null,
+   "geometry_rule": "its A35 FINAL geometry: the actual verified A19 final geometry, A35-qualified, filled by a versioned addendum before submission"
+  },
+  {
+   "slot": "c3_aIO_bulk_s1_c3_w002",
+   "order": 13,
+   "cell": "aIO_bulk_s1",
+   "width_Ry": 0.002,
+   "status": "active",
+   "roles": [
+    "aIO_bulk_s1 A23 Gaussian"
+   ],
+   "runs": [
+    "aIO_bulk_s1_c3_w002",
+    "aIO_bulk_s1_c3_w002_fb"
+   ],
+   "fresh_run": "aIO_bulk_s1_c3_w002",
+   "fallback_run": "aIO_bulk_s1_c3_w002_fb",
+   "user_log": "/afs/cern.ch/user/m/melrashe/iwo_amorph/runs/aIO_bulk_s1_c3_w002/logs/final.log",
+   "export_destinations": [
+    "/eos/user/m/melrashe/qe/exports/aIO_bulk_s1_c3_w002/final_<ClusterId>",
+    "/eos/user/m/melrashe/qe/exports/aIO_bulk_s1_c3_w002_fb/final_<ClusterId>"
+   ],
+   "geometry_sha256": "e6dfe79cb0d56a87ec2374fa93b794d611e647e6a148e33c514c5d4def5754fa",
+   "priority": 22,
+   "reference": {
+    "cell": "aIO_bulk_s1",
+    "final_cluster": 12890432,
+    "asrun_scf_sha256": "32e3e7dae0aad0373ecda9d50d14f49062ff42cc15dbc64b0763082ce78753a8",
+    "certify_geometry_sha256": "e6dfe79cb0d56a87ec2374fa93b794d611e647e6a148e33c514c5d4def5754fa"
+   },
+   "companion_settings_sha256": "6b319f0887ed9790c741172620f795b1759d3e063aa6f32573a534c480b700c3",
+   "upf_sha256": {
+    "In.pbe-dn-kjpaw_psl.1.0.0.UPF": "dbaf7975f6dee30d1413a30cf04fef714eedd8325a417ec01913eaf15de65e4a",
+    "O.pbe-n-kjpaw_psl.1.0.0.UPF": "6d4f573d1f5d8fab1d334ed76fefbac21fdbb2c406af7f85ab8c6aab0e84ccc0"
+   },
+   "diff_gate": "PASS",
+   "start_mode": "fresh",
+   "staged": "checks/c3_companions/aIO_bulk_s1_c3_w002/ (render sha256 160db64e86aa8d8dc20a8338e41552608ecf64bbf41644c5513aa557dd9e4c3e)"
+  },
+  {
+   "slot": "c3_aIO_bulk_s1_c3_w005",
+   "order": 14,
+   "cell": "aIO_bulk_s1",
+   "width_Ry": 0.005,
+   "status": "active",
+   "roles": [
+    "aIO_bulk_s1 A23 Gaussian"
+   ],
+   "runs": [
+    "aIO_bulk_s1_c3_w005",
+    "aIO_bulk_s1_c3_w005_fb"
+   ],
+   "fresh_run": "aIO_bulk_s1_c3_w005",
+   "fallback_run": "aIO_bulk_s1_c3_w005_fb",
+   "user_log": "/afs/cern.ch/user/m/melrashe/iwo_amorph/runs/aIO_bulk_s1_c3_w005/logs/final.log",
+   "export_destinations": [
+    "/eos/user/m/melrashe/qe/exports/aIO_bulk_s1_c3_w005/final_<ClusterId>",
+    "/eos/user/m/melrashe/qe/exports/aIO_bulk_s1_c3_w005_fb/final_<ClusterId>"
+   ],
+   "geometry_sha256": "e6dfe79cb0d56a87ec2374fa93b794d611e647e6a148e33c514c5d4def5754fa",
+   "priority": 21,
+   "reference": {
+    "cell": "aIO_bulk_s1",
+    "final_cluster": 12890432,
+    "asrun_scf_sha256": "32e3e7dae0aad0373ecda9d50d14f49062ff42cc15dbc64b0763082ce78753a8",
+    "certify_geometry_sha256": "e6dfe79cb0d56a87ec2374fa93b794d611e647e6a148e33c514c5d4def5754fa"
+   },
+   "companion_settings_sha256": "05064935640e064586ae1127ee9aa5e1f363c2363294de5b619cadbaf98f56a9",
+   "upf_sha256": {
+    "In.pbe-dn-kjpaw_psl.1.0.0.UPF": "dbaf7975f6dee30d1413a30cf04fef714eedd8325a417ec01913eaf15de65e4a",
+    "O.pbe-n-kjpaw_psl.1.0.0.UPF": "6d4f573d1f5d8fab1d334ed76fefbac21fdbb2c406af7f85ab8c6aab0e84ccc0"
+   },
+   "diff_gate": "PASS",
+   "start_mode": "fresh",
+   "staged": "checks/c3_companions/aIO_bulk_s1_c3_w005/ (render sha256 e715b00f5bf3e3172d882865f8a91d0424461e2ac459942d24b9d0bc54df48df)"
+  },
+  {
+   "slot": "c3_aIWO_bulk_s1_c3_w002",
+   "order": 15,
+   "cell": "aIWO_bulk_s1",
+   "width_Ry": 0.002,
+   "status": "active",
+   "roles": [
+    "aIWO_bulk_s1 A23 Gaussian"
+   ],
+   "runs": [
+    "aIWO_bulk_s1_c3_w002",
+    "aIWO_bulk_s1_c3_w002_fb"
+   ],
+   "fresh_run": "aIWO_bulk_s1_c3_w002",
+   "fallback_run": "aIWO_bulk_s1_c3_w002_fb",
+   "user_log": "/afs/cern.ch/user/m/melrashe/iwo_amorph/runs/aIWO_bulk_s1_c3_w002/logs/final.log",
+   "export_destinations": [
+    "/eos/user/m/melrashe/qe/exports/aIWO_bulk_s1_c3_w002/final_<ClusterId>",
+    "/eos/user/m/melrashe/qe/exports/aIWO_bulk_s1_c3_w002_fb/final_<ClusterId>"
+   ],
+   "geometry_sha256": "3fc581bcb17a50d6bc5ae8bd1852c92cd9f0e4a5c043781e0f88af3a7cf9cc53",
+   "priority": 20,
+   "reference": {
+    "cell": "aIWO_bulk_s1",
+    "final_cluster": 12891160,
+    "asrun_scf_sha256": "eb4ad2148057e6d71b439dde45284eaa60099822cdf0ce15e75e39d588c2f664",
+    "certify_geometry_sha256": "3fc581bcb17a50d6bc5ae8bd1852c92cd9f0e4a5c043781e0f88af3a7cf9cc53"
+   },
+   "companion_settings_sha256": "58c0e9ad1834ca758a6b4f50b1b2cf792b20f26d0022699a212becafe14c4cac",
+   "upf_sha256": {
+    "In.pbe-dn-kjpaw_psl.1.0.0.UPF": "dbaf7975f6dee30d1413a30cf04fef714eedd8325a417ec01913eaf15de65e4a",
+    "O.pbe-n-kjpaw_psl.1.0.0.UPF": "6d4f573d1f5d8fab1d334ed76fefbac21fdbb2c406af7f85ab8c6aab0e84ccc0",
+    "W.pbe-spn-kjpaw_psl.1.0.0.UPF": "10810897c4da7ba6a78be544cab4339026c68c5bce7e224b2cf4bdc365d25cb1"
+   },
+   "diff_gate": "PASS",
+   "start_mode": "fresh",
+   "staged": "checks/c3_companions/aIWO_bulk_s1_c3_w002/ (render sha256 949c8db88124146f6f14d6c2871de2bebd23f416bea7cc94aba1cdca4a5137b0)"
+  },
+  {
+   "slot": "c3_aIWO_bulk_s1_c3_w005",
+   "order": 16,
+   "cell": "aIWO_bulk_s1",
+   "width_Ry": 0.005,
+   "status": "active",
+   "roles": [
+    "aIWO_bulk_s1 A23 Gaussian"
+   ],
+   "runs": [
+    "aIWO_bulk_s1_c3_w005",
+    "aIWO_bulk_s1_c3_w005_fb"
+   ],
+   "fresh_run": "aIWO_bulk_s1_c3_w005",
+   "fallback_run": "aIWO_bulk_s1_c3_w005_fb",
+   "user_log": "/afs/cern.ch/user/m/melrashe/iwo_amorph/runs/aIWO_bulk_s1_c3_w005/logs/final.log",
+   "export_destinations": [
+    "/eos/user/m/melrashe/qe/exports/aIWO_bulk_s1_c3_w005/final_<ClusterId>",
+    "/eos/user/m/melrashe/qe/exports/aIWO_bulk_s1_c3_w005_fb/final_<ClusterId>"
+   ],
+   "geometry_sha256": "3fc581bcb17a50d6bc5ae8bd1852c92cd9f0e4a5c043781e0f88af3a7cf9cc53",
+   "priority": 19,
+   "reference": {
+    "cell": "aIWO_bulk_s1",
+    "final_cluster": 12891160,
+    "asrun_scf_sha256": "eb4ad2148057e6d71b439dde45284eaa60099822cdf0ce15e75e39d588c2f664",
+    "certify_geometry_sha256": "3fc581bcb17a50d6bc5ae8bd1852c92cd9f0e4a5c043781e0f88af3a7cf9cc53"
+   },
+   "companion_settings_sha256": "d83004bbc9dface702e5e48399fe7f94a7dc175910cdeb223d63c2202edbb35f",
+   "upf_sha256": {
+    "In.pbe-dn-kjpaw_psl.1.0.0.UPF": "dbaf7975f6dee30d1413a30cf04fef714eedd8325a417ec01913eaf15de65e4a",
+    "O.pbe-n-kjpaw_psl.1.0.0.UPF": "6d4f573d1f5d8fab1d334ed76fefbac21fdbb2c406af7f85ab8c6aab0e84ccc0",
+    "W.pbe-spn-kjpaw_psl.1.0.0.UPF": "10810897c4da7ba6a78be544cab4339026c68c5bce7e224b2cf4bdc365d25cb1"
+   },
+   "diff_gate": "PASS",
+   "start_mode": "fresh",
+   "staged": "checks/c3_companions/aIWO_bulk_s1_c3_w005/ (render sha256 d6bcca20127a72e92d21ccd91075b628d155c7b17f632e2eb86df6065b562900)"
+  },
+  {
+   "slot": "c3_aIWO_0p7_s1_bare_c3_w002",
+   "order": 17,
+   "cell": "aIWO_0p7_s1_bare",
+   "width_Ry": 0.002,
+   "status": "pending",
+   "roles": [
+    "aIWO_0p7_s1_bare MV geometry (H-H pairing, D-43 F6)"
+   ],
+   "runs": [
+    "aIWO_0p7_s1_bare_c3_w002",
+    "aIWO_0p7_s1_bare_c3_w002_fb"
+   ],
+   "fresh_run": "aIWO_0p7_s1_bare_c3_w002",
+   "fallback_run": "aIWO_0p7_s1_bare_c3_w002_fb",
+   "user_log": "/afs/cern.ch/user/m/melrashe/iwo_amorph/runs/aIWO_0p7_s1_bare_c3_w002/logs/final.log",
+   "export_destinations": [
+    "/eos/user/m/melrashe/qe/exports/aIWO_0p7_s1_bare_c3_w002/final_<ClusterId>",
+    "/eos/user/m/melrashe/qe/exports/aIWO_0p7_s1_bare_c3_w002_fb/final_<ClusterId>"
+   ],
+   "geometry_sha256": null,
+   "geometry_rule": "its FINAL geometry: the actual verified A19 final geometry (MV), filled by a versioned addendum before submission"
+  },
+  {
+   "slot": "c3_aIWO_0p7_s1_bare_c3_w005",
+   "order": 18,
+   "cell": "aIWO_0p7_s1_bare",
+   "width_Ry": 0.005,
+   "status": "pending",
+   "roles": [
+    "aIWO_0p7_s1_bare MV geometry (H-H pairing, D-43 F6)"
+   ],
+   "runs": [
+    "aIWO_0p7_s1_bare_c3_w005",
+    "aIWO_0p7_s1_bare_c3_w005_fb"
+   ],
+   "fresh_run": "aIWO_0p7_s1_bare_c3_w005",
+   "fallback_run": "aIWO_0p7_s1_bare_c3_w005_fb",
+   "user_log": "/afs/cern.ch/user/m/melrashe/iwo_amorph/runs/aIWO_0p7_s1_bare_c3_w005/logs/final.log",
+   "export_destinations": [
+    "/eos/user/m/melrashe/qe/exports/aIWO_0p7_s1_bare_c3_w005/final_<ClusterId>",
+    "/eos/user/m/melrashe/qe/exports/aIWO_0p7_s1_bare_c3_w005_fb/final_<ClusterId>"
+   ],
+   "geometry_sha256": null,
+   "geometry_rule": "its FINAL geometry: the actual verified A19 final geometry (MV), filled by a versioned addendum before submission"
+  }
+ ],
+ "role_map_note": "A40 lists 20 role slots; the aIWO_0p7_s1 MV (H-H) and polished roles share one geometry (both polishes zero-step), so they map onto one physical slot per width: 18 physical slots. One run is never assigned to two slots.",
+ "rules": [
+  "A40: Gaussian 0.002 / 0.005 Ry companion vs the A26 0.001 Ry reference at the same geometry; fresh start; one changed physical line (system.degauss)",
+  "submission order and F7 priority: 0.7, 1.0, 0.8, bulk, bare (JobPrio 30..19 for the staged slots)",
+  "infrastructure stop before the first energy: one repeat with identical input (same run name, same slot log)",
+  "A31(b) fallback: at most one density-seeded rescue-mix attempt per slot, run name <run>_fb, logged to the SAME slot user log, as-run inputs and reports preserved, reported and never counted (no PASS credit; any FAIL still blocks)",
+  "the 0.005 Ry C4 qualification SCF never substitutes for the 0.005 Ry C3 FINAL",
+  "deferred slots keep their requirement (C3 MISSING for that cell) unless a later logged addendum qualifies the cell; pending geometries only from the actual verified A19 final geometry (and its required qualification), by versioned addenda before submission; no G*, no silent removal, no result-driven choice",
+  "deadline: complete and exported by 2026-10-20T12:00:00Z, else that width is MISSING",
+  "blind: outputs (incl. logs/final.<cluster>.out) stay sealed until the D-43 release"
+ ]
+}

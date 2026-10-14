@@ -1,0 +1,267 @@
+# Claims ledger. Labels per charter §3. One entry per claim; never delete an entry.
+# To promote or demote a claim, change `status` and append to `history`.
+# Paths are relative to the public repository (commit f315b78) unless they start with private:
+
+- id: C001
+  claim: "Measured transfer curves exist for 2.0, 6.3, 13.2 and 31.8 nm IWO: one device each, V_D = 0.7 V, V_G -3..3 V in 50 mV steps"
+  status: MEASURED
+  evidence: [data/experimental_clean.csv]
+  caveats: "No reverse sweep, no I_G, one V_D. Geometry (W/L = 290/20 um, stack) comes from the device schematic."
+
+- id: C002
+  claim: "V_th,cc (1e-9 A/um) = 0.662 / 0.644 / 0.083 V for 2.0 / 6.3 / 13.2 nm; none for 31.8 nm"
+  status: DERIVED
+  evidence: [analysis_2026-10-06_extraction/results.json, analysis_2026-10-06_extraction/PROTOCOL.md]
+
+- id: C003
+  claim: "Off-state floors 4.61e-15 / 1.53e-13 / 6.60e-12 A/um (2.0 / 6.3 / 13.2 nm)"
+  status: DERIVED
+  evidence: [analysis_2026-10-06_extraction/extraction.py (off_floor), analysis_2026-10-06_V2/T2_T3_RESULTS.md]
+  caveats: "The 2.0 nm floor (1.3 pA total) is at the measurement-setup level."
+
+- id: C004
+  claim: "Floor scales as t^3.85"
+  status: FITTED
+  evidence: [C003]
+  caveats: "Three points, one device each. Local exponents are 3.1 and 5.1, so a smooth law is not established."
+
+- id: C005
+  claim: "The floor is not gate leakage"
+  status: INFERRED
+  evidence: [floor flat in V_G within 3 % at 13.2 nm]
+  caveats: "No I_G was recorded."
+
+- id: C006
+  claim: "The floor is an ungated IWO strip in parallel with the channel"
+  status: HYPOTHESIS
+  evidence: [analysis_2026-10-06_V2/T2_T3_RESULTS.md (T1: pred/meas 0.46 at 2.0 nm, 0.64 at 6.3 nm with one constant fitted on 13.2 nm)]
+  falsified_if: "floor independent of V_D above ~0.1 V, or floor unchanged in mesa-isolated devices"
+
+- id: C007
+  claim: "Local SS against I_D/I_on collapses onto one curve for 2.0/6.3/13.2 nm, in measurement and in TCAD"
+  status: OBSERVED
+  evidence: [analysis_2026-10-06_extraction/figures/paper/paper_c_*, A1_RESULTS.md]
+  caveats: "Three devices."
+
+- id: C008
+  claim: "SS in the normalised window: measured 123.6 +/- 1.0 / 122.7 +/- 9.3 / 115.3 +/- 2.4; TCAD 126.4 / 121.3 / 131.3 mV/dec"
+  status: DERIVED
+  evidence: [analysis_2026-10-06_extraction/results_a1.json]
+  caveats: "The window is amendment A1 (commit 7ce7116), after the registered fixed window (7a61687)."
+
+- id: C009
+  claim: "TCAD SS agrees within 3 mV/dec at 2.0 nm (partly fitted) and 6.3 nm (not fitted) in the normalised window"
+  status: COMPUTED
+  evidence: [C008]
+
+- id: C010
+  claim: "At 13.2 nm the TCAD SS is 16 +/- 3 mV/dec too high (normalised window) and 16-25 mV/dec too high over the clean range"
+  status: COMPUTED
+  evidence: [analysis_2026-10-06_extraction/AGREEMENT_WINDOWS.md, PAPER_FIGURES.md]
+  caveats: "Reported as a finding (decision D-06); not tuned away."
+
+- id: C011
+  claim: "13.2 nm: mu_FE(V_G) from 1 to 3 V within +/-6 % of TCAD; gamma 0.23 +/- 0.10 (TCAD) vs 0.27 +/- 0.08 (measured)"
+  status: COMPUTED
+  evidence: [analysis_2026-10-06_extraction/mobility_vs_vg.csv, PAPER_FIGURES.md]
+  caveats: "The level is set by the I_on calibration; only the shape is a test."
+
+- id: C012
+  claim: "TCAD does not reproduce the V_G dependence of mu_FE at 2.0 and 6.3 nm (6.3 nm: -22 % at 3 V, +31 % at 1.5 V; gamma 0.57 vs 1.13)"
+  status: COMPUTED
+  evidence: [PAPER_FIGURES.md]
+
+- id: C013
+  claim: "TCAD V_th,cc and I_on agree with the measurement"
+  status: FITTED
+  evidence: [V1 calibration: Q_f and mu_band per film]
+  caveats: "These are calibration targets, not validation."
+
+- id: C014
+  claim: "With shared parameters, a model can predict the 6.3 nm threshold"
+  status: FALSIFIED
+  evidence: [V1 run_0014 (-0.29 V), analysis_2026-10-06_V2/T2_T3_RESULTS.md (P: -0.37 V, E: -0.23 V)]
+  history: ["2026-10-05 registered T3 failed as pre-registered (commit 852dc8a)"]
+
+- id: C015
+  claim: "Tail density law N_t(t) = 2e19 (2/t)^0.75 cm-3 eV-1"
+  status: FITTED
+  evidence: [config/iwo_material_model.yaml, analysis_2026-10-06_traps/TRAPS.md]
+  caveats: "Two-point law: anchor from the V0 2 nm fit, exponent from the paper's Fig. 5a ratio."
+
+- id: C016
+  claim: "Donor law N_D,eff(t) = 2.5e17 [1 + (t/20)^4] cm-3"
+  status: FITTED
+  evidence: [config/iwo_material_model.yaml]
+  caveats: "Not identifiable from I_D-V_G; fitted to the V0 per-film values."
+
+- id: C017
+  claim: "Tail states split into a surface part N_s = 3.57e12 cm-2 and a bulk part N_b = 2.15e18 cm-3"
+  status: DERIVED
+  evidence: [analysis_2026-10-06_traps/surface_bulk_explained.py]
+  caveats: "Solved exactly through two anchors, so it is untested."
+
+- id: C018
+  claim: "Model parameters are non-unique: work function, chi, Q_f and dE_c act as one number; mu_band trades with N_t; R_sd with alpha"
+  status: DERIVED
+  evidence: [analysis_2026-09-25/SYNTHESIS.md (D2, D3, Q4)]
+
+- id: C019
+  claim: "A thickness-independent series resistance cannot create the thickness trend"
+  status: DERIVED
+  evidence: [analysis_2026-09-25/SYNTHESIS.md (S5; theta_net < 0 in all films)]
+
+- id: C020
+  claim: "Quantum confinement raises the gap of a 2 nm In2O3 slab by 0.335 eV (m* 0.206 m0); 1 nm by 0.90 eV PBE, 0.95-1.00 eV HSE-corrected"
+  status: COMPUTED
+  evidence: [qe_workflow/cern_htcondor/results/RESULTS_LOG.md, report_latex_full/chapters/13_dft.tex]
+  caveats: "Crystalline slabs; the films are amorphous or nanocrystalline. Not identifiable from I_D-V_G (C018)."
+
+- id: C021
+  claim: "A 0.51 nm slab relaxes to an In(OH)3-like layer with a 3.14 eV PBE gap; 0.75 nm slab gap 2.20 eV"
+  status: COMPUTED
+  evidence: [qe_workflow/cern_htcondor/results/slabL1_relax_v2/, slabL2_relax_v2/, "CERN HTCondor 12835386.0 (slabL1_relax_v2) and 12835386.2 (slabL2_relax_v2): vc-relax GPU QE 7.3.1, SCF + bands + projwfc CPU QE 7.5, finished 2026-10-06", "qe_workflow/cern_htcondor/results/RESULTS_LOG.md (2026-10-14 entry '0.51 nm and 0.75 nm slabs logged')", "qe_workflow/analysis_2026-10-13_full/f05_slab_series.py re-derivation (gap 3.1401 eV, scf.out:1389; 2.1986 eV, scf.out:1771)"]
+  caveats: "Logged in RESULTS_LOG.md on 2026-10-14. PBE, crystalline (001), one OH termination (24 H per cell), no dipole correction. 0.51 nm (H-H 0.461 nm) relaxes to exactly In8(OH)24 (all O bonded to H, every In six-fold): outside the termination recipe and out of every thickness law. 0.75 nm (H-H 0.695 nm, In16O36H24) is polar: vacuum ramp -13.6 meV/A (-347 meV across the vacuum gap), so EA, IP and dEc depend on the vacuum reference; dEc(0.695 nm) = 1.059 eV +- 0.17 eV (half the ramp, an ASSUMED reference-choice sensitivity, not an error bound). The gap is independent of the vacuum reference; its sensitivity to the artificial field is untested. The 0.695 nm point is excluded from any new primary dEc fit until a dipole-corrected SCF exists (check both vacuum plateaus, gap and residual forces); the frozen V3 / C10 fit3 laws that include it are kept with this caveat, and changing them needs a result-informed amendment (fit3 dEc(6.3 nm) 0.053-0.075 eV under the sensitivity, partly outside the S6 band 0.046-0.062 eV)."
+  history: ["2026-10-14 RESULTS_LOG entry added and caveats extended (polar 0.75 nm, In8(OH)24 at 0.51 nm) by Claude after the read-only re-derivation (analysis_2026-10-13_full) and the Codex review of 2026-10-13T10:23Z; user go 2026-10-14"]
+
+- id: C022
+  claim: "In crystalline In2O3 the W 5d level is resonant ~1.2-1.8 eV above the CB bottom; W acts as a donor"
+  status: COMPUTED
+  evidence: [qe_workflow/cern_htcondor/results/RESULTS_LOG.md, "projwfc_iwo_W8b.out, projwfc_iwo_W24d.out, projwfc_iwo_slab1_final_cpu.out, projwfc_iwo_slab2_final_cpu.out (cluster 12835211) with the Fermi energies of their scf.out (qe_workflow/cern_htcondor/results/)", "qe_workflow/cern_htcondor/results/RESULTS_LOG.md (2026-10-14 entry, C022 caveat)"]
+  caveats: "Crystalline cells only. PBE only, no HSE for the W cells. The level positions above the host CB bottom at Gamma (1.22 at 1 nm, 1.34 at 2 nm, 1.76 bulk 24d, 1.80 eV bulk 8b) are computed at one filling only: 3 donated electrons per cell (1.4e21-3e21 cm^-3), E_F 1.2-1.8 eV inside the host CB. In every cell the W-5d-rich level lies roughly 0.1 eV or less from E_F at Gamma (2 nm +0.103 eV); this does not describe the whole dispersive band. The near-E_F placement is COMPUTED; pinning of the level by the band filling is an interpretation that needs a density series. The W-5d counts are Loewdin projections of occupied above-VB states, not the total W charge or a uniquely defined trapped-electron fraction; MV occupations are numerical smearing weights. That the level stays above E_C at device densities (E_F below E_C) is INFERRED, not computed (no lower-density cell)."
+  history: ["2026-10-14 caveat extended with the Codex-refined filling wording (work chat 2026-10-13T10:23Z) by Claude; user go 2026-10-14"]
+
+- id: C023
+  claim: "W suppresses O vacancies and promotes charge delocalization in IWO"
+  status: LITERATURE-SUPPORTED
+  evidence: [private:sources/Januar2026_SmallStructures.pdf (Sec. 2.3)]
+  caveats: "Not tested by us."
+
+- id: C024
+  claim: "IWO mu_max 27.4 -> 5.1 cm2/Vs from 13.2 to 2 nm (paper)"
+  status: UNRESOLVED
+  evidence: [paper Fig. 5a/5d; our extraction (gm-based mu_FE peaks 50.2 / 10.9 / 12.1)]
+  caveats: "Disagrees with the gm-based mu_FE from our curves. A definition difference (saturation-formula peak, C030) is sufficient to reconcile the numbers on our curves; the paper's actual formula, C_ox*W/L, current normalisation (Fig. 1b axis A vs our A/um) and same-device/sweep provenance are unverified. See RQ-001."
+  history: ["2026-10-09 RQ-001 (HO-002): reproduced from our curves by the peak of the saturation-formula mobility (C030); status kept UNRESOLVED until the fab confirms the formula and Codex reviews",
+            "2026-10-09 R-RQ-001 (Codex review MODIFY, owner response O2): caveat revised - numerical reconciliation is sufficient, not a provenance or recipe identification; status UNRESOLVED retained"]
+
+- id: C025
+  claim: "2 nm IWO SS 60-70 mV/dec (paper)"
+  status: UNRESOLVED
+  evidence: [paper Figs. 4d, 6e; our extraction 89.1 +/- 0.5 over 3.3 decades, 123.6 normalised]
+  caveats: "Values near 60 appear only next to the floor (SYNTHESIS H.2 item 2.4). At 2 nm the steep section starts at ~1.9e-14 A/um (~5.6 pA total) and spans 0.10-0.15 V (3-4 points); A1 SS is 123.6. The noise Monte Carlo covers only two estimators at 10x floor, with sigma measured at 1e-12 to 1e-10 A/um, and independent log-normal noise on a smoothed copy of the same curve: it cannot exclude offsets, range changes, settling or correlated noise. Neither near-thermal switching over a useful range nor low trap density is established. See RQ-001."
+  history: ["2026-10-09 RQ-001 (HO-002): the paper's own Fig. 1b gives 61.8 / 87.4 / 119.3 mV/dec (digitised) for 2.0 / 6.3 / 13.2 nm, so 60-70 applies to 2 nm only; near-floor steepest-slope estimators reproduce these within 5-15 % (C032); method not identified; status kept UNRESOLVED",
+            "2026-10-09 R-RQ-001 (Codex review MODIFY, owner response O5/O6): caveat revised - Monte Carlo scope and narrow window stated; status UNRESOLVED retained"]
+
+- id: C026
+  claim: "The thickness dependence is non-uniform: small changes from 2.0 to 6.3 nm, large ones from 6.3 to 13.2 nm, and no turn-off at 31.8 nm"
+  status: OBSERVED
+  evidence: [01_CURRENT_STATE.md section D]
+  caveats: "One device per film."
+
+- id: C027
+  claim: "A critical thickness t_c exists and W shifts it"
+  status: HYPOTHESIS
+  evidence: [C026]
+  falsified_if: "a smooth law fits the device means of a dense thickness series within the device-to-device spread"
+
+- id: C028
+  claim: "The 6.3 nm anomaly is real physics (non-monotonic electrostatics)"
+  status: HYPOTHESIS
+  evidence: [C014, C012]
+  falsified_if: "with >= 10 devices per thickness, 6.3 nm lies on a smooth trend"
+
+- id: C029
+  claim: "The 31.8 nm device never turns off (I_D(-3 V) = 3.0e-7 A/um; on/off ~12 over the sweep)"
+  status: DERIVED
+  evidence: [data/experimental_clean.csv]
+  caveats: "This curve is not a holdout: it has been in our data since September."
+
+- id: C030
+  claim: "Peak of the saturation-formula mobility 2L/(W C_ox)(d sqrt(I_D)/dV_G)^2 on our V_D = 0.7 V curves (C_ox 8.955e-7 F/cm2, W/L 290/20) is 5.09 / 3.86 / 27.40 cm2/Vs for 2.0 / 6.3 / 13.2 nm, matching the paper's mu_max 5.1 / 3.73 (Fig. 1b, digitised) / 27.4 with no adjustable factor"
+  status: DERIVED
+  evidence: [private:claude/evidence/RQ-001/mobility_definitions.csv, mobility_scale_test.csv, rq001_results.json, handoffs HO-002 A3, "codex/independent_reviews/RQ-001_check_results.json (independent stdlib re-implementation: 5.0865 / 3.8584 / 27.4029)"]
+  caveats: "Derivative-estimator spread 5.04-5.11 / 3.78-3.90 / 25.9-27.5. Six definitions tested. C_ox uncertainty not included (scales all values). One device per film. Numerical correspondence only: says nothing about the paper's recipe (C031) or about intrinsic mobility."
+  history: ["2026-10-09 R-RQ-001 (Codex review: SUPPORTED): independent reproduction added to evidence; scope caveat added; status DERIVED retained"]
+
+- id: C031
+  claim: "The peak of the saturation-formula mobility applied to V_D = 0.7 V curves, with C_ox*W/L equal to ours, is the leading candidate for the paper's mu_max (no probability stated)"
+  status: INFERRED
+  evidence: [C030]
+  falsified_if: "the fab states another mobility formula, or a C_ox*W/L differing from 8.955e-7 F/cm2 x 14.5 by more than ~5 %"
+  caveats: "The three peaks constrain only the product C_ox x W/L x current normalisation. mu_eff (power-law V_T, common factor 0.68) and the Y-function (factor 0.66) also fit with one free factor. Validity of the formula at its peak (needs V_G - V_T <= V_D = 0.7 V) depends on the V_T definition, and no V_T is a measured regime boundary: overdrive at the peak is 1.28 / 2.23 / 0.69 V (power-law V_T), 0.44 / 1.08 / 0.26 V (ELR), 1.09 / 1.91 / 0.87 V (V_th,cc) for 2.0 / 6.3 / 13.2 nm. 6.3 nm is outside the range under all three; under V_th,cc all three films are. Even in saturation the formula assumes constant mobility."
+  history: ["2026-10-09 R-RQ-001 (Codex review REVISE, owner response O1/O10): claim reworded from 'is' to 'is the leading candidate'; caveat rewritten with all three V_T definitions (V_th,cc overdrives from Codex, checked by hand); status INFERRED retained"]
+
+- id: C032
+  claim: "Steepest-slope SS estimators applied within 1-12x of the off-state floor reproduce the paper's Fig. 1b SS (61.8 / 87.4 / 119.3 mV/dec, digitised) within 5-15 %; the registered windows (S1, A1) do not (up to +168 %)"
+  status: DERIVED
+  evidence: [private:claude/evidence/RQ-001/ss_method_scoring.csv, ss_sliding_window.csv, ss_noise_mc.csv, handoffs HO-002 A4]
+  caveats: "31 method variants scored, 14 within 15 % (Codex re-checked all 31); the best (5.0 %) is exploratory selection on the outcome (forking paths), not validation or a confidence bound, and no estimator is adopted for reporting because it matches the paper. Compatible with several near-floor estimators; does not identify the paper's method (it may be the fitted Eq. 1e parameter). The floor margin of the floor-corrected estimators applies to I_D - floor (total current >= (k+1) x floor); the other margins apply to total I_D. Floor subtraction assumes an additive gate-independent current and steepens SS near the floor by construction (SS_raw = SS_ch (1 + F/I_ch)); no I_G exists to test it. The noise Monte Carlo does not cover the margin-1-3 estimators. Some near-floor estimators fall below the 59.5 mV/dec thermionic limit."
+  history: ["2026-10-09 R-RQ-001 (Codex review SUPPORTED with scope clarifications, owner response O4/O7/O8): caveat revised; status DERIVED retained"]
+
+- id: C033
+  claim: "The I_off markers of paper Fig. 1b (axis labelled A) equal our per-um floors within factors 0.71 / 0.93 / 1.02 (2.0 / 6.3 / 13.2 nm)"
+  status: DERIVED
+  evidence: [private:claude/evidence/RQ-001/paper_fig1b_digitised.csv, C003]
+  caveats: "Digitisation +-1.5 px (about +-14 % on a log axis). Approximate correspondence: 6.3 and 13.2 nm agree within the read error, 2.0 nm differs by 29 % (about 2 read-sigma). The paper's axis says A, our values are A/um: unit convention unresolved. Same-device/sweep provenance is not established; the workbook rounding test does not bear on the paper's axis."
+  history: ["2026-10-09 R-RQ-001 (Codex review SUPPORTED with strengthened caveat, owner response O12): caveat revised; status DERIVED retained"]
+
+- id: C034
+  claim: "At the relaxed aIWO_1p0_s1 geometry, switching the smearing from MV 0.01 Ry to Gaussian 0.005 Ry changes no force component by more than 2.4e-4 Ry/bohr (RMS 6.7e-5): below the A15 threshold of 1e-3 Ry/bohr, so the relaxation-smearing family is not a geometry uncertainty for this cell (register A27 C4 screen)"
+  status: COMPUTED
+  evidence: ["CERN HTCondor clusters 12891104 (MV) and 12891105 (Gaussian), 2026-10-11", "lxplus ~/iwo_amorph/checks/A27_C4_smear (inputs, compare_c4.py md5 15ac545e1dbb2079f3fd5e06501388aa)", "EOS /eos/user/m/melrashe/qe/checkpoints/a27c4_mv_12891104.tar.gz, a27c4_gauss_12891105.tar.gz", "qe_workflow/cern_htcondor/results/RESULTS_LOG.md (2026-10-11 10:41Z entry)"]
+  caveats: "PBE (PAW), spin-unpolarised. One amorphous melt-quench 1.0 nm slab (138 atoms, In49W1O80H8, its own H termination), one geometry. A single-point screen, not a Gaussian relaxation: the A27 C4 Gaussian polish stays required. Does not cover the 2.0 nm geometry named in A15 or other thicknesses. Resolution limited by conv_thr 1e-7 (MV total SCF correction 1.3e-3 Ry/bohr, norm over all atoms; RMS dF at noise level). Sanity: E(MV) = relax last energy + 4e-8 Ry. Read from the EOS checkpoints (lxplus AFS token expired); the AFS collect_c4.sh record with the relax-force sanity is pending."
+  history: ["2026-10-11 created by the DFT agent from the A27 C4 screen jobs"]
+
+- id: C035
+  claim: "The A25 species-label split (S1 alternating rule, In -> In1/In2, O -> O1/O2) is force-equivalent: at the aIO_1p0_s1 s0 geometry, split vs unsplit SCF gives |dE| = 1e-8 Ry and max |dF| = 3e-8 Ry/bohr over all 402 components, against the A25 tolerances of 1e-5 Ry and 1e-5 Ry/bohr (register A25 force qualification: PASS)"
+  status: COMPUTED
+  evidence: ["CERN HTCondor clusters 12891652 (unsplit) and 12891653 (split), 2026-10-11", "lxplus ~/iwo_amorph/checks/A25_split_equiv (inputs md5 ecb079515be1e6d96dd50c5c189ed466 / 716b14c571893396ec5c1cb86294fed5, compare_forces.py v2 md5 69129a67dd862e146ccf52aebed89373, results_20261011T133634Z/compare_result.txt md5 4ad9f7cc256d9d28c7427a988808bbfc)", "qe_workflow/cern_htcondor/results/RESULTS_LOG.md (2026-10-11 13:36Z entry)"]
+  caveats: "PBE (PAW), spin-unpolarised. One amorphous melt-quench 1.0 nm aIO slab (134 atoms, In50O78H6, its own H termination), one geometry (s0 best validated, rows e1bfc3f3324a; not the final relaxed geometry), A15 Gaussian 0.005 Ry settings. CHECK-ONLY conv_thr 1e-14 in both runs (production 1e-7); SCF corrections 3.7e-7 / 3.3e-7 Ry/bohr, below the frozen 1e-6 gate. At production conv_thr the SCF noise (Total SCF correction 1.3e-3 Ry/bohr) is far larger than the split effect, and the two SCF paths differ (99 vs 113 iterations). Tested on 134 atoms with the rule used for the 268-atom aIO_2p0_s1; no other cell covered; rollout still needs its own approval. GPU memory (diagnostic): the split lowered the SCF-phase device memory (77.9 -> 66.7 GB) but its force step peaked at 80.6 GB (unsplit run peak 77.9 GB); the check neither tests nor supports the A25 force-step memory assumption for the 268-atom aIO_2p0_s1."
+  history: ["2026-10-11 created by the DFT agent (task S2fix) from the A25 check jobs"]
+
+- id: C036
+  claim: "The MV 0.01 Ry relaxation of aIWO_0p8_s2 did not converge in segments s0-s2 (jobs 12884030, 12889333, 12893894): after 14, 11 and 2 validated steps, the SCF at s0 g14 (200 iterations), s1 g11 (300) and s2 g2 (300) did not converge; best validated geometry s2 g1, F = -24364.22155515 Ry, largest force component 4.651e-3 Ry/bohr. A fresh restart at the same geometry did not reproduce the continued SCF at production tolerance (conv_thr 1e-7): s1 g10 -> s2 g0 with identical settings gave dF 1.18e-5 Ry and max |dF| 4.99e-3 Ry/bohr over 441 components; s0 g13 -> s1 g0, where the mixing settings also changed, gave 4.0e-3 Ry and 2.69e-2 Ry/bohr"
+  status: COMPUTED
+  evidence: ["CERN HTCondor DAG 12884028, RELAX jobs 12884030 (s0), 12889333 (s1), 12893894 (s2), 2026-10-10 to 2026-10-12", "lxplus ~/iwo_amorph/runs/aIWO_0p8_s2/relax_s0_results.tar.gz md5 24423e228fa9d2b1832ba6b543c77f86, relax_s1_results.tar.gz md5 65a855e65ab70ab67bbe7a975c362479, relax_s2_results.tar.gz md5 1fd8de15cd6ecb9bc055d99030645fe2; relax_s2_bestvalid.in md5 7ce25d2602bde39483bd8f45ba9f497a (d24_posmd5 e24b17e60a84)", "qe_workflow/cern_htcondor/results/RESULTS_LOG.md (2026-10-12 07:22Z entry)"]
+  caveats: "PBE (PAW), spin-unpolarised, MV 0.01 Ry. One amorphous melt-quench 0.8 nm W-doped slab (147 atoms: the In49 W1 O76 film of the spec, seed 82, both faces terminated by OH + H pairs; 1163 electrons). QE 7.3.1 GPU relaxation route, not the QE 7.5 CPU FINAL route. Two fixed-geometry comparisons. Geometry identity rests on equal position-row hashes (coordinates and species labels) and on construction for the cell and species cards (geomsel replaces only ATOMIC_POSITIONS; fixed-cell relax); Ewald agreement within 5e-8 Ry is consistent but is not the identity test. The cause is open: an incomplete-SCF force error (the SCF-correction force term was not read) or distinct converged electronic branches with a dipole mechanism (ASSUMED). Numerical-path invariance cannot be assumed for this cell; A28 concerns the crystalline H-L cell and is not falsified by this. Sight: only energies, energy components, forces and SCF bookkeeping are used; relax-SCF Fermi energies were parsed but not used; no projections, PR_n, gaps or edges were read."
+  history: ["2026-10-12 created by Claude from the s0-s2 diagnosis and the skeptic check (register A35, decision D-36)"]
+
+- id: C037
+  claim: "The pre-registered MACE-MPA-0 force check (ML_VALIDATION.md; frozen comparator compare_val.py v1.0.0, commit d0179e1, sha256 4ae21f15...a58a62d, read before any val output) is OVERALL FAIL on five scored frames: aIO_bulk_s1 PASS (quenched RMSE 0.068, MAE 0.052; final 0.065, 0.049 eV/A); aIWO_bulk_s1 FAIL on the W-first-shell limit only (RMSE_W1 0.434 quenched, 0.449 final; RMSE 0.121, 0.122; MAE 0.068, 0.068); aIWO_0p7_s1 final frame FAIL on all three limits (RMSE 0.206, MAE 0.110, RMSE_W1 0.815). Melt frame reported only (RMSE 0.311, MAE 0.171, RMSE_W1 1.108). The two 2.0 nm frames are pending (12890593.0/.1) and cannot change the overall verdict (rule D7); the aIWO_2p0_s1 stop rule (RMSE > 0.30) is UNDETERMINED"
+  status: COMPUTED
+  evidence: ["CERN HTCondor cluster 12884015 procs .0-.4 and .7 (QE 7.5 CPU; all exit 0, one start, no hold), 2026-10-12 05:19-10:25Z", "lxplus ~/iwo_amorph/val/<frame>/val_results.tar.gz (sha256 prefixes: melt b4e4c7f7, aIWO-q 6e780c02, aIWO-f eee14029, aIO-q c1cc3d63, aIO-f 95ea5d18, 0p7-f e7aa2076)", "compute/amorph/dft/compare_val.py run unmodified (python -I), exit 1; independent stdlib recompute matches to 4 decimals", "qe_workflow/cern_htcondor/results/RESULTS_LOG.md (2026-10-12 12:35Z entry)"]
+  caveats: "PBE (PAW), spin-unpolarised, MV 0.01 Ry, conv_thr 1e-7, QE 7.5 CPU; MACE-MPA-0 forces on MACE snapshots; DFT atom i = MACE atom i, no net-force removal. One amorphous melt-quench sample per structure, not crystalline; the 0.7 nm frame is an OH/H-terminated slab with vacuum, the bulk cells have no surface. Final frames are MACE-relaxed (MACE force rms 0.005-0.013 eV/A, small but nonzero), so their RMSE approximately equals the component RMS of the DFT residual force at the MACE minimum (DFT-MACE correlation ~0) and mainly tests equilibrium transfer; all frames test force agreement, the quenched and melt frames over a wide force range (r = 0.98-0.99). RMSE_W1 rests on one W environment per frame (7 atoms, 21 components); 71-75% of the squared error sits in that shell, outside it RMSE is 0.063-0.066 (bulk) and 0.107 (0.7 nm). The aIWO quenched and final frames share W neighbours and are not independent. Possible contributor (ASSUMED, not tested): MACE-MPA-0 training data use PBE+U for W oxides, the reference here is plain PBE. Consequence under D-12 / ML_VALIDATION.md: ML structures are DFT-relaxed starting points, not validated amorphous models; ML-stage-only structural statistics are not reported as results. Sight: only forces and SCF bookkeeping were read."
+  history: ["2026-10-12 created by Claude from the midday scoring and an independent skeptic recompute", "2026-10-12 final-frame wording corrected after the Codex review (13:15Z); OVERALL FAIL retained"]
+
+- id: C038
+  claim: "Register H-L (crystalline In2O3 oxygen vacancies; A17, A19, A20, A28) scored on six PBE cells (parents In32O48 and In31WO48, 80 atoms; vacancy cells In32O47, In31WO47_far (O32), In31WO47_near (O30, registered) and In31WO47_near72 (O72, sensitivity), 79 atoms). ΔE_local(O30) = +0.5578 eV (k3) / +0.5321 eV (k4); the k3->k4 change of -25.7 meV exceeds 10 meV, so ΔE_local is UNRESOLVED significance (the +0.3 eV threshold is satisfied at both tested meshes; diagnostic wording, not a pass). ΔE_dop = +0.7259 eV (k3) / +0.7226 eV (k4), k3->k4 -3.4 meV: PASS under registered settings (> +0.05 eV). A20(ii) (Gaussian 0.002 Ry at k3) shifts the two differences by +0.5 / +0.2 meV: width-robust at k3. A20(i) spin: UNASSESSED. H-L overall: UNRESOLVED"
+  status: COMPUTED
+  evidence: ["CERN HTCondor RELAX 12886359 (In32O48), 12886360 (In31WO48), 12886361 (In32O47), 12886364 (far), 12886363 (near72), 12892681 (near, A28 restart 1; attempt 1 DAG 12886356 failed); k4 FINAL 12890814, 12890820, 12890914, 12891120, 12894133, 12891408; A20(ii) 12904174.0 (In32O48), .1 (In32O47), .2 (In31WO48), .3 (near), .4 (near72), .5 (far); all return value 0, 2026-10-10 to 2026-10-12", "lxplus ~/iwo_amorph/vac/<cell>/{relax.in,relax.out,scf.in,scf.out} and ~/iwo_amorph/checks/gpumax_work/a20_g002/<cell>/{scf.in,a20g002_<cell>_results.tar.gz}", "public:qe_workflow/cern_htcondor/results/evidence_20261013_HL/hl_a20ii.py sha256 3f5062d9b77a909e20584e9800a8f5828e5b4611f154f7d31ca81f2d4071b4cf; hl_a20ii.json sha256 e356a586f262d9e0de7df5f99480d15f600a21eb65ccd40e3360d77bba909e3b; r23.out sha256 570ece79f14dcca1dd4a9c5cba1392c2134598016d3bd47382ee0ef1a92e976d (with r23.sh, q1_prov.*, g5_bind.*, geometry_binding.md, SHA256SUMS; public commit ee27e4e)", "geometry binding: all six cells BOUND by canonical geometry hash (relax.out final-coordinates block with the relax.in cell = k4 FINAL input = A20(ii) input, Δ = 0; pw.x-printed geometries within 5e-8 crystal; starts = relaxed parent minus one O; near restart 1 = attempt-1 geometry 2; public:qe_workflow/cern_htcondor/results/evidence_20261013_HL/geometry_binding.md)", "qe_workflow/cern_htcondor/results/RESULTS_LOG.md (2026-10-13 03:40Z entry, public commit ee27e4e)", "private:codex/work_chat/HYPOTHESIS_REGISTER.md (H-L, A19, A20, A28)"]
+  caveats: "PBE (PAW), Gaussian 0.005 Ry, spin-unpolarised, neutral cells, QE 7.3.1 GPU, 71/568 Ry, fixed a = 10.3061 A, W on 24d, 3.125 % W. The k4 value is reported and not adopted as converged (A20). O72 sensitivity: +0.6643 (k3) / +0.6230 (k4) eV, k3->k4 -41.3 meV, A20(ii) +0.7 meV; reported only, no registered rule attached. Registered near site O30 (W-O 1.89194 A in the H-L-relaxed In31WO48; O30/O69 unsplit; O72 pair +0.01043 A, no TIE); far O32 (O32/O33 symmetry pair unsplit; host relaxed in 0 steps, order unchanged). A28: the near cell converged in restart 1 (18 BFGS steps per QE, no SCF failure); the pre-declared fallback was not used. In32O47 is smearing-inactive at k3 but not at k4 (-TS 1e-4 -> 0.321 mRy); W-cell width corrections (+11.7 to +12.6 meV per cell) cancel in the differences, which does not establish convergence of individual energies. Zero-width estimates are diagnostic only. Odd electron counts (705, 699); A20(i) staged, not run (Codex 03:26Z: GO-WITH-CHANGES, comparator fixes first, submission after the GPU pause). BFGS steps per QE's own count: In32O47 13, far 16, near 18, near72 29. Far site only ~6-8 A from W and its images; ΔE_dop mixes local chemistry, strain, band filling and image effects and is not an upper bound on the Fermi-level effect. No charged states or finite-size corrections, so no charge-state thermodynamics (Chatratin et al., PRMaterials 3, 074604, 2019). Crystalline reference only; does not test the amorphous films or C023 in the films. Sight: only '!' energies, -TS, convergence lines and input diffs; no amorphous quantity opened."
+  history: ["2026-10-13 created by Claude from the H-L k3/k4 FINALs and the A20(ii) single points, with the statuses separated as in the Codex review (work chat 2026-10-13T01:51Z; CONCERN, GO-WITH-CHANGES to logging); hl_a20ii.py -TS field relabelled minus_TS_Ry (values unchanged) before logging; logged after the Codex logging GO on the 03:26Z digest (reply ~03:35Z); user request 'analyse the A20(ii) results' 2026-10-13 ~00:25Z"]
+
+- id: C039
+  claim: "PBE band-edge electron masses of crystalline In2O3: bulk 0.154 m0 (isotropic within 0.2 %, Kane alpha 0.58 1/eV; 0.159 m0 on the 4-point deck basis); in-plane 2-D DOS band-edge masses 0.443 / 0.337 / 0.279 / 0.203 m0 at H-H 0.461 / 0.695 / 0.930 / 1.962 nm with alpha 0.24-0.47 1/eV, dm = 0.1145 t^-1.2755; W at 3.1 % raises the bulk host-CB band-edge mass to 0.162 m0 (+5 %). The C10 deck parameters (Eg, affinity, m*, Nc) are reproduced to <= 0.11 meV / 0.0002 m0 / 0.1 %"
+  status: COMPUTED
+  evidence: ["qe_workflow/cern_htcondor/results/RESULTS_LOG.md (2026-10-14 entry 'band structures, electron and hole masses ...')", "bulk_In2O3_protocol/bands_gamma.out, bands_path.out (local); slab2_relax_c2 12806569.0, slab1r_final_cpu 12783163.0 (GPU twin slab1_relax_gpu 12759677.0), slabL1/L2_relax_v2 12835386.0/.2, iwo_W8b/iwo_W24d 12756948.0/.1, iwo_slab1_final_cpu 12790248.0, iwo_slab2_final_cpu 12835211.0, HSE runs 12790233.0/.2/.3, 12790513.1/.2", "qe_workflow/analysis_2026-10-13_full/bands_masses (b01_masses.py, b03_gaps_laws.py, b04_tcad.py, BANDS_MASSES.md Sections 2-4; local, not yet in the repository)", "private:codex/work_chat/CODEX_WORK_CHAT.md (Codex review 2026-10-14T07:57Z, CONCERN, corrections applied)"]
+  caveats: "PBE, crystalline (001) slabs with one OH termination; the films are amorphous or nanocrystalline. The mass depends on the fit basis: band-edge (10-point Kane) vs 4-point parabola differs by -3 % (bulk) to +0.5 % (0.75 nm). 0.51 nm is In8(OH)24 (outside every law); 0.695 nm is polar without dipole correction. Law sigmas are residual scatter only (one residual degree of freedom for fit3), excluding functional, termination, thickness-definition and polar-field errors. W-slab masses (+6.5 / +7.5 %) are ESTIMATED from SCF grids (no band run). HSE06 masses are ESTIMATED by a calibrated 3-point Kane fit and only suggest 0.159-0.193 m0 (bulk) and 0.283-0.293 m0 (1 nm); the range is a model sensitivity, not an uncertainty bound, and the HSE confinement increment is unresolved. m(1 + 2 alpha E_F) is the Kane cyclotron / zero-temperature conductivity (optical) mass (0.39 m0 at 1e21 cm^-3, cf. Feneberg 2016 0.4 m0). Not in the decks: Kane alpha (+5.7 % Nc 3-D, +2.5 % quasi-2-D) and the HSE r factor (+6 to +11 % in dEg); the frozen C10 laws are unchanged."
+  history: ["2026-10-14 created by Claude from the read-only re-derivation (bands_masses), after the Codex review of 2026-10-14T07:57Z (CONCERN; wording corrections applied); user go 2026-10-14"]
+
+- id: C040
+  claim: "In PBE, crystalline In2O3 has no meaningful single band-edge hole mass: the valence-band top is 3-fold degenerate at Gamma with a camel back (VBM 4.4 meV above Gamma at 0.122 1/A along <100>, longitudinal mass 4.03 +- 0.14 m0). Directional curvature masses near Gamma are 3.2-7.9 m0 (band 174) and 6.9-19.8 m0 (band 175); band 176 rises along [100] and [110]. The Boltzmann-integrated valence DOS gives N_V(300 K) = 1.6-2.7e21 cm^-3 and m_h,DOS = 16-22 m0 (80-atom k4 grid: 1.93e21 cm^-3, 18.1 m0), against the deck's ASSUMED NV300 = 1e19 cm^-3 (0.54 m0)"
+  status: COMPUTED
+  evidence: ["qe_workflow/cern_htcondor/results/RESULTS_LOG.md (2026-10-14 entry, Holes paragraph)", "bulk_In2O3_protocol/bands_gamma.out, bands_path.out, vcrelax_ecut71_k3.out, scf_ecut71_k4.out (local); H-L parent In32O48 relax 12886359 and k4 FINAL; slab and W runs as in C039; HSE k3 grids 12790233.0/.2, 12790513.1", "qe_workflow/analysis_2026-10-13_full/bands_masses/b05_holes.py, out/b05_holes.json, BANDS_MASSES.md Section 8, figure BM9 (local, not yet in the repository)", "private:codex/work_chat/CODEX_WORK_CHAT.md (Codex review 2026-10-14T08:48Z, CONCERN, corrections applied)"]
+  caveats: "PBE only. Directional masses are the primary result; the cubic-harmonic angular averages (4.4-4.6 m0 band 174, 7.9-11.0 m0 band 175) are ESTIMATED diagnostics under an untested 3-direction angular model, without transport or DOS significance; printed-flat directions are UNRESOLVED, not zero. N_V is COMPUTED on coarse grids: energy-window saturation (0.2-0.3 eV) is established, k-mesh convergence is not; HSE06 on the k3 grid gives 0.71-0.93 times the PBE m_h,DOS (ESTIMATED). N_V is a free-hole band integral: hybrid-functional work predicts hole self-trapping in In2O3 (Varley et al., PRB 85, 081109(R), 2012), so it does not describe equilibrium hole populations or hole transport; no polaron was computed. Slabs: only the 0.75 nm OH-derived band gives a resolved local curvature (5.9 [100] / 3.3 [110] m0; polar slab, next band 29 meV lower), not a single-band transport mass; 0.51 / 1 / 2 nm and the W cells are not resolvable for the reasons given in BANDS_MASSES.md 8.4. A constant NV300 = 2e21 cm^-3 at every device thickness would be ASSUMED (informed by these crystalline values); the frozen C10 decks keep 1e19 (holes not solved, carriers=1; equilibrium SRH bound at 2 nm 3.4e-3 cm^-3 s^-1)."
+  history: ["2026-10-14 created by Claude (user request for hole masses as numbers), after the Codex review of 2026-10-14T08:48Z (CONCERN; corrections applied); user go 2026-10-14"]
+
+# ---------------------------------------------------------------- change log
+# 2026-10-14 (Claude): C039 (electron masses, gaps, TCAD parameters) and C040 (hole masses, valence DOS) added, COMPUTED; RESULTS_LOG.md entry of the same date; C021 / C022 caveats updated the same day (errata entry).
+# 2026-10-13 (Claude): C038 added (H-L scored: ΔE_local(O30) UNRESOLVED significance, ΔE_dop PASS under registered settings, A20(ii) width-robust at k3, A20(i) UNASSESSED, H-L overall UNRESOLVED; COMPUTED); RESULTS_LOG.md entry of the same date.
+# 2026-10-12 (Claude): C037 added (MACE-MPA-0 force check OVERALL FAIL on the W first shell; 2.0 nm frames pending; COMPUTED); RESULTS_LOG.md entry of the same date.
+# 2026-10-12 (Claude): C036 added (aIWO_0p8_s2 MV relaxation s0-s2 not converged; restart non-reproducibility at production tolerance, COMPUTED); RESULTS_LOG.md entry of the same date.
+# 2026-10-11 (DFT agent, task S2fix): C035 added (A25 split-label force qualification PASS, COMPUTED); RESULTS_LOG.md entry of the same date.
+# 2026-10-11 (DFT agent): C034 added (A27 C4 screen, COMPUTED); RESULTS_LOG.md entry of the same date.
+# 2026-10-09 R-RQ-001 (Claude, owner response to the Codex review of HO-002; claude/responses_to_codex/RQ-001_response.md):
+#   no status changes; C031 claim text reworded; caveats revised for C024, C025, C030, C031, C032, C033; history lines added.
+#   Original wording is in git at b2d668e.

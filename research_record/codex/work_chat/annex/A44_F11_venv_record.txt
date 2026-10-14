@@ -1,0 +1,20 @@
+# F11 pinned reader environment record (created 2026-10-14, 2026-10-14T09:56:47Z)
+venv C:\Users\moham\iwo_readout_venv_rc7
+python -VV: Python 3.13.14 (tags/v3.13.14:fd17997, Jun 10 2026, 13:03:48) [MSC v.1944 64 bit (AMD64)]
+numpy.__version__: 2.2.6
+pip freeze (sha256 a23aaf94250a9f53031a592980142245a848e2372b6c6c3093e8260b129265b8):
+numpy==2.2.6
+pip freeze --all: numpy==2.2.6; pip==26.1.2
+OS: Microsoft Windows 11 Home 10.0.26200 build 26200
+pyvenv.cfg:
+home = C:\Users\moham\AppData\Local\Microsoft\WindowsApps\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0
+include-system-site-packages = false
+version = 3.13.14
+executable = C:\Users\moham\AppData\Local\Microsoft\WindowsApps\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\python.exe
+command = C:\Users\moham\AppData\Local\Microsoft\WindowsApps\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\python.exe -m venv C:\Users\moham\iwo_readout_venv_rc7
+# Checks under this venv (2026-10-14 ~10:05Z)
+rc7 code_fingerprint fff642a13a62db6d0cde3e4704cdbf343913fc1972d9fa95d79f7ad8f4e01158 (= D-32); tests fingerprint d8f96f260307b34b8102b9a4bbb1964b0097116841417d6f67aa8ffef2c0d0e9 (= D-32); git diff vs tag readout-1.0.0-rc7-frozen-20261011T2249Z empty for compute/amorph/analysis
+rc7 reader tests (-E -B -m unittest discover -s analysis/tests -t . from compute/amorph): 221 run, 217 OK, 3 skipped (IWO_D24_FIXTURE not set), 1 FAIL test_nc_readout.test_golden_against_committed_original (F11_rc7_reader_tests.out)
+  cause: the test compares against `git show HEAD:compute/amorph/hse/tools/nc_readout.py`; since the freeze commit 8a74a5e HEAD holds the new nc_readout.py (c399ad05) instead of the rc0 original (109ea25, 28d63fca), so the comparison is new-vs-new and fails on the added 'adapter' key. Same failure under the user-site interpreter (environment-independent).
+  reproduction: temp repo (deleted) with HEAD = rc0 nc_readout (28d63fca), working copy c399ad05, frozen analysis from the tag: test_nc_readout 4/4 OK under this venv.
+frozen F9 v15 checker tests (-I -B test_cert_assert.py from compute/amorph/f9_checker): 157/157 OK (F11_v15_checker_tests_I.out)

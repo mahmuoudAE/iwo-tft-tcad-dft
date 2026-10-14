@@ -1,0 +1,280 @@
+{
+ "vloc0": {
+  "In": {
+   "vloc0_Ry_bohr3": 4.551258313743961,
+   "Z": 13.0,
+   "msh": 1057,
+   "file": "pseudo/In.pbe-dn-kjpaw_psl.1.0.0.UPF",
+   "sha256": "dbaf7975f6dee30d1413a30cf04fef714eedd8325a417ec01913eaf15de65e4a",
+   "convention": "int_0^r(msh) r (r V_loc + 2 Z) dr, msh = first r > 10 bohr made odd, QE simpson"
+  },
+  "O": {
+   "vloc0_Ry_bohr3": 0.7181820203668755,
+   "Z": 6.0,
+   "msh": 911,
+   "file": "pseudo/O.pbe-n-kjpaw_psl.1.0.0.UPF",
+   "sha256": "6d4f573d1f5d8fab1d334ed76fefbac21fdbb2c406af7f85ab8c6aab0e84ccc0",
+   "convention": "int_0^r(msh) r (r V_loc + 2 Z) dr, msh = first r > 10 bohr made odd, QE simpson"
+  },
+  "H": {
+   "vloc0_Ry_bohr3": 0.0220915120619255,
+   "Z": 1.0,
+   "msh": 745,
+   "file": "pseudo/H.pbe-kjpaw_psl.1.0.0.UPF",
+   "sha256": "dd48be99c7a91c4163ed123cdac938af189a9f62f382c41e3f664d00a586839d",
+   "convention": "int_0^r(msh) r (r V_loc + 2 Z) dr, msh = first r > 10 bohr made odd, QE simpson"
+  },
+  "W": {
+   "vloc0_Ry_bohr3": 6.5008155704486885,
+   "Z": 14.0,
+   "msh": 1089,
+   "file": "pseudo/W.pbe-spn-kjpaw_psl.1.0.0.UPF",
+   "sha256": "10810897c4da7ba6a78be544cab4339026c68c5bce7e224b2cf4bdc365d25cb1",
+   "convention": "int_0^r(msh) r (r V_loc + 2 Z) dr, msh = first r > 10 bohr made odd, QE simpson"
+  }
+ },
+ "validation": [
+  {
+   "job": "slab1_v15",
+   "mean_planar_avg_eV": 1.38311,
+   "expected_vloc0_eV": 1.38311,
+   "diff_meV": 0.0,
+   "src": "cern_htcondor/results/slab1_v15/slab1_v15_avg.dat",
+   "n_atoms": 96
+  },
+  {
+   "job": "slab1_v25",
+   "mean_planar_avg_eV": 0.98651,
+   "expected_vloc0_eV": 0.98651,
+   "diff_meV": 0.0,
+   "src": "cern_htcondor/results/slab1_v25/slab1_v25_avg.dat",
+   "n_atoms": 96
+  },
+  {
+   "job": "slab1_v35",
+   "mean_planar_avg_eV": 0.76667,
+   "expected_vloc0_eV": 0.76667,
+   "diff_meV": 0.0,
+   "src": "cern_htcondor/results/slab1_v35/slab1_v35_avg.dat",
+   "n_atoms": 96
+  },
+  {
+   "job": "slabL1_relax_v2",
+   "mean_planar_avg_eV": 0.42568,
+   "expected_vloc0_eV": 0.42568,
+   "diff_meV": -0.0,
+   "src": "cern_htcondor/results/slabL1_relax_v2/slabL1_relax_v2_avg.dat",
+   "n_atoms": 56
+  },
+  {
+   "job": "slabL2_relax_v2",
+   "mean_planar_avg_eV": 0.72087,
+   "expected_vloc0_eV": 0.72087,
+   "diff_meV": 0.0,
+   "src": "cern_htcondor/results/slabL2_relax_v2/slabL2_relax_v2_avg.dat",
+   "n_atoms": 76
+  },
+  {
+   "job": "slab1r_final_cpu",
+   "mean_planar_avg_eV": 0.98091,
+   "expected_vloc0_eV": 0.98091,
+   "diff_meV": 0.0,
+   "src": "cern_htcondor/results/slab1r_final_cpu/slab1r_final_cpu_avg.dat",
+   "n_atoms": 96
+  },
+  {
+   "job": "slab2_relax_c2",
+   "mean_planar_avg_eV": 1.71003,
+   "expected_vloc0_eV": 1.71003,
+   "diff_meV": 0.0,
+   "src": "cern_htcondor/results/slab2_relax_c2/slab2_relax_c2_avg.dat",
+   "n_atoms": 176
+  },
+  {
+   "job": "slab2r_pdos_cpu",
+   "mean_planar_avg_eV": 1.71003,
+   "expected_vloc0_eV": 1.71003,
+   "diff_meV": 0.0,
+   "src": "cern_htcondor/results/slab2r_pdos_cpu/slab2r_pdos_cpu_avg.dat",
+   "n_atoms": 176
+  },
+  {
+   "job": "iwo_slab1_final_cpu",
+   "mean_planar_avg_eV": 0.99417,
+   "expected_vloc0_eV": 0.99417,
+   "diff_meV": 0.0,
+   "src": "cern_htcondor/results/iwo_slab1_final_cpu/iwo_slab1_final_cpu_avg.dat",
+   "n_atoms": 96
+  },
+  {
+   "job": "iwo_slab2_final_cpu",
+   "mean_planar_avg_eV": 1.72031,
+   "expected_vloc0_eV": 1.72031,
+   "diff_meV": 0.0,
+   "src": "cern_htcondor/results/iwo_slab2_final_cpu/iwo_slab2_final_cpu_avg.dat",
+   "n_atoms": 176
+  }
+ ],
+ "bulk": {
+  "Vmean_eV": {
+   "value": 4.16867,
+   "src": "bulk_In2O3_protocol/vcrelax_ecut71_k3.out:4565 (cell) + UPF PP_LOCAL",
+   "label": "COMPUTED",
+   "note": "G=0 term of vltot; V_H has no G=0 component"
+  },
+  "logged_Vmean_eV": {
+   "value": 4.1687,
+   "src": "cern_htcondor/results/RESULTS_LOG.md:349",
+   "label": "LOGGED"
+  },
+  "E_v_eV": {
+   "value": 8.0785,
+   "src": "bulk_In2O3_protocol/bands_path.out:931",
+   "label": "COMPUTED",
+   "note": "k index 3, crystal [0.1, 0.1, -0.1]"
+  },
+  "E_c_eV": {
+   "value": 8.9672,
+   "src": "bulk_In2O3_protocol/bands_path.out:850",
+   "label": "COMPUTED",
+   "note": "k index 0, crystal [0.0, 0.0, 0.0]"
+  },
+  "Ev_minus_V_eV": 3.9098,
+  "Ec_minus_V_eV": 4.7985,
+  "logged": {
+   "Ev_minus_V": 3.9098,
+   "Ec_minus_V": 4.7985,
+   "src": "cern_htcondor/results/RESULTS_LOG.md:349"
+  }
+ },
+ "two_step": {
+  "slab2_relax_c2": {
+   "VBM_eV": {
+    "value": 0.0473,
+    "src": "cern_htcondor/results/slab2_relax_c2/scf.out:2855",
+    "label": "COMPUTED"
+   },
+   "CBM_eV": {
+    "value": 1.2712,
+    "src": "cern_htcondor/results/slab2_relax_c2/scf.out:2855",
+    "label": "COMPUTED"
+   },
+   "centre_z_A": 22.59,
+   "avg_src": "cern_htcondor/results/slab2_relax_c2/slab2_relax_c2_avg.dat",
+   "a/2": {
+    "Vbar_centre_eV": -3.8086,
+    "dEc_eV": 0.2812,
+    "dEv_eV": -0.054,
+    "plateau_spread_meV": 8.4
+   },
+   "a/2*a/4": {
+    "Vbar_centre_eV": -3.814,
+    "dEc_eV": 0.2866,
+    "dEv_eV": -0.0486,
+    "plateau_spread_meV": 0.9
+   },
+   "a/4": {
+    "Vbar_centre_eV": -3.684,
+    "dEc_eV": 0.1567,
+    "dEv_eV": -0.1785,
+    "plateau_spread_meV": 177.4
+   }
+  },
+  "slab2r_pdos_cpu": {
+   "VBM_eV": {
+    "value": 0.0475,
+    "src": "cern_htcondor/results/slab2r_pdos_cpu/scf.out:2646",
+    "label": "COMPUTED"
+   },
+   "CBM_eV": {
+    "value": 1.2713,
+    "src": "cern_htcondor/results/slab2r_pdos_cpu/scf.out:2646",
+    "label": "COMPUTED"
+   },
+   "centre_z_A": 22.59,
+   "avg_src": "cern_htcondor/results/slab2r_pdos_cpu/slab2r_pdos_cpu_avg.dat",
+   "a/2": {
+    "Vbar_centre_eV": -3.8088,
+    "dEc_eV": 0.2816,
+    "dEv_eV": -0.0535,
+    "plateau_spread_meV": 8.4
+   },
+   "a/2*a/4": {
+    "Vbar_centre_eV": -3.8142,
+    "dEc_eV": 0.2869,
+    "dEv_eV": -0.0482,
+    "plateau_spread_meV": 0.9
+   },
+   "a/4": {
+    "Vbar_centre_eV": -3.6842,
+    "dEc_eV": 0.157,
+    "dEv_eV": -0.1781,
+    "plateau_spread_meV": 177.4
+   }
+  },
+  "slab1r_final_cpu": {
+   "VBM_eV": {
+    "value": -2.3403,
+    "src": "cern_htcondor/results/slab1r_final_cpu/scf.out:1884",
+    "label": "COMPUTED"
+   },
+   "CBM_eV": {
+    "value": -0.5518,
+    "src": "cern_htcondor/results/slab1r_final_cpu/scf.out:1884",
+    "label": "COMPUTED"
+   },
+   "centre_z_A": 17.437,
+   "avg_src": "cern_htcondor/results/slab1r_final_cpu/slab1r_final_cpu_avg.dat",
+   "a/2": {
+    "Vbar_centre_eV": -6.1694,
+    "dEc_eV": 0.8191,
+    "dEv_eV": -0.0807,
+    "plateau_spread_meV": 69.2
+   },
+   "a/2*a/4": {
+    "Vbar_centre_eV": -6.1882,
+    "dEc_eV": 0.8379,
+    "dEv_eV": -0.0619,
+    "plateau_spread_meV": 234.0
+   },
+   "a/4": {
+    "Vbar_centre_eV": -5.9953,
+    "dEc_eV": 0.645,
+    "dEv_eV": -0.2548,
+    "plateau_spread_meV": 208.1
+   }
+  },
+  "slabL2_relax_v2": {
+   "VBM_eV": {
+    "value": -3.3537,
+    "src": "cern_htcondor/results/slabL2_relax_v2/scf.out:1771",
+    "label": "COMPUTED"
+   },
+   "CBM_eV": {
+    "value": -1.1551,
+    "src": "cern_htcondor/results/slabL2_relax_v2/scf.out:1771",
+    "label": "COMPUTED"
+   },
+   "centre_z_A": 16.337,
+   "avg_src": "cern_htcondor/results/slabL2_relax_v2/slabL2_relax_v2_avg.dat",
+   "a/2": {
+    "Vbar_centre_eV": -7.2519,
+    "dEc_eV": 1.2983,
+    "dEv_eV": -0.0116,
+    "plateau_spread_meV": 2062.5
+   },
+   "a/2*a/4": {
+    "Vbar_centre_eV": -6.6985,
+    "dEc_eV": 0.7449,
+    "dEv_eV": -0.565,
+    "plateau_spread_meV": 1455.6
+   },
+   "a/4": {
+    "Vbar_centre_eV": -7.0668,
+    "dEc_eV": 1.1132,
+    "dEv_eV": -0.1967,
+    "plateau_spread_meV": 454.5
+   }
+  }
+ }
+}

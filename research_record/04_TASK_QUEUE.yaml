@@ -1,0 +1,198 @@
+# Task queue. Status values: TODO | IN_PROGRESS | IN_REVIEW | DONE | BLOCKED | DEFERRED
+# Every task has an owner and a reviewer, and the two must differ (charter section 2).
+# Evidence commit of the public repo: f315b78. Private-repo commit: see git log.
+
+# ---------------------------------------------------------------- human tasks
+- task_id: HUM-001
+  title: "Meeting with the fab group"
+  owner: Mahmoud (with Mukul, Prof. Wu, Prof. Min-Hung Lee, Dr. Mochamad Januar)
+  agenda:
+    - "scope of a joint follow-up paper and authorship"
+    - "data custodian for new measurements (holdout rule, charter section 7)"
+    - "consent to give unpublished data to AI tools (Anthropic, OpenAI)"
+    - "permission for the raw curves already in the public GitHub repo, or make that repo private"
+    - "answers needed for RQ-001: C_ox used, mobility formula, V_D, SS method (six questions in claude/evidence/RQ-001/README.md)"
+    - "device questions: true thicknesses (how measured), one fab run or several, sweep history, which oxide touches the channel, does IWO extend beyond the gate"
+    - "capacity: measurements on existing chips (RQ-003, RQ-010) and one new run (RQ-007)"
+  status: TODO
+  blocks: [RQ-003 measurement, RQ-007, RQ-010]
+
+- task_id: HUM-002
+  title: "Adopt the charter; create the private GitHub repo; give Codex access"
+  owner: Mahmoud
+  steps:
+    - "DONE 2026-10-07: repo github.com/mahmuoudAE/iwo-tft-research-private created; first created public, made private by Mahmoud before any push; GitHub's starter README merged and its MIT license removed"
+    - "DONE 2026-10-07: pushed on request (main at 36f201e); push_private.sh confirmed the repo private before each push"
+    - "connect Codex to that private repo"
+    - "record the adoption of the charter in 05_DECISION_LOG.md, and say whether Claude may push this repo without asking each time"
+  status: IN_PROGRESS
+
+- task_id: HUM-004
+  title: "Install and sign in to Claude Code CLI and Codex CLI; test the relay"
+  owner: Mahmoud
+  steps: "SETUP_AGENTS.md steps 1-4 and 6 (Git for Windows, both CLIs, sign-in, flag check, Codex config), then step 7 (dry run)"
+  status: TODO
+
+- task_id: HUM-003
+  title: "Compute decisions"
+  owner: Mahmoud
+  items:
+    - "ATLAS launch budget beyond 71 (60 used)"
+    - "T4 sub-1 nm registered predictions: go or not yet (currently 'not yet')"
+    - "CERN login (SSH master in WSL Ubuntu) when DFT tasks start"
+  status: TODO
+
+# ---------------------------------------------------------------- research tasks
+- task_id: RQ-001
+  title: "Reconcile mobility and SS with the published values"
+  question: "Which definitions, C_ox, V_D and windows reproduce the paper's mu_max (27.4 / ~4 / 5.1) and SS (60-70 mV/dec), and which values are right for these devices?"
+  owner: claude
+  reviewer: codex
+  priority: 1
+  input_commit: f315b78
+  allowed_data: [data/experimental_clean.csv, the published paper]
+  forbidden_data: [any future holdout]
+  method_outline:
+    - "re-extract mu with candidate definitions: gm-based linear; mu_eff = L I_D/(W C_ox (V_G - V_FB) V_D); saturation formula; Y-function; alternative C_ox (C-V, EOT variants); alternative V_D"
+    - "re-extract SS with candidate methods: two-point minimum, steepest-n-points, fixed windows; record how the result depends on the window position relative to the floor"
+    - "list the questions that only the fab can answer"
+  deliverables: [claude/evidence/RQ-001/ (scripts, tables, figures), handoffs/ entry, questions for HUM-001]
+  result: "2026-10-09 HO-002: paper mu_max numerically reproduced by the peak of saturation-formula mobility on our curves (C030); leading candidate for the paper's method, recipe unconfirmed (C031); paper SS (Fig. 1b: 62/87/119) compatible with several near-floor estimators, method not identified (C032); six fab questions in claude/evidence/RQ-001/README.md"
+  review: "2026-10-09 Codex MODIFY (codex/independent_reviews/RQ-001_review.md; phase 1 not strictly blinded). Owner response claude/responses_to_codex/RQ-001_response.md: 11 accepted, 2 partially accepted, 4 unresolved; no ledger status changes"
+  status: REVIEWED (MODIFY); waiting on HUM-001 fab answers
+
+- task_id: RQ-002
+  title: "Audit the 6.3 nm failure"
+  question: "What is the smallest set of explanations consistent with all evidence about the 6.3 nm device, and which test separates them?"
+  owner: claude
+  reviewer: codex
+  priority: 3
+  input_commit: f315b78
+  candidate_hypotheses: [device-to-device spread, thickness error, fixed/interface charge, donor density, contact, sweep history, non-monotonic physics (H3), model inadequacy]
+  allowed_data: [existing curves, existing TCAD outputs, analysis_2026-09-25]
+  forbidden_data: [future holdout measurements]
+  deliverables: [evidence table, hypothesis matrix, minimum discriminating tests]
+  status: TODO
+
+- task_id: RQ-003
+  title: "Register off-current predictions before the floor is measured against V_D"
+  question: "What do the ungated-strip and diffusion (paper Eq. 1f) models predict for the floor at V_D = 0.05-1 V, and for mesa devices?"
+  owner: claude
+  reviewer: codex
+  priority: 1
+  deliverables: [predictions/registered/REG-001_offcurrent_vd.md with numbers, uncertainties and pass/fail rules; external timestamp]
+  depends_on: []
+  then: "HUM-001: the fab measures the floor against V_D on the existing chips; the custodian reveals the data after registration"
+  status: TODO
+
+- task_id: RQ-004
+  title: "Novelty audit of the hypotheses against the published paper"
+  owner: claude
+  reviewer: codex (then astra)
+  priority: 2
+  method: "For each hypothesis in 02_RESEARCH_QUESTIONS.md (and Astra's list from RQ-006) give ALREADY SHOWN / PARTIALLY SHOWN / GENUINELY NEW / CONTRADICTED / NOT TESTABLE NOW, traced to paper sections and repository evidence; estimate the computations and experiments for each new one. Do not rewrite the hypotheses."
+  status: IN_PROGRESS (first pass in 02_RESEARCH_QUESTIONS.md)
+
+- task_id: RQ-005
+  title: "Independent review of NATURE_PLAN.md"
+  owner: codex
+  reviewer: claude
+  priority: 1
+  inputs: [handoffs/CLAUDE_TO_CODEX.md (HO-001), private:claude/NATURE_PLAN.md, public repo at f315b78]
+  deliverables: [codex/independent_reviews/NATURE_PLAN_REVIEW.md]
+  prompt: prompts/02_CODEX_INDEPENDENT_REVIEW.md
+  status: TODO
+
+- task_id: RQ-006
+  title: "Generate competing hypotheses (10)"
+  owner: astra
+  reviewer: claude (novelty audit, RQ-004)
+  priority: 2
+  prompt: prompts/03_ASTRA_HYPOTHESES.md
+  status: TODO
+
+- task_id: RQ-007
+  title: "Design the fab run with the most information per run"
+  question: "Which thickness x W x structure matrix best separates H1 (a-e), H3, H5, H6 and H7, under realistic fab capacity?"
+  owner: codex
+  reviewer: claude
+  priority: 2
+  depends_on: [HUM-001 (capacity), RQ-005]
+  status: TODO
+
+- task_id: RQ-008
+  title: "Registered predictions for existing data nobody on our side has seen"
+  question: "Which existing fab data are truly unseen (e.g. 65/85 C curves, SI Fig. S12), and what does the frozen model predict for them?"
+  owner: claude
+  reviewer: codex
+  priority: 3
+  depends_on: [HUM-001 (custodian), HUM-003 (ATLAS budget)]
+  note: "The 31.8 nm curve is NOT eligible (already in our data)."
+  status: TODO
+
+- task_id: RQ-009
+  title: "Smallest amorphous-DFT test that could change a decision"
+  owner: claude
+  reviewer: codex
+  priority: 4
+  depends_on: [RQ-004, RQ-006, decision on whether H2/H4 are central]
+  status: DEFERRED
+
+- task_id: RQ-010
+  title: "Measurement request sheet for the existing chips"
+  owner: claude
+  reviewer: codex
+  priority: 2
+  content: ">= 10 devices per thickness; V_D = 0.05/0.1/0.7/1.0 V; forward + reverse; V_G step <= 10 mV; I_D, I_S, I_G; floor against V_D; probe-lifted baseline; temperature if possible; file format"
+  status: TODO
+
+- task_id: RQ-011
+  title: "Finish the 2 nm W-slab analysis and log the 0.51/0.75 nm slab results"
+  owner: claude
+  reviewer: codex
+  priority: 4
+  inputs: [qe_workflow/cern_htcondor/results/iwo_slab2_final_cpu, slabL1_relax_v2, slabL2_relax_v2]
+  status: TODO
+
+# ---------------------------------------------------------------- compute plan 10-21 Oct (no new measurements)
+- task_id: PLAN-001
+  title: "Independent review of the 10-21 Oct compute plan before anything is submitted"
+  owner: claude
+  reviewer: codex
+  priority: 1
+  inputs: [claude/plans/COMPLETE_PLAN_2026-10.md, claude/plans/CERN_DFT_timeline_2026-10.pdf, handoffs/CLAUDE_TO_CODEX.md (HO-003)]
+  status: IN_REVIEW
+
+# ---------------------------------------------------------------- autonomous CERN job workflow (requested 2026-10-10)
+- task_id: WF-001
+  title: "Design the autonomous CERN job runner (ticket -> HTCondor DAG -> results pushed to GitHub)"
+  owner: claude
+  reviewer: codex
+  priority: 1
+  requirements:
+    - "a job is requested by a ticket: a YAML spec in a private jobs repo; it runs only after Mahmoud merges it to main (approval)"
+    - "nothing depends on the laptop after the merge: an acron entry on lxplus polls the repo, validates, submits and collects"
+    - "each job is an HTCondor DAG of <= 20 h segments with restart, so every segment starts with fresh Kerberos/EOS credentials"
+    - "small outputs (summaries, energies, DOS, plots) pushed to GitHub by the runner; heavy files stay on EOS with their path recorded"
+    - "only whitelisted templates (no arbitrary shell from specs); caps on cores, memory, concurrent jobs; no new long jobs after 16 Oct; hard stop 20 Oct"
+    - "GitHub write access from CERN only through a deploy key limited to the jobs repo, created by Mahmoud; no password or token ever handled by an agent"
+  deliverables: [claude/plans/WF-001_design.md, handoff in handoffs/CLAUDE_TO_CODEX.md]
+  status: TODO
+
+- task_id: WF-002
+  title: "Implement and test the runner (runner.sh, templates, DAG generator, spec validator, GitHub Action for spec checks)"
+  owner: codex
+  reviewer: claude
+  priority: 1
+  depends_on: [WF-001, HUM-005]
+  acceptance: "a 5-minute test SCF goes ticket -> merge -> CERN -> results on GitHub with the laptop closed"
+  status: TODO
+
+- task_id: HUM-005
+  title: "One-time CERN + GitHub setup for the runner"
+  owner: Mahmoud
+  steps:
+    - "create a private GitHub repo for jobs (e.g. iwo-dft-jobs)"
+    - "on lxplus: create an SSH key in your private AFS area and add its PUBLIC key to that repo as a deploy key with write access (agents never see the private key)"
+    - "approve the acron entry that runs the runner (persistent configuration on your CERN account)"
+  status: TODO

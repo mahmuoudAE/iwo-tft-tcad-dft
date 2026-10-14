@@ -1,0 +1,31 @@
+&CONTROL
+  calculation = 'scf', prefix = 'hse', outdir = './tmp', pseudo_dir = './pseudo'
+  verbosity = 'high', tprnfor = .true., max_seconds = 1.0d8
+/
+&SYSTEM
+  ibrav = 0, nat = 5, ntyp = 3, ecutwfc = 40, ecutrho = 160
+  occupations = 'smearing', smearing = 'gaussian', degauss = 0.005
+  nbnd = 40
+  input_dft = 'hse', nqx1 = 1, nqx2 = 1, nqx3 = 1, ecutfock = 80
+/
+&ELECTRONS
+  conv_thr = 1.0d-8, mixing_beta = 0.3, electron_maxstep = 150
+/
+ATOMIC_SPECIES
+  In 114.818 In_ONCV_PBE-1.2.upf
+  W 183.84 W_ONCV_PBE-1.2.upf
+  O 15.999 O_ONCV_PBE-1.2.upf
+CELL_PARAMETERS angstrom
+  4.0 0.0 0.0
+  0.0 4.0 0.0
+  0.0 0.0 4.0
+
+K_POINTS automatic
+  2 2 2 0 0 0
+
+ATOMIC_POSITIONS crystal
+  In 0.0 0.0 0.0
+  W  0.5 0.5 0.5
+  O  0.5 0.5 0.0
+  O  0.5 0.0 0.5
+  O  0.0 0.5 0.5

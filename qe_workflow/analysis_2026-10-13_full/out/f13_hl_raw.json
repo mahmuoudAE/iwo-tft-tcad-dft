@@ -1,0 +1,886 @@
+{
+ "source": "analysis_2026-10-13_full/raw_cern/hl",
+ "cells": {
+  "In32O48": {
+   "E_Ry": {
+    "k3_g005": {
+     "value": -15146.85585849,
+     "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In32O48/relax.out:1430",
+     "label": "COMPUTED"
+    },
+    "k4_g005": {
+     "value": -15146.85598203,
+     "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In32O48/scf.out:2263",
+     "label": "COMPUTED"
+    },
+    "k3_g002": {
+     "value": -15146.85585849,
+     "src": "analysis_2026-10-13_full/raw_cern/hl/a20/In32O48/scf.out:1426",
+     "label": "COMPUTED"
+    }
+   },
+   "minus_TS_Ry": {
+    "k3_g005": -0.0,
+    "k4_g005": -0.0,
+    "k3_g002": -0.0
+   },
+   "nk": {
+    "k3_g005": 6,
+    "k4_g005": 14,
+    "k3_g002": 6
+   },
+   "width_Ry": {
+    "k3_g005": 0.005,
+    "k4_g005": 0.005,
+    "k3_g002": 0.002
+   },
+   "iters_final_a20": [
+    14,
+    18
+   ],
+   "bfgs": {
+    "value": "1 scf, 0 bfgs",
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In32O48/relax.out:2092",
+    "label": "COMPUTED"
+   },
+   "n_scf_relax": 1,
+   "scf_not_converged_relax": 0,
+   "max_force_component_Ry_bohr": {
+    "value": 2.7e-05,
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In32O48/relax.out:1451",
+    "label": "COMPUTED"
+   },
+   "total_force_Ry_bohr": {
+    "value": 0.000234,
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In32O48/relax.out:2020",
+    "label": "COMPUTED"
+   },
+   "n_electrons": 704.0,
+   "E_F_k4_eV": {
+    "value": 8.5306,
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In32O48/scf.out:2261",
+    "label": "COMPUTED"
+   },
+   "versions": [
+    "v.7.3.1",
+    "v.7.3.1",
+    "v.7.3.1"
+   ],
+   "geometry": {
+    "n_atoms": 80,
+    "composition": {
+     "In": 32,
+     "O": 48
+    },
+    "relax_in_equals_final_A": 0.0,
+    "note": "archived relax.in = converged geometry by construction (RESULTS_LOG 2026-10-13 entry); relaxation measured against the parent",
+    "FINAL_input_minus_relax_final_A": 0.0,
+    "A20_input_minus_relax_final_A": 0.0,
+    "cell_FINAL_minus_relax_in_A": 0.0,
+    "src_final": "analysis_2026-10-13_full/raw_cern/hl/vac/In32O48/relax.out:2098"
+   },
+   "a20_input_changed_lines": [
+    [
+     7,
+     "occupations = 'smearing', smearing = 'gaussian', degauss = 0.002",
+     "occupations = 'smearing', smearing = 'gaussian', degauss = 0.005"
+    ],
+    [
+     21,
+     "3 3 3 0 0 0",
+     "4 4 4 0 0 0"
+    ]
+   ],
+   "bands_k4": {
+    "VB_top_band": 352,
+    "electrons_above_VB_top": 0.0,
+    "N_check": 704.0,
+    "VB_max_minus_EF_eV": -0.4532,
+    "band_above_VB_min_minus_EF_eV": 0.4365,
+    "band_above_VB_width_eV": 2.6698,
+    "band_above_VB_electrons": 0.0,
+    "gap_VBmax_to_next_band_min_eV": 0.8897,
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In32O48/scf.out:707"
+   }
+  },
+  "In31WO48": {
+   "E_Ry": {
+    "k3_g005": {
+     "value": -15496.36629681,
+     "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO48/relax.out:1980",
+     "label": "COMPUTED"
+    },
+    "k4_g005": {
+     "value": -15496.36655366,
+     "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO48/scf.out:4296",
+     "label": "COMPUTED"
+    },
+    "k3_g002": {
+     "value": -15496.36543383,
+     "src": "analysis_2026-10-13_full/raw_cern/hl/a20/In31WO48/scf.out:1994",
+     "label": "COMPUTED"
+    }
+   },
+   "minus_TS_Ry": {
+    "k3_g005": -0.00185701,
+    "k4_g005": -0.00159628,
+    "k3_g002": -0.00039991
+   },
+   "nk": {
+    "k3_g005": 10,
+    "k4_g005": 30,
+    "k3_g002": 10
+   },
+   "width_Ry": {
+    "k3_g005": 0.005,
+    "k4_g005": 0.005,
+    "k3_g002": 0.002
+   },
+   "iters_final_a20": [
+    24,
+    23
+   ],
+   "bfgs": {
+    "value": "1 scf, 0 bfgs",
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO48/relax.out:2645",
+    "label": "COMPUTED"
+   },
+   "n_scf_relax": 1,
+   "scf_not_converged_relax": 0,
+   "max_force_component_Ry_bohr": {
+    "value": 0.000899,
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO48/relax.out:2003",
+    "label": "COMPUTED"
+   },
+   "total_force_Ry_bohr": {
+    "value": 0.004368,
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO48/relax.out:2572",
+    "label": "COMPUTED"
+   },
+   "n_electrons": 705.0,
+   "E_F_k4_eV": {
+    "value": 10.8102,
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO48/scf.out:4294",
+    "label": "COMPUTED"
+   },
+   "versions": [
+    "v.7.3.1",
+    "v.7.3.1",
+    "v.7.3.1"
+   ],
+   "geometry": {
+    "n_atoms": 80,
+    "composition": {
+     "In": 31,
+     "O": 48,
+     "W": 1
+    },
+    "relax_in_equals_final_A": 0.0,
+    "note": "archived relax.in = converged geometry by construction (RESULTS_LOG 2026-10-13 entry); relaxation measured against the parent",
+    "FINAL_input_minus_relax_final_A": 0.0,
+    "A20_input_minus_relax_final_A": 0.0,
+    "cell_FINAL_minus_relax_in_A": 0.0,
+    "src_final": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO48/relax.out:2651",
+    "W_O_A": [
+     1.8919,
+     1.8919,
+     1.9024,
+     1.9024,
+     2.1523,
+     2.1523
+    ]
+   },
+   "a20_input_changed_lines": [
+    [
+     7,
+     "occupations = 'smearing', smearing = 'gaussian', degauss = 0.002",
+     "occupations = 'smearing', smearing = 'gaussian', degauss = 0.005"
+    ],
+    [
+     22,
+     "3 3 3 0 0 0",
+     "4 4 4 0 0 0"
+    ]
+   ],
+   "bands_k4": {
+    "VB_top_band": 351,
+    "electrons_above_VB_top": 3.0,
+    "N_check": 705.0,
+    "VB_max_minus_EF_eV": -2.6318,
+    "band_above_VB_min_minus_EF_eV": -1.7799,
+    "band_above_VB_width_eV": 1.8816,
+    "band_above_VB_electrons": 1.7692,
+    "gap_VBmax_to_next_band_min_eV": 0.8519,
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO48/scf.out:964"
+   }
+  },
+  "In32O47": {
+   "E_Ry": {
+    "k3_g005": {
+     "value": -15105.0900322,
+     "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In32O47/relax.out:35094",
+     "label": "COMPUTED"
+    },
+    "k4_g005": {
+     "value": -15105.08806466,
+     "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In32O47/scf.out:4756",
+     "label": "COMPUTED"
+    },
+    "k3_g002": {
+     "value": -15105.09003219,
+     "src": "analysis_2026-10-13_full/raw_cern/hl/a20/In32O47/scf.out:2240",
+     "label": "COMPUTED"
+    }
+   },
+   "minus_TS_Ry": {
+    "k3_g005": -1.1e-07,
+    "k4_g005": -0.00032052,
+    "k3_g002": -0.0
+   },
+   "nk": {
+    "k3_g005": 14,
+    "k4_g005": 36,
+    "k3_g002": 14
+   },
+   "width_Ry": {
+    "k3_g005": 0.005,
+    "k4_g005": 0.005,
+    "k3_g002": 0.002
+   },
+   "iters_final_a20": [
+    17,
+    16
+   ],
+   "bfgs": {
+    "value": "14 scf, 13 bfgs",
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In32O47/relax.out:35746",
+    "label": "COMPUTED"
+   },
+   "n_scf_relax": 14,
+   "scf_not_converged_relax": 0,
+   "max_force_component_Ry_bohr": {
+    "value": 0.000821,
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In32O47/relax.out:35115",
+    "label": "COMPUTED"
+   },
+   "total_force_Ry_bohr": {
+    "value": 0.003779,
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In32O47/relax.out:35677",
+    "label": "COMPUTED"
+   },
+   "n_electrons": 698.0,
+   "E_F_k4_eV": {
+    "value": 10.0882,
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In32O47/scf.out:4754",
+    "label": "COMPUTED"
+   },
+   "versions": [
+    "v.7.3.1",
+    "v.7.3.1",
+    "v.7.3.1"
+   ],
+   "geometry": {
+    "n_atoms": 79,
+    "composition": {
+     "In": 32,
+     "O": 47
+    },
+    "relax_in_equals_final_A": 0.0,
+    "note": "archived relax.in = converged geometry by construction (RESULTS_LOG 2026-10-13 entry); relaxation measured against the parent",
+    "FINAL_input_minus_relax_final_A": 0.0,
+    "A20_input_minus_relax_final_A": 0.0,
+    "cell_FINAL_minus_relax_in_A": 0.0,
+    "src_final": "analysis_2026-10-13_full/raw_cern/hl/vac/In32O47/relax.out:35754"
+   },
+   "a20_input_changed_lines": [
+    [
+     7,
+     "occupations = 'smearing', smearing = 'gaussian', degauss = 0.002",
+     "occupations = 'smearing', smearing = 'gaussian', degauss = 0.005"
+    ],
+    [
+     21,
+     "3 3 3 0 0 0",
+     "4 4 4 0 0 0"
+    ]
+   ],
+   "bands_k4": {
+    "VB_top_band": 348,
+    "electrons_above_VB_top": 2.0,
+    "N_check": 698.0,
+    "VB_max_minus_EF_eV": -2.0726,
+    "band_above_VB_min_minus_EF_eV": -1.4691,
+    "band_above_VB_width_eV": 1.51,
+    "band_above_VB_electrons": 1.945,
+    "gap_VBmax_to_next_band_min_eV": 0.6035,
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In32O47/scf.out:758"
+   },
+   "vacancy": {
+    "removed": "O17 of In32O48 (0-based index; atom 18 counting from 1)",
+    "match_margin_A": [
+     0.14,
+     2.933
+    ],
+    "max_relaxation_vs_parent_A": 0.14,
+    "atom_max_relaxation": "In50",
+    "n_atoms_moved_gt_0p05_A": 8,
+    "first_shell": [
+     {
+      "atom": "In",
+      "dist_to_vacancy_A": 2.167,
+      "relaxation_A": 0.024,
+      "moves_away_A": 0.019
+     },
+     {
+      "atom": "In",
+      "dist_to_vacancy_A": 2.215,
+      "relaxation_A": 0.074,
+      "moves_away_A": 0.072
+     },
+     {
+      "atom": "In",
+      "dist_to_vacancy_A": 2.24,
+      "relaxation_A": 0.14,
+      "moves_away_A": 0.139
+     },
+     {
+      "atom": "In",
+      "dist_to_vacancy_A": 2.256,
+      "relaxation_A": 0.101,
+      "moves_away_A": 0.1
+     }
+    ]
+   }
+  },
+  "In31WO47_far": {
+   "E_Ry": {
+    "k3_g005": {
+     "value": -15454.54711429,
+     "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO47_far/relax.out:45146",
+     "label": "COMPUTED"
+    },
+    "k4_g005": {
+     "value": -15454.54552725,
+     "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO47_far/scf.out:4999",
+     "label": "COMPUTED"
+    },
+    "k3_g002": {
+     "value": -15454.54623736,
+     "src": "analysis_2026-10-13_full/raw_cern/hl/a20/In31WO47_far/scf.out:2500",
+     "label": "COMPUTED"
+    }
+   },
+   "minus_TS_Ry": {
+    "k3_g005": -0.00190273,
+    "k4_g005": -0.00275361,
+    "k3_g002": -0.00038531
+   },
+   "nk": {
+    "k3_g005": 14,
+    "k4_g005": 36,
+    "k3_g002": 14
+   },
+   "width_Ry": {
+    "k3_g005": 0.005,
+    "k4_g005": 0.005,
+    "k3_g002": 0.002
+   },
+   "iters_final_a20": [
+    25,
+    26
+   ],
+   "bfgs": {
+    "value": "17 scf, 16 bfgs",
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO47_far/relax.out:45802",
+    "label": "COMPUTED"
+   },
+   "n_scf_relax": 17,
+   "scf_not_converged_relax": 0,
+   "max_force_component_Ry_bohr": {
+    "value": 0.000991,
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO47_far/relax.out:45169",
+    "label": "COMPUTED"
+   },
+   "total_force_Ry_bohr": {
+    "value": 0.004081,
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO47_far/relax.out:45731",
+    "label": "COMPUTED"
+   },
+   "n_electrons": 699.0,
+   "E_F_k4_eV": {
+    "value": 10.8112,
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO47_far/scf.out:4997",
+    "label": "COMPUTED"
+   },
+   "versions": [
+    "v.7.3.1",
+    "v.7.3.1",
+    "v.7.3.1"
+   ],
+   "geometry": {
+    "n_atoms": 79,
+    "composition": {
+     "In": 31,
+     "O": 47,
+     "W": 1
+    },
+    "relax_in_equals_final_A": 0.0,
+    "note": "archived relax.in = converged geometry by construction (RESULTS_LOG 2026-10-13 entry); relaxation measured against the parent",
+    "FINAL_input_minus_relax_final_A": 0.0,
+    "A20_input_minus_relax_final_A": 0.0,
+    "cell_FINAL_minus_relax_in_A": 0.0,
+    "src_final": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO47_far/relax.out:45810",
+    "W_O_A": [
+     1.8836,
+     1.8913,
+     1.8999,
+     1.9002,
+     2.1573,
+     2.1641
+    ]
+   },
+   "a20_input_changed_lines": [
+    [
+     7,
+     "occupations = 'smearing', smearing = 'gaussian', degauss = 0.002",
+     "occupations = 'smearing', smearing = 'gaussian', degauss = 0.005"
+    ],
+    [
+     22,
+     "3 3 3 0 0 0",
+     "4 4 4 0 0 0"
+    ]
+   ],
+   "bands_k4": {
+    "VB_top_band": 347,
+    "electrons_above_VB_top": 5.0,
+    "N_check": 699.0,
+    "VB_max_minus_EF_eV": -2.7067,
+    "band_above_VB_min_minus_EF_eV": -2.2133,
+    "band_above_VB_width_eV": 1.1764,
+    "band_above_VB_electrons": 2.0,
+    "gap_VBmax_to_next_band_min_eV": 0.4934,
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO47_far/scf.out:1001"
+   },
+   "vacancy": {
+    "removed": "O32 of In31WO48 (0-based index; atom 33 counting from 1)",
+    "match_margin_A": [
+     0.204,
+     2.994
+    ],
+    "max_relaxation_vs_parent_A": 0.204,
+    "atom_max_relaxation": "In44",
+    "n_atoms_moved_gt_0p05_A": 10,
+    "first_shell": [
+     {
+      "atom": "In",
+      "dist_to_vacancy_A": 2.16,
+      "relaxation_A": 0.204,
+      "moves_away_A": -0.202
+     },
+     {
+      "atom": "In",
+      "dist_to_vacancy_A": 2.212,
+      "relaxation_A": 0.091,
+      "moves_away_A": -0.047
+     },
+     {
+      "atom": "In",
+      "dist_to_vacancy_A": 2.219,
+      "relaxation_A": 0.059,
+      "moves_away_A": -0.04
+     },
+     {
+      "atom": "In",
+      "dist_to_vacancy_A": 2.268,
+      "relaxation_A": 0.107,
+      "moves_away_A": 0.107
+     }
+    ]
+   }
+  },
+  "In31WO47_near": {
+   "E_Ry": {
+    "k3_g005": {
+     "value": -15454.50612023,
+     "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO47_near/relax.out:52160",
+     "label": "COMPUTED"
+    },
+    "k4_g005": {
+     "value": -15454.50641953,
+     "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO47_near/scf.out:4925",
+     "label": "COMPUTED"
+    },
+    "k3_g002": {
+     "value": -15454.50520617,
+     "src": "analysis_2026-10-13_full/raw_cern/hl/a20/In31WO47_near/scf.out:2465",
+     "label": "COMPUTED"
+    }
+   },
+   "minus_TS_Ry": {
+    "k3_g005": -0.00181067,
+    "k4_g005": -0.00155957,
+    "k3_g002": -0.00049375
+   },
+   "nk": {
+    "k3_g005": 14,
+    "k4_g005": 36,
+    "k3_g002": 14
+   },
+   "width_Ry": {
+    "k3_g005": 0.005,
+    "k4_g005": 0.005,
+    "k3_g002": 0.002
+   },
+   "iters_final_a20": [
+    21,
+    24
+   ],
+   "bfgs": {
+    "value": "19 scf, 18 bfgs",
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO47_near/relax.out:52816",
+    "label": "COMPUTED"
+   },
+   "n_scf_relax": 19,
+   "scf_not_converged_relax": 0,
+   "max_force_component_Ry_bohr": {
+    "value": 0.000859,
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO47_near/relax.out:52183",
+    "label": "COMPUTED"
+   },
+   "total_force_Ry_bohr": {
+    "value": 0.004516,
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO47_near/relax.out:52745",
+    "label": "COMPUTED"
+   },
+   "n_electrons": 699.0,
+   "E_F_k4_eV": {
+    "value": 10.6787,
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO47_near/scf.out:4923",
+    "label": "COMPUTED"
+   },
+   "versions": [
+    "v.7.3.1",
+    "v.7.3.1",
+    "v.7.3.1"
+   ],
+   "geometry": {
+    "n_atoms": 79,
+    "composition": {
+     "In": 31,
+     "O": 47,
+     "W": 1
+    },
+    "relax_in_equals_final_A": 0.0,
+    "note": "archived relax.in = converged geometry by construction (RESULTS_LOG 2026-10-13 entry); relaxation measured against the parent",
+    "FINAL_input_minus_relax_final_A": 0.0,
+    "A20_input_minus_relax_final_A": 0.0,
+    "cell_FINAL_minus_relax_in_A": 0.0,
+    "src_final": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO47_near/relax.out:52824",
+    "W_O_A": [
+     1.8792,
+     1.8875,
+     1.9113,
+     2.0604,
+     2.0619
+    ]
+   },
+   "a20_input_changed_lines": [
+    [
+     7,
+     "occupations = 'smearing', smearing = 'gaussian', degauss = 0.002",
+     "occupations = 'smearing', smearing = 'gaussian', degauss = 0.005"
+    ],
+    [
+     22,
+     "3 3 3 0 0 0",
+     "4 4 4 0 0 0"
+    ]
+   ],
+   "bands_k4": {
+    "VB_top_band": 347,
+    "electrons_above_VB_top": 5.0,
+    "N_check": 699.0,
+    "VB_max_minus_EF_eV": -2.565,
+    "band_above_VB_min_minus_EF_eV": -2.0718,
+    "band_above_VB_width_eV": 1.034,
+    "band_above_VB_electrons": 2.0,
+    "gap_VBmax_to_next_band_min_eV": 0.4932,
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO47_near/scf.out:927"
+   },
+   "vacancy": {
+    "removed": "O30 of In31WO48 (0-based index; atom 31 counting from 1)",
+    "match_margin_A": [
+     0.248,
+     3.015
+    ],
+    "max_relaxation_vs_parent_A": 0.248,
+    "atom_max_relaxation": "W5",
+    "n_atoms_moved_gt_0p05_A": 15,
+    "first_shell": [
+     {
+      "atom": "W",
+      "dist_to_vacancy_A": 1.892,
+      "relaxation_A": 0.248,
+      "moves_away_A": 0.247
+     },
+     {
+      "atom": "In",
+      "dist_to_vacancy_A": 2.339,
+      "relaxation_A": 0.176,
+      "moves_away_A": -0.151
+     },
+     {
+      "atom": "In",
+      "dist_to_vacancy_A": 2.456,
+      "relaxation_A": 0.209,
+      "moves_away_A": -0.163
+     },
+     {
+      "atom": "In",
+      "dist_to_vacancy_A": 2.478,
+      "relaxation_A": 0.059,
+      "moves_away_A": -0.046
+     }
+    ]
+   }
+  },
+  "In31WO47_near72": {
+   "E_Ry": {
+    "k3_g005": {
+     "value": -15454.49828792,
+     "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO47_near72/relax.out:80884",
+     "label": "COMPUTED"
+    },
+    "k4_g005": {
+     "value": -15454.49973448,
+     "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO47_near72/scf.out:4916",
+     "label": "COMPUTED"
+    },
+    "k3_g002": {
+     "value": -15454.49736031,
+     "src": "analysis_2026-10-13_full/raw_cern/hl/a20/In31WO47_near72/scf.out:2387",
+     "label": "COMPUTED"
+    }
+   },
+   "minus_TS_Ry": {
+    "k3_g005": -0.001917,
+    "k4_g005": -0.00191096,
+    "k3_g002": -0.00046995
+   },
+   "nk": {
+    "k3_g005": 14,
+    "k4_g005": 36,
+    "k3_g002": 14
+   },
+   "width_Ry": {
+    "k3_g005": 0.005,
+    "k4_g005": 0.005,
+    "k3_g002": 0.002
+   },
+   "iters_final_a20": [
+    21,
+    20
+   ],
+   "bfgs": {
+    "value": "30 scf, 29 bfgs",
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO47_near72/relax.out:81540",
+    "label": "COMPUTED"
+   },
+   "n_scf_relax": 30,
+   "scf_not_converged_relax": 0,
+   "max_force_component_Ry_bohr": {
+    "value": 0.000893,
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO47_near72/relax.out:80907",
+    "label": "COMPUTED"
+   },
+   "total_force_Ry_bohr": {
+    "value": 0.005366,
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO47_near72/relax.out:81469",
+    "label": "COMPUTED"
+   },
+   "n_electrons": 699.0,
+   "E_F_k4_eV": {
+    "value": 10.7015,
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO47_near72/scf.out:4914",
+    "label": "COMPUTED"
+   },
+   "versions": [
+    "v.7.3.1",
+    "v.7.3.1",
+    "v.7.3.1"
+   ],
+   "geometry": {
+    "n_atoms": 79,
+    "composition": {
+     "In": 31,
+     "O": 47,
+     "W": 1
+    },
+    "relax_in_equals_final_A": 0.0,
+    "note": "archived relax.in = converged geometry by construction (RESULTS_LOG 2026-10-13 entry); relaxation measured against the parent",
+    "FINAL_input_minus_relax_final_A": 0.0,
+    "A20_input_minus_relax_final_A": 0.0,
+    "cell_FINAL_minus_relax_in_A": 0.0,
+    "src_final": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO47_near72/relax.out:81548",
+    "W_O_A": [
+     1.7905,
+     1.9584,
+     1.9815,
+     2.0138,
+     2.0576
+    ]
+   },
+   "a20_input_changed_lines": [
+    [
+     7,
+     "occupations = 'smearing', smearing = 'gaussian', degauss = 0.002",
+     "occupations = 'smearing', smearing = 'gaussian', degauss = 0.005"
+    ],
+    [
+     22,
+     "3 3 3 0 0 0",
+     "4 4 4 0 0 0"
+    ]
+   ],
+   "bands_k4": {
+    "VB_top_band": 347,
+    "electrons_above_VB_top": 5.0,
+    "N_check": 699.0,
+    "VB_max_minus_EF_eV": -2.5973,
+    "band_above_VB_min_minus_EF_eV": -2.0286,
+    "band_above_VB_width_eV": 1.3571,
+    "band_above_VB_electrons": 2.0,
+    "gap_VBmax_to_next_band_min_eV": 0.5687,
+    "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO47_near72/scf.out:918"
+   },
+   "vacancy": {
+    "removed": "O72 of In31WO48 (0-based index; atom 73 counting from 1)",
+    "match_margin_A": [
+     0.521,
+     2.147
+    ],
+    "max_relaxation_vs_parent_A": 0.521,
+    "atom_max_relaxation": "O73",
+    "n_atoms_moved_gt_0p05_A": 28,
+    "first_shell": [
+     {
+      "atom": "W",
+      "dist_to_vacancy_A": 1.902,
+      "relaxation_A": 0.136,
+      "moves_away_A": 0.134
+     },
+     {
+      "atom": "In",
+      "dist_to_vacancy_A": 2.385,
+      "relaxation_A": 0.217,
+      "moves_away_A": -0.2
+     },
+     {
+      "atom": "In",
+      "dist_to_vacancy_A": 2.4,
+      "relaxation_A": 0.099,
+      "moves_away_A": -0.076
+     },
+     {
+      "atom": "In",
+      "dist_to_vacancy_A": 2.446,
+      "relaxation_A": 0.026,
+      "moves_away_A": 0.024
+     }
+    ]
+   }
+  }
+ },
+ "differences_eV": {
+  "dE_local_O30": {
+   "k3_g005": 0.55775,
+   "k4_g005": 0.53209,
+   "k3_g002": 0.55826,
+   "k3_to_k4_meV": -25.66,
+   "A20ii_shift_meV": 0.51,
+   "max_abs_diff_vs_r23_meV": 0.0474
+  },
+  "dE_local_O72_sensitivity": {
+   "k3_g005": 0.66432,
+   "k4_g005": 0.62304,
+   "k3_g002": 0.66501,
+   "k3_to_k4_meV": -41.27,
+   "A20ii_shift_meV": 0.69,
+   "max_abs_diff_vs_r23_meV": 0.0424
+  },
+  "dE_dop": {
+   "k3_g005": 0.72595,
+   "k4_g005": 0.72259,
+   "k3_g002": 0.72614,
+   "k3_to_k4_meV": -3.36,
+   "A20ii_shift_meV": 0.19,
+   "max_abs_diff_vs_r23_meV": 0.0485
+  }
+ },
+ "energy_max_abs_diff_vs_r23_Ry": 0.0,
+ "input_sha16": {
+  "In32O48": {
+   "relax.in": "e89421cc96b92580",
+   "FINAL scf.in": "a9968110956481ed",
+   "A20 scf.in": "11e2e9030d83df0c"
+  },
+  "In31WO48": {
+   "relax.in": "3b8b7db5fb65ef84",
+   "FINAL scf.in": "1bd9105027571e3d",
+   "A20 scf.in": "2e7d010f9e9b5c32"
+  },
+  "In32O47": {
+   "relax.in": "25a3156ca1494caf",
+   "FINAL scf.in": "2bdc62ef2eef85a4",
+   "A20 scf.in": "5f8ebf81b00b52fe"
+  },
+  "In31WO47_far": {
+   "relax.in": "d98ff7b6d8b0771c",
+   "FINAL scf.in": "130ddcb1d0fc9476",
+   "A20 scf.in": "6f593dd5863e57a2"
+  },
+  "In31WO47_near": {
+   "relax.in": "335e745559fef92d",
+   "FINAL scf.in": "fc417c04dad8a04b",
+   "A20 scf.in": "24a4cf10a178cbf6"
+  },
+  "In31WO47_near72": {
+   "relax.in": "52a3626d246811ac",
+   "FINAL scf.in": "6d460182adfe14a0",
+   "A20 scf.in": "c114f167b7c6a469"
+  }
+ },
+ "final_tarball_scf_equals_vac_scf": {
+  "In32O48": true,
+  "In31WO48": true,
+  "In32O47": true,
+  "In31WO47_far": true,
+  "In31WO47_near": true,
+  "In31WO47_near72": true
+ },
+ "near_attempt1": {
+  "n_scf_bang": 3,
+  "scf_not_converged": 1,
+  "energies_Ry": [
+   -15454.48376998,
+   -15454.48911861,
+   -15454.493438
+  ],
+  "src": "analysis_2026-10-13_full/raw_cern/hl/vac/In31WO47_near/attempt1/relax.out"
+ },
+ "paw_nc_basis_check": {
+  "summary_line": "max |dW5d| = 0.016, mean |dW5d| = 0.003; max |dPR_n| = 0.162",
+  "src": "analysis_2026-10-13_full/raw_cern/hl/hse/validation/chi_compare_In31WO48_gamma.txt:30",
+  "W5d_donor_states_PAW_NC": [
+   [
+    "0.474",
+    "0.486"
+   ],
+   [
+    "0.414",
+    "0.430"
+   ]
+  ]
+ }
+}

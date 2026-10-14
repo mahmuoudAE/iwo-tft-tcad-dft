@@ -1,0 +1,27 @@
+# Codex settings for the IWO project.
+# Copy to  %USERPROFILE%\.codex\config.toml  (Windows)   or   ~/.codex/config.toml  (WSL).
+# If you already have a config.toml, merge these lines into it instead of replacing it.
+# Key names change between Codex versions: check them against `codex --help` and the Codex configuration docs.
+
+# Interactive use: Codex works inside the folder it was started in and asks before anything outside it.
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+model_reasoning_effort = "high"
+
+[sandbox_workspace_write]
+network_access = false        # reviews work from local files only
+
+# codex --profile review  (also used by the relay with -CodexProfile review)
+[profiles.review]
+approval_policy = "never"
+sandbox_mode = "workspace-write"
+model_reasoning_effort = "high"
+
+# codex --profile readonly  : look, never write
+[profiles.readonly]
+approval_policy = "never"
+sandbox_mode = "read-only"
+model_reasoning_effort = "high"
+
+# If your plan offers a higher reasoning level (the one you call "xHigh"), keep it for arbitration only, e.g.
+#   codex -c model_reasoning_effort="<that level's name>" ...
