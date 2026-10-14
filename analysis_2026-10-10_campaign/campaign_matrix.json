@@ -87,6 +87,7 @@
  "stage_counts": {
   "S0_smoke": 2,
   "S1_baseline_numerics": 7,
+  "S1_repairs": 1,
   "S2_offfloor_mechanisms": 18,
   "S2_resolution_refinements": 1,
   "S3_model_branches": 29,
@@ -98,8 +99,8 @@
   "S6_sensitivity_frozen": 27,
   "S7_31p8_stress": 2
  },
- "planned_launches": 185,
- "reserve_launches": 15,
+ "planned_launches": 186,
+ "reserve_launches": 14,
  "cap": 200,
  "runs": [
   {
@@ -894,6 +895,93 @@
    "pre_registered_expectation": "|log10 I_native - log10 I_transformed| <= 0.01 dec on every point of the J windows (continuum argument: exact except for SRH R and numerics); worse -> profiling is approximate, every S4 optimum is confirmed natively"
   },
   {
+   "id": "S1-06R",
+   "stage": "S1_repairs",
+   "film_nm": 13.2,
+   "model_flags": {
+    "model_file": "config/iwo_material_model_v2.yaml (IWO_MODEL_FILE) + overrides below",
+    "statistics": "fermi",
+    "confinement": "dft_fit3",
+    "nc_mode": "q2d_if_E21>10kT (2.0 nm) else 3d",
+    "tail": "surface_uniform (Nt = Ns/t)",
+    "deep_gaussian": true,
+    "dit_sheet": true,
+    "donors": "shared_constant",
+    "mobility": "constant per film from shared law mu_inf*(m_bulk/m*(t))/(1+ell/t) x existing roughness",
+    "tmun": 0,
+    "contacts": "ohmic",
+    "schottky_lowering": false,
+    "srh": "background (tau 1e-6 s, sigma 1e-15 cm2)",
+    "carriers": 2,
+    "trap_tunnel": false,
+    "poole_frenkel": false,
+    "gate_tunnelling": "off",
+    "oxide_tat": false,
+    "quantum_correction": "off",
+    "strip": "off",
+    "fldmob": false,
+    "bbt": false,
+    "prpmob": false,
+    "mesh_factor": 1.0,
+    "dos": "384/192"
+   },
+   "params": {
+    "Qf_cm2": 1383450000000.0,
+    "Ns_cm2": 4000000000000.0,
+    "WT_eV": 0.04,
+    "Nt_cm3": 3.030303030303031e+18,
+    "NTA_cm3_eV": 7.575757575757577e+19,
+    "Nd_cm3": 2.5e+17,
+    "dEc_eV": 0.02347,
+    "dEg_eV": 0.02735,
+    "mstar_m0": 0.21226,
+    "affinity_eV": 4.27653,
+    "Nc300_cm3": 2.454e+18,
+    "Nc300_3d_cm3": 2.454e+18,
+    "mu_inf_cm2Vs": 100.005,
+    "ell_nm": 7.248,
+    "mu_band_cm2Vs": 63.2597,
+    "MUN_cm2Vs": 60.5388,
+    "tau_s": 1e-06,
+    "sigma_cm2": 1e-15,
+    "gate_wf_eV": 4.7
+   },
+   "purpose": "S1-06 repaired (draft PA-1): the 13.2 nm two-carrier baseline exactly as S1-06 (run_0073) plus one continuation across V_G -1.8 ... -1.6 V in 0.05 V steps (intermediate points solved, not logged); tolerances, mesh, models and the 3600 s timeout unchanged. Evaluates the S1 rule (campaign_extract.py compare <S1-06R> <S1-02> --rule s1_06).",
+   "status": "planned_fixed",
+   "requires_code": [
+    "C11"
+   ],
+   "timeout_s": 3600,
+   "campaign_entry": {
+    "id": "S1-06R",
+    "thickness": 13.2,
+    "label": "c10_s1_06r_13p2",
+    "overrides": [
+     "thickness_laws.dEc_eV.a=0.70147",
+     "thickness_laws.dEc_eV.p=1.31669",
+     "thickness_laws.dEg_QC_eV.a=0.81431",
+     "thickness_laws.dEg_QC_eV.p=1.31518",
+     "thickness_laws.mstar_m0.b=0.11116",
+     "thickness_laws.mstar_m0.q=1.26387",
+     "thickness_laws.Nt_cm3.Nt2=2e+19",
+     "thickness_laws.Nt_cm3.alpha=1",
+     "thickness_laws.WTA_eV.value=0.04",
+     "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+     "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+     "traps.fixed_interface_charge_Qf_cm2.value=1.38345e+12",
+     "thickness_laws.mu0_cm2Vs.mu_band_fitted[13.2]=63.2597",
+     "solver.dos_levels.numa=384",
+     "solver.dos_levels.numd=192",
+     "solver.tmun=0",
+     "solver.carriers=carriers=2",
+     "solver.sweep.continuation=-1.8:-1.6:0.05"
+    ],
+    "timeout": 3600,
+    "purpose": "S1-06 repaired (draft PA-1): the 13.2 nm two-carrier baseline exactly as S1-06 (run_0073) plus one continuation across V_G -1.8 ... -1.6 V in 0.05 V steps (intermediate points solved, not logged); tolerances, mesh, models and the 3600 s timeout unchanged. Evaluates the S1 rule (campaign_extract.py compare <S1-06R> <S1-02> --rule s1_06)."
+   },
+   "pre_registered_expectation": "I_D change < 1e-3 relative everywhere above 1e-14 A/um; hole current < 1e-25 A/um"
+  },
+  {
    "id": "S2-01",
    "stage": "S2_offfloor_mechanisms",
    "film_nm": 13.2,
@@ -976,7 +1064,8 @@
      "solver.carriers=carriers=2",
      "bulk_reference.srh_tau_s.value=1e-9",
      "traps.bulk_acceptor_tail.capture_cm2=1e-13",
-     "solver.models=fermi srh temp=300 print trap.tunnel trap.hurkx mass.tunnel=0.2123"
+     "solver.models=fermi srh temp=300 print trap.tunnel trap.hurkx mass.tunnel=0.2123",
+     "solver.sweep.continuation=-1.8:-1.6:0.05"
     ],
     "timeout": 3600,
     "purpose": "SRH/TAT null test at 13.2 nm: two carriers, background lifetime 1e-9 s and capture cross-sections x100 (1e-13 cm2) - both beyond the reasonable range - plus field-enhanced trap capture (TRAP.TUNNEL, TRAP.HURKX, MASS.TUNNEL = DFT m*(t)). Upper bound on generation current inside the solver."
@@ -1064,7 +1153,8 @@
      "solver.tmun=0",
      "solver.carriers=carriers=2",
      "traps.bulk_acceptor_tail.capture_cm2=1e-20",
-     "solver.models=fermi temp=300 print"
+     "solver.models=fermi temp=300 print",
+     "solver.sweep.continuation=-1.8:-1.6:0.05"
     ],
     "timeout": 3600,
     "purpose": "SRH-off reference at 13.2 nm (two carriers): SRH flag removed and all DEFECTS capture cross-sections x1e-5 (occupancy is unchanged because it depends on the ratio of capture rates). Isolates the recombination term."
@@ -1155,7 +1245,8 @@
      "solver.carriers=carriers=2",
      "bulk_reference.srh_tau_s.value=1e-9",
      "traps.bulk_acceptor_tail.capture_cm2=1e-13",
-     "solver.models=fermi srh temp=300 print trap.tunnel trap.hurkx mass.tunnel=0.2543"
+     "solver.models=fermi srh temp=300 print trap.tunnel trap.hurkx mass.tunnel=0.2543",
+     "solver.sweep.continuation=-1.8:-1.6:0.05"
     ],
     "timeout": 1800,
     "purpose": "SRH/TAT null test at 2.0 nm: two carriers, background lifetime 1e-9 s and capture cross-sections x100 (1e-13 cm2) - both beyond the reasonable range - plus field-enhanced trap capture (TRAP.TUNNEL, TRAP.HURKX, MASS.TUNNEL = DFT m*(t)). Upper bound on generation current inside the solver."

@@ -189,7 +189,8 @@
     "solver.carriers=carriers=2",
     "bulk_reference.srh_tau_s.value=1e-9",
     "traps.bulk_acceptor_tail.capture_cm2=1e-13",
-    "solver.models=fermi srh temp=300 print trap.tunnel trap.hurkx mass.tunnel=0.2123"
+    "solver.models=fermi srh temp=300 print trap.tunnel trap.hurkx mass.tunnel=0.2123",
+    "solver.sweep.continuation=-1.8:-1.6:0.05"
    ],
    "timeout": 3600,
    "purpose": "SRH/TAT null test at 13.2 nm: two carriers, background lifetime 1e-9 s and capture cross-sections x100 (1e-13 cm2) - both beyond the reasonable range - plus field-enhanced trap capture (TRAP.TUNNEL, TRAP.HURKX, MASS.TUNNEL = DFT m*(t)). Upper bound on generation current inside the solver.",

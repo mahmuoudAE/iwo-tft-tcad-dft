@@ -65,7 +65,11 @@ HOLD = {   # 2026-10-11 review: plan files written with runnable=false (scripts/
     'campaign_C10_DIAGa_S2-11': 'Superseded by register amendment A41 (2026-10-13): the S2-11 rerun runs from campaign_C10_DIAGb only. S2-11 ran from this '
                                 'plan once, as run_0075 (timed out, invalid for scoring under the frozen scorer, sealed, never substituted). Invoking this '
                                 'plan would reuse run_0075 (or later the rerun) by its label, and because this plan is not state-only its summary would '
-                                'copy that run\'s metrics into results/campaigns/campaign_C10_DIAGa_S2-11.json.'}
+                                'copy that run\'s metrics into results/campaigns/campaign_C10_DIAGa_S2-11.json.',
+    # 2026-10-15 (Codex GO, work chat 2026-10-14T18:00Z item 1; plan PLAN_C10_S2_S5 section 2.0 Z1): S4a held until S3 is decided
+    'campaign_C10_S4a_spacefilling': f'Frozen register ({REG_TAG}) section 3, order step 6: S4a runs only after S3 (steps 3-5) is decided. '
+                                     'Valid as written only if S3 adopted no branch; then S4A-01-* equal S0-01/S1-01/S1-02 and are not launched. '
+                                     'Regenerate after the S3 branch decision (make_campaign_matrix.py, then this script), then remove this HOLD entry.'}
 GLOBAL_RULES = [
     'Sequential only: python scripts/run_campaign.py <plan> (C10 plans refuse --workers != 1). Every launch counts, failed or not. Hard cap 200: config/solver.yaml max_launches 260 (= 60 used before C10 + 200) and a C10 label counter (c10_* run IDs in RUN_INDEX <= 200) in run_campaign.py.',
     'run_campaign.py (C10 plans) never re-launches an entry whose label already has a RUN_INDEX row, from this or any other C10 plan (MIN10 vs stage plans): a successful earlier launch is reused, a failed one is reported; --retry ID spends a new (reserve) launch on purpose.',
@@ -86,6 +90,22 @@ PLANS = [   # (file stem, stage(s) or ids, stop rules) in launch order
         'S1-05 (3-D NC at 2 nm) must shift Vth_cc by +40..+70 mV vs S0-01 (campaign_extract.py compare <S1-05> <S0-01> --rule s1_05); otherwise audit the NC override before S3.',
         'S1-06 (two carriers) changing I_D by > 1e-3 relative above 1e-14 A/um vs S1-02 (campaign_extract.py compare <S1-06> <S1-02> --rule s1_06) -> all later runs use carriers=2 with timeout x1.5.',
         'S1-07 vs transformed S0-01 (Qf +1e12, MUN x0.6) > 0.01 dec on any J-window point (profile_shared.py check <S1-07> <S0-01>) -> offline profiling is approximate: every S4b candidate is run natively at the profiled Qf and MUN.']),
+    ('campaign_C10_S1r_repair', ['S1_repairs'], [   # 2026-10-15, draft amendment PA-1 (Codex GO-WITH-CHANGES 2026-10-14T18:00Z item 2)
+        'Draft amendment PA-1 (S1-06R): invoke only after PA-1 is logged in the register (amendment heading naming S1-06R) and the decision log, '
+        'after the Codex check and the manual check (ATLAS 5.28), with the user\'s go for THIS launch, and immediately after '
+        'analysis_2026-10-10_campaign/prelaunch_gate_c10.py has exited 0 naming S1-06R as the next run (same PowerShell session, package root). '
+        'One launch (label c10_s1_06r_13p2, timeout 3600 s); run_0073 (S1-06) is kept untouched and never substituted; no --retry, no second repair.',
+        'Repair form (frozen 2026-10-15): the S1-06 deck plus a 0.05 V continuation across V_G -1.8 ... -1.6 V (solver.sweep.continuation='
+        '-1.8:-1.6:0.05): LOG OFF after the -1.8 V solve, -1.75/-1.70/-1.65 V solved unlogged, LOG OUTF=transfer.log APPEND, then -1.6 V logged. '
+        'Tolerances, mesh, models, DOS, carriers and timeout are those of S1-06. The logged, exported and scored V_G grid is the registered '
+        '76-point grid; requested_points 76.',
+        'Read-out (S1 rule, CAMPAIGN_DESIGN S1 block): campaign_extract.py compare <S1-06R run> run_0069 --rule s1_06 (S1-02 = run_0069; common '
+        'V_G points of the two runs only, |dI/I| <= 1e-3 wherever both |I| > 1e-14 A/um). PASS: electron-only stays and is now TESTED at 13.2 nm. '
+        'FAIL (rule fired): STOP and re-plan with Codex and the user before any further launch. A failed or invalid S1-06R (timeout, '
+        'non-convergence, incomplete export): electron-only stays ASSUMED and is stated as a limitation; no second repair.',
+        'Placement: S1-06R completes and is read before DIAG inv3 (S2-03); default (user, D-58 item 1): the first launch, before DIAG inv1 '
+        '(B1 = S2-04). The C10 pre-launch gate refuses every DIAG launch until the S1-06R row exists and its S1-rule record is PASS or the '
+        'run is invalid (electron-only ASSUMED).']),
     ('campaign_C10_S2_offfloor', ['S2_offfloor_mechanisms'], [
         'A NOMINAL or SRH null test producing floor-scale current contradicts the CALCULATED bounds: stop, audit KCL / CR.TOLER / deck, do not fit.',
         'Floor-scale current from the WORST-case oxide set is an allowed result; interpret it only after S2-11 (oxide mesh x0.5) agrees within 0.1 dec in log10 I_G.',

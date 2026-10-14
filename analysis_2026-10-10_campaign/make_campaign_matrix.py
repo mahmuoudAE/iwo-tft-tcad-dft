@@ -202,6 +202,20 @@ add('S1-07', 'S1_baseline_numerics', 2.0, F(), p, 'Native check of the offline p
     expected='|log10 I_native - log10 I_transformed| <= 0.01 dec on every point of the J windows (continuum argument: exact '
              'except for SRH R and numerics); worse -> profiling is approximate, every S4 optimum is confirmed natively')
 
+# ================================================================ S1 repair (draft amendment PA-1, 2026-10-15; launch only after it is logged)
+# Codex GO-WITH-CHANGES (CODEX_WORK_CHAT 2026-10-14T18:00Z, item 2): new label S1-06R (run_0073, S1-06, timed out between V_G -1.8 and
+# -1.6 V, is kept untouched); the one repair is a 0.05 V continuation across -1.8 ... -1.6 V, every tolerance and the 3600 s timeout
+# unchanged. The intermediate points (-1.75, -1.70, -1.65 V) are solved with the log closed (build_iwo_decks.continuation_windows), so
+# the logged / exported / scored V_G grid is the registered S1-06 grid. The same continuation goes into S2-01, S2-02 and S2-03 (PA-2,
+# decided before any of their outputs). Own stage and plan (campaign_C10_S1r_repair), so the S1 baseline plan is unchanged.
+CONT = 'solver.sweep.continuation=-1.8:-1.6:0.05'
+S106_OV = next(r for r in RUNS if r['id'] == 'S1-06')['campaign_entry']['overrides']
+p = P(13.2)
+add('S1-06R', 'S1_repairs', 13.2, F(carriers=2), p, 'S1-06 repaired (draft PA-1): the 13.2 nm two-carrier baseline exactly as S1-06 (run_0073) '
+    'plus one continuation across V_G -1.8 ... -1.6 V in 0.05 V steps (intermediate points solved, not logged); tolerances, mesh, models and '
+    'the 3600 s timeout unchanged. Evaluates the S1 rule (campaign_extract.py compare <S1-06R> <S1-02> --rule s1_06).',
+    S106_OV + [CONT], ['C11'], timeout_mult=1.5, expected='I_D change < 1e-3 relative everywhere above 1e-14 A/um; hole current < 1e-25 A/um')
+
 # ================================================================ S2 off-floor mechanisms (15)
 for i, (t, kind) in enumerate([(13.2, 'extreme'), (13.2, 'suppressed'), (2.0, 'extreme')], 1):
     if kind == 'extreme':
@@ -223,7 +237,7 @@ for i, (t, kind) in enumerate([(13.2, 'extreme'), (13.2, 'suppressed'), (2.0, 'e
                 '(occupancy is unchanged because it depends on the ratio of capture rates). Isolates the recombination term.')
         exp_ = 'I_D identical to S1-06 within 1e-3 relative above 1e-14 A/um'
         flags = F(carriers=2, srh='suppressed')
-    add(f'S2-0{i}', 'S2_offfloor_mechanisms', t, flags, p, purp, ov, ['C11'], timeout_mult=1.5, expected=exp_)
+    add(f'S2-0{i}', 'S2_offfloor_mechanisms', t, flags, p, purp, ov + [CONT], ['C11'], timeout_mult=1.5, expected=exp_)   # + PA-2 (2026-10-15)
 
 j = 4
 def leak_entry(t, kind, model):

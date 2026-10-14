@@ -154,6 +154,20 @@ def strip_points(vds):
     if not all(any(abs(x - v) < 1e-9 for x in pts) for v in (0.1, 0.7)): raise ValueError('strip vd_segments must include 0.1 and 0.7 V')
     return pts
 
+def continuation_windows(s):
+    """solver.sweep.continuation 'from:to:step[,from:to:step]' (V; upward, inside one stepped segment; both ends solved points of the
+    sweep) -> [(from, to, step), ...]; unset / 'none' -> [] (the deck is unchanged). 2026-10-15, Codex PA-1 (S1-06R) and PA-2
+    (S2-01/02/03): the intermediate points are solved with the log closed (LOG OFF, then LOG OUTF=transfer.log APPEND before the solve
+    at 'to'), so the logged, exported and scored V_G grid stays the registered one."""
+    spec = (s.get('sweep') or {}).get('continuation')
+    if spec is None or str(spec).strip().lower() in ('', 'none', 'off'): return []
+    out = []
+    for w in str(spec).split(','):
+        a, b, st_ = (float(x) for x in w.split(':'))
+        if not (b > a and st_ > 0): raise ValueError(f'sweep.continuation {w}: needs from < to and step > 0')
+        out.append((round(a, 6), round(b, 6), round(st_, 6)))
+    return sorted(out)
+
 def campaign_options(p, s, t):
     """2026-10-10 campaign physics options (config/physics_options.yaml; GENERATOR_AUDIT.md sections 7-8). Returns (p, o):
     p with the DOS options applied, o = deck lines / MODELS flags / mesh requests to insert at fixed places in build_deck.
@@ -204,6 +218,13 @@ def campaign_options(p, s, t):
             # only (drift-diffusion currents bit-identical to run_0061/0065: no continuity coupling, KCL failed). qt_mesh=1
             # reproduces the run_0063..0066 form.
             if on(gt.get('qt_mesh', 0)): o['qt_mesh'] = (float(gt.get('qt_slice_um', 0.2)), float(gt.get('qt_point_nm', 0.5)) / 1000.)
+            # 2026-10-15 (Codex PA-4, work chat 2026-10-14T18:00Z item 3): qt_enclosure_nm sets how far the QT mesh extends beyond each
+            # oxide face, independently of the qt_point_nm spacing (before: tied to it). Unset = one point spacing = the earlier decks
+            # byte for byte (run_0066: 0.5 nm). Manual 5.28 l.13668-13670 "enclose the insulator and ... not overextend".
+            if gt.get('qt_enclosure_nm') is not None:
+                if o['qt_mesh'] is None: raise ValueError('gate_tunnelling.qt_enclosure_nm needs gate_tunnelling.qt_mesh=1')
+                o['qt_enc_um'] = float(gt['qt_enclosure_nm']) / 1000.
+                if not o['qt_enc_um'] > 0: raise ValueError('gate_tunnelling.qt_enclosure_nm must be > 0 (the QT mesh must enclose the oxide, run_0065)')
             # NEARFLG is set automatically for quantum tunnelling (PDF p.303): the Pd pads, 2 nm above the IWO/Al2O3 interface
             # (gate 17 nm below), took the current of every slice under them in run_0066. EXCLUDE_NEAR removes them (p.303, p.1157).
             if on(gt.get('exclude_near_sd', 1)): o['sd_sfx'] = ' exclude_near'
@@ -293,6 +314,8 @@ def build_deck(t, m, g, s, meas=None, targets=None, smoke=False, full=False, vst
     _mt = _re.search(r'temp=([0-9.]+)', s['models'])
     if _mt: T_run = float(_mt.group(1))
     if vstep and not segments: segments = [(float(g['gate_sweep_V']['stop']), float(vstep))]
+    cont = continuation_windows(s)   # 2026-10-15: unlogged continuation inside the stepped transfer sweep (default none)
+    if cont and (strip or output_vgs or not segments): raise ValueError('sweep.continuation applies to the stepped transfer sweep only')
     st = g['stack_bottom_to_top']; tox_hf = st[2]['thickness_nm'] / 1000.; tox_al = st[3]['thickness_nm'] / 1000.
     tt = t / 1000.; di = g['mesh']['interface_layer_nm'] / 1000.; lc = val(g['contact_overlap_um']); L = g['channel_length_um']; xr = lc + L; xmax = xr + lc
     if strip: L = float(so.get('L_p_um', L)); xr = lc + L; xmax = xr + lc   # separate strip deck: film length L_p between the Pd volumes
@@ -322,7 +345,19 @@ def build_deck(t, m, g, s, meas=None, targets=None, smoke=False, full=False, vst
         mv, mi = meas; above = mv[mi >= sa['until_measured_current_A_per_um']]; switch_v = float(above[0]) if len(above) else float('inf')
         off = float(np.median(mi[(mv >= -2) & (mv <= -.5)])); act = mi > s['scoring']['active_multiplier'] * off if t_nom < 20 else np.ones(len(mi), bool)
         if act.any(): cr_strict = max(cr_strict, float(sa['cr_tol_rel_active_min']) * float(mi[act].min()))
-    base = f'method {s["method_base"]}'; strict = base + f' \\\n cr.toler={cr_strict:.3g} xandrnorm {s["carriers"]}'; relaxed = base + f' \\\n cr.toler=5e-18 ^xandrnorm {s["carriers"]}'
+    # 2026-10-15 (Codex PA-4, work chat 2026-10-14T18:00Z item 3): both METHOD tolerance phases expressible. cr_toler_scale multiplies the
+    # strict CR.TOLER after its floor max(cr_toler_A, cr_tol_rel_active_min x smallest active measured current); relaxed_cr_toler_A replaces
+    # the on-state CR.TOLER (5e-18 A, the 5.28 default, manual l.55944). Both unset = the earlier decks byte for byte. CR.TOLER: absolute
+    # continuity tolerance (l.56194); IR.TOL (l.56202) is set through method_base.
+    if sa.get('cr_toler_scale') is not None:
+        if not float(sa['cr_toler_scale']) > 0: raise ValueError('strict_acceptance.cr_toler_scale must be > 0')
+        cr_strict *= float(sa['cr_toler_scale'])
+    cr_rel = '5e-18' if sa.get('relaxed_cr_toler_A') is None else f'{float(sa["relaxed_cr_toler_A"]):.3g}'
+    if sa.get('cr_toler_scale') is not None or sa.get('relaxed_cr_toler_A') is not None:
+        o['hdr'].append(pline('[N] OPTION METHOD tolerances', f'strict CR.TOLER {cr_strict:.3g} A (scale {float(sa.get("cr_toler_scale") or 1):g} after the floor), '
+                              f'relaxed CR.TOLER {cr_rel} A, method_base "{s["method_base"]}"', '', 'NUMERICAL CHECK (tolerance replay), not physics',
+                              'solver.strict_acceptance.cr_toler_scale / relaxed_cr_toler_A; manual 5.28 l.55944, l.56194, l.56202'))
+    base = f'method {s["method_base"]}'; strict = base + f' \\\n cr.toler={cr_strict:.3g} xandrnorm {s["carriers"]}'; relaxed = base + f' \\\n cr.toler={cr_rel} ^xandrnorm {s["carriers"]}'
     if strip:
         # strip acceptance by the transfer-deck switch rule applied to the EXPECTED strip current floor/(L_p (W/L)_par):
         # strict (XANDRNORM) at or below until_measured_current_A_per_um, default acceptance above
@@ -417,14 +452,15 @@ def build_deck(t, m, g, s, meas=None, targets=None, smoke=False, full=False, vst
                f'electrode name=gate x.min=0 x.max={xmax:.9g} y.min={tox_al + tox_hf:.10g} y.max={tox_al + tox_hf:.10g}']
     if o['qtnlsc'] and (not full or strip): raise ValueError('gate_tunnelling (qtnlsc) needs the full gated stack')
     if o['qt_mesh'] is not None:   # gate_tunnelling.qt_mesh=1 only (run_0063..0066 form; no continuity coupling observed in run_0066)
-        dxq, dyq = o['qt_mesh']
+        dxq, dyq = o['qt_mesh']; enc = o.get('qt_enc_um', dyq)   # 2026-10-15: enclosure apart from the spacing (unset = one spacing, as before)
         ls += [f'# [T] OPTION gate tunnelling mesh: rectangle enclosing only the gate insulator (Al2O3 + HfO2), one y-slice every {dxq:g} um,',
                f'# {dyq * 1000:g} nm points along it. Auto-slicing from every interface node ran out of memory at the old 2 GB limit (run_0062);',
                '# PDF p.302 "Mesh Considerations": QT mesh encloses the insulator; tunnelling along y (QTUNN.DIR default 0, Table 3-131).',
-               '# It extends one point beyond each oxide face (into IWO and into the gate): flush with the faces, ATLAS 5.28 ignored every',
+               ('# It extends one point beyond each oxide face (into IWO and into the gate): flush with the faces, ATLAS 5.28 ignored every'
+                if 'qt_enc_um' not in o else f'# It extends {enc * 1000:g} nm beyond each oxide face (qt_enclosure_nm, set apart from the point spacing): flush, ATLAS 5.28 ignored every'),
                '# slice ("Part of Quantum tunnelling mesh lies entirely within the oxide. Must enclose oxide", run_0065).',
                f'qtx.mesh loc=0 spac={dxq:g}', f'qtx.mesh loc={xox:.9g} spac={dxq:g}',
-               f'qty.mesh loc={-dyq:.10g} spac={dyq:g}', f'qty.mesh loc={tox_al + tox_hf + dyq:.10g} spac={dyq:g}']
+               f'qty.mesh loc={-enc:.10g} spac={dyq:g}', f'qty.mesh loc={tox_al + tox_hf + enc:.10g} spac={dyq:g}']
     for r in ([1, 2, 5] if back else [1, 2]) + ([8, 9] if insolver else []): ls.append(f'doping uniform n.type conc={p["Nd_cm3"]:.6g} region={r}')
     ls += o['doping']   # oxide TAT traps (option)
     mat_last = f' taun0={p["tau_s"]:.3g} taup0={p["tau_s"]:.3g}' + (' egalpha=0' if abs(T_run - 300) > 1e-6 else '') + (f' tmun={float(s["tmun"]):g}' if s.get('tmun') is not None else '')
@@ -537,11 +573,34 @@ def build_deck(t, m, g, s, meas=None, targets=None, smoke=False, full=False, vst
         extra = {float(round(switch_v, 6))} if math.isfinite(switch_v) else set()
         if vth_target is not None: extra.add(float(vth_target))
         bps = sorted({e for e, _ in segs} | {b for b in extra if vg[0] < b <= vg[-1]})
+        cend = {}   # 2026-10-15 continuation windows (solver.sweep.continuation; none = the earlier decks byte for byte)
+        if cont:
+            pts = [float(vg[0])]; z = float(vg[0])
+            for e, st_ in segs:
+                pts += [round(z + i * st_, 6) for i in range(1, int(round((e - z) / st_)) + 1)]; z = e
+            for c0, c1, cs in cont:
+                seg = next(((e, st_) for e, st_ in segs if c1 <= e + 1e-9), None); lo = max([e for e, _ in segs if e < c1 - 1e-9] + [float(vg[0])])
+                if seg is None or c0 < lo - 1e-9: raise ValueError(f'continuation {c0:g}:{c1:g}: must lie inside one sweep segment')
+                if not all(any(abs(x - y) < 1e-9 for y in pts) for x in (c0, c1)) or c0 <= float(vg[0]) + 1e-9:
+                    raise ValueError(f'continuation {c0:g}:{c1:g}: both ends must be solved points of the stepped sweep, after its start')
+                n = (c1 - c0) / cs
+                if abs(cs / 0.05 - round(cs / 0.05)) > 1e-6 or abs(n - round(n)) > 1e-6 or round(n) < 2 or not cs < seg[1] - 1e-9:
+                    raise ValueError(f'continuation {c0:g}:{c1:g}:{cs:g}: step must be a multiple of 0.05 V, finer than the segment step {seg[1]:g} V, >= 2 steps')
+                if any(c0 + 1e-9 < x < c1 - 1e-9 for x in set(bps) | extra): raise ValueError(f'continuation {c0:g}:{c1:g}: a sweep breakpoint (segment end, METHOD switch, Vth save) lies inside')
+                cend[c1] = (c0, cs)
+            bps = sorted(set(bps) | {c for w in cont for c in w[:2]})
         a = float(vg[0]); first = True
         for b in bps:
             if b < a - 1e-9: continue
             stp = next(st_ for e, st_ in segs if b <= e + 1e-9)
-            if b > a + 1e-9 or first:
+            w = next((v for k, v in cend.items() if abs(k - b) < 1e-9 and abs(v[0] - a) < 1e-9), None)
+            if w is not None and not first:   # continuation: intermediate points solved with the log closed (LOG OFF / LOG ... APPEND)
+                cs = w[1]
+                ls += [f'# Continuation (2026-10-15, Codex PA-1/PA-2): V_G {a:g} -> {b:g} V in {cs:g} V steps with the log closed; only the registered',
+                       f'# point {b:g} V is logged, so the exported and scored V_G grid is unchanged. Manual 5.28 LOG OFF/APPEND l.53117-53125, l.53180-53182, l.53198-53199.',
+                       'log off', f'solve vstep={cs:g} vfinal={round(b - cs, 6):.10g} name=gate', 'log outf=transfer.log append' + jt,
+                       f'solve vstep={cs:g} vfinal={b:.10g} name=gate']
+            elif b > a + 1e-9 or first:
                 ls.append((f'solve vgate={a:.10g} ' if first else 'solve ') + f'vstep={stp:g} vfinal={b:.10g} name=gate'); first = False
             if vth_target is not None and not vth_saved and b >= vth_target - 1e-9: ls.append('save outf=near_vth.str'); vth_saved = True
             if not relaxed_done and b >= switch_v - 1e-9: ls += ['# On-state: default convergence acceptance.', relaxed]; relaxed_done = True
