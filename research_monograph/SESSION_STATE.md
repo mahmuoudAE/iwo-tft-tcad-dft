@@ -105,7 +105,7 @@ REPOSITORY-AWARE SCIENTIFIC WRITING AND ADAPTIVE TOKEN OPTIMIZATION").
 
 ## 9. Exact next action
 
-Gate 5: continue with M09_masses_parameters -> M10_w_and_vacancies ->
+Gate 5: continue with M13_alternatives_uncertainty -> M14_audit -> M02 -> M01 -> M03 -> M15 -> M00 front -> MF, MH -> M10_w_and_vacancies ->
 M07_provenance -> M08_c10_campaign -> M12_multiscale -> M13_alternatives_uncertainty -> M14_audit -> M02_questions ->
 M01_introduction -> M03_literature_materials -> M15_conclusions -> M00 front matter -> MF, MH appendices.
 After each chapter: tools/build.sh, fix errors, update section 11 below.
@@ -133,7 +133,12 @@ After each chapter: tools/build.sh, fix errors, update section 11 below.
 | M04_dft_theory + M04b_dft_numerics | DONE (derivations; plane-wave counts and force-error scaling checked vs raw outputs) |
 | M05_confinement_theory | DONE (Kane tests FACT-027..029a; figure figures/mono_confinement_models.pdf) |
 | M06_defect_theory | DONE (hydrogenic/dielectric estimates FACT-080; PR-threshold property FACT-081; tab:mono-defect-pr) |
-| M09, M10, M07, M08, M12, M13, M14, M02, M01, M03, M15, M00*, MF, MH | STUB |
+| M09_masses_parameters | DONE (C039/C040; BM1, BM6, BM7, BM9 figures; laws table; deck params; runs needed) |
+| M10_w_and_vacancies | DONE (C022 table; X1 history; H-L scored table; fig09-fig11) |
+| M07_provenance | DONE (RQ-001; mu_sat identity tested: obs/pred ratios 1.5-1.8, evidence/derived/musat_ratio.json) |
+| M08_c10_campaign | DONE (design, H-A..H-F/H-J, S0/S1 seen only; S2+ sealed; A13 NC audit) |
+| M12_multiscale | DONE (chain figure, budget table from evidence/derived/multiscale_budget.json) |
+| M13, M14, M02, M01, M03, M15, M00*, MF, MH | STUB |
 
 ## 13. Findings to report to the user (not yet reported)
 
@@ -145,3 +150,9 @@ After each chapter: tools/build.sh, fix errors, update section 11 below.
 4. report_latex_full/digest/papers holds full text of 11 papers in the public repo (copyright concern P-2).
 5. Baseline 13_dft errors corrected: donated density 5.5e21 -> 2.7e21; mixed dEv sign conventions; stale statuses.
 6. Measured device curves are collaborator-owned and already public; permission pending (P-1).
+7. DFT dEc(2.0)-dEc(6.3) implies a -0.21..-0.22 V threshold change vs measured -0.018 V: same sign/size as all
+   failed 6.3 nm predictions (M12). Largest model-side input sensitivity: Nc convention (142 mV, S1-05/A13).
+8. mu_sat identity mu V_D/(2V_ov - V_D) fails quantitatively on the curves (obs/pred 1.5-1.8): saturation peaks are
+   numerical correspondences, not mobilities (M07).
+9. Baseline citations corrected: W passivation claim is Januar2026 p. 4; HRTEM no long-range order p. 2.
+10. A public commit message (50f627f) names an S2-11 score; treated as sealed-adjacent and NOT used.
