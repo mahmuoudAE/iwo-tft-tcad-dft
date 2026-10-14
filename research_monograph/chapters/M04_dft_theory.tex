@@ -1,3 +1,227 @@
-% M04_dft_theory -- STUB (to be written). Label ch:mono-dft-theory.
-\chapter{Electronic-structure theory and its numerical realisation}\label{ch:mono-dft-theory}
-\pendingph{chapter M04-dft-theory not yet written}
+% M04_dft_theory.tex -- Electronic-structure theory (part 1: many-body problem to functionals, band gap, hybrids,
+% periodic solids, smearing). Part 2 (basis, pseudopotentials, SCF, forces, slabs, alignment, cost): M04b_dft_numerics.
+% Derivations are standard (Martin2004; Payne1992); every numerical illustration uses logged project numbers with a
+% fact pointer. The plain-language overview is baseline section sec:dft-theory (chapter ch:dft).
+\chapter{Electronic-structure theory and its numerical realisation}
+\label{ch:mono-dft-theory}
+
+\Cref{sec:dft-theory} introduced density-functional theory in plain words. This chapter gives the derivations behind
+every step that the first-principles results of this monograph depend on, and it states for each step which
+approximation it introduces and how large its effect is in the calculations of this project. The aim is that a reader
+can trace any computed number in \cref{ch:dft,ch:mono-masses,ch:mono-w-vac,ch:mono-amorph} back through a chain of
+stated approximations, each with an estimate of its size. Standard results follow \citet{Martin2004} and
+\citet{Payne1992}; where a derivation is checked against a number logged by the project, the fact identifier is given.
+
+% =====================================================================================================================
+\section{The many-body problem and the adiabatic separation}
+\label{sec:mono-dft-bo}
+
+For $N$ electrons at $\vr_i$ and nuclei of charge $Z_I e$ and mass $M_I$ at $\vR_I$, the non-relativistic Hamiltonian
+in Hartree atomic units ($\hbar = m_e = e = 4\pi\varepsilon_0 = 1$) is
+\begin{equation}
+\Hop = -\sum_i \tfrac12\nabla_i^2 - \sum_I \frac{1}{2M_I}\nabla_I^2
+ + \tfrac12\sum_{i\neq j}\frac{1}{|\vr_i-\vr_j|} - \sum_{i,I}\frac{Z_I}{|\vr_i-\vR_I|}
+ + \tfrac12\sum_{I\neq J}\frac{Z_IZ_J}{|\vR_I-\vR_J|} .
+\label{eq:mono-dft-H}
+\end{equation}
+Writing the full wave function as $\Psi(\{\vr\},\{\vR\}) = \sum_k \chi_k(\{\vR\})\,\Phi_k(\{\vr\};\{\vR\})$, where
+$\Phi_k$ are eigenstates of the electronic Hamiltonian $\Hop_e$ (all terms of \cref{eq:mono-dft-H} except the nuclear
+kinetic energy) at fixed nuclei with energies $E_k(\{\vR\})$, and projecting the Schr\"odinger equation on $\Phi_k$
+gives
+\begin{equation}
+\Big[-\sum_I\frac{\nabla_I^2}{2M_I} + E_k(\{\vR\})\Big]\chi_k
+ - \sum_{k'}\sum_I \frac{1}{2M_I}\Big(2\langle\Phi_k|\nabla_I\Phi_{k'}\rangle\cdot\nabla_I
+ + \langle\Phi_k|\nabla_I^2\Phi_{k'}\rangle\Big)\chi_{k'} = \mathcal{E}\chi_k .
+\label{eq:mono-dft-bo-coupled}
+\end{equation}
+The Born--Oppenheimer approximation \citep{Born1927} drops the non-adiabatic couplings in the second sum. Born and
+Oppenheimer organised the corrections in powers of $\kappa = (m_e/M_I)^{1/4}$, which is 0.076 for O and 0.047 for In:
+vibrational energies appear at order $\kappa^2$ and the non-adiabatic terms at higher order. The nuclei then move on the potential-energy surface $E_0(\{\vR\})$, which is what a
+relaxation minimises. The approximation fails where electronic states cross as the nuclei move; for the closed-shell
+oxide cells of this project no such crossing is involved in the quantities used, but polaron formation
+(\cref{sec:mono-defect-polaron}) is an example where the coupling of a localised electron to the lattice has to be
+treated explicitly.
+
+% =====================================================================================================================
+\section{Density-functional theory}
+\label{sec:mono-dft-hk}
+
+\paragraph{Hohenberg--Kohn theorems.} Let $v(\vr)$ be the external potential of the nuclei and $n(\vr)$ the
+ground-state density. (i) $v$ is determined by $n$ up to a constant. Proof by contradiction \citep{Hohenberg1964}:
+suppose $v_1 \neq v_2 + \mathrm{const}$ have non-degenerate ground states $\Psi_1 \neq \Psi_2$ with the same density
+$n$. The variational principle gives $E_1 < \langle\Psi_2|\Hop_1|\Psi_2\rangle = E_2 + \int (v_1-v_2)\,n\,d\vr$ and, by
+symmetry, $E_2 < E_1 + \int (v_2-v_1)\,n\,d\vr$. Adding the two gives $E_1+E_2 < E_1+E_2$, a contradiction. (ii) The
+functional $E_v[n] = F[n] + \int v\,n\,d\vr$, with the universal functional $F[n] = \min_{\Psi\to n}\langle\Psi|\hat T +
+\hat V_{ee}|\Psi\rangle$ (constrained search; this form avoids the $v$-representability problem of the original
+proof), is minimised by the ground-state density, and its minimum is the ground-state energy.
+
+\paragraph{Kohn--Sham construction.} \citet{Kohn1965} replace the interacting system by non-interacting electrons in
+orbitals $\psi_j$ with occupations $f_j$ and the same density, $n = \sum_j f_j|\psi_j|^2$, and write
+\begin{equation}
+E[n] = T_s[\{\psi\}] + \int v\,n\,d\vr + \tfrac12\iint \frac{n(\vr)n(\vr')}{|\vr-\vr'|}\,d\vr\,d\vr' + \Exc[n] + E_{II},
+\label{eq:mono-dft-EKS}
+\end{equation}
+where $T_s$ is the non-interacting kinetic energy and $\Exc$ collects everything else: exchange, correlation and the
+difference $T - T_s$. Minimising \cref{eq:mono-dft-EKS} with respect to $\psi_j^*$ subject to orthonormality,
+$\delta\{E - \sum_{jk}\Lambda_{jk}(\langle\psi_j|\psi_k\rangle - \delta_{jk})\}=0$, and diagonalising the Hermitian
+multiplier matrix $\Lambda$ by a unitary rotation of the occupied orbitals, gives the Kohn--Sham equations
+\begin{equation}
+\Big[-\tfrac12\nabla^2 + \vext(\vr) + v_{\mathrm{H}}[n](\vr) + \vxc[n](\vr)\Big]\psi_j = \varepsilon_j\psi_j ,\qquad
+v_{\mathrm{H}} = \int\frac{n(\vr')}{|\vr-\vr'|}d\vr' ,\quad \vxc = \frac{\delta\Exc}{\delta n} .
+\label{eq:mono-dft-KS}
+\end{equation}
+Summing the eigenvalues double-counts the Hartree energy and replaces $\Exc$ by $\int\vxc n$; the total energy is
+therefore
+\begin{equation}
+E = \sum_j f_j\varepsilon_j - \tfrac12\iint\frac{n(\vr)n(\vr')}{|\vr-\vr'|} + \Exc[n] - \int\vxc\, n\,d\vr + E_{II} .
+\label{eq:mono-dft-Edc}
+\end{equation}
+Only $\Exc$ is unknown; every approximation of a DFT calculation, apart from numerical ones, is an approximation of it.
+
+\paragraph{Meaning of the eigenvalues.} The Kohn--Sham eigenvalues are Lagrange multipliers, not quasiparticle
+energies. Janak's theorem \citep{Janak1978}, $\partial E/\partial f_j = \varepsilon_j$, and the ionisation-potential
+theorem for the exact functional, $\varepsilon_{\mathrm{HOMO}} = -I$, give the highest occupied eigenvalue a physical
+meaning; the others, in particular the unoccupied ones, have none in principle. Band structures, gaps, masses and
+level positions read from Kohn--Sham eigenvalues are therefore approximations whose quality has to be checked, which is
+what the hybrid-functional checks of this project do (\cref{sec:dft-hse,sec:mono-dft-hybrid}).
+
+\paragraph{Finite temperature and fractional occupations.} For partly filled bands the variational quantity is the
+Mermin free energy \citep{Mermin1965}, $F = E - TS$ with the entropy of the occupations; this is the formal basis of
+the smearing methods of \cref{sec:mono-dft-smearing}.
+
+% =====================================================================================================================
+\section{Exchange--correlation functionals and the band-gap problem}
+\label{sec:mono-dft-xc}
+
+\paragraph{Semi-local functionals.} The local-density approximation takes $\Exc = \int n\,\epsilon_{\mathrm{xc}}^{\mathrm{hom}}(n)$
+from the homogeneous electron gas. The generalised-gradient approximation adds the reduced gradient $s =
+|\nabla n|/[2(3\pi^2)^{1/3}n^{4/3}]$; PBE \citep{Perdew1996} writes the exchange energy as $E_x = \int n\,
+\epsilon_x^{\mathrm{hom}}(n)F_x(s)$ with the enhancement factor
+\begin{equation}
+F_x(s) = 1 + \kappa - \frac{\kappa}{1+\mu s^2/\kappa}, \qquad \kappa = 0.804,\ \mu = 0.21951 ,
+\label{eq:mono-dft-pbe}
+\end{equation}
+where $\kappa$ enforces the Lieb--Oxford bound and $\mu$ recovers the linear response of the uniform gas. PBE
+contains no fitted parameters; its constants follow from exact constraints. It is used for every relaxation and every
+production number of this project.
+
+\paragraph{Self-interaction and delocalisation.} In \cref{eq:mono-dft-EKS} each electron interacts with the Hartree
+potential of the whole density, including itself. For the exact functional $\Exc$ cancels this self-interaction; for
+PBE the cancellation is incomplete, so the energy is a convex rather than a piecewise-linear function of fractional
+electron number. A convex $E(N)$ favours spreading charge, so PBE tends to delocalise electrons that should localise
+(small polarons, deep defect states, d states of transition-metal impurities). For this project the consequence is
+directional: a localised state found in PBE is strong evidence; an extended state found in PBE is weaker evidence
+(\cref{sec:mono-am-scope}).
+
+\paragraph{The band-gap problem.} The fundamental gap is $E_g = I - A$ with $I = E(N-1) - E(N)$ and $A = E(N) -
+E(N+1)$. For the exact functional, $I = -\varepsilon_{\mathrm{HOMO}}(N)$ and $A = -\varepsilon_{\mathrm{HOMO}}(N+1)$.
+Because the exact $\vxc$ jumps by a constant $\Delta_{\mathrm{xc}}$ when the electron number crosses an integer
+\citep{PerdewLevy1983,ShamSchluter1983}, $\varepsilon_{\mathrm{HOMO}}(N+1) = \varepsilon_{\mathrm{LUMO}}(N) +
+\Delta_{\mathrm{xc}}$, so
+\begin{equation}
+E_g = \underbrace{\varepsilon_{\mathrm{LUMO}}(N) - \varepsilon_{\mathrm{HOMO}}(N)}_{E_g^{\mathrm{KS}}} + \Delta_{\mathrm{xc}} .
+\label{eq:mono-dft-gap}
+\end{equation}
+Semi-local functionals have $\Delta_{\mathrm{xc}} = 0$ and, in addition, approximate eigenvalues, so they underestimate
+gaps. For \InO{} the computed PBE gap is 0.8887~eV at the PBE lattice \fact{002}, against an experimental fundamental
+gap of about 2.7--2.9~eV (dipole-forbidden at $\Gamma$; strong absorption sets in several tenths of an eV higher)
+\citep{Walsh2008,Irmscher2014}. For this reason no absolute gap is taken from PBE anywhere in the project; only
+differences between films and bulk (confinement shifts) are used, and their transfer from PBE is checked with a hybrid
+functional.
+
+\section{Hybrid functionals}
+\label{sec:mono-dft-hybrid}
+
+Mixing a fraction $\alpha$ of non-local Hartree--Fock exchange into the functional restores part of the derivative
+discontinuity and reduces the self-interaction error. HSE \citep{Heyd2003,Heyd2006,Krukau2006} splits the Coulomb
+kernel with the error function,
+\begin{equation}
+\frac{1}{r} = \underbrace{\frac{\mathrm{erfc}(\omega r)}{r}}_{\mathrm{SR}} + \underbrace{\frac{\mathrm{erf}(\omega r)}{r}}_{\mathrm{LR}},\qquad
+\Exc^{\mathrm{HSE}} = \alpha E_x^{\mathrm{HF,SR}}(\omega) + (1-\alpha)E_x^{\mathrm{PBE,SR}}(\omega) + E_x^{\mathrm{PBE,LR}}(\omega) + E_c^{\mathrm{PBE}},
+\label{eq:mono-dft-hse}
+\end{equation}
+with $\alpha = 1/4$ and $\omega \approx 0.11$~bohr$^{-1}$ (HSE06; the project inputs set \texttt{input\_dft = 'hse'} and
+use the Quantum ESPRESSO defaults, $\alpha = 0.25$ and $\omega = 0.106$~bohr$^{-1}$). Screening the exchange at long range mimics dielectric
+screening in a solid and makes the method affordable with plane waves. The cost is in the exact-exchange term, which
+couples every pair of occupied orbitals at all pairs of $k$ and $k+q$ points; the project therefore used a reduced $q$
+grid and treated its effect as an uncertainty (\cref{sec:dft-hse}).
+
+\paragraph{HSE06 in this project.} At the PBE geometry and with SG15 norm-conserving pseudopotentials, the bulk HSE06
+gap is 2.108~eV with the $q$ grid equal to $\Gamma$ only and 41.8~meV lower with a $3\times3\times3$ $q$ grid
+\fact{031}, against 0.9204~eV for NC-PBE in the same setup \fact{032}. HSE06 opens the gap by a factor of 2.3 but stays
+below the experimental range. One difference from experiment is known: the calculation uses the PBE lattice, 1.87\,\%
+larger than the measured one \fact{001}; how much of the remaining difference this explains was not computed. The quantity the device model needs,
+the confinement shift, changes much less: the ratio $r = \Delta\Eg^{\mathrm{HSE}}/\Delta\Eg^{\mathrm{PBE}}$ of the 1~nm
+slab is 1.060 ($\Gamma$-only $q$) to 1.107 (worst case with the $q$ uncertainty) \fact{030}. Why the ratio is close to
+one is discussed in \cref{sec:mono-conf-hse}.
+
+% =====================================================================================================================
+\section{Periodic solids: Bloch states and Brillouin-zone sampling}
+\label{sec:mono-dft-bloch}
+
+For a lattice-periodic potential, $v(\vr+\vR) = v(\vr)$, the Hamiltonian commutes with every lattice translation
+$\hat T_{\vR}$. The translations commute with each other, so the eigenstates can be chosen as simultaneous eigenstates,
+$\hat T_{\vR}\psi = c(\vR)\psi$ with $c(\vR+\vR') = c(\vR)c(\vR')$ and $|c|=1$; hence $c(\vR) = e^{i\vk\cdot\vR}$ and
+\begin{equation}
+\psi_{n\vk}(\vr) = e^{i\vk\cdot\vr}u_{n\vk}(\vr), \qquad u_{n\vk}(\vr+\vR) = u_{n\vk}(\vr)
+\label{eq:mono-dft-bloch}
+\end{equation}
+(Bloch's theorem \citep{Bloch1929}). Every density or energy becomes an average over the first Brillouin zone,
+$n(\vr) = \sum_n \frac{\Omega}{(2\pi)^3}\int_{\mathrm{BZ}} f_{n\vk}|\psi_{n\vk}(\vr)|^2 d\vk$, which is replaced by a
+weighted sum over a finite grid. Monkhorst--Pack grids \citep{Monkhorst1976} integrate smooth periodic functions with
+an error that falls exponentially with the grid density, because the Fourier components of a smooth function of $\vk$
+decay exponentially. For an insulator the integrands are smooth and small grids suffice: the 40-atom primitive cell of
+bixbyite (Ia$\bar3$, $a = 10.306$~\AA{} in PBE) converged its energy within 1~mRy/atom, its pressure within 1~kbar and
+its gap within 10~meV on a $3\times3\times3$ grid (\cref{sec:dft-calc-conv}). For a metal the occupation jumps at the
+Fermi surface, the integrand is discontinuous and the error falls only algebraically with the grid. The W-doped cells
+of this project are metals in the calculation (one W donates three electrons into the conduction band), which is why
+they need smearing.
+
+\section{Occupations and smearing}
+\label{sec:mono-dft-smearing}
+
+Replacing the step occupation by a smooth function of width $\sigma$, $f_{n\vk} = \tilde f((\varepsilon_{n\vk}-\mu)/\sigma)$,
+makes the integrand smooth at the price of a bias. Each choice corresponds to a generalised entropy and a free energy
+$F = E - \sigma S$ that is variational, so forces are derivatives of $F$, not of $E$. Four choices matter here.
+\begin{itemize}
+\item \emph{Fermi--Dirac:} $\tilde f(x) = 1/(e^x+1)$ with $\sigma = \kT$; physical at temperature $T$, but its long
+tails require large widths for convergence.
+\item \emph{Gaussian:} $\tilde f(x) = \tfrac12\,\mathrm{erfc}(x)$. Expanding the band energy around $\mu$ shows that
+$E(\sigma) = E_0 + a\sigma^2 + O(\sigma^4)$ and $F(\sigma) = E_0 - a\sigma^2 + O(\sigma^4)$ with the same $a$, so
+$E_0 \approx \tfrac12[E(\sigma)+F(\sigma)]$; occupations stay in $[0,1]$ and are monotonic.
+\item \emph{Methfessel--Paxton} \citep{Methfessel1989}: Hermite-polynomial corrections remove the $\sigma^2$ term of the
+energy, at the price of occupations that leave $[0,1]$.
+\item \emph{Marzari--Vanderbilt (``cold'')} \citep{Marzari1999}: the broadened delta function
+$\tilde\delta(x) = \pi^{-1/2}e^{-(x-a)^2}(2-\sqrt2\,x)$ with $a = 1/\sqrt2$ gives, on integration with $y = x-a$,
+\begin{equation}
+\tilde f(x) = \tfrac12\,\mathrm{erfc}(y) - \frac{1}{\sqrt{2\pi}}e^{-y^2} .
+\label{eq:mono-dft-mv}
+\end{equation}
+The energy error is $O(\sigma^3)$, but for $y > 1/\sqrt2$ the asymptotic form $\tfrac12\mathrm{erfc}(y)\approx
+e^{-y^2}/(2\sqrt\pi\,y)$ is smaller than the second term, so $\tilde f$ is slightly \emph{negative} above the Fermi
+level. MV weights are therefore numerical integration weights, not occupations of states.
+\end{itemize}
+
+\paragraph{Consequences for the observables of this project.} The widths used are 0.01~Ry (136~meV, MV, crystalline W
+cells and the amorphous W relaxations), 0.005~Ry (68~meV, Gaussian, vacancy cells and rescued amorphous chains),
+0.002~Ry (27~meV) and 0.001~Ry (13.6~meV, Gaussian reference finals), against $\kT = 25.85$~meV at 300~K. Three
+consequences follow.
+\begin{enumerate}
+\item Any quantity that counts electrons in states within a few $\sigma$ of $\mu$ depends on $\sigma$ and on the family.
+The W-5d counts of the crystalline cells (0.09--0.43~e, \fact{045}) are of this kind: they are L\"owdin projections of
+MV-weighted states and are not a W charge.
+\item A classification of shallow states (is a level 0.1~eV above or below $E_F$ occupied?) is meaningful only for
+$\sigma$ well below the energy differences involved. This is the reason for the width audit (A15) and the 0.001~Ry
+reference finals (A26) of the amorphous campaign, and for computing occupations with the final SCF's own (Gaussian)
+smearing function (register section~1).
+\item Geometries relaxed with different families can differ. The registered screen found that switching MV 0.01~Ry to
+Gaussian 0.005~Ry at one relaxed 1.0~nm W geometry changes no force component by more than $2.4\times10^{-4}$~Ry/bohr
+\claim{C034}, below the $10^{-3}$~Ry/bohr relaxation threshold, so at that geometry the family is not a geometry
+uncertainty; the polish control C4 tests the same question on the endpoints (\cref{sec:mono-am-hn}).
+\end{enumerate}
+
+For the crystalline vacancy cells the smearing affects total energies, but the corrections cancel in the registered
+differences: the W cells carry width corrections of 11.7--12.6~meV each, and the differences move by only 0.5 and
+0.2~meV between 0.005 and 0.002~Ry \claim{C038}.
+
+\input{chapters/M04b_dft_numerics}

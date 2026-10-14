@@ -151,6 +151,14 @@ add("FACT-018", "0.695 nm slab dEc sensitivity to vacuum reference (half ramp, A
     "C021", "out/f06_confinement_laws.json", None, "half of the vacuum ramp across the gap",
     "not an error bound; dipole-corrected SCF not run", "dft-slabs; dft-polar", verification="json-only")
 
+s075 = jget(f05, ["slabs", "0.75"])
+add("FACT-019", "0.695 nm slab: dipole implied by the vacuum ramp (periodic sawtooth model)",
+    "slope -13.597 meV/A; c 32.483 A; step 0.442 V; 0.262 e*A per 107.34 A^2 cell (1.26 D)", "-", "DERIVED",
+    "C021", "out/f05_slab_series.json:slabs.0.75 + slabL2_relax_v2/scf.in CELL_PARAMETERS", None,
+    "dphi = |dV/dz| * c; dipole/area = eps0 * dphi (monograph analysis 2026-10-14)",
+    "assumes a uniform compensating field over the whole cell; potential drop across the film ~0.095 eV is the scale of "
+    "the untested gap sensitivity (INFERRED)", "dft-theory-slabs; dft-polar", verification="independent-recompute")
+
 # ---------------------------------------------------------------- laws
 b03 = BM / "b03_gaps_laws.json"
 L = jget(b03, ["laws"])
