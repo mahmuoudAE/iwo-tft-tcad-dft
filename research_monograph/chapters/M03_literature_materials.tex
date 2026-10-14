@@ -1,3 +1,116 @@
-% M03_literature_materials -- STUB (to be written). Label ch:mono-lit-materials.
-\chapter{Electronic structure of \InO{}, W doping and amorphous oxide channels: literature}\label{ch:mono-lit-materials}
-\pendingph{chapter M03-literature-materials not yet written}
+% M03_literature_materials.tex -- materials literature not covered by the baseline literature chapters (02a-02d):
+% band gap, masses, defects and doping limits, resonant donors, amorphous In2O3, polarons. Article-level citations
+% (DOI-verified, evidence/REFERENCE_INDEX.tsv) for the central finding of each paper only; numbers marked with a page
+% are page-checked against report_latex_full/digest/papers; numbers attributed to non-digested papers are those recorded
+% in the project's literature check (bands_masses/BANDS_MASSES.md section 5, checked 2026-10-14).
+\chapter{Electronic structure of \texorpdfstring{\InO}{In2O3}, W doping and amorphous oxide channels: literature}
+\label{ch:mono-lit-materials}
+
+The literature chapters of the earlier report (\cref{ch:literature}) cover the papers from which the device model takes
+its inputs. This chapter adds the materials literature against which the first-principles results of this monograph
+are read: what is known about the gap and the masses of \InO{}, about its native defects and doping limits, about
+transition-metal donors, about amorphous \InO{} and about localised carriers. It is a map of the questions, not a
+review; every paper is cited only for the finding used here.
+
+% =====================================================================================================================
+\section{The band gap of bixbyite \texorpdfstring{\InO}{In2O3}}
+\label{sec:mono-lit-gap}
+
+For decades \InO{} was quoted with an optical gap near 3.6--3.75~eV, while transport and photoemission suggested a
+smaller value. The discrepancy was resolved by showing that the fundamental gap is about 0.8~eV smaller than the
+strong optical onset, because transitions from the top of the valence band to the conduction band are dipole-forbidden
+or weak in the bixbyite structure \citep{Walsh2008}. Photoemission and optical work on single crystals gives a
+fundamental gap of $2.93\pm0.15$~eV, with the valence-band maximum slightly off $\Gamma$ in hybrid-functional
+calculations \citep{King2009}; the absorption onset of melt-grown crystals is about 2.7~eV at room temperature
+\citep{Irmscher2014}; and quasiparticle calculations of the \InO{} polymorphs give gaps close to these values
+\citep{Fuchs2008}. The present PBE calculation reproduces the qualitative features (a valence-band maximum 4.4~meV above
+$\Gamma$ and a very flat valence band) with a gap of 0.889~eV, and HSE06 at the PBE lattice gives 2.07--2.11~eV
+(\cref{ch:mono-masses}).
+
+\section{Electron mass and non-parabolicity}
+\label{sec:mono-lit-mass}
+
+Reported conduction-band masses of \InO{} span 0.13--0.55~$m_0$, a spread that comes partly from different densities
+and methods \citep[p.~225102-2]{Stokey2021}. Optical Hall-effect measurements on a low-density film give
+$0.208\pm0.006\,m_0$ together with $\varepsilon_\infty = 4.05$ and $\varepsilon_{\mathrm{DC}} = 10.55$
+\citep[p.~225102-1]{Stokey2021}; analysis of the plasma frequency over a range of densities gives $0.18\,m_0$ at zero
+density and about $0.4\,m_0$ at $10^{21}$\cmcu{}, the increase being due to non-parabolicity, together with band-gap
+renormalisation and Burstein--Moss shift \citep{Feneberg2016,Burstein1954,Moss1954}. The degenerate-filling optical mass
+computed here from the PBE Kane band, $0.39\,m_0$ at $10^{21}$\cmcu{}, agrees with the latter value
+(\cref{sec:mono-mass-electrons}). Band-gap renormalisation and Burstein--Moss shifts in degenerate \InO{}-based films
+were analysed early for tin-doped films \citep{Hamberg1986}.
+
+\section{Surfaces, native defects and doping limits}
+\label{sec:mono-lit-defects}
+
+\InO{} surfaces accumulate electrons because the charge-neutrality level lies above the conduction-band minimum
+\citep{King2008}; this is the basis of the trap-neutral-level argument for ultrathin \InO{} transistors
+\citep[p.~504]{Si2021}. The ionisation potential depends on the surface orientation and termination
+\citep{Hohmann2011}, which matters for any comparison of computed and measured band positions. Which native defect makes
+\InO{} n-type, and whether the oxygen vacancy is a shallow or a deep donor, has been debated with hybrid-functional
+calculations of different setups \citep{Agoston2009,Buckeridge2018,Chatratin2019}; the doping limits of transparent
+conducting oxides follow from the formation energies of compensating defects as the Fermi level rises \citep{Lany2007}.
+The quantitative conclusions of these studies depend on the functional, the finite-size corrections and the chemical
+potentials \citep{Freysoldt2014,Lany2008}, which is why the neutral-cell vacancy energies of this project are not
+compared with them directly (\cref{sec:mono-defect-formation}).
+
+\section{Transition-metal donors and W in \texorpdfstring{\InO}{In2O3}}
+\label{sec:mono-lit-w}
+
+W-doped \InO{} films grown by pulsed laser deposition show high Hall mobilities at substantial carrier densities
+\citep{Newhouse2005}. For Mo-doped \InO{}, a combination of photoemission and hybrid-functional calculations shows Mo 4d
+donor states high in the conduction band that barely perturb its minimum, the mechanism called resonant doping
+\citep{Swallow2020}; the W results of this monograph (a W-5d-rich resonance 1.2--1.8~eV above the host band bottom, a
+5\,\% heavier host band) are consistent with that picture, although the project's literature search located no
+peer-reviewed DFT study of W itself. In amorphous In--W--O transistors, a few per cent of W gives high mobility and
+improved stability at low process temperature \citep{Kizu2014}, and the stability of IWO transistors depends on the
+channel thickness \citep{Kim2024}. The device paper of this project attributes to W the passivation of oxygen vacancies
+and smoother charge delocalisation \citep[p.~4]{Januar2026}.
+
+\section{Amorphous \texorpdfstring{\InO}{In2O3}}
+\label{sec:mono-lit-amorph}
+
+Amorphous \InO{} keeps edge- and corner-sharing InO$_x$ polyhedra with a reduced average coordination; its structure and
+properties depend on the deposition conditions and on the degree of disorder, and combined experimental and
+molecular-dynamics work has linked carrier transport to the connectivity of the In polyhedra \citep{Buchholz2014}. A
+review of amorphous oxide semiconductors summarises how the s-like conduction band survives disorder while tail states
+and oxygen-related defects control the low-density behaviour \citep{Medvedeva2017}. Atomic-layer-deposited amorphous
+\InO{} channels as thin as 0.7~nm switch off and show a thickness-tunable threshold \citep[p.~500]{Si2021}. Localisation
+in disordered systems is governed by the position of states relative to a mobility edge \citep{Mott1969,Anderson1958};
+in two dimensions disorder localises states more readily \citep{Abrahams1979}.
+
+\section{Localised carriers}
+\label{sec:mono-lit-polaron}
+
+Hybrid-functional calculations predict that holes self-trap in several wide-gap oxides, \InO{} among them
+\citep{Varley2012}; semi-local functionals miss this because of their delocalisation error. No comparable prediction
+exists for electrons in the dispersive In-5s conduction band. Whether an electron on a transition-metal impurity can form
+a small polaron in \InO{} is, to the project's knowledge, not established in the literature; it is one of the questions a
+hybrid or $+U$ calculation of the W cells would answer (\cref{tab:mono-w-open}).
+
+\begin{table}[htbp]\centering\small
+\caption{Literature values used for comparison, with the corresponding results of this monograph.}
+\label{tab:mono-lit-values}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{4.0cm}@{}}
+\toprule
+Quantity & Literature & This work \\\midrule
+Fundamental gap & $2.93\pm0.15$~eV \citep{King2009}; onset about 2.7~eV at 300~K \citep{Irmscher2014}; optical onset about
+0.8~eV higher \citep{Walsh2008} & PBE 0.889~eV; HSE06 2.07--2.11~eV (PBE lattice) \\
+Band-edge electron mass & $0.208\pm0.006\,m_0$ \citep[p.~225102-1]{Stokey2021}; $0.18\,m_0$ \citep{Feneberg2016} & PBE
+$0.154\,m_0$ (Kane); HSE06 estimate 0.159--0.193 \\
+Mass at $10^{21}$\cmcu{} & about $0.4\,m_0$ \citep{Feneberg2016} & $0.39\,m_0$ (PBE Kane, optical mass) \\
+Static / high-frequency permittivity & 10.55 / 4.05 \citep[p.~225102-1]{Stokey2021} & not computed \\
+Confinement of H-passivated slabs & PBE gaps 1.88 and 1.27~eV at 0.95 and 1.98~nm \citep[p.~21542]{Lin2022} & 1.79 and
+1.22~eV at 0.93 and 1.96~nm (H--H) \\
+Hole transport & self-trapping predicted \citep{Varley2012} & no single band mass; $N_V$ only as a band integral \\\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{keyresult}
+The literature fixes the reference points against which the first-principles results are read: a fundamental gap near
+2.9~eV that PBE underestimates by a factor of three, a band-edge mass of 0.18--0.21~$m_0$ with strong non-parabolicity,
+surface electron accumulation, an unsettled picture of native donors that depends on the computational setup, resonant
+transition-metal donors in the conduction band, amorphous films whose s-like conduction band survives disorder, and
+self-trapped holes. None of the cited work addresses W in sub-nanometre amorphous \InO{}, which is the gap the registered
+amorphous campaign was designed to probe.
+\end{keyresult}
