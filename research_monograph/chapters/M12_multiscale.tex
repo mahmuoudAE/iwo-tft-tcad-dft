@@ -107,7 +107,20 @@ missed in this direction and by a similar amount ($-0.29$, $-0.37$ and $-0.23$~V
 identify a cause; it shows that the 6.3~nm anomaly is equivalent to the 6.3~nm device behaving, electrostatically, as if
 it were much thinner, or as if an additional $+0.2$~V of threshold-setting charge were present only in that device. The
 candidates (device-to-device spread, a thickness error, a different fabrication batch or sweep history, a non-monotonic
-property of the films) are weighed in \cref{ch:mono-alternatives}.
+property of the films) are weighed in \cref{ch:mono-alternatives}. \Cref{fig:mono-threshold-vs-dft} shows the
+comparison.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.62\linewidth]{mono_threshold_vs_dft}
+\caption{Measured constant-current threshold voltages (circles; \fact{101}--\fact{103}) against the threshold trend
+implied by the computed conduction-band shift alone, anchored at the 2.0~nm device,
+$V_{\rm th}(2.0)+\Delta E_{\rm c}(t)-\Delta E_{\rm c}(2.0)$ (band: the four fit options of the confinement law; line: the
+two-parameter fit). Crosses: the three failed out-of-sample predictions at 6.3~nm (\claim{C014}). A rigid 1:1 transfer
+of the affinity shift, as in the registered affinity-only runs; \prov{derived} illustration, not a model run
+(\file{research_monograph/tools/fig_threshold_vs_dft.py}). The measured points are the collaborators' device data;
+publication needs their permission.}
+\label{fig:mono-threshold-vs-dft}
+\end{figure}
 
 \paragraph{Identifiability.} From transfer curves alone the gate work function, the bulk affinity, a uniform fixed
 charge and the confinement shift act as one number per film (\claim{C018}). The model can absorb any confinement law
