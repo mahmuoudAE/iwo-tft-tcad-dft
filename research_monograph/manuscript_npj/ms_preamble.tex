@@ -1,0 +1,53 @@
+% ms_preamble.tex -- packages and macros for the npj Computational Materials manuscript framework.
+% Notation macros follow report_latex_full/preamble.tex. ASCII only. The journal's own template is NOT used here:
+% its current requirements must be checked against the journal's guide for authors before submission (DECISIONS.md, N36).
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage[expansion=false]{microtype}
+\setlength{\emergencystretch}{3em}
+\usepackage{amsmath}
+\usepackage{newtxtext,newtxmath}
+\usepackage{graphicx}
+\graphicspath{{../figures/}{../../qe_workflow/analysis_2026-10-13_full/figures/}%
+  {../../qe_workflow/analysis_2026-10-13_full/bands_masses/figures/}}
+\usepackage{booktabs,array,tabularx}
+\usepackage{caption}
+\captionsetup{font=small,labelfont=bf,labelsep=period}
+\usepackage{enumitem}
+\setlist{itemsep=2pt,topsep=4pt}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[hidelinks]{hyperref}
+\usepackage[capitalise,noabbrev]{cleveref}
+
+% ---------------- notation (as in the report) ----------------
+\DeclareRobustCommand{\file}[1]{\texttt{\detokenize{#1}}}
+\newcommand{\prov}[1]{\textsc{\MakeLowercase{#1}}}
+\newcommand{\InO}{In$_2$O$_3$}
+\newcommand{\HfO}{HfO$_2$}
+\newcommand{\AlO}{Al$_2$O$_3$}
+\newcommand{\Vth}{V_{\mathrm{th}}}
+\newcommand{\Vthcc}{V_{\mathrm{th,cc}}}
+\newcommand{\Eg}{E_{\mathrm{g}}}
+\newcommand{\dEc}{\Delta E_{\mathrm{c}}}
+\newcommand{\dEv}{\Delta E_{\mathrm{v}}}
+\newcommand{\tHH}{t_{\mathrm{HH}}}
+\newcommand{\mzero}{m_0}
+\newcommand{\PRn}{\mathrm{PR}_n}
+\newcommand{\cmcu}{\ensuremath{\,\mathrm{cm}^{-3}}}
+
+% ---------------- framework macros ----------------
+% \ev{IDs}: evidence tag of a sentence: manuscript claim (MS-nn, CLAIMS_USED.tsv), ledger claim (C0nn), fact (Fnnn)
+% or monograph section. Printed small and grey for review; \evfalse in the next line hides every tag.
+\newif\ifev \evtrue
+\newcommand{\ev}[1]{\ifev\textsf{\scriptsize\color{gray}[#1]}\fi}
+% \pending{Nnn}{KIND: text}: a gap that waits for a result, a decision, a check or a citation (DECISIONS.md).
+\newcommand{\pending}[2]{\textbf{[#1~#2]}}
+% \sealed{text}: a result that is sealed or blind under the release protocol (decision D-43). Never fill by inference.
+\newcommand{\sealed}[1]{\textbf{[SEALED: #1]}}
+% intent paragraph of a section that cannot be written yet
+\newenvironment{intent}{\par\noindent\textit{Intent.}\ }{\par\medskip}
+\DeclareRobustCommand{\cell}[1]{\texttt{\detokenize{#1}}}
