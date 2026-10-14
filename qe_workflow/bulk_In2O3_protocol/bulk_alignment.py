@@ -63,7 +63,7 @@ for job, label, a_inplane in (('slab1r_final_cpu', '1 nm', 10.3355), ('slab2_rel
     print(f'      slab VBM {vbm:.4f}, CBM {cbm:.4f} eV -> dEv = {dEv:+.4f} eV, dEc = {dEc:+.4f} eV, dEc - dEv = {dEc - dEv:.4f} eV '
           f'(dEg {cbm - vbm - (ec_b - ev_b):.4f}); share in CB {dEc / (dEc - dEv):.2f}; in-plane strain {100 * (a_inplane / 10.306 - 1):+.2f} %')
 (l1, c1, v1), (l2, c2, v2) = rows
-print(f'check against the EA/IP route: dEc(1)-dEc(2) = {c1 - c2:+.4f} eV (EA route +0.5665), dEv(1)-dEv(2) = {v1 - v2:+.4f} eV (IP route -0.0019)')
+print(f'check against the EA/IP route: dEc(1)-dEc(2) = {c1 - c2:+.4f} eV (EA route +0.5665), dEv(1)-dEv(2) = {v1 - v2:+.4f} eV (IP route +0.0019 = IP(2)-IP(1); sign corrected 2026-10-14)')
 
 
 def macro(z, vp, w):
@@ -96,10 +96,12 @@ for job, label in (('slab1r_final_cpu', '1 nm'), ('slab2_relax_c2', '2 nm')):
         print(f'{label} {name:8s}: Vbar(centre) {vc * RY:.4f} eV, spread +-a/8 {spread:5.0f} meV -> dEc {dEc:+.4f}, dEv {dEv:+.4f} eV, CB share {dEc / (dEc - dEv):.2f}')
 for name in ('a/2', 'a/2*a/4'):
     c1, v1, _ = res[('1 nm', name)]; c2, v2, _ = res[('2 nm', name)]
-    print(f'{name:8s} check: dEc(1)-dEc(2) {c1 - c2:+.4f} (EA route +0.5665), dEv(1)-dEv(2) {v1 - v2:+.4f} (IP route -0.0019)')
+    print(f'{name:8s} check: dEc(1)-dEc(2) {c1 - c2:+.4f} (EA route +0.5665), dEv(1)-dEv(2) {v1 - v2:+.4f} (IP route +0.0019; sign corrected 2026-10-14)')
 # recommended: two-step only for the 2 nm film (the 1 nm film has no bulk-like interior); 1 nm from the same-termination
 # EA/IP differences, which need no interior plateau
 c2, v2, s2 = res[('2 nm', 'a/2')]
 print(f'\nRECOMMENDED (2 nm two-step, a/2 window; 1 nm via EA/IP differences):')
 print(f'  2 nm: dEc = {c2:+.4f}, dEv = {v2:+.4f} eV (plateau spread {s2:.0f} meV)')
-print(f'  1 nm: dEc = {c2 + 0.5665:+.4f}, dEv = {v2 - 0.0019:+.4f} eV')
+# ERRATUM 2026-10-14 (cern_htcondor/results/RESULTS_LOG.md, entry '2026-10-14: errata'): same termination, a lower VBM
+# raises the IP, so dEv(1) - dEv(2) = -(IP(1) - IP(2)) = +0.0019 eV; this line used v2 - 0.0019 (logged -0.056 eV).
+print(f'  1 nm: dEc = {c2 + 0.5665:+.4f}, dEv = {v2 + 0.0019:+.4f} eV')

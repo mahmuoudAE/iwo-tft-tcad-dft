@@ -1,5 +1,77 @@
 # CERN results log
 
+## 2026-10-14 (local): errata to the entries of 2026-10-04, 2026-10-05 and 2026-10-12 (original lines kept unchanged)
+
+Found in the read-only re-derivation of the crystalline DFT outputs (qe_workflow/analysis_2026-10-13_full, local). Codex GO: work chat 2026-10-13T10:23Z (item 1) and 2026-10-13T22:06Z (items 2-4); item 5 is wording only. User go 2026-10-14. Only the 1 nm dEv of item 1 changes a number; no deck, law or verdict uses it. Line numbers below are those of the entries before this insertion (add 72 for the current file).
+
+1. **Sign of the 1 nm dEv (EA/IP route): lines 363, 366-367 and 440-441.**
+   - Line 440 says dEv(1) - dEv(2) = IP(1) - IP(2) = -0.002 eV. With the same termination, a lower VBM raises the IP. So dEv(1) - dEv(2) = -(IP(1) - IP(2)) = IP(2) - IP(1) = **+0.002 eV** (+0.0019; IP 5.7170 eV at 1 nm, 5.7189 eV at 2 nm).
+   - Line 441: the gap change is the **difference** of the edge shifts, dEg(1) - dEg(2) = [dEc(1) - dEc(2)] - [dEv(1) - dEv(2)] = 0.567 - 0.002 = +0.565 eV (0.5665 - 0.0019 = 0.5646). The value is right; the word "sum" is wrong.
+   - Line 363: the recommended 1 nm dEv (EA/IP route) is **-0.052 eV** (-0.0521), not -0.056. dEc +0.848 eV and the CB share 0.94 are unchanged. Now dEc - dEv = 0.8477 + 0.0521 = 0.8998 eV = dEg(1) exactly; the logged pair gave 0.904.
+   - Lines 366-367: "+0.567 / -0.002 eV" are EA(2) - EA(1) and IP(1) - IP(2). The dEv difference they imply is +0.002 eV, so line 367's "+0.567 and -0.002 eV from EA/IP" should read "+0.567 and +0.002 eV". The agreement statement still holds: the two-step dEv differences -0.027 eV (a/2) and -0.013 eV (double average) differ from +0.002 eV by 29 and 15 meV.
+   - Code: bulk_In2O3_protocol/bulk_alignment.py line 105 used `v2 - 0.0019`. It now uses `v2 + 0.0019`, with a comment pointing here. The two printed "IP route" reference labels now read +0.0019.
+   - Rerun 2026-10-14: bulk_v11.cube was regenerated locally with pp.x (same &INPUTPP/&PLOT settings as pp_bulk_v11.in, prefix vcr) and deleted again afterwards; <V> = 4.1687 eV is reproduced. The only changed number is the 1 nm dEv, -0.0559 -> -0.0521 eV. All other printed values are identical.
+   - TCAD: none. dEv is used by no deck, dEc is unchanged, and analysis_2026-10-10_campaign/dft_inputs.json already has -0.052 eV (dEv = dEc - dEg).
+2. **Cluster of the 2 nm IWO recovery job: line 384.**
+   - Cluster 12835131 (jobs/gen_iwoslab2final/cluster_20261005_125042.txt) is the attempt that stopped after 60 s with "Error in routine mp_start_pools (1): invalid number of pools": 33 MPI ranks cannot be split into -nk 2 (results/iwo_slab2_final_cpu_failed_pools/scf.out:43-44).
+   - The SCF, planar average and projwfc used everywhere (2 nm W-slab projections, C022) come from the rerun with -nk 1: **cluster 12835211** (jobs/gen_iwoslab2final/cluster_20261005_162023.txt; results/iwo_slab2_final_cpu/; PWSCF 8 h 05 min wall, conv_thr 1e-8, beta 0.1).
+   - Both attempts stay in the provenance.
+3. **Build used for the 2 nm IWO final SCF: line 403** ("The final SCF on the GPU started at 06:42Z").
+   - The job sat on an H100 NVL node (b9pgpun003), and the relax did run on the GPU (QE 7.3.1).
+   - steps.sh exports FORCE_CPU=1 before the SCF (results/iwo_slab2_W24d_checkpoint/steps.sh:6). The SCF output is the **QE 7.5 CPU build with 33 MPI ranks** and has no GPU-acceleration line (results/live_snapshots/iwo_slab2_W24d/scf.out:2, :14).
+   - Line 379 ("on the CPU (QE 7.5, 33 MPI, 1 pool ...)") is the correct description.
+4. **CPUs of slab2r_final_cpu: line 420** ("16 CPUs, 72 GB").
+   - HTCondor allocated **24 CPUs** and pw.x ran 24 MPI ranks (results/slab2r_final_cpu_checkpoint/slab2r_final_cpu_driver.log:1; scf.out:14), as line 410 says.
+   - The 16 is the requested request_cpus of the submit file (jobs/gen_iwoslab2/jobs.txt:1 through jobs.sub:12 `request_cpus = $(ncpu)`). The CERN pool sized the slot by memory. In the same cluster (12827176), iwo_slab2_W24d requested 8 CPUs and received 33.
+5. **W force in the 0.7 nm MACE frame: line 174** ("the W atom feels 1.05 eV/A in DFT against 0.002 in MACE").
+   - These numbers are the largest Cartesian components: |F_x| = 1.049 (DFT) and 0.0024 eV/A (MACE).
+   - The vector norms are **1.084 eV/A (DFT) and 0.003 eV/A (MACE)**. Source: frame 12884015.7, aIWO_0p7_s1 final, atom 50 (W); recomputed from the scf.out force block and mace_ref.json, forces only.
+   - Wording only. RMSE_W1 and all verdicts use components and are unchanged.
+
+## 2026-10-14 (local): 0.51 nm and 0.75 nm slabs logged (slabL1_relax_v2 = cluster 12835386.0, slabL2_relax_v2 = 12835386.2; claim C021) and the filling caveat of C022
+
+**Runs.**
+- Each job had 11 CPUs and 1 H100 NVL.
+- vc-relax on the GPU (QE 7.3.1): cell_dofree = '2Dxy', forc_conv_thr 1e-3 Ry/bohr, k 3x3x1.
+- Then, with the QE 7.5 CPU build (11 MPI ranks): SCF (conv_thr 1e-9), bands (21 k: Gamma + 10 along [100] + 10 along [110]), planar average and projwfc.
+- Settings: PBE PAW 71/568 Ry, (001) slabs, 24 H per cell like the 1 and 2 nm films, no dipole correction.
+- Finished 2026-10-06T02:30Z (0.51 nm) and 09:58Z (0.75 nm). The numbers below were re-derived on 2026-10-13 from the raw outputs (analysis_2026-10-13_full, f05).
+
+**Results (PBE, COMPUTED).**
+
+| | 0.51 nm (slabL1_relax_v2) | 0.75 nm (slabL2_relax_v2) |
+|---|---|---|
+| composition | In8O24H24 = In8(OH)24 | In16O36H24 |
+| thickness H-H / O-O (nm) | 0.461 / 0.305 | 0.695 / 0.542 |
+| in-plane cell (A) | 10.696 x 10.019 | 10.428 x 10.293 |
+| symmetry operations | 8 | 4 |
+| relax (vcrelax.out) | 82 BFGS steps (line 55348), max force component 5.4e-4 Ry/bohr | 78 BFGS steps (line 65346), 9.9e-4 Ry/bohr |
+| gap, HOMO/LUMO of scf.out | 3.1401 eV (line 1389) | 2.1986 eV (line 1771) |
+| dEg vs bulk 0.8887 eV | +2.251 eV | +1.310 eV |
+| EA / IP (eV) | 3.192 / 6.332 | 3.717 / 5.916 (mean vacuum level; polar, see caveats) |
+| dEc / dEv (eV; 2 nm two-step + EA/IP differences) | +1.585 / -0.667 | +1.059 / -0.251 |
+| in-plane CB mass [100] / [110] (m0; 4-point fit, abs(k) <= 0.045 1/A, as at 1 and 2 nm) | 0.428 / 0.445 | 0.335 / 0.338 |
+| E2 - E1 at Gamma (bands.out) | 1.887 eV | 1.815 eV |
+| VB-top character (projwfc, k-weighted) | O 2p, 98 % on OH oxygens | O 2p, 75 % on OH oxygens |
+
+**Caveats.**
+- **0.51 nm.** The relaxed film is exactly In8(OH)24: all 24 O are bonded to H and every In is six-fold. It is an In(OH)3-like layer, not an oxide film. It stays outside the termination recipe and out of every thickness law.
+- **0.75 nm is polar and has no dipole correction.**
+  - The vacuum potential has a ramp of -13.6 meV/A, i.e. -347 meV across the vacuum gap. The two vacuum-side plateau means differ by 106 meV, against the 27 meV asymmetry recorded in analysis_2026-10-10_campaign/dft_inputs.json:449.
+  - EA, IP and dEc therefore depend on the vacuum reference: dEc(0.695 nm) = 1.059 eV +- 0.17 eV. The +-0.17 eV is half the ramp, an ASSUMED reference-choice sensitivity, not an error bound.
+  - The gap does not depend on the vacuum reference, but its sensitivity to the artificial field is untested.
+- **Use in fits.** The 0.695 nm point is excluded from any new primary dEc fit until a dipole-corrected SCF exists. That run must check both vacuum plateaus, the gap and the residual forces before deciding whether to re-relax.
+- **Frozen laws.** The V3 / C10 fit3 laws (dEc, dEg, dm), which include this point, are kept with this caveat; changing them needs a result-informed amendment. Under the +-0.17 eV sensitivity, fit3 dEc(6.3 nm) ranges 0.053-0.075 eV, partly outside the configured S6 band of 0.046-0.062 eV.
+- **Scope.** Crystalline (001) slabs, PBE only (no HSE at these thicknesses), one OH termination. The device films are amorphous or nanocrystalline.
+
+**C022 caveat (W level; Codex-refined wording, 2026-10-13T10:23Z).**
+- **Placement near E_F.** In every W cell the W-5d-rich level lies roughly 0.1 eV or less from E_F at Gamma: bulk 8b +0.090, bulk 24d +0.001, 1 nm -0.005, 2 nm +0.103 eV. This does not describe the whole dispersive band. E_F lies 1.2-1.8 eV inside the host CB (3 donated electrons per cell, 1.4e21-3e21 cm^-3).
+- **Level positions.** The level lies 1.22 (1 nm), 1.34 (2 nm), 1.76 (bulk 24d) and 1.80 eV (bulk 8b) above the host CB bottom at Gamma. These are COMPUTED at this filling only.
+- **What is computed and what is interpreted.** The near-E_F placement is COMPUTED. Pinning of the level by the band filling is an interpretation that would need a density series.
+- **W-5d counts.** The counts (0.09-0.43 electrons) are Loewdin projections of occupied above-VB states. They are not the total W charge or a uniquely defined trapped-electron fraction. The MV occupations are numerical smearing weights.
+- **Device densities.** That the level stays above E_C at device densities (E_F below E_C) is INFERRED, not computed: PBE only, no HSE for the W cells, no lower-density cell.
+- **Sources.** projwfc_iwo_W8b.out, projwfc_iwo_W24d.out, projwfc_iwo_slab1_final_cpu.out and projwfc_iwo_slab2_final_cpu.out (cluster 12835211), each with the Fermi energy of its scf.out.
+
 ## 2026-10-13 03:40Z: H-L crystalline oxygen-vacancy test scored (six cells, k3/k4 FINALs) with the A20(ii) smearing sensitivity (12904174.0-.5): H-L UNRESOLVED (ΔE_local significance unresolved; ΔE_dop PASS; A20(i) spin unassessed)
 
 **Question.** Register H-L (A17, with A19, A20 and A28): does W suppress oxygen vacancies in crystalline bixbyite In2O3? μ_O cancels in both registered differences:
