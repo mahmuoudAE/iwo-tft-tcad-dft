@@ -1,3 +1,182 @@
-% M07_provenance -- STUB (to be written). Label ch:mono-provenance.
-\chapter{Experimental provenance and the reanalysis of the published metrics}\label{ch:mono-provenance}
-\pendingph{chapter M07-provenance not yet written}
+% M07_provenance.tex -- experimental provenance and the reanalysis of the published metrics (RQ-001; claims C001-C008,
+% C024, C025, C029-C033). Sources: data/provenance_from_claude_package.json, data/data_summary.json,
+% analysis_2026-10-06_extraction (PROTOCOL.md, A1_RESULTS.md, PAPER_FIGURES.md), research_record/03_CLAIMS_LEDGER.yaml,
+% research_record/claude/responses_to_codex/RQ-001_response.md (the RQ-001 evidence files are private and not in this
+% checkout), research_monograph/tools/verify_device_facts.py, evidence/derived/musat_ratio.json.
+\chapter{Experimental provenance and the reanalysis of the published metrics}
+\label{ch:mono-provenance}
+
+Every device-level statement of this monograph rests on four transfer curves measured by the fabrication group. This
+chapter states where the curves come from and what is known and unknown about them, how they were analysed under a
+registered protocol, and how the derived metrics relate to the values published by the fabrication group
+\citep{Januar2026}. The relation matters because the published mobility and swing differ from those derived here by
+factors of two, and because a model that is compared with one set of numbers can look right or wrong for reasons that
+have nothing to do with physics.
+
+% =====================================================================================================================
+\section{The data and their custody}
+\label{sec:mono-prov-data}
+
+\paragraph{What exists.} One transfer curve per film for 2.0, 6.3, 13.2 and 31.8~nm IWO channels: $\Vg$ from $-3$ to
+$+3$~V in 121 points of 50~mV, $\Vd = 0.7$~V, one forward sweep, drain current only (\claim{C001},
+\prov{measured}). The curves were provided by the fabrication group (Prof.\ Min-Hung Lee's group, National Taiwan
+University) as a spreadsheet; the project keeps the workbook unchanged
+(\file{data/experimental_raw_preserved_IWO-TFT.xlsx}; source workbook sha256 \texttt{ce97eccd}\ldots) and a
+row-preserving CSV extraction without digitisation (\file{data/experimental_clean.csv}). The workbook columns carry no
+units: the current unit (A/\textmu m), $\Vd = 0.7$~V and $W/L = 290/20$~\textmu m are taken from the device schematic
+that came with the data (\file{data/provenance_from_claude_package.json}).
+
+\paragraph{What does not exist.} No reverse sweep, gate current, second drain bias, output curve, capacitance--voltage
+curve, temperature series, stress series or second device per film. The thicknesses are nominal and the method by which
+they were measured is not known; whether the four devices come from one fabrication run, and their sweep history, are
+not known. The stack order assumed by the device model (\AlO{} against the channel) is not stated by the group; the
+paper's own interface calculations use IWO/\HfO{} \citep{Januar2026}.
+
+\paragraph{Ownership and permission.} The measured data belong to the fabrication group; the paper is open access
+(CC~BY), but it makes the data available only on reasonable request. The four curves are nevertheless already in the
+project's public repository. Permission for that, for further use in publications, and for processing by AI tools has
+not been recorded (charter section~8; \cref{ch:mono-audit}). This monograph uses the curves as an internal working
+document only.
+
+% =====================================================================================================================
+\section{The registered extraction}
+\label{sec:mono-prov-extraction}
+
+Thresholds, swings and mobilities are extracted by one code for measured and simulated curves, under a protocol
+registered before it was applied (commit 7a61687; amendment A1, an on-current-normalised swing window, commit 7ce7116;
+\dlog{D-05}). The constant-current threshold $\Vthcc$ is the gate voltage at $10^{-9}$~A/\textmu m (log-linear
+interpolation); the off-state floor is the median current between $-2$ and $-0.5$~V; the field-effect mobility is
+$\muFE = L\gm/(W\Cox\Vd)$ with the geometric $\Cox = 8.955\times10^{-7}$~F/cm$^2$ of 15~nm \HfO{} ($\varepsilon = 19.57$)
+in series with 2~nm \AlO{} ($\varepsilon = 9.0$, assumed). An independent re-implementation for this monograph, written
+from the protocol text and not importing the project code, reproduces every core number within rounding
+(\cref{tab:mono-prov-metrics}).
+
+\begin{table}[htbp]\centering\small
+\caption{Core metrics of the measured curves (\prov{derived}; one device per film). Independent recomputation
+(\file{research_monograph/tools/verify_device_facts.py}) against the ledger. SS: registered normalised window
+$[2.15\times10^{-5}, 2.15\times10^{-4}]\,\Ion$ (\claim{C008}).}
+\label{tab:mono-prov-metrics}
+\begin{tabular}{lcccc}\toprule
+ & 2.0~nm & 6.3~nm & 13.2~nm & 31.8~nm \\\midrule
+$\Vthcc$ (V), recomputed / ledger \claim{C002} & 0.6618 / 0.662 & 0.6440 / 0.644 & 0.0825 / 0.083 & none \\
+floor (A/\textmu m), recomputed / ledger \claim{C003} & $4.606\times10^{-15}$ / $4.61\times10^{-15}$ & $1.528\times10^{-13}$ / $1.53\times10^{-13}$ & $6.597\times10^{-12}$ / $6.60\times10^{-12}$ & -- \\
+$\Id(+3~\mathrm{V})$ (A/\textmu m) & $5.090\times10^{-7}$ & $4.034\times10^{-7}$ & $3.071\times10^{-6}$ & $3.590\times10^{-6}$ \\
+$\Id(-3~\mathrm{V})$ (A/\textmu m) & $1.9\times10^{-16}$ & $1.9\times10^{-13}$ & $6.8\times10^{-12}$ & $3.0\times10^{-7}$ \\
+SS, normalised window (mV/dec) & $123.6\pm1.0$ & $122.7\pm9.3$ & $115.3\pm2.4$ & -- \\
+$\muFE$ peak (\cmVs) & 12.1 (3.0~V) & 10.9 (2.85~V) & 50.2 (2.8~V) & -- \\\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.8\linewidth]{paper_a_transfer_curves}
+\caption{Measured (circles) and simulated (lines) transfer curves at $\Vd = 0.7$~V for the 2.0, 6.3 and 13.2~nm channels.
+The simulations are calibrated per film (fixed charge fitted to $\Vthcc$, band mobility to $\Ion$), so the agreement of
+threshold and on-current is by construction. Source: \file{analysis_2026-10-06_extraction/PAPER_FIGURES.md}, panel (a).}
+\label{fig:mono-prov-transfer}
+\end{figure}
+
+\paragraph{Observations.} Three observations follow from the curves alone (\prov{observed}, one device per film). The
+thickness dependence is not uniform: from 2.0 to 6.3~nm the threshold moves by $-0.018$~V and the on-current changes
+by a factor 0.79, from 6.3 to 13.2~nm by $-0.561$~V and 7.6 (\claim{C026}). The 31.8~nm device never switches off
+($\Id(-3~\mathrm{V}) = 3.0\times10^{-7}$~A/\textmu m; on/off ratio about 12 over the sweep, \claim{C029}). And the local
+swing of the three thinner films collapses onto one curve when plotted against $\Id/\Ion$, in measurement and in
+simulation (\cref{fig:mono-prov-ss}, \claim{C007}). The off-state floors rise with thickness (local exponents 3.1 and
+5.1; one power law through three points gives $t^{3.85}$, \claim{C004}) and are flat in $\Vg$ within 3\,\% at 13.2~nm,
+which makes gate leakage unlikely (\claim{C005}, \prov{inferred}; no gate current was recorded).
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.8\linewidth]{paper_c_ss_vs_normalised_current}
+\caption{Local swing $d\Vg/d\log_{10}\Id$ against $\Id/\Ion$, measured (points where $\Id \ge 10\times$ floor) and
+simulated, 2.0/6.3/13.2~nm. Shaded: the registered window $[2.15\times10^{-5}, 2.15\times10^{-4}]\,\Ion$, in which SS is
+$123.6\pm1.0$, $122.7\pm9.3$, $115.3\pm2.4$ (measured) and 126.4, 121.3, 131.3~mV/dec (simulated). The 13.2~nm
+simulation is $16\pm3$~mV/dec too high; this is reported as a finding and not tuned away (\dlog{D-06}). Source:
+\file{PAPER_FIGURES.md}, panel (c).}
+\label{fig:mono-prov-ss}
+\end{figure}
+
+% =====================================================================================================================
+\section{The published mobility and the saturation formula}
+\label{sec:mono-prov-mobility}
+
+The paper reports maximum mobilities falling from about 27.4 to 5.1~\cmVs{} between 13.2 and 2.0~nm
+\citep[pp.~3, 7]{Januar2026} (about 3.7--4~\cmVs{} at 6.3~nm, read from its figures), falling with gate voltage. The transconductance mobility of the same curves peaks at 50.2, 10.9 and 12.1~\cmVs{} and rises up to about
+3~V. The difference is a factor of 1.8 to 2.9 (\claim{C024}, \prov{unresolved}).
+
+\paragraph{Numerical reconciliation.} The peak of the saturation-formula mobility,
+$\musat = (2L/W\Cox)(d\sqrt{\Id}/d\Vg)^2$, applied to the $\Vd = 0.7$~V curves with the protocol $\Cox$ and no free
+factor, gives 5.09, 3.86 and 27.40~\cmVs{}, matching the paper's 5.1, 3.73 (digitised from its Fig.~1b) and 27.4
+(\claim{C030}, \prov{derived}; reproduced independently by the reviewer and again here: 5.087 at 1.75~V, 3.858 at
+2.55~V, 27.403 at 0.95~V, \fact{111}--\fact{113}). This makes the saturation-formula peak the leading candidate for the
+paper's definition (\claim{C031}, \prov{inferred}); it is not an identification, because the three peaks constrain only
+the product $\Cox\cdot W/L\cdot$(current normalisation), and two other definitions also fit with one common factor
+(an effective mobility with a power-law threshold, factor 0.68; the Y-function, factor 0.66).
+
+\paragraph{Why the formula gives lower and falling values.} In the linear regime, $\Id = \mu\Cox(W/L)(V_{ov} -
+\Vd/2)\Vd$ with $V_{ov} = \Vg - \Vth$. Inserting it into the saturation formula with a constant $\mu$ gives
+\begin{equation}
+\musat = \frac{2L}{W\Cox}\Big(\frac{1}{2\sqrt{\Id}}\frac{d\Id}{d\Vg}\Big)^2 = \mu\,\frac{\Vd}{2V_{ov}-\Vd} ,
+\label{eq:mono-prov-musat}
+\end{equation}
+which is below $\mu$ whenever $V_{ov} > \Vd$ and falls as $1/V_{ov}$. A saturation formula applied to linear-regime
+curves can therefore produce a low mobility that falls with gate voltage even when the true mobility is constant. The
+formula is valid only for $V_{ov} \le \Vd$; at the peaks the overdrive is 1.09, 1.91 and 0.87~V with $\Vthcc$ as the
+threshold, so all three peaks lie outside that range, and 6.3~nm lies outside it under all three threshold definitions
+tested (\claim{C031}).
+
+\paragraph{The identity does not hold quantitatively.} \Cref{eq:mono-prov-musat} predicts the ratio $\musat/\muFE$ at
+the peak gate voltages: 0.47, 0.23 and 0.68 for constant mobility and $\Vthcc$. The curves give 0.72, 0.41 and 1.02
+(\file{evidence/derived/musat_ratio.json}). The observed ratios are larger by a factor of 1.5 to 1.8, as expected if the
+mobility rises with gate voltage, which the registered power-law fits find (exponents $\gamma = 0.27\pm0.08$ at 13.2~nm
+and 1.13 at 6.3~nm, \claim{C011}, \claim{C012}). The saturation-formula peaks are therefore numerical correspondences
+with the paper's numbers, not mobilities of the channels; neither they nor $\muFE$ is an intrinsic mobility.
+
+% =====================================================================================================================
+\section{The published swing}
+\label{sec:mono-prov-ss}
+
+The paper describes the swing of the thin IWO devices as near-thermal, 60--70~mV/dec \citep[p.~3]{Januar2026}. Its own Fig.~1b gives 61.8, 87.4 and 119.3~mV/dec for
+2.0, 6.3 and 13.2~nm (digitised), so 60--70~mV/dec holds at 2~nm only (\claim{C025}). The registered windows give
+123.6, 122.7 and 115.3~mV/dec, up to 168\,\% higher. Of 31 scored estimator variants, 14 reproduce the paper's values
+within 15\,\% when they start within 1--12 times the off-state floor (\claim{C032}, \prov{derived}); the best match is a
+selection on the outcome and is not adopted. Near the floor, an additive floor current $F$ makes the measured swing
+flatter, $\mathrm{SS}_{\mathrm{raw}} = \mathrm{SS}_{\mathrm{ch}}(1+F/I_{\mathrm{ch}})$, and subtracting the floor steepens
+it by construction; some near-floor estimators fall below the thermionic limit $\kT\ln10 = 59.5$~mV/dec at 300~K, which
+no channel current can do. At 2~nm the steep section starts at about $1.9\times10^{-14}$~A/\textmu m (5.6~pA in total)
+and spans 0.10--0.15~V; whether it is channel behaviour or instrumental is unresolved, and neither near-thermal
+switching over a useful range nor a low trap density is established.
+
+\paragraph{Off-current markers.} The paper's Fig.~1b off-current markers equal the floors derived here within factors
+of 0.71, 0.93 and 1.02 (\claim{C033}); the 2~nm value differs by about two reading uncertainties, and the paper's axis
+is labelled A while the workbook is read as A/\textmu m.
+
+\section{What remains unknown and who can resolve it}
+\label{sec:mono-prov-open}
+
+\begin{table}[htbp]\centering\small
+\caption{Open provenance questions. Each can be answered only by the fabrication group or by new measurements
+(\dlog{D-11}: none are available).}
+\label{tab:mono-prov-open}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{5.2cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Question & Consequence while open \\\midrule
+Mobility and swing recipes of the paper ($\Cox$, $W/L$, current normalisation, formula, estimator) & \claim{C024},
+\claim{C025} stay unresolved; comparisons with the paper's numbers are numerical only \\
+Same device and same sweep as the paper's figures; unit of the paper's current axis & \claim{C033} approximate \\
+Stack order (\AlO{} or \HfO{} against the channel) & the device model's interface is an assumption \\
+How the thicknesses were measured (XRR, TEM, rate $\times$ time) & every thickness law carries an unknown abscissa error \\
+Fabrication run and sweep history of the four devices; device-to-device spread & no single-device feature (6.3~nm,
+the 6.3--13.2~nm step) can be called physics \claim{C028} \\
+Floor against drain bias & strip (ohmic, $\propto\Vd$) and diffusion forms differ by a factor of 7 between 0.1 and 0.7~V
+\claim{C006} \\\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{keyresult}
+The analysis rests on four single-device curves owned by the fabrication group, already public but without recorded
+permission. Under a registered protocol, independently re-implemented here, their thresholds, floors and currents are
+reproduced within rounding. The published mobilities are reproduced numerically, with no free factor, by the peak of the
+saturation formula, which is the leading candidate for the paper's definition but is applied outside its validity
+range and does not describe these curves as a mobility. The published ``near-thermal'' swing holds at 2~nm only and is
+reproduced by several near-floor estimators, none adopted. The open provenance questions can only be answered by the
+fabrication group.
+\end{keyresult}
