@@ -1,6 +1,7 @@
 #!/bin/sh
 # Build the monograph into build/ (nothing is written into report_latex_full/). Run from research_monograph/.
 set -e
+export max_print_line=10000 error_line=254 half_error_line=238
 cd "$(dirname "$0")/.."
 python3 -I tools/check_baseline.py check
 mkdir -p build
