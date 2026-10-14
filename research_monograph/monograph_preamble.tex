@@ -1,0 +1,46 @@
+% ===================================================================
+% monograph_preamble.tex -- loads the baseline preamble of report_latex_full (packages, layout, notation macros)
+% unchanged, then adds the search paths and the few macros of the research monograph.
+% Compile from research_monograph/:  latexmk -pdf -outdir=build main   (or: tools/build.sh)
+% Overleaf: upload the repository root and set the main file to research_monograph/main.tex.
+% ASCII only in every .tex file (baseline CONVENTIONS.md rule 1).
+% ===================================================================
+\input{../report_latex_full/preamble}
+
+% Baseline chapters are reused by reference; their own relative \input{appendices/...} and
+% \lstinputlisting{code/...} calls resolve through \input@path. Files of this directory are found first.
+\makeatletter
+\def\input@path{{../report_latex_full/}{../report_latex_full/chapters/}{../report_latex_full/appendices/}}
+\makeatother
+\graphicspath{{figures/}{../report_latex_full/figures/}{../qe_workflow/analysis_2026-10-13_full/figures/}%
+  {../qe_workflow/analysis_2026-10-13_full/bands_masses/figures/}{../analysis_2026-10-06_extraction/figures/final/}%
+  {../analysis_2026-10-06_extraction/figures/paper/}{../analysis_2026-10-06_extraction/figures/}}
+
+% ---------------- monograph macros (prefix-free names checked against the baseline preamble) ----------------
+% Evidence pointers: fact registry, claims ledger, corrections register, decision log, register amendments.
+\newcommand{\fact}[1]{\textsf{\scriptsize[F#1]}}            % \fact{001}  -> [F001], evidence/FACT_REGISTRY.tsv
+\newcommand{\claim}[1]{\textsf{\scriptsize[#1]}}            % \claim{C022} -> [C022], 03_CLAIMS_LEDGER.yaml
+\newcommand{\corr}[1]{\textsf{\scriptsize[corr.\,#1]}}      % \corr{X1} -> corrections register (appendix)
+\newcommand{\dlog}[1]{\textsf{\scriptsize[#1]}}             % \dlog{D-43} -> 05_DECISION_LOG.md
+\newcommand{\amend}[1]{\textsf{\scriptsize[#1]}}            % \amend{A37} -> HYPOTHESIS_REGISTER.md
+% Placeholders for content that is sealed, blind or pending; they print visibly and are listed by grep.
+\newcommand{\sealedph}[1]{\textsf{\small[SEALED: #1]}}
+\newcommand{\pendingph}[1]{\textsf{\small[PENDING: #1]}}
+% Vectors and operators used in the theory chapters.
+\newcommand{\vr}{\mathbf{r}}
+\newcommand{\vk}{\mathbf{k}}
+\newcommand{\vG}{\mathbf{G}}
+\newcommand{\vR}{\mathbf{R}}
+\newcommand{\Hop}{\hat{H}}
+\newcommand{\Exc}{E_{\mathrm{xc}}}
+\newcommand{\vxc}{v_{\mathrm{xc}}}
+\newcommand{\vext}{v_{\mathrm{ext}}}
+\newcommand{\Ecut}{E_{\mathrm{cut}}}
+\newcommand{\PRn}{\mathrm{PR}_{n}}
+\newcommand{\mzero}{m_{0}}
+\newcommand{\Evac}{E_{\mathrm{vac}}}
+\newcommand{\dEv}{\Delta E_{\mathrm{v}}}
+\newcommand{\dEgPBE}{\Delta E_{\mathrm{g}}^{\mathrm{PBE}}}
+\newcommand{\tHH}{t_{\mathrm{HH}}}
+\newcommand{\aIO}{a-\InO}
+\newcommand{\aIWO}{a-IWO}
