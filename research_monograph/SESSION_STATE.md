@@ -105,8 +105,7 @@ REPOSITORY-AWARE SCIENTIFIC WRITING AND ADAPTIVE TOKEN OPTIMIZATION").
 
 ## 9. Exact next action
 
-Gate 5: write the new chapters in this order (priority): MG_corrections (appendix) -> M11_amorphous_protocol ->
-M04_dft_theory -> M05_confinement_theory -> M06_defect_theory -> M09_masses_parameters -> M10_w_and_vacancies ->
+Gate 5: continue with M09_masses_parameters -> M10_w_and_vacancies ->
 M07_provenance -> M08_c10_campaign -> M12_multiscale -> M13_alternatives_uncertainty -> M14_audit -> M02_questions ->
 M01_introduction -> M03_literature_materials -> M15_conclusions -> M00 front matter -> MF, MH appendices.
 After each chapter: tools/build.sh, fix errors, update section 11 below.
@@ -128,14 +127,21 @@ After each chapter: tools/build.sh, fix errors, update section 11 below.
 
 | File | Status |
 |---|---|
-| 13_dft_rev, 03/09/11/14 _rev | DONE (patched) |
-| all M* chapters and MF/MG/MH | STUB |
+| 13_dft_rev, 03/09/11/14 _rev | DONE (patched; tools/patch_13dft.py 46, tools/patch_reused.py) |
+| MG_corrections (appendix) | DONE (X1-X13, R1, D1-D2, T1-T5, P1-P2, record inconsistencies) |
+| M11_amorphous_protocol | DONE (protocol only; Proposition prop:mono-hn = A37 consequence; reading guide written blind) |
+| M04_dft_theory + M04b_dft_numerics | DONE (derivations; plane-wave counts and force-error scaling checked vs raw outputs) |
+| M05_confinement_theory | DONE (Kane tests FACT-027..029a; figure figures/mono_confinement_models.pdf) |
+| M06_defect_theory | DONE (hydrogenic/dielectric estimates FACT-080; PR-threshold property FACT-081; tab:mono-defect-pr) |
+| M09, M10, M07, M08, M12, M13, M14, M02, M01, M03, M15, M00*, MF, MH | STUB |
 
-## 10. Verification results of Gate 2 (do not redo)
+## 13. Findings to report to the user (not yet reported)
 
-- Raw-pointer facts: all verified (a = 2 x 5.153045099 A; H-H 1.9623 / 0.9303 nm from scf.in; bulk CBM/VBM in
-  bands_path.out blocks; HSE 9.9936 - 7.8856 = 2.1080 eV; NC-PBE 9.8209 - 8.9005 = 0.9204 eV).
-- Device: V_th,cc 0.6618 / 0.6440 / 0.0825 V; floors 4.606e-15 / 1.528e-13 / 6.597e-12 A/um; I_D(+3 V)
-  5.090e-7 / 4.034e-7 / 3.071e-6 / 3.590e-6; mu_sat peaks 5.087 (1.75 V) / 3.858 (2.55 V) / 27.403 (0.95 V);
-  C_ox 8.955e-7 F/cm2 reproduced from the stack. All agree with the ledger within rounding.
-- Note for M002: computed -dEv is ~0.05 eV at both 1 and 2 nm (no power law), unlike EMA hole confinement.
+1. H-N cannot return CROSSOVER or NO CROSSOVER (A37), independent of sealed data.
+2. Frozen PR thresholds are not size-consistent across the registered cells (FACT-081): a W+6 O support of 7 atoms
+   is 'localised' at 0.7/0.8/2.0 nm but 'intermediate' in bulk and at 1.0 nm. Reading aid only; rule unchanged.
+3. Kane relation m_b(1+2 alpha dEc) reproduces the computed slab masses (no fit): the mass law and dEc law are one
+   input (FACT-027).
+4. report_latex_full/digest/papers holds full text of 11 papers in the public repo (copyright concern P-2).
+5. Baseline 13_dft errors corrected: donated density 5.5e21 -> 2.7e21; mixed dEv sign conventions; stale statuses.
+6. Measured device curves are collaborator-owned and already public; permission pending (P-1).

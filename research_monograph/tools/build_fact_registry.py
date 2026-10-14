@@ -189,6 +189,58 @@ for key, fid in (("0.51", "FACT-026a"), ("0.75", "FACT-026b"), ("1.0", "FACT-026
             "2-D DOS mass in RESULTS_LOG: 0.443/0.337/0.279/0.203 m0", "dft-slabs; dft-confinement",
             verification="json-only")
 
+# ---------------------------------------------------------------- monograph confinement analysis (DERIVED)
+ca_path = ROOT / "research_monograph/evidence/derived/confinement_analysis.json"
+if ca_path.exists():
+    ca = json.loads(ca_path.read_text())
+    S = ca["slabs"]
+    add("FACT-027", "Kane in-plane mass prediction m_b(1+2 alpha dEc) vs computed (0.461/0.695/0.930/1.962 nm)",
+        " / ".join(f"{S[k]['m_par_pred']:.3f} vs {S[k]['computed']['m']:.3f}" for k in ("0.461", "0.695", "0.930", "1.962")),
+        "m0", "DERIVED", "C039", "tools/confinement_analysis.py", None,
+        "two-band Kane relation with bulk m_b 0.1541, alpha 0.58 and computed dEc; no fit",
+        "relative error -1.3 / +1.9 / +9.6 / +0.7 %; 0.461 nm is In8(OH)24 and 0.695 nm dEc carries +-0.17 eV",
+        "theory-confinement; multiscale", verification="independent-recompute")
+    E = ca["exponents_1_2nm"]
+    add("FACT-028", "exponents between 1 and 2 nm: dEc computed / Kane prediction; dEg computed",
+        f"{E['p_dEc_computed']} / {E['p_dEc_kane_pred']}; {E['p_dEg_computed']}", "-", "DERIVED", "C039",
+        "tools/confinement_analysis.py", None, "log ratios; Kane with box width proportional to t",
+        "dEg exponent lower because dEv ~ -0.053 eV is thickness independent", "theory-confinement",
+        verification="independent-recompute")
+    P = ca["partition"]
+    add("FACT-029", "single-band EMA CB share for heavy-hole masses 3.2-18.1 m0 vs computed (2 nm, 1 nm)",
+        f"{min(P['cb_share_ema'].values())}-{max(P['cb_share_ema'].values())} vs 0.84, 0.94", "-", "DERIVED",
+        "C020; C040", "tools/confinement_analysis.py", None, "m_h/(m_e+m_h)",
+        "EMA dEv -0.014 / -0.041 eV vs computed -0.054 / -0.052; difference comparable to alignment-route spread",
+        "theory-confinement; dft-alignment", verification="independent-recompute")
+    H = ca["hse_ratio_model"]
+    add("FACT-029a", "HSE/PBE confinement ratio from a Kane band with alpha ~ 1/Eg and HSE masses 0.159-0.193",
+        f"{min(H['r_by_hse_mass'].values())}-{max(H['r_by_hse_mass'].values())} vs computed 1.060-1.107", "-",
+        "DERIVED", "C020", "tools/confinement_analysis.py", None, "model; alpha scaling ASSUMED",
+        "plausibility only", "theory-confinement", verification="independent-recompute")
+
+
+# ---------------------------------------------------------------- monograph defect estimates (DERIVED / THEORY)
+de_path = ROOT / "research_monograph/evidence/derived/defect_estimates.json"
+if de_path.exists():
+    de = json.loads(de_path.read_text())
+    h = de["exp m 0.208, eps_s 10.55 (Stokey)"]
+    add("FACT-080", "hydrogenic donor in In2O3 (m 0.208, eps_s 10.55): E_D / a_B / Mott density / strict-2D E_D",
+        f"{h['E_D_meV']} meV / {h['aB_nm']} nm / {h['mott_nc_cm3']} cm^-3 / {h['E_2D_meV']} meV", "-", "DERIVED",
+        "", "Stokey2021 p. 225102-1 inputs; tools (defect_estimates.json)", None, "effective-mass hydrogen model",
+        "theory estimate; dielectric-confinement upper bound 0.45 eV for Al2O3/air", "theory-defects",
+        verification="independent-recompute")
+    pr = de["PR_support"]
+    add("FACT-081", "PR thresholds as support sizes (localised M <= 0.05 N) for bulk/1.0/0.7-0.8/2.0 nm W cells",
+        " / ".join(f"{pr[k]['M_loc_max']}" for k in ("aIWO_bulk_s1", "aIWO_1p0_s1", "aIWO_0p7_s1", "aIWO_2p0_s1")),
+        "atoms", "DERIVED", "", "register section 1 + cell compositions", None, "M = 0.05 N",
+        "property of the frozen rule; no electronic data", "theory-defects; amorph-hn", verification="independent-recompute")
+    f8, f24 = de["CB filling 8b"], de["CB filling 24d"]
+    add("FACT-082", "Kane host-CB capacity up to E_F in the bulk W cells (8b / 24d) vs parabolic",
+        f"{f8['N_host_CB_kane']} / {f24['N_host_CB_kane']} e (parabolic {f8['N_host_CB_parabolic']} / {f24['N_host_CB_parabolic']})",
+        "e/cell", "DERIVED", "C022", "defect_estimates.json; f09 electrons_per_band 352: 1.93 / 1.79", None,
+        "N = 2 Omega k^3/(6 pi^2), Kane k(E), m 0.162, alpha 0.58", "cross-check only", "dft-w",
+        verification="independent-recompute")
+
 # ---------------------------------------------------------------- HSE
 f07 = AF / "out/f07_hse_ratio.json"
 add("FACT-030", "HSE06/PBE confinement ratio r (q1 / q3 worst)",
