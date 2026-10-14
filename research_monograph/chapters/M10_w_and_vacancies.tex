@@ -22,7 +22,8 @@ cations, fixed PBE lattice $a = 10.3061$~\AA) and on a central 24d site of the r
 (In$_{23}$WO$_{48}$H$_{24}$, 4.2\,\%; In$_{55}$WO$_{96}$H$_{24}$, 1.8\,\%), with PAW-PBE at 71/568~Ry and
 Marzari--Vanderbilt smearing of 0.01~Ry; bulk relaxations on $3\times3\times3$ and single points on $4\times4\times4$
 grids. The donated densities, three electrons per W by formal counting, are $2.7\times10^{21}$ (bulk),
-$3.0\times10^{21}$ (1~nm) and $1.4\times10^{21}$\cmcu{} (2~nm), two to three orders of magnitude above the Mott density
+$3.0\times10^{21}$ (1~nm) and $1.4\times10^{21}$\cmcu{} (2~nm), about three orders of magnitude (1500--3300 times) above the
+Mott density
 (\cref{sec:mono-defect-hydrogenic}). The valence-band top of every W cell is band $n_{\mathrm{pure}}-1$
 (\cref{eq:mono-dft-bands}).
 
@@ -31,7 +32,7 @@ $3.0\times10^{21}$ (1~nm) and $1.4\times10^{21}$\cmcu{} (2~nm), two to three ord
 
 W prefers the 24d site: $E(8\mathrm{b}) - E(24\mathrm{d}) = 0.2579$~eV on the $3\times3\times3$ relaxation grid and
 0.2577~eV on the $4\times4\times4$ single point \fact{040}. With three times as many 24d as 8b sites, the equilibrium ratio
-$N_{24d}/N_{8b} = 3\exp(\Delta E/\kT)$ is about 430 at 600~K, so the 8b site is practically empty at any processing
+$N_{24d}/N_{8b} = 3\exp(\Delta E/\kT)$ is about 440 at 600~K, so the 8b site is practically empty at any processing
 temperature of the devices. On 24d the W--O bonds are $1.892\times2$, $1.902\times2$ and $2.152\times2$~\AA{} (mean
 1.982~\AA); on 8b six bonds of 1.972~\AA; in the films the mean is 2.000~\AA{} (1~nm) and 1.977~\AA{} (2~nm). These means
 lie close to the 1.98~\AA{} expected from Shannon radii for W$^{6+}$ and well below the 2.04~\AA{} for W$^{4+}$
@@ -139,7 +140,7 @@ $+3$~eV for $\Delta E_{\mathrm{dop}}$.
 In$_{32}$O$_{47}$ 13, far 16, near 18, near72 29); the registered near cell needed one restart under a pre-declared rule
 (\amend{A28}); energies re-parsed from the raw outputs agree exactly (\fact{052}).}
 \label{tab:mono-w-hl}
-\begin{tabular}{lccccl}\toprule
+\begin{tabular}{lcccc>{\raggedright\arraybackslash}p{3.3cm}}\toprule
 Difference & $k3$, G 0.005 & $k4$, G 0.005 & $k3$, G 0.002 & $k3\to k4$ & Verdict \\
  & (eV) & (eV) & (eV) & (meV) & \\\midrule
 $\Delta E_{\mathrm{local}}$ (O30, registered) & $+0.5578$ & $+0.5321$ & $+0.5583$ & $-25.7$ & threshold met; \textsc{unresolved} significance \\
@@ -160,13 +161,12 @@ $\Delta E_{\mathrm{dop}}$, on the $3\times3\times3$ grid with Gaussian 0.005~Ry 
 \end{figure}
 
 \paragraph{What the scores mean.} Both differences are positive and above their thresholds at every tested mesh and
-width (\cref{tab:mono-w-hl}, \cref{fig:mono-w-hl}). $\Delta E_{\mathrm{dop}}$ is $k$-converged within 3.4~meV and robust to
-the width: in this degenerate crystalline cell, W raises the energy of a neutral oxygen vacancy far from it by 0.73~eV.
+width (\cref{tab:mono-w-hl}, \cref{fig:mono-w-hl}). $\Delta E_{\mathrm{dop}}$ changes by only 3.4~meV from $k3$ to $k4$ (which
+does not by itself establish the convergence of the individual energies) and is robust to the width: in this degenerate crystalline cell, W raises the energy of a neutral oxygen vacancy far from it by 0.73~eV.
 $\Delta E_{\mathrm{local}}$ changes by $-25.7$~meV from $k3$ to $k4$, more than the 10~meV rule allows, so its
 significance is unresolved although both values exceed $+0.3$~eV; a vacancy next to W costs a further 0.53--0.56~eV.
 The spin sensitivity was not run, so robustness is not established, and the overall register verdict is
-\textsc{unresolved}; the record states explicitly that ``H-L supported'' must not be written. Both outcomes fall within
-or below the forecast ranges.
+\textsc{unresolved}; the record states explicitly that ``H-L supported'' must not be written. Both outcomes fall within the forecast ranges.
 
 \paragraph{What the scores do not mean.} Neither difference is a formation energy at a device Fermi level
 (\cref{sec:mono-defect-formation}). In the W cell the vacancy electrons are added to a conduction band already filled to
@@ -174,9 +174,9 @@ or below the forecast ranges.
 interactions; at the device carrier densities the filling term would be much smaller, and its sign or size there is not
 computed. The far site is only 6--8~\AA{} from W and its periodic images, so $\Delta E_{\mathrm{local}}$ is a cell-limited
 estimate. No charged state, no finite-size correction and no hybrid functional enters, so no charge-transition level
-follows \citep{Chatratin2019}. And the cells are crystalline. The result is therefore consistent in direction with the
-paper's statement that W suppresses oxygen vacancies, in a regime that does not map onto the devices; it does not test
-that statement for the films.
+follows \citep{Chatratin2019}. And the cells are crystalline. The sign of $\Delta E_{\mathrm{dop}}$ is the one that the
+paper's statement that W suppresses oxygen vacancies would imply; with H-L unresolved overall and in a regime that does
+not map onto the devices, the result neither supports nor tests that statement for the films.
 
 % =====================================================================================================================
 \section{Alternative explanations and decisive calculations}

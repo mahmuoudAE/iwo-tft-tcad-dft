@@ -34,11 +34,13 @@ gives
  + \langle\Phi_k|\nabla_I^2\Phi_{k'}\rangle\Big)\chi_{k'} = \mathcal{E}\chi_k .
 \label{eq:mono-dft-bo-coupled}
 \end{equation}
-The Born--Oppenheimer approximation \citep{Born1927} drops the non-adiabatic couplings in the second sum. Born and
+The Born--Oppenheimer approximation \citep{Born1927} drops the second sum: the non-adiabatic couplings ($k'\ne k$) and
+the diagonal adiabatic correction ($k' = k$). Born and
 Oppenheimer organised the corrections in powers of $\kappa = (m_e/M_I)^{1/4}$, which is 0.076 for O and 0.047 for In:
 vibrational energies appear at order $\kappa^2$ and the non-adiabatic terms at higher order. The nuclei then move on the potential-energy surface $E_0(\{\vR\})$, which is what a
-relaxation minimises. The approximation fails where electronic states cross as the nuclei move; for the closed-shell
-oxide cells of this project no such crossing is involved in the quantities used, but polaron formation
+relaxation minimises. The approximation fails where electronic states cross as the nuclei move; for the oxide cells of this project
+(insulating pure cells, degenerately doped metallic W cells) no such crossing is involved in the quantities used, and
+the size of the non-adiabatic terms is not estimated, but polaron formation
 (\cref{sec:mono-defect-polaron}) is an example where the coupling of a localised electron to the lattice has to be
 treated explicitly.
 
@@ -52,7 +54,7 @@ suppose $v_1 \neq v_2 + \mathrm{const}$ have non-degenerate ground states $\Psi_
 $n$. The variational principle gives $E_1 < \langle\Psi_2|\Hop_1|\Psi_2\rangle = E_2 + \int (v_1-v_2)\,n\,d\vr$ and, by
 symmetry, $E_2 < E_1 + \int (v_2-v_1)\,n\,d\vr$. Adding the two gives $E_1+E_2 < E_1+E_2$, a contradiction. (ii) The
 functional $E_v[n] = F[n] + \int v\,n\,d\vr$, with the universal functional $F[n] = \min_{\Psi\to n}\langle\Psi|\hat T +
-\hat V_{ee}|\Psi\rangle$ (constrained search; this form avoids the $v$-representability problem of the original
+\hat V_{ee}|\Psi\rangle$ (constrained search \citep{Levy1979,Lieb1983}; this form avoids the $v$-representability problem of the original
 proof), is minimised by the ground-state density, and its minimum is the ground-state energy.
 
 \paragraph{Kohn--Sham construction.} \citet{Kohn1965} replace the interacting system by non-interacting electrons in
@@ -76,7 +78,9 @@ therefore
 E = \sum_j f_j\varepsilon_j - \tfrac12\iint\frac{n(\vr)n(\vr')}{|\vr-\vr'|} + \Exc[n] - \int\vxc\, n\,d\vr + E_{II} .
 \label{eq:mono-dft-Edc}
 \end{equation}
-Only $\Exc$ is unknown; every approximation of a DFT calculation, apart from numerical ones, is an approximation of it.
+Only $\Exc$ is unknown in the theory itself. A practical calculation adds approximations of its own: frozen cores and
+pseudopotentials or PAW data sets, static nuclei, a scalar-relativistic Hamiltonian without spin--orbit coupling, and, in
+this project, spin-unpolarised production runs, besides the numerical ones of \cref{sec:mono-dft-pw}.
 
 \paragraph{Meaning of the eigenvalues.} The Kohn--Sham eigenvalues are Lagrange multipliers, not quasiparticle
 energies. Janak's theorem \citep{Janak1978}, $\partial E/\partial f_j = \varepsilon_j$, and the ionisation-potential
@@ -167,7 +171,8 @@ $\hat T_{\vR}\psi = c(\vR)\psi$ with $c(\vR+\vR') = c(\vR)c(\vR')$ and $|c|=1$; 
 \label{eq:mono-dft-bloch}
 \end{equation}
 (Bloch's theorem \citep{Bloch1929}). Every density or energy becomes an average over the first Brillouin zone,
-$n(\vr) = \sum_n \frac{\Omega}{(2\pi)^3}\int_{\mathrm{BZ}} f_{n\vk}|\psi_{n\vk}(\vr)|^2 d\vk$, which is replaced by a
+$n(\vr) = 2\sum_n \frac{\Omega}{(2\pi)^3}\int_{\mathrm{BZ}} f_{n\vk}|\psi_{n\vk}(\vr)|^2 d\vk$ (spin-unpolarised,
+$0 \le f_{n\vk} \le 1$ per spin), which is replaced by a
 weighted sum over a finite grid. Monkhorst--Pack grids \citep{Monkhorst1976} integrate smooth periodic functions with
 an error that falls exponentially with the grid density, because the Fourier components of a smooth function of $\vk$
 decay exponentially. For an insulator the integrands are smooth and small grids suffice: the 40-atom primitive cell of
@@ -197,9 +202,9 @@ $\tilde\delta(x) = \pi^{-1/2}e^{-(x-a)^2}(2-\sqrt2\,x)$ with $a = 1/\sqrt2$ give
 \tilde f(x) = \tfrac12\,\mathrm{erfc}(y) - \frac{1}{\sqrt{2\pi}}e^{-y^2} .
 \label{eq:mono-dft-mv}
 \end{equation}
-The energy error is $O(\sigma^3)$, but for $y > 1/\sqrt2$ the asymptotic form $\tfrac12\mathrm{erfc}(y)\approx
-e^{-y^2}/(2\sqrt\pi\,y)$ is smaller than the second term, so $\tilde f$ is slightly \emph{negative} above the Fermi
-level. MV weights are therefore numerical integration weights, not occupations of states.
+The energy error is $O(\sigma^3)$, but $\tilde f$ is not monotonic: it equals 0.60 at $x = 0$, changes sign at
+$x \approx 0.92$ and reaches a minimum of $-0.083$ at $x = \sqrt2$, so states up to about $2\sigma$ above the Fermi
+level receive slightly \emph{negative} weights. MV weights are therefore numerical integration weights, not occupations of states.
 \end{itemize}
 
 \paragraph{Consequences for the observables of this project.} The widths used are 0.01~Ry (136~meV, MV, crystalline W
@@ -217,7 +222,7 @@ smearing function (register section~1).
 \item Geometries relaxed with different families can differ. The registered screen found that switching MV 0.01~Ry to
 Gaussian 0.005~Ry at one relaxed 1.0~nm W geometry changes no force component by more than $2.4\times10^{-4}$~Ry/bohr
 \claim{C034}, below the $10^{-3}$~Ry/bohr relaxation threshold, so at that geometry the family is not a geometry
-uncertainty; the polish control C4 tests the same question on the endpoints (\cref{sec:mono-am-hn}).
+uncertainty (the screen resolves differences down to the SCF noise, RMS $6.7\times10^{-5}$~Ry/bohr); the polish control C4 tests the same question on the endpoints (\cref{sec:mono-am-hn}).
 \end{enumerate}
 
 For the crystalline vacancy cells the smearing affects total energies, but the corrections cancel in the registered

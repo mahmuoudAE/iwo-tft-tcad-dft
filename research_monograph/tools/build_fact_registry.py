@@ -210,7 +210,7 @@ if ca_path.exists():
     add("FACT-029", "single-band EMA CB share for heavy-hole masses 3.2-18.1 m0 vs computed (2 nm, 1 nm)",
         f"{min(P['cb_share_ema'].values())}-{max(P['cb_share_ema'].values())} vs 0.84, 0.94", "-", "DERIVED",
         "C020; C040", "tools/confinement_analysis.py", None, "m_h/(m_e+m_h)",
-        "EMA dEv -0.014 / -0.041 eV vs computed -0.054 / -0.052; difference comparable to alignment-route spread",
+        "parabolic EMA dEv -0.014 / -0.041 eV; Kane-consistent EMA (hole energy dEc(1+alpha dEc) m_b/m_h, m_h 3.2) -0.016 / -0.061 eV, share 0.95 / 0.93, vs computed -0.054 / -0.052: agrees at 1 nm; at 2 nm the computed |dEv| exceeds EMA by ~38 meV, more than the route spread (5 meV) and plateau flatness (8 meV); unexplained",
         "theory-confinement; dft-alignment", verification="independent-recompute")
     H = ca["hse_ratio_model"]
     add("FACT-029a", "HSE/PBE confinement ratio from a Kane band with alpha ~ 1/Eg and HSE masses 0.159-0.193",
@@ -257,7 +257,7 @@ add("FACT-032", "bulk NC-PBE gap (80 Ry)", hb["NC_PBE_bulk"]["gap_eV"]["value"],
 # ---------------------------------------------------------------- W in crystalline cells
 f09 = AF / "out/f09_iwo_bulk.json"
 add("FACT-040", "W site preference E(8b) - E(24d), 4x4x4", 0.2577, "eV", "COMPUTED", "C022",
-    "RESULTS_LOG 2026-09-29; f09", None, "total-energy difference", "3x3x3 gives 0.2580 eV", "dft-w",
+    "RESULTS_LOG 2026-09-29; f09", None, "total-energy difference", "3x3x3 relaxation gives 0.2579 eV", "dft-w",
     verification="log-and-json")
 add("FACT-041", "W-O mean bond length, 24d / 8b", f"{jget(f09, ['24d', 'W_O_mean_A']):.3f} / "
     f"{jget(f09, ['8b', 'W_O_mean_A']):.3f}", "angstrom", "COMPUTED", "C022", "out/f09_iwo_bulk.json", None,

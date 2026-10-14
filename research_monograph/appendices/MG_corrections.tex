@@ -153,6 +153,51 @@ estimators, so the method is not identified (\claim{C025}, \claim{C032}). & \cre
 \end{longtable}
 }
 
+\section{Corrections made in the monograph's own review (Gate 6)}
+\label{sec:mono-corr-review}
+
+Two independent reviews of the draft (a referee-style check of the theory chapters and a numbers, labels and blindness
+audit) found the following errors in the monograph's own text; each was verified before it was corrected, and the
+superseded wording does not survive elsewhere in the monograph or the manuscript framework.
+
+{\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.9cm}>{\raggedright\arraybackslash}p{4.3cm}>{\raggedright\arraybackslash}p{5.1cm}>{\raggedright\arraybackslash}p{3.6cm}@{}}
+\toprule
+ID & Superseded statement & Current statement & Verified by \\\midrule\endhead
+V1 & SCF force noise ``of the same size as the relaxation threshold'' ($10^{-3}$~Ry/bohr). & The SCF correction is a
+norm over all $3N$ components: about $6\times10^{-5}$~Ry/bohr per component, some fifteen times below the threshold; the
+non-reproducible restart (C036) exceeds this noise. & RESULTS\_LOG 2026-10-11 (``norm over all atoms''). \\
+V2 & Variable-cell relaxations by Wentzcovitch dynamics. & BFGS on the cell (\texttt{cell\_dynamics = 'bfgs'}); bulk
+criteria $10^{-4}$/$10^{-5}$, pressure 0.2~kbar. & The input files. \\
+V3 & The 40~meV excess of the 2~nm valence shift over single-band EMA ``within the spread of alignment routes''. &
+Kane-consistent EMA agrees at 1~nm; at 2~nm the 38~meV excess exceeds the route spread (5~meV) and plateau flatness
+(8~meV) and is unexplained. & \file{confinement_analysis.json}; \cref{tab:dft-partition}. \\
+V4 & A finite barrier ``does not rescue'' the envelope model (decay length 0.1~nm). & With continuity of $F'/m$ and
+$m_0$ outside, a 4~eV barrier gives 0.25~eV at 1.962~nm (computed 0.281); the model is not predictive, not refuted. &
+Recomputed. \\
+V5 & The Kane mass relation holds ``within 2\,\% at three of four thicknesses''; the mass increase is ``a bulk
+band-structure effect, not a surface effect''. & Within 1\,\% at 1.962~nm, 10\,\% at 0.930~nm; the two thinner films do
+not test it. Claims M004, MS-04 revised. & FACT-027; fit window. \\
+V6 & Dielectric enhancement of donor binding up to 0.45~eV for the device films. & The device stack is \AlO{} (2~nm) on
+\HfO{} with air above; the \HfO{}-backed side gives essentially no enhancement; 0.45~eV holds only for an
+\AlO{}/air environment. & Device stack (\cref{ch:device}). \\
+V7 & W cells ``at the doping limit, where the resonance is being filled''. & At the forced filling $E_F$ has reached
+the resonance; not independent evidence of pinning. & MV width 0.136~eV. \\
+V8 & Full activation of 2\,\% W ``$6\times10^{20}$\cmcu''; compensation ``must'' explain the gap. & $6\times10^{20}$
+(one electron per W) to $1.8\times10^{21}$\cmcu{} (three per W); the fitted donor density is not identifiable (C016), so
+the argument is one of scale (\prov{inferred}). & Cation density from the PBE lattice. \\
+V9 & Conclusions: H-L, the floor, the mobility definition and the confinement share under ``strongly supported'' or
+``demonstrated''. & Re-sorted under the weakest class of any part (\cref{sec:concl-inferred}). & Ledger labels C005,
+C031, C038, C018. \\
+V10 & Single-subband limit ``up to about 6~nm''. & One subband at 2~nm, one or two at 6.3~nm (the law is extrapolated
+3--7 times beyond its data). & Kane box recomputed. \\
+V11 & Smaller items: HSE ratio model now uses the norm-conserving PBE gap (0.98--1.16); W preference ratio 440 (not
+430); swing deviations quoted per film; deck-basis mass differences ($-3.0$ to $+0.5$\,\%); site energy 0.2579~eV in
+the registry; ``5.3\,\% W'' of the device paper's DFT removed (no source); the 31.8~nm curve is not from the published
+series. & Respective sources. \\\bottomrule
+\end{longtable}
+}
+
 \section{Inconsistencies found in the record (not corrected here)}
 The following inconsistencies were found in frozen or private record files. The monograph does not edit those files;
 it states which reading it uses. They are listed for the record keepers.

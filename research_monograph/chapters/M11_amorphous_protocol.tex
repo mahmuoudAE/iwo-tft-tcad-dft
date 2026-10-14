@@ -57,7 +57,8 @@ steeply with thickness (V1: $N_{\mathrm{d,eff}} = 2.5\times10^{17}[1+(t/20)^4]$\
 It is not the only one: back-surface depletion, a growth gradient of oxygen vacancies, and structural change with
 thickness predict the same sign (\cref{ch:mono-questions,ch:mono-alternatives}). Moreover, at about 2\,\% W, full
 activation would give $6\times10^{20}$ to $1.8\times10^{21}$\cmcu{} (one to three electrons per W), between two and four
-orders of magnitude above the fitted effective densities, so compensation must dominate in the devices whatever H-N shows. H-N can therefore at most identify a
+orders of magnitude above the fitted effective densities, so compensation would have to dominate in the devices whatever H-N shows, if the fitted density were physical
+(\prov{inferred}; the fitted density is not identifiable, \claim{C016}). H-N can therefore at most identify a
 mechanism that acts in the right direction; it cannot by itself explain the device data.
 
 % =====================================================================================================================
@@ -227,8 +228,9 @@ replace the required Gaussian polish.
 \item \amend{A26}: Gaussian 0.001~Ry reference final SCFs before the audit; self-comparison is not an audit pass.
 \item \amend{A31}: the audit runs as CPU finals; because the frozen reader does not compute the electron affinity, the
 audit is partial by construction and every dependent result carries ``A15 width provisional (EA not evaluated)''.
-\item \amend{A35}, \amend{A36}: one-attempt Gaussian rescues of the 0.8~nm and two 2.0~nm W chains after SCF
-failures.
+\item \amend{A35}, \amend{A36}: one-attempt rescues after SCF failures: Gaussian 0.005~Ry for the 0.8~nm chain and
+\file{aIWO_2p0_s2}, Marzari--Vanderbilt 0.01~Ry with convergence aids for \file{aIWO_2p0_comp_s1} (registered family
+kept), and a pre-declared conditional Gaussian route for \file{aIWO_2p0_s1} (\dlog{D-40}).
 \end{itemize}
 The W series therefore uses mixed relaxation smearing, and every result table gives each cell's family and lineage.
 
@@ -304,7 +306,7 @@ H-G & W behaves as a donor into host states, with no pinning state (2.0~nm) &
 lowest state with $\ge30$\,\% W-5d weight $>0.3$~eV above the host edge; $\ge80$\,\% of the nominal excess electrons in
 extended host states; compensated cell: no occupied localised W state in the gap; host-edge state $\le10$\,\% W-5d \\
 H-H & OH termination moves dipoles, not the interior host edge & 2.0 and 0.7~nm against bare controls (2.0~nm part
-unresolved: bare control parked) \\
+unresolved: bare control parked, \dlog{D-35}) \\
 H-I & \AlO{} changes the alignment without channel-edge traps & interface cells (expected unresolved: no feasible route) \\
 H-K & amorphous confinement agrees with the crystalline laws & $\Eg(0.7)-\Eg(2.0) = 0.6$--1.3~eV; aligned host edge
 rises 0.2--1.0~eV from 2.0 to 1.0~nm where alignment is valid \\

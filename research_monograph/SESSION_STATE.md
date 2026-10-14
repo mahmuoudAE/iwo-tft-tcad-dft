@@ -95,15 +95,18 @@ REPOSITORY-AWARE SCIENTIFIC WRITING AND ADAPTIVE TOKEN OPTIMIZATION").
 | 3 Synthesis approved internally | DONE (corrections X1-X8; audits in evidence/audits/) | |
 | 4 Existing LaTeX assessed | DONE | main.tex skeleton builds (433 pp, 0 errors). Revised copies via tools/patch_13dft.py (46 patches) and tools/patch_reused.py (03, 09, 11, 14). Reused-by-reference files pinned in baseline_manifest.tsv (19). |
 | 5 Chapters written | DONE 2026-10-14 | 523 pp, 0 errors, 0 undefined refs |
-| 6 Critical review | pending | |
-| 7 LaTeX validated | pending | |
-| 8 npj manuscript scaffold | pending | |
+| 6 Critical review | DONE 2026-10-14 | Two independent reviews (theory referee; numbers/labels/blindness audit). Every finding verified before use; corrections V1-V11 in appendix MG (sec:mono-corr-review). Rejected: audit item 22 (donor count: 2.5e17 cm^-3 x 2 nm = 500 per um^2, the text was right). Not actionable without blocked sources: aIO_0p7_s1 composition (M11 table), SLAB_PROTOCOL details. Varley2012 checked (abstract covers In2O3). |
+| 7 LaTeX validated | DONE 2026-10-14 | 530 pp, 0 errors, 0 undefined refs/cites, 0 multiply defined; bibtex: 2 empty-year warnings of baseline manuals only. \file redefined as breakable \nolinkurl (monograph_preamble.tex); overfull >15pt: 92 in all, 12 in monograph-owned files, of which 11 in *_rev copies of baseline text and 1 of 21pt in M07 (tools/overfull.py). |
+| 8 npj manuscript scaffold | DONE 2026-10-14 | manuscript_npj/: main.tex (10 pp, builds clean), CLAIMS_USED.tsv (MS-01..15, all AWAITING APPROVAL), DECISIONS.md (N01-N45), FIGURE_PLAN.tsv, check_manuscript.py (passes), build.sh, README.md. Journal rules not checked (N36). |
 
 ## 8. Compilation notes
 
 - Baseline `report_latex_full` needs `newtx`, TeX Gyre fonts, `binhex.tex` (plain-generic). Installed.
 
 ## 9. Exact next action
+
+All gates done (2026-10-14). Remaining work needs the research owner: approvals (charter section 9), the fab
+permission (N01), and the release decision (D-43). Old plan text below kept for history.
 
 Gate 6: adversarial review (theory chapters; numbers/blindness consistency), then Gate 7 polish (overfull boxes via tools/overfull.py), then Gate 8 npj scaffold in research_monograph/manuscript_npj/ -> M10_w_and_vacancies ->
 M07_provenance -> M08_c10_campaign -> M12_multiscale -> M13_alternatives_uncertainty -> M14_audit -> M02_questions ->
@@ -146,8 +149,8 @@ After each chapter: tools/build.sh, fix errors, update section 11 below.
 1. H-N cannot return CROSSOVER or NO CROSSOVER (A37), independent of sealed data.
 2. Frozen PR thresholds are not size-consistent across the registered cells (FACT-081): a W+6 O support of 7 atoms
    is 'localised' at 0.7/0.8/2.0 nm but 'intermediate' in bulk and at 1.0 nm. Reading aid only; rule unchanged.
-3. Kane relation m_b(1+2 alpha dEc) reproduces the computed slab masses (no fit): the mass law and dEc law are one
-   input (FACT-027).
+3. Kane relation m_b(1+2 alpha dEc) reproduces the computed slab mass within 1 % at 2 nm and 10 % at 1 nm (no fit);
+   to ~10 % the mass law and dEc law are one input (FACT-027, M004 as revised in Gate 6).
 4. report_latex_full/digest/papers holds full text of 11 papers in the public repo (copyright concern P-2).
 5. Baseline 13_dft errors corrected: donated density 5.5e21 -> 2.7e21; mixed dEv sign conventions; stale statuses.
 6. Measured device curves are collaborator-owned and already public; permission pending (P-1).
@@ -156,4 +159,10 @@ After each chapter: tools/build.sh, fix errors, update section 11 below.
 8. mu_sat identity mu V_D/(2V_ov - V_D) fails quantitatively on the curves (obs/pred 1.5-1.8): saturation peaks are
    numerical correspondences, not mobilities (M07).
 9. Baseline citations corrected: W passivation claim is Januar2026 p. 4; HRTEM no long-range order p. 2.
-10. A public commit message (50f627f) names an S2-11 score; treated as sealed-adjacent and NOT used.
+10. A public commit message (50f627f) contains sealed-adjacent information; NOT used, not characterised further.
+11. Gate 6 review corrections V1-V11 (appendix MG): SCF force noise is per-component ~6e-5 Ry/bohr, not 1e-3;
+    vc-relax used BFGS, not Wentzcovitch dynamics; 2 nm valence-shift excess (38 meV) is resolved and unexplained;
+    finite-barrier envelope model brings E1(2 nm) to 0.25 eV (not refuted, not predictive); dielectric enhancement
+    small for the HfO2-backed stack; full W activation 6e20-1.8e21 cm^-3; M15 conclusions re-sorted (H-L, floor,
+    mobility definition, confinement share no longer 'strongly supported'/'demonstrated').
+12. New monograph claims M007 (rigid dEc transfer vs 6.3 nm) and M008 (mu_sat identity fails by 1.5-1.8).

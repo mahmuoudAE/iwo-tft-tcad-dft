@@ -16,6 +16,11 @@
   {../qe_workflow/analysis_2026-10-13_full/bands_masses/figures/}{../analysis_2026-10-06_extraction/figures/final/}%
   {../analysis_2026-10-06_extraction/figures/paper/}{../analysis_2026-10-06_extraction/figures/}}
 
+% File names: the baseline \file (\detokenize) cannot break, which overfills lines with long paths. Redefined as a
+% non-linking URL (url package, loaded by hyperref): same typewriter look, breaks after / _ . and -.
+\DeclareRobustCommand{\file}[1]{\nolinkurl{#1}}
+\makeatletter\g@addto@macro\UrlBreaks{\do\-}\makeatother
+
 % ---------------- monograph macros (prefix-free names checked against the baseline preamble) ----------------
 % Evidence pointers: fact registry, claims ledger, corrections register, decision log, register amendments.
 \newcommand{\fact}[1]{\textsf{\scriptsize[F#1]}}            % \fact{001}  -> [F001], evidence/FACT_REGISTRY.tsv

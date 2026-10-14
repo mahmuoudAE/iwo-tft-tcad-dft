@@ -40,7 +40,8 @@ channels; its effect on stability depends on thickness \citep{Kim2024}.
 opens and the band edges move by quantum confinement; every atom is close to a surface or an interface; the films are
 disordered; and transport becomes, in the words of the device paper's introduction, disorder-limited below about 10~nm
 for conventional amorphous oxides \citep[p.~1]{Januar2026}. Variability between nominally identical devices grows when a
-channel contains only a few hundred donors per square micrometre. Understanding these effects requires simulations at
+channel contains only a few hundred donors per square micrometre (a 2~nm channel at the calibrated effective donor
+density of $2.5\times10^{17}$\cmcu{} holds about 500, \claim{C016}). Understanding these effects requires simulations at
 two very different scales, and both are costly: a first-principles calculation scales as the cube of the number of
 atoms (\cref{sec:mono-dft-cost}; \citealp{Goedecker1999}), and amorphous films need hundreds of atoms per cell and
 several independent samples; a device simulation must resolve nanometre-thick layers in micrometre-long devices, and
@@ -54,7 +55,8 @@ each calibration run is a separate launch. The computational cost of this projec
 The fabrication group of this project has published a thickness series of W-doped \InO{} (IWO, about 2\,\% W)
 bottom-gate transistors with channels of 2.0 to 13.2~nm, together with an analytic model in which the current is a blend
 of band, tail-state and interface-trap terms, eight parameters fitted per device, and crystalline density-functional
-calculations at 5.3\,\% W \citep{Januar2026}. The paper reports that W passivates oxygen vacancies and promotes charge
+calculations of W-doped \InO{} \citep{Januar2026} (the W fraction of those cells is not given in the main text
+available to this project). The paper reports that W passivates oxygen vacancies and promotes charge
 delocalisation \citep[p.~4]{Januar2026}, and that a single model captures the crossover from near-band transport in
 thicker channels to disorder- and interface-limited transport in ultrathin films \citep[p.~4]{Januar2026}.
 
@@ -91,13 +93,14 @@ for publication.
 
 \paragraph{Contributions that stand on the present evidence.} (1) A first-principles confinement series of crystalline
 \InO{} films, with masses on a stated basis, a band-edge partition, a hybrid-functional check, and laws with honest
-uncertainties (\cref{ch:dft,ch:mono-masses}). (2) The demonstration that the mass increase of the films follows, without
-fitting, from the bulk non-parabolicity at the computed subband energy, so that the device model carries one
-independent first-principles law (\cref{ch:mono-confinement-theory}). (3) A corrected picture of W in crystalline
+uncertainties (\cref{ch:dft,ch:mono-masses}). (2) The finding that the mass increase of the films is consistent, without fitting,
+with the bulk non-parabolicity at the computed subband energy (within 1\,\% at 2~nm and 10\,\% at 1~nm), so that the
+device model carries, to that accuracy, one independent first-principles law (\cref{ch:mono-confinement-theory}). (3) A corrected picture of W in crystalline
 \InO{} as a resonant donor at high filling, with the earlier deep-donor reading withdrawn (\cref{ch:mono-w-vac}).
 (4) A registered crystalline vacancy test (\cref{ch:mono-w-vac}). (5) A fully specified, blind protocol for amorphous
 films, including the finding that its central hypothesis cannot return a crossover verdict (\cref{ch:mono-amorph}).
-(6) A quantitative account of why every 6.3~nm prediction failed in the same direction (\cref{ch:mono-multiscale}).
+(6) A quantitative description of how every failed 6.3~nm prediction relates to the computed confinement shift, all in
+the same direction, without assigning a cause (\cref{ch:mono-multiscale}).
 (7) A reconciliation of the published and the derived device metrics (\cref{ch:mono-provenance}).
 
 \section{Structure}

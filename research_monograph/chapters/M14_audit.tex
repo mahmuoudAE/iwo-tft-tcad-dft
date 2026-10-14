@@ -16,7 +16,7 @@ pushed or published in the course of the audit.
 \label{sec:mono-audit-people}
 
 \begin{itemize}
-\item \emph{Research owner:} Mahmoud Elrasheedy (TCAD and DFT; owner of the record). Supervisor: Mukul Kumar; principal
+\item \emph{Research owner:} Mahmoud Elrasheedy (TCAD and DFT; owner of the record). Mentor: Mukul Kumar; principal
 investigator: Prof.\ Chao-Hsin Wu.
 \item \emph{Fabrication group and data owner:} Prof.\ Min-Hung Lee's group, National Taiwan University (Dr.\ Mochamad
 Januar, Zhao-Feng Luo); co-author of the published paper: Prof.\ Kou-Chen Liu (Chang Gung University).
@@ -37,7 +37,7 @@ audited commit.}
 \toprule
 Item & Origin, owner & Public & Status and constraint \\\midrule
 Four measured transfer curves (workbook and CSV; a second workbook copy under \file{inputs/astra_.../audit/sources/}) &
-fabrication group & yes & devices of a published paper; the paper makes data available on reasonable request \citep[p.~10]{Januar2026}; permission for
+fabrication group & yes & devices of a published series (2--13~nm; the 31.8~nm curve was supplied with the data); the paper makes data available on reasonable request \citep[p.~10]{Januar2026}; permission for
 public hosting, reuse in publications and AI processing \textbf{not recorded} (charter section~8; task HUM-001) \\
 Published values and figures of \citet{Januar2026} & fabrication group; CC~BY article \citep[p.~1]{Januar2026} & yes (article) & may be cited
 and, with attribution, reproduced; digitised values are our derived data \\
@@ -72,7 +72,7 @@ fabrication group (task HUM-001).
 \item \textbf{Copyrighted full texts in the public repository.} The digest of eleven papers and the ATLAS manual text
 files are publicly tracked. Removing them from the current tree would not remove them from the git history.
 \item \textbf{Publication overlap.} The device data, an analytic model of them, and crystalline DFT of \InO{}
-and W:\InO{} (5.3\,\% W, PBE) with interface slabs are already published \citep{Januar2026}. Any paper of
+and W:\InO{} (PBE) with interface slabs are already published \citep{Januar2026}. Any paper of
 this project that shows the curves or re-analyses the paper's metrics overlaps with that publication and needs the
 fabrication group's agreement; a paper built on the author-generated calculations (the confinement series and its
 analysis, the vacancy test, the amorphous protocol) overlaps less but still relies on the devices for motivation and
@@ -83,13 +83,13 @@ its numerical qualification; the TCAD models and campaign; the registered extrac
 published metrics. Re-analysed: every device metric (derived from the group's curves).
 \item \textbf{AI-tool processing.} The charter requires the fabrication group's consent before unpublished fab data are
 given to AI services. The four curves have been processed by AI agents throughout the project, including this
-monograph; they belong to published devices but were obtained as data, and the consent question for them is part of the
+monograph; three of them belong to published devices, and all four were obtained as data, and the consent question for them is part of the
 pending meeting.
 \item \textbf{Timestamps of registrations.} Registrations are timestamped by commits and pushed tags in the repositories;
 the charter's preferred external timestamp (a DOI from Zenodo or OSF) has not been obtained (paper-draft item P27).
 \item \textbf{Sealed and blind material.} The audit found the blind guard of the \file{.gitignore} and
 \file{PUBLIC_EXCLUSIONS.md} consistent with the absence of sealed runs and amorphous outputs in this checkout. One public
-commit message names a scored criterion of a sealed-stage run; the monograph does not use it.
+commit message contains sealed-adjacent information; the monograph does not use it.
 \end{enumerate}
 
 \section{Recommendations for the humans}

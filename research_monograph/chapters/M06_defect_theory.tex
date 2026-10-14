@@ -27,7 +27,8 @@ band-edge mass, 19~meV and 3.6~nm. The Mott criterion $n_c^{1/3}a_B^* \approx 0.
 $9\times10^{17}$\cmcu{}. Above it, donor states overlap into the conduction band and the material is degenerate. The
 device channels operate below and around this density; every W-doped supercell of this project (one electron per W in
 the amorphous cells, about $6\times10^{20}$\cmcu{}; three per W in the crystalline cells, $1.4$--$3.0\times10^{21}$\cmcu{})
-lies two to three orders of magnitude above it. In those cells a bound hydrogenic donor state cannot exist: the donated
+lies about three orders of magnitude above it (some 660 times for the amorphous cells, 1500--3300 times for the
+crystalline cells). In those cells a bound hydrogenic donor state cannot exist: the donated
 electrons fill the band and screen each other. Any localisation the supercells show is therefore of a non-hydrogenic
 kind (a d level, a trap, or a disorder tail state), and the supercells cannot test hydrogenic binding at device
 densities.
@@ -36,11 +37,17 @@ densities.
 function is squeezed and the binding grows; in the strict two-dimensional limit the hydrogenic binding energy is four
 times the bulk value, 0.10~eV with the measured parameters, with a radius $a_B^*/2 = 1.3$~nm \citep{Bastard1981b}.
 In addition, the field lines of the donor charge leave a thin film into its surroundings. If those have a lower
-permittivity than the film, screening at distances beyond about $r_0 = \varepsilon_s t/(\varepsilon_1+\varepsilon_2)$
-is set by the mean permittivity of the surroundings rather than by $\varepsilon_s$. For a film between \AlO{}
-($\varepsilon\approx9$) and air this mean is 5, and the strict 2-D binding computed with it is an upper bound of about
-0.45~eV. For $t = 2$~nm, $r_0 \approx 2.1$~nm is comparable with the 2-D donor radius, so the binding lies between these
-limits, several times the bulk value. Donor deactivation by dielectric confinement has been predicted and observed in
+permittivity than the film, screening at distances beyond about $r_0 = \varepsilon_s t/(\varepsilon_1+\varepsilon_2)$ (the thin-film screening
+length, \citealp{Cudazzo2011})
+is set by the mean permittivity of the surroundings rather than by $\varepsilon_s$. In the devices the channel lies
+on 2~nm of \AlO{} ($\varepsilon\approx9$) on 15~nm of \HfO{} ($\varepsilon = 19.57$), with air above
+(\cref{ch:device}). For an \AlO{}/air environment the mean is 5, and the strict 2-D binding computed with it is about
+0.45~eV; for an \HfO{}/air environment the mean is 10.3, close to $\varepsilon_s$, and there is essentially no
+dielectric enhancement (0.11~eV, the quantum-confinement value). Because the \AlO{} layer (2~nm) is about as thick as
+$r_0 \approx 2.1$~nm and the 2-D donor radius (1.3~nm), the device lies between these cases, closer to the second at
+large distances. For $t = 2$~nm, about $0.75\,a_B^*$, quantum confinement alone roughly doubles the bulk binding. These
+are order-of-magnitude estimates: at binding energies above the LO-phonon energy the static $\varepsilon_s$ overstates
+the screening, and non-parabolicity raises the mass, both of which would increase the binding. Donor deactivation by dielectric confinement has been predicted and observed in
 silicon nanowires \citep{Diarra2007,Bjork2009}. For the IWO channels this gives a mechanism by which the fraction of
 ionised donors could fall with thickness without any change of W chemistry (\prov{theory}; not computed in this
 project). It acts in the same direction as the fitted donor law of the device model (\claim{C016}), and it competes
@@ -52,14 +59,15 @@ with the W-specific mechanisms that H-N was designed to probe (\cref{sec:mono-am
 A donor whose localised level lies inside the conduction band hybridises with the band states and becomes a resonance
 of finite width. Its electron is not bound: it decays into the band, and the impurity is ionised whatever the
 temperature. A resonant level becomes occupied only when the Fermi level reaches it; at that point the large density of
-states of the resonance pins $E_F$ and sets a doping limit. This picture has been used to explain why Mo and W donors
-in \InO{} give high mobilities: the ionised impurity scatters less when its d level lies well above the band edge
-\citep{Swallow2020}.
+states of the resonance pins $E_F$ and sets a doping limit. This picture has been used to explain why Mo donors in \InO{} give high mobilities: the ionised impurity scatters
+less when its d level lies well above the band edge \citep{Swallow2020}; for W the same argument applies by analogy.
 
 The computed W cells of this project (\cref{ch:mono-w-vac}) are consistent with this picture in one respect and silent
 in another. The W-5d-rich level lies 1.2--1.8~eV above the host band bottom at the filling of the cells, and in every
-cell it lies within about 0.1~eV of $E_F$ \claim{C022}: the cells sit at the doping limit, where the resonance is
-being filled. They say nothing directly about lower fillings, because no lower-density cell was computed, and a hybrid
+cell it lies within about 0.1~eV of $E_F$ \claim{C022}: at the cells' forced filling ($1.4$--$3.0\times10^{21}$\cmcu{}) the Fermi
+level has reached the resonance. This coincidence is not independent evidence of pinning (a partly occupied narrow level
+lies at $E_F$ by construction, and 0.1~eV is below the 0.136~eV smearing width), and whether the resonance pins $E_F$ at
+lower filling would need a density series. They say nothing directly about lower fillings, because no lower-density cell was computed, and a hybrid
 functional, which can lower localised d levels, was not applied to them. That W remains an ionised resonant donor at
 device densities is therefore an inference from the computed level positions, not a computed result.
 
@@ -84,8 +92,9 @@ formation energies of $q$ and $q'$ are equal,
 A donor is shallow if $\varepsilon(+/0)$ lies within a few $\kT$ of the conduction band or above it. Computing this
 requires charged cells, image-charge corrections \citep{Freysoldt2014}, a band-gap correction (semi-local functionals
 place the conduction band too low, \citealp{Lany2008}) and, for localised states, a functional that does not
-over-delocalise. For the oxygen vacancy in \InO{} the answer depends on these choices, and published hybrid-functional
-studies disagree on how deep it is \citep{Lany2007,Agoston2009,Buckeridge2018,Chatratin2019}.
+over-delocalise. For the oxygen vacancy in \InO{} the answer depends on these choices, and published first-principles
+studies with different functionals and corrections disagree on how deep it is
+\citep{Lany2007,Agoston2009,Buckeridge2018,Chatratin2019}.
 
 \paragraph{What the neutral vacancy cells of this project compute.} The registered test H-L (\cref{ch:mono-w-vac}) uses
 neutral, spin-unpolarised PBE cells with metallic filling. It defines energy differences in which the chemical
@@ -157,21 +166,22 @@ per-cell results, not a change of the frozen rule (\prov{derived}).
 \begin{table}[htbp]\centering\small
 \caption{Support sizes implied by the frozen $\PRn$ thresholds for the registered W-doped amorphous cells.}
 \label{tab:mono-defect-pr}
+\resizebox{\linewidth}{!}{%
 \begin{tabular}{lcccc}\toprule
 Cell & $N$ & localised: $M \le 0.05N$ & extended: $M \ge 0.20N$ & $\PRn$ for $M = 7$ (even) \\\midrule
 \file{aIWO_bulk_s1} & 126 & 6.3 & 25.2 & 0.056 \\
 \file{aIWO_1p0_s1} & 138 & 6.9 & 27.6 & 0.051 \\
 \file{aIWO_0p8_s2}, \file{aIWO_0p7_s1} & 147 & 7.4 & 29.4 & 0.048 \\
 \file{aIWO_2p0_s2} / \file{aIWO_2p0_s1} & 264 / 270 & 13.2 / 13.5 & 52.8 / 54.0 & 0.027 / 0.026 \\\bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 \paragraph{Localisation in disordered systems.} In an infinite disordered system, states below a mobility edge are
 localised and states above it extended \citep{Anderson1958,Mott1969}; in two dimensions weak disorder already localises
 all states on long length scales \citep{Abrahams1979}. A supercell of 1--3~nm lateral size cannot resolve localisation
 lengths larger than itself: a state that is localised on a scale of tens of nanometres appears extended in the cell.
-The H-N classification therefore detects only strong localisation, on the scale of a few atoms, which is the scale on
-which a W-centred trap would act.
+The H-N classification therefore detects only strong localisation, on the scale of a few atoms, which is the scale
+on which a deep, d-like W-centred trap would act; shallow traps of nanometre extent are invisible to it.
 
 \section{Compensation and the effective donor density of the devices}
 \label{sec:mono-defect-compensation}
@@ -180,19 +190,23 @@ At about 2\,\% W (about $5.8\times10^{20}$ W per cm$^3$ if the 2\,\% is a cation
 give between about $6\times10^{20}$ (one electron per W, if each W brings one extra O, as in the amorphous cells) and
 $1.8\times10^{21}$ electrons per cm$^3$ (three per W, as in the crystalline cells), whereas the
 calibrated donor law gives effective densities of $2.5\times10^{17}$ (thinnest films) to $1.8\times10^{18}$\cmcu{} (31.8~nm; \claim{C016}),
-and the 2~nm device switches off. The difference of between two and four orders of magnitude must come from compensation
-(acceptor-like defects such as excess oxygen, cation vacancies or surface and interface acceptor states), from donors
-that are not activated, or from both \citep{Lany2007}. A first-principles calculation of one W atom in a neutral cell
+and the 2~nm device switches off. If the fitted density were a physical donor density, the difference of two to four orders of magnitude would have
+to come from compensation (acceptor-like defects such as excess oxygen, cation vacancies or surface and interface
+acceptor states), from donors that are not activated, or from both \citep{Lany2007}. The fitted value is not
+identifiable from transfer curves (\claim{C016}), however: it also absorbs interface charge, trap densities and
+work-function errors of the model, so the comparison is an argument of scale, not a measurement of compensation
+(\prov{inferred}). A first-principles calculation of one W atom in a neutral cell
 addresses only the second possibility, and only in the degenerate regime. This is why the device model treats the
 donor density as a fitted, film-specific parameter (\claim{C016}), and why the multiscale chain of this project does
 not pass a donor density from first principles to the device model (\cref{ch:mono-multiscale}).
 
 \begin{keyresult}
-The supercells of this project are degenerately doped two to three orders of magnitude above the Mott density of
+The supercells of this project are degenerately doped about three orders of magnitude above the Mott density of
 \InO{} (about $9\times10^{17}$\cmcu{}), so they can show whether a donor's electron ends up in extended or strongly
 localised states, but not hydrogenic binding at device densities. In films thinner than the donor radius (2.7~nm),
-quantum and dielectric confinement can raise the binding of shallow donors several-fold, a W-independent mechanism for
-thickness-dependent donor activation that this project did not compute. Neutral vacancy energy differences mix local
+quantum confinement can roughly double the binding of shallow donors (more in the strict 2-D limit, and more again if
+the surroundings screen less than the film, which the \HfO{}-backed device stack largely prevents), a W-independent
+mechanism for thickness-dependent donor activation that this project did not compute. Neutral vacancy energy differences mix local
 chemistry with band filling and are not formation energies. Participation ratios with absolute thresholds classify the
 same localised support differently in cells of different size; the frozen H-N thresholds correspond to localised
 supports of about 6--7 atoms in the bulk and thin-film cells and about 13 atoms in the 2.0~nm cells.

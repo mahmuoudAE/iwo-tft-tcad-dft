@@ -9,9 +9,12 @@ The conclusions are sorted by the strength of the evidence behind them, in the v
 labels of the claims ledger. A conclusion is listed under the weakest class that any of its parts falls into.
 
 % =====================================================================================================================
-\section{Demonstrated}
+\section{Demonstrated, or computed within a stated scope}
 \label{sec:concl-demonstrated}
 
+Measured and derived device facts, falsified predictions and results that follow from frozen rules are demonstrated.
+First-principles results are listed here as computed within their scope (crystalline cells, PBE, the stated settings);
+they are not measurements of the device films.
 \begin{enumerate}
 \item \emph{The measured devices.} The thresholds (0.662, 0.644, 0.083~V), off-state floors and on-currents of the
 2.0, 6.3 and 13.2~nm devices follow from the curves under the registered protocol and are reproduced independently
@@ -19,23 +22,22 @@ within rounding; the thickness dependence is non-uniform, and the 31.8~nm device
 (\claim{C002}, \claim{C003}, \claim{C026}, \claim{C029}; one device per film).
 \item \emph{The device models are calibrations.} Every per-film model reproduces its own curve by construction, and every
 out-of-sample threshold prediction for 6.3~nm failed ($-0.29$, $-0.37$, $-0.23$~V; \claim{C014}, \prov{falsified}).
-\item \emph{Crystalline confinement.} PBE gap openings of $+2.25$, $+1.31$, $+0.90$ and $+0.335$~eV at H--H thicknesses
-of 0.461, 0.695, 0.930 and 1.962~nm, reproduced against an independent published calculation at 1 and 2~nm; at 2~nm
-84\,\% of the opening is in the conduction band; the hybrid-functional ratio is 1.06--1.11 at 1~nm (\claim{C020},
-\claim{C021}, \claim{C039}). The 0.461~nm film is In$_8$(OH)$_{24}$ and the 0.695~nm film is polar.
-\item \emph{Masses.} PBE band-edge electron mass $0.154\,m_0$ in bulk, rising to $0.203$ and $0.279\,m_0$ at 1.96 and
-0.93~nm; no meaningful single hole mass (\claim{C039}, \claim{C040}). The rise of the film mass is reproduced within
-2--10\,\% by the bulk Kane relation without fitting (\cref{sec:mono-conf-test}, \prov{derived}).
-\item \emph{W in crystalline cells, at the computed filling.} W occupies the 24d site; its W-5d-rich level is a
+\item \emph{Crystalline confinement (computed).} PBE gap openings of $+2.25$, $+1.31$, $+0.90$ and $+0.335$~eV at H--H
+thicknesses of 0.461, 0.695, 0.930 and 1.962~nm; at 1 and 2~nm they agree within 0.04 and 0.005~eV with an independent
+published calculation \citep{Lin2022}; at 2~nm 84\,\% of the opening is in the conduction band; the hybrid-functional
+ratio is 1.06--1.11 at 1~nm (\claim{C020}, \claim{C021}, \claim{C039}). The 0.461~nm film is In$_8$(OH)$_{24}$ and the
+0.695~nm film is polar.
+\item \emph{Masses (computed).} PBE band-edge electron mass $0.154\,m_0$ in bulk, rising to $0.203$ and $0.279\,m_0$ at
+1.96 and 0.93~nm; no meaningful single hole mass (\claim{C039}, \claim{C040}). The bulk Kane relation reproduces the
+2~nm film mass within 1\,\% and overestimates the 1~nm mass by 10\,\%, without fitting (\cref{sec:mono-conf-test},
+\prov{derived}).
+\item \emph{W in crystalline cells, at the computed filling (computed).} W occupies the 24d site; its W-5d-rich level is a
 resonance 1.2--1.8~eV above the host band bottom, near $E_F$; the earlier deep-donor reading was a band-count artefact
 (\claim{C022}, \corr{X1}).
 \item \emph{The machine-learned amorphous structures failed their registered force check} in the W first shell
 (\claim{C037}).
-\item \emph{The registered H-N outcome cannot be a crossover verdict} (\cref{prop:mono-hn}).
-\item \emph{Confinement does not account for the threshold step by itself.} Transferred rigidly, the computed
-conduction-band shift accounts for 44\,\% of the 2.0--13.2~nm threshold difference; in the earlier report's analysis the
-realised confinement accounted for about 50\,\%, and the threshold data cannot distinguish readings with and without
-confinement (\claim{C018}).
+\item \emph{The registered H-N outcome cannot be a crossover verdict} (\cref{prop:mono-hn}; follows from the frozen
+rules).
 \end{enumerate}
 
 \section{Strongly supported}
@@ -43,17 +45,36 @@ confinement (\claim{C018}).
 
 \begin{enumerate}
 \item A thickness-independent series resistance cannot create the thickness trend (it would need 83\,\% of $\Vd$ at
-2~nm; \claim{C019}).
-\item The off-state floor is not gate leakage (flat in $\Vg$; \claim{C005}, \prov{inferred}; no gate current recorded).
-\item The published mobilities are reproduced, with no free factor, by the peak of the saturation formula applied to the
-same curves, which makes that formula the leading candidate for the paper's definition (\claim{C030}, \claim{C031}); the
-formula does not describe these curves as a mobility (\cref{sec:mono-prov-mobility}).
+2~nm; \claim{C019}, \prov{derived}).
 \item The local swing of the three thinner films collapses against $\Id/\Ion$ in data and simulation (\claim{C007},
 \prov{observed}).
-\item The 6.3~nm failures follow from the measured threshold staying flat between 2.0 and 6.3~nm, where the computed
-confinement implies a 0.2~V change (\cref{sec:mono-ms-explain}, \prov{derived}).
-\item W raises the energy of a neutral oxygen vacancy in degenerately doped crystalline \InO{} (0.73~eV far from W;
-\claim{C038}; H-L overall unresolved, not a formation energy at device conditions).
+\item The published mobilities are reproduced numerically, with no free factor, by the peak of the saturation formula
+applied to the same curves (\claim{C030}, \prov{derived}); the formula does not describe these curves as a mobility
+(\cref{sec:mono-prov-mobility}).
+\end{enumerate}
+
+\section{Inferred, derived under stated conditions, or computed but unresolved}
+\label{sec:concl-inferred}
+
+\begin{enumerate}
+\item The off-state floor is unlikely to be gate leakage: it is flat in $\Vg$, but no gate current was recorded and the
+registered tests are sealed (\claim{C005}, \prov{inferred}).
+\item The saturation formula is the leading candidate for the paper's mobility definition (\claim{C031},
+\prov{inferred}; \claim{C024} stays \prov{unresolved} until the fabrication group confirms its recipe).
+\item \emph{Confinement and the threshold step.} Transferred rigidly, the crystalline PBE conduction-band law gives
+44\,\% of the measured 2.0--13.2~nm threshold difference (monograph arithmetic, \prov{derived}); in the earlier report's
+calibrated model the realised confinement term was about 50\,\% of that step; and the register's audit forecasts an
+all-inputs-off counterfactual share of about 18\,\% (\amend{A13}; a model counterfactual, not an identified physical
+contribution). The threshold data cannot distinguish readings with and without confinement (\claim{C018}). That
+confinement does not account for the step by itself is therefore \prov{inferred}, for crystalline inputs applied to
+amorphous or nanocrystalline films.
+\item \emph{The 6.3~nm failures.} Every failed 6.3~nm prediction is related to the measured threshold staying flat
+between 2.0 and 6.3~nm, where the computed confinement implies a 0.2~V change (\cref{sec:mono-ms-explain},
+\prov{derived}); the arithmetic describes the failures and assigns no cause.
+\item \emph{Oxygen vacancies near W (computed, unresolved).} In degenerately doped crystalline \InO{}, a vacancy far
+from W costs 0.73~eV more than in pure \InO{} (passes its registered threshold), and a vacancy next to W a further
+0.53--0.56~eV (significance unresolved); the spin sensitivity is unassessed, H-L is \prov{unresolved} overall, and
+neither difference is a formation energy at device conditions (\claim{C038}).
 \end{enumerate}
 
 \section{Plausible but unverified}
@@ -168,18 +189,21 @@ amorphous results; and completion of the device campaign under its registered ru
 \label{sec:mono-concl-outlook}
 
 The strongest original result available today is computational and crystalline: a confinement series of \InO{} films
-whose mass increase follows from the bulk band structure, with an explicit account of what transfers to a device model
+whose mass increase is consistent with the bulk band structure, with an explicit account of what transfers to a device model
 and what does not. The central dimensional question about W in amorphous films is protocol-ready but, by the frozen
 rules, cannot be answered as registered by the present campaign. A manuscript framework for \emph{npj Computational
 Materials} that states these limits is in \file{research_monograph/manuscript_npj/}; it contains placeholders for every
 sealed result and makes no claim that the evidence does not support.
 
 \begin{keyresult}
-Demonstrated: the device metrics, the failure of every 6.3~nm prediction, the crystalline confinement series with masses
-explained by bulk non-parabolicity, the resonant W level at high filling (deep-donor reading withdrawn), the failed
-ML force check, and the impossibility of a registered H-N crossover verdict. Strongly supported: contact resistance
-cannot explain the trend; the floor is not gate leakage; the published mobilities are saturation-formula numbers; the
-6.3~nm failures follow from a flat threshold where confinement predicts 0.2~V. Everything about amorphous W and the shared
+Demonstrated: the device metrics, the failure of every 6.3~nm prediction, the failed ML force check and the
+impossibility of a registered H-N crossover verdict. Computed within scope (crystalline, PBE): the confinement series,
+with masses consistent with bulk non-parabolicity (1\,\% at 2~nm, 10\,\% at 1~nm), and the resonant W level at high
+filling (deep-donor reading withdrawn). Strongly supported: series resistance cannot explain the trend; the swing
+collapses against $\Id/\Ion$; the published mobilities are reproduced numerically by the saturation-formula peak.
+Inferred or unresolved: the floor is unlikely to be gate leakage; confinement alone does not account for the threshold
+step; every 6.3~nm failure is related to a flat threshold where confinement implies 0.2~V (no cause assigned); H-L is
+unresolved. Everything about amorphous W and the shared
 model's transfer is sealed. The decisive next steps are measurements: the floor's drain-bias dependence, device
 statistics and thickness metrology.
 \end{keyresult}

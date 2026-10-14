@@ -39,15 +39,15 @@ crystals is about 2.7~eV at room temperature \citep{Irmscher2014}.
 
 \paragraph{The basis of a mass.} A conduction-band mass depends on how it is extracted. In this project three bases
 occur: the band-edge mass of a 10-point Kane fit, $E(1+\alpha E) = \hbar^2k^2/2m$; a four-point parabola with free
-intercept over $|k|\le0.05$~\AA$^{-1}$ (the ``deck basis'' of the device laws); and anchored parabolas over growing
+intercept over $|k|\lesssim0.05$~\AA$^{-1}$ (0.045--0.046~\AA$^{-1}$ in the logs; the ``deck basis'' of the device laws); and anchored parabolas over growing
 energy windows. For bulk they give $0.1541\,m_0$ (Kane; isotropic within 0.2\,\%, $\alpha = 0.58$~eV$^{-1}$ with a range
 0.55--0.63), $0.1588\,m_0$ (deck basis), and $0.156$ to $0.189\,m_0$ for windows of 25 to 450~meV \fact{004}
 \fact{005} \fact{006}. Every mass in this monograph names its basis \corr{X6}.
 
 \paragraph{Films.} The in-plane band-edge 2-D DOS masses are 0.443, 0.337, 0.279 and $0.203\,m_0$ at H--H thicknesses
 of 0.461, 0.695, 0.930 and 1.962~nm, with in-plane non-parabolicities of 0.24, 0.31, 0.36 and 0.47~eV$^{-1}$
-\claim{C039}. On the deck basis the 2~nm mass is $0.206\,m_0$; the two bases differ by $-3.0$\,\% (bulk) to $+3.4$\,\%
-(0.461~nm). Checks: GPU and CPU builds agree within $0.0006\,m_0$; 15, 25 and 35~\AA{} of vacuum within $0.0002\,m_0$;
+\claim{C039}. On the deck basis the 2~nm mass is $0.206\,m_0$; the two bases differ by $-3.0$\,\% (bulk) to $+0.5$\,\%
+(0.695~nm) for the films within the laws, and by $+3.4$\,\% for the 0.461~nm In$_8$(OH)$_{24}$ layer. Checks: GPU and CPU builds agree within $0.0006\,m_0$; 15, 25 and 35~\AA{} of vacuum within $0.0002\,m_0$;
 relaxation raises the 1~nm mass by 18\,\%. The law fitted to the 0.695, 0.930 and 1.962~nm points is $\Delta m =
 0.1145\,t^{-1.2755}$ (band-edge basis; $t$ the H--H thickness in nm; one residual degree of freedom). As shown in
 \cref{sec:mono-conf-test}, these masses follow from the computed $\dEc$ and the bulk Kane band within 2--10\,\%
@@ -99,7 +99,7 @@ valence density of states (saturated in the energy window; $k$-mesh convergence 
 $N_V(300~\mathrm{K}) = 1.6$--$2.7\times10^{21}$\cmcu{} over four grids and two VBM references, i.e.\ a DOS-equivalent mass
 $m_{h,\mathrm{DOS}} = (N_V/2.509\times10^{19})^{2/3} = 16$--$22\,m_0$ \fact{060} \fact{061}; HSE06 on the same grid gives
 0.71--0.93 times the PBE value. The device decks use $N_V = 10^{19}$\cmcu{} (\prov{assumed}), which corresponds to
-$0.54\,m_0$, two orders of magnitude below the computed value. Because the decks solve for electrons only, $N_V$ enters
+$0.54\,m_0$, 30--40 times lighter than the computed DOS mass (a factor of about 200 in $N_V$). Because the decks solve for electrons only, $N_V$ enters
 through the intrinsic density: at 2~nm $n_i$ rises from $5.0\times10^{-10}$ to $6.7\times10^{-9}$\cmcu{}, and the
 equilibrium SRH generation bound is $3.4\times10^{-3}$~cm$^{-3}$s$^{-1}$, negligible against any measured current.
 Two caveats limit the use of $N_V$. Hybrid-functional work predicts that holes self-trap in \InO{} \citep{Varley2012},
@@ -129,6 +129,7 @@ residual scatter only (one residual degree of freedom for three points); it excl
 thickness-definition and polar-field errors. Values at 2.0, 6.3 and 13.2~nm; 6.3 and 13.2~nm are extrapolations.
 Source: \file{bands_masses/out/b03_gaps_laws.json}.}
 \label{tab:mono-mass-laws}
+\resizebox{\linewidth}{!}{%
 \begin{tabular}{llccccc}\toprule
 Quantity & Fit (points) & $a$ & $p$ & $\sigma_p$ & LOO range of $p$ & at 2.0 / 6.3 / 13.2~nm \\\midrule
 $\Delta\Eg$ (eV) & fit3 (0.695, 0.930, 1.962) & 0.8147 & 1.3155 & 0.0073 & 1.290--1.323 & 0.327 / 0.072 / 0.027 \\
@@ -139,7 +140,7 @@ $\dEc$ (eV) & fit3, 0.695~nm at $-0.17$ / $+0.17$~eV & 0.654 / 0.745 & 1.179 / 1
 $\Delta m_e$ ($m_0$) & fit3, band edge & 0.1145 & 1.2755 & 0.0048 & 1.271--1.292 & 0.047 / 0.011 / 0.004 \\
 $\Delta m_e$ ($m_0$) & fit3, deck basis & 0.1114 & 1.2611 & 0.0031 & 1.250--1.264 & 0.047 / 0.011 / 0.004 \\
 $-\Delta E_{\mathrm{v}}$ (eV) & -- & \multicolumn{5}{l}{no power law: 0.052 (0.930~nm), 0.054 (1.962~nm); see \cref{sec:mono-conf-partition}} \\\bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 \Cref{tab:mono-mass-laws} gives the laws. Three points matter for their use. (i) The gap law is well determined: its
@@ -197,7 +198,7 @@ at the Lin-label thicknesses \corr{X12}.
 
 \paragraph{Not in the decks.} (i) The conduction-band non-parabolicity, which raises $\Nc$ by 5.7\,\% (3-D) or 2.5\,\%
 (quasi-2-D) and the conductivity mass at degenerate filling (\cref{eq:mono-conf-nc3d}). (ii) The HSE ratio $r$ in
-$\Delta\Eg$ ($+6$ to $+11$\,\%). (iii) The basis difference of $m^*$ ($-3$\,\% in bulk to $+3$\,\% in the thinnest film).
+$\Delta\Eg$ ($+6$ to $+11$\,\%). (iii) The basis difference of $m^*$ ($-3$\,\% in bulk to $+0.5$\,\% at 0.695~nm).
 (iv) The computed $N_V$ ($\approx2\times10^{21}$ against the assumed $10^{19}$\cmcu). (v) The mass for tunnelling through
 the gate oxide or into the contacts, which is not computed: the slab conduction band is quantised along $z$, and the
 evanescent mass in the gap needs a complex-band calculation; any use is \prov{assumed}. (vi) The W donor, which the decks
@@ -228,8 +229,8 @@ Evanescent (tunnelling) mass & complex band structure of bulk \InO{} & hours (un
 
 \begin{keyresult}
 PBE gives a bulk electron band-edge mass of $0.154\,m_0$ (Kane, $\alpha = 0.58$~eV$^{-1}$), 26\,\% below the measured
-$0.208\,m_0$; film masses rise to $0.203\,m_0$ at 1.96~nm and $0.279\,m_0$ at 0.93~nm, a rise explained by the bulk
-non-parabolicity. W at 3.1\,\% makes the host band 5\,\% heavier. There is no meaningful single hole mass: the valence-band
+$0.208\,m_0$; film masses rise to $0.203\,m_0$ at 1.96~nm and $0.279\,m_0$ at 0.93~nm, a rise consistent with the bulk
+non-parabolicity within 1\,\% at 2~nm and 10\,\% at 1~nm. W at 3.1\,\% makes the host band 5\,\% heavier. There is no meaningful single hole mass: the valence-band
 top is degenerate with a camel back, and the computed $N_V \approx 2\times10^{21}$\cmcu{} is about 200 times the deck
 value, with negligible effect on the electron-only device simulations. The gap law is well determined
 ($0.815\,t^{-1.316}$~eV); the conduction-band law is not ($p = 1.32$--1.48, $\dEc(6.3~\mathrm{nm}) = 0.050$--0.075~eV). The

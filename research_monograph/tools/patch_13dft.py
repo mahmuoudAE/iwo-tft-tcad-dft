@@ -203,6 +203,9 @@ gap and the conduction-band quantities are used further.
 % =====================================================================================================================
 \section{Pending results and changes to the device model}
 \label{sec:dft-pending}"""),
+    # 47: the monograph redefines \file as a breakable \nolinkurl, which cannot take "#" inside a tabularx.
+    ("projwfc.x output and \\file{pdos/*(W)_wfc#*(d)} files",
+     "projwfc.x output and \\texttt{pdos/*(W)\\_wfc\\#*(d)} files"),
 ]
 
 

@@ -49,23 +49,26 @@ registered before it was applied (commit 7a61687; amendment A1, an on-current-no
 interpolation); the off-state floor is the median current between $-2$ and $-0.5$~V; the field-effect mobility is
 $\muFE = L\gm/(W\Cox\Vd)$ with the geometric $\Cox = 8.955\times10^{-7}$~F/cm$^2$ of 15~nm \HfO{} ($\varepsilon = 19.57$)
 in series with 2~nm \AlO{} ($\varepsilon = 9.0$, assumed). An independent re-implementation for this monograph, written
-from the protocol text and not importing the project code, reproduces every core number within rounding
-(\cref{tab:mono-prov-metrics}).
+from the protocol text and not importing the project code, reproduces the thresholds, floors, end-point currents and
+saturation-formula mobilities within rounding; the swing and $\muFE$ rows of \cref{tab:mono-prov-metrics} are taken
+from the registered extraction (the $\muFE$ peaks re-checked against its output table), not recomputed.
 
 \begin{table}[htbp]\centering\small
 \caption{Core metrics of the measured curves (\prov{derived}; one device per film). Independent recomputation
-(\file{research_monograph/tools/verify_device_facts.py}) against the ledger. SS: registered normalised window
-$[2.15\times10^{-5}, 2.15\times10^{-4}]\,\Ion$ (\claim{C008}).}
+(\file{research_monograph/tools/verify_device_facts.py}) of the first four rows against the ledger; SS and $\muFE$ from
+the registered extraction. SS: registered normalised window
+$[2.15\times10^{-5}, 2.15\times10^{-4}]\,\Ion$ (\claim{C008}). Ledger values in brackets.}
 \label{tab:mono-prov-metrics}
+\resizebox{\linewidth}{!}{%
 \begin{tabular}{lcccc}\toprule
  & 2.0~nm & 6.3~nm & 13.2~nm & 31.8~nm \\\midrule
-$\Vthcc$ (V), recomputed / ledger \claim{C002} & 0.6618 / 0.662 & 0.6440 / 0.644 & 0.0825 / 0.083 & none \\
-floor (A/\textmu m), recomputed / ledger \claim{C003} & $4.606\times10^{-15}$ / $4.61\times10^{-15}$ & $1.528\times10^{-13}$ / $1.53\times10^{-13}$ & $6.597\times10^{-12}$ / $6.60\times10^{-12}$ & -- \\
+$\Vthcc$ (V) \claim{C002} & 0.6618 (0.662) & 0.6440 (0.644) & 0.0825 (0.083) & none \\
+floor (A/\textmu m) \claim{C003} & $4.606\times10^{-15}$ (4.61) & $1.528\times10^{-13}$ (1.53) & $6.597\times10^{-12}$ (6.60) & -- \\
 $\Id(+3~\mathrm{V})$ (A/\textmu m) & $5.090\times10^{-7}$ & $4.034\times10^{-7}$ & $3.071\times10^{-6}$ & $3.590\times10^{-6}$ \\
 $\Id(-3~\mathrm{V})$ (A/\textmu m) & $1.9\times10^{-16}$ & $1.9\times10^{-13}$ & $6.8\times10^{-12}$ & $3.0\times10^{-7}$ \\
 SS, normalised window (mV/dec) & $123.6\pm1.0$ & $122.7\pm9.3$ & $115.3\pm2.4$ & -- \\
 $\muFE$ peak (\cmVs) & 12.1 (3.0~V) & 10.9 (2.85~V) & 50.2 (2.8~V) & -- \\\bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 \begin{figure}[htbp]\centering
@@ -136,8 +139,9 @@ with the paper's numbers, not mobilities of the channels; neither they nor $\muF
 \label{sec:mono-prov-ss}
 
 The paper describes the swing of the thin IWO devices as near-thermal, 60--70~mV/dec \citep[p.~3]{Januar2026}. Its own Fig.~1b gives 61.8, 87.4 and 119.3~mV/dec for
-2.0, 6.3 and 13.2~nm (digitised), so 60--70~mV/dec holds at 2~nm only (\claim{C025}). The registered windows give
-123.6, 122.7 and 115.3~mV/dec, up to 168\,\% higher. Of 31 scored estimator variants, 14 reproduce the paper's values
+2.0, 6.3 and 13.2~nm (digitised), so 60--70~mV/dec holds at 2~nm only (\claim{C025}). The registered A1 windows give
+123.6, 122.7 and 115.3~mV/dec: twice the paper's value at 2~nm, 40\,\% higher at 6.3~nm and 3\,\% lower at 13.2~nm (the
+S1 window deviates by up to $+168$\,\%, \claim{C032}). Of 31 scored estimator variants, 14 reproduce the paper's values
 within 15\,\% when they start within 1--12 times the off-state floor (\claim{C032}, \prov{derived}); the best match is a
 selection on the outcome and is not adopted. Near the floor, an additive floor current $F$ makes the measured swing
 flatter, $\mathrm{SS}_{\mathrm{raw}} = \mathrm{SS}_{\mathrm{ch}}(1+F/I_{\mathrm{ch}})$, and subtracting the floor steepens

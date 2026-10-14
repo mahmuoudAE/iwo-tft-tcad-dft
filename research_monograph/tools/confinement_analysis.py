@@ -83,14 +83,20 @@ shares = {}
 for mh in (3.2, 4.4, 7.9, 18.1):
     shares[str(mh)] = round(mh / (M_B + mh), 4)
 out["partition"] = dict(cb_share_ema=shares, cb_share_computed={"1.962": 0.84, "0.930": 0.94},
-                        dEv_ema_pred_mh3p2={f"{t:.3f}": round(-SLABS[t]["dEc"] * M_B / 3.2, 4) for t in (t1, t2)})
+                        dEv_ema_pred_mh3p2={f"{t:.3f}": round(-SLABS[t]["dEc"] * M_B / 3.2, 4) for t in (t1, t2)},
+                        # Kane-consistent version (theory review 2026-10-14): the hole sees the same k_z, so its
+                        # confinement energy is eps1 * m_b / m_h with eps1 = dEc (1 + alpha dEc) = hbar^2 k_z^2 / 2 m_b.
+                        dEv_ema_kane_mh3p2={f"{t:.3f}": round(-SLABS[t]["dEc"] * (1 + ALPHA * SLABS[t]["dEc"]) * M_B / 3.2, 4)
+                                            for t in (t1, t2)},
+                        cb_share_ema_kane_mh3p2={f"{t:.3f}": round(SLABS[t]["dEc"] / (SLABS[t]["dEc"] + SLABS[t]["dEc"] * (1 + ALPHA * SLABS[t]["dEc"]) * M_B / 3.2), 4)
+                                                 for t in (t1, t2)})
 
 # 5) Kane correction factors of the effective densities of states
 out["nc_factors"] = dict(nc3d_first_order=round(1 + 3.75 * ALPHA * KT, 4),
                          n2d_first_order_2nm_slab_alpha=round(1 + 2 * SLABS[t2]["a"] * KT, 4))
 
 # 6) HSE ratio from a Kane band with alpha ~ 1/Eg (two-band scaling) and the HSE mass range
-eg_pbe, eg_hse = 0.8887, 2.108
+eg_pbe, eg_hse = 0.9204, 2.108  # NC-PBE and NC-HSE06 bulk gaps (FACT-032, FACT-031): same pseudopotentials (theory review 2026-10-14)
 a_hse = ALPHA * eg_pbe / eg_hse
 eps1_pbe = SLABS[t1]["dEc"] * (1 + ALPHA * SLABS[t1]["dEc"])
 r = {}

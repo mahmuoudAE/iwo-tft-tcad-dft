@@ -54,4 +54,4 @@ CITATION, TEXT (wording that waits for another item), DISCLOSURE.
 | N42 | DECISION | Copyright: the public repo holds full texts of 11 papers (report_latex_full/digest/papers) and Silvaco manual extracts | OPEN (monograph finding P-2/P-3) | Owner |
 | N43 | CHECK | Literature statement "no peer-reviewed DFT study of W in In2O3 located" | Re-run the search before submission | Literature search |
 | N44 | DECISION | Whether the device-model sections (MS-09 to MS-11, sealed campaign) belong in this computational-materials paper or in a separate device paper | OPEN; the framework keeps them as a short section | Owner |
-| N45 | CHECK | Public commit message 50f627f names an S2-11 score (sealed-adjacent); not used here | Owner to decide whether it counts as a sight event | Owner / Codex |
+| N45 | CHECK | Public commit message 50f627f contains sealed-adjacent information; not used here | Owner to decide whether it counts as a sight event | Owner / Codex |

@@ -29,8 +29,9 @@ electron mass and the donor behaviour from first-principles calculations, usuall
 inputs for crystalline In$_2$O$_3$ films of 0.46--1.96~nm and for W-doped cells with PAW-PBE, and test their transfer to
 a device model whose parameters are shared across thickness. The gap opening of the films, 0.34~eV at 1.96~nm and
 0.90~eV at 0.93~nm, lies mostly in the conduction band, and the increase of the in-plane electron mass with
-confinement follows, with no fitted quantity, from the bulk Kane non-parabolicity at the energy of the confined
-subband; the mass law and the band-shift law are therefore one input, not two. Substitutional W is a resonant donor whose
+confinement is consistent, with no fitted quantity, with the bulk Kane non-parabolicity at the energy of the confined
+subband (within 1\,\% at 1.96~nm and 10\,\% at 0.93~nm); to that accuracy the mass law and the band-shift law are one
+input, not two. Substitutional W is a resonant donor whose
 5d-rich state lies 1.2--1.8~eV above the conduction-band minimum at the computed filling, and W raises the energy of a
 neutral oxygen vacancy far from it by 0.73~eV in the degenerate cell. Transferred rigidly to the device threshold, the
 computed conduction-band shift accounts for 44\,\% of the measured difference between 2.0 and 13.2~nm channels but implies
@@ -93,8 +94,11 @@ excluded from the primary laws \ev{MS-01}.
 Aligned to the bulk through the planar-averaged potential, the conduction-band minimum rises by 0.281~eV at 1.962~nm
 and 0.848~eV at 0.930~nm, while the valence-band maximum falls by only 0.054 and 0.052~eV \ev{F014, F015}. The opening is
 therefore mostly in the conduction band (84 and 94\,\%). Single-band envelope theory with the heavy, degenerate valence
-band of \InO{} \ev{C040} predicts 95--99\,\% and a valence shift that grows with confinement; the difference, about
-40~meV at 1.962~nm, is of the size of the spread between alignment routes and is not resolved \ev{MS-02}. Between 1 and
+band of \InO{} \ev{C040}, using the same confining wave vector for both bands and the non-parabolic conduction band,
+reproduces the 0.930~nm partition (valence shift at most 0.061~eV, share 0.93); at 1.962~nm it predicts at most
+0.016~eV, and the computed valence shift exceeds this by about 38~meV, more than the 5~meV spread between two
+alignment routes and the 8~meV flatness of the interior potential. This excess is unexplained; a systematic error
+common to both alignment routes is not excluded \ev{MS-02}. Between 1 and
 2~nm the conduction-band shift scales as $t^{-1.48}$, below the exponent of 1.62 that the bulk Kane band predicts for a
 box whose width is proportional to $t$ \ev{MS-03; F022, F028}. Hybrid-functional (HSE06) checks scale the PBE gap opening
 by 1.06--1.11 \ev{C020; F030}. \Cref{fig:levels} shows the series.
@@ -118,11 +122,12 @@ $\alpha = 0.58$~eV$^{-1}$ \ev{C039; F004, F005}; both are below the measured ban
 $0.208\pm0.006\,m_0$ \citep{Stokey2021}, as expected for PBE. The in-plane band-edge masses of the films rise to 0.203,
 0.279, 0.337 and $0.443\,m_0$ at 1.962, 0.930, 0.695 and 0.461~nm \ev{C039; F026a--F026d}. For a Kane band, a subband
 at energy $E_1$ above the bulk minimum has the in-plane band-edge mass $m_b(1+2\alpha E_1)$. With the computed $\dEc$ in
-place of $E_1$ and the bulk $m_b$ and $\alpha$, this relation reproduces the computed masses within 2\,\% at 0.461,
-0.695 and 1.962~nm and within 10\,\% at 0.930~nm, with no fitted quantity (\cref{fig:mass}) \ev{MS-04; F027}. The
-mass increase under confinement is thus, to this accuracy, the bulk non-parabolicity probed at the subband energy, not a
-surface effect, and a device model that takes both a mass law and a band-shift law from these films carries one
-independent first-principles input, not two \ev{MS-04}.
+place of $E_1$ and the bulk $m_b$ and $\alpha$, this relation reproduces the computed mass within 1\,\% at 1.962~nm and
+overestimates it by 10\,\% at 0.930~nm, with no fitted quantity (\cref{fig:mass}) \ev{MS-04; F027}; the two thinner
+films agree within 2\,\% but do not test the relation (one lies far outside the fitted energy window, the other carries
+a $\pm9$\,\% uncertainty from its polar field). To this accuracy the mass increase at 2~nm is the bulk non-parabolicity
+probed at the subband energy, and a device model that takes both a mass law and a band-shift law from these films
+carries one independent first-principles input, not two \ev{MS-04}.
 
 The valence band has no single band-edge mass: its top is three-fold degenerate at $\Gamma$ with a camel back 4.4~meV
 high, and its effective density of states at 300~K, $1.6$--$2.7\times10^{21}$\cmcu{}, is defined only as a band
@@ -172,7 +177,7 @@ Supplementary Fig.~S5.}
 We tested whether W raises the energy of a neutral oxygen vacancy (registered hypothesis H-L). In 80-atom cells
 (PBE, fixed cell, relaxed on a $3\times3\times3$ grid and evaluated also on $4\times4\times4$), a vacancy far from W costs
 $\Delta E_{\mathrm{dop}} = +0.726$ (k3) and $+0.723$~eV (k4) more than a vacancy in pure \InO{}; this difference passes
-its registered threshold of $+0.05$~eV and is converged within 3.4~meV \ev{C038; F051}. A vacancy next to W costs a
+its registered threshold of $+0.05$~eV and changes by only 3.4~meV between the two grids \ev{C038; F051}. A vacancy next to W costs a
 further $+0.558$ (k3) and $+0.532$~eV (k4); both exceed the registered $+0.3$~eV, but the grid change of $-25.7$~meV
 exceeds the registered 10~meV limit, so its significance is unresolved \ev{C038; F050}. The registered spin
 sensitivity was not run, so the overall verdict of H-L is \prov{unresolved} (\cref{fig:hl}) \ev{MS-08; C038}. Both
