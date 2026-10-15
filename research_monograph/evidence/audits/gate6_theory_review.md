@@ -192,7 +192,7 @@ section "Corrections made in the monograph's own review (Gate 6)".
 | 10 | Accepted | M04 approximation sentence and M04b key result rewritten (unsized approximations listed; 60 Ry amorphous relaxations noted). |
 | 11 | Accepted | M05 consequence item (Δm within about 20 %). |
 | 12 | Accepted (recomputed 0.088 eV, 0.021 eV) | M05 subband paragraph and key result; "9–18 %". V10 |
-| 13 | Accepted (recomputed: 0.60, 0.92, −0.083 at √2) | M04 MV paragraph. |
+| 13 | Accepted at the time; SUPERSEDED by V12 (2026-10-15) | The reviewer's numbers were correct for the monograph's printed formula, but that formula was the mirror image of the Quantum ESPRESSO weight. Correct values: 0.40 at μ, never negative, maximum 1.083 at x = −√2 (V12). |
 | 14 | Accepted | M04b dipole paragraph (0.35–0.37 V; 0.095 eV as upper bound). |
 | 15 | Accepted in part | Lany2007 reworded; Swallow2020 "by analogy" for W; Varley2012 kept after checking its abstract (In2O3 is among the oxides with self-trapped holes favoured; self-trapping energy not given in the abstract); Levy1979 and Lieb1983 added (DOI-verified); r0 cited to Cudazzo2011 (DOI-verified) instead of Rytova/Keldysh, which could not be DOI-verified. |
 | 16 | Accepted | M06 and M10: "about three orders of magnitude (660; 1500–3300 times)". |

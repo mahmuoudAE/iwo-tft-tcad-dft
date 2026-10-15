@@ -78,9 +78,9 @@
     \hbox to \paperwidth{\hspace{10mm}{\color{rulegrey}\rule{\dimexpr\paperwidth-20mm\relax}{0.4pt}}\hfil}%
     \vspace{1.3mm}%
     \hbox to \paperwidth{\hspace{10mm}%
-      \parbox[t]{0.3\paperwidth}{\tiny\color{inkgrey}\talkshortauthor\ \textperiodcentered\ National Taiwan University}%
-      \hfill\parbox[t]{0.4\paperwidth}{\centering\tiny\color{inkgrey}\talkshorttitle}%
-      \hfill\parbox[t]{0.18\paperwidth}{\raggedleft\tiny\color{inkgrey}\insertframenumber\,/\,\inserttotalframenumber}%
+      \parbox[t]{0.29\paperwidth}{\tiny\color{inkgrey}\talkshortauthor\ \textperiodcentered\ National Taiwan University}%
+      \hfill\parbox[t]{0.38\paperwidth}{\centering\tiny\color{inkgrey}\talkshorttitle}%
+      \hfill\parbox[t]{0.17\paperwidth}{\raggedleft\tiny\color{inkgrey}\insertframenumber\,/\,\inserttotalframenumber}%
       \hspace{10mm}}%
     \vspace{2.4mm}}%
 }
@@ -93,22 +93,50 @@
 \AtBeginEnvironment{frame}{\setcounter{footnote}{0}}
 
 % ---------------- citations (biblatex, bibtex backend; biber is not installed) ----------------
-\RequirePackage[backend=bibtex,style=authoryear,maxcitenames=1,mincitenames=1,maxbibnames=6,minbibnames=3,
+\RequirePackage[backend=bibtex,style=authoryear,maxcitenames=2,mincitenames=1,maxbibnames=6,minbibnames=3,
   uniquename=false,uniquelist=false,giveninits=true,doi=true,url=false,isbn=false,eprint=true,sorting=nyt,
   dashed=false]{biblatex}
 \renewcommand*{\bibfont}{\tiny}
 \setlength{\bibitemsep}{0.6ex}
 % \refcite{key}: "Author et al., Journal vol, pages (year)" -- used inside slide footnotes.
+% journal abbreviations for the slide footnotes (the reference list keeps the names as given in the .bib files)
+\newcommand{\ntujabbr}[2]{\expandafter\def\csname ntujabbr@#1\endcsname{#2}}
+\ntujabbr{Physical Review B}{Phys. Rev. B}
+\ntujabbr{Physical Review Letters}{Phys. Rev. Lett.}
+\ntujabbr{Physical Review Materials}{Phys. Rev. Mater.}
+\ntujabbr{Nano Letters}{Nano Lett.}
+\ntujabbr{Journal of Applied Physics}{J. Appl. Phys.}
+\ntujabbr{Applied Physics Letters}{Appl. Phys. Lett.}
+\ntujabbr{IEEE Transactions on Electron Devices}{IEEE Trans. Electron Devices}
+\ntujabbr{Small Structures}{Small Struct.}
+\ntujabbr{Scientific Reports}{Sci. Rep.}
+\ntujabbr{Reviews of Modern Physics}{Rev. Mod. Phys.}
+\ntujabbr{Proceedings of the National Academy of Sciences}{Proc. Natl. Acad. Sci. USA}
+\ntujabbr{Nature Electronics}{Nat. Electron.}
+\ntujabbr{Measurement: Sensors}{Meas. Sens.}
+\ntujabbr{Journal of Physics: Condensed Matter}{J. Phys.: Condens. Matter}
+\ntujabbr{International Journal of Quantum Chemistry}{Int. J. Quantum Chem.}
+\ntujabbr{Frontiers in Materials}{Front. Mater.}
+\ntujabbr{2020 IEEE International Electron Devices Meeting (IEDM)}{IEDM}
+\DeclareFieldFormat{shortjournal}{\ifcsdef{ntujabbr@#1}{\emph{\csuse{ntujabbr@#1}}}{\emph{#1}}}
+% article-number page fields that \mkfirstpage cannot shorten (literal comparison of the raw field)
+\DeclareFieldFormat{firstpage}{%
+  \iffieldequalstr{pages}{e202500807 (1--12)}{e202500807}{%
+  \iffieldequalstr{pages}{850451 (1--7)}{850451}{%
+  \iffieldequalstr{pages}{225102-1--225102-15}{225102}{%
+  \iffieldequalstr{pages}{173507-1--173507-7}{173507}{\mkfirstpage{#1}}}}}}
+% \refcite{key}: "Author et al., Journal vol, first page (year)"; with a postnote, the cited page replaces the range.
 \DeclareCiteCommand{\refcite}
-  {\usebibmacro{prenote}}
+  {}
   {\printnames{labelname}%
-   \setunit{\addcomma\space}\printfield[emph]{journaltitle}%
-   \iffieldundef{journaltitle}{\setunit{\addcomma\space}\printfield[emph]{booktitle}}{}%
+   \setunit{\addcomma\space}\printfield[shortjournal]{journaltitle}%
+   \iffieldundef{journaltitle}{\setunit{\addcomma\space}\printfield[shortjournal]{booktitle}}{}%
    \setunit{\addspace}\printfield{volume}%
-   \setunit{\addcomma\space}\printfield{pages}%
-   \setunit{\addspace}\printtext[parens]{\printfield{year}}}
+   \iffieldundef{postnote}{\setunit{\addcomma\space}\printfield[firstpage]{pages}}{}%
+   \setunit{\addspace}\printtext[parens]{\printfield{year}}%
+   \iffieldundef{postnote}{}{\setunit{\addcomma\space}\printfield{postnote}}}
   {\multicitedelim}
-  {\usebibmacro{postnote}}
+  {}
 \DeclareFieldFormat[article,inproceedings,book,misc,online,report,thesis,incollection]{postnote}{#1}
 \DeclareFieldFormat{emph}{\emph{#1}}
 % \sref{key} or \sref[p.~4]{key}: footnote citation at the bottom of the slide (works inside columns).

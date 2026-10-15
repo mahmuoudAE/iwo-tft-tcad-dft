@@ -194,7 +194,12 @@ V10 & Single-subband limit ``up to about 6~nm''. & One subband at 2~nm, one or t
 V11 & Smaller items: HSE ratio model now uses the norm-conserving PBE gap (0.98--1.16); W preference ratio 440 (not
 430); swing deviations quoted per film; deck-basis mass differences ($-3.0$ to $+0.5$\,\%); site energy 0.2579~eV in
 the registry; ``5.3\,\% W'' of the device paper's DFT removed (no source); the 31.8~nm curve is not from the published
-series. & Respective sources. \\\bottomrule
+series. & Respective sources. \\
+V12 & Marzari--Vanderbilt occupation $\tfrac12\mathrm{erfc}(x-a) - (2\pi)^{-1/2}e^{-(x-a)^2}$: 0.60 at $\mu$, negative
+weights above $\mu$ (minimum $-0.083$); the theory review's numbers for item 13 used this form. & This was the mirror
+image $1-\tilde f(-x)$ of the weight Quantum ESPRESSO applies. Correct form $\tfrac12\mathrm{erfc}(x+a) +
+(2\pi)^{-1/2}e^{-(x+a)^2}$: 0.40 at $\mu$, never negative, above one below $\mu$ (maximum 1.083 at $x=-\sqrt2$). &
+QE \texttt{wgauss}; printed occupations of the 8b W cell reach 1.074, none negative (found by a presentation reviewer). \\\bottomrule
 \end{longtable}
 }
 

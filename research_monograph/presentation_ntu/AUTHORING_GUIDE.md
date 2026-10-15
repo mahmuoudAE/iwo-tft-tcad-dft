@@ -86,6 +86,10 @@ are fine. Read a figure's caption in the monograph or the report before using it
    test it); the SCF force noise is about 6e-5 Ry/bohr per component; H-L is UNRESOLVED overall (never write "H-L
    supported"); every 6.3 nm out-of-sample threshold prediction FAILED; the published mobilities are reproduced
    numerically by the saturation-formula peak, which is the leading candidate (INFERRED) for the paper's definition.
+   Marzari-Vanderbilt (cold) smearing as implemented in Quantum ESPRESSO (correction V12, 2026-10-15): the weight is
+   0.40 at the Fermi level, never negative, and EXCEEDS ONE below the Fermi level (maximum 1.083 at x = -sqrt2); the
+   printed occupations of the 8b W cell reach 1.074. Any statement of "negative MV weights", "0.60 at mu" or
+   "minimum -0.083" is wrong.
 3. Attach the evidence label (`\lab{...}`) to every result: measured, derived, fitted, computed, inferred,
    unresolved, falsified, assumed. Never present a fitted or calibrated agreement as a prediction or validation.
    Say what was fitted and what was tested.

@@ -196,15 +196,17 @@ $E(\sigma) = E_0 + a\sigma^2 + O(\sigma^4)$ and $F(\sigma) = E_0 - a\sigma^2 + O
 $E_0 \approx \tfrac12[E(\sigma)+F(\sigma)]$; occupations stay in $[0,1]$ and are monotonic.
 \item \emph{Methfessel--Paxton} \citep{Methfessel1989}: Hermite-polynomial corrections remove the $\sigma^2$ term of the
 energy, at the price of occupations that leave $[0,1]$.
-\item \emph{Marzari--Vanderbilt (``cold'')} \citep{Marzari1999}: the broadened delta function
-$\tilde\delta(x) = \pi^{-1/2}e^{-(x-a)^2}(2-\sqrt2\,x)$ with $a = 1/\sqrt2$ gives, on integration with $y = x-a$,
+\item \emph{Marzari--Vanderbilt (``cold'')} \citep{Marzari1999}: with $x = (\varepsilon-\mu)/\sigma$ as for the
+Gaussian, the broadened delta function $\tilde\delta(x) = \pi^{-1/2}e^{-(x+a)^2}(2+\sqrt2\,x)$ with $a = 1/\sqrt2$ gives,
+on integration with $y = x+a$,
 \begin{equation}
-\tilde f(x) = \tfrac12\,\mathrm{erfc}(y) - \frac{1}{\sqrt{2\pi}}e^{-y^2} .
+\tilde f(x) = \tfrac12\,\mathrm{erfc}(y) + \frac{1}{\sqrt{2\pi}}e^{-y^2} ,
 \label{eq:mono-dft-mv}
 \end{equation}
-The energy error is $O(\sigma^3)$, but $\tilde f$ is not monotonic: it equals 0.60 at $x = 0$, changes sign at
-$x \approx 0.92$ and reaches a minimum of $-0.083$ at $x = \sqrt2$, so states up to about $2\sigma$ above the Fermi
-level receive slightly \emph{negative} weights. MV weights are therefore numerical integration weights, not occupations of states.
+the form implemented in Quantum ESPRESSO and used in this project. The energy error is $O(\sigma^3)$, but $\tilde f$
+is not monotonic: it equals 0.40 at $x = 0$, is never negative, and exceeds one below the Fermi level, with a maximum
+of 1.083 at $x = -\sqrt2$. The printed occupations of the bulk W cell on 8b ($4\times4\times4$, 0.01~Ry) indeed reach
+1.074 and none is negative. MV weights are therefore numerical integration weights, not occupations of states.
 \end{itemize}
 
 \paragraph{Consequences for the observables of this project.} The widths used are 0.01~Ry (136~meV, MV, crystalline W
