@@ -33,44 +33,43 @@
     \begin{column}{0.58\textwidth}
       \thirteenHead{ATLAS launches in the public record\thirteenAtlas}
       {\footnotesize\setlength{\tabcolsep}{4.5pt}
-      \begin{tabular}{@{}llrrr@{}}
+      \begin{tabular}{@{}lrrr@{}}
         \toprule
-        Study & Runs & Launches & \shortstack[r]{Wall\\time (h)} & \shortstack[r]{Exit\\$\neq 0$} \\
+        Study & Launches & \shortstack[r]{Wall\\time (h)} & \shortstack[r]{Exit\\$\neq 0$} \\
         \midrule
-        V1 study      & 0001--0057 & 57 & 7.8 & 2 \\
-        V2            & 0058--0060 &  3 & 0.5 & 0 \\
-        Campaign C10  & 0061--0074 & 14 & 2.9 & 1 \\
+        Model V1 study      & 57 & 7.8 & 2 \\
+        Model V2            &  3 & 0.5 & 0 \\
+        Campaign C10        & 14 & 2.9 & 1 \\
         \midrule
-        All public    &            & 74 & 11.1 & 3 \\
+        All public          & 74 & 11.1 & 3 \\
         \bottomrule
       \end{tabular}\par}
-      \src{Silvaco ATLAS 5.28, 32-bit, local licence. Wall times from \texttt{results/RUN\_INDEX.csv} (longer of
-        duplicate rows); Exit $\neq 0$: launches with a non-zero exit code. Runs 0075--0077 are sealed and not
-        included.}
+      \src{Silvaco ATLAS 5.28, 32-bit, local licence. Runs 0001--0057, 0058--0060, 0061--0074; wall times from
+        \texttt{results/RUN\_INDEX.csv}; exit $\neq 0$: non-zero exit code; sealed runs 0075--0077 not included.
+        Budgets: decision log D-02, D-03, D-13, D-58.}
     \end{column}
     \begin{column}{0.39\textwidth}
       \vspace{4.2mm}
       \begin{itemize}
         \item Launches run one at a time; the longest took 1.0\,h \lab{measured}. Each is a separately reviewed
           decision.
-        \item C10 had used 17 launches by 14 October: the 14 in the table and the 3 sealed runs.
+        \item Campaign C10 had used 17 launches by 14 October: the 14 in the table and the 3 sealed runs.
       \end{itemize}
     \end{column}
   \end{columns}
-  \vspace{1mm}
   \thirteenHead{ATLAS launch budget in the decision log (in order of date, not to scale)}
   \begin{tikzpicture}[x=1cm,y=1cm,font=\footnotesize]
     \foreach \a/\b in {0.25/3.15, 3.15/6.05, 6.05/10.0}
       \draw[rulegrey, line width=0.8pt, -{Stealth[length=1.6mm]}] (\a+0.15,0) -- (\b-0.17,0);
-    \foreach \x/\d/\id/\txt in {0.25/25 Sep/D-02/{budget: 52 launches},
-        3.15/5 Oct/D-03/{budget 57 $\to$ 71},
-        6.05/10 Oct/D-13/{200 more launches for C10}} {
+    \foreach \x/\d/\txt in {0.25/25 Sep/{budget: 52 launches},
+        3.15/5 Oct/{budget 57 $\to$ 71},
+        6.05/10 Oct/{200 more launches for C10}} {
       \fill (\x,0) circle (0.065);
-      \node[anchor=south west, inner sep=0] at (\x-0.1,0.2) {\textbf{\id}\enspace\d\ 2026};
+      \node[anchor=south west, inner sep=0] at (\x-0.1,0.2) {\textbf{\d\ 2026}};
       \node[anchor=north west, inner sep=0] at (\x-0.1,-0.22) {\txt};
     }
     \fill[ntumaroon] (10.0,0) circle (0.085);
-    \node[anchor=south west, inner sep=0] at (9.9,0.2) {\textbf{D-58}\enspace 14 Oct 2026};
+    \node[anchor=south west, inner sep=0] at (9.9,0.2) {\textbf{14 Oct 2026}};
     \node[anchor=north west, inner sep=0] at (9.9,-0.22)
       {\textcolor{ntumaroon}{17 of 200 used}; cap not raised};
   \end{tikzpicture}
@@ -161,7 +160,7 @@
       \src{HTCondor snapshot (\texttt{resources.json}); jobs from lxplus, data on EOS.}
       \vspace{1mm}
       \begin{itemize}
-        \item The same 96-atom SCF: 1\,h 16\,min on 16 CPU cores, 9\,min on one H100 NVL (\thirteenx8.2)
+        \item A pure 1\,nm film SCF benchmark (96 atoms): 1\,h 16\,min on 16 CPU cores, 9\,min on one H100 NVL (\thirteenx8.2)
           \lab{measured}.
         \item About 0.8 GPU starts per hour \lab{observed}; two-GPU requests of the amorphous campaign matched no
           slot.

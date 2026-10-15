@@ -22,13 +22,13 @@
 \partslide{Part 9}{Oxygen vacancies near W}
 
 % ---------------------------------------------------------------------------------------------------------------------
-\begin{frame}{Test H-L was registered before any vacancy cell was built}
+\begin{frame}{Test H-L compares an O vacancy next to W with one far from it}
   \ninedense
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.47\textwidth}
       \centering
-      \begin{tikzpicture}[x=1mm,y=1mm,font=\scriptsize,
-          cellbox/.style={draw,line width=0.45pt,inner sep=1.0mm,align=center,minimum height=6.2mm},
+      \begin{tikzpicture}[x=1mm,y=0.82mm,font=\scriptsize,
+          cellbox/.style={draw,line width=0.45pt,inner sep=0.8mm,align=center,minimum height=5.0mm},
           ref/.style={cellbox,text width=14mm},
           vac/.style={cellbox,text width=22mm},
           rm/.style={-{Stealth[length=1.6mm]},line width=0.5pt}]
@@ -57,25 +57,25 @@
           &\quad - \big(E[\mathrm{In_{32}O_{47}}] - E[\mathrm{In_{32}O_{48}}]\big)
       \end{aligned}$\par}
       \vspace{0.6mm}
-      \raggedright{\scriptsize $E$: total energy of the neutral cell (left: 80 atoms, right: 79). Near and far share
-        one composition and each bracket removes one O atom, so the O chemical potential cancels.\par}
+      \raggedright{\scriptsize $E$: total energy of the neutral cell (80 or 79 atoms). Near and far share one
+        composition; each bracket removes one O, so the O chemical potential cancels.\par}
       \src{This work, PAW-PBE (QE 7.3.1), 71/568\,Ry, Gaussian 0.005\,Ry, spin-unpolarised, fixed cell; relaxed on $3{\times}3{\times}3$
         ($k3$) to $10^{-3}$\,Ry/bohr, single points on $4{\times}4{\times}4$ ($k4$).}
     \end{column}
     \begin{column}{0.50\textwidth}
       \begin{itemize}
         \item Does W raise the energy of a neutral O vacancy, as the paper's statement that W passivates O
-          vacancies would imply\sref[p.~4]{Januar2026}? Registered as amendment A17 (2026-10-10, 18:48Z), before any vacancy cell
-          was built.
-        \item Thresholds: $\nineDloc \ge +0.3$\,eV, $\nineDdop > +0.05$\,eV. Forecasts, not scored: $+0.5$ to
-          $+1.5$\,eV and $+0.5$ to $+3$\,eV.
+          vacancies implies\sref[p.~4]{Januar2026}? Registered as amendment A17 on 10 Oct 2026.
+        \item Thresholds: $\nineDloc \ge +0.3$\,eV, $\nineDdop > +0.05$\,eV; forecasts (not scored): $+0.5$ to
+          $+1.5$ and $+0.5$ to $+3$\,eV.
         \item Rules (A20): a $k3\to k4$ change $>10$\,meV means \emph{unresolved significance}; a spin or width
           (0.002\,Ry) sensitivity $>50$\,meV, or a flipped verdict, means \emph{not robust}.
-        \item Sites: near = O30, the shortest W--O bond; O72, 0.01\,\AA{} longer, as a sensitivity (A19); far = O32,
+        \item Sites: near = O30 (shortest W--O bond); O72 (0.01\,\AA{} longer) as a sensitivity (A19); far = O32,
           6.85\,\AA{} from W.
       \end{itemize}
     \end{column}
   \end{columns}
+  \takeaway{H-L was registered before any vacancy cell was built.}
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
@@ -119,7 +119,7 @@
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.56\textwidth}
       \centering
-      \includegraphics[width=0.97\linewidth]{09_hl_scores}\par
+      \includegraphics[width=0.93\linewidth]{09_hl_scores}\par
       \raggedright
       \src{(a) Differences on the three settings; dashed: registered thresholds (none for O72). (b) Per-cell change,
         $k4-k3$ (open) and G $0.002-0.005$\,Ry at $k3$ (hatched; 0.0 for the two W-free cells, so no bar). This work,
@@ -130,10 +130,9 @@
         \item $k3\to k4$ per cell: In$_{32}$O$_{47}$ $+26.8$, far $+21.6$, near $-4.1$, near72 $-19.7$\,meV;
           references In$_{32}$O$_{48}$ $-1.7$, In$_{31}$WO$_{48}$ $-3.5$\,meV \lab{computed}.
         \item $\nineDloc$ = near $-$ far: $-4.1 - 21.6 = -25.7$\,meV. In $\nineDdop$ the changes cancel to
-          $-3.4$\,meV, which alone does not show that the energies are converged.
-        \item Width 0.002\,Ry: each W cell $+11.7$ to $+12.6$\,meV, the pure cells 0.0\,meV; this cancels in the
-          differences.
-        \item All six relaxations converged; the near cell needed one restart under the pre-declared rule A28.
+          $-3.4$\,meV; this alone does not show convergence.
+        \item Width 0.002\,Ry: W cells $+11.7$ to $+12.6$\,meV, pure cells 0.0\,meV; cancels in the differences.
+        \item All six relaxations converged; the near cell needed one restart (pre-declared rule A28).
       \end{itemize}
     \end{column}
   \end{columns}
@@ -142,13 +141,13 @@
 
 % ---------------------------------------------------------------------------------------------------------------------
 \begin{frame}{Neither difference is a formation energy at a device Fermi level}
-  \ninedense\toggletrue{blx@useprefix}% print "Van de Walle" in the footnote (local to this frame)
+  \ninedense
   {\small\centering $\displaystyle E^{f}[X^{q}](\EF) = E_{\mathrm{tot}}[X^{q}] - E_{\mathrm{tot}}[\mathrm{host}]
     - \sum\nolimits_i n_i\mu_i + q\,(\EF + E_{\mathrm{VBM}}) + E_{\mathrm{corr}}[X^{q}]$%
-    \srefs{VandeWalle2004,Freysoldt2014}\par}
-  {\scriptsize\raggedright where $E_{\mathrm{tot}}$: total energy of the cell with defect $X$ (charge $q$) or of the host;
-    $n_i$ atoms of chemical potential $\mu_i$ added ($n_i>0$) or removed; $\EF$ measured from the valence-band maximum
-    $E_{\mathrm{VBM}}$; $E_{\mathrm{corr}}$: image-charge and potential-alignment correction.\par}
+    \sref{Freysoldt2014}\par}
+  {\scriptsize\raggedright where $E_{\mathrm{tot}}$: energy of the cell with defect $X$ (charge $q$) or of the host;
+    $n_i$ atoms of chemical potential $\mu_i$ added ($n_i>0$) or removed; $\EF$ from the valence-band maximum
+    $E_{\mathrm{VBM}}$; $E_{\mathrm{corr}}$: image-charge and alignment correction.\par}
   \vspace{0.3mm}
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.34\textwidth}
@@ -178,12 +177,11 @@
     \end{column}
     \begin{column}{0.635\textwidth}
       \begin{itemize}
-        \item Band filling: the vacancy electrons enter a band already filled to 1.7--1.8\,eV, so $\nineDdop$ mixes
-          filling with chemistry, strain and image terms. At device densities this term would be much smaller
-          \lab{inferred}; its sign and size there are not computed.
+        \item Band filling: the vacancy electrons enter a band filled to 1.7--1.8\,eV, so $\nineDdop$ mixes filling
+          with chemistry, strain and image terms; at device densities this term is smaller \lab{inferred}.
         \item $\nineDloc$ is cell-limited: the far site is 6--8\,\AA{} from W and its images.
         \item No charged state, $E_{\mathrm{corr}}$ or hybrid functional: no charge-transition level; how deep
-          \nineVO{} lies is debated\srefs{Agoston2009,Buckeridge2018,Chatratin2019}.
+          \nineVO{} lies is debated\sref{Buckeridge2018}.
         \item Crystalline cells only: $\nineDdop$ has the sign that vacancy passivation by W\sref[p.~4]{Januar2026}
           implies, but neither supports nor tests it for the films.
       \end{itemize}

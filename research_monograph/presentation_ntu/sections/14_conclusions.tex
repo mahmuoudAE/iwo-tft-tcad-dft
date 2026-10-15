@@ -15,170 +15,130 @@
 
 % local helpers of this section
 \providecommand{\fourteenTop}{\vspace{-4mm}}
-% register / ledger IDs in running text: small and grey, as in other parts
-\providecommand{\fourteenC}[1]{{\tiny\color{inkgrey}\,#1}}
 \providecommand{\fourteenData}{Data: Prof.\ M.-H.\ Lee's group, NTU; one device per thickness}
-% group heading spanning a two-column table
-\providecommand{\fourteenGroup}[1]{\multicolumn{2}{@{}l}{\footnotesize\textbf{#1}}\\[0.2mm]}
+% one finding per row: short heading, then one or two lines of text at \small
+\newenvironment{fourteenFindings}{\par\small\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.08}%
+  \begin{tabular}{@{}>{\raggedright\arraybackslash\bfseries}p{2.3cm}>{\raggedright\arraybackslash}p{11.45cm}@{}}}%
+  {\end{tabular}\par}
 
 % ---------------------------------------------------------------------------------------------------------------------
-\begin{frame}[t]{Seven results are demonstrated or computed within scope}
+\begin{frame}{Six results are demonstrated or computed within their scope}
   \fourteenTop
   % plain tabular (not tabularx): tabularx typesets its body several times and would duplicate the footnotes
-  \begingroup\scriptsize
-  \setlength{\tabcolsep}{4pt}
-  \renewcommand{\arraystretch}{1.0}
-  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{1.75cm}>{\raggedright\arraybackslash}p{11.9cm}@{}}
+  \begin{fourteenFindings}
     \toprule
-    Devices\sref{Januar2026}
-      & $\Vthcc = 0.662$, 0.644, 0.083\,V at 2.0, 6.3, 13.2\,nm, floors and on-currents: registered protocol, reproduced
-        independently within rounding; non-uniform in thickness; 31.8\,nm does not switch off \lab{derived} \\
-    Device models
-      & Calibrations: each per-film model reproduces its own curve by construction \lab{fitted}; every out-of-sample
-        threshold prediction for 6.3\,nm failed ($-0.29$, $-0.37$, $-0.23$\,V) \lab{falsified} \\
-    Confinement
-      & PBE gap opening $+2.25$, $+1.31$, $+0.90$, $+0.335$\,eV at $\tHH = 0.461$ (In$_8$(OH)$_{24}$), 0.695 (polar),
-        0.930, 1.962\,nm; within 0.04 and 0.005\,eV of an independent calculation at 1 and
-        2\,nm\sref[p.~21542]{Lin2022}; 84\,\% of the opening in the conduction band at 2\,nm; HSE06/PBE ratio
-        1.06--1.11 at 1\,nm \lab{computed} \\
-    Masses
-      & Electron band-edge mass 0.154, 0.203, 0.279\,$\mzero$ (bulk, 1.962, 0.930\,nm); no meaningful single hole
-        mass \lab{computed}. Bulk Kane relation, no fit: within 1\,\% of the 2\,nm mass, 10\,\% above the 1\,nm mass
-        \lab{derived} \\
-    W, crystalline
-      & On the 24d site; the W-5d-rich level is a resonance 1.2--1.8\,eV above the host band bottom, near $\EF$, at the
-        computed filling; the earlier deep-donor reading was a band-count artefact \lab{computed}\fourteenC{X1} \\
-    ML structures
-      & The machine-learned amorphous structures failed their registered force check in the W first shell
-        \lab{computed} \\
-    H-N outcome
-      & \textsc{Unresolved} in every branch under the frozen rules alone: neither a crossover nor its absence can be
-        claimed \lab{derived}\fourteenC{A37} \\
+    Devices & $\Vthcc = 0.662$, 0.644, 0.083\,V at 2.0, 6.3, 13.2\,nm\sref{Januar2026}; 31.8\,nm stays on
+      \lab{derived} \\
+    Device models & Calibrations fit their own curves \lab{fitted}; every 6.3\,nm prediction failed \lab{falsified} \\
+    Confinement & PBE gap opening $+0.900$ / $+0.335$\,eV at 0.93 / 1.96\,nm, within 0.04\,eV of an independent
+      calculation\sref[p.~21542]{Lin2022}; 84\,\% in the conduction band at 2\,nm \lab{computed} \\
+    Masses & Electron mass 0.154, 0.203, 0.279\,$\mzero$ (bulk, 2, 1\,nm) \lab{computed}; bulk Kane relation, no fit:
+      within 1\,\% at 2\,nm, 10\,\% at 1\,nm \lab{derived} \\
+    W, crystalline & Resonant donor 1.2--1.8\,eV above the host band bottom, not deep \lab{computed} \\
+    Amorphous & ML structures failed the W force check \lab{computed}; H-N \textsc{unresolved} by rule \lab{derived} \\
     \bottomrule
-  \end{tabular}\par\endgroup
-  \src{Computed results hold within a stated scope (crystalline cells, PBE, stated settings) and are not measurements
-    of the device films; a conclusion is listed under the weakest class of any of its parts. Ledger, by row:
-    C002/C003/C026/C029; C014; C020/C021/C039; C039/C040/M004; C022; C037; M001. \fourteenData.}
+  \end{fourteenFindings}
+  \src{Scope: crystalline cells, PBE, stated settings; each conclusion under the weakest class of its parts. Thresholds
+    reproduced independently; Parts 2, 6--8, 10, 11. Ledger by
+    row: C002/C003/C026/C029; C014; C020/C021/C039; C039/C040; C022, correction X1; C037, amendment A37. \fourteenData.}
   \takeaway{Firm results concern the devices and the rules; PBE results hold for crystalline cells.}
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
-\begin{frame}[t]{Three results strongly supported; five inferred or unresolved}
+\begin{frame}{Three device results are strongly supported; two are inferred}
   \fourteenTop
-  \begingroup\scriptsize
-  \setlength{\tabcolsep}{4pt}
-  \renewcommand{\arraystretch}{1.0}
-  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{1.75cm}>{\raggedright\arraybackslash}p{11.9cm}@{}}
+  \begin{fourteenFindings}
     \toprule
-    \fourteenGroup{Strongly supported}
-    Contacts
-      & A thickness-independent series resistance cannot create the trend: it would need 83\,\% of $\Vd$ at 2\,nm
-        \lab{derived} \\
-    Swing
-      & The local swing of the three thinner films collapses against $\Id/I_{\mathrm{on}}$, in data and in simulation
-        \lab{observed} \\
-    Mobility
-      & The saturation-formula peak reproduces the published\sref{Januar2026} mobilities, no free factor: 5.09, 3.86,
-        27.40 against 5.1, 3.73 (digitised), 27.4\cmVs; it does not describe these curves as a mobility \lab{derived} \\
+    \multicolumn{2}{@{}l}{\footnotesize\textbf{Strongly supported}}\\
+    Contacts & A thickness-independent series resistance would need 83\,\% of $\Vd$ at 2\,nm \lab{derived} \\
+    Swing & Against $\Id/I_{\mathrm{on}}$ the three local swings collapse, in data and model V1 (Part 2)
+      \lab{observed} \\
+    Mobility & The saturation-formula peak gives the published\sref{Januar2026} mobilities, no free factor; not a
+      mobility of these curves \lab{derived} \\
     \midrule
-    \fourteenGroup{Inferred, derived under stated conditions, or computed but unresolved}
-    Floor
-      & Unlikely to be gate leakage: flat in $\Vg$, but no gate current recorded and the registered tests sealed
-        \lab{inferred} \\
-    Definition
-      & Saturation formula: leading candidate for the paper's definition \lab{inferred}; published values
-        \textsc{unresolved} \\
-    Threshold step
-      & Of the 2.0--13.2\,nm step ($-0.579$\,V): 44\,\% by rigid transfer of the PBE $\dEc$ law, $\approx$50\,\% in
-        the earlier model, $\approx$18\,\% in the audit's forecast all-inputs-off model counterfactual (not a physical
-        share)\fourteenC{A13}. Transfer curves cannot isolate it\fourteenC{C018}: with crystalline inputs, confinement
-        alone does not account for the step \lab{inferred} \\
-    6.3\,nm misses
-      & The threshold stays flat from 2.0 to 6.3\,nm ($-0.018$\,V) where the computed shift implies about 0.2\,V, the
-        direction and size of every miss; no cause is assigned \lab{derived} \\
-    Vacancies
-      & Crystalline, degenerately doped: a vacancy far from W costs 0.73\,eV more than in pure \InO{} (passes its
-        threshold), next to W a further 0.53--0.56\,eV (significance unresolved); spin unassessed; not formation energies
-        at device conditions; H-L is \textsc{unresolved} overall \lab{computed}\,\lab{unresolved} \\
+    \multicolumn{2}{@{}l}{\footnotesize\textbf{Inferred}}\\
+    Floor & Unlikely to be gate leakage: flat in $\Vg$, but no gate current was recorded \lab{inferred} \\
+    Definition & Saturation formula: leading candidate for the paper's definition \lab{inferred}; values
+      \textsc{unresolved} \\
     \bottomrule
-  \end{tabular}\par\endgroup
-  \src{Ledger, by row: C019; C007; C030; C005; C031/C024; M007/C018; M007/C014; C038. \fourteenData.}
-  \takeaway{Open: the floor's origin, the paper's mobility recipe, confinement's share of the step, H-L.}
+  \end{fourteenFindings}
+  \src{Mobility: 5.09, 3.86, 27.40 against 5.1, 3.73 (digitised), 27.4\cmVs{} (Part 2). Registered floor tests sealed.
+    Ledger by row: C019; C007; C030; C005; C031/C024. \fourteenData.}
+  \takeaway{Open on the device side: the origin of the floor and the paper's mobility recipe.}
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
-\begin{frame}[t]{Seven contributions stand on the present evidence}
+\begin{frame}{Confinement's share of the 2.0--13.2\,nm step and H-L remain open}
   \fourteenTop
-  \begingroup\scriptsize
-  \setlength{\tabcolsep}{3pt}
-  \renewcommand{\arraystretch}{1.02}
-  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.25cm}>{\raggedright\arraybackslash}p{8.1cm}>{\raggedright\arraybackslash}p{1.6cm}>{\raggedright\arraybackslash}p{2.45cm}>{\centering\arraybackslash}p{0.65cm}@{}}
+  \begin{fourteenFindings}
     \toprule
-    & Contribution & Label & Condition & Part \\
-    \midrule
-    1 & A confinement series of crystalline \InO{} films (0.46--1.96\,nm): masses on a stated basis, band-edge
-        partition, HSE06 check, laws with uncertainties
-      & \leavevmode\lab{computed}\newline\lab{fitted} & crystalline (001), PBE, OH-terminated & 6, 7 \\
-    2 & Mass increase consistent with bulk non-parabolicity, no fit (1\,\% at 2\,nm, 10\,\% at 1\,nm): to
-        that accuracy, one independent law, $\dEc(t)$, not two
-      & \leavevmode\lab{derived} & crystalline & 7, 10 \\
-    3 & W in crystalline \InO{} is a resonant donor at high filling; the earlier deep-donor reading is withdrawn
-      & \leavevmode\lab{computed} & crystalline, PBE, one filling & 8 \\
-    4 & A registered crystalline vacancy test (H-L), scored under frozen rules
-      & \leavevmode\lab{computed} & unresolved overall & 9 \\
-    5 & A fully specified blind protocol for amorphous films, and the finding that its central test, H-N, cannot
-        return a crossover or a no-crossover verdict
-      & \leavevmode\lab{derived} & frozen rules; outcomes sealed & 11 \\
-    6 & A quantitative account of how every failed 6.3\,nm prediction relates to the computed shift, all in the same
-        direction, without assigning a cause
-      & \leavevmode\lab{derived} & uses the device data & 10 \\
-    7 & A reconciliation of the published\sref{Januar2026} and the derived device metrics
-      & \leavevmode\lab{derived}\newline\lab{inferred} & uses the device data; recipe unconfirmed & 2 \\
+    2.0--13.2\,nm step & Of $\Delta\Vthcc = -0.579$\,V: 44\,\% by rigid transfer of the PBE $\dEc$ law
+      \lab{derived}; about 50\,\% in the earlier report's calibrated model; about 18\,\% in the audit's all-inputs-off
+      forecast (a model counterfactual, not a physical share) \\
+    & Transfer curves cannot isolate confinement: with crystalline inputs it does not account for the 2.0--13.2\,nm step alone
+      \lab{inferred} \\
+    6.3\,nm misses & The threshold is flat from 2.0 to 6.3\,nm ($-0.018$\,V) where the computed shift implies about
+      0.2\,V: the direction and size of every miss; no cause assigned \lab{derived} \\
+    Vacancies & Crystalline, degenerately doped: far from W, $+0.73$\,eV against pure \InO{} (passes); next to W, a
+      further 0.53--0.56\,eV (significance unresolved); H-L is \textsc{unresolved} overall
+      \lab{computed}\,\lab{unresolved} \\
     \bottomrule
-  \end{tabular}\par\endgroup
-  \src{Labels and conditions: rows 1--4 from the monograph's claim-status table; rows 5--7 from the ledger (M001; M007;
-    C030/C031/C024). No claim is approved for publication: results that use the device curves need the fabrication
+  \end{fourteenFindings}
+  \src{Vacancy energies: neutral O vacancy, spin unassessed, not formation energies at device conditions (Part 9).
+    Step shares: Part 10; audit forecast from register amendment A13. Ledger by row: M007/C018; M007/C014; C038.
+    \fourteenData.}
+  \takeaway{Open on the physics side: confinement's share of the 2.0--13.2\,nm step, and H-L.}
+\end{frame}
+
+% ---------------------------------------------------------------------------------------------------------------------
+\begin{frame}{Three contributions stand on the present evidence}
+  \fourteenTop
+  \begin{enumerate}\small
+    \setlength{\itemsep}{2.5mm}
+    \item A computed confinement series of crystalline (001) \InO{} films, 0.46--1.96\,nm, with masses, band-edge
+      partition and HSE06 check; the mass rise follows bulk non-parabolicity, so one law, $\dEc(t)$, carries both
+      \lab{computed}\,\lab{derived}
+    \item Tungsten in crystalline \InO{} is a resonant donor at high filling (deep-donor reading withdrawn), and a
+      registered crystalline vacancy test, H-L, scored \textsc{unresolved} \lab{computed}
+    \item A blind, registered protocol for devices and amorphous films, with a reconciliation of the published and
+      derived device metrics and of every failed 6.3\,nm prediction \lab{derived}\,\lab{inferred}
+  \end{enumerate}
+  \vspace{3mm}
+  {\footnotesize Status: no claim is approved for publication. Results that use the device curves need the fabrication
     group's agreement (permission, attribution, AI processing, authorship; meeting pending); the frozen registrations
-    need an external timestamp (DOI).}
+    need an external timestamp (DOI).\par}
+  \src{Conditions: rows 1--2 crystalline, PBE (row 2 at one filling); row 3 uses the device data, the mobility recipe is
+    unconfirmed, and the amorphous outcomes are sealed. Ledger: monograph claim-status table; M001; M007;
+    C030/C031/C024.}
   \takeaway{The strongest original result is computational and crystalline: the confinement series.}
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
-\begin{frame}[t]{The decisive next steps are measurements}
+\begin{frame}{The decisive next steps are measurements}
   \fourteenTop
-  \begingroup\scriptsize
+  \begingroup\footnotesize
   \setlength{\tabcolsep}{3pt}
-  \renewcommand{\arraystretch}{1.0}
-  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{6.1cm}>{\raggedright\arraybackslash}p{7.68cm}@{}}
+  \renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{6.9cm}>{\raggedright\arraybackslash}p{6.88cm}@{}}
     \toprule
-    \footnotesize\textbf{Measurements (by information per cost)} & \footnotesize\textbf{What it decides} \\[0.2mm]
-    Floor against $\Vd$ from 0.1 to 0.7\,V on the existing chips, with the gate current recorded
-      & ohmic ungated strip: floor $\times7$ over 0.1--0.7\,V; diffusion: $\times1.02$; the gate current tests
-        leakage\fourteenC{C005} \\
-    At least ten devices per thickness, one run, dual sweeps
-      & device spread against a film property; is 6.3\,nm on a smooth law? \\
-    XRR and TEM thickness of the same films; stack order
-      & abscissa of every law: $\pm0.2$\,nm $\approx\pm40$\,mV in the model threshold at 2\,nm \\
-    C--V flat band, optical gap, Hall density and photoemission band offsets against thickness
-      & work function, affinity, fixed charge and $\dEc$, which act as one number in transfer curves\fourteenC{C018} \\
-    A dense series in about 1\,nm steps from 3 to 15\,nm, at 0, 2, 4\,\% W, capped and uncapped
-      & a transition between 6.3 and 13.2\,nm against a smooth law; back-surface depletion \\
+    \textbf{Measurements (by information per cost)} & \textbf{What it decides} \\
     \midrule
-    \fourteenGroup{Calculations and registered work}
-    W cells with a hybrid functional (HSE06) or PBE+$U$
-      & is the W-5d level still above the host edge? can W trap an electron? \\
-    A density series of W cells (lower density)
-      & is the W level pinned by the filling, or does it stay high at low density? is W ionised at device densities? \\
-    Release of the sealed amorphous results\fourteenC{D-43}
-      & amorphous confinement (H-K) and W (H-G, H-N per cell) \\
-    Completion of the registered device campaign\fourteenC{C10}
-      & can one shared parameter set with computed inputs describe all films? \\
+    Floor against $\Vd$ = 0.1--0.7\,V, gate current recorded & ohmic strip: floor $\times7$; diffusion: $\times1.02$ \\
+    Ten or more devices per thickness, dual sweeps & is 6.3\,nm on a smooth law? \\
+    XRR and TEM thickness of the same films & $\pm0.2$\,nm $\approx\pm40$\,mV in model $\Vthcc$ at 2\,nm \\
+    C--V flat band, optical gap, Hall density, photoemission & separates work function, affinity, charge and $\dEc$ \\
+    Dense 3--15\,nm series; 0, 2, 4\,\% W; capped or not & transition or smooth law; back-surface depletion \\
+    \midrule
+    \textbf{Calculations and registered work} & \\
+    \midrule
+    W cells with HSE06 or PBE+$U$, and at lower density & is the W-5d level above the edge at device density? \\
+    Release of the sealed amorphous results & amorphous confinement (H-K); W (H-G, H-N per cell) \\
+    Completion of the registered device campaign & one shared parameter set for all films? \\
     \bottomrule
   \end{tabular}\par\endgroup
-  \src{Also: a dipole-corrected SCF of the 0.695\,nm film; charged vacancy cells; for H-N, a re-registered series with
-    at least two seeds per endpoint. Device model: one law, $\dEc(t)$, with its fit-option band; the $N_{\mathrm{c}}$
-    convention stated with every fitted charge. None of these measurements is available to this work (D-11); the
-    thickness method is to be asked of the group.}
+  \src{Floor ratios: ledger C005. Device statistics from one run; metrology with stack order; dense series in about 1\,nm steps. Also: dipole-corrected SCF of the 0.695\,nm film; charged vacancy cells; for H-N a
+    re-registered series with two seeds per endpoint; one device law, $\dEc(t)$, with its fit-option band and the
+    $N_{\mathrm{c}}$ convention stated. Release rule D-43; campaign C10; no measurement is available to this work (D-11).}
   \takeaway{First the floor against drain bias, device statistics and thickness metrology.}
 \end{frame}
 % (The 'Thank you' slide moved to sections/15_closing.tex, after the acknowledgements.)

@@ -33,7 +33,7 @@
   \fivedense\fiveTop
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.50\textwidth}
-      \begingroup\footnotesize\textbf{Kohn--Sham DFT and the gap}\srefs{Hohenberg1964,Kohn1965,PerdewLevy1983,ShamSchluter1983}\par\endgroup
+      \begingroup\footnotesize\textbf{Kohn--Sham DFT and the gap}\srefs{Kohn1965,PerdewLevy1983,Born1927}\xdef\fiveksfn{\the\value{footnote}}\par\endgroup
       \vspace{-3mm}
       \begingroup\footnotesize
       \begin{gather*}
@@ -46,15 +46,15 @@
         Hartree and exchange--correlation potentials; $f_j$: occupations; $\Delta_{\mathrm{xc}}$: jump of the exact
         $v_{\mathrm{xc}}$ at integer electron number.\par\endgroup
       \vspace{1mm}
-      \begingroup\footnotesize Born--Oppenheimer, static lattice\sref{Born1927}: fixed nuclei; corrections in powers
+      \begingroup\footnotesize Born--Oppenheimer, static lattice\footnotemark[\fiveksfn]: fixed nuclei; corrections in powers
         of $\kappa = (m_e/M)^{1/4}$, 0.076 (O) and 0.047 (In) \lab{derived}: vibrations at order $\kappa^2$,
         non-adiabatic terms higher (not estimated).\par\endgroup
     \end{column}
     \begin{column}{0.46\textwidth}
       \begin{itemize}
-        \item PBE\sref{Perdew1996} for all relaxations and production runs. Bulk gap 0.8887\,eV \lab{computed};
+        \item PBE\srefs{Perdew1996,Krukau2006}\xdef\fivexcfn{\the\value{footnote}} for all relaxations and production runs. Bulk gap 0.8887\,eV \lab{computed};
           measured 2.7--2.9\,eV\srefs{Walsh2008,Irmscher2014}.
-        \item HSE06\srefs{Heyd2003,Heyd2006,Krukau2006}: a fraction $\alpha = 0.25$ of the short-range exchange is
+        \item HSE06\footnotemark[\fivexcfn]: a fraction $\alpha = 0.25$ of the short-range exchange is
           exact, $\omega = 0.106$\,bohr$^{-1}$; fixed PBE geometry. Bulk gap 2.108\,eV (norm-conserving,
           $\Gamma$-only $q$; 41.8\,meV lower with $3\times3\times3$ $q$) \lab{computed}.
         \item Not included: zero-point renormalisation, spin--orbit coupling, spin polarisation (production
@@ -70,7 +70,7 @@
   \fivedense\fiveTop
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.45\textwidth}
-      \includegraphics[width=0.93\linewidth]{05_convergence}
+      \includegraphics[width=0.80\linewidth]{05_convergence}
       \src{Bulk \InO{} (40-atom primitive cell at the experimental $a = 10.117$\,\AA{}), PAW-PBE: change against
         85\,Ry (left) and 4$\times$4$\times$4 (right). Grey: criteria; dotted: settings used (71\,Ry,
         3$\times$3$\times$3). This work \fivesrclab{computed}.}
@@ -89,6 +89,7 @@
       \end{itemize}
     \end{column}
   \end{columns}
+  \takeaway{71\,Ry and a 3$\times$3$\times$3 grid pass all three pre-set criteria with margin.}
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
@@ -125,14 +126,14 @@
       \begin{itemize}
         \item The density sphere at $8E_{\mathrm{cut}}$ holds $8^{3/2} \approx 22.6$ times more components: 5\,746\,731
           for the 1\,nm slab \lab{computed}.
-        \item Work per SCF step grows as $N_b^2N_{\mathrm{pw}}$. From 1 to 2\,nm: bands 328 to 680, $N_{\mathrm{pw}}$
-          $+29$\,\%, work $\times5.5$ \lab{derived}.
-        \item 2\,nm wave functions at one $k$ point: $680\times327\,585\times16$\,B $= 3.6$\,GB \lab{derived};
-          \texttt{pw.x} estimates 82\,GB per process for the single-process GPU relaxation \lab{computed}.
+        \item The basis of a new cell is therefore known before the run; the band count $N_b$ follows from the
+          valence electrons (next slide).
+        \item Work per SCF step grows as $N_b^2N_{\mathrm{pw}}$; what this meant in memory and run time for the
+          176-atom film: Part~13.
       \end{itemize}
     \end{column}
   \end{columns}
-  \takeaway{The 176-atom film needed a large-memory GPU or a distributed CPU run.}
+  \takeaway{For all four cells the printed basis size matches $\Omega E_{\mathrm{cut}}^{3/2}/6\pi^2$ within 0.15\,\%.}
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
@@ -205,7 +206,7 @@
       \end{itemize}
     \end{column}
   \end{columns}
-  \takeaway{Reading band 312 as the VB top caused the 30 Sep ``W level below CB'' (correction X1).}
+  \takeaway{Misreading band 312 as the VB top gave ``W below the CB'' (record correction X1).}
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
@@ -272,7 +273,7 @@
       \end{itemize}
     \end{column}
   \end{columns}
-  \takeaway{The polar 0.695\,nm film stays out of new primary $\dEc$ fits (correction X4).}
+  \takeaway{The polar 0.695\,nm film stays out of new primary $\dEc$ fits (record correction X4).}
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
@@ -290,8 +291,8 @@
     W and H-L cells & relax & $10^{-3}$ & $10^{-4}$ & -- & fixed \\
     \bottomrule
   \end{tabularx}\par\endgroup
-  \src{Stopping thresholds. Ions and cell by BFGS, not damped dynamics (correction V2); SCF threshold $10^{-9}$\,Ry ($10^{-8}$\,Ry: metallic
-    2\,nm W film, six H-L cells). \texttt{pw.x} inputs; this work.}
+  \src{Stopping thresholds; BFGS, not damped dynamics (review correction V2); SCF threshold $10^{-9}$\,Ry ($10^{-8}$: metallic
+    2\,nm W film, six H-L cells). This work, \texttt{pw.x} inputs.}
   \vspace{-1.5mm}
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.49\textwidth}
@@ -300,18 +301,18 @@
           Bulk: 11 steps to $a = 10.306$\,\AA, 1.87\,\% above experiment\sref{Marezio1966} \lab{computed}.
         \item The criterion is per component: the relaxed 1\,nm slab has a norm of $6.1\times10^{-3}$\,Ry/bohr over
           288 components, typically $3.6\times10^{-4}$ \lab{derived}.
-        \item \texttt{pw.x} writes coordinates even after a failed BFGS run; amorphous chains need ``bfgs
-          converged'' (amendment A19).
+        \item A failed BFGS run still writes coordinates; amorphous chains need ``bfgs converged''
+          (register amendment A19).
       \end{itemize}
     \end{column}
     \begin{column}{0.49\textwidth}
       \begin{itemize}
         \item SCF error $\delta n$: energy error second order, force error first order:
           $\delta F \propto \sqrt{\smash[b]{\texttt{conv\_thr}}}$.
-        \item Amorphous 1.0\,nm cell, 134 atoms (force-only check C035), \texttt{conv\_thr} $10^{-7}$\,Ry: SCF force
+        \item Undoped amorphous 1.0\,nm cell (aIO\_1p0\_s1, 134 atoms), \texttt{conv\_thr} $10^{-7}$\,Ry: SCF force
           correction (norm) $1.3\times10^{-3}$\,Ry/bohr \lab{computed}.
-        \item Per component: $1.3\times10^{-3}/\sqrt{402} \approx 6\times10^{-5}$\,Ry/bohr, 15 times below
-          $10^{-3}$\,Ry/bohr (correction V1) \lab{derived}.
+        \item Per component: $1.3\times10^{-3}/\sqrt{402} \approx 6\times10^{-5}$\,Ry/bohr, $15\times$ below
+          the threshold (review correction V1) \lab{derived}.
       \end{itemize}
     \end{column}
   \end{columns}

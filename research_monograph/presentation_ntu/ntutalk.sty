@@ -152,7 +152,7 @@
 % evidence label in charter vocabulary, e.g. \lab{computed}
 \newcommand{\lab}[1]{{\scriptsize\color{inkgrey}[\textsc{\MakeLowercase{#1}}]}}
 % source line under a figure or table
-\newcommand{\src}[1]{\par\vspace{0.5mm}{\tiny\color{inkgrey}#1\par}}
+\newcommand{\src}[1]{\par\vspace{0.5mm}{\tiny\color{inkgrey}\renewcommand{\lab}[1]{[\textsc{\MakeLowercase{##1}}]}#1\par}}
 % a result that is sealed under the release protocol (never filled by inference)
 \newcommand{\sealed}[1]{\fbox{\parbox{0.92\linewidth}{\centering\footnotesize\textbf{Sealed} \textendash\ #1\\
   \tiny\color{inkgrey}released only under the registered release protocol (decision D-43)}}}

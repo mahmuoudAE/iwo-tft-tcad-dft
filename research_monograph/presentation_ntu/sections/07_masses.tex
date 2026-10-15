@@ -14,7 +14,7 @@
   \setbeamerfont{itemize/enumerate subbody}{size=\footnotesize}}
 % evidence label inside a \src line: same vocabulary as \lab, but at the (tiny) size of the source line
 \providecommand{\sevsrclab}[1]{[\textsc{\MakeLowercase{#1}}]}
-\providecommand{\sevNv}{N_{\mathrm{V}}}
+\providecommand{\sevNv}{N_{\mathrm{v}}}
 % pull the frame body up towards the title rule (as in Parts 5 and 8); keeps clear space above the take-away
 \providecommand{\sevTop}{\vspace{-3mm}}
 
@@ -35,7 +35,7 @@
         \item $E(1+\alpha E) = \hbar^2k^2/2m_b$ fits [100], [110], [111] to 0.45\,eV: $m_b$ = 0.1541\,$m_0$ (isotropic
           within 0.2\,\%), $\alpha$ = 0.58\,eV$^{-1}$ (0.55--0.63). Other bases: four-point (deck) 0.1588\,$m_0$,
           anchored parabolas 0.156--0.189\,$m_0$ \lab{computed}.
-        \item Measured: 0.208\,$\pm$\,0.006\,$m_0$\sref{Stokey2021}; 0.18\,$m_0$ at zero density, about 0.4\,$m_0$ at
+        \item Measured: 0.208\,$\pm$\,0.006\,$m_0$\sref[p.~225102-1]{Stokey2021}; 0.18\,$m_0$ at zero density, about 0.4\,$m_0$ at
           $10^{21}$\cmcu\sref{Feneberg2016} \lab{measured}; PBE Kane optical mass $m_b(1+2\alpha\EF)$ there
           0.39\,$m_0$ ($\EF$ beyond the fit window) \lab{derived}.
         \item Caveats: a polaron (Fr\"ohlich coupling near one: +15\,\%) could explain half of the 26\,\%
@@ -50,26 +50,27 @@
 \begin{frame}{Confinement raises the mass; extrapolated, little beyond 2\,nm}
   \sevdense\sevTop
   \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.47\textwidth}
+    \begin{column}{0.43\textwidth}
       \includegraphics[width=\linewidth]{07_film_masses}
       \src{(a) In-plane band-edge mass of the relaxed films. (b) Increase over bulk with the fitted law; dashed:
         extrapolated. Open: In$_8$(OH)$_{24}$, outside every law. This work, PAW-PBE \sevsrclab{computed},
         law \sevsrclab{fitted}.}
     \end{column}
-    \begin{column}{0.49\textwidth}
+    \begin{column}{0.53\textwidth}
       \begin{itemize}
-        \item In-plane band-edge masses (2-D DOS, Kane basis): 0.443, 0.337, 0.279, 0.203\,$m_0$ at 0.461, 0.695,
-          0.930, 1.962\,nm; in-plane $\alpha$ 0.24--0.47\,eV$^{-1}$ \lab{computed}.
-        \item Law, 0.695--1.962\,nm, one residual degree of freedom: $\Delta m$ = 0.1145\,$t^{-1.2755}$\,$m_0$
-          ($t = \tHH$ in nm) \lab{fitted}; 0.047\,$m_0$ at 2.0\,nm and, extrapolated, 0.011 and 0.004\,$m_0$ at 6.3 and
-          13.2\,nm.
-        \item Deck basis at 2\,nm: 0.206\,$m_0$. Checks (band-edge basis): GPU and CPU within 0.0006\,$m_0$,
-          15--35\,\AA{} vacuum within 0.0002\,$m_0$; relaxation: +18\,\% at 1\,nm \lab{computed}.
+        \item In-plane band-edge masses (2-D DOS, Kane basis): 0.443, 0.337, 0.279, 0.203\,$m_0$ from 0.461 to
+          1.962\,nm; in-plane $\alpha$ 0.24--0.47\,eV$^{-1}$ \lab{computed}.
+        \item Fit, 0.695--1.962\,nm, one residual degree of freedom, band-edge basis: $\Delta m$ =
+          0.1145\,$t^{-1.2755}$\,$m_0$ ($t = \tHH$ in nm); 0.047\,$m_0$ at 2.0\,nm \lab{fitted}.
+        \item The device decks use the deck-basis law 0.1114\,$t^{-1.2611}$\,$m_0$ (previous slide); both laws
+          give 0.011 and 0.004\,$m_0$ at 6.3 and 13.2\,nm, extrapolated \lab{fitted}.
+        \item Deck basis at 2\,nm: 0.206\,$m_0$. Checks: GPU against CPU 0.0006\,$m_0$, 15--35\,\AA{} vacuum
+          0.0002\,$m_0$; relaxation: +18\,\% at 1\,nm \lab{computed}.
         \item 3.1\,\% W in bulk: same shape, 5\,\% heavier, 0.161--0.163\,$m_0$ \lab{computed}; no W-film band run.
       \end{itemize}
     \end{column}
   \end{columns}
-  \takeaway{Increase over bulk: 0.011\,$m_0$ at 6.3\,nm, 0.004\,$m_0$ at 13.2\,nm (extrapolated) \lab{fitted}.}
+  \takeaway{Beyond 2\,nm confinement adds little to the electron mass: 0.011\,$m_0$ at 6.3\,nm \lab{fitted}.}
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
@@ -125,7 +126,7 @@
       \includegraphics[width=\linewidth]{07_kanetest}
       \src{(a) Kane prediction against the computed in-plane mass; bars: $\alpha$ = 0.55--0.63; shaded: \textpm0.17\,eV
         in the polar 0.695\,nm film; open: no test. (b) In-plane non-parabolicity, computed and $\alpha/(1+2\alpha
-        E_1)$. This work \sevsrclab{derived}. Claim M004; correction V5.}
+        E_1)$. This work \sevsrclab{derived}. Claim M004; review correction V5.}
     \end{column}
     \begin{column}{0.49\textwidth}
       \begin{itemize}
@@ -144,7 +145,7 @@
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
-\begin{frame}{No single hole mass; \textit{N}\textsubscript{V} is about 200 times the deck value}
+\begin{frame}{No single hole mass; \textit{N}\textsubscript{v} is about 200 times the deck value}
   \sevdense\sevTop
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.47\textwidth}

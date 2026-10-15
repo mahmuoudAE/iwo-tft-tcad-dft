@@ -14,6 +14,9 @@
 \providecommand{\elevenDW}{\Delta_{\mathrm{W}}}
 \providecommand{\elevenNex}{N_{\mathrm{ex}}}
 \providecommand{\elevenNeff}{N_{\mathrm{eff}}}
+\providecommand{\elevenNVB}{N_{\mathrm{VB}}}
+% modest pull-up for the densest frames (checked against the title bar under top alignment)
+\providecommand{\elevenTop}{\vspace{-3mm}}
 \providecommand{\elevenEh}{E_{\mathrm{host}}}
 \providecommand{\elevenEhv}{E_{\mathrm{host,v}}}
 \providecommand{\elevenAng}{\mbox{\AA}}
@@ -28,20 +31,19 @@
 
 % ---------------------------------------------------------------------------------------------------------------------
 \begin{frame}{The channels are disordered; Parts 5--10 use crystal DFT}
-  \elevendense
+  \elevenTop\elevendense
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.60\textwidth}
       \begin{itemize}
         \item The channels are sputtered, largely amorphous or nanocrystalline: HRTEM shows no long-range
           crystallinity\sref[p.~2]{Januar2026}; every first-principles number in Parts 5--10 is for a crystal.
-        \item Amorphous \InO: In-polyhedra connectivity is linked to transport\sref{Buchholz2014}; the s-like
-          conduction band survives disorder\sref{Medvedeva2017}.
+        \item Amorphous \InO{} keeps its s-like conduction band despite the disorder\sref{Medvedeva2017}.
         \item Test H-N: does W still put its electron into an extended host state at 0.7\,nm? Confinement, weaker
-          screening\srefs{Diarra2007,Bjork2009}, surfaces (every atom within about 0.35\,nm of one) and 2-D
-          disorder could prevent it \lab{theory}.
-        \item Below a mobility edge states are localised; in 2-D weak disorder localises all on long
-          scales\srefs{Anderson1958,Mott1969,Abrahams1979}. A 1--3\,nm cell sees only few-atom localisation, where a
-          deep, d-like W-centred trap would act; shallow nm-scale traps look extended.
+          screening (Part 12), surfaces (every atom within about 0.35\,nm of one) and 2-D disorder could prevent
+          it \lab{theory}.
+        \item Below a mobility edge states are localised; in 2-D weak disorder localises all
+          states\srefs{Mott1969,Abrahams1979}. A 1--3\,nm cell resolves only few-atom traps, such as a deep, d-like
+          W-centred one; shallow nm-scale traps look extended.
       \end{itemize}
     \end{column}
     \begin{column}{0.37\textwidth}
@@ -69,19 +71,19 @@
         \end{scope}
       \end{tikzpicture}\par
       \raggedright
-      \src{Schematic of $|\psi|^2$ along the film, not to scale (bottom panel at a smaller length scale). Top: a
-        1--3\,nm cell separates a few-atom state from an extended one. Bottom: a state localised on tens of nm is
-        nearly flat across one cell and reads as extended.}
+      \src{Schematic of $|\psi|^2$ along the film, not to scale. Top: a 1--3\,nm cell separates a few-atom state
+        from an extended one. Bottom (smaller scale): a state localised on tens of nm is flat across one cell.}
     \end{column}
   \end{columns}
+  \takeaway{H-N asks whether W still donates in a disordered 0.7\,nm film.}
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
 \begin{frame}{No read-out before PBE relaxation, certificate and release}
-  \elevendense
+  \elevenTop\elevendense
   \begingroup\centering
   \begin{tikzpicture}[x=1mm,y=1mm,font=\scriptsize,
-      st/.style={draw,line width=0.45pt,align=center,text width=17.6mm,minimum height=7.8mm,inner sep=0.8mm},
+      st/.style={draw,line width=0.45pt,align=center,text width=17.6mm,minimum height=7.0mm,inner sep=0.8mm},
       ar/.style={-{Stealth[length=1.6mm]},line width=0.5pt}]
     \node[st] (a) at (11,0)   {MACE-MPA-0\\melt--quench};
     \node[st] (c) at (34.6,0) {PBE relaxation\\(GPU)};
@@ -101,35 +103,33 @@
       {\footnotesize\textbf{Melt--quench}, MACE-MPA-0 ``medium''\elevenmaceref\par}
       \begin{itemize}
         \item Langevin, 1\,fs, friction 0.01\,fs$^{-1}$: 3000\,K for 6\,ps, quench to 300\,K over 9\,ps, hold
-          2\,ps; cleave (vacuum gap), 800\,K for 3\,ps, cool over 3\,ps; relax to 0.05\,eV/\elevenAng, passivate,
-          relax again (bulk: no cleave or passivation).
-        \item Gate on density, bond lengths and coordination; failures replaced by the next seed (three were),
-          thresholds unchanged.
-        \item 23\,ps is about $10^{14}$\,K/s: a network of the right composition and density, not the sputtered
-          film.
+          2\,ps; cleave, 800\,K for 3\,ps, cool over 3\,ps; relax to 0.05\,eV/\elevenAng, passivate, relax again
+          (bulk: no cleave or passivation).
+        \item Gate on density, bonds, coordination; failures replaced by the next seed (three were).
+        \item About $10^{14}$\,K/s: right composition and density, not the sputtered film.
       \end{itemize}
     \end{column}
     \begin{column}{0.50\textwidth}
       {\footnotesize\textbf{PBE relaxation and final SCF}\par}
       \begin{itemize}
         \item 60/480\,Ry; BFGS to $10^{-3}$\elevenRyb, $10^{-4}$\,Ry; $k$ grid $2{\times}2{\times}1$ (slabs),
-          $2{\times}2{\times}2$ (bulk); slab dipole correction; converged only on ``bfgs converged'' (A19).
+          $2{\times}2{\times}2$ (bulk); dipole correction; ``bfgs converged'' required (A19).
         \item Final SCF on CPUs (71/568\,Ry, $1.3\times$ occupied bands), L\"owdin projections. The frozen
-          read-out (D-32; 221 tests) must first reproduce two crystal values: a 3\,\% W-5d share and
-          $\dEc = 0.281$\,eV at 2\,nm \lab{computed}.
-        \item Not converged at the cutoff: exploratory. No converged geometry or no valid certificate: primary
-          test unresolved.
+          read-out (D-32; 221 tests) must first reproduce two crystal values: the W-5d share of the excess
+          electrons, 3\,\%, and $\dEc = 0.281$\,eV at 2\,nm \lab{computed}.
+        \item Rule: not converged by the 17 Oct cutoff = exploratory; no converged geometry or certificate = unresolved.
       \end{itemize}
     \end{column}
   \end{columns}
+  \takeaway{Every amorphous number will come from certified PBE, not from the ML stage.}
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
 \begin{frame}{Six W cells span bulk to 0.7\,nm at one W volume density}
-  \elevendense
+  \elevenTop\elevendense
   \begingroup\scriptsize
   \setlength{\tabcolsep}{5pt}
-  \renewcommand{\arraystretch}{1.06}
+  \renewcommand{\arraystretch}{1.0}
   \begin{tabularx}{\textwidth}{@{}l l l r l >{\raggedright\arraybackslash}X@{}}
     \toprule
     $t_{\mathrm{eq}}$ & W-doped cell & composition & $N$ & undoped partner & role in H-N \\
@@ -142,34 +142,34 @@
     0.7\,nm & \cell{aIWO_0p7_s1} & In$_{49}$W$_1$O$_{83}$H$_{14}$ & 147 & \cell{aIO_0p7_s1} & thin decisive endpoint \\
     \bottomrule
   \end{tabularx}\par\endgroup
-  \src{$N$: atoms of the W cell (register and claims ledger); ``film + OH/H'': the register gives the film before
-    passivation. One melt--quench sample per name; 1.5\,nm cut under the budget rule. Slab rules registered before any
-    ML or DFT result (D-14). Structural facts only.}
-  \vspace{1.2mm}
+  \src{$N$: atoms of the W cell; ``film + OH/H'': the register gives the film before passivation. One melt--quench
+    sample per name; 1.5\,nm cut under the budget rule. Slab rules registered before any ML or DFT result (D-14).
+    Structural facts only.}
+  \vspace{0.4mm}
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.49\textwidth}
       \begin{itemize}
         \item W/(In+W) $= 2.0$\,\%. Each W brings one extra O, so one excess electron per W (W$^{6+}$ for In$^{3+}$
           gives three, the O$^{2-}$ takes two): about $6\times10^{20}$\cmcu.
-        \item In-plane edge $\ge 12.5$\,\elevenAng{} at 7.0\,g/cm$^3$: the same W density at every thickness.
-        \item $t_{\mathrm{eq}}$ = film mass / (7.0\,g/cm$^3$ $\times$ area), not the $\tHH$ of Parts 6--8.
+        \item In-plane edge $\ge 12.5$\,\elevenAng{} at 7.0\,g/cm$^3$: one W density. $t_{\mathrm{eq}}$ = film
+          mass / (7.0\,g/cm$^3$ $\times$ area), not the $\tHH$ of Parts 6--8.
       \end{itemize}
     \end{column}
     \begin{column}{0.48\textwidth}
       \begin{itemize}
         \item OH and H in pairs (electron count unchanged); 18\,\elevenAng{} vacuum with a dipole
           correction\sref{Bengtsson1999}.
-        \item Other cells, not in H-N: a compensated 2.0\,nm control (In$_{98}$W$_2$O$_{160}$H$_{14}$, 274 atoms, no
-          excess electron; H-G); bare-surface controls at 2.0 and 0.7\,nm (H-H); \AlO{} interface cells (H-I);
-          an \HfO{} interface control (H-M).
+        \item Not in H-N: a compensated 2.0\,nm control (274 atoms, no excess electron; H-G); bare surfaces at 2.0
+          and 0.7\,nm (H-H); \AlO{} interfaces (H-I); an \HfO{} interface (H-M).
       \end{itemize}
     \end{column}
   \end{columns}
+  \takeaway{All six W cells share one W volume density; thickness and surfaces change.}
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
 \begin{frame}{The ML potential fails at W; its structures only seed DFT}
-  \elevendense
+  \elevenTop\elevendense
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.59\textwidth}
       \begingroup\scriptsize
@@ -187,47 +187,46 @@
         melt frame & not scored & 0.311 & 0.171 & 1.108 \\
         \bottomrule
       \end{tabular}\par\endgroup
-      \src{MACE forces against PBE single points (QE 7.5, MV 0.01\,Ry) on the same geometries; W1: W and its
-        first-shell O; bold: limit exceeded. Comparator frozen before any output was read. C037.}
+      \src{MACE forces against PBE single points (QE 7.5, MV 0.01\,Ry), same geometries; W1: W and first-shell O;
+        bold: limit exceeded; comparator frozen before any output. C034--C037; record correction X8.}
     \end{column}
     \begin{column}{0.38\textwidth}
       \begin{itemize}
-        \item Verdict: \textbf{failed overall} \lab{computed}. 71--75\,\% of the squared error sits in the W first
-          shell (7 atoms); outside it the RMSE is 0.063--0.066 (bulk), 0.107\,eV/\elevenAng{} (0.7\,nm).
-        \item Registered consequence: DFT starting points, not validated amorphous models; no ML-stage structural
-          statistic is reported (X8).
+        \item Verdict: \textbf{failed overall} \lab{computed}. 71--75\,\% of the squared error is in the W first
+          shell (7 atoms); elsewhere RMSE 0.063--0.066 (bulk), 0.107\,eV/\elevenAng{} (0.7\,nm).
+        \item Registered consequence: DFT starting points, not validated models; no ML-stage structural
+          statistic.
       \end{itemize}
     \end{column}
   \end{columns}
-  \vspace{1.2mm}
+  \vspace{0.4mm}
   \begingroup\scriptsize
   \setlength{\tabcolsep}{4pt}
   \renewcommand{\arraystretch}{1.08}
   \begin{tabularx}{\textwidth}{@{}l l l l >{\raggedright\arraybackslash}X@{}}
     \toprule
-    numerical control (claim) & cell & change & tolerance & result \\
+    numerical control & cell & change & tolerance & result \lab{computed} \\
     \midrule
-    smearing MV $\to$ Gaussian (C034) & \cell{aIWO_1p0_s1} & max $|\Delta F| = 2.4\times10^{-4}$\elevenRyb
+    smearing MV $\to$ Gaussian & \cell{aIWO_1p0_s1} & max $|\Delta F| = 2.4\times10^{-4}$\elevenRyb
       & $10^{-3}$\elevenRyb & pass (a screen) \\
-    split species labels (C035) & \cell{aIO_1p0_s1} & $|\Delta E| = 10^{-8}$\,Ry & $10^{-5}$\,Ry
+    split species labels & \cell{aIO_1p0_s1} & $|\Delta E| = 10^{-8}$\,Ry & $10^{-5}$\,Ry
       & pass \\
-    fresh restart, same input (C036) & \cell{aIWO_0p8_s2} & \begin{tabular}[t]{@{}l@{}}$|\Delta E| =
+    fresh restart, same input & \cell{aIWO_0p8_s2} & \begin{tabular}[t]{@{}l@{}}$|\Delta E| =
       1.18\times10^{-5}$\,Ry,\\ max $|\Delta F| = 4.99\times10^{-3}$\elevenRyb\end{tabular} & none at the time
       & not reproduced; cause open \\
     \bottomrule
   \end{tabularx}\par\endgroup
-  \vspace{0.8mm}
-  {\footnotesize PAW-PBE, one geometry each \lab{computed}. Since C036, every rescue-route cell needs a restart gate and
-    a qualification SCF ($10^{-5}$\,Ry, $10^{-3}$\elevenRyb); a failed or missing qualification makes its relaxation
-    exploratory.\par}
+  \src{PAW-PBE, one geometry each. Since the restart test, rescue-route relaxations without a restart gate and a
+    qualification SCF ($10^{-5}$\,Ry, $10^{-3}$\elevenRyb) are exploratory.}
+  \takeaway{The ML potential fails at W: its structures are only starting points for PBE.}
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
 \begin{frame}{H-N classifies each W cell by frozen observables}
-  \elevendense
+  \elevenTop\elevendense
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.47\textwidth}
-      {\footnotesize Final SCF, bands $n > N_v$, $\elevenNex = n_{\mathrm{W}}$ (number of W):\par}
+      {\footnotesize Final SCF, bands $n > \elevenNVB$, $\elevenNex = n_{\mathrm{W}}$ (number of W):\par}
       \vspace{-1.6mm}
       {\footnotesize
       \begin{align*}
@@ -238,18 +237,11 @@
         \elevenDW &= \min\{\varepsilon_{n\mathbf{k}} : p_{\mathrm{W5d}} \ge 0.30,\ \varepsilon_{n\mathbf{k}} >
           \elevenEhv\} - \elevenEh
       \end{align*}\par}
-      \vspace{-1.2mm}
-      {\scriptsize $N_v = (N_{\mathrm{el}} - \elevenNex)/2$; $f, w$: occupation, $k$
-        weight; $p_{\mathrm{W5d}}$: W-5d weight; $\elevenEh$: host edge, lowest state above $N_v$ with
-        $\PRn \ge 0.20$ and interior weight (W weight not used); $\elevenEhv$: the same rule at or below $N_v$.\par}
-      \vspace{1.0mm}
-      {\footnotesize Participation ratio; L\"owdin weights $p_i$, $N$ atoms\srefs{BellDean1970,Thouless1974}:\par}
-      \vspace{-1.6mm}
-      {\footnotesize\[ \PRn = \frac{1}{N\sum_i p_i^2}, \qquad \elevenNeff = N\,\PRn \]\par}
-      \vspace{-1.2mm}
-      {\scriptsize Extended $\PRn \ge 0.20$, localised $\PRn \le 0.05$ (absolute); $\elevenNeff$ always reported.\par}
-      \src{ECB: extended-carrier efficacy breakdown. Register section 1 (A16, A24), A27 (2026-10-11), before any
-        slab electronic result; forecasts not scored.}
+      \vspace{-0.3mm}
+      {\scriptsize $\elevenNVB = (N_{\mathrm{el}} - \elevenNex)/2$ valence bands; $f, w$: occupation, $k$ weight;
+        $p_{\mathrm{W5d}}$: W-5d weight; $\PRn$: next slide; $\elevenEh$: lowest state above $\elevenNVB$ with
+        $\PRn \ge 0.20$ and interior weight (no W weight used); $\elevenEhv$: same rule at or below $\elevenNVB$.\par}
+      \src{ECB: extended-carrier efficacy breakdown. Register (A16, A24, A27; 2026-10-11); forecasts not scored.}
     \end{column}
     \begin{column}{0.50\textwidth}
       \begingroup\scriptsize
@@ -261,28 +253,30 @@
         DONOR & $\elevenfext \ge 0.80$, $\elevenDW > 0.3$\,eV, $\elevenflocW < 0.10$ \\
         ECB & $\elevenfext < 0.50$ or $\elevenflocW \ge 0.50$ \\
         PARTIAL & otherwise \\
-        UNRESOLVED & host edge unresolved; test on states of completeness $< 0.90$; electron count off
-          $> 0.02$\,e; too few bands; smearing qualification pending \\
+        UNRESOLVED & host edge unresolved; completeness $< 0.90$; electron count off $> 0.02$\,e; too few
+          bands; smearing qualification pending \\
         \bottomrule
       \end{tabularx}\par\endgroup
       \begin{itemize}
-        \item ECB need not mean W stopped donating: a host or surface trap may hold the electron. W-centred: $\ge 30$\,\% trap weight on W and its first-shell O, and no
-          localised state within $\pm0.10$\,eV on the same non-W atoms in the undoped parent.
+        \item ECB need not mean W stopped donating: a host or surface trap may hold it. W-centred: $\ge 30$\,\%
+          trap weight on W and first-shell O, no localised state within $\pm0.10$\,eV on those non-W atoms in
+          the undoped parent.
         \item Neutral PBE locates the electron; it gives no charge-transition level\srefs{Freysoldt2014,Lany2008}
           and favours delocalisation.
       \end{itemize}
     \end{column}
   \end{columns}
+  \takeaway{Each W cell gets one class by rules fixed before any slab electronic result.}
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
 \begin{frame}{Absolute PR thresholds mean different supports per cell}
-  \elevendense
+  \elevenTop\elevendense
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.50\textwidth}
-      \begingroup\footnotesize
+      \begingroup\scriptsize
       \setlength{\tabcolsep}{4.5pt}
-      \renewcommand{\arraystretch}{1.15}
+      \renewcommand{\arraystretch}{1.05}
       \begin{tabular}{@{}l r c c c@{}}
         \toprule
         W cell & $N$ & localised & extended & $\PRn$ at \\
@@ -295,17 +289,25 @@
         2.0\,nm, s1 & 270 & 13.5 & 54.0 & 0.026 \\
         \bottomrule
       \end{tabular}\par\endgroup
-      \src{Support size $M$ in atoms implied by the frozen thresholds; from the rule and the atom counts only (M005).}
+      \src{Support size $M$ in atoms implied by the frozen thresholds; from the rule and the atom counts only; a reading aid,
+        the rule is unchanged (M005).}
+      \vspace{0.6mm}
+      {\footnotesize Participation ratio of state $n$, L\"owdin weights $p_i$ on $N$
+        atoms\srefs{BellDean1970,Thouless1974}:\par}
+      \vspace{-1.6mm}
+      {\footnotesize\[ \PRn = \frac{1}{N\sum_i p_i^2}, \qquad \elevenNeff = N\,\PRn \]\par}
+      \vspace{-1.2mm}
+      {\scriptsize Extended $\PRn \ge 0.20$, localised $\PRn \le 0.05$ (absolute); $\elevenNeff$ always reported.\par}
     \end{column}
     \begin{column}{0.46\textwidth}
       \begin{itemize}
         \item For a fixed support of $M$ atoms, $\PRn = M/N$ falls as $1/N$: one absolute threshold is a different
           support size in each cell.
-        \item An even W + 6\,O state ($M = 7$) is localised at 0.7, 0.8 and 2.0\,nm, but intermediate in bulk and at
-          1.0\,nm \lab{derived}.
-        \item More concentrated states are localised everywhere: half the weight on W, the rest on six O, gives
-          $\elevenNeff = 3.4$.
-        \item The rule is unchanged; the table is a reading aid for the per-cell results once they are released.
+        \item A hypothetical state spread evenly over W + 6\,O ($M = 7$) would count as localised in the 0.7, 0.8
+          and 2.0\,nm cells and as intermediate in the bulk and 1.0\,nm cells (rule and atom counts only)
+          \lab{derived}.
+        \item A more concentrated hypothetical state counts as localised in every cell: half the weight on W, the
+          rest on six O, gives $\elevenNeff = 3.4$.
       \end{itemize}
     \end{column}
   \end{columns}
@@ -314,7 +316,7 @@
 
 % ---------------------------------------------------------------------------------------------------------------------
 \begin{frame}{By its frozen rules, H-N cannot return a crossover verdict}
-  \elevendense
+  \elevenTop\elevendense
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.54\textwidth}
       \begingroup\scriptsize
@@ -332,21 +334,21 @@
         C6 spin & req. & req. & nspin = 2, two starts \\
         \bottomrule
       \end{tabularx}\par\endgroup
-      \src{As registered (A27) and amended (A37: C2, C5 cut). req.: required.}
+      \src{Registered A27, amended A37 (C2, C5 cut); req.: required; M001.}
       \vspace{0.4mm}
       \begin{itemize}
         \item CROSSOVER: bulk and \emph{both} 2.0\,nm seeds DONOR, 0.7\,nm ECB, controls passing at both
           endpoints.
-        \item NO CROSSOVER: DONOR at bulk, 2.0 (both seeds, with C4), 1.0, 0.8 and 0.7\,nm, all resolved;
+        \item NO CROSSOVER: DONOR at bulk, 2.0 (both seeds, with control C4), 1.0, 0.8 and 0.7\,nm, all resolved;
           controls passing at 0.7\,nm.
       \end{itemize}
     \end{column}
     \begin{column}{0.42\textwidth}
-      {\footnotesize\textbf{Proposition} (M001). Under the frozen rules and A37, the registered H-N outcome is
+      {\footnotesize\textbf{Proposition} (monograph). Under the frozen rules and A37, the registered H-N outcome is
         UNRESOLVED in every branch.\par}
       \vspace{1.2mm}
-      {\footnotesize\textit{Proof.} Both verdicts need both 2.0\,nm seeds DONOR with C4. Seed 2
-        (\cell{aIWO_2p0_s2}) never converged in its only MV segment and continues on the one-attempt Gaussian route
+      {\footnotesize\textit{Proof.} Both verdicts need both 2.0\,nm seeds DONOR with control C4. Seed 2
+        (2.0\,nm W cell, seed 2) never converged in its only MV segment and continues on the one-attempt Gaussian route
         (A36): no MV parent to polish, so C4 cannot be met. No other 2.0\,nm W seed exists; a native-Gaussian
         amendment was declined as result-exposed (A36 erratum). A37 sets the outcome to
         UNRESOLVED; per-cell classes stay intact.\hfill$\square$\par}
@@ -355,13 +357,13 @@
         sealed value \lab{derived}.\par}
     \end{column}
   \end{columns}
-  \takeaway{Neither a crossover nor its absence can be registered; a decisive H-N needs two independent 2.0\,nm W
-    seeds in one smearing family, a polish-free endpoint rule, and C2, C5.}
+  \takeaway{No crossover verdict either way; a decisive H-N needs two 2.0\,nm W seeds in one smearing family, a
+    polish-free endpoint rule and controls C2, C5.}
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
-\begin{frame}{Per-cell results stay sealed until D-43's conditions hold}
-  \elevendense
+\begin{frame}{Per-cell results stay sealed until the release conditions hold}
+  \elevenTop\elevendense
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.47\textwidth}
       {\footnotesize Release decision D-43 (2026-10-14, 10:35Z) is conditional. No read-out runs until:\par}
@@ -372,9 +374,10 @@
         \item checker F9 returns \texttt{CLAIMS\_OK} for every certificate;
         \item a release clearance is logged.
       \end{enumerate}
-      {\footnotesize At the evidence state of this talk (commit 3fe6627) no clearance is logged. The outputs are
-        excluded from the public repository and were not opened for this talk.\par}
-      \vspace{1.6mm}
+      {\footnotesize At the evidence state of this talk no clearance is logged. The outputs are excluded from the
+        public repository and were not opened for this talk.\par}
+      \src{Evidence state: commit 3fe6627.}
+      \vspace{0.6mm}
       \sealed{per-cell H-N classes and controls; H-G, H-H, H-I, H-K, H-M scores}
     \end{column}
     \begin{column}{0.49\textwidth}
@@ -400,6 +403,6 @@
       \end{itemize}
     \end{column}
   \end{columns}
-  \takeaway{After release: exploratory classes of the resolved cells with controls (C1, C6 kept at 0.7\,nm),
-    smearing family, lineage and certificate; no crossover verdict.}
+  \takeaway{After release: exploratory classes of the resolved cells, with their controls and certificates; no
+    crossover verdict.}
 \end{frame}

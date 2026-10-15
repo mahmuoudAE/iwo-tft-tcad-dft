@@ -287,7 +287,7 @@ def fig_holes():
     ax2.tick_params(axis="x", which="both", top=False, bottom=False)
     for x0, txt in ((0.5, "40"), (2.5, "80")):                  # atoms per cell, one label per pair of grids
         ax2.text(x0, -0.16, txt, transform=ax2.get_xaxis_transform(), ha="center", va="top", fontsize=7.0)
-    ax2.set_ylabel(r"$N_{\mathrm{V}}$ at 300 K (cm$^{-3}$)")
+    ax2.set_ylabel(r"$N_{\mathrm{v}}$ at 300 K (cm$^{-3}$)")
     ax2.set_xlabel(r"$k$ points; atoms", labelpad=10.5)
     hh = [Line2D([], [], color=BLACK, marker="o", ls="none"),
           Line2D([], [], marker="s", mfc="white", mec=BLACK, mew=0.8, ls="none"),

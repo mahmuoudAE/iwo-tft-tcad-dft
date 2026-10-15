@@ -15,7 +15,7 @@
 \providecommand{\eightdense}{\setbeamerfont{itemize/enumerate body}{size=\footnotesize}%
   \setbeamerfont{itemize/enumerate subbody}{size=\footnotesize}}
 % pull the frame body up towards the title rule (as \fiveTop in Part 5)
-\providecommand{\eightTop}{\vspace{-4.5mm}}
+\providecommand{\eightTop}{\vspace{-4mm}}
 
 % ---------------------------------------------------------------------------------------------------------------------
 \begin{frame}{W cells donate 1.4--3.0$\times10^{21}$\cmcu, far above the Mott density}
@@ -32,15 +32,14 @@
     \bottomrule
   \end{tabularx}\par\endgroup
   \src{PAW-PBE, 71/568\,Ry; Marzari--Vanderbilt (MV) smearing 0.01\,Ry; ions relaxed at fixed cell (bulk on
-    3$\times$3$\times$3, final SCF on 4$\times$4$\times$4); this work \lab{computed}.}
+    3$\times$3$\times$3, final SCF on 4$\times$4$\times$4); claim C022; this work \lab{computed}.}
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.53\textwidth}
       \begin{itemize}
         \item The device paper credits W with ``smoother charge delocalization''\sref[p.~4]{Januar2026}. Here: where
-          the W level lies and where its electrons go (claim C022).
-        \item Hydrogenic donor, $m^* = 0.208\,m_0$, $\varepsilon_s = 10.55$\sref[p.~225102-1]{Stokey2021}:
-          $E_D = 25$\,meV, $a_B^* = 2.7$\,nm; $n_c^{1/3}a_B^* \approx 0.26$ gives $n_c \approx
-          9\times10^{17}$\cmcu{} \lab{derived}.
+          the W level lies and where its electrons go.
+        \item Hydrogenic donor: $E_D \approx 25$\,meV, Mott density $n_c \approx 9\times10^{17}$\cmcu{} \lab{derived}
+          (Part~12; derivation in backup).
         \item Device model (Part~4, open circles): donors below $n_c$ \lab{fitted}; on-state channel (2\,nm film, 2\,V
           overdrive) degenerate \lab{derived}.
       \end{itemize}
@@ -86,7 +85,7 @@
     \begin{column}{0.42\textwidth}
       \includegraphics[width=\linewidth]{08_bonds}
       \src{W--O bonds of the relaxed cells (circles; each value occurs twice on 24d, six times on 8b); bars: mean
-        bond; dotted: Shannon radius sums for six-fold cations with O$^{2-}$ (1.38\,\AA)\sref{Shannon1976}. This
+        bond; dotted: Shannon radius sums for six-fold cations with O$^{2-}$ (1.38\,\AA). This
         work, PAW-PBE \lab{computed}.}
     \end{column}
     \begin{column}{0.55\textwidth}
@@ -96,11 +95,9 @@
         \item Three 24d sites per 8b site: $N_{\mathrm{24d}}/N_{\mathrm{8b}} = 3\exp(\Delta E/\kT) \approx 440$ at
           600\,K; 8b is practically empty at any processing temperature \lab{derived}.
         \item Mean W--O bond: bulk 1.982 (24d), 1.972\,\AA{} (8b); films 2.000 (1\,nm), 1.977\,\AA{} (2\,nm)
-          \lab{computed}. Shannon sums: 1.98 (W$^{6+}$), 2.00 (W$^{5+}$), 2.04\,\AA{} (W$^{4+}$).
+          \lab{computed}. Shannon sums\sref{Shannon1976}: 1.98 (W$^{6+}$), 2.00 (W$^{5+}$), 2.04\,\AA{} (W$^{4+}$).
         \item Bulk and 2\,nm means are consistent with W$^{6+}$; the 1\,nm mean sits at the W$^{5+}$ sum. An ionic-radius argument,
-          not a charge measurement (correction X11).
-        \item The L\"owdin W-5d counts (0.09--0.43\,e) are not a W charge either: they project the
-          smearing-weighted occupied states.
+          not a charge measurement (record correction X11).
       \end{itemize}
     \end{column}
   \end{columns}
@@ -163,12 +160,12 @@
         \item Kane band\sref{Kane1957} filled to the computed $\EF$:\vspace{-1.5mm}
           \[ N = \frac{\Omega\,k_F^3}{3\pi^2}, \quad \frac{\hbar^2k_F^2}{2m_b} = E(1+\alpha E), \quad E = \EF-\Ec \]
           \vspace{-3.8mm}\par
-          $N$: electrons per cell, $k_F$: Fermi wave vector, $\Omega = 1094.6$\,\AA$^3$, $m_b = 0.162\,m_0$,
-          $\alpha = 0.58$\,eV$^{-1}$: 2.17 (24d), 2.04\,e (8b), above the computed 1.79, 1.93; parabolic band only
-          0.76, 0.73\,e \lab{derived}.
+          $N$: electrons per cell, $k_F$: Fermi wave vector; $\Omega = 1094.6$\,\AA$^3$, $m_b = 0.162\,m_0$,
+          $\alpha = 0.58$\,eV$^{-1}$ give 2.17 (24d), 2.04\,e (8b), above the computed 1.79, 1.93; a parabolic band
+          gives 0.76, 0.73\,e \lab{derived}.
         \item W makes the bulk host band 5\,\% heavier (0.162 vs 0.1541\,$m_0$) and narrows the film gaps by 0.069
           (1\,nm), 0.148\,eV (2\,nm) \lab{computed}: consistent with band-gap renormalisation\sref{Hamberg1986}
-          \lab{inferred}, not separated from strain or the OH-derived VB top of the W films.
+          \lab{inferred}; strain not separated.
       \end{itemize}
     \end{column}
   \end{columns}
@@ -176,7 +173,7 @@
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
-\begin{frame}{Correction X1: the ``deep W level'' was a band-counting error}
+\begin{frame}{Record correction X1: the ``deep W level'' was a band miscount}
   \eightdense\eightTop
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.52\textwidth}
@@ -215,15 +212,15 @@
         \node[anchor=east,align=right] at (39,-2.09) {gap\\[-0.4mm]1.72\,eV};
       \end{tikzpicture}
       \src{1\,nm W film, eigenvalues at $\Gamma$; dashed: $\EF$; character from projections (fraction of the state).
-        Data: project results log, 30 Sep and 5 Oct 2026; this work \lab{computed}.}
+        Data: project results log, 30 Sep and 5 Oct 2026; claim C022; this work \lab{computed}.}
     \end{column}
     \begin{column}{0.45\textwidth}
       \begin{itemize}
-        \item Cause: the In PAW set has 4d semicore states in the valence (5 bands per In), the W set 5s5p (4 bands).
-          A W cell has one occupied band fewer: its VB top is band $n_{\mathrm{pure}}-1$ (Part~5).
+        \item Cause: the band-count rule of the PAW data sets (Part~5); here band 311 is the VB top and band 312 the
+          host CB bottom.
         \item Reading band 312 as the VB top put a W level 0.19\,eV below the host CB (band 314), $\EF$ pinned in it
           (a deep donor), and a 1.1--1.65\,eV vacuum-scale shift: both artefacts.
-        \item Projections at $\Gamma$ fix each band: corrected 5 Oct, refined 14 Oct (claim C022).
+        \item Projections at $\Gamma$ fix each band: corrected 5 Oct, refined 14 Oct.
         \item The false reading would have fitted the device data well \lab{inferred}; withdrawn, kept in the record.
       \end{itemize}
     \end{column}
@@ -236,29 +233,28 @@
   \eightdense\eightTop
   \begingroup\scriptsize
   \renewcommand{\arraystretch}{1.06}
-  \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{5.9cm} >{\raggedright\arraybackslash}p{1.65cm}
+  \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{6.3cm} >{\raggedright\arraybackslash}p{1.55cm}
       >{\raggedright\arraybackslash}X@{}}
     \toprule
     statement & status & basis, or the calculation that would decide \\
     \midrule
     W donates; the host band holds most of the electrons & \leavevmode\lab{computed} & four cells,
       1.4--3.0$\times10^{21}$\cmcu, one filling each \\
-    W-5d-rich level 1.2--1.8\,eV above $\Ec$, within about 0.1\,eV of $\EF$ & \leavevmode\lab{computed} & PBE only;
+    W-5d-rich level 1.2--1.8\,eV above $\Ec$, within 0.1\,eV of $\EF$ & \leavevmode\lab{computed} & PBE only;
       no hybrid functional for the W cells \\
     The resonance pins $\EF$ & \leavevmode\lab{hypothesis} & needs a density series: 160-atom cell, one W (1.6\,\%) \\
-    W stays ionised at device densities ($\EF$ below $\Ec$) & \leavevmode\lab{inferred} & needs a lower-density cell
-      (160 atoms, 1.6\,\%) and HSE06 on the 80-atom cell (amendment A23(ii)); a hybrid may lower the d level \\
+    W stays ionised at device densities ($\EF$ below $\Ec$) & \leavevmode\lab{inferred} & needs the 160-atom cell and
+      HSE06 on the 80-atom cell (amendment A23(ii)); a hybrid may lower the d level \\
     W may trap an electron as a polaron (not computed) & \leavevmode\lab{hypothesis} & symmetry-broken PBE+$U$ or
       HSE06 starts \\
-    Spin moments 0.62 (24d) and 0.74\,$\mu_B$ (8b) per cell, 3$\times$3$\times$3 & \leavevmode\lab{computed} &
-      preliminary, not claimed: likely spurious Stoner moments (correction X7) \\
+    Spin moments 0.62 (24d), 0.74\,$\mu_B$ (8b) per cell & \leavevmode\lab{computed} &
+      3$\times$3$\times$3, preliminary, not claimed: likely spurious Stoner moments (record correction X7) \\
     \bottomrule
   \end{tabularx}\par\endgroup
   \vspace{0.5mm}
   \begin{itemize}
-    \item If the W level stays at least 1.2\,eV above $\Ec$ at device densities (not computed), its occupation there
-      ($\EF \le \Ec$) is below $\exp(-1.2\,\mathrm{eV}/\kT) \approx 10^{-20}$ ($\kT = 0.0259$\,eV, 300\,K)
-      \lab{derived}.
+    \item If the W level stays $\ge 1.2$\,eV above $\Ec$ at device densities (not computed), its occupation for
+      $\EF \le \Ec$ is below $\exp(-1.2\,\mathrm{eV}/\kT) \approx 10^{-20}$ at 300\,K \lab{derived}.
     \item Mo 4d states lie high in the conduction band of \InO{} (photoemission, hybrid DFT), and the ionised donor
       scatters less\sref{Swallow2020}; for W this is an analogy \lab{inferred}.
   \end{itemize}

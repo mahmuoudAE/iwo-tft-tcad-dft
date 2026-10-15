@@ -14,36 +14,39 @@
 \providecommand{\sixdense}{\setbeamerfont{itemize/enumerate body}{size=\footnotesize}%
   \setbeamerfont{itemize/enumerate subbody}{size=\footnotesize}}
 % evidence label inside a \src line: same wording as \lab, but keeps the small size of the source line
+% pull the frame body up to the title rule (frames are top-aligned; as in Parts 5 and 7)
+\providecommand{\sixTop}{\vspace{-2.5mm}}
 \providecommand{\sixlab}[1]{{\color{inkgrey}[\textsc{\MakeLowercase{#1}}]}}
 
 % ---------------------------------------------------------------------------------------------------------------------
 \begin{frame}{Four relaxed films; the two thinnest are special cases}
-  \sixdense
+  \sixdense\sixTop
   \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.59\textwidth}
+    \begin{column}{0.62\textwidth}
       \begingroup\scriptsize
       \renewcommand{\arraystretch}{1.05}
       \setlength{\tabcolsep}{4pt}
-      \begin{tabular}{@{}l l l c c >{\raggedright\arraybackslash}p{19mm}@{}}
+      \begin{tabular}{@{}l l l c c >{\raggedright\arraybackslash}p{25mm}@{}}
         \toprule
         name & $\tHH$ (nm) & cell & $\Eg$ (eV) & $\dEg$ (eV) & role \\
         \midrule
         0.51\,nm & 0.461 & In$_8$(OH)$_{24}$ & 3.140 & $+2.251$ & excluded \\
-        0.75\,nm & 0.695 & In$_{16}$O$_{36}$H$_{24}$ & 2.199 & $+1.310$ & polar; $\dEg$, $\Delta m$, frozen C10 $\dEc$ \\
+        0.75\,nm & 0.695 & In$_{16}$O$_{36}$H$_{24}$ & 2.199 & $+1.310$ & polar; $\dEg$, $\Delta m$, C10 $\dEc$ \\
         1\,nm & 0.930 & In$_{24}$O$_{48}$H$_{24}$ & 1.789 & $+0.900$ & all laws \\
         2\,nm & 1.962 & In$_{56}$O$_{96}$H$_{24}$ & 1.224 & $+0.335$ & all laws \\
         \bottomrule
       \end{tabular}\par\endgroup
-      \src{Name: nominal thickness, used in the text; $\tHH$: relaxed H--H thickness. Recipe of Lin
-        et al.\sref[p.~21542]{Lin2022}, relaxed; PAW-PBE; bulk gap 0.8887\,eV. This work \sixlab{computed}.}
+      \src{Name: nominal thickness; $\tHH$: relaxed H--H thickness. PAW-PBE; bulk gap 0.8887\,eV. This work
+        \sixlab{computed}.}
       \begin{itemize}
-        \item 0.461\,nm, one cation plane: all O bonded to H \lab{computed}.
+        \item Recipe of Lin et al.\sref[p.~21542]{Lin2022}, then relaxed. 0.461\,nm, one cation plane: all O bonded
+          to H \lab{computed}.
         \item 0.695\,nm, two cation planes: inequivalent faces, no dipole correction\sref{Bengtsson1999}; the
           $-13.6$\,meV/\AA{} vacuum ramp gives $\dEc$ a $\pm0.17$\,eV reference sensitivity \lab{assumed}.
-        \item Valence-band top on the OH oxygens: 98 and 75\,\% here, 0.2\,\% at 1.962\,nm \lab{computed}.
+        \item VB top on OH oxygens: 98, 75\,\% (1.962\,nm: 0.2\,\%) \lab{computed}.
       \end{itemize}
     \end{column}
-    \begin{column}{0.37\textwidth}
+    \begin{column}{0.35\textwidth}
       \includegraphics[width=\linewidth]{06_edges}
       \src{Upper bars $-$EA, lower bars $-$IP; dashed: bulk edges via the 2\,nm alignment. This work \sixlab{computed}.
         Maroon: $\pm0.17$\,eV vacuum-reference sensitivity of the polar film \sixlab{assumed}, not an error bound.}
@@ -54,12 +57,12 @@
 
 % ---------------------------------------------------------------------------------------------------------------------
 \begin{frame}{The gap opens by 0.34\,eV at 2\,nm and 0.90\,eV at 1\,nm}
-  \sixdense
+  \sixdense\sixTop
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.42\textwidth}
       \includegraphics[width=\linewidth]{06_gaps}
       \src{PBE gaps. This work: PAW, 71\,Ry \sixlab{computed}. Crosses, dotted: Lin et al., norm-conserving, 140\,Ry,
-        at their labels 0.95 and 1.98\,nm\sref[pp.~21540, 21542]{Lin2022}\xdef\sixlinfn{\the\value{footnote}}.}
+        at their labels 0.95 and 1.98\,nm.}
     \end{column}
     \begin{column}{0.54\textwidth}
       \begin{itemize}
@@ -68,7 +71,7 @@
             \dEg(1.962\,\mathrm{nm}) &= 1.2239 - 0.8887 = 0.335\,\mathrm{eV}\\
             \dEg(0.930\,\mathrm{nm}) &= 1.7885 - 0.8887 = 0.900\,\mathrm{eV}
           \end{align*}
-        \item Lin et al.\footnotemark[\sixlinfn], same recipe: $+0.33$\,eV at 1.98\,nm, $+0.94$\,eV at 0.95\,nm.
+        \item Lin et al.\sref[pp.~21540, 21542]{Lin2022}\xdef\sixlinfn{\the\value{footnote}}, same recipe: $+0.33$\,eV at 1.98\,nm, $+0.94$\,eV at 0.95\,nm.
           Differences 0.005 and 0.04\,eV, inside the pre-registered 0.1\,eV \lab{derived}.
         \item Bulk and 1\,nm gaps and masses lie 4--7\,\% below theirs\footnotemark[\sixlinfn], all with one sign. This
           points to the numerical setup (PAW 71\,Ry against norm-conserving 140\,Ry) rather than to the films
@@ -82,7 +85,7 @@
 
 % ---------------------------------------------------------------------------------------------------------------------
 \begin{frame}{The gap law is well determined; the $\dEc$ law is not}
-  \sixdense
+  \sixdense\sixTop
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.38\textwidth}
       \includegraphics[width=\linewidth]{06_laws}
@@ -99,7 +102,7 @@
         \midrule
         $\dEg$ fit3 (0.695, 0.930, 1.962) & 0.815 & 1.316 & 0.072 \\
         $\dEc$ fit2, primary (0.930, 1.962) & 0.762 & 1.478 & 0.050 \\
-        $\dEc$ fit3, frozen C10 (three points) & 0.702 & 1.318 & 0.062 \\
+        $\dEc$ fit3, campaign C10 (three points) & 0.702 & 1.318 & 0.062 \\
         \bottomrule
       \end{tabular}\par\endgroup
       \begin{itemize}
@@ -119,7 +122,7 @@
 
 % ---------------------------------------------------------------------------------------------------------------------
 \begin{frame}{The conduction band takes 84 to 94\,\% of the gap opening}
-  \sixdense
+  \sixdense\sixTop
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.40\textwidth}
       {\centering
@@ -184,12 +187,12 @@
       \end{itemize}
     \end{column}
   \end{columns}
-  \takeaway{At 2\,nm the conduction band rises by 0.28\,eV; the V1 device model assumed 0.35\,eV.}
+  \takeaway{At 2\,nm this work's DFT gives $\dEc = +0.28$\,eV; the model V1 law assumed 0.35\,eV.}
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
 \begin{frame}{Envelope models bracket the shift but do not predict it}
-  \sixdense
+  \sixdense\sixTop
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.41\textwidth}
       \includegraphics[width=0.96\linewidth]{06_models}
@@ -217,7 +220,7 @@
 
 % ---------------------------------------------------------------------------------------------------------------------
 \begin{frame}{HSE06 changes the 1\,nm gap opening by only 6 to 11\,\%}
-  \sixdense
+  \sixdense\sixTop
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.41\textwidth}
       \begingroup\scriptsize
@@ -233,7 +236,7 @@
         ratio $r$ & & & 1.060 \\
         \bottomrule
       \end{tabular}\par\endgroup
-      \src{SG15 norm-conserving\srefs{Hamann2013,Schlipf2015}, 80\,Ry, both functionals at the PBE geometries. Bulk PBE:
+      \src{SG15 norm-conserving, 80\,Ry, both functionals at the PBE geometries. Bulk PBE:
         VBM off $\Gamma$ (direct gap at $\Gamma$ 0.9216\,eV). This work \sixlab{computed}.}
       \vspace{2mm}
       \begingroup\scriptsize
@@ -252,12 +255,12 @@
     \end{column}
     \begin{column}{0.56\textwidth}
       \begin{itemize}
-        \item HSE06\srefs{Heyd2003,Heyd2006,Krukau2006} at fixed geometry, norm-conserving (PAW exact exchange had not
+        \item HSE06\srefs{Heyd2003,Heyd2006,Krukau2006} at fixed geometry, SG15 norm-conserving\srefs{Hamann2013,Schlipf2015} (PAW exact exchange had not
           finished its first step after 4.5\,h on an H100); only $r$ is transferred.
         \item $r = 1.060$ meets the pre-registered 10\,\% criterion; a $3\times3\times3$ exchange $q$ grid lowers the bulk
           HSE06 gap by 42\,meV, so $r = 1.06$--1.11 \lab{computed}.
         \item PAW and norm-conserving PBE openings agree within 1.6\,\% \lab{computed}: HSE-corrected 1\,nm opening
-          0.95--1.00\,eV, gap 3.06\,eV \lab{derived}; 2\,nm gap 2.44--2.46\,eV if $r$ transfers (amendment A23)
+          0.95--1.00\,eV, gap 3.06\,eV \lab{derived}; 2\,nm gap 2.44--2.46\,eV if $r$ transfers (register amendment A23)
           \lab{assumed}.
         \item Why $r\approx1$: HSE06 makes the band heavier but less non-parabolic; a Kane band with
           $\alpha\propto1/\Eg$ (assumed) gives 0.98--1.16, bracketing $r$ without deriving it \lab{derived}.
@@ -269,7 +272,7 @@
 
 % ---------------------------------------------------------------------------------------------------------------------
 \begin{frame}{One subband at 2\,nm, but not reliably at 6.3\,nm}
-  \sixdense
+  \sixdense\sixTop
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.42\textwidth}
       \includegraphics[width=\linewidth]{06_subbands}
@@ -290,6 +293,5 @@
       \end{itemize}
     \end{column}
   \end{columns}
-  \takeaway{Estimate for a crystalline PBE film: one subband at 2\,nm, one or two at 6.3\,nm, several at 13\,nm
-    \lab{derived}.}
+  \takeaway{Crystalline PBE: one subband at 2\,nm, one or two at 6.3\,nm, several at 13.2\,nm \lab{derived}.}
 \end{frame}

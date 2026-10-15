@@ -55,7 +55,7 @@
       {\footnotesize\textbf{Model V1}: increment laws fitted to published slab DFT. \textbf{Model V2}: model V1 with laws
         fitted to this work's DFT (Part~6), recalibrated. \textbf{Campaign C10}: one parameter set for all films;
         $N_t = N_s/t$, fixed donors.\par}
-      \fourCap{Bulk anchors: IWO (4.3, 3.05\,eV), \InO{} ($0.208\,\mzero$)\fourTwoRefs{}{Fan2021}{p.~225102-12}{Stokey2021};
+      \fourCap{Bulk anchors: IWO (4.3, 3.05\,eV), \InO{} ($0.208\,\mzero$)\fourTwoRefs{}{Fan2021}{p.~225102-1}{Stokey2021};
         the first-principles laws give only the increments.}
     \end{column}
   \end{columns}
@@ -68,7 +68,7 @@
   \fourTop
   {\footnotesize
   \setlength{\tabcolsep}{4pt}
-  \renewcommand{\arraystretch}{1.0}
+  \renewcommand{\arraystretch}{0.97}
   \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{6.5cm}>{\raggedright\arraybackslash}X l@{}}
     \toprule
     Input & What it does & Status \\
@@ -80,18 +80,18 @@
     $N_{D,\mathrm{eff}}$, compensated & $\le 0.07$\,V of $\Vthcc$ & \lab{fitted} \\
     $\mathrm{WF}-\chi_\mathrm{bulk} = 0.40$\,eV & rigid offset & \lab{assumed} \\
     Interface traps $D_\mathrm{it}$; deep Gaussian & 0.012\,V; $\le 0.003$\,V of $\Vthcc$ & \lab{assumed} \\
-    Confinement law, model V1: $\chi$, $\Eg$, $\fourNc$ against $t$ & fitted to published slab DFT; $\dEc = \dEg$
-      & \lab{fitted} \\
+    Confinement law, model V1: $\chi$, $\Eg$, $\fourNc$ against $t$ & fitted to slab DFT; $\dEc = \dEg$
+      \lab{assumed} & \lab{fitted} \\
     Confinement laws, model V2 and C10 & fitted to this work's DFT points (Part~6) & \lab{fitted} \\
     $\fourNc$ convention (C10, 2.0\,nm: quasi-2-D $N_\mathrm{2D}/t$) & 3-D; C10, 2.0\,nm:
       $1.373\times10^{19}$\cmcu & \lab{assumed} \\
     \bottomrule
   \end{tabularx}\par}
-  \fourCap{$N_t$ exponent and roughness length: device paper\sref[pp.~7, 8]{Januar2026}. Model V1 confinement law: slab
-    DFT of Lin et al.\ and Si et al.\fourTwoRefs{p.~21542}{Lin2022}{p.~504}{Si2021}.}
-  \src{Model V1 values unless stated. $\Vthcc$ shares from a 1-D surrogate within 3\,mV of ATLAS. Fitted to the
-    measured curves in model V1 (\fourData): the shared $Q_f$, the 6.3\,nm $Q_f$, three band mobilities, the tail anchor
-    and width, the donor-law constants. Ledger C015 (tail law), C016 (donor law).}
+  \fourCap{$N_t$ exponent, roughness length: device paper\sref[pp.~7, 8]{Januar2026}. Model V1 law: published slab DFT
+    of Lin et al.\ and Si et al.\fourTwoRefs{p.~21542}{Lin2022}{p.~504}{Si2021}.}
+  \src{Model V1 values unless stated; $\Vthcc$ shares from a 1-D surrogate (within 3\,mV of ATLAS). Fitted to the
+    measured curves (\fourData): shared and 6.3\,nm $Q_f$, three band mobilities, tail anchor and width, donor-law
+    constants. Ledger C015, C016.}
   \takeaway{One film's offset absorbs any confinement law; only shared parameters can be tested.}
 \end{frame}
 
@@ -102,7 +102,7 @@
     \begin{column}{0.50\textwidth}
       \includegraphics[width=\linewidth]{04_calibration}
       \src{Model V1 chain at drain bias 0.7\,V: laws only (runs 0001, 0002); + shared $Q_f$ (0003, 0004); final
-        (0038, 0040: tail-DOS quadrature 384/192, physical deck, band mobility scaled exactly to the measured
+        (0038, 0040: tail-DOS quadrature 384/192, physical ATLAS deck, band mobility scaled exactly to the measured
         on-current). \fourData.}
     \end{column}
     \begin{column}{0.47\textwidth}
