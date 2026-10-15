@@ -1,15 +1,18 @@
-# Resume point (paused 2026-10-15 at the user's request)
+# Status (2026-10-15): presentation complete
 
-State: all 15 sections drafted, double-reviewed and fixed; whole-deck review 1 done (`review/deck_review_1.json`,
-31 findings); deck-level fixes applied (theme, citations, references, closing order, appendix, top alignment).
-Last full build: 112 pages, 0 errors, 19 small frame overflows (top alignment).
+Final build (`bash tools/build.sh` -> `build/main.pdf`): 114 pages, 0 errors, 0 undefined citations or references,
+0 frame overflows. The footer numbers the talk 1/82 (title to "Thank you") and the appendix 1/15 (10 backup frames and
+5 reference pages).
 
-Section fixes for deck review 1 (rules G1-G10 in AUTHORING_GUIDE.md section 8):
-- done: 01, 02 (results in `review/deckfix_results.json`)
-- interrupted mid-edit (re-check): 03, 04
-- not started: 05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 16
-  Per-section task lists: the args of workflow `ntu-presentation-deck-fixes` (also summarised in deck_review_1.json).
+Two whole-deck reviews have been run. All blocker and major findings are resolved. Review 1 is in
+`review/deck_review_1.json`; the review 2 major item (X versus V correction naming) was fixed by hand.
 
-To continue: for each remaining section, apply the findings of `review/deck_review_1.json` for its file plus G1-G10,
-run `bash tools/build_section.sh NN`, check the PNG renders; then full build (`bash tools/build.sh`), a second
-whole-deck review, commit, push, and send build/main.pdf.
+Open minor items (optional):
+- The convergence figure on p. 36 is small.
+- The band labels on p. 55 overlap the curves.
+- The tables on pp. 20 and 86 are dense.
+- The reference list mixes journal-name styles, and some DOIs print with spaces.
+- 9 overfull hboxes, each under 5 pt.
+
+Length: 82 talk frames, about 2 h. For a shorter slot, move Part 13 (computational cost) and selected method slides
+of Part 5 to the backup.

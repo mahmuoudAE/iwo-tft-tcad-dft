@@ -166,3 +166,9 @@ After each chapter: tools/build.sh, fix errors, update section 11 below.
     small for the HfO2-backed stack; full W activation 6e20-1.8e21 cm^-3; M15 conclusions re-sorted (H-L, floor,
     mobility definition, confinement share no longer 'strongly supported'/'demonstrated').
 12. New monograph claims M007 (rigid dEc transfer vs 6.3 nm) and M008 (mu_sat identity fails by 1.5-1.8).
+
+## 14. NTU presentation (presentation_ntu/) -- DONE 2026-10-15
+
+Beamer deck, 114 pages: 82 talk frames, plus 10 backup frames and 5 reference pages in the appendix. Clean build.
+Two whole-deck reviews were run; their blockers and majors are resolved. Status and open minor items:
+presentation_ntu/RESUME.md.
