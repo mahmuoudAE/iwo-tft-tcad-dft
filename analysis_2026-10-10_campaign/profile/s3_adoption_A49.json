@@ -1,0 +1,604 @@
+{
+ "S3_27": {
+  "consequence": "exact IGZO profiling",
+  "status": true,
+  "why": "S3-27 PASS"
+ },
+ "base_runs": [
+  "run_0061",
+  "run_0068",
+  "run_0069"
+ ],
+ "branches": [
+  {
+   "activation": {
+    "S0-01": {
+     "missing": [],
+     "status": "ACTIVE_AS_REQUESTED"
+    },
+    "S3-05": {
+     "missing": [],
+     "status": "ACTIVE_AS_REQUESTED"
+    },
+    "S3-06": {
+     "missing": [],
+     "status": "ACTIVE_AS_REQUESTED"
+    }
+   },
+   "activation_ok": true,
+   "arithmetic": "ARITHMETIC FAIL (also required: converged at all films; activation ACTIVE_AS_REQUESTED; not a pure shift/scale effect; at most two branches)",
+   "base_sqrtJ_dec": 0.6976290349067217,
+   "base_verdict": "OK",
+   "branch_verdict": "OK",
+   "converged": true,
+   "form": "bulk",
+   "g0": null,
+   "gain_dec": 0.034508579620541435,
+   "group": "tail",
+   "name": "tail bulk (S3-04=S0-01, S3-05, S3-06)",
+   "profiled": {
+    "Qf_cm2": 1350962174259.375,
+    "coverage_ok_95pct": true,
+    "dV0_V": 0.0058122932240908904,
+    "ell_nm": 49.999999999804146,
+    "mu_inf_cm2Vs": 253.50465926446265,
+    "per_film": {
+     "13.2": {
+      "J_term": 0.5647613446474322,
+      "coverage_on": 1.0,
+      "coverage_sub": 1.0,
+      "mun_scale": 0.8201725713449788,
+      "rmse_on_dec": 0.6095976711920762,
+      "rmse_sub_dec": 0.8705822009276676
+     },
+     "2.0": {
+      "J_term": 0.060188374513544265,
+      "coverage_on": 1.0,
+      "coverage_sub": 1.0,
+      "mun_scale": 0.4508441536802191,
+      "rmse_on_dec": 0.18527450633135262,
+      "rmse_sub_dec": 0.2933429841171629
+     },
+     "6.3": {
+      "J_term": 0.6942364954958765,
+      "coverage_on": 1.0,
+      "coverage_sub": 1.0,
+      "mun_scale": 0.6100186908861709,
+      "rmse_on_dec": 0.25904309156366634,
+      "rmse_sub_dec": 1.149508446121598
+     }
+    }
+   },
+   "pure_shift_or_scale": false,
+   "roles": [
+    "S0-01",
+    "S3-05",
+    "S3-06"
+   ],
+   "runs": [
+    "run_0061",
+    "run_0110",
+    "run_0111"
+   ],
+   "shape_only": {
+    "base": {
+     "13.2": {
+      "free_dV_V": -0.017541306757086643,
+      "free_scale": 0.8660160984723974,
+      "shape_only_sqrtJ_dec": 0.010183315161589494
+     },
+     "2.0": {
+      "free_dV_V": 0.04820002568092675,
+      "free_scale": 0.621873654158608,
+      "shape_only_sqrtJ_dec": 0.11340413361307472
+     },
+     "6.3": {
+      "free_dV_V": 0.2303836698053331,
+      "free_scale": 0.17833885043590383,
+      "shape_only_sqrtJ_dec": 0.04754701139324725
+     }
+    },
+    "branch": {
+     "13.2": {
+      "free_dV_V": -0.04347713080147213,
+      "free_scale": 2.8916518143255936,
+      "shape_only_sqrtJ_dec": 0.1483527156135704
+     },
+     "2.0": {
+      "free_dV_V": 0.04820002568092675,
+      "free_scale": 0.621873654158608,
+      "shape_only_sqrtJ_dec": 0.11340413361307472
+     },
+     "6.3": {
+      "free_dV_V": 0.2441812334014464,
+      "free_scale": 0.5991713093458819,
+      "shape_only_sqrtJ_dec": 0.11578130485633342
+     }
+    }
+   },
+   "shape_only_change_dec": [
+    0.0,
+    0.06823429346308618,
+    0.13816940045198092
+   ],
+   "sqrtJ_dec": 0.6631204552861802,
+   "warnings": [],
+   "worsening_dec": {
+    "13.2": {
+     "rmse_on_dec": 0.15514414341439692,
+     "rmse_sub_dec": 0.3247168915335875
+    },
+    "2.0": {
+     "rmse_on_dec": -0.3976767467205808,
+     "rmse_sub_dec": 0.1734914328625946
+    },
+    "6.3": {
+     "rmse_on_dec": -0.04441407585612178,
+     "rmse_sub_dec": -0.2538225436767616
+    }
+   }
+  },
+  {
+   "activation": {
+    "S0-01": {
+     "missing": [],
+     "status": "ACTIVE_AS_REQUESTED"
+    },
+    "S3-08": {
+     "missing": [],
+     "status": "ACTIVE_AS_REQUESTED"
+    },
+    "S3-09": {
+     "missing": [],
+     "status": "ACTIVE_AS_REQUESTED"
+    }
+   },
+   "activation_ok": true,
+   "arithmetic": "ARITHMETIC FAIL (also required: converged at all films; activation ACTIVE_AS_REQUESTED; not a pure shift/scale effect; at most two branches)",
+   "base_sqrtJ_dec": 0.6976290349067217,
+   "base_verdict": "OK",
+   "branch_verdict": "OK",
+   "converged": true,
+   "form": "mixed50",
+   "g0": null,
+   "gain_dec": 0.033364652506633674,
+   "group": "tail",
+   "name": "tail 50:50 (S3-07=S0-01, S3-08, S3-09)",
+   "profiled": {
+    "Qf_cm2": 1383449302669.2097,
+    "coverage_ok_95pct": true,
+    "dV0_V": 1.2475722626677915e-07,
+    "ell_nm": 49.999999993324934,
+    "mu_inf_cm2Vs": 172.63144100721397,
+    "per_film": {
+     "13.2": {
+      "J_term": 0.4427286542992095,
+      "coverage_on": 1.0,
+      "coverage_sub": 1.0,
+      "mun_scale": 0.5585205940245986,
+      "rmse_on_dec": 0.518145057418705,
+      "rmse_sub_dec": 0.7854826593063566
+     },
+     "2.0": {
+      "J_term": 0.07466622692197479,
+      "coverage_on": 1.0,
+      "coverage_sub": 1.0,
+      "mun_scale": 0.30701556395457613,
+      "rmse_on_dec": 0.3376652890725597,
+      "rmse_sub_dec": 0.18792180927048957
+     },
+     "6.3": {
+      "J_term": 0.806346627954927,
+      "coverage_on": 1.0,
+      "coverage_sub": 1.0,
+      "mun_scale": 0.4154101386802233,
+      "rmse_on_dec": 0.292228006171416,
+      "rmse_sub_dec": 1.2358381966580143
+     }
+    }
+   },
+   "pure_shift_or_scale": false,
+   "roles": [
+    "S0-01",
+    "S3-08",
+    "S3-09"
+   ],
+   "runs": [
+    "run_0061",
+    "run_0112",
+    "run_0113"
+   ],
+   "shape_only": {
+    "base": {
+     "13.2": {
+      "free_dV_V": -0.017541306757086643,
+      "free_scale": 0.8660160984723974,
+      "shape_only_sqrtJ_dec": 0.010183315161589494
+     },
+     "2.0": {
+      "free_dV_V": 0.04820002568092675,
+      "free_scale": 0.621873654158608,
+      "shape_only_sqrtJ_dec": 0.11340413361307472
+     },
+     "6.3": {
+      "free_dV_V": 0.2303836698053331,
+      "free_scale": 0.17833885043590383,
+      "shape_only_sqrtJ_dec": 0.04754701139324725
+     }
+    },
+    "branch": {
+     "13.2": {
+      "free_dV_V": -0.041134326596700285,
+      "free_scale": 1.719701014009954,
+      "shape_only_sqrtJ_dec": 0.09702680972131662
+     },
+     "2.0": {
+      "free_dV_V": 0.04820002568092675,
+      "free_scale": 0.621873654158608,
+      "shape_only_sqrtJ_dec": 0.11340413361307472
+     },
+     "6.3": {
+      "free_dV_V": 0.23528642842296438,
+      "free_scale": 0.35496566206247515,
+      "shape_only_sqrtJ_dec": 0.07204655661786474
+     }
+    }
+   },
+   "shape_only_change_dec": [
+    0.0,
+    0.024499545224617496,
+    0.08684349455972713
+   ],
+   "sqrtJ_dec": 0.664264382400088,
+   "warnings": [],
+   "worsening_dec": {
+    "13.2": {
+     "rmse_on_dec": 0.0636915296410257,
+     "rmse_sub_dec": 0.23961734991227657
+    },
+    "2.0": {
+     "rmse_on_dec": -0.2452859639793737,
+     "rmse_sub_dec": 0.06807025801592126
+    },
+    "6.3": {
+     "rmse_on_dec": -0.011229161248372144,
+     "rmse_sub_dec": -0.16749279314034538
+    }
+   }
+  },
+  {
+   "activation": {
+    "S3-11": {
+     "missing": [],
+     "regions_1_2": {
+      "lines": {
+       "1": "Using IGZO.TOKYO low field mobility model.",
+       "2": "Using IGZO.TOKYO low field mobility model."
+      },
+      "state": "ACTIVE"
+     },
+     "status": "ACTIVE_AS_REQUESTED"
+    },
+    "S3-12": {
+     "missing": [],
+     "regions_1_2": {
+      "lines": {
+       "1": "Using IGZO.TOKYO low field mobility model.",
+       "2": "Using IGZO.TOKYO low field mobility model."
+      },
+      "state": "ACTIVE"
+     },
+     "status": "ACTIVE_AS_REQUESTED"
+    },
+    "S3-13": {
+     "missing": [],
+     "regions_1_2": {
+      "lines": {
+       "1": "Using IGZO.TOKYO low field mobility model.",
+       "2": "Using IGZO.TOKYO low field mobility model."
+      },
+      "state": "ACTIVE"
+     },
+     "status": "ACTIVE_AS_REQUESTED"
+    }
+   },
+   "activation_ok": true,
+   "arithmetic": "ARITHMETIC FAIL (also required: converged at all films; activation ACTIVE_AS_REQUESTED; not a pure shift/scale effect; at most two branches)",
+   "base_sqrtJ_dec": 0.6976290349067217,
+   "base_verdict": "OK",
+   "branch_verdict": "OK",
+   "converged": true,
+   "cross_check_adopt_films": {
+    "abs_diff_gain_dec": 0.0,
+    "agree": true,
+    "gain_dec": 0.028440048748504032
+   },
+   "form": "igzo",
+   "g0": -0.31,
+   "gain_dec": 0.028440048748504032,
+   "group": "mobility",
+   "name": "IGZO.TOKYO GAMMA0 -0.31 (S3-11, S3-12, S3-13)",
+   "profiled": {
+    "Qf_cm2": 1662925109452.8213,
+    "coverage_ok_95pct": true,
+    "dV0_V": -0.04999999993669774,
+    "ell_nm": 49.99999999278603,
+    "mu_inf_cm2Vs": 131.45438237137225,
+    "per_film": {
+     "13.2": {
+      "J_term": 0.2892656747806056,
+      "coverage_on": 0.975609756097561,
+      "coverage_sub": 1.0,
+      "mun_scale": 0.4252990029015254,
+      "rmse_on_dec": 0.41531339812053586,
+      "rmse_sub_dec": 0.6372174910521403
+     },
+     "2.0": {
+      "J_term": 0.14187364171596836,
+      "coverage_on": 0.975609756097561,
+      "coverage_sub": 1.0,
+      "mun_scale": 0.23378442016700246,
+      "rmse_on_dec": 0.506727621458208,
+      "rmse_sub_dec": 0.16423885375648398
+     },
+     "6.3": {
+      "J_term": 0.9123023810898153,
+      "coverage_on": 0.975609756097561,
+      "coverage_sub": 1.0,
+      "mun_scale": 0.31632408843332077,
+      "rmse_on_dec": 0.3288526980808152,
+      "rmse_sub_dec": 1.31013765122013
+     }
+    }
+   },
+   "pure_shift_or_scale": false,
+   "roles": [
+    "S3-11",
+    "S3-12",
+    "S3-13"
+   ],
+   "runs": [
+    "run_0104",
+    "run_0102",
+    "run_0105"
+   ],
+   "shape_only": {
+    "base": {
+     "13.2": {
+      "free_dV_V": -0.017541306757086643,
+      "free_scale": 0.8660160984723974,
+      "shape_only_sqrtJ_dec": 0.010183315161589494
+     },
+     "2.0": {
+      "free_dV_V": 0.04820002568092675,
+      "free_scale": 0.621873654158608,
+      "shape_only_sqrtJ_dec": 0.11340413361307472
+     },
+     "6.3": {
+      "free_dV_V": 0.2303836698053331,
+      "free_scale": 0.17833885043590383,
+      "shape_only_sqrtJ_dec": 0.04754701139324725
+     }
+    },
+    "branch": {
+     "13.2": {
+      "free_dV_V": -0.07722458289052066,
+      "free_scale": 1.0862593039780015,
+      "shape_only_sqrtJ_dec": 0.029745242599231014
+     },
+     "2.0": {
+      "free_dV_V": 0.004670922539923159,
+      "free_scale": 0.7532224218688843,
+      "shape_only_sqrtJ_dec": 0.08018663905559635
+     },
+     "6.3": {
+      "free_dV_V": 0.17786060567722017,
+      "free_scale": 0.23967739010651692,
+      "shape_only_sqrtJ_dec": 0.04866076552842478
+     }
+    }
+   },
+   "shape_only_change_dec": [
+    0.03321749455747837,
+    0.0011137541351775304,
+    0.01956192743764152
+   ],
+   "sqrtJ_dec": 0.6691889861582176,
+   "warnings": [],
+   "worsening_dec": {
+    "13.2": {
+     "rmse_on_dec": -0.03914012965714342,
+     "rmse_sub_dec": 0.09135218165806025
+    },
+    "2.0": {
+     "rmse_on_dec": -0.07622363159372536,
+     "rmse_sub_dec": 0.044387302501915665
+    },
+    "6.3": {
+     "rmse_on_dec": 0.025395530661027066,
+     "rmse_sub_dec": -0.09319333857822976
+    }
+   }
+  },
+  {
+   "activation": {
+    "S3-14": {
+     "missing": [],
+     "regions_1_2": {
+      "lines": {
+       "1": "Using IGZO.TOKYO low field mobility model.",
+       "2": "Using IGZO.TOKYO low field mobility model."
+      },
+      "state": "ACTIVE"
+     },
+     "status": "ACTIVE_AS_REQUESTED"
+    },
+    "S3-15": {
+     "missing": [],
+     "regions_1_2": {
+      "lines": {
+       "1": "Using IGZO.TOKYO low field mobility model.",
+       "2": "Using IGZO.TOKYO low field mobility model."
+      },
+      "state": "ACTIVE"
+     },
+     "status": "ACTIVE_AS_REQUESTED"
+    },
+    "S3-16": {
+     "missing": [],
+     "regions_1_2": {
+      "lines": {
+       "1": "Using IGZO.TOKYO low field mobility model.",
+       "2": "Using IGZO.TOKYO low field mobility model."
+      },
+      "state": "ACTIVE"
+     },
+     "status": "ACTIVE_AS_REQUESTED"
+    }
+   },
+   "activation_ok": true,
+   "arithmetic": "UNVERIFIED: ARITHMETIC FAIL (also required: converged at all films; activation ACTIVE_AS_REQUESTED; not a pure shift/scale effect; at most two branches)",
+   "base_sqrtJ_dec": 0.6976290349067217,
+   "base_verdict": "OK",
+   "branch_verdict": "UNVERIFIED (coverage < 95 % or optimizer not converged: confirm natively)",
+   "converged": true,
+   "form": "igzo",
+   "g0": 0.3,
+   "gain_dec": 0.045873427266235,
+   "group": "mobility",
+   "name": "IGZO.TOKYO GAMMA0 +0.30 (S3-14, S3-15, S3-16)",
+   "profiled": {
+    "Qf_cm2": 2221875329333.179,
+    "coverage_ok_95pct": false,
+    "dV0_V": -0.1499999999844764,
+    "ell_nm": 49.99999999152408,
+    "mu_inf_cm2Vs": 214.9968129156015,
+    "per_film": {
+     "13.2": {
+      "J_term": 0.3970705524415158,
+      "coverage_on": 0.926829268292683,
+      "coverage_sub": 1.0,
+      "mun_scale": 0.6955867770426648,
+      "rmse_on_dec": 0.37673437504704976,
+      "rmse_sub_dec": 0.8075966292283174
+     },
+     "2.0": {
+      "J_term": 0.1329863903654232,
+      "coverage_on": 0.926829268292683,
+      "coverage_sub": 1.0,
+      "mun_scale": 0.3823600578370166,
+      "rmse_on_dec": 0.3908901016617574,
+      "rmse_sub_dec": 0.33641894886243756
+     },
+     "6.3": {
+      "J_term": 0.7442991734655211,
+      "coverage_on": 0.926829268292683,
+      "coverage_sub": 1.0,
+      "mun_scale": 0.517355676062512,
+      "rmse_on_dec": 0.3682811528126923,
+      "rmse_sub_dec": 1.1631712425150462
+     }
+    }
+   },
+   "pure_shift_or_scale": false,
+   "roles": [
+    "S3-14",
+    "S3-15",
+    "S3-16"
+   ],
+   "runs": [
+    "run_0107",
+    "run_0106",
+    "run_0108"
+   ],
+   "shape_only": {
+    "base": {
+     "13.2": {
+      "free_dV_V": -0.017541306757086643,
+      "free_scale": 0.8660160984723974,
+      "shape_only_sqrtJ_dec": 0.010183315161589494
+     },
+     "2.0": {
+      "free_dV_V": 0.04820002568092675,
+      "free_scale": 0.621873654158608,
+      "shape_only_sqrtJ_dec": 0.11340413361307472
+     },
+     "6.3": {
+      "free_dV_V": 0.2303836698053331,
+      "free_scale": 0.17833885043590383,
+      "shape_only_sqrtJ_dec": 0.04754701139324725
+     }
+    },
+    "branch": {
+     "13.2": {
+      "free_dV_V": -0.21573521917800234,
+      "free_scale": 1.5280404002535186,
+      "shape_only_sqrtJ_dec": 0.07212300943556758
+     },
+     "2.0": {
+      "free_dV_V": -0.07239020962224191,
+      "free_scale": 1.1455284785057318,
+      "shape_only_sqrtJ_dec": 0.04969745922381031
+     },
+     "6.3": {
+      "free_dV_V": 0.05482022762152969,
+      "free_scale": 0.36477757730336746,
+      "shape_only_sqrtJ_dec": 0.11602842744337262
+     }
+    }
+   },
+   "shape_only_change_dec": [
+    0.06370667438926442,
+    0.06848141605012537,
+    0.061939694273978094
+   ],
+   "sqrtJ_dec": 0.6517556076404867,
+   "warnings": [
+    "window coverage < 95 %: confirm the optimum natively (CAMPAIGN_DESIGN 5.2)"
+   ],
+   "worsening_dec": {
+    "13.2": {
+     "rmse_on_dec": -0.07771915273062951,
+     "rmse_sub_dec": 0.26173131983423736
+    },
+    "2.0": {
+     "rmse_on_dec": -0.192061151390176,
+     "rmse_sub_dec": 0.21656739760786925
+    },
+    "6.3": {
+     "rmse_on_dec": 0.06482398539290418,
+     "rmse_sub_dec": -0.24015974728331346
+    }
+   }
+  }
+ ],
+ "chosen": {
+  "mobility": null,
+  "tail": null
+ },
+ "driver_sha256": "72fb4295ac7d624e2a2d0c63394da651bf845b0b28cab2362108bcd6a3308a42",
+ "frozen_pins": {
+  "campaign_extract.py": "1f6f324a0841d50bb20baf7f94b6444d688aaf4cbdf71707594a06f26e3e63ba",
+  "campaign_tools.py": "3b0403d9c5cc5423cb80dabc3765f9a781b7a06b512082b6f210971a9417ab0d",
+  "hf_score_draft.py": "96a2147eae6a07a2ea0afbed2d63476283c2d5bca3ffdfd7f829f248af3a1c81",
+  "post_run_checks.py": "39d3d51d3b2470b1396196bcfce34dc4a8f0a6acd3bcb2a213001dc5ec3ed91f",
+  "prelaunch_gate_c10_f.py": "d0baaca36b77cbe95c598a641f0a89366d4e2d496cf59a4935aa0ead4de1741d",
+  "profile_s4s5.py": "429b3a3f3f5c1e650d17760e11665ddbce140ef434b5f80f29e7cd2f4fcf0a4e",
+  "profile_shared.py": "958c3605a316393184f022a80c421505e8b9f99a1d214423ec79b83286209d17",
+  "score_register.py": "c0f28bb942508a81a0f59b4a4c1e720bbfdbe8d9466d7e002476d64dcc10b55a"
+ },
+ "hf_v4_file_sha256": "78ee95b96820fd67490d6a0bd6f9db18bdc02444e1f330708db8b680ac7e5ff3",
+ "labels": "profiled sqrt(J), gains and worsening: COMPUTED (ATLAS) curves profiled offline (FITTED shared Q_f, mu_inf, ell); branch choice: data-selected model choice (reported as such)",
+ "record": "S3 adoption decision (register A49 (b); CAMPAIGN_DESIGN section 6 S3 block); data-selected model choice",
+ "s4a_form": {
+  "form": "N",
+  "gamma0_seed": null,
+  "launches": 42,
+  "lhs": "2-D seed 20261010",
+  "mobility": "constant",
+  "s4a_01": "reused: run_0061 / run_0068 / run_0069 (PA-12)",
+  "tail_law": "surface"
+ },
+ "verdict": "DECIDED: S4a form N (surface tail, constant mobility, LHS 2-D seed 20261010)",
+ "sha256": "8928bb95ccf01130e2f1d7a09c428ca0d727e99e56d103ca0e912cd81874fcaa"
+}

@@ -1,0 +1,1583 @@
+{
+ "driver": "analysis_2026-10-10_campaign/s3_decision_a49.py (register A49 (a))",
+ "driver_sha256": "72fb4295ac7d624e2a2d0c63394da651bf845b0b28cab2362108bcd6a3308a42",
+ "frozen_pins": {
+  "score_register.py": "c0f28bb942508a81a0f59b4a4c1e720bbfdbe8d9466d7e002476d64dcc10b55a",
+  "hf_score_draft.py": "96a2147eae6a07a2ea0afbed2d63476283c2d5bca3ffdfd7f829f248af3a1c81",
+  "profile_s4s5.py": "429b3a3f3f5c1e650d17760e11665ddbce140ef434b5f80f29e7cd2f4fcf0a4e",
+  "profile_shared.py": "958c3605a316393184f022a80c421505e8b9f99a1d214423ec79b83286209d17",
+  "post_run_checks.py": "39d3d51d3b2470b1396196bcfce34dc4a8f0a6acd3bcb2a213001dc5ec3ed91f",
+  "campaign_extract.py": "1f6f324a0841d50bb20baf7f94b6444d688aaf4cbdf71707594a06f26e3e63ba",
+  "campaign_tools.py": "3b0403d9c5cc5423cb80dabc3765f9a781b7a06b512082b6f210971a9417ab0d",
+  "prelaunch_gate_c10_f.py": "d0baaca36b77cbe95c598a641f0a89366d4e2d496cf59a4935aa0ead4de1741d"
+ },
+ "roles": {
+  "S0-01": "run_0061",
+  "S1-01": "run_0068",
+  "S1-02": "run_0069",
+  "S1-07": "run_0074",
+  "S3-12": "run_0102",
+  "S3-27": "run_0103",
+  "S3-11": "run_0104",
+  "S3-13": "run_0105",
+  "S3-15": "run_0106",
+  "S3-14": "run_0107",
+  "S3-16": "run_0108",
+  "S3-10": "run_0109",
+  "S3-05": "run_0110",
+  "S3-06": "run_0111",
+  "S3-08": "run_0112",
+  "S3-09": "run_0113"
+ },
+ "run_eligibility": {
+  "S0-01": {
+   "run_id": "run_0061",
+   "label": "c10_s0_01_2p0",
+   "eligible": true,
+   "problems": [],
+   "status": "REAL_ATLAS_SCORED",
+   "returncode": 0,
+   "timed_out": false,
+   "finished": true,
+   "simulator_errors": 0,
+   "convergence_flags": 0,
+   "requested_points": 76,
+   "exported_points": 76
+  },
+  "S1-01": {
+   "run_id": "run_0068",
+   "label": "c10_s1_01_6p3",
+   "eligible": true,
+   "problems": [],
+   "status": "REAL_ATLAS_SCORED",
+   "returncode": 0,
+   "timed_out": false,
+   "finished": true,
+   "simulator_errors": 0,
+   "convergence_flags": 0,
+   "requested_points": 76,
+   "exported_points": 76
+  },
+  "S1-02": {
+   "run_id": "run_0069",
+   "label": "c10_s1_02_13p2",
+   "eligible": true,
+   "problems": [],
+   "status": "REAL_ATLAS_SCORED",
+   "returncode": 0,
+   "timed_out": false,
+   "finished": true,
+   "simulator_errors": 0,
+   "convergence_flags": 0,
+   "requested_points": 76,
+   "exported_points": 76
+  },
+  "S1-07": {
+   "run_id": "run_0074",
+   "label": "c10_s1_07_2p0",
+   "eligible": true,
+   "problems": [],
+   "status": "REAL_ATLAS_SCORED",
+   "returncode": 0,
+   "timed_out": false,
+   "finished": true,
+   "simulator_errors": 0,
+   "convergence_flags": 0,
+   "requested_points": 76,
+   "exported_points": 76
+  },
+  "S3-12": {
+   "run_id": "run_0102",
+   "label": "c10_s3_12_6p3",
+   "eligible": true,
+   "problems": [],
+   "status": "REAL_ATLAS_SCORED",
+   "returncode": 0,
+   "timed_out": false,
+   "finished": true,
+   "simulator_errors": 0,
+   "convergence_flags": 0,
+   "requested_points": 76,
+   "exported_points": 76
+  },
+  "S3-27": {
+   "run_id": "run_0103",
+   "label": "c10_s3_27_6p3",
+   "eligible": true,
+   "problems": [],
+   "status": "REAL_ATLAS_SCORED",
+   "returncode": 0,
+   "timed_out": false,
+   "finished": true,
+   "simulator_errors": 0,
+   "convergence_flags": 0,
+   "requested_points": 76,
+   "exported_points": 76
+  },
+  "S3-11": {
+   "run_id": "run_0104",
+   "label": "c10_s3_11_2p0",
+   "eligible": true,
+   "problems": [],
+   "status": "REAL_ATLAS_SCORED",
+   "returncode": 0,
+   "timed_out": false,
+   "finished": true,
+   "simulator_errors": 0,
+   "convergence_flags": 0,
+   "requested_points": 76,
+   "exported_points": 76
+  },
+  "S3-13": {
+   "run_id": "run_0105",
+   "label": "c10_s3_13_13p2",
+   "eligible": true,
+   "problems": [],
+   "status": "REAL_ATLAS_SCORED",
+   "returncode": 0,
+   "timed_out": false,
+   "finished": true,
+   "simulator_errors": 0,
+   "convergence_flags": 0,
+   "requested_points": 76,
+   "exported_points": 76
+  },
+  "S3-15": {
+   "run_id": "run_0106",
+   "label": "c10_s3_15_6p3",
+   "eligible": true,
+   "problems": [],
+   "status": "REAL_ATLAS_SCORED",
+   "returncode": 0,
+   "timed_out": false,
+   "finished": true,
+   "simulator_errors": 0,
+   "convergence_flags": 0,
+   "requested_points": 76,
+   "exported_points": 76
+  },
+  "S3-14": {
+   "run_id": "run_0107",
+   "label": "c10_s3_14_2p0",
+   "eligible": true,
+   "problems": [],
+   "status": "REAL_ATLAS_SCORED",
+   "returncode": 0,
+   "timed_out": false,
+   "finished": true,
+   "simulator_errors": 0,
+   "convergence_flags": 0,
+   "requested_points": 76,
+   "exported_points": 76
+  },
+  "S3-16": {
+   "run_id": "run_0108",
+   "label": "c10_s3_16_13p2",
+   "eligible": true,
+   "problems": [],
+   "status": "REAL_ATLAS_SCORED",
+   "returncode": 0,
+   "timed_out": false,
+   "finished": true,
+   "simulator_errors": 0,
+   "convergence_flags": 0,
+   "requested_points": 76,
+   "exported_points": 76
+  },
+  "S3-10": {
+   "run_id": "run_0109",
+   "label": "c10_s3_10_6p3",
+   "eligible": true,
+   "problems": [],
+   "status": "REAL_ATLAS_SCORED",
+   "returncode": 0,
+   "timed_out": false,
+   "finished": true,
+   "simulator_errors": 0,
+   "convergence_flags": 0,
+   "requested_points": 76,
+   "exported_points": 76
+  },
+  "S3-05": {
+   "run_id": "run_0110",
+   "label": "c10_s3_05_6p3",
+   "eligible": true,
+   "problems": [],
+   "status": "REAL_ATLAS_SCORED",
+   "returncode": 0,
+   "timed_out": false,
+   "finished": true,
+   "simulator_errors": 0,
+   "convergence_flags": 0,
+   "requested_points": 76,
+   "exported_points": 76
+  },
+  "S3-06": {
+   "run_id": "run_0111",
+   "label": "c10_s3_06_13p2",
+   "eligible": true,
+   "problems": [],
+   "status": "REAL_ATLAS_SCORED",
+   "returncode": 0,
+   "timed_out": false,
+   "finished": true,
+   "simulator_errors": 0,
+   "convergence_flags": 0,
+   "requested_points": 76,
+   "exported_points": 76
+  },
+  "S3-08": {
+   "run_id": "run_0112",
+   "label": "c10_s3_08_6p3",
+   "eligible": true,
+   "problems": [],
+   "status": "REAL_ATLAS_SCORED",
+   "returncode": 0,
+   "timed_out": false,
+   "finished": true,
+   "simulator_errors": 0,
+   "convergence_flags": 0,
+   "requested_points": 76,
+   "exported_points": 76
+  },
+  "S3-09": {
+   "run_id": "run_0113",
+   "label": "c10_s3_09_13p2",
+   "eligible": true,
+   "problems": [],
+   "status": "REAL_ATLAS_SCORED",
+   "returncode": 0,
+   "timed_out": false,
+   "finished": true,
+   "simulator_errors": 0,
+   "convergence_flags": 0,
+   "requested_points": 76,
+   "exported_points": 76
+  }
+ },
+ "D1": {
+  "status": "DRAFT (H-F operational definitions NOT frozen; not a registered score; not to be used for scoring until frozen by a logged entry)",
+  "register_tag": "register-rev2-frozen-20261010T1833Z",
+  "rulings": "Codex rulings 2026-10-13 (~01:55Z, ~03:10Z and the v3 review) encoded in the draft; the user freezes it (or not) by a logged entry",
+  "definition": "D1 two-film reference (register l.244; Codex ruling 2)",
+  "roles": {
+   "S0-01": "run_0061",
+   "S1-02": "run_0069",
+   "S1-01": "run_0068"
+  },
+  "training": {
+   "tag": null,
+   "films": [
+    2.0,
+    13.2
+   ],
+   "runs": [
+    "run_0061",
+    "run_0069"
+   ],
+   "run_digests": [
+    "4a770ceb83f7e10e645a8c5f604bffc6ac925adff48a3072dff751865082b9b8",
+    "418e337beecef3b53f94ce4d8c3db2e79b945d0685051d98644374f5debc5276"
+   ],
+   "warnings": [
+    "profiled value at a range bound: ['mu_inf', 'ell']"
+   ],
+   "start": {
+    "sqrtJ_dec": 0.36248023516666045,
+    "per_film": {
+     "2.0": {
+      "rmse_sub": 0.6842751430322747,
+      "rmse_on": 0.2094009279509408,
+      "J_term": 0.2560406099992775
+     },
+     "13.2": {
+      "rmse_sub": 0.10271791537548113,
+      "rmse_on": 0.05418019387442575,
+      "J_term": 0.006743231773677432
+     }
+    }
+   },
+   "profiled": {
+    "sqrtJ_dec": 0.2049324222054829,
+    "J": 0.04199729767100631,
+    "Qf_cm2": 1306610662016.276,
+    "dQf_cm2": -76839337983.7241,
+    "dV0_V": 0.013747080739476983,
+    "qf_anchor_cm2": 1383450000000.0,
+    "dV0_from_anchor_V": 0.013747080739476985,
+    "mu_inf_cm2Vs": 299.9999997928494,
+    "ell_nm": 49.99999998058948,
+    "at_bound": {
+     "dV0": false,
+     "mu_inf": true,
+     "ell": true
+    },
+    "per_film": {
+     "2.0": {
+      "rmse_sub_dec": 0.295658459343841,
+      "rmse_on_dec": 0.12805970128925426,
+      "coverage_sub": 1.0,
+      "coverage_on": 1.0,
+      "mun_scale": 0.5335335707559963,
+      "J_term": 0.051906605837933356,
+      "mean_signed_on_dec": -0.09471950516115694
+     },
+     "13.2": {
+      "rmse_sub_dec": 0.2509829055702824,
+      "rmse_on_dec": 0.03440290859298403,
+      "coverage_sub": 1.0,
+      "coverage_on": 1.0,
+      "mun_scale": 0.970600587864201,
+      "J_term": 0.032087989504079255,
+      "mean_signed_on_dec": 0.03377044275389807
+     }
+    },
+    "coverage_ok_95pct": true,
+    "optimizer": {
+     "fun": 0.04199729767100631,
+     "nit": 229,
+     "success": true
+    }
+   },
+   "labels": "Q_f, mu_inf, ell: FITTED (shared, exact-transformation profiling of launched curves); calibration, not validation. dV0 range +-0.5 V anchored to one baseline Q_f.",
+   "valid": true,
+   "verdict": "OK",
+   "qualification": [
+    "profiled value at a range bound: mu_inf, ell"
+   ],
+   "qualified": false
+  },
+  "two_film_dV0_V": 0.013747080739476983,
+  "two_film_scale_6p3": 0.7219023418856669,
+  "diagnostic_direct_dVth": {
+   "dVth_cc_meas_minus_pred_V": 0.3596353999930926,
+   "label": "DIAGNOSTIC only (Codex ruling 2): V_th,cc(measured) - V_th,cc(two-film prediction) at 1e-9 A/um; not scored"
+  },
+  "two_film_prediction_6p3": {
+   "sqrtJ_term_dec": 1.3861012273988138,
+   "rmse_sub_dec": 1.806628027185159,
+   "rmse_on_dec": 0.7606894218944135,
+   "coverage": {
+    "sub": 1.0,
+    "on": 1.0
+   },
+   "label": "reported (H-J reporting rule), not scored"
+  },
+  "free_fit_6p3": {
+   "film_nm": 6.3,
+   "run": "run_0068",
+   "label": "c10_s1_01_6p3",
+   "digest": "6c8486642dd9be3944b71753612bc8d82e7ce7af9a464eb4634b730dbbef2574",
+   "shape_rmse_dec": 0.047547010548170114,
+   "free_dV_V": 0.23038172407430604,
+   "free_scale": 0.17833370544446578,
+   "coverage": {
+    "sub": 1.0,
+    "on": 1.0
+   },
+   "at_dV_bound": false,
+   "near_optimal_dV_range_V": [
+    0.225,
+    0.235
+   ],
+   "near_optimal_scale_range": [
+    0.16957475862347426,
+    0.18633499033651774
+   ],
+   "near_optimal_rule": "grid shifts whose shape RMSE is within 0.01 dec of the minimum (shift/scale degeneracy, reported)",
+   "secondary_active_rmse_after_free_fit_dec": 0.054070534556500266,
+   "valid": true,
+   "why_invalid": null
+  },
+  "needed_shift_V": 0.21663464333482907,
+  "needed_scale": 0.24703300584763835,
+  "degeneracy_ranges": {
+   "needed_shift_V": [
+    0.21125291926052303,
+    0.221252919260523
+   ],
+   "needed_scale": [
+    0.23489985941939373,
+    0.25811661706179784
+   ],
+   "label": "reported; the optimum is scored"
+  },
+  "needed_shift_near_optimal_range_V": [
+   0.21125291926052303,
+   0.221252919260523
+  ],
+  "sign_convention": "needed_shift > 0: the two-film 6.3 nm curve must move to more positive V_G (I_needed(V) = s I_pred(V - dV))",
+  "scored": {
+   "shift": "unresolved (two-film training profile not qualified: profiled value at a range bound: mu_inf, ell)",
+   "scale": "unresolved (two-film training profile not qualified: profiled value at a range bound: mu_inf, ell)",
+   "joint": "unresolved (two-film training profile not qualified: profiled value at a range bound: mu_inf, ell)"
+  },
+  "shift_verdict": "unresolved (two-film training profile not qualified: profiled value at a range bound: mu_inf, ell)",
+  "scale_verdict": "unresolved (two-film training profile not qualified: profiled value at a range bound: mu_inf, ell)",
+  "verdict": "unresolved (two-film training profile not qualified: profiled value at a range bound: mu_inf, ell)",
+  "registered": "+0.28 +- 0.08 V and scale 0.15..0.35 (both edges inclusive); scored separately and jointly",
+  "disclosure": "RETROSPECTIVE inputs: S0-01 (run_0061), S1-01 (run_0068), S1-02 (run_0069) and the measured curves were seen before these definitions were written; the V2 result is known (V2 triple: 6.3 nm shape-only residual 0.036 dec at a free shift of +0.24 V, IMPLEMENTATION.md 11.7; a different model, the same metric)"
+ },
+ "D2": {
+  "status": "DRAFT (H-F operational definitions NOT frozen; not a registered score; not to be used for scoring until frozen by a logged entry)",
+  "register_tag": "register-rev2-frozen-20261010T1833Z",
+  "rulings": "Codex rulings 2026-10-13 (~01:55Z, ~03:10Z and the v3 review) encoded in the draft; the user freezes it (or not) by a logged entry",
+  "definition": "D2 baseline shape RMSE > 0.15 dec (register l.245; Codex ruling 1)",
+  "role": "S1-01",
+  "fit": {
+   "film_nm": 6.3,
+   "run": "run_0068",
+   "label": "c10_s1_01_6p3",
+   "digest": "6c8486642dd9be3944b71753612bc8d82e7ce7af9a464eb4634b730dbbef2574",
+   "shape_rmse_dec": 0.047547010548170114,
+   "free_dV_V": 0.23038172407430604,
+   "free_scale": 0.17833370544446578,
+   "coverage": {
+    "sub": 1.0,
+    "on": 1.0
+   },
+   "at_dV_bound": false,
+   "near_optimal_dV_range_V": [
+    0.225,
+    0.235
+   ],
+   "near_optimal_scale_range": [
+    0.16957475862347426,
+    0.18633499033651774
+   ],
+   "near_optimal_rule": "grid shifts whose shape RMSE is within 0.01 dec of the minimum (shift/scale degeneracy, reported)",
+   "secondary_active_rmse_after_free_fit_dec": 0.054070534556500266,
+   "valid": true,
+   "why_invalid": null
+  },
+  "verdict": "FAIL (shape RMSE <= 0.15 dec)",
+  "disclosure": "RETROSPECTIVE inputs: S0-01 (run_0061), S1-01 (run_0068), S1-02 (run_0069) and the measured curves were seen before these definitions were written; the V2 result is known (V2 triple: 6.3 nm shape-only residual 0.036 dec at a free shift of +0.24 V, IMPLEMENTATION.md 11.7; a different model, the same metric)"
+ },
+ "D3": {
+  "status": "DRAFT (H-F operational definitions NOT frozen; not a registered score; not to be used for scoring until frozen by a logged entry)",
+  "register_tag": "register-rev2-frozen-20261010T1833Z",
+  "rulings": "Codex rulings 2026-10-13 (~01:55Z, ~03:10Z and the v3 review) encoded in the draft; the user freezes it (or not) by a logged entry",
+  "definition": "D3 IGZO.TOKYO (register l.246; Codex ruling 3)",
+  "gate_S3_27": "PASS: S3-27 PASS",
+  "confirmation": {
+   "check": {
+    "J_window_on": {
+     "covered": 41,
+     "covered_forward": 37,
+     "covered_inverse": 41,
+     "max_abs_dev_dec": 0.00012978579232125753,
+     "points": 41
+    },
+    "J_window_sub": {
+     "covered": 8,
+     "covered_forward": 8,
+     "covered_inverse": 8,
+     "max_abs_dev_dec": 5.713169045407085e-06,
+     "points": 8
+    },
+    "dQf_cm2": 1000000000000.0,
+    "dV_shift_V": -0.17890680867642106,
+    "exactness_breakers": [],
+    "max_abs_dev_native_grid_above_1e-14_dec": 0.0008556976074256539,
+    "mun_scale": 0.6000009050674728,
+    "other_material_differences": [],
+    "solver_geometry_override_differences": [],
+    "verdict": "PASS: profiling exact within 0.01 dec on every J-window point"
+   },
+   "code_sha256": "429b3a3f3f5c1e650d17760e11665ddbce140ef434b5f80f29e7cd2f4fcf0a4e",
+   "film_nm": 6.3,
+   "native": {
+    "digest": "ee481b61acb3dba34b8000cbf6cac98327da7902a57dbde33b17a78068b6971a",
+    "eligible": true,
+    "film_nm": 6.3,
+    "label": "c10_s3_27_6p3",
+    "problems": [],
+    "run_id": "run_0103"
+   },
+   "record": "native confirmation (Codex v2 fix 3; profile_shared.check unchanged)",
+   "reference": {
+    "digest": "9dabe9513bde9e0b287de2648a19bae172f7cfb5ff2e4a864865ef464d90b059",
+    "eligible": true,
+    "film_nm": 6.3,
+    "label": "c10_s3_12_6p3",
+    "problems": [],
+    "run_id": "run_0102"
+   },
+   "role": "S3-27",
+   "status": "DRAFT code (profile_s4s5 v4)",
+   "tolerance_dec": 0.01,
+   "verdict": "PASS",
+   "sha256": "d91476fc1be6d2117d8c157fce6245c31ca0b3856d0b71edd4d4872a43eb4716"
+  },
+  "a_gain": "FAIL",
+  "a_shape_rmse_dec": {
+   "S1-01": 0.047547010548170114,
+   "S3-12": 0.04866076499753778
+  },
+  "a_gain_dec": -0.0011137544493676627,
+  "a_secondary_shared_profile": {
+   "base_sqrtJ_term_6p3": 1.0152399025321268,
+   "igzo_sqrtJ_term_6p3": 0.955145214661004,
+   "label": "secondary, reported (not scored)",
+   "gain_dec": 0.06009468787112282
+  },
+  "b_gamma_6p3": "PASS (distance 0.592 -> 0.427)",
+  "gamma_native": {
+   "S1-01": {
+    "gamma": 0.30778494768297,
+    "sig_gamma": 0.011778238506449634,
+    "at_bound": false,
+    "rms_log10": 0.004416573541362574,
+    "vt": 0.38736610278041184
+   },
+   "S3-12": {
+    "gamma": 0.47250910630267534,
+    "sig_gamma": 0.011982007698740369,
+    "at_bound": false,
+    "rms_log10": 0.004318699259101554,
+    "vt": 0.409476555253785
+   },
+   "S3-13": {
+    "gamma": 0.343112605233818,
+    "sig_gamma": 0.006838104295579324,
+    "at_bound": false,
+    "rms_log10": 0.0023330161088426825,
+    "vt": 0.3176856091670203
+   }
+  },
+  "b_strict_inside_diagnostic": false,
+  "c_gamma_13p2": "FAIL",
+  "d_not_adopted": "unresolved (adoption profile not qualified: profiled value at a range bound: ell; profiled value at a range bound: ell)",
+  "d_adoption": {
+   "gain_dec": 0.028440048748504032,
+   "worsening_dec": {
+    "2.0": {
+     "rmse_sub_dec": 0.044387302501915665,
+     "rmse_on_dec": -0.07622363159372536
+    },
+    "6.3": {
+     "rmse_sub_dec": -0.09319333857822976,
+     "rmse_on_dec": 0.025395530661027066
+    },
+    "13.2": {
+     "rmse_sub_dec": 0.09135218165806025,
+     "rmse_on_dec": -0.03914012965714342
+    }
+   },
+   "arithmetic": "ARITHMETIC FAIL"
+  },
+  "verdict": "FAIL"
+ },
+ "D4_shape_fits": {
+  "S1-01": {
+   "film_nm": 6.3,
+   "run": "run_0068",
+   "label": "c10_s1_01_6p3",
+   "digest": "6c8486642dd9be3944b71753612bc8d82e7ce7af9a464eb4634b730dbbef2574",
+   "shape_rmse_dec": 0.047547010548170114,
+   "free_dV_V": 0.23038172407430604,
+   "free_scale": 0.17833370544446578,
+   "coverage": {
+    "sub": 1.0,
+    "on": 1.0
+   },
+   "at_dV_bound": false,
+   "near_optimal_dV_range_V": [
+    0.225,
+    0.235
+   ],
+   "near_optimal_scale_range": [
+    0.16957475862347426,
+    0.18633499033651774
+   ],
+   "near_optimal_rule": "grid shifts whose shape RMSE is within 0.01 dec of the minimum (shift/scale degeneracy, reported)",
+   "secondary_active_rmse_after_free_fit_dec": 0.054070534556500266,
+   "valid": true,
+   "why_invalid": null
+  },
+  "S3-10": {
+   "film_nm": 6.3,
+   "run": "run_0109",
+   "label": "c10_s3_10_6p3",
+   "digest": "e38aa08fe7cf50b5569284445ec9354224dbd39655a6015eea250dd58b46e30b",
+   "shape_rmse_dec": 0.323088462380118,
+   "free_dV_V": 0.24160790406523944,
+   "free_scale": 0.0625704912163375,
+   "coverage": {
+    "sub": 1.0,
+    "on": 1.0
+   },
+   "at_dV_bound": false,
+   "near_optimal_dV_range_V": [
+    0.23,
+    0.255
+   ],
+   "near_optimal_scale_range": [
+    0.05461064055225436,
+    0.07356057172056124
+   ],
+   "near_optimal_rule": "grid shifts whose shape RMSE is within 0.01 dec of the minimum (shift/scale degeneracy, reported)",
+   "secondary_active_rmse_after_free_fit_dec": 0.2854598936176936,
+   "valid": true,
+   "why_invalid": null
+  },
+  "S3-12": {
+   "film_nm": 6.3,
+   "run": "run_0102",
+   "label": "c10_s3_12_6p3",
+   "digest": "9dabe9513bde9e0b287de2648a19bae172f7cfb5ff2e4a864865ef464d90b059",
+   "shape_rmse_dec": 0.04866076499753778,
+   "free_dV_V": 0.17786083365502856,
+   "free_scale": 0.23968181776677708,
+   "coverage": {
+    "sub": 1.0,
+    "on": 1.0
+   },
+   "at_dV_bound": false,
+   "near_optimal_dV_range_V": [
+    0.17,
+    0.185
+   ],
+   "near_optimal_scale_range": [
+    0.22366004290483468,
+    0.2556080445263393
+   ],
+   "near_optimal_rule": "grid shifts whose shape RMSE is within 0.01 dec of the minimum (shift/scale degeneracy, reported)",
+   "secondary_active_rmse_after_free_fit_dec": 0.046834573570657484,
+   "valid": true,
+   "why_invalid": null
+  }
+ },
+ "D4": {
+  "status": "DRAFT (H-F operational definitions NOT frozen; not a registered score; not to be used for scoring until frozen by a logged entry)",
+  "register_tag": "register-rev2-frozen-20261010T1833Z",
+  "rulings": "Codex rulings 2026-10-13 (~01:55Z, ~03:10Z and the v3 review) encoded in the draft; the user freezes it (or not) by a logged entry",
+  "definition": "D4 contact trigger (register l.241; Codex ruling 4, reading A)",
+  "roles": [
+   "S1-01",
+   "S3-10",
+   "S3-12"
+  ],
+  "S3-27_confirmed": true,
+  "confirmation": {
+   "check": {
+    "J_window_on": {
+     "covered": 41,
+     "covered_forward": 37,
+     "covered_inverse": 41,
+     "max_abs_dev_dec": 0.00012978579232125753,
+     "points": 41
+    },
+    "J_window_sub": {
+     "covered": 8,
+     "covered_forward": 8,
+     "covered_inverse": 8,
+     "max_abs_dev_dec": 5.713169045407085e-06,
+     "points": 8
+    },
+    "dQf_cm2": 1000000000000.0,
+    "dV_shift_V": -0.17890680867642106,
+    "exactness_breakers": [],
+    "max_abs_dev_native_grid_above_1e-14_dec": 0.0008556976074256539,
+    "mun_scale": 0.6000009050674728,
+    "other_material_differences": [],
+    "solver_geometry_override_differences": [],
+    "verdict": "PASS: profiling exact within 0.01 dec on every J-window point"
+   },
+   "code_sha256": "429b3a3f3f5c1e650d17760e11665ddbce140ef434b5f80f29e7cd2f4fcf0a4e",
+   "film_nm": 6.3,
+   "native": {
+    "digest": "ee481b61acb3dba34b8000cbf6cac98327da7902a57dbde33b17a78068b6971a",
+    "eligible": true,
+    "film_nm": 6.3,
+    "label": "c10_s3_27_6p3",
+    "problems": [],
+    "run_id": "run_0103"
+   },
+   "record": "native confirmation (Codex v2 fix 3; profile_shared.check unchanged)",
+   "reference": {
+    "digest": "9dabe9513bde9e0b287de2648a19bae172f7cfb5ff2e4a864865ef464d90b059",
+    "eligible": true,
+    "film_nm": 6.3,
+    "label": "c10_s3_12_6p3",
+    "problems": [],
+    "run_id": "run_0102"
+   },
+   "role": "S3-27",
+   "status": "DRAFT code (profile_s4s5 v4)",
+   "tolerance_dec": 0.01,
+   "verdict": "PASS",
+   "sha256": "d91476fc1be6d2117d8c157fce6245c31ca0b3856d0b71edd4d4872a43eb4716"
+  },
+  "values_dec": {
+   "S1-01": 0.047547010548170114,
+   "S3-10": 0.323088462380118,
+   "S3-12": 0.04866076499753778
+  },
+  "verdict": "DO NOT FIRE (a prescribed 6.3 nm shape RMSE <= 0.15 dec: S1-01, S3-12)"
+ },
+ "D5_baseline_triple": {
+  "status": "DRAFT (H-F operational definitions NOT frozen; not a registered score; not to be used for scoring until frozen by a logged entry)",
+  "register_tag": "register-rev2-frozen-20261010T1833Z",
+  "rulings": "Codex rulings 2026-10-13 (~01:55Z, ~03:10Z and the v3 review) encoded in the draft; the user freezes it (or not) by a logged entry",
+  "kind": "baseline",
+  "labels": {
+   "2.0": "c10_s0_01_2p0",
+   "6.3": "c10_s1_01_6p3",
+   "13.2": "c10_s1_02_13p2"
+  },
+  "profile": {
+   "tag": null,
+   "films": [
+    2.0,
+    6.3,
+    13.2
+   ],
+   "runs": [
+    "run_0061",
+    "run_0068",
+    "run_0069"
+   ],
+   "run_digests": [
+    "4a770ceb83f7e10e645a8c5f604bffc6ac925adff48a3072dff751865082b9b8",
+    "6c8486642dd9be3944b71753612bc8d82e7ce7af9a464eb4634b730dbbef2574",
+    "418e337beecef3b53f94ce4d8c3db2e79b945d0685051d98644374f5debc5276"
+   ],
+   "warnings": [
+    "profiled value at a range bound: ['ell']"
+   ],
+   "start": {
+    "sqrtJ_dec": 0.9441546818399897,
+    "per_film": {
+     "2.0": {
+      "rmse_sub": 0.6842751430322747,
+      "rmse_on": 0.2094009279509408,
+      "J_term": 0.2560406099992775
+     },
+     "6.3": {
+      "rmse_sub": 1.9992614131971436,
+      "rmse_on": 0.9088203879740397,
+      "J_term": 2.411500347948162
+     },
+     "13.2": {
+      "rmse_sub": 0.10271791537548113,
+      "rmse_on": 0.05418019387442575,
+      "J_term": 0.006743231773677432
+     }
+    }
+   },
+   "profiled": {
+    "sqrtJ_dec": 0.6976290349067217,
+    "J": 0.4866862703448838,
+    "Qf_cm2": 1421634083506.6765,
+    "dQf_cm2": 38184083506.676445,
+    "dV0_V": -0.006831392522413448,
+    "qf_anchor_cm2": 1383450000000.0,
+    "dV0_from_anchor_V": -0.006831392522413461,
+    "mu_inf_cm2Vs": 95.21801237144028,
+    "ell_nm": 49.99999999976414,
+    "at_bound": {
+     "dV0": false,
+     "mu_inf": false,
+     "ell": true
+    },
+    "per_film": {
+     "2.0": {
+      "rmse_sub_dec": 0.11985155125456831,
+      "rmse_on_dec": 0.5829512530519334,
+      "coverage_sub": 1.0,
+      "coverage_on": 0.975609756097561,
+      "mun_scale": 0.1693400205238971,
+      "J_term": 0.17709827888647287,
+      "mean_signed_on_dec": -0.5752780610938512
+     },
+     "6.3": {
+      "rmse_sub_dec": 1.4033309897983597,
+      "rmse_on_dec": 0.3034571674197881,
+      "coverage_sub": 1.0,
+      "coverage_on": 0.975609756097561,
+      "mun_scale": 0.22912702048231376,
+      "J_term": 1.0307120596934425,
+      "mean_signed_on_dec": 0.26651746836775725
+     },
+     "13.2": {
+      "rmse_sub_dec": 0.5458653093940801,
+      "rmse_on_dec": 0.4544535277776793,
+      "coverage_sub": 1.0,
+      "coverage_on": 0.975609756097561,
+      "mun_scale": 0.30806219606252155,
+      "J_term": 0.25224847245473636,
+      "mean_signed_on_dec": -0.4543246313353345
+     }
+    },
+    "coverage_ok_95pct": true,
+    "optimizer": {
+     "fun": 0.4866862703448838,
+     "nit": 229,
+     "success": true
+    }
+   },
+   "labels": "Q_f, mu_inf, ell: FITTED (shared, exact-transformation profiling of launched curves); calibration, not validation. dV0 range +-0.5 V anchored to one baseline Q_f.",
+   "valid": true,
+   "verdict": "OK",
+   "qualification": [
+    "profiled value at a range bound: ell"
+   ],
+   "qualified": false
+  },
+  "confirmation": {
+   "check": {
+    "J_window_on": {
+     "covered": 41,
+     "covered_forward": 37,
+     "covered_inverse": 41,
+     "max_abs_dev_dec": 0.0001439479372686847,
+     "points": 41
+    },
+    "J_window_sub": {
+     "covered": 10,
+     "covered_forward": 10,
+     "covered_inverse": 10,
+     "max_abs_dev_dec": 0.0002053195075184533,
+     "points": 10
+    },
+    "dQf_cm2": 1000000000000.0,
+    "dV_shift_V": -0.17890680867642106,
+    "exactness_breakers": [],
+    "max_abs_dev_native_grid_above_1e-14_dec": 0.0007658764264704132,
+    "mun_scale": 0.5999988693985766,
+    "other_material_differences": [],
+    "solver_geometry_override_differences": [],
+    "verdict": "PASS: profiling exact within 0.01 dec on every J-window point"
+   },
+   "code_sha256": "429b3a3f3f5c1e650d17760e11665ddbce140ef434b5f80f29e7cd2f4fcf0a4e",
+   "film_nm": 2.0,
+   "native": {
+    "digest": "0da9b107764d89fde54e62260453975bdcc55df45b76a98cbffe8d9baedfcf60",
+    "eligible": true,
+    "film_nm": 2.0,
+    "label": "c10_s1_07_2p0",
+    "problems": [],
+    "run_id": "run_0074"
+   },
+   "record": "native confirmation (Codex v2 fix 3; profile_shared.check unchanged)",
+   "reference": {
+    "digest": "4a770ceb83f7e10e645a8c5f604bffc6ac925adff48a3072dff751865082b9b8",
+    "eligible": true,
+    "film_nm": 2.0,
+    "label": "c10_s0_01_2p0",
+    "problems": [],
+    "run_id": "run_0061"
+   },
+   "role": "S1-07",
+   "status": "DRAFT code (profile_s4s5 v4)",
+   "tolerance_dec": 0.01,
+   "verdict": "PASS",
+   "sha256": "e88e6274c9f567e4167f48982572201e21d051562203cfe25ec252eba2cd4216"
+  },
+  "confirmation_status": true,
+  "qualified": false,
+  "qualification": [
+   "profiled value at a range bound: ell"
+  ],
+  "acceptance": {
+   "2.0": {
+    "film_nm": 2.0,
+    "kind": "profiled",
+    "verdict": "unresolved (profile not qualified: profiled value at a range bound: ell)"
+   },
+   "6.3": {
+    "film_nm": 6.3,
+    "kind": "profiled",
+    "verdict": "unresolved (profile not qualified: profiled value at a range bound: ell)"
+   },
+   "13.2": {
+    "film_nm": 13.2,
+    "kind": "profiled",
+    "verdict": "unresolved (profile not qualified: profiled value at a range bound: ell)"
+   }
+  },
+  "diagnostic_acceptance_unqualified": {
+   "2.0": {
+    "film_nm": 2.0,
+    "kind": "profiled",
+    "criteria": {
+     "active_rmse_dec": {
+      "value": 0.5063780041755461,
+      "coverage": 0.9824561403508771,
+      "limit": 0.15,
+      "ok": false
+     },
+     "dVth_cc_V": {
+      "value": 0.07348164690100789,
+      "limit": 0.1,
+      "ok": true
+     },
+     "Id3V_err_pct": {
+      "value": null,
+      "how": "not covered (no extrapolation)",
+      "limit": 30.0,
+      "ok": null
+     },
+     "SS_a1_err_pct": {
+      "value": 14.191435116978358,
+      "sim_mV_dec": 141.113520873818,
+      "meas_mV_dec": 123.57627411308081,
+      "limit": 20.0,
+      "ok": true
+     },
+     "mu_FE_err_pct": {
+      "per_V": {
+       "1.5": {
+        "value": -74.87580390654374,
+        "sim": 1.298813393275165,
+        "meas": 5.169571947471978,
+        "how": "INTERPOLATED between gm points of the covered profiled curve (labelled, A10)",
+        "ok": false
+       },
+       "2.0": {
+        "value": -80.51477944266543,
+        "sim": 1.70807629112179,
+        "meas": 8.766009530638033,
+        "how": "INTERPOLATED between gm points of the covered profiled curve (labelled, A10)",
+        "ok": false
+       },
+       "3.0": {
+        "value": null,
+        "sim": null,
+        "meas": 12.145944927623823,
+        "how": "not covered (no extrapolation)",
+        "ok": null
+       }
+      },
+      "limit": 20.0,
+      "ok": null
+     }
+    },
+    "verdict": "FAIL: active_rmse_dec",
+    "labels": "CAMPAIGN_DESIGN 5.3 (ASSUMED engineering limits); active RMSE as run_atlas.score; extraction as campaign_extract; profiled curve: values between gm points are INTERPOLATED (labelled per criterion)"
+   },
+   "6.3": {
+    "film_nm": 6.3,
+    "kind": "profiled",
+    "criteria": {
+     "active_rmse_dec": {
+      "value": 0.6462827745092168,
+      "coverage": 0.9821428571428571,
+      "limit": 0.15,
+      "ok": false
+     },
+     "dVth_cc_V": {
+      "value": -0.26792348580552816,
+      "limit": 0.1,
+      "ok": false
+     },
+     "Id3V_err_pct": {
+      "value": null,
+      "how": "not covered (no extrapolation)",
+      "limit": 30.0,
+      "ok": null
+     },
+     "SS_a1_err_pct": {
+      "value": -8.323333264539933,
+      "sim_mV_dec": 112.4469241460188,
+      "meas_mV_dec": 122.65599105003771,
+      "limit": 20.0,
+      "ok": true
+     },
+     "mu_FE_err_pct": {
+      "per_V": {
+       "1.5": {
+        "value": 65.44559709448725,
+        "sim": 6.170310380257375,
+        "meas": 3.72951017652858,
+        "how": "INTERPOLATED between gm points of the covered profiled curve (labelled, A10)",
+        "ok": false
+       },
+       "2.0": {
+        "value": 14.998149415932271,
+        "sim": 7.097542740350225,
+        "meas": 6.171875613997407,
+        "how": "INTERPOLATED between gm points of the covered profiled curve (labelled, A10)",
+        "ok": true
+       },
+       "3.0": {
+        "value": null,
+        "sim": null,
+        "meas": 10.737053601109816,
+        "how": "not covered (no extrapolation)",
+        "ok": null
+       }
+      },
+      "limit": 20.0,
+      "ok": null
+     }
+    },
+    "verdict": "FAIL: active_rmse_dec, dVth_cc_V",
+    "labels": "CAMPAIGN_DESIGN 5.3 (ASSUMED engineering limits); active RMSE as run_atlas.score; extraction as campaign_extract; profiled curve: values between gm points are INTERPOLATED (labelled per criterion)"
+   },
+   "13.2": {
+    "film_nm": 13.2,
+    "kind": "profiled",
+    "criteria": {
+     "active_rmse_dec": {
+      "value": 0.470453235662882,
+      "coverage": 0.9838709677419355,
+      "limit": 0.15,
+      "ok": false
+     },
+     "dVth_cc_V": {
+      "value": 0.09414336647062016,
+      "limit": 0.1,
+      "ok": true
+     },
+     "Id3V_err_pct": {
+      "value": null,
+      "how": "not covered (no extrapolation)",
+      "limit": 30.0,
+      "ok": null
+     },
+     "SS_a1_err_pct": {
+      "value": 23.12034683038535,
+      "sim_mV_dec": 141.9334173498994,
+      "meas_mV_dec": 115.28022865743837,
+      "limit": 20.0,
+      "ok": false
+     },
+     "mu_FE_err_pct": {
+      "per_V": {
+       "1.5": {
+        "value": -65.53936345333882,
+        "sim": 14.103182799994048,
+        "meas": 40.92548546193491,
+        "how": "INTERPOLATED between gm points of the covered profiled curve (labelled, A10)",
+        "ok": false
+       },
+       "2.0": {
+        "value": -66.45128596152716,
+        "sim": 15.096164092716679,
+        "meas": 44.997742910219365,
+        "how": "INTERPOLATED between gm points of the covered profiled curve (labelled, A10)",
+        "ok": false
+       },
+       "3.0": {
+        "value": null,
+        "sim": null,
+        "meas": 49.06872418882398,
+        "how": "not covered (no extrapolation)",
+        "ok": null
+       }
+      },
+      "limit": 20.0,
+      "ok": null
+     }
+    },
+    "verdict": "FAIL: active_rmse_dec, SS_a1_err_pct",
+    "labels": "CAMPAIGN_DESIGN 5.3 (ASSUMED engineering limits); active RMSE as run_atlas.score; extraction as campaign_extract; profiled curve: values between gm points are INTERPOLATED (labelled per criterion)"
+   }
+  }
+ },
+ "D5_igzo_triple": {
+  "status": "DRAFT (H-F operational definitions NOT frozen; not a registered score; not to be used for scoring until frozen by a logged entry)",
+  "register_tag": "register-rev2-frozen-20261010T1833Z",
+  "rulings": "Codex rulings 2026-10-13 (~01:55Z, ~03:10Z and the v3 review) encoded in the draft; the user freezes it (or not) by a logged entry",
+  "kind": "IGZO",
+  "labels": {
+   "2.0": "c10_s3_11_2p0",
+   "6.3": "c10_s3_12_6p3",
+   "13.2": "c10_s3_13_13p2"
+  },
+  "profile": {
+   "tag": null,
+   "films": [
+    2.0,
+    6.3,
+    13.2
+   ],
+   "runs": [
+    "run_0104",
+    "run_0102",
+    "run_0105"
+   ],
+   "run_digests": [
+    "f30c4a646385ca9b64505abbec9578047e1fc461a71122a530a14d966719493a",
+    "9dabe9513bde9e0b287de2648a19bae172f7cfb5ff2e4a864865ef464d90b059",
+    "e66d1eff71cf70976eff35a514c43ccc9b1b67c2a45a32597d8872a2c2a355f0"
+   ],
+   "warnings": [
+    "profiled value at a range bound: ['ell']"
+   ],
+   "start": {
+    "sqrtJ_dec": 0.791063626490591,
+    "per_film": {
+     "2.0": {
+      "rmse_sub": 0.21875139702085383,
+      "rmse_on": 0.0947598560050364,
+      "J_term": 0.028415802004335224
+     },
+     "6.3": {
+      "rmse_sub": 1.5888425817828296,
+      "rmse_on": 0.777330663997977,
+      "J_term": 1.5643318554389316
+     },
+     "13.2": {
+      "rmse_sub": 0.7505255384750078,
+      "rmse_on": 0.07685094761248991,
+      "J_term": 0.2845973260260691
+     }
+    }
+   },
+   "profiled": {
+    "sqrtJ_dec": 0.6691889861582176,
+    "J": 0.44781389919546316,
+    "Qf_cm2": 1662925109452.8213,
+    "dQf_cm2": 279475109452.8213,
+    "dV0_V": -0.04999999993669774,
+    "qf_anchor_cm2": 1383450000000.0,
+    "dV0_from_anchor_V": -0.04999999993669774,
+    "mu_inf_cm2Vs": 131.45438237137225,
+    "ell_nm": 49.99999999278603,
+    "at_bound": {
+     "dV0": false,
+     "mu_inf": false,
+     "ell": true
+    },
+    "per_film": {
+     "2.0": {
+      "rmse_sub_dec": 0.16423885375648398,
+      "rmse_on_dec": 0.506727621458208,
+      "coverage_sub": 1.0,
+      "coverage_on": 0.975609756097561,
+      "mun_scale": 0.23378442016700246,
+      "J_term": 0.14187364171596836,
+      "mean_signed_on_dec": -0.5030857726831842
+     },
+     "6.3": {
+      "rmse_sub_dec": 1.31013765122013,
+      "rmse_on_dec": 0.3288526980808152,
+      "coverage_sub": 1.0,
+      "coverage_on": 0.975609756097561,
+      "mun_scale": 0.31632408843332077,
+      "J_term": 0.9123023810898153,
+      "mean_signed_on_dec": 0.3072946355078553
+     },
+     "13.2": {
+      "rmse_sub_dec": 0.6372174910521403,
+      "rmse_on_dec": 0.41531339812053586,
+      "coverage_sub": 1.0,
+      "coverage_on": 0.975609756097561,
+      "mun_scale": 0.4252990029015254,
+      "J_term": 0.2892656747806056,
+      "mean_signed_on_dec": -0.414964134160027
+     }
+    },
+    "coverage_ok_95pct": true,
+    "optimizer": {
+     "fun": 0.44781389919546316,
+     "nit": 255,
+     "success": true
+    }
+   },
+   "labels": "Q_f, mu_inf, ell: FITTED (shared, exact-transformation profiling of launched curves); calibration, not validation. dV0 range +-0.5 V anchored to one baseline Q_f.",
+   "valid": true,
+   "verdict": "OK",
+   "qualification": [
+    "profiled value at a range bound: ell"
+   ],
+   "qualified": false
+  },
+  "confirmation": {
+   "check": {
+    "J_window_on": {
+     "covered": 41,
+     "covered_forward": 37,
+     "covered_inverse": 41,
+     "max_abs_dev_dec": 0.00012978579232125753,
+     "points": 41
+    },
+    "J_window_sub": {
+     "covered": 8,
+     "covered_forward": 8,
+     "covered_inverse": 8,
+     "max_abs_dev_dec": 5.713169045407085e-06,
+     "points": 8
+    },
+    "dQf_cm2": 1000000000000.0,
+    "dV_shift_V": -0.17890680867642106,
+    "exactness_breakers": [],
+    "max_abs_dev_native_grid_above_1e-14_dec": 0.0008556976074256539,
+    "mun_scale": 0.6000009050674728,
+    "other_material_differences": [],
+    "solver_geometry_override_differences": [],
+    "verdict": "PASS: profiling exact within 0.01 dec on every J-window point"
+   },
+   "code_sha256": "429b3a3f3f5c1e650d17760e11665ddbce140ef434b5f80f29e7cd2f4fcf0a4e",
+   "film_nm": 6.3,
+   "native": {
+    "digest": "ee481b61acb3dba34b8000cbf6cac98327da7902a57dbde33b17a78068b6971a",
+    "eligible": true,
+    "film_nm": 6.3,
+    "label": "c10_s3_27_6p3",
+    "problems": [],
+    "run_id": "run_0103"
+   },
+   "record": "native confirmation (Codex v2 fix 3; profile_shared.check unchanged)",
+   "reference": {
+    "digest": "9dabe9513bde9e0b287de2648a19bae172f7cfb5ff2e4a864865ef464d90b059",
+    "eligible": true,
+    "film_nm": 6.3,
+    "label": "c10_s3_12_6p3",
+    "problems": [],
+    "run_id": "run_0102"
+   },
+   "role": "S3-27",
+   "status": "DRAFT code (profile_s4s5 v4)",
+   "tolerance_dec": 0.01,
+   "verdict": "PASS",
+   "sha256": "d91476fc1be6d2117d8c157fce6245c31ca0b3856d0b71edd4d4872a43eb4716"
+  },
+  "confirmation_status": true,
+  "qualified": false,
+  "qualification": [
+   "profiled value at a range bound: ell"
+  ],
+  "acceptance": {
+   "2.0": {
+    "film_nm": 2.0,
+    "kind": "profiled",
+    "verdict": "unresolved (profile not qualified: profiled value at a range bound: ell)"
+   },
+   "6.3": {
+    "film_nm": 6.3,
+    "kind": "profiled",
+    "verdict": "unresolved (profile not qualified: profiled value at a range bound: ell)"
+   },
+   "13.2": {
+    "film_nm": 13.2,
+    "kind": "profiled",
+    "verdict": "unresolved (profile not qualified: profiled value at a range bound: ell)"
+   }
+  },
+  "diagnostic_acceptance_unqualified": {
+   "2.0": {
+    "film_nm": 2.0,
+    "kind": "profiled",
+    "criteria": {
+     "active_rmse_dec": {
+      "value": 0.4461352655004308,
+      "coverage": 0.9824561403508771,
+      "limit": 0.15,
+      "ok": false
+     },
+     "dVth_cc_V": {
+      "value": 0.07887027359390009,
+      "limit": 0.1,
+      "ok": true
+     },
+     "Id3V_err_pct": {
+      "value": null,
+      "how": "not covered (no extrapolation)",
+      "limit": 30.0,
+      "ok": null
+     },
+     "SS_a1_err_pct": {
+      "value": 19.90255815443167,
+      "sim_mV_dec": 148.1711139335166,
+      "meas_mV_dec": 123.57627411308081,
+      "limit": 20.0,
+      "ok": true
+     },
+     "mu_FE_err_pct": {
+      "per_V": {
+       "1.5": {
+        "value": -69.81219995458956,
+        "sim": 1.5605800427064713,
+        "meas": 5.169571947471978,
+        "how": "INTERPOLATED between gm points of the covered profiled curve (labelled, A10)",
+        "ok": false
+       },
+       "2.0": {
+        "value": -74.27529019173149,
+        "sim": 2.2550305135217945,
+        "meas": 8.766009530638033,
+        "how": "INTERPOLATED between gm points of the covered profiled curve (labelled, A10)",
+        "ok": false
+       },
+       "3.0": {
+        "value": null,
+        "sim": null,
+        "meas": 12.145944927623823,
+        "how": "not covered (no extrapolation)",
+        "ok": null
+       }
+      },
+      "limit": 20.0,
+      "ok": null
+     }
+    },
+    "verdict": "FAIL: active_rmse_dec",
+    "labels": "CAMPAIGN_DESIGN 5.3 (ASSUMED engineering limits); active RMSE as run_atlas.score; extraction as campaign_extract; profiled curve: values between gm points are INTERPOLATED (labelled per criterion)"
+   },
+   "6.3": {
+    "film_nm": 6.3,
+    "kind": "profiled",
+    "criteria": {
+     "active_rmse_dec": {
+      "value": 0.6195377816762023,
+      "coverage": 0.9821428571428571,
+      "limit": 0.15,
+      "ok": false
+     },
+     "dVth_cc_V": {
+      "value": -0.24191392637830716,
+      "limit": 0.1,
+      "ok": false
+     },
+     "Id3V_err_pct": {
+      "value": null,
+      "how": "not covered (no extrapolation)",
+      "limit": 30.0,
+      "ok": null
+     },
+     "SS_a1_err_pct": {
+      "value": 1.026907517707354,
+      "sim_mV_dec": 123.91555464304902,
+      "meas_mV_dec": 122.65599105003771,
+      "limit": 20.0,
+      "ok": true
+     },
+     "mu_FE_err_pct": {
+      "per_V": {
+       "1.5": {
+        "value": 87.10188598769759,
+        "sim": 6.977983878388083,
+        "meas": 3.72951017652858,
+        "how": "INTERPOLATED between gm points of the covered profiled curve (labelled, A10)",
+        "ok": false
+       },
+       "2.0": {
+        "value": 40.84679555321718,
+        "sim": 8.692889027845794,
+        "meas": 6.171875613997407,
+        "how": "INTERPOLATED between gm points of the covered profiled curve (labelled, A10)",
+        "ok": false
+       },
+       "3.0": {
+        "value": null,
+        "sim": null,
+        "meas": 10.737053601109816,
+        "how": "not covered (no extrapolation)",
+        "ok": null
+       }
+      },
+      "limit": 20.0,
+      "ok": null
+     }
+    },
+    "verdict": "FAIL: active_rmse_dec, dVth_cc_V",
+    "labels": "CAMPAIGN_DESIGN 5.3 (ASSUMED engineering limits); active RMSE as run_atlas.score; extraction as campaign_extract; profiled curve: values between gm points are INTERPOLATED (labelled per criterion)"
+   },
+   "13.2": {
+    "film_nm": 13.2,
+    "kind": "profiled",
+    "criteria": {
+     "active_rmse_dec": {
+      "value": 0.4819736371700229,
+      "coverage": 0.9838709677419355,
+      "limit": 0.15,
+      "ok": false
+     },
+     "dVth_cc_V": {
+      "value": 0.1217475607653237,
+      "limit": 0.1,
+      "ok": false
+     },
+     "Id3V_err_pct": {
+      "value": null,
+      "how": "not covered (no extrapolation)",
+      "limit": 30.0,
+      "ok": null
+     },
+     "SS_a1_err_pct": {
+      "value": 36.211796193952964,
+      "sim_mV_dec": 157.02527011079292,
+      "meas_mV_dec": 115.28022865743837,
+      "limit": 20.0,
+      "ok": false
+     },
+     "mu_FE_err_pct": {
+      "per_V": {
+       "1.5": {
+        "value": -60.44520785220171,
+        "sim": 16.18799070994576,
+        "meas": 40.92548546193491,
+        "how": "INTERPOLATED between gm points of the covered profiled curve (labelled, A10)",
+        "ok": false
+       },
+       "2.0": {
+        "value": -58.43504356269031,
+        "sim": 18.70329223840529,
+        "meas": 44.997742910219365,
+        "how": "INTERPOLATED between gm points of the covered profiled curve (labelled, A10)",
+        "ok": false
+       },
+       "3.0": {
+        "value": null,
+        "sim": null,
+        "meas": 49.06872418882398,
+        "how": "not covered (no extrapolation)",
+        "ok": null
+       }
+      },
+      "limit": 20.0,
+      "ok": null
+     }
+    },
+    "verdict": "FAIL: active_rmse_dec, dVth_cc_V, SS_a1_err_pct",
+    "labels": "CAMPAIGN_DESIGN 5.3 (ASSUMED engineering limits); active RMSE as run_atlas.score; extraction as campaign_extract; profiled curve: values between gm points are INTERPOLATED (labelled per criterion)"
+   }
+  }
+ },
+ "D5": {
+  "status": "DRAFT (H-F operational definitions NOT frozen; not a registered score; not to be used for scoring until frozen by a logged entry)",
+  "register_tag": "register-rev2-frozen-20261010T1833Z",
+  "rulings": "Codex rulings 2026-10-13 (~01:55Z, ~03:10Z and the v3 review) encoded in the draft; the user freezes it (or not) by a logged entry",
+  "definition": "D5 falsification (register l.247; Codex ruling 4, B4, ruling e)",
+  "rows": [
+   {
+    "name": "baseline (shape route: valid S1-01 6.3 nm fit, shape RMSE <= 0.15 dec)",
+    "fires": true,
+    "why": null
+   },
+   {
+    "name": "baseline (5.3 route: qualified triple passes at all three films)",
+    "fires": null,
+    "why": "not qualified: profiled value at a range bound: ell"
+   },
+   {
+    "name": "IGZO.TOKYO (S3-11/12/13, S3-27)",
+    "branch": true,
+    "confirmation": true,
+    "fires": null,
+    "why": "not qualified: profiled value at a range bound: ell"
+   }
+  ],
+  "prescribed": [
+   "IGZO.TOKYO (S3-11/12/13, S3-27)"
+  ],
+  "missing_prescribed": [],
+  "not_confirmed": [],
+  "verdict": "FALSIFIED (baseline (shape route: valid S1-01 6.3 nm fit, shape RMSE <= 0.15 dec))"
+ },
+ "S5_fold_6p3": {
+  "status": "DRAFT (H-F operational definitions NOT frozen; not a registered score; not to be used for scoring until frozen by a logged entry)",
+  "register_tag": "register-rev2-frozen-20261010T1833Z",
+  "rulings": "Codex rulings 2026-10-13 (~01:55Z, ~03:10Z and the v3 review) encoded in the draft; the user freezes it (or not) by a logged entry",
+  "definition": "S5 fold that leaves out 6.3 nm (register l.242)",
+  "reading": "test listed, no separate H-F prediction (Codex ruling 5)",
+  "forecast": "H-J's forecast for the fold is retained unchanged; nothing in this file scores the fold for H-F",
+  "verdict": "NO H-F PREDICTION (test listed; H-J forecast retained)"
+ },
+ "confirmations": {
+  "S1-07": {
+   "check": {
+    "J_window_on": {
+     "covered": 41,
+     "covered_forward": 37,
+     "covered_inverse": 41,
+     "max_abs_dev_dec": 0.0001439479372686847,
+     "points": 41
+    },
+    "J_window_sub": {
+     "covered": 10,
+     "covered_forward": 10,
+     "covered_inverse": 10,
+     "max_abs_dev_dec": 0.0002053195075184533,
+     "points": 10
+    },
+    "dQf_cm2": 1000000000000.0,
+    "dV_shift_V": -0.17890680867642106,
+    "exactness_breakers": [],
+    "max_abs_dev_native_grid_above_1e-14_dec": 0.0007658764264704132,
+    "mun_scale": 0.5999988693985766,
+    "other_material_differences": [],
+    "solver_geometry_override_differences": [],
+    "verdict": "PASS: profiling exact within 0.01 dec on every J-window point"
+   },
+   "code_sha256": "429b3a3f3f5c1e650d17760e11665ddbce140ef434b5f80f29e7cd2f4fcf0a4e",
+   "film_nm": 2.0,
+   "native": {
+    "digest": "0da9b107764d89fde54e62260453975bdcc55df45b76a98cbffe8d9baedfcf60",
+    "eligible": true,
+    "film_nm": 2.0,
+    "label": "c10_s1_07_2p0",
+    "problems": [],
+    "run_id": "run_0074"
+   },
+   "record": "native confirmation (Codex v2 fix 3; profile_shared.check unchanged)",
+   "reference": {
+    "digest": "4a770ceb83f7e10e645a8c5f604bffc6ac925adff48a3072dff751865082b9b8",
+    "eligible": true,
+    "film_nm": 2.0,
+    "label": "c10_s0_01_2p0",
+    "problems": [],
+    "run_id": "run_0061"
+   },
+   "role": "S1-07",
+   "status": "DRAFT code (profile_s4s5 v4)",
+   "tolerance_dec": 0.01,
+   "verdict": "PASS",
+   "sha256": "e88e6274c9f567e4167f48982572201e21d051562203cfe25ec252eba2cd4216"
+  },
+  "S3-27": {
+   "check": {
+    "J_window_on": {
+     "covered": 41,
+     "covered_forward": 37,
+     "covered_inverse": 41,
+     "max_abs_dev_dec": 0.00012978579232125753,
+     "points": 41
+    },
+    "J_window_sub": {
+     "covered": 8,
+     "covered_forward": 8,
+     "covered_inverse": 8,
+     "max_abs_dev_dec": 5.713169045407085e-06,
+     "points": 8
+    },
+    "dQf_cm2": 1000000000000.0,
+    "dV_shift_V": -0.17890680867642106,
+    "exactness_breakers": [],
+    "max_abs_dev_native_grid_above_1e-14_dec": 0.0008556976074256539,
+    "mun_scale": 0.6000009050674728,
+    "other_material_differences": [],
+    "solver_geometry_override_differences": [],
+    "verdict": "PASS: profiling exact within 0.01 dec on every J-window point"
+   },
+   "code_sha256": "429b3a3f3f5c1e650d17760e11665ddbce140ef434b5f80f29e7cd2f4fcf0a4e",
+   "film_nm": 6.3,
+   "native": {
+    "digest": "ee481b61acb3dba34b8000cbf6cac98327da7902a57dbde33b17a78068b6971a",
+    "eligible": true,
+    "film_nm": 6.3,
+    "label": "c10_s3_27_6p3",
+    "problems": [],
+    "run_id": "run_0103"
+   },
+   "record": "native confirmation (Codex v2 fix 3; profile_shared.check unchanged)",
+   "reference": {
+    "digest": "9dabe9513bde9e0b287de2648a19bae172f7cfb5ff2e4a864865ef464d90b059",
+    "eligible": true,
+    "film_nm": 6.3,
+    "label": "c10_s3_12_6p3",
+    "problems": [],
+    "run_id": "run_0102"
+   },
+   "role": "S3-27",
+   "status": "DRAFT code (profile_s4s5 v4)",
+   "tolerance_dec": 0.01,
+   "verdict": "PASS",
+   "sha256": "d91476fc1be6d2117d8c157fce6245c31ca0b3856d0b71edd4d4872a43eb4716"
+  }
+ }
+}

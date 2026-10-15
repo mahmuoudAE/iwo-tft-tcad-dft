@@ -11,7 +11,7 @@
   "run_campaign.py records a failed launch and CONTINUES; it does not apply any stop rule below. The main session reads results/campaigns/<plan>.json and analysis_2026-10-10_campaign/post_run_checks.py output after each plan and decides."
  ],
  "stop_rules": [
-  "HOLD: Frozen register (register-rev2-frozen-20261010T1833Z) section 3, order step 6: S4a runs only after S3 (steps 3-5) is decided. Valid as written only if S3 adopted no branch; then S4A-01-* equal S0-01/S1-01/S1-02 and are not launched. Regenerate after the S3 branch decision (make_campaign_matrix.py, then this script), then remove this HOLD entry.",
+  "HOLD: Superseded by register amendment A50 (2026-10-15): the S3 decision of A49 (profile/s3_adoption_A49.json) selected S4a form N (no branch adopted; 2-D LHS seed 20261010; matrix entries as written). S4A-02..S4A-15 run from campaign_C10_S4a_b1 (S4A-02..06), campaign_C10_S4a_b2 (S4A-07..11) and campaign_C10_S4a_b3 (S4A-12..15), each invoked immediately after analysis_2026-10-10_campaign/prelaunch_gate_c10_g.py has exited 0 naming it. S4A-01-* equal S0-01/S1-01/S1-02 and are reused (run_0061 / run_0068 / run_0069, PA-12), never launched; this stage plan holds them.",
   "Valid as written only if S3 adopted NO branch; S4A-01-* are then identical to S0-01/S1-01/S1-02 and are NOT launched (remove them; 3 launches return to the reserve).",
   "After S4a: best sqrt(J) > 0.30 dec with systematic residuals (same-sign 6.3 nm on-state error for >= 80 % of candidates) -> skip S4b, run S4c on the best, go to S5, report the shared model as failed. No per-film rescue parameters."
  ],
@@ -1791,5 +1791,5 @@
    "min_set_rank": null
   }
  ],
- "not_runnable_reason": "Frozen register (register-rev2-frozen-20261010T1833Z) section 3, order step 6: S4a runs only after S3 (steps 3-5) is decided. Valid as written only if S3 adopted no branch; then S4A-01-* equal S0-01/S1-01/S1-02 and are not launched. Regenerate after the S3 branch decision (make_campaign_matrix.py, then this script), then remove this HOLD entry."
+ "not_runnable_reason": "Superseded by register amendment A50 (2026-10-15): the S3 decision of A49 (profile/s3_adoption_A49.json) selected S4a form N (no branch adopted; 2-D LHS seed 20261010; matrix entries as written). S4A-02..S4A-15 run from campaign_C10_S4a_b1 (S4A-02..06), campaign_C10_S4a_b2 (S4A-07..11) and campaign_C10_S4a_b3 (S4A-12..15), each invoked immediately after analysis_2026-10-10_campaign/prelaunch_gate_c10_g.py has exited 0 naming it. S4A-01-* equal S0-01/S1-01/S1-02 and are reused (run_0061 / run_0068 / run_0069, PA-12), never launched; this stage plan holds them."
 }

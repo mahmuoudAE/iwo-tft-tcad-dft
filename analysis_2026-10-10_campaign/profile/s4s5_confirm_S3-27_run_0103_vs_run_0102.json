@@ -1,0 +1,50 @@
+{
+ "check": {
+  "J_window_on": {
+   "covered": 41,
+   "covered_forward": 37,
+   "covered_inverse": 41,
+   "max_abs_dev_dec": 0.00012978579232125753,
+   "points": 41
+  },
+  "J_window_sub": {
+   "covered": 8,
+   "covered_forward": 8,
+   "covered_inverse": 8,
+   "max_abs_dev_dec": 5.713169045407085e-06,
+   "points": 8
+  },
+  "dQf_cm2": 1000000000000.0,
+  "dV_shift_V": -0.17890680867642106,
+  "exactness_breakers": [],
+  "max_abs_dev_native_grid_above_1e-14_dec": 0.0008556976074256539,
+  "mun_scale": 0.6000009050674728,
+  "other_material_differences": [],
+  "solver_geometry_override_differences": [],
+  "verdict": "PASS: profiling exact within 0.01 dec on every J-window point"
+ },
+ "code_sha256": "429b3a3f3f5c1e650d17760e11665ddbce140ef434b5f80f29e7cd2f4fcf0a4e",
+ "film_nm": 6.3,
+ "native": {
+  "digest": "ee481b61acb3dba34b8000cbf6cac98327da7902a57dbde33b17a78068b6971a",
+  "eligible": true,
+  "film_nm": 6.3,
+  "label": "c10_s3_27_6p3",
+  "problems": [],
+  "run_id": "run_0103"
+ },
+ "record": "native confirmation (Codex v2 fix 3; profile_shared.check unchanged)",
+ "reference": {
+  "digest": "9dabe9513bde9e0b287de2648a19bae172f7cfb5ff2e4a864865ef464d90b059",
+  "eligible": true,
+  "film_nm": 6.3,
+  "label": "c10_s3_12_6p3",
+  "problems": [],
+  "run_id": "run_0102"
+ },
+ "role": "S3-27",
+ "status": "DRAFT code (profile_s4s5 v4)",
+ "tolerance_dec": 0.01,
+ "verdict": "PASS",
+ "sha256": "d91476fc1be6d2117d8c157fce6245c31ca0b3856d0b71edd4d4872a43eb4716"
+}

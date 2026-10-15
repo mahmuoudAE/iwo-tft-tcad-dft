@@ -31,6 +31,11 @@ verbatim entries, runnable, no gates, state_only, stop rules, launch command).
 2026-10-15 (register A48, no Codex review, D-63): stage F route plans campaign_C10_S3a_act (S3-12), campaign_C10_S3b_igzo (S3-27, S3-11, S3-13,
 S3-15, S3-14, S3-16) and campaign_C10_S3c_tails (S3-10, S3-05, S3-06, S3-08, S3-09): state-only, no gates, A48 launch order; the DIAG_HF hold text
 names them. --check verifies them (ids, verbatim entries, runnable, no gates, state_only, equality with this generator).
+2026-10-15 (register A49/A50, no Codex review, D-63): the S3 decision (A49, profile/s3_adoption_A49.json) selected S4a form N (nothing adopted;
+campaign_matrix.json unchanged). The S4a HOLD is released through route plans campaign_C10_S4a_b1 (S4A-02..06), campaign_C10_S4a_b2 (S4A-07..11)
+and campaign_C10_S4a_b3 (S4A-12..15): state-only, no gates, complete candidate triples in matrix order; S4A-01 is reused (run_0061 / run_0068 /
+run_0069, PA-12) and never launched. The stage plan campaign_C10_S4a_spacefilling stays held (it holds S4A-01); its hold text names the route
+plans. --check verifies them as the stage F route plans.
 """
 import json
 import sys
@@ -73,9 +78,12 @@ HOLD = {   # 2026-10-11 review: plan files written with runnable=false (scripts/
                                 'plan would reuse run_0075 (or later the rerun) by its label, and because this plan is not state-only its summary would '
                                 'copy that run\'s metrics into results/campaigns/campaign_C10_DIAGa_S2-11.json.',
     # 2026-10-15 (Codex GO, work chat 2026-10-14T18:00Z item 1; plan PLAN_C10_S2_S5 section 2.0 Z1): S4a held until S3 is decided
-    'campaign_C10_S4a_spacefilling': f'Frozen register ({REG_TAG}) section 3, order step 6: S4a runs only after S3 (steps 3-5) is decided. '
-                                     'Valid as written only if S3 adopted no branch; then S4A-01-* equal S0-01/S1-01/S1-02 and are not launched. '
-                                     'Regenerate after the S3 branch decision (make_campaign_matrix.py, then this script), then remove this HOLD entry.',
+    # 2026-10-15 register A50 (no Codex review, D-63): S3 decided (A49: form N, nothing adopted); the hold is released through the route plans below
+    'campaign_C10_S4a_spacefilling': f'Superseded by register amendment A50 (2026-10-15): the S3 decision of A49 (profile/s3_adoption_A49.json) selected '
+                                     'S4a form N (no branch adopted; 2-D LHS seed 20261010; matrix entries as written). S4A-02..S4A-15 run from '
+                                     'campaign_C10_S4a_b1 (S4A-02..06), campaign_C10_S4a_b2 (S4A-07..11) and campaign_C10_S4a_b3 (S4A-12..15), each invoked '
+                                     'immediately after analysis_2026-10-10_campaign/prelaunch_gate_c10_g.py has exited 0 naming it. S4A-01-* equal '
+                                     'S0-01/S1-01/S1-02 and are reused (run_0061 / run_0068 / run_0069, PA-12), never launched; this stage plan holds them.',
     # 2026-10-15 register A47 (A45 (c) PA-4 entries; no Codex review, D-63): the stage plan is held; branch D runs from its two route plans
     'campaign_C10_S2d_meshbranch': 'Register A47 (A45 (c) / PA-4): branch D runs only from campaign_C10_Dmesh (T0r, then T2a) and campaign_C10_Dmesh_T2b '
                                    '(T2b, only if T2a did not run out of memory), each invoked immediately after analysis_2026-10-10_campaign/'
@@ -346,6 +354,34 @@ F_PLANS = (
         'S3-08 c10_s3_08_6p3 (1500 s), S3-09 c10_s3_09_13p2 (2400 s). S3-04 / S3-07 (2.0 nm) are statement-identical to S0-01 and not launched (A45 (k)).'] + F_COMMON))
 F_STATE_ONLY = {'sealed_dir': 'results/sealed/campaigns'}
 
+# 2026-10-15 register A50 (no Codex review, D-63; Claude go under D-59): S4a route plans (register section 3 step 6, "S4a in batches"), form N of
+# A49 (c): the matrix S4A-02..S4A-15 entries verbatim (2-D LHS seed 20261010), complete candidate triples in matrix order (2.0 -> 6.3 -> 13.2 nm);
+# state-only (sealed sidecar), no gates; each invocation follows analysis_2026-10-10_campaign/prelaunch_gate_c10_g.py exiting 0 in the same
+# PowerShell session (package root). S4A-01 is reused (PA-12) and is in no route plan.
+G_AMENDMENT = ('A50 (2026-10-15; S4a execution entries of form N under the A49 decision, route plans, S4a gate; no Codex review, D-63): invoke only '
+               'after A49 and A50 and their decision rows are logged, with the go for THIS launch (Claude under D-59), immediately after '
+               'prelaunch_gate_c10_g.py has exited 0 naming this plan')
+G_LAUNCH = ('$env:IWO_MODEL_FILE = "config/iwo_material_model_v3.yaml"; <project venv python> scripts/run_campaign.py config/{stem}.json   (PowerShell, '
+            'package root, immediately after prelaunch_gate_c10_g.py exited 0 naming this plan; no --retry; IWO_ATLAS_VIEWERS unset)')
+G_COMMON = ['State-only (A41 (e) inventory rule, A49 (d)): each run is appended to config/sealed_runs.json right after this invocation, before any '
+            'regression check or re-invocation; console and results/campaigns/<plan>.json carry state only; the full record is sealed under '
+            'results/sealed/campaigns. S4a curves are read only through the frozen profile_s4s5.py (429b3a3f): profile_n per completed candidate '
+            'triple after each batch; surrogate (S4a abort, B3) on the complete inventory of 15 (S4A-01 = run_0061 / run_0068 / run_0069).',
+            'Every launch counts; a failed or timed-out launch is recorded invalid and kept; no repeat, no --retry, no repair without a logged decision '
+            '(the six PA-19 v3 repairs stay reserved); an unknown candidate keeps the S4a abort UNRESOLVED (B3).',
+            'After S4a (design l.325): best sqrt(J) > 0.30 dec AND >= 80 % of the 15 candidates with a same-sign 6.3 nm on-state error -> skip S4b, '
+            'run S4c on the best (route disabled until the PA-18 wrapper is registered), go to S5, report the shared model as failed; no per-film '
+            'rescue parameters, ever. Otherwise S4b (template) under its own stop rule.']
+G_PLANS = (
+    ('campaign_C10_S4a_b1', [f'S4A-{k:02d}-{t}' for k in range(2, 7) for t in ('2p0', '6p3', '13p2')], [
+        'Register step 6, S4a batch 1 of 3 (A50): candidates S4A-02..S4A-06, each at 2.0 (1600 s), 6.3 (2000 s) and 13.2 nm (3100 s); 15 launches.'] + G_COMMON),
+    ('campaign_C10_S4a_b2', [f'S4A-{k:02d}-{t}' for k in range(7, 12) for t in ('2p0', '6p3', '13p2')], [
+        'Register step 6, S4a batch 2 of 3 (A50): candidates S4A-07..S4A-11, each at 2.0 (1600 s), 6.3 (2000 s) and 13.2 nm (3100 s); 15 launches; '
+        'invoked only after batch 1 has started and finished every entry.'] + G_COMMON),
+    ('campaign_C10_S4a_b3', [f'S4A-{k:02d}-{t}' for k in range(12, 16) for t in ('2p0', '6p3', '13p2')], [
+        'Register step 6, S4a batch 3 of 3 (A50): candidates S4A-12..S4A-15, each at 2.0 (1600 s), 6.3 (2000 s) and 13.2 nm (3100 s); 12 launches; '
+        'invoked only after batch 2 has started and finished every entry.'] + G_COMMON))
+
 _DUP = None
 
 
@@ -400,6 +436,11 @@ def plan(mx, stem, sel, rules, runnable):
         p = {**{k: v for k, v in p.items() if k != 'runs'}, 'purpose': p['purpose'].replace('(entries verbatim, matrix order)', '(entries verbatim, A48 launch order)'),
              'global_rules': gr, 'stop_rules_enforced_by': STATE_ONLY_ENFORCED_BY, 'register_amendment': F_AMENDMENT,
              'launch_command': F_LAUNCH.format(stem=stem), 'state_only': F_STATE_ONLY, 'runs': p['runs']}
+    elif stem in [s for s, _, _ in G_PLANS]:   # 2026-10-15 A50: S4a route plans (state-only, no gates)
+        gr = [STATE_ONLY_GLOBAL_RULE if r.startswith('run_campaign.py records a failed launch and CONTINUES') else r for r in p['global_rules']]
+        p = {**{k: v for k, v in p.items() if k != 'runs'}, 'purpose': p['purpose'].replace('(entries verbatim, matrix order)', '(entries verbatim, matrix order; A50 batch)'),
+             'global_rules': gr, 'stop_rules_enforced_by': STATE_ONLY_ENFORCED_BY, 'register_amendment': G_AMENDMENT,
+             'launch_command': G_LAUNCH.format(stem=stem), 'state_only': F_STATE_ONLY, 'runs': p['runs']}
     elif stem in STATE_ONLY:   # 2026-10-13 A41: state-only surface WITHOUT gates (campaign_C10_DIAGb); the DIAG branch above is unchanged
         gr = [STATE_ONLY_GLOBAL_RULE if r.startswith('run_campaign.py records a failed launch and CONTINUES') else r for r in p['global_rules']]
         p = {**{k: v for k, v in p.items() if k != 'runs'}, 'purpose': p['purpose'].replace('(entries verbatim, matrix order)', '(entries verbatim, A41 launch order)'),
@@ -460,6 +501,22 @@ def verify(mx):
         import campaign_sealed as cs
         se = cs.validate(pf)
         if se: bad += 1; print('STATE_ONLY INVALID', stem, se)
+    for stem, ids, rules in G_PLANS:   # 2026-10-15 A50: S4a route plans (ids in matrix order, verbatim entries, runnable, no gates, state-only)
+        if not (CFG / f'{stem}.json').is_file(): bad += 1; print(stem, 'missing'); continue
+        pg = json.loads((CFG / f'{stem}.json').read_text())
+        if [e['id'] for e in pg['runs']] != ids: bad += 1; print(stem, 'ids differ')
+        for e in pg['runs']:
+            ref = next(r for r in mx['runs'] if r['id'] == e['id'])['campaign_entry']
+            if any(e.get(k) != ref.get(k) for k in KEEP): bad += 1; print('MISMATCH', stem, e['id'])
+            if any('{' in o or '=' not in o for o in e['overrides']): bad += 1; print('UNRESOLVED TOKEN in S4a route plan', stem, e['id'])
+        if pg != plan(mx, stem, ids, rules, True) or 'gates' in pg or pg.get('state_only') != F_STATE_ONLY or pg.get('runnable') is not True:
+            bad += 1; print(stem, 'differs from make_campaign_configs (G_PLANS)')
+        import campaign_sealed as cs
+        se = cs.validate(pg)
+        if se: bad += 1; print('STATE_ONLY INVALID', stem, se)
+    gi = [i for _, ids, _ in G_PLANS for i in ids]
+    if gi != [f'S4A-{k:02d}-{t}' for k in range(2, 16) for t in ('2p0', '6p3', '13p2')] or len(set(gi)) != 42:
+        bad += 1; print('S4a route plans do not cover S4A-02..S4A-15 exactly once in matrix order')
     held = []   # 2026-10-11 review: runnable flag = not HOLD for every non-template plan
     for stem in [s for s, _, _ in PLANS] + ['campaign_C10_MIN10'] + [s for s, _ in DIAG_PLANS] + [DIAGB[0]] + [s for s, _, _ in DE_PLANS]:
         if not (CFG / f'{stem}.json').is_file(): continue
@@ -481,7 +538,8 @@ def verify(mx):
           f'{len(TEMPLATES)} templates; verbatim and in matrix order: {"YES" if not bad else "NO"}; MIN10 plan: {m10}; held (runnable=false): {held}; '
           f'register route: ' + ', '.join(f'{s} ({len(i)}{", HELD" if s in HOLD else ""})' for s, i in DIAG_PLANS)
           + f'; A41 plan: {DIAGB[0]} ({" then ".join(DIAGB[1])}, state-only, A41 pre-launch gate before every invocation, --retry S2-11 by the STARTED-row rule)'
-          + '; A48 stage F plans: ' + ', '.join(f'{s} ({", ".join(i)})' for s, i, _ in F_PLANS))
+          + '; A48 stage F plans: ' + ', '.join(f'{s} ({", ".join(i)})' for s, i, _ in F_PLANS)
+          + '; A50 S4a route plans: ' + ', '.join(f'{s} ({i[0][:6]}..{i[-1][:6]}, {len(i)})' for s, i, _ in G_PLANS))
     return bad
 
 
@@ -526,6 +584,7 @@ def main(argv):
         (CFG / f'{DIAGB[0]}.json').write_text(json.dumps(plan(mx, DIAGB[0], DIAGB[1], DIAGB_RULES, True), indent=1))   # 2026-10-13 A41
         for stem, ids, rules in DE_PLANS: (CFG / f'{stem}.json').write_text(json.dumps(plan(mx, stem, ids, rules, True), indent=1))   # 2026-10-15 A47
         for stem, ids, rules in F_PLANS: (CFG / f'{stem}.json').write_text(json.dumps(plan(mx, stem, ids, rules, True), indent=1))   # 2026-10-15 A48
+        for stem, ids, rules in G_PLANS: (CFG / f'{stem}.json').write_text(json.dumps(plan(mx, stem, ids, rules, True), indent=1))   # 2026-10-15 A50
     return 1 if verify(mx) else 0
 
 
