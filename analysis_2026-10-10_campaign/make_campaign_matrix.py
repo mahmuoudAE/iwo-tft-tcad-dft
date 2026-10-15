@@ -344,6 +344,39 @@ add('S0-02-DOS2', 'S2_resolution_refinements', 2.0, F(gate_tunnelling='qtnlsc_wo
              'candidate, one within 1 decade of it, full bias coverage, deck ratio tolerance 1e-3); a non-qualifying pair leaves S2-11 PROVISIONAL '
              '(register section 0 censoring; A41)')
 
+# ================================================================ S2 tunnelling-mesh branch D (register A45 (c) = PA-4; entries registered by A47, 2026-10-15)
+# Design frozen in A45 (c) and claude/atlas_campaign_plan_2026-10-14/codex_changes/mesh_branch_freeze.md (dry builds dry_builds_mesh/). Each entry
+# is the S0-02 override list (S002_OV, = run_0067 as launched) plus ONLY the listed numerical overrides (builder options of the pinned
+# build_iwo_decks.py 734125a8; with them unset every earlier deck is byte-identical). T1a (oxide_mesh_factor 0.25) is recorded "predicted
+# infeasible (OOM), UNRESOLVED" and has no entry; T1b and T3 are not admitted (PA-19 K0). Read-out: branch_d_readout.py (A47), not the
+# frozen scorer (score_register.py c0f28bb9 unchanged; no REG/PIN entry: the frozen REG/PIN lines were planned for T1 only).
+TOLX = ['solver.method_base=newton trap maxtraps=10 itlimit=80 climit=1e-6 ir.tol=1e-21', 'solver.strict_acceptance.cr_toler_scale=0.01',
+        'solver.strict_acceptance.relaxed_cr_toler_A=5e-20']
+QTM2 = ['solver.physics_options.gate_tunnelling.qt_mesh=1', 'solver.physics_options.gate_tunnelling.exclude_near_sd=0',
+        'solver.physics_options.gate_tunnelling.qt_point_nm=0.25', 'solver.physics_options.gate_tunnelling.qt_enclosure_nm=0.5']
+p = P(2.0, oxide=OX['worst'])
+add('S0-02-TOLX001', 'S2_mesh_branch_D', 2.0, F(gate_tunnelling='qtnlsc_worst', tolerances='ir.tol and both cr.toler x0.01'), p,
+    'Tunnelling-mesh branch D, T0r (register A45 (c) / PA-4): fixed-tolerance replay of S0-02 exactly as launched in run_0067 (QTNLSC worst set, '
+    'automatic slicing, S/D exclude_near, registered mesh) with IR.TOL 1e-19 -> 1e-21 on both METHOD lines, strict CR.TOLER 1e-17 -> 1e-19 and '
+    'relaxed CR.TOLER 5e-18 -> 5e-20 (x0.01 in both phases); nothing else changes. Diagnostic only (branch_d_readout.py against run_0067).',
+    S002_OV + TOLX, ['C1', 'C4', 'C11'], timeout_mult=3.0,
+    expected='no physics prediction (a numerical diagnostic): pointwise dlog10|I_G| vs run_0067 at common V_G; points below ir.tol 1e-19 A/um or on '
+             'inverted |I_G| steps are unresolved, never removed; stable only with a nonempty support, every resolved point within 0.1 dec and no '
+             'unresolved required point (A45 (c))')
+add('S0-02-QTM2', 'S2_mesh_branch_D', 2.0, F(gate_tunnelling='qtnlsc_worst', qt_mesh='QTX/QTY mesh, points 0.25 nm, slices 0.2 um'), p,
+    'Tunnelling-mesh branch D, T2a (register A45 (c) / PA-4): the run_0066 form (QT mesh, no S/D exclude_near) with the QTY point spacing halved, '
+    '0.5 -> 0.25 nm, at the kept enclosure y = -0.0005 / 0.0175 um; slices 0.2 um; device mesh, models and tolerances unchanged. Post-processed '
+    'T(E) cross-check under a declared KCL waiver (KCL failed in run_0066); branch_d_readout.py against run_0066.',
+    S002_OV + QTM2, ['C1', 'C4', 'C11'], timeout_mult=1.5,
+    expected='no physics prediction (a numerical diagnostic): dlog10|I_G| vs run_0066 within 0.1 dec -> "post-processed T(E) stable under this QT-mesh '
+             'perturbation"; bit-identical output -> "QT-mesh activation not demonstrated" (UNRESOLVED); out of memory -> UNRESOLVED, T2b not run')
+add('S0-02-QTM3', 'S2_mesh_branch_D', 2.0, F(gate_tunnelling='qtnlsc_worst', qt_mesh='QTX/QTY mesh, points 0.25 nm, slices 0.1 um'), p,
+    'Tunnelling-mesh branch D, T2b (register A45 (c) / PA-4): T2a plus the QTX slice spacing halved, 0.2 -> 0.1 um (x 0-24 um kept). Runs only if '
+    'T2a did not run out of memory. branch_d_readout.py against T2a (slice spacing) and run_0066.',
+    S002_OV + QTM2 + ['solver.physics_options.gate_tunnelling.qt_slice_um=0.1'], ['C1', 'C4', 'C11'], timeout_mult=2.0,
+    expected='no physics prediction (a numerical diagnostic): dlog10|I_G| vs T2a within 0.1 dec -> "post-processed T(E) stable under these two QT-mesh '
+             'perturbations"; bit-identical -> activation not demonstrated (UNRESOLVED)')
+
 # ================================================================ S3 model-form branches (26), fixed start parameters
 k3 = 1
 def s3(t, flags, p, purpose, ov, code=('C11',), mult=1.0, expected=None):

@@ -69,7 +69,11 @@ HOLD = {   # 2026-10-11 review: plan files written with runnable=false (scripts/
     # 2026-10-15 (Codex GO, work chat 2026-10-14T18:00Z item 1; plan PLAN_C10_S2_S5 section 2.0 Z1): S4a held until S3 is decided
     'campaign_C10_S4a_spacefilling': f'Frozen register ({REG_TAG}) section 3, order step 6: S4a runs only after S3 (steps 3-5) is decided. '
                                      'Valid as written only if S3 adopted no branch; then S4A-01-* equal S0-01/S1-01/S1-02 and are not launched. '
-                                     'Regenerate after the S3 branch decision (make_campaign_matrix.py, then this script), then remove this HOLD entry.'}
+                                     'Regenerate after the S3 branch decision (make_campaign_matrix.py, then this script), then remove this HOLD entry.',
+    # 2026-10-15 register A47 (A45 (c) PA-4 entries; no Codex review, D-63): the stage plan is held; branch D runs from its two route plans
+    'campaign_C10_S2d_meshbranch': 'Register A47 (A45 (c) / PA-4): branch D runs only from campaign_C10_Dmesh (T0r, then T2a) and campaign_C10_Dmesh_T2b '
+                                   '(T2b, only if T2a did not run out of memory), each invoked immediately after analysis_2026-10-10_campaign/'
+                                   'prelaunch_gate_c10_de.py has exited 0 naming that plan. This stage plan would launch T2b without the T2a check.'}
 GLOBAL_RULES = [
     'Sequential only: python scripts/run_campaign.py <plan> (C10 plans refuse --workers != 1). Every launch counts, failed or not. Hard cap 200: config/solver.yaml max_launches 260 (= 60 used before C10 + 200) and a C10 label counter (c10_* run IDs in RUN_INDEX <= 200) in run_campaign.py.',
     'run_campaign.py (C10 plans) never re-launches an entry whose label already has a RUN_INDEX row, from this or any other C10 plan (MIN10 vs stage plans): a successful earlier launch is reused, a failed one is reported; --retry ID spends a new (reserve) launch on purpose.',
@@ -116,6 +120,9 @@ PLANS = [   # (file stem, stage(s) or ids, stop rules) in launch order
     ('campaign_C10_S2r_resolution', ['S2_resolution_refinements'], [   # 2026-10-13, register A41 (held; route: campaign_C10_DIAGb)
         'A41: S0-02-DOS2 (run_0067 settings, DOS 768/384) is the I_G resolution pair for S2-11 (score_register.py resolution_pair <S0-02-DOS2 run> <run_0067> ig_raw_A); '
         'it shares run_0067 with the S2-11 comparison (recorded, never independent). A non-qualifying pair leaves S2-11 PROVISIONAL; no second DOS run.']),
+    ('campaign_C10_S2d_meshbranch', ['S2_mesh_branch_D'], [   # 2026-10-15, register A47 (held; route: campaign_C10_Dmesh, campaign_C10_Dmesh_T2b)
+        'A45 (c) / PA-4: at most three launches (T0r, T2a, T2b), 2.0 nm, worst oxide set; T1a predicted infeasible (OOM), not launched; T1b/T3 not admitted. '
+        'Read-out: branch_d_readout.py (A47); the S2-11 FAIL stands and the frozen scoring is unchanged.']),
     ('campaign_C10_S3_branches', ['S3_model_branches'], [
         'Branch adopted only if sqrt(J) improves by >= 0.03 dec with no film RMSE_sub or RMSE_on worse by > 0.03 dec (profile_shared.py adopt <branch triple> -- <S0-01 S1-01 S1-02>), converged at all 3 films, activation ACTIVE_AS_REQUESTED in post_run_checks.py.',
         'At most two branches; IGZO needs S3-27 within 0.01 dec of the transformed curve for exact profiling; Schottky needs one reserve launch of the same native check.',
@@ -269,6 +276,37 @@ DIAGB_RULES = [
     'extension are logged.']
 
 
+# 2026-10-15 register A47 (no Codex review, D-63; Claude go under D-59): route plans of branch D (A45 (c) = PA-4) and branch E (A45 (d) = PA-5),
+# not state-only (exploratory diagnostics without a registered prediction; their partners run_0066 / run_0067 are unsealed), no gates; each
+# invocation follows analysis_2026-10-10_campaign/prelaunch_gate_c10_de.py exiting 0 in the same PowerShell session (package root).
+DE_AMENDMENT = ('A47 (2026-10-15; A45 (c) PA-4 and A45 (d) PA-5 entries, read-out script and order; no Codex review, D-63): invoke only after A47 and its '
+                'decision row are logged, with the go for THIS launch (Claude under D-59), immediately after prelaunch_gate_c10_de.py has exited 0 naming this plan')
+DE_LAUNCH = ('$env:IWO_MODEL_FILE = "config/iwo_material_model_v3.yaml"; <project venv python> scripts/run_campaign.py config/{stem}.json   (PowerShell, '
+             'package root, immediately after prelaunch_gate_c10_de.py exited 0 naming this plan; no --retry; IWO_ATLAS_VIEWERS unset)')
+DE_COMMON = ['Every launch counts; a failed, out-of-memory or timed-out launch is recorded UNRESOLVED and kept; no repeat, no factor or tolerance change, '
+             'no repair (PA-19 v3: D/E are not repaired or repeated).',
+             'Outputs are not sealed (not state-only); read only for the registered read-out and the manual checks (manual_checks.md); no worst-set '
+             'floor-window reading (magnitude, flatness or dI_D) from QTNLSC or FNORD before the registered convergence conditions (A45 (d) (a)); '
+             'no H-C verdict; no transfer to other films or oxide sets.']
+DE_PLANS = (
+    ('campaign_C10_Dmesh', ['S0-02-TOLX001', 'S0-02-QTM2'], [
+        'Branch D (A45 (c) / PA-4), one invocation: T0r c10_s0_02_tolx001_2p0 (run_0067 deck with IR.TOL / CR.TOLER x0.01 in both METHOD phases, '
+        '3600 s), then T2a c10_s0_02_qtm2_2p0 (run_0066 form, QTY points 0.5 -> 0.25 nm, enclosure kept, 1800 s).',
+        'Read-out: python analysis_2026-10-10_campaign/branch_d_readout.py T0r <T0r run dir> results/runs/run_0067_2p0_c10_s0_02_2p0 and '
+        'branch_d_readout.py T2a <T2a run dir> results/runs/run_0066_2p0_c10_s0_02_2p0. Claims allowed and not allowed: A45 (c).',
+        'T2a out of memory ("Error: Memory allocation failure" in deckbuild.out): T2b is not run (the gate skips campaign_C10_Dmesh_T2b); UNRESOLVED.'] + DE_COMMON),
+    ('campaign_C10_Dmesh_T2b', ['S0-02-QTM3'], [
+        'Branch D (A45 (c) / PA-4): T2b c10_s0_02_qtm3_2p0 = T2a plus QTX slices 0.2 -> 0.1 um (2400 s); invoked only after T2a finished without running '
+        'out of memory (prelaunch_gate_c10_de.py checks the T2a deckbuild.out).',
+        'Read-out: branch_d_readout.py T2b <T2b run dir> <T2a run dir> (slice spacing) and against run_0066.'] + DE_COMMON),
+    ('campaign_C10_Efnord', ['S2-09', 'S2-10'], [
+        'EXPLORATORY (A45 (d) / PA-5): FNORD as a conditional single-barrier diagnostic, S2-09 c10_s2_09_2p0 (1800 s) then S2-10 c10_s2_10_13p2 (3600 s); '
+        'worst-case F.AE 2.171e-6, F.BE 8.628e7 V/cm (CALCULATED, field-transferred); HfO2 y-mesh 0.25 nm. Not a worst case or upper bound; mesh '
+        'robustness ASSUMED; changes no H-C verdict.',
+        'First-launch checks (A45 (d) (c); manual_checks.md checks 3 and 4): FN plot of ifnvg.dat with slope -F.BE; I_G with the QTNLSC sign at -3 V; '
+        'J.TUN in the log; current booked to the gate only (NEARFLG not set); KCL.',
+        'S2-12-TSP24 (E3) is not in this plan: it needs S2-12 ACTIVE and resolved, and S2-12 (run_0085) is invalid (timeout).'] + DE_COMMON))
+
 _DUP = None
 
 
@@ -315,6 +353,9 @@ def plan(mx, stem, sel, rules, runnable):
         gr = [GATED_GLOBAL_RULE if r.startswith('run_campaign.py records a failed launch and CONTINUES') else r for r in p['global_rules']]
         p = {**{k: v for k, v in p.items() if k != 'runs'}, 'global_rules': gr, 'stop_rules_enforced_by': GATES_ENFORCED_BY, 'gates': GATES[stem],
              **({'state_only': STATE_ONLY[stem]} if stem in STATE_ONLY else {}), 'runs': p['runs']}
+    elif stem in [s for s, _, _ in DE_PLANS]:   # 2026-10-15 A47: route plans of branches D and E (no gates, not state-only)
+        p = {**{k: v for k, v in p.items() if k != 'runs'}, 'register_amendment': DE_AMENDMENT, 'launch_command': DE_LAUNCH.format(stem=stem),
+             **({'label': 'exploratory (A45 (d) / PA-5)'} if stem == 'campaign_C10_Efnord' else {}), 'runs': p['runs']}
     elif stem in STATE_ONLY:   # 2026-10-13 A41: state-only surface WITHOUT gates (campaign_C10_DIAGb); the DIAG branch above is unchanged
         gr = [STATE_ONLY_GLOBAL_RULE if r.startswith('run_campaign.py records a failed launch and CONTINUES') else r for r in p['global_rules']]
         p = {**{k: v for k, v in p.items() if k != 'runs'}, 'purpose': p['purpose'].replace('(entries verbatim, matrix order)', '(entries verbatim, A41 launch order)'),
@@ -355,8 +396,16 @@ def verify(mx):
         if (pb.get('runnable') is not True or 'gates' in pb or pb.get('launch_command') != DIAGB_COMMAND or pb.get('stop_rules') != DIAGB_RULES
                 or pb.get('register_amendment') != DIAGB_AMENDMENT):
             bad += 1; print(stem, 'runnable / gates / launch_command / stop_rules / register_amendment differ from make_campaign_configs (DIAGB)')
+    for stem, ids, rules in DE_PLANS:   # 2026-10-15 A47: branch D/E route plans (ids, verbatim entries, runnable, no gates, not state-only)
+        if not (CFG / f'{stem}.json').is_file(): bad += 1; print(stem, 'missing'); continue
+        pd = json.loads((CFG / f'{stem}.json').read_text())
+        if [e['id'] for e in pd['runs']] != ids: bad += 1; print(stem, 'ids differ')
+        for e in pd['runs']:
+            ref = next(r for r in mx['runs'] if r['id'] == e['id'])['campaign_entry']
+            if any(e.get(k) != ref.get(k) for k in KEEP): bad += 1; print('MISMATCH', stem, e['id'])
+        if pd != plan(mx, stem, ids, rules, True): bad += 1; print(stem, 'differs from make_campaign_configs (DE_PLANS)')
     held = []   # 2026-10-11 review: runnable flag = not HOLD for every non-template plan
-    for stem in [s for s, _, _ in PLANS] + ['campaign_C10_MIN10'] + [s for s, _ in DIAG_PLANS] + [DIAGB[0]]:
+    for stem in [s for s, _, _ in PLANS] + ['campaign_C10_MIN10'] + [s for s, _ in DIAG_PLANS] + [DIAGB[0]] + [s for s, _, _ in DE_PLANS]:
         if not (CFG / f'{stem}.json').is_file(): continue
         p = json.loads((CFG / f'{stem}.json').read_text())
         if p['runnable'] != (stem not in HOLD) or (stem in HOLD and p.get('not_runnable_reason') != HOLD[stem]): bad += 1; print('RUNNABLE FLAG wrong', stem)
@@ -418,6 +467,7 @@ def main(argv):
         for stem, ids in DIAG_PLANS:
             (CFG / f'{stem}.json').write_text(json.dumps(plan(mx, stem, ids, rules, True), indent=1))
         (CFG / f'{DIAGB[0]}.json').write_text(json.dumps(plan(mx, DIAGB[0], DIAGB[1], DIAGB_RULES, True), indent=1))   # 2026-10-13 A41
+        for stem, ids, rules in DE_PLANS: (CFG / f'{stem}.json').write_text(json.dumps(plan(mx, stem, ids, rules, True), indent=1))   # 2026-10-15 A47
     return 1 if verify(mx) else 0
 
 
