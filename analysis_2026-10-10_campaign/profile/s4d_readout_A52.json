@@ -1,0 +1,185 @@
+{
+ "activation": {
+  "13.2": {
+   "lines": {
+    "1": "Using IGZO.TOKYO low field mobility model.",
+    "2": "Using IGZO.TOKYO low field mobility model."
+   },
+   "missing": [],
+   "ok": true,
+   "regions_1_2": "ACTIVE",
+   "status": "ACTIVE_AS_REQUESTED"
+  },
+  "2.0": {
+   "lines": {
+    "1": "Using IGZO.TOKYO low field mobility model.",
+    "2": "Using IGZO.TOKYO low field mobility model."
+   },
+   "missing": [],
+   "ok": true,
+   "regions_1_2": "ACTIVE",
+   "status": "ACTIVE_AS_REQUESTED"
+  },
+  "6.3": {
+   "lines": {
+    "1": "Using IGZO.TOKYO low field mobility model.",
+    "2": "Using IGZO.TOKYO low field mobility model."
+   },
+   "missing": [],
+   "ok": true,
+   "regions_1_2": "ACTIVE",
+   "status": "ACTIVE_AS_REQUESTED"
+  }
+ },
+ "adoption": {
+  "arithmetic_pass": false,
+  "base_equals_record": true,
+  "base_sqrtJ_dec": 0.6226364023080759,
+  "base_verdict": "OK",
+  "branch_profiled": {
+   "Qf_cm2": 2086782045646.2007,
+   "at_bound": {
+    "dV0": 0.0,
+    "ell": true,
+    "mu_inf": true
+   },
+   "dV0_V": -0.08499720171411433,
+   "ell_nm": 49.99999987909355,
+   "mu_inf_cm2Vs": 299.99999999800264,
+   "per_film": {
+    "13.2": {
+     "J_term": 0.2375320245367082,
+     "coverage_on": 0.9512195121951219,
+     "coverage_sub": 1.0,
+     "mean_signed_on_dec": -0.1853374334370265,
+     "mun_scale": 1.2079223731326556,
+     "rmse_on_dec": 0.19876970472313404,
+     "rmse_sub_dec": 0.6599656457405146
+    },
+    "2.0": {
+     "J_term": 0.26693251774170124,
+     "coverage_on": 0.9512195121951219,
+     "coverage_sub": 1.0,
+     "mean_signed_on_dec": -0.5526123703564151,
+     "mun_scale": 1.2079218209958336,
+     "rmse_on_dec": 0.5592953312993583,
+     "rmse_sub_dec": 0.47016355438309293
+    },
+    "6.3": {
+     "J_term": 0.6333520499684792,
+     "coverage_on": 0.9512195121951219,
+     "coverage_sub": 1.0,
+     "mean_signed_on_dec": 0.4159158203377795,
+     "mun_scale": 1.2079198284327612,
+     "rmse_on_dec": 0.41642898535523704,
+     "rmse_sub_dec": 1.0456055662117365
+    }
+   },
+   "sqrtJ_dec": 0.615850791519853
+  },
+  "branch_qualification": [
+   "profiled value at a range bound: mu_inf, ell"
+  ],
+  "branch_verdict": "OK",
+  "per_film_worsening_dec": {
+   "13.2": {
+    "rmse_on_dec": -0.009187644651030946,
+    "rmse_sub_dec": 0.05681801562962974
+   },
+   "2.0": {
+    "rmse_on_dec": -0.01869896960034556,
+    "rmse_sub_dec": 0.09078639505379266
+   },
+   "6.3": {
+    "rmse_on_dec": 0.015917360806359027,
+    "rmse_sub_dec": -0.08603448774343847
+   }
+  },
+  "sqrtJ_gain_dec": 0.006785610788222929,
+  "verdict": "ARITHMETIC FAIL"
+ },
+ "branch": "IGZO.TOKYO GAMMA0 -0.31 (S3-11/S3-12/S3-13 mobility overrides; surface tail as the matrix S4D template)",
+ "candidate": "S4A-04",
+ "code_sha256": "429b3a3f3f5c1e650d17760e11665ddbce140ef434b5f80f29e7cd2f4fcf0a4e",
+ "labels": "S4d native curves COMPUTED (ATLAS 5.28); re-profiled Q_f, mu_inf, ell FITTED (exact IGZO profiling, S3-27 PASS); branch choice data-selected; calibration, retrospective, never validation",
+ "plan": {
+  "file": "config/campaign_C10_S4d.json",
+  "sha256": "61b0df8342100c4626f709bbc8dc2f98fe7deedd48bcf7645b216d2825a0ac6a"
+ },
+ "record": "S4d runner-up branch read-out (register A52 (g); frozen profile_s4s5.adopt_films = the S3 adoption arithmetic)",
+ "runs": [
+  {
+   "endpoint": {
+    "digest": "8ddbdd05943be109c4c61f6df975f72b2be32523a0a845d0b89ee5fa831058a7",
+    "eligible": true,
+    "film_nm": 2.0,
+    "label": "c10_s4d_2p0_2p0",
+    "problems": [],
+    "run_id": "run_0161"
+   },
+   "entry": "S4D-2p0",
+   "files": {
+    "deck_sha256": "0f0a212acf4c827450a5461a2d1a9bd11686cd0cc8d9086796531623125e8f45",
+    "model_sha256": "b948563e0fe80479c5fde41cd6c243820b1fbfec0c0bbaae1e49be24379c73b2",
+    "terminal_currents_sha256": "4ce40914d4568494eb6bf4fcd1f8f3d780783f6defa661900548d197c1908550"
+   },
+   "film_nm": 2.0,
+   "settings": {
+    "deck_sha256_equal_pin": true,
+    "label": true,
+    "model_sha256_equal_pin": true,
+    "overrides_equal_entry": true
+   }
+  },
+  {
+   "endpoint": {
+    "digest": "88fc1fe8b8b48245c8544bd77202b9bb809354f2150b1e962e92a4b8974c3b3d",
+    "eligible": true,
+    "film_nm": 6.3,
+    "label": "c10_s4d_6p3_6p3",
+    "problems": [],
+    "run_id": "run_0162"
+   },
+   "entry": "S4D-6p3",
+   "files": {
+    "deck_sha256": "2f866255fbe94c737caf4c555b8d57402c817a7364c012e02398b0a6b6ab2589",
+    "model_sha256": "5f8b2373766cd1fc14757c2e35609f89a44d6967c0f7d8b2ec4acf05909724b3",
+    "terminal_currents_sha256": "fe31f94439e74e5e88fcaca5bdce1eb211b9df26ed0cbee5369b8545c9afd1e1"
+   },
+   "film_nm": 6.3,
+   "settings": {
+    "deck_sha256_equal_pin": true,
+    "label": true,
+    "model_sha256_equal_pin": true,
+    "overrides_equal_entry": true
+   }
+  },
+  {
+   "endpoint": {
+    "digest": "15dd4574ca665e19fd7cf6ff9a0444e0a4aa984028cd1f0eb09e4ea06775988c",
+    "eligible": true,
+    "film_nm": 13.2,
+    "label": "c10_s4d_13p2_13p2",
+    "problems": [],
+    "run_id": "run_0163"
+   },
+   "entry": "S4D-13p2",
+   "files": {
+    "deck_sha256": "3e6b5285de89dc38b58499580ebfff3c19a53a3474c2433885962c28b50e27f7",
+    "model_sha256": "e8ff9b2d1912a711ba9e7e03d995ceba14fb520db9864224cc981f4bf23132f1",
+    "terminal_currents_sha256": "31c52622f96a174275db9ba60bd491bea3d4ed93543e2b3b71fa6f6d2786f967"
+   },
+   "film_nm": 13.2,
+   "settings": {
+    "deck_sha256_equal_pin": true,
+    "label": true,
+    "model_sha256_equal_pin": true,
+    "overrides_equal_entry": true
+   }
+  }
+ ],
+ "variable_reference_sha256": "d49ab722714eb294d46fc9458e2b781e353487e7853f9e6359873b4bfecac1fd",
+ "verdict": "SURVIVES: the runner-up IGZO.TOKYO GAMMA0 -0.31 does not pass the S3 adoption arithmetic at the calibrated (N_s, W_T): the branch choice made at the start values (nothing adopted) survives calibration",
+ "wrapper_sha256": "17d86c67d4d71e8d5b661aa44424d9cc4b98f2917b7c6f24450595b503e9e7c4",
+ "sha256": "880729f41879ba4fc81462dc4f2edda7e9a3e03bdd7e3cfe092d4df2452f9c03"
+}
