@@ -1,0 +1,497 @@
+{
+ "acceptance_5_3_native": {
+  "13.2": {
+   "criteria": {
+    "Id3V_err_pct": {
+     "how": "native point",
+     "limit": 30.0,
+     "ok": true,
+     "value": -26.96332094740921
+    },
+    "SS_a1_err_pct": {
+     "limit": 20.0,
+     "meas_mV_dec": 115.28022865743837,
+     "ok": false,
+     "sim_mV_dec": 183.51013401135162,
+     "value": 59.18612944172952
+    },
+    "active_rmse_dec": {
+     "coverage": 1.0,
+     "limit": 0.15,
+     "ok": false,
+     "value": 0.4113350571917218
+    },
+    "dVth_cc_V": {
+     "limit": 0.1,
+     "ok": false,
+     "value": 0.15086755132004068
+    },
+    "mu_FE_err_pct": {
+     "limit": 20.0,
+     "ok": false,
+     "per_V": {
+      "1.5": {
+       "how": "native point",
+       "meas": 40.92548546193491,
+       "ok": false,
+       "sim": 30.632326214453524,
+       "value": -25.150976540168667
+      },
+      "2.0": {
+       "how": "native point",
+       "meas": 44.997742910219365,
+       "ok": false,
+       "sim": 35.79751664602483,
+       "value": -20.44597277368124
+      },
+      "3.0": {
+       "how": "native point",
+       "meas": 49.06872418882398,
+       "ok": false,
+       "sim": 39.23264638166244,
+       "value": -20.045513654096247
+      }
+     }
+    }
+   },
+   "film_nm": 13.2,
+   "kind": "native",
+   "labels": "CAMPAIGN_DESIGN 5.3 (ASSUMED engineering limits); active RMSE as run_atlas.score; extraction as campaign_extract; native sampling",
+   "verdict": "FAIL: active_rmse_dec, dVth_cc_V, SS_a1_err_pct, mu_FE_err_pct"
+  },
+  "2.0": {
+   "criteria": {
+    "Id3V_err_pct": {
+     "how": "native point",
+     "limit": 30.0,
+     "ok": false,
+     "value": -68.0102403696907
+    },
+    "SS_a1_err_pct": {
+     "limit": 20.0,
+     "meas_mV_dec": 123.57627411308081,
+     "ok": false,
+     "sim_mV_dec": 191.26473043905145,
+     "value": 54.77463761695147
+    },
+    "active_rmse_dec": {
+     "coverage": 1.0,
+     "limit": 0.15,
+     "ok": false,
+     "value": 0.5487006904178225
+    },
+    "dVth_cc_V": {
+     "limit": 0.1,
+     "ok": false,
+     "value": 0.18475481704465102
+    },
+    "mu_FE_err_pct": {
+     "limit": 20.0,
+     "ok": false,
+     "per_V": {
+      "1.5": {
+       "how": "native point",
+       "meas": 5.169571947471978,
+       "ok": false,
+       "sim": 1.322845585852541,
+       "value": -74.41092610192923
+      },
+      "2.0": {
+       "how": "native point",
+       "meas": 8.766009530638033,
+       "ok": false,
+       "sim": 2.7626521228599787,
+       "value": -68.48449555976129
+      },
+      "3.0": {
+       "how": "native point",
+       "meas": 12.145944927623823,
+       "ok": false,
+       "sim": 4.321110535848065,
+       "value": -64.42343052272157
+      }
+     }
+    }
+   },
+   "film_nm": 2.0,
+   "kind": "native",
+   "labels": "CAMPAIGN_DESIGN 5.3 (ASSUMED engineering limits); active RMSE as run_atlas.score; extraction as campaign_extract; native sampling",
+   "verdict": "FAIL: active_rmse_dec, dVth_cc_V, Id3V_err_pct, SS_a1_err_pct, mu_FE_err_pct"
+  },
+  "6.3": {
+   "criteria": {
+    "Id3V_err_pct": {
+     "how": "native point",
+     "limit": 30.0,
+     "ok": false,
+     "value": 110.41646011381889
+    },
+    "SS_a1_err_pct": {
+     "limit": 20.0,
+     "meas_mV_dec": 122.65599105003771,
+     "ok": false,
+     "sim_mV_dec": 155.0632718322742,
+     "value": 26.421278328765773
+    },
+    "active_rmse_dec": {
+     "coverage": 1.0,
+     "limit": 0.15,
+     "ok": false,
+     "value": 0.5720660259391619
+    },
+    "dVth_cc_V": {
+     "limit": 0.1,
+     "ok": false,
+     "value": -0.18297467192225264
+    },
+    "mu_FE_err_pct": {
+     "limit": 20.0,
+     "ok": false,
+     "per_V": {
+      "1.5": {
+       "how": "native point",
+       "meas": 3.72951017652858,
+       "ok": false,
+       "sim": 10.022504927887598,
+       "value": 168.7351543096344
+      },
+      "2.0": {
+       "how": "native point",
+       "meas": 6.171875613997407,
+       "ok": false,
+       "sim": 14.614854694432662,
+       "value": 136.79762212457968
+      },
+      "3.0": {
+       "how": "native point",
+       "meas": 10.737053601109816,
+       "ok": false,
+       "sim": 18.00420184280697,
+       "value": 67.68289059249923
+      }
+     }
+    }
+   },
+   "film_nm": 6.3,
+   "kind": "native",
+   "labels": "CAMPAIGN_DESIGN 5.3 (ASSUMED engineering limits); active RMSE as run_atlas.score; extraction as campaign_extract; native sampling",
+   "verdict": "FAIL: active_rmse_dec, dVth_cc_V, Id3V_err_pct, SS_a1_err_pct, mu_FE_err_pct"
+  }
+ },
+ "acceptance_note": "CAMPAIGN_DESIGN 5.3 (ASSUMED engineering limits) on the native S4c curves; the S4a abort already reports the shared model as failed; ell is at its 50 nm bound (the profile is bound-limited, B4); calibration, retrospective",
+ "candidate": "S4A-04",
+ "code_sha256": "429b3a3f3f5c1e650d17760e11665ddbce140ef434b5f80f29e7cd2f4fcf0a4e",
+ "films": [
+  {
+   "check": {
+    "J_window_on": {
+     "covered": 41,
+     "covered_forward": 40,
+     "covered_inverse": 41,
+     "max_abs_dev_dec": 0.00013320205059663692,
+     "points": 41
+    },
+    "J_window_sub": {
+     "covered": 10,
+     "covered_forward": 10,
+     "covered_inverse": 10,
+     "max_abs_dev_dec": 0.0002021177372348859,
+     "points": 10
+    },
+    "dQf_cm2": 228240000000.0,
+    "dV_shift_V": -0.04083369001230635,
+    "exactness_breakers": [],
+    "max_abs_dev_native_grid_above_1e-14_dec": 0.00046602831926811916,
+    "mun_scale": 0.44169544989457143,
+    "native_points": 76,
+    "native_points_covered_above_1e-14": 43,
+    "other_material_differences": [],
+    "solver_geometry_override_differences": [],
+    "verdict": "PASS: profiling exact within 0.01 dec on every J-window point"
+   },
+   "entry": "S4C-2p0",
+   "film_nm": 2.0,
+   "native": {
+    "deck_sha256": "024224a3ceaf24adcd51f9d33b3d748aa7ed07a1bb5ea8a0314a6ef85433fe63",
+    "digest": "05ddd0fe38ab8f64ad84c24dc86a1e3e977e7aba93d9fa6a468a774f146a4fc6",
+    "eligible": true,
+    "film_nm": 2.0,
+    "label": "c10_s4c_2p0_2p0",
+    "model_sha256": "b948563e0fe80479c5fde41cd6c243820b1fbfec0c0bbaae1e49be24379c73b2",
+    "problems": [],
+    "run_id": "run_0157",
+    "terminal_currents_sha256": "5650f8389a35b56ba4c8869762448261767136100904f9f98a6eb5c1c68ca1af"
+   },
+   "reference": {
+    "digest": "d7ff6801e754d6ab13c981e06b3d4d509e96ac630cf5f1be5da3c159bff35989",
+    "eligible": true,
+    "film_nm": 2.0,
+    "label": "c10_s4a_04_2p0_2p0",
+    "problems": [],
+    "run_id": "run_0120"
+   },
+   "settings": {
+    "deck_sha256_equal_pin": true,
+    "model_sha256_equal_pin": true,
+    "only_written_variables": true,
+    "override_keys_differing_from_reference": [
+     "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]",
+     "traps.fixed_interface_charge_Qf_cm2.value"
+    ],
+    "overrides_equal_entry": true
+   },
+   "variable_reference": {
+    "Qf_profiled_cm2": 1611685896152.6836,
+    "Qf_written_cm2": 1611690000000.0,
+    "candidate": "S4A-04",
+    "dQf_profiled_cm2": 228235896152.6836,
+    "dQf_written_cm2": 228240000000.0,
+    "mu_band_profiled_cm2Vs": 7.81345886449455,
+    "mu_band_written_cm2Vs": 7.81346,
+    "mun_scale_profiled": 0.44169538570436756,
+    "mun_scale_written": 0.44169544989457143,
+    "record_sha256": "d49ab722714eb294d46fc9458e2b781e353487e7853f9e6359873b4bfecac1fd",
+    "written_equal_profiled_rel_1e-5": true
+   },
+   "verdict": "PASS"
+  },
+  {
+   "check": {
+    "J_window_on": {
+     "covered": 41,
+     "covered_forward": 40,
+     "covered_inverse": 41,
+     "max_abs_dev_dec": 0.0001611018233065309,
+     "points": 41
+    },
+    "J_window_sub": {
+     "covered": 8,
+     "covered_forward": 8,
+     "covered_inverse": 8,
+     "max_abs_dev_dec": 2.733298122592487e-05,
+     "points": 8
+    },
+    "dQf_cm2": 228240000000.0,
+    "dV_shift_V": -0.04083369001230635,
+    "exactness_breakers": [],
+    "max_abs_dev_native_grid_above_1e-14_dec": 0.00042323765323004636,
+    "mun_scale": 0.5976409416321987,
+    "native_points": 76,
+    "native_points_covered_above_1e-14": 49,
+    "other_material_differences": [],
+    "solver_geometry_override_differences": [],
+    "verdict": "PASS: profiling exact within 0.01 dec on every J-window point"
+   },
+   "entry": "S4C-6p3",
+   "film_nm": 6.3,
+   "native": {
+    "deck_sha256": "c00c1c542802fd813ce691c785f90f840154ac3cc48de14604b887b492d0f026",
+    "digest": "49cb0f8b50fe7e7c73baf948d07460fbceb2cf575a8b8082472427ae8b2e4fbd",
+    "eligible": true,
+    "film_nm": 6.3,
+    "label": "c10_s4c_6p3_6p3",
+    "model_sha256": "5f8b2373766cd1fc14757c2e35609f89a44d6967c0f7d8b2ec4acf05909724b3",
+    "problems": [],
+    "run_id": "run_0158",
+    "terminal_currents_sha256": "8cae6eac1a62bfb3bac34f4ad9f1da9474188f6b7a2fe7a933cc74abbffa03e2"
+   },
+   "reference": {
+    "digest": "1eac0b3471ff976f0faf9be758d01d175d1cb4b51a372c9a789f92db2b7cc965",
+    "eligible": true,
+    "film_nm": 6.3,
+    "label": "c10_s4a_04_6p3_6p3",
+    "problems": [],
+    "run_id": "run_0121"
+   },
+   "settings": {
+    "deck_sha256_equal_pin": true,
+    "model_sha256_equal_pin": true,
+    "only_written_variables": true,
+    "override_keys_differing_from_reference": [
+     "thickness_laws.mu0_cm2Vs.mu_band_fitted[6.3]",
+     "traps.fixed_interface_charge_Qf_cm2.value"
+    ],
+    "overrides_equal_entry": true
+   },
+   "variable_reference": {
+    "Qf_profiled_cm2": 1611685896152.6836,
+    "Qf_written_cm2": 1611690000000.0,
+    "candidate": "S4A-04",
+    "dQf_profiled_cm2": 228235896152.6836,
+    "dQf_written_cm2": 228240000000.0,
+    "mu_band_profiled_cm2Vs": 26.413052595649862,
+    "mu_band_written_cm2Vs": 26.4131,
+    "mun_scale_profiled": 0.5976398690288143,
+    "mun_scale_written": 0.5976409416321987,
+    "record_sha256": "d49ab722714eb294d46fc9458e2b781e353487e7853f9e6359873b4bfecac1fd",
+    "written_equal_profiled_rel_1e-5": true
+   },
+   "verdict": "PASS"
+  },
+  {
+   "check": {
+    "J_window_on": {
+     "covered": 41,
+     "covered_forward": 40,
+     "covered_inverse": 41,
+     "max_abs_dev_dec": 0.00013084473786140194,
+     "points": 41
+    },
+    "J_window_sub": {
+     "covered": 3,
+     "covered_forward": 3,
+     "covered_inverse": 3,
+     "max_abs_dev_dec": 5.3671424360857145e-05,
+     "points": 3
+    },
+    "dQf_cm2": 228240000000.0,
+    "dV_shift_V": -0.04083369001230635,
+    "exactness_breakers": [],
+    "max_abs_dev_native_grid_above_1e-14_dec": 0.00043195689862862707,
+    "mun_scale": 0.8035289449681234,
+    "native_points": 76,
+    "native_points_covered_above_1e-14": 51,
+    "other_material_differences": [],
+    "solver_geometry_override_differences": [],
+    "verdict": "PASS: profiling exact within 0.01 dec on every J-window point"
+   },
+   "entry": "S4C-13p2",
+   "film_nm": 13.2,
+   "native": {
+    "deck_sha256": "a1ac856fbc5e9440e7e30d5354e2c380fdd1f8723db1bd8fb9c3baebe5bde83d",
+    "digest": "5a945028ecd6821726d711df47b68912b10e1c3d33e433f1f20e61e08c1b70fc",
+    "eligible": true,
+    "film_nm": 13.2,
+    "label": "c10_s4c_13p2_13p2",
+    "model_sha256": "e8ff9b2d1912a711ba9e7e03d995ceba14fb520db9864224cc981f4bf23132f1",
+    "problems": [],
+    "run_id": "run_0159",
+    "terminal_currents_sha256": "95752e5c7277e4f77a14dad506fd17ec15ee7af50a4cab1d33a76e648c639d8c"
+   },
+   "reference": {
+    "digest": "29133b64f4267cd95c63d246d8eaeeaa178101976adad422ebf596faa4a402aa",
+    "eligible": true,
+    "film_nm": 13.2,
+    "label": "c10_s4a_04_13p2_13p2",
+    "problems": [],
+    "run_id": "run_0122"
+   },
+   "settings": {
+    "deck_sha256_equal_pin": true,
+    "model_sha256_equal_pin": true,
+    "only_written_variables": true,
+    "override_keys_differing_from_reference": [
+     "thickness_laws.mu0_cm2Vs.mu_band_fitted[13.2]",
+     "traps.fixed_interface_charge_Qf_cm2.value"
+    ],
+    "overrides_equal_entry": true
+   },
+   "variable_reference": {
+    "Qf_profiled_cm2": 1611685896152.6836,
+    "Qf_written_cm2": 1611690000000.0,
+    "candidate": "S4A-04",
+    "dQf_profiled_cm2": 228235896152.6836,
+    "dQf_written_cm2": 228240000000.0,
+    "mu_band_profiled_cm2Vs": 50.83101586847576,
+    "mu_band_written_cm2Vs": 50.831,
+    "mun_scale_profiled": 0.803529195814646,
+    "mun_scale_written": 0.8035289449681234,
+    "record_sha256": "d49ab722714eb294d46fc9458e2b781e353487e7853f9e6359873b4bfecac1fd",
+    "written_equal_profiled_rel_1e-5": true
+   },
+   "verdict": "PASS"
+  }
+ ],
+ "frozen": {
+  "profile_s4s5.py": "429b3a3f3f5c1e650d17760e11665ddbce140ef434b5f80f29e7cd2f4fcf0a4e",
+  "profile_shared.py": "958c3605a316393184f022a80c421505e8b9f99a1d214423ec79b83286209d17",
+  "score_register.py": "c0f28bb942508a81a0f59b4a4c1e720bbfdbe8d9466d7e002476d64dcc10b55a"
+ },
+ "labels": "native curves COMPUTED (ATLAS 5.28); Q_f, mu_inf, ell FITTED (shared, exact-transformation profiling); N_s, W_T = ASSUMED LHS design point selected by the profiled objective; ell at the 50 nm range bound (bound-limited, unqualified for acceptance, B4); calibration, retrospective, never validation",
+ "native_profile": {
+  "qualification": [
+   "profiled value at a range bound: ell"
+  ],
+  "reprofiled": {
+   "Qf_cm2": 1611689998895.1248,
+   "at_bound": {
+    "dV0": 0.0,
+    "ell": true,
+    "mu_inf": false
+   },
+   "dV0_V": 1.9766968560823337e-10,
+   "ell_nm": 49.99999999744257,
+   "mu_inf_cm2Vs": 248.20114905329189,
+   "per_film": {
+    "13.2": {
+     "J_term": 0.20340556085450234,
+     "coverage_on": 1.0,
+     "coverage_sub": 1.0,
+     "mean_signed_on_dec": -0.1971530831687917,
+     "mun_scale": 0.9993590680642571,
+     "rmse_on_dec": 0.20677386254832447,
+     "rmse_sub_dec": 0.6033702772558914
+    },
+    "2.0": {
+     "J_term": 0.23808063318690476,
+     "coverage_on": 1.0,
+     "coverage_sub": 1.0,
+     "mean_signed_on_dec": -0.5736591331500058,
+     "mun_scale": 0.9993586108578728,
+     "rmse_on_dec": 0.5763891145599453,
+     "rmse_sub_dec": 0.3793901092419407
+    },
+    "6.3": {
+     "J_term": 0.7194430414144294,
+     "coverage_on": 1.0,
+     "coverage_sub": 1.0,
+     "mean_signed_on_dec": 0.397054548151258,
+     "mun_scale": 0.9993569625101129,
+     "rmse_on_dec": 0.3985238020555293,
+     "rmse_sub_dec": 1.1313995147710043
+    }
+   },
+   "sqrtJ_dec": 0.6220742815923289
+  },
+  "sqrtJ_native_minus_profiled_dec": -0.0005617370764839924,
+  "start_per_film": {
+   "2.0": {
+    "J_term": 0.2378975457675634,
+    "rmse_on": 0.576111793611504,
+    "rmse_sub": 0.37932873974543846
+   },
+   "6.3": {
+    "J_term": 0.7198489825672252,
+    "rmse_on": 0.39880213047872204,
+    "rmse_sub": 1.1316602077744373
+   },
+   "13.2": {
+    "J_term": 0.20318413903420296,
+    "rmse_on": 0.20650839240678567,
+    "rmse_sub": 0.6030941567731949
+   }
+  },
+  "start_sqrtJ_dec_native_as_launched": 0.6220746652315919,
+  "verdict": "OK",
+  "warnings": [
+   "profiled value at a range bound: ['ell']"
+  ]
+ },
+ "plan": {
+  "file": "config/campaign_C10_S4c.json",
+  "sha256": "0809527954bc97be56667c8a151837ae4f61c474a9307599962f55eb049dc0e4"
+ },
+ "record": "S4c native confirmation (register A52; PA-18 wrapper around the unchanged profile_shared.check)",
+ "settings_pins": {
+  "config/iwo_material_model_v3.yaml": "51b184e8728c4e4ce5ed4110c56d4b1083b5d12f1d4d6b45aef52816ba63961c",
+  "config/solver.yaml": "d5a9101219d1238923da096766443fd021751fad1a9f55770b3851301481d583",
+  "scripts/build_iwo_decks.py": "734125a8915e2a7790b2794db0c7bf429c477a83238b638a200af2b5fbeeca3c",
+  "scripts/run_atlas.py": "b7927ac5b9747d5531ac827d220da6004e4a144d672ae16ab9bca2a28f46e6ae",
+  "scripts/run_campaign.py": "fb6e802f8c1cb71b56e153ed99504cc8e7e83d4c8eb7af8f13dc421d0fd125ac"
+ },
+ "tolerance_dec": 0.01,
+ "variable_reference_sha256": "d49ab722714eb294d46fc9458e2b781e353487e7853f9e6359873b4bfecac1fd",
+ "verdict": "PASS: profiled and native agree within 0.01 dec on every J-window point at all three films",
+ "wrapper_sha256": "17d86c67d4d71e8d5b661aa44424d9cc4b98f2917b7c6f24450595b503e9e7c4",
+ "sha256": "14b4ddf9ea7f604c0458c963e468546839788037c53d6a46a357a1b7705745c7"
+}
