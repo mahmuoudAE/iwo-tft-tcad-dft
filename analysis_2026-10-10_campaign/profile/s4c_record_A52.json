@@ -1,0 +1,493 @@
+{
+ "candidate": "S4A-04",
+ "candidate_sqrtJ_dec_profiled": 0.6226364023080759,
+ "code_sha256": "429b3a3f3f5c1e650d17760e11665ddbce140ef434b5f80f29e7cd2f4fcf0a4e",
+ "dry_build": {
+  "S4C-13p2": {
+   "deck_sha256": "a1ac856fbc5e9440e7e30d5354e2c380fdd1f8723db1bd8fb9c3baebe5bde83d",
+   "model_sha256": "e8ff9b2d1912a711ba9e7e03d995ceba14fb520db9864224cc981f4bf23132f1"
+  },
+  "S4C-2p0": {
+   "deck_sha256": "024224a3ceaf24adcd51f9d33b3d748aa7ed07a1bb5ea8a0314a6ef85433fe63",
+   "model_sha256": "b948563e0fe80479c5fde41cd6c243820b1fbfec0c0bbaae1e49be24379c73b2"
+  },
+  "S4C-6p3": {
+   "deck_sha256": "c00c1c542802fd813ce691c785f90f840154ac3cc48de14604b887b492d0f026",
+   "model_sha256": "5f8b2373766cd1fc14757c2e35609f89a44d6967c0f7d8b2ec4acf05909724b3"
+  },
+  "S4D-13p2": {
+   "deck_sha256": "3e6b5285de89dc38b58499580ebfff3c19a53a3474c2433885962c28b50e27f7",
+   "model_sha256": "e8ff9b2d1912a711ba9e7e03d995ceba14fb520db9864224cc981f4bf23132f1"
+  },
+  "S4D-2p0": {
+   "deck_sha256": "0f0a212acf4c827450a5461a2d1a9bd11686cd0cc8d9086796531623125e8f45",
+   "model_sha256": "b948563e0fe80479c5fde41cd6c243820b1fbfec0c0bbaae1e49be24379c73b2"
+  },
+  "S4D-6p3": {
+   "deck_sha256": "2f866255fbe94c737caf4c555b8d57402c817a7364c012e02398b0a6b6ab2589",
+   "model_sha256": "5f8b2373766cd1fc14757c2e35609f89a44d6967c0f7d8b2ec4acf05909724b3"
+  }
+ },
+ "entries": {
+  "S4C-13p2": {
+   "depends_on": [
+    "S4b"
+   ],
+   "id": "S4C-13p2",
+   "label": "c10_s4c_13p2_13p2",
+   "matrix_status": "planned_adaptive",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[13.2]=50.831",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s4c_record_A52.json (register A52)",
+   "purpose": "Native confirmation of the best shared model at 13.2 nm with the profiled Qf and mu_band written into the deck (checks that the exact-transformation profiling reproduces ATLAS within 0.01 dec (PA-0 / CAMPAIGN_DESIGN l.69)). Register A52: best S4a candidate S4A-04 (frozen surrogate, ABORT S4b) at the profiled Q_f and mu_band_fitted[13.2].",
+   "requires_code": [
+    "C1",
+    "C11"
+   ],
+   "stage": "S4c_native_confirmation",
+   "thickness": 13.2,
+   "timeout": 3100
+  },
+  "S4C-2p0": {
+   "depends_on": [
+    "S4b"
+   ],
+   "id": "S4C-2p0",
+   "label": "c10_s4c_2p0_2p0",
+   "matrix_status": "planned_adaptive",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=7.81346",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0",
+    "solver.physics_options.nc300_override_cm3[2.0]=1.373e+19"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s4c_record_A52.json (register A52)",
+   "purpose": "Native confirmation of the best shared model at 2.0 nm with the profiled Qf and mu_band written into the deck (checks that the exact-transformation profiling reproduces ATLAS within 0.01 dec (PA-0 / CAMPAIGN_DESIGN l.69)). Register A52: best S4a candidate S4A-04 (frozen surrogate, ABORT S4b) at the profiled Q_f and mu_band_fitted[2.0].",
+   "requires_code": [
+    "C1",
+    "C11"
+   ],
+   "stage": "S4c_native_confirmation",
+   "thickness": 2.0,
+   "timeout": 1600
+  },
+  "S4C-6p3": {
+   "depends_on": [
+    "S4b"
+   ],
+   "id": "S4C-6p3",
+   "label": "c10_s4c_6p3_6p3",
+   "matrix_status": "planned_adaptive",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[6.3]=26.4131",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s4c_record_A52.json (register A52)",
+   "purpose": "Native confirmation of the best shared model at 6.3 nm with the profiled Qf and mu_band written into the deck (checks that the exact-transformation profiling reproduces ATLAS within 0.01 dec (PA-0 / CAMPAIGN_DESIGN l.69)). Register A52: best S4a candidate S4A-04 (frozen surrogate, ABORT S4b) at the profiled Q_f and mu_band_fitted[6.3].",
+   "requires_code": [
+    "C1",
+    "C11"
+   ],
+   "stage": "S4c_native_confirmation",
+   "thickness": 6.3,
+   "timeout": 2000
+  },
+  "S4D-13p2": {
+   "depends_on": [
+    "S4c"
+   ],
+   "id": "S4D-13p2",
+   "label": "c10_s4d_13p2_13p2",
+   "matrix_status": "planned_adaptive",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[13.2]=50.831",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0",
+    "solver.physics_options.mobility.model=igzo_tokyo",
+    "solver.physics_options.mobility.gamma0=-0.31",
+    "solver.physics_options.mobility.tgamma=178.4",
+    "solver.physics_options.mobility.ncrit=1e20"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s4c_record_A52.json (register A52)",
+   "purpose": "Runner-up S3 branch re-run at the calibrated shared parameters (13.2 nm): checks that the branch choice made at the start values survives calibration. Register A52 (g): runner-up = IGZO.TOKYO GAMMA0 -0.31 (S3-11/S3-12/S3-13 mobility overrides; surface tail as the matrix S4D template), at the S4c launch values (S4A-04, profiled Q_f and mu_band).",
+   "requires_code": [
+    "C1",
+    "C11"
+   ],
+   "stage": "S4d_runner_up_branch",
+   "thickness": 13.2,
+   "timeout": 3100
+  },
+  "S4D-2p0": {
+   "depends_on": [
+    "S4c"
+   ],
+   "id": "S4D-2p0",
+   "label": "c10_s4d_2p0_2p0",
+   "matrix_status": "planned_adaptive",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=7.81346",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0",
+    "solver.physics_options.nc300_override_cm3[2.0]=1.373e+19",
+    "solver.physics_options.mobility.model=igzo_tokyo",
+    "solver.physics_options.mobility.gamma0=-0.31",
+    "solver.physics_options.mobility.tgamma=178.4",
+    "solver.physics_options.mobility.ncrit=1e20"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s4c_record_A52.json (register A52)",
+   "purpose": "Runner-up S3 branch re-run at the calibrated shared parameters (2.0 nm): checks that the branch choice made at the start values survives calibration. Register A52 (g): runner-up = IGZO.TOKYO GAMMA0 -0.31 (S3-11/S3-12/S3-13 mobility overrides; surface tail as the matrix S4D template), at the S4c launch values (S4A-04, profiled Q_f and mu_band).",
+   "requires_code": [
+    "C1",
+    "C11"
+   ],
+   "stage": "S4d_runner_up_branch",
+   "thickness": 2.0,
+   "timeout": 1600
+  },
+  "S4D-6p3": {
+   "depends_on": [
+    "S4c"
+   ],
+   "id": "S4D-6p3",
+   "label": "c10_s4d_6p3_6p3",
+   "matrix_status": "planned_adaptive",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[6.3]=26.4131",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0",
+    "solver.physics_options.mobility.model=igzo_tokyo",
+    "solver.physics_options.mobility.gamma0=-0.31",
+    "solver.physics_options.mobility.tgamma=178.4",
+    "solver.physics_options.mobility.ncrit=1e20"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s4c_record_A52.json (register A52)",
+   "purpose": "Runner-up S3 branch re-run at the calibrated shared parameters (6.3 nm): checks that the branch choice made at the start values survives calibration. Register A52 (g): runner-up = IGZO.TOKYO GAMMA0 -0.31 (S3-11/S3-12/S3-13 mobility overrides; surface tail as the matrix S4D template), at the S4c launch values (S4A-04, profiled Q_f and mu_band).",
+   "requires_code": [
+    "C1",
+    "C11"
+   ],
+   "stage": "S4d_runner_up_branch",
+   "thickness": 6.3,
+   "timeout": 2000
+  }
+ },
+ "frozen": {
+  "profile_s4s5.py": "429b3a3f3f5c1e650d17760e11665ddbce140ef434b5f80f29e7cd2f4fcf0a4e",
+  "profile_shared.py": "958c3605a316393184f022a80c421505e8b9f99a1d214423ec79b83286209d17",
+  "score_register.py": "c0f28bb942508a81a0f59b4a4c1e720bbfdbe8d9466d7e002476d64dcc10b55a"
+ },
+ "helpers": {
+  "campaign_extract.py": "1f6f324a0841d50bb20baf7f94b6444d688aaf4cbdf71707594a06f26e3e63ba",
+  "campaign_tools.py": "3b0403d9c5cc5423cb80dabc3765f9a781b7a06b512082b6f210971a9417ab0d",
+  "post_run_checks.py": "39d3d51d3b2470b1396196bcfce34dc4a8f0a6acd3bcb2a213001dc5ec3ed91f",
+  "prelaunch_gate_c10_f.py": "d0baaca36b77cbe95c598a641f0a89366d4e2d496cf59a4935aa0ead4de1741d"
+ },
+ "labels": "native curves COMPUTED (ATLAS 5.28); Q_f, mu_inf, ell FITTED (shared, exact-transformation profiling); N_s, W_T = ASSUMED LHS design point selected by the profiled objective; ell at the 50 nm range bound (bound-limited, unqualified for acceptance, B4); calibration, retrospective, never validation",
+ "native_launch_values": {
+  "Qf_cm2": 1611685896152.6836,
+  "ell_nm": 49.99999999983471,
+  "mu_inf_cm2Vs": 248.36040866387245,
+  "per_film": {
+   "13.2": {
+    "MUN_cm2Vs": 48.64466634433551,
+    "mstar_m0": 0.21226273920903818,
+    "mu_band_cm2Vs": 50.83101586847576,
+    "overrides": [
+     "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+     "thickness_laws.mu0_cm2Vs.mu_band_fitted[13.2]=50.831"
+    ]
+   },
+   "2.0": {
+    "MUN_cm2Vs": 5.7318928686870025,
+    "mstar_m0": 0.25428984829573625,
+    "mu_band_cm2Vs": 7.81345886449455,
+    "overrides": [
+     "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+     "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=7.81346"
+    ]
+   },
+   "6.3": {
+    "MUN_cm2Vs": 24.061345262136687,
+    "mstar_m0": 0.21885640403722081,
+    "mu_band_cm2Vs": 26.413052595649862,
+    "overrides": [
+     "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+     "thickness_laws.mu0_cm2Vs.mu_band_fitted[6.3]=26.4131"
+    ]
+   }
+  }
+ },
+ "profile_record": {
+  "file": "analysis_2026-10-10_campaign/profile/s4s5_profile_n_S4A-04.json",
+  "sha256": "043aa0078fe2374d76bf01e086c8cddb1f60e8845c3488ebad2fa38d08c7fc34"
+ },
+ "profile_verdict": "OK",
+ "profiled": {
+  "J": 0.38767608947914417,
+  "Qf_cm2": 1611685896152.6836,
+  "at_bound": {
+   "dV0": 0.0,
+   "ell": true,
+   "mu_inf": false
+  },
+  "coverage_ok_95pct": true,
+  "dQf_cm2": 228235896152.68353,
+  "dV0_V": -0.04083295580607966,
+  "dV0_from_anchor_V": -0.04083295580607967,
+  "ell_nm": 49.99999999983471,
+  "mu_inf_cm2Vs": 248.36040866387245,
+  "per_film": {
+   "13.2": {
+    "J_term": 0.20351666143355268,
+    "coverage_on": 0.975609756097561,
+    "coverage_sub": 1.0,
+    "mean_signed_on_dec": -0.19838506388753577,
+    "mun_scale": 0.803529195814646,
+    "rmse_on_dec": 0.207957349374165,
+    "rmse_sub_dec": 0.6031476301108849
+   },
+   "2.0": {
+    "J_term": 0.2390022204466533,
+    "coverage_on": 0.975609756097561,
+    "coverage_sub": 1.0,
+    "mean_signed_on_dec": -0.5753406163292594,
+    "mun_scale": 0.44169538570436756,
+    "rmse_on_dec": 0.5779943008997038,
+    "rmse_sub_dec": 0.3793771593293003
+   },
+   "6.3": {
+    "J_term": 0.7205093865572264,
+    "coverage_on": 0.975609756097561,
+    "coverage_sub": 1.0,
+    "mean_signed_on_dec": 0.3991900069361439,
+    "mun_scale": 0.5976398690288143,
+    "rmse_on_dec": 0.400511624548878,
+    "rmse_sub_dec": 1.131640053955175
+   }
+  },
+  "qf_anchor_cm2": 1383450000000.0,
+  "sqrtJ_dec": 0.6226364023080759
+ },
+ "qualification": [
+  "profiled value at a range bound: ell"
+ ],
+ "record": "S4c variable reference (register A52; PA-18 (c)/(d)): sealed; its sha256 is committed externally before the native S4c launch",
+ "reference": {
+  "13.2": {
+   "digest": "29133b64f4267cd95c63d246d8eaeeaa178101976adad422ebf596faa4a402aa",
+   "dir": "results/runs/run_0122_13p2_c10_s4a_04_13p2_13p2",
+   "eligible": true,
+   "film_nm": 13.2,
+   "label": "c10_s4a_04_13p2_13p2",
+   "mu_band": 63.2597,
+   "mun": 60.538766478818296,
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.38345e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[13.2]=63.2597",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0"
+   ],
+   "problems": [],
+   "qf": 1383450000000.0,
+   "run_id": "run_0122"
+  },
+  "2.0": {
+   "digest": "d7ff6801e754d6ab13c981e06b3d4d509e96ac630cf5f1be5da3c159bff35989",
+   "dir": "results/runs/run_0120_2p0_c10_s4a_04_2p0_2p0",
+   "eligible": true,
+   "film_nm": 2.0,
+   "label": "c10_s4a_04_2p0_2p0",
+   "mu_band": 17.6897,
+   "mun": 12.977026824825,
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.38345e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=17.6897",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0",
+    "solver.physics_options.nc300_override_cm3[2.0]=1.373e+19"
+   ],
+   "problems": [],
+   "qf": 1383450000000.0,
+   "run_id": "run_0120"
+  },
+  "6.3": {
+   "digest": "1eac0b3471ff976f0faf9be758d01d175d1cb4b51a372c9a789f92db2b7cc965",
+   "dir": "results/runs/run_0121_6p3_c10_s4a_04_6p3_6p3",
+   "eligible": true,
+   "film_nm": 6.3,
+   "label": "c10_s4a_04_6p3_6p3",
+   "mu_band": 44.1956,
+   "mun": 40.26060928839506,
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.38345e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[6.3]=44.1956",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0"
+   ],
+   "problems": [],
+   "qf": 1383450000000.0,
+   "run_id": "run_0121"
+  }
+ },
+ "reprofile_equal_to_record": true,
+ "s4d": {
+  "branch": "IGZO.TOKYO GAMMA0 -0.31 (S3-11/S3-12/S3-13 mobility overrides; surface tail as the matrix S4D template)",
+  "overrides_added": [
+   "solver.physics_options.mobility.model=igzo_tokyo",
+   "solver.physics_options.mobility.gamma0=-0.31",
+   "solver.physics_options.mobility.tgamma=178.4",
+   "solver.physics_options.mobility.ncrit=1e20"
+  ],
+  "rule": "A52 (g): the matrix S4D template keeps the surface tail and selects the mobility/contact runner-up; contacts were not run (H-F v4 D4 DO NOT FIRE, Option A); of the two IGZO members only GAMMA0 -0.31 has a valid (OK) S3 adoption profile and a native profiling check (S3-27 PASS); GAMMA0 +0.30 is UNVERIFIED (on-window coverage 92.7 %). Data-selected, reported as such."
+ },
+ "settings": {
+  "config/iwo_material_model_v3.yaml": "51b184e8728c4e4ce5ed4110c56d4b1083b5d12f1d4d6b45aef52816ba63961c",
+  "config/solver.yaml": "d5a9101219d1238923da096766443fd021751fad1a9f55770b3851301481d583",
+  "scripts/build_iwo_decks.py": "734125a8915e2a7790b2794db0c7bf429c477a83238b638a200af2b5fbeeca3c",
+  "scripts/run_atlas.py": "b7927ac5b9747d5531ac827d220da6004e4a144d672ae16ab9bca2a28f46e6ae",
+  "scripts/run_campaign.py": "fb6e802f8c1cb71b56e153ed99504cc8e7e83d4c8eb7af8f13dc421d0fd125ac"
+ },
+ "sources": {
+  "archive": {
+   "file": "analysis_2026-10-10_campaign/profile/s4a_archive_A51.json",
+   "sha256": "44de96df4bc0b2731e01b8b49c6fe2b06f4bf2295f2ff40141c7a283420df0f0"
+  },
+  "profile": {
+   "file": "analysis_2026-10-10_campaign/profile/s4s5_profile_n_S4A-04.json",
+   "sha256": "043aa0078fe2374d76bf01e086c8cddb1f60e8845c3488ebad2fa38d08c7fc34"
+  },
+  "surrogate": {
+   "file": "analysis_2026-10-10_campaign/profile/s4s5_surrogate_s4a_archive_A51.json",
+   "sha256": "ef10e8d4771e4c153bf230ff6b56cae52b5959dfcd71f4a5eeae36b6ebf3df42"
+  }
+ },
+ "surrogate_verdict": "ABORT S4b: run S4c on the best candidate, go to S5, report the shared model as failed (no per-film rescue parameters)",
+ "tolerance_dec": 0.01,
+ "wrapper_sha256": "17d86c67d4d71e8d5b661aa44424d9cc4b98f2917b7c6f24450595b503e9e7c4",
+ "written_variables": [
+  "traps.fixed_interface_charge_Qf_cm2.value",
+  "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]",
+  "thickness_laws.mu0_cm2Vs.mu_band_fitted[6.3]",
+  "thickness_laws.mu0_cm2Vs.mu_band_fitted[13.2]"
+ ],
+ "sha256": "d49ab722714eb294d46fc9458e2b781e353487e7853f9e6359873b4bfecac1fd"
+}

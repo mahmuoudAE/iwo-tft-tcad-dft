@@ -36,7 +36,14 @@ campaign_matrix.json unchanged). The S4a HOLD is released through route plans ca
 and campaign_C10_S4a_b3 (S4A-12..15): state-only, no gates, complete candidate triples in matrix order; S4A-01 is reused (run_0061 / run_0068 /
 run_0069, PA-12) and never launched. The stage plan campaign_C10_S4a_spacefilling stays held (it holds S4A-01); its hold text names the route
 plans. --check verifies them as the stage F route plans.
+2026-10-15 (register A52, no Codex review, D-63): S4c / S4d route plans campaign_C10_S4c (S4C-2p0, -6p3, -13p2) and campaign_C10_S4d (S4D-2p0,
+-6p3, -13p2) with entries RESOLVED from the sealed PA-18 variable-reference record profile/s4c_record_A52.json (s4c_confirm_wrapper.py freeze):
+the matrix S4C-*/S4D-* id, label and timeout; the S4A-04-* overrides with only Q_f and mu_band_fitted[t] replaced by the profiled launch values;
+S4d adds the S3-11/12/13 IGZO.TOKYO GAMMA0 -0.31 overrides. Runnable, no gates, NOT state-only (the sealed-aware regression checks inventoried
+runs against their matrix entries, and the matrix S4C-*/S4D-* entries stay templates). --check verifies the record seal and that each plan equals
+this generator. campaign_matrix.json and the template campaign_C10_S4cd_confirm.template.json are unchanged.
 """
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -382,6 +389,61 @@ G_PLANS = (
         'Register step 6, S4a batch 3 of 3 (A50): candidates S4A-12..S4A-15, each at 2.0 (1600 s), 6.3 (2000 s) and 13.2 nm (3100 s); 12 launches; '
         'invoked only after batch 2 has started and finished every entry.'] + G_COMMON))
 
+# 2026-10-15 register A52 (no Codex review, D-63; Claude go under D-59): S4c / S4d route plans (CAMPAIGN_DESIGN l.325: ABORT S4b -> S4c on the best
+# candidate, then S4d), entries resolved from the sealed variable-reference record of the PA-18 wrapper. Not state-only (see the docstring); no gates;
+# each invocation follows analysis_2026-10-10_campaign/prelaunch_gate_c10_h.py exiting 0 in the same PowerShell session (package root).
+H_RECORD = ct.HERE / 'profile' / 's4c_record_A52.json'
+H_RECORD_REL = 'analysis_2026-10-10_campaign/profile/s4c_record_A52.json'
+H_AMENDMENT = ('A52 (2026-10-15; PA-18 S4c confirmation wrapper, S4c / S4d execution entries, S4d runner-up rule, H gate; no Codex review, D-63): '
+               'invoke only after A52 and its decision row are logged and the variable-reference record sha256 is committed, with the go for THIS '
+               'launch (the hook asks the user), immediately after prelaunch_gate_c10_h.py has exited 0 naming this plan')
+H_LAUNCH = ('$env:IWO_MODEL_FILE = "config/iwo_material_model_v3.yaml"; <project venv python> scripts/run_campaign.py config/{stem}.json *> '
+            'results/{stem}_console_inv<k>.log   (PowerShell, package root, immediately after prelaunch_gate_c10_h.py exited 0 naming this plan; no '
+            '--retry; IWO_ATLAS_VIEWERS unset; console redirected to a gitignored log that is read for state lines only)')
+H_GLOBAL_RULE = ('run_campaign.py records a failed launch and CONTINUES (this plan declares no gates); it stops automatically only at the launch budget / '
+                 'C10 cap. Stop rules are applied manually from the RUN_INDEX state columns (run_id, label, exit_code, converged) and the sealed wrapper '
+                 'records; results/campaigns/<plan>.json carries the runner fit metrics and is not opened before the wrapper record exists (A52 (f)).')
+H_COMMON = ['Not state-only (A52 (f)): the outputs are read ONLY through analysis_2026-10-10_campaign/s4c_confirm_wrapper.py (sealed records '
+            'profile/s4c_confirm_A52.json and profile/s4d_readout_A52.json); the console goes to a gitignored log and only its state lines (id, run id, '
+            'status, error) are read; no curve, metric or deckbuild.out line is read by hand before the wrapper record exists.',
+            'Every launch counts; a failed or timed-out launch is recorded invalid and kept, never deleted; no repeat, no --retry, no repair without a '
+            'logged decision (the six PA-19 v3 repairs stay reserved); the affected verdict is UNKNOWN (PA-18 (a)).',
+            'Variable reference: ' + H_RECORD_REL + ' (sealed; its sha256 committed before the first launch and passed to the wrapper as --committed).']
+H_PLANS = (
+    ('campaign_C10_S4c', 'S4C', [
+        'Register A52 (b), CAMPAIGN_DESIGN l.325 / l.327: S4c native confirmation of the best S4a candidate S4A-04 (frozen surrogate on the complete '
+        'inventory of 15: ABORT S4b) at the profiled Q_f 1.61169e12 cm^-2 and mu_band_fitted[t] (mu_inf 248.36 cm2/Vs, ell 50 nm at the range bound; '
+        'FITTED); one invocation, S4C-2p0 (1600 s), S4C-6p3 (2000 s), S4C-13p2 (3100 s).',
+        'Read-out: s4c_confirm_wrapper.py confirm <S4C-2p0 dir> <S4C-6p3 dir> <S4C-13p2 dir> --committed <record sha256>: PASS iff every film agrees with '
+        'the transformed S4A-04 run within 0.01 dec on every J-window point (unchanged profile_shared.check); FAIL -> the native result is reported '
+        'and the profiling audited before S5; an ineligible endpoint -> UNKNOWN, never PASS.'] + H_COMMON),
+    ('campaign_C10_S4d', 'S4D', [
+        'Register A52 (g): S4d = the runner-up S3 branch IGZO.TOKYO GAMMA0 -0.31 (S3-11/12/13 mobility overrides; surface tail) at the S4c launch '
+        'values; one invocation after the S4c plan has started and finished all three entries, S4D-2p0 (1600 s), S4D-6p3 (2000 s), S4D-13p2 (3100 s).',
+        'Read-out: s4c_confirm_wrapper.py s4d <S4D dirs> --committed <record sha256> (frozen profile_s4s5.adopt_films against S4A-04): SURVIVES / '
+        'DOES NOT SURVIVE / UNKNOWN / UNRESOLVED, reported; no re-calibration; the S5 branch rule is unchanged.'] + H_COMMON))
+
+
+def h_record():
+    """the sealed A52 variable-reference record (seal re-checked with the canonical JSON of profile_s4s5.seal)"""
+    rec = json.loads(H_RECORD.read_text()); body = {k: v for k, v in rec.items() if k != 'sha256'}
+    if rec.get('sha256') != hashlib.sha256(json.dumps(body, sort_keys=True, default=float, separators=(',', ':')).encode()).hexdigest():
+        raise SystemExit(f'{H_RECORD_REL} does not match its seal')
+    return rec
+
+
+def h_plan(stem, prefix, rules):
+    rec = h_record(); ids = [f'{prefix}-{g}' for g in ('2p0', '6p3', '13p2')]
+    gr = [H_GLOBAL_RULE if r.startswith('run_campaign.py records a failed launch and CONTINUES') else r for r in GLOBAL_RULES]
+    return {'campaign': stem, 'runnable': True,
+            'purpose': ('2026-10-10 DFT-informed campaign, ' + ', '.join(ids) + '. Generated by analysis_2026-10-10_campaign/make_campaign_configs.py; entries '
+                        f'resolved from the sealed record {H_RECORD_REL} (register A52, PA-18). Design: analysis_2026-10-10_campaign/CAMPAIGN_DESIGN.md.'),
+            'model_file_env': 'IWO_MODEL_FILE=config/iwo_material_model_v3.yaml', 'global_rules': gr, 'stop_rules': rules,
+            'stop_rules_enforced_by': 'main session (manual); run_campaign.py enforces the launch budget and C10 cap and refuses runnable=false plans; no gates',
+            'register_amendment': H_AMENDMENT, 'launch_command': H_LAUNCH.format(stem=stem),
+            'variable_reference': {'record': H_RECORD_REL, 'sha256': rec['sha256']}, 'runs': [rec['entries'][i] for i in ids]}
+
+
 _DUP = None
 
 
@@ -517,6 +579,16 @@ def verify(mx):
     gi = [i for _, ids, _ in G_PLANS for i in ids]
     if gi != [f'S4A-{k:02d}-{t}' for k in range(2, 16) for t in ('2p0', '6p3', '13p2')] or len(set(gi)) != 42:
         bad += 1; print('S4a route plans do not cover S4A-02..S4A-15 exactly once in matrix order')
+    for stem, prefix, rules in H_PLANS:   # 2026-10-15 A52: S4c / S4d route plans (resolved from the sealed record, runnable, no gates, not state-only)
+        if not (CFG / f'{stem}.json').is_file(): bad += 1; print(stem, 'missing'); continue
+        ph = json.loads((CFG / f'{stem}.json').read_text())
+        try: want = h_plan(stem, prefix, rules)
+        except SystemExit as e: bad += 1; print(stem, e); continue
+        if ph != want or 'gates' in ph or 'state_only' in ph or ph.get('runnable') is not True: bad += 1; print(stem, 'differs from make_campaign_configs (H_PLANS)')
+        for e in ph['runs']:
+            if any('{' in o or '=' not in o for o in e['overrides']): bad += 1; print('UNRESOLVED TOKEN in S4c/S4d route plan', stem, e['id'])
+            mxe = next(r for r in mx['runs'] if r['id'] == e['id'])['campaign_entry']
+            if any(e.get(k) != mxe.get(k) for k in ('id', 'thickness', 'label', 'timeout')): bad += 1; print('id/label/timeout differ from the matrix', stem, e['id'])
     held = []   # 2026-10-11 review: runnable flag = not HOLD for every non-template plan
     for stem in [s for s, _, _ in PLANS] + ['campaign_C10_MIN10'] + [s for s, _ in DIAG_PLANS] + [DIAGB[0]] + [s for s, _, _ in DE_PLANS]:
         if not (CFG / f'{stem}.json').is_file(): continue
@@ -539,7 +611,8 @@ def verify(mx):
           f'register route: ' + ', '.join(f'{s} ({len(i)}{", HELD" if s in HOLD else ""})' for s, i in DIAG_PLANS)
           + f'; A41 plan: {DIAGB[0]} ({" then ".join(DIAGB[1])}, state-only, A41 pre-launch gate before every invocation, --retry S2-11 by the STARTED-row rule)'
           + '; A48 stage F plans: ' + ', '.join(f'{s} ({", ".join(i)})' for s, i, _ in F_PLANS)
-          + '; A50 S4a route plans: ' + ', '.join(f'{s} ({i[0][:6]}..{i[-1][:6]}, {len(i)})' for s, i, _ in G_PLANS))
+          + '; A50 S4a route plans: ' + ', '.join(f'{s} ({i[0][:6]}..{i[-1][:6]}, {len(i)})' for s, i, _ in G_PLANS)
+          + '; A52 S4c/S4d route plans (resolved from the sealed record): ' + ', '.join(s for s, _, _ in H_PLANS))
     return bad
 
 
@@ -585,6 +658,7 @@ def main(argv):
         for stem, ids, rules in DE_PLANS: (CFG / f'{stem}.json').write_text(json.dumps(plan(mx, stem, ids, rules, True), indent=1))   # 2026-10-15 A47
         for stem, ids, rules in F_PLANS: (CFG / f'{stem}.json').write_text(json.dumps(plan(mx, stem, ids, rules, True), indent=1))   # 2026-10-15 A48
         for stem, ids, rules in G_PLANS: (CFG / f'{stem}.json').write_text(json.dumps(plan(mx, stem, ids, rules, True), indent=1))   # 2026-10-15 A50
+        for stem, prefix, rules in H_PLANS: (CFG / f'{stem}.json').write_text(json.dumps(h_plan(stem, prefix, rules), indent=1))   # 2026-10-15 A52
     return 1 if verify(mx) else 0
 
 
