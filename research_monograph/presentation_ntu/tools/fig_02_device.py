@@ -28,6 +28,9 @@ A1 = ROOT / "analysis_2026-10-06_extraction" / "results_a1.json"
 FACTS = ROOT / "research_monograph" / "evidence" / "derived" / "device_facts.json"
 
 COX = 8.955369814335959e-07          # F/cm^2, protocol C_ox (FACT-100)
+# model V1 simulated curves used by the extraction analysis (analysis_2026-10-06_extraction/run_extraction.py, RUNS):
+# ATLAS run id and the factor that scales the band mobility (I_D proportional to it) exactly to the measured I_on
+SIM_RUNS = {"2.0": ("0038", 1.0), "6.3": ("0039", 11.581987 / 11.41), "13.2": ("0040", 61.604561 / 60.39)}
 L_CM, W_CM, VD = 20e-4, 290e-4, 0.7  # schematic
 MM = 1 / 25.4
 
@@ -192,6 +195,69 @@ def fig_mobility(d):
     plt.close(fig)
 
 
+def load_sim(t):
+    """Model V1 simulated transfer curve of film t (ATLAS, V_D = 0.7 V), in A/um, scaled as in the extraction."""
+    rid, scale = SIM_RUNS[t]
+    run = next((ROOT / "results" / "runs").glob(f"run_{rid}_*"))
+    with open(run / "terminal_currents.csv") as f:
+        pts = sorted((float(r["vg_V"]), float(r["id_A_per_um"])) for r in csv.DictReader(f))
+    v = np.array([p[0] for p in pts])
+    i = np.array([p[1] for p in pts]) * scale
+    return v, i
+
+
+def local_ss(v, i):
+    """Local SS = dV_G/dlog10 I_D (mV/dec), central differences; rising points only (as extraction.local_ss)."""
+    ok = i > 0
+    vv, ii = v[ok], i[ok]
+    g = np.gradient(np.log10(ii), vv)
+    m = g > 0
+    return ii[m], 1000.0 / g[m]
+
+
+def fig_ss_collapse(d, facts, a1):
+    """Claim C007: local SS against I_D/I_on, measured (I_D >= 10 x floor) and model V1 simulation (runs 0038-0040).
+    Same selection and normalisation as analysis_2026-10-06_extraction/paper_figures.py, panel (c)."""
+    fig, ax = plt.subplots(figsize=(70 * MM, 48 * MM))
+    lo = a1["r_main"]                                       # A1 window [2.15e-5, 2.15e-4] x I_on
+    ax.axvspan(lo, 10 * lo, color="#e4e4e4", lw=0, zorder=0)
+    for t in ["2.0", "6.3", "13.2"]:
+        s = STYLE[t]
+        v, i = d[t]
+        fl = facts["films"][t]["floor_A_per_um"]
+        ion = facts["films"][t]["id_p3V_A_per_um"]           # I_on = I_D(+3 V), measured
+        x, y = local_ss(v, i)
+        m = x >= 10 * fl
+        vs, i_s = load_sim(t)
+        ion_sim = float(np.interp(3.0, vs, i_s))
+        assert abs(ion_sim / a1["films"][t]["info"]["ion_tcad"] - 1) < 1e-4, (t, ion_sim)
+        xs, ys = local_ss(vs, i_s)
+        ax.plot(xs / ion, ys, color=s["color"], ls=s["ls"], lw=1.1, zorder=2)
+        ax.plot(x[m] / ion, y[m], ls="none", marker=s["marker"], ms=3.4, mfc="white", mec=s["color"], mew=0.9,
+                zorder=3)
+    ax.axhline(59.5, color="black", lw=0.6, ls=":")
+    ax.text(1.4e-8, 52, r"$k_\mathrm{B}T\,\ln 10$", fontsize=6.5, ha="left", va="top")
+    ax.text(lo * 10 ** 0.5, 315, "window A1", fontsize=6.5, ha="center", va="top", color="#4a4a4a")
+    ax.set_xscale("log")
+    ax.set_xlim(1e-8, 1e-2)
+    ax.set_ylim(30, 330)
+    ax.set_xlabel(r"$I_\mathrm{D}\,/\,I_\mathrm{on}$")
+    ax.set_ylabel("local SS (mV/dec)")
+    from matplotlib.lines import Line2D
+    films = [Line2D([], [], color=STYLE[t]["color"], ls=STYLE[t]["ls"], lw=1.1, marker=STYLE[t]["marker"], ms=3.4,
+                    mfc="white", mec=STYLE[t]["color"], mew=0.9) for t in ["2.0", "6.3", "13.2"]]
+    leg1 = ax.legend(films, ["2.0 nm", "6.3 nm", "13.2 nm"], loc="upper left", handlelength=2.2,
+                     borderaxespad=0.3, labelspacing=0.25)
+    ax.add_artist(leg1)
+    kinds = [Line2D([], [], ls="none", marker="o", ms=3.4, mfc="white", mec="black", mew=0.9),
+             Line2D([], [], color="black", lw=1.1)]
+    ax.legend(kinds, ["measured", "model V1"], loc="upper left", bbox_to_anchor=(0.0, 0.70), handlelength=2.2,
+              borderaxespad=0.3, labelspacing=0.25)
+    fig.subplots_adjust(left=0.15, right=0.97, bottom=0.19, top=0.97)
+    fig.savefig(OUT / "02_ss_collapse.pdf")
+    plt.close(fig)
+
+
 def main():
     OUT.mkdir(exist_ok=True)
     d = load()
@@ -200,6 +266,7 @@ def main():
     fig_transfer(d, facts)
     fig_local_ss(d, facts, a1)
     fig_mobility(d)
+    fig_ss_collapse(d, facts, a1)
     print("wrote", sorted(p.name for p in OUT.glob("02_*.pdf")))
 
 
