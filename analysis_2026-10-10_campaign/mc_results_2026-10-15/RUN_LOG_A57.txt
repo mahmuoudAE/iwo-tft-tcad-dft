@@ -1,0 +1,40 @@
+working directory: /c/Users/moham/Downloads/IWO_Local_Codex_Handoff (1)/IWO_PHYSICS_CONSTRAINED_MODEL_V1
+command: /c/Users/moham/Downloads/IWO_Local_Codex_Handoff\ \(1\)/IWO_ATLAS_Model_claude/.venv/Scripts/python.exe -I -B analysis_2026-10-10_campaign/mc_measured_extraction.py run --out analysis_2026-10-10_campaign/mc_results_2026-10-15/mc_measured_extraction_out.json 
+environment: IWO_MODEL_FILE=config/iwo_material_model_v3.yaml
+interpreter: C:\Users\moham\Downloads\IWO_Local_Codex_Handoff (1)\IWO_ATLAS_Model_claude\.venv\Scripts\python.exe 3.13.14 numpy 2.5.3 scipy 1.18.1
+start_utc: 2026-10-15T21:56:55Z
+input sha256 (before run):
+  8c9c4aff58f5bb05004282297ff37a816c452ada30e9e9f9977d13a510c52dfc *analysis_2026-10-10_campaign/mc_measured_extraction.py
+  7c6e914a82e9fef6afa934abdac83bf08f25073cfe7bd2c6a731747764dc6edf *analysis_2026-10-10_campaign/test_mc_measured_extraction.py
+  e27a53e8c72169d5e19cdf666c9203f82185f3f23613d5210b47d92ad999b73c *data/experimental_clean.csv
+  1ca61a1c7cec5e97ba221cc344be53c1bc0d1d79edf39817976b80d504c706e1 *analysis_2026-10-06_extraction/extraction.py
+  de7ff06f3414cb8a2947ce07663234c8b3008765caca00fcc33f376831f02c70 *analysis_2026-10-06_extraction/run_extraction.py
+  1f6f324a0841d50bb20baf7f94b6444d688aaf4cbdf71707594a06f26e3e63ba *analysis_2026-10-10_campaign/campaign_extract.py
+  3b0403d9c5cc5423cb80dabc3765f9a781b7a06b512082b6f210971a9417ab0d *analysis_2026-10-10_campaign/campaign_tools.py
+  734125a8915e2a7790b2794db0c7bf429c477a83238b638a200af2b5fbeeca3c *scripts/build_iwo_decks.py
+  51b184e8728c4e4ce5ed4110c56d4b1083b5d12f1d4d6b45aef52816ba63961c *config/iwo_material_model_v3.yaml
+end_utc: 2026-10-15T22:11:55Z
+exit_code: 0
+input sha256 (after run, unchanged check):
+  8c9c4aff58f5bb05004282297ff37a816c452ada30e9e9f9977d13a510c52dfc *analysis_2026-10-10_campaign/mc_measured_extraction.py
+  7c6e914a82e9fef6afa934abdac83bf08f25073cfe7bd2c6a731747764dc6edf *analysis_2026-10-10_campaign/test_mc_measured_extraction.py
+  e27a53e8c72169d5e19cdf666c9203f82185f3f23613d5210b47d92ad999b73c *data/experimental_clean.csv
+  1ca61a1c7cec5e97ba221cc344be53c1bc0d1d79edf39817976b80d504c706e1 *analysis_2026-10-06_extraction/extraction.py
+  de7ff06f3414cb8a2947ce07663234c8b3008765caca00fcc33f376831f02c70 *analysis_2026-10-06_extraction/run_extraction.py
+  1f6f324a0841d50bb20baf7f94b6444d688aaf4cbdf71707594a06f26e3e63ba *analysis_2026-10-10_campaign/campaign_extract.py
+  3b0403d9c5cc5423cb80dabc3765f9a781b7a06b512082b6f210971a9417ab0d *analysis_2026-10-10_campaign/campaign_tools.py
+  734125a8915e2a7790b2794db0c7bf429c477a83238b638a200af2b5fbeeca3c *scripts/build_iwo_decks.py
+  51b184e8728c4e4ce5ed4110c56d4b1083b5d12f1d4d6b45aef52816ba63961c *config/iwo_material_model_v3.yaml
+output sha256:
+  2c354272c9eee0bc23cadf75d65cb8407dd0250b599df90296bd791cc57ad3b7 */c/Users/moham/Downloads/IWO_Local_Codex_Handoff (1)/IWO_PHYSICS_CONSTRAINED_MODEL_V1/analysis_2026-10-10_campaign/mc_results_2026-10-15/mc_measured_extraction_out.json
+  b7f1cfd2bcb16668d261a1d2c72d74f396def934adf7f520c08540bdf46670af */c/Users/moham/Downloads/IWO_Local_Codex_Handoff (1)/IWO_PHYSICS_CONSTRAINED_MODEL_V1/analysis_2026-10-10_campaign/mc_results_2026-10-15/mc_measured_extraction_stdout.txt
+
+post-run additions (written 2026-10-15T22:13:11Z):
+  note: the script's printed sha256 is of its in-memory JSON text (LF line endings); Path.write_text on Windows wrote CRLF, so the
+  file hash above differs; sha256 of the file with CR removed = ef8edd0c766a1ed914273abb535245f68e4603c3aab923e893aa2a342929cdcd (equals the printed value: ef8edd0c766a1ed914273abb535245f68e4603c3aab923e893aa2a342929cdcd).
+  pre-run checks: registered test script test_mc_measured_extraction.py passed 25/25 (IWO_MODEL_FILE as above) with the same interpreter before the run.
+  figures: command (cwd = this folder): /c/Users/moham/Downloads/IWO_Local_Codex_Handoff (1)/IWO_ATLAS_Model_claude/.venv/Scripts/python.exe -I -B make_figures_A57.py
+  figure script sha256: ed58d93dda1bc3cb08c99807c6a0752d960216a1cfd5702870679b28d0236c5c
+  d55901e2523fa2ab5c028428c25ae44922b68b252b9cd10655ccbaf3eda5a6b6  fig_A57_measured_extraction_mc.pdf
+  777b9fdc07bfb357a0c337f3f3ed608e2a6c58c513235821d99d793093255eb2  fig_A57_measured_extraction_mc.png
+  environment note: test scripts were first tried with the system Python 3.13.14 (pytest collection; then -I hid numpy; PyYAML missing for A57); the Monte Carlo scripts themselves were run exactly once, with the project venv interpreter above.
