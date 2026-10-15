@@ -15,12 +15,14 @@
 % evidence label inside a \src line: same vocabulary as \lab, but at the (tiny) size of the source line
 \providecommand{\sevsrclab}[1]{[\textsc{\MakeLowercase{#1}}]}
 \providecommand{\sevNv}{N_{\mathrm{V}}}
+% pull the frame body up towards the title rule (as in Parts 5 and 8); keeps clear space above the take-away
+\providecommand{\sevTop}{\vspace{-3mm}}
 
 \partslide{Part 7}{Electron and hole masses}
 
 % ---------------------------------------------------------------------------------------------------------------------
 \begin{frame}{Bulk electrons: a Kane band, 26\,\% lighter than measured}
-  \sevdense
+  \sevdense\sevTop
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.47\textwidth}
       \includegraphics[width=\linewidth]{07_bulk_cb}
@@ -46,7 +48,7 @@
 
 % ---------------------------------------------------------------------------------------------------------------------
 \begin{frame}{Confinement raises the mass; extrapolated, little beyond 2\,nm}
-  \sevdense
+  \sevdense\sevTop
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.47\textwidth}
       \includegraphics[width=\linewidth]{07_film_masses}
@@ -72,7 +74,7 @@
 
 % ---------------------------------------------------------------------------------------------------------------------
 \begin{frame}{No-fit Kane test: 1\,\% off at 2\,nm, 10\,\% off at 1\,nm}
-  \sevdense
+  \sevdense\sevTop
   \begingroup\small\setlength{\abovedisplayskip}{2pt}\setlength{\belowdisplayskip}{2pt}%
   Kane band\sref{Kane1957} confined with $k_z = n\pi/t$, expanded at $k_\parallel = 0$:
   \begin{equation*}
@@ -117,7 +119,7 @@
 
 % ---------------------------------------------------------------------------------------------------------------------
 \begin{frame}{The mass law and the $\dEc$ law are one input, not two}
-  \sevdense
+  \sevdense\sevTop
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.47\textwidth}
       \includegraphics[width=\linewidth]{07_kanetest}
@@ -143,7 +145,7 @@
 
 % ---------------------------------------------------------------------------------------------------------------------
 \begin{frame}{No single hole mass; \textit{N}\textsubscript{V} is about 200 times the deck value}
-  \sevdense
+  \sevdense\sevTop
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.47\textwidth}
       \includegraphics[width=\linewidth]{07_holes}

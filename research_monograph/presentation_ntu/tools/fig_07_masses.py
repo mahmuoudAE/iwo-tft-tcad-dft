@@ -151,9 +151,10 @@ def fig_film_masses():
     ax1.plot(t[1:], m[1:], "o", color=BLACK)
     ax1.plot(t[0], m[0], "o", mfc="white", mec=BLACK, mew=0.8)
     # direct labels (no legend): the two bulk references are 0.008 m0 apart, so one label sits above, one below
+    # (x = 0.40: clear of the inward y-axis ticks; the W label sits low enough to stay clear of the 0.2 tick)
     lab = dict(fontsize=6.6, ha="left")
-    ax1.text(0.34, mw + 0.010, "bulk, 3.1 % W", color=MAROON, va="bottom", **lab)
-    ax1.text(0.34, mbulk - 0.010, "bulk", color=BLACK, va="top", **lab)
+    ax1.text(0.40, mw + 0.006, "bulk, 3.1 % W", color=MAROON, va="bottom", **lab)
+    ax1.text(0.40, mbulk - 0.008, "bulk", color=BLACK, va="top", **lab)
     ax1.text(1.08, mbulk + law["a"] * 1.08 ** (-law["p"]) + 0.012, "bulk + law", color=GREY, ha="left", va="bottom",
              fontsize=6.6)
     ax1.text(t[0] + 0.07, m[0], r"In$_8$(OH)$_{24}$", ha="left", va="center", fontsize=6.6)

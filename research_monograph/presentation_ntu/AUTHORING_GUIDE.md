@@ -120,3 +120,29 @@ are fine. Read a figure's caption in the monograph or the report before using it
 When finished, reply with: the number of slides; the list of figures used; the citation keys used; and a list of
 every number on your slides with its source (file and line or registry ID), so that an independent reviewer can
 check them.
+
+## 8. Deck-level rules after the first whole-deck review (binding)
+
+The deck assembler has already changed: all frames are top-aligned by default (class option `t`); the closing
+slides (acknowledgements, thank you) are in `sections/15_closing.tex`; backup and references follow `\appendix`, so
+the footer counts talk frames only; the footnote format for the device paper is fixed; .bib notes are no longer printed.
+Do not edit `main.tex`, `ntutalk.sty`, `sections/00_title.tex`, `sections/15_closing.tex`, `sections/17_references.tex`.
+
+- G1 Qualify every label that could be read two ways: "model V1"/"model V2" for device-model versions; "review
+  correction V1-V12" (or "correction V5 (review)") for monograph review corrections; never a bare "(V5)". "Stage S1"
+  for the campaign stage, "window S1"/"window A1" for swing windows. Do not use undefined codes (V0, T2, T3): say
+  what they are in words.
+- G2 Ledger IDs (C0nn, Mnnn, FACT-nnn), commit hashes, run numbers and file names go only in `\src` lines, never in
+  titles, bullets or take-aways.
+- G3 No `\sref` inside `\src` lines (the mark is set too large there); put the citation in the bullet or caption text.
+- G4 Thickness-step terminology: "the 2.0-13.2 nm step" is Delta V_th,cc = -0.58 V (signed; -0.579 V); "the
+  6.3-13.2 nm drop" is -0.56 V; "2.0 to 6.3 nm" changes by -0.018 V. Never just "the step".
+- G5 Notation: N_c and N_v for the effective densities of states; N_VB for a number of valence bands; W_TA for the
+  tail width; model law values always say which law they come from (e.g. "model V1 law, fitted to published slab DFT"
+  versus "this work's DFT").
+- G6 At most three footnote lines per slide: cite one representative work per statement.
+- G7 Every result slide ends with a one-sentence `\takeaway`.
+- G8 Check the build under top alignment: remove ad-hoc negative pull-ups if they now cause collisions; no overflow.
+- G9 Keep the full detail (the speaker wants a complete talk), but remove duplicates: keep one instance and replace
+  the other by a one-line pointer ("derivation: backup", "see Part 5").
+- G10 Wording that could sound like a sealed amorphous result must say it follows from the rules and atom counts only.

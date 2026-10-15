@@ -97,7 +97,10 @@
   uniquename=false,uniquelist=false,giveninits=true,doi=true,url=false,isbn=false,eprint=true,sorting=nyt,
   dashed=false]{biblatex}
 \renewcommand*{\bibfont}{\tiny}
-\setlength{\bibitemsep}{0.6ex}
+\setlength{\bibitemsep}{0.5ex}
+\setbeamertemplate{bibliography item}{}
+% internal bookkeeping fields of the project .bib files are not part of a reference
+\AtEveryBibitem{\clearfield{note}\clearfield{addendum}\clearfield{howpublished}\clearfield{issn}\clearlist{language}}
 % \refcite{key}: "Author et al., Journal vol, pages (year)" -- used inside slide footnotes.
 % journal abbreviations for the slide footnotes (the reference list keeps the names as given in the .bib files)
 \newcommand{\ntujabbr}[2]{\expandafter\def\csname ntujabbr@#1\endcsname{#2}}
@@ -119,12 +122,13 @@
 \ntujabbr{Frontiers in Materials}{Front. Mater.}
 \ntujabbr{2020 IEEE International Electron Devices Meeting (IEDM)}{IEDM}
 \DeclareFieldFormat{shortjournal}{\ifcsdef{ntujabbr@#1}{\emph{\csuse{ntujabbr@#1}}}{\emph{#1}}}
-% article-number page fields that \mkfirstpage cannot shorten (literal comparison of the raw field)
+% article-number page fields that \mkfirstpage cannot shorten, matched by entry key (the bibtex backend rewrites
+% the range dash as \bibrangedash, so the raw page string cannot be compared literally)
 \DeclareFieldFormat{firstpage}{%
-  \iffieldequalstr{pages}{e202500807 (1--12)}{e202500807}{%
-  \iffieldequalstr{pages}{850451 (1--7)}{850451}{%
-  \iffieldequalstr{pages}{225102-1--225102-15}{225102}{%
-  \iffieldequalstr{pages}{173507-1--173507-7}{173507}{\mkfirstpage{#1}}}}}}
+  \iffieldequalstr{entrykey}{Januar2026}{e202500807}{%
+  \iffieldequalstr{entrykey}{Wang2022}{850451}{%
+  \iffieldequalstr{entrykey}{Stokey2021}{225102}{%
+  \iffieldequalstr{entrykey}{Kim2024}{173507}{\mkfirstpage{#1}}}}}}
 % \refcite{key}: "Author et al., Journal vol, first page (year)"; with a postnote, the cited page replaces the range.
 \DeclareCiteCommand{\refcite}
   {}
@@ -157,8 +161,8 @@
 % part divider frame
 \newcommand{\partslide}[2]{%
   {\setbeamertemplate{footline}{}\setbeamertemplate{frametitle}{}
-   \begin{frame}[noframenumbering]
-   \vfill\begin{minipage}{0.85\linewidth}
+   \begin{frame}[c,noframenumbering]
+   \vfill\begin{minipage}{0.85\linewidth}\raggedright
    {\color{ntumaroon}\Large\textbf{#1}}\par\vspace{2mm}
    {\color{rulegrey}\rule{0.6\linewidth}{0.4pt}}\par\vspace{2mm}
    {\LARGE\bfseries #2\par}

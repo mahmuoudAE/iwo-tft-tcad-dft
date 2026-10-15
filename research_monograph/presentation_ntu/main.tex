@@ -1,8 +1,11 @@
 % main.tex -- NTU presentation: ultrathin W-doped In2O3 transistors, first-principles inputs and device simulation.
 % Build: bash tools/build.sh  ->  build/main.pdf.  Sections are in sections/NN_*.tex (one file per part).
 % Authoring rules for every section: AUTHORING_GUIDE.md.
-\documentclass[aspectratio=169,10pt]{beamer}
+% Structure: talk (00-14), closing (15: acknowledgements, thank you), then \appendix: backup slides (16*) and the
+% reference list (17). With appendixnumberbeamer the footer total counts the talk frames only.
+\documentclass[aspectratio=169,10pt,t]{beamer}
 \usepackage{ntutalk}
+\usepackage{appendixnumberbeamer}
 \addbibresource{../../report_latex_full/references.bib}
 \addbibresource{../../report_latex_full/bib/extra_DFT.bib}
 \addbibresource{../bib/monograph.bib}
@@ -10,10 +13,13 @@
   {../../qe_workflow/analysis_2026-10-13_full/bands_masses/figures/}{../../analysis_2026-10-06_extraction/figures/final/}%
   {../../analysis_2026-10-06_extraction/figures/paper/}{../../analysis_2026-10-06_extraction/figures/}}
 
-\title{Thickness-Dependent Electronic Structure and Transport\\in Ultrathin W-Doped \InO{} Thin-Film Transistors}
+\title{\texorpdfstring{Thickness-Dependent Electronic Structure and Transport in Ultrathin W-Doped \InO{} Thin-Film
+  Transistors}{Thickness-Dependent Electronic Structure and Transport in Ultrathin W-Doped In2O3 Thin-Film Transistors}}
 \subtitle{First-principles inputs, device simulation and registered tests}
 \author{Mahmoud Elrasheedy}
 \date{National Taiwan University \textperiodcentered{} October 2026}
+\hypersetup{pdftitle={Ultrathin W-doped In2O3 thin-film transistors: first-principles inputs and device simulation},
+  pdfauthor={Mahmoud Elrasheedy}}
 
 \begin{document}
 \input{sections/00_title}
@@ -31,6 +37,10 @@
 \input{sections/12_alternatives}
 \input{sections/13_resources}
 \input{sections/14_conclusions}
-\input{sections/15_references}
+\input{sections/15_closing}
+\appendix
 \input{sections/16_backup}
+\IfFileExists{sections/16b_backup_register.tex}{\input{sections/16b_backup_register}}{}
+\IfFileExists{sections/16c_backup_extra.tex}{\input{sections/16c_backup_extra}}{}
+\input{sections/17_references}
 \end{document}
