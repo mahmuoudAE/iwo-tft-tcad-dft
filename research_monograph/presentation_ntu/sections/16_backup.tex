@@ -4,9 +4,13 @@
 % M04b_dft_numerics.tex (sec:mono-dft-align, eq. mono-dft-twostep), M09_masses_parameters.tex (tab:mono-mass-laws,
 % tab:mono-mass-tcad, sec:mono-mass-tcad), M02_questions.tex (tab:mono-q-map), M08_c10_campaign.tex (tab:mono-c10-hyp,
 % tab:mono-c10-s1, sec:mono-c10-s1), M10_w_and_vacancies.tex (H-L), M11_amorphous_protocol.tex (tab:mono-am-tests,
-% prop:mono-hn), M12_multiscale.tex (tab:mono-ms-transfer); appendices/MG_corrections.tex (X1-X13, R1, V1-V11);
-% evidence/FACT_REGISTRY.tsv (FACT-004, 005, 014, 015, 025, 027, 045, 071, 080); evidence/derived/defect_estimates.json;
+% prop:mono-hn), M12_multiscale.tex (fig:mono-ms-chain, labels); appendices/MG_corrections.tex (X1-X13, R1, V1-V12;
+% V12: MV weights as implemented in QE, 0.40 at mu, never negative, maximum 1.083 at x = -sqrt2, printed 8b occupations
+% up to 1.074); evidence/FACT_REGISTRY.tsv (FACT-004, 005, 014, 015, 025, 027, 030, 045, 071, 080);
+% evidence/CLAIM_SOURCE_MAP.tsv (C034 amorphous force-only screen, C039); evidence/derived/defect_estimates.json;
 % evidence/derived/confinement_analysis.json; qe_workflow/analysis_2026-10-13_full/bands_masses/out/b04_tcad.json.
+% Literature anchors: Fan2021 for 3.05 eV and 4.3 eV (M09:170; report 02c:191, 04:166/206), Stokey2021 p. 225102-1 for
+% 0.208 m0 (M09:82).
 % Blind rules: no sealed outcome, no amorphous electronic quantity, no ATLAS result from S2 on (S1-05 was seen before the
 % register freeze). Figures: none (equations, tables and one TikZ schematic).
 % Note: every frame body starts with a command, never with a brace group (beamer would read a frame subtitle).
@@ -18,7 +22,9 @@
 \providecommand{\sixteenAum}{\si{A/\micro\metre}}
 \providecommand{\sixteenNc}{N_{\mathrm{C}}}
 \providecommand{\sixteenNv}{N_{\mathrm{V}}}
-\providecommand{\sixteenTop}{\vspace{-2mm}}
+\providecommand{\sixteenTop}{\vspace{-4mm}}
+% evidence label at the size of the surrounding text (for \src lines, where \lab would print larger than the text)
+\providecommand{\sixteenSrcLab}[1]{{\color{inkgrey}[\textsc{\MakeLowercase{#1}}]}}
 
 \partslide{Backup}{Supplementary slides}
 
@@ -52,13 +58,14 @@
         0.930 & 0.848 & 0.279\,/\,0.306 & 0.36\,/\,0.29 & 1.50 \\
         \bottomrule
       \end{tabular}\par\endgroup
-      \src{Kane: bulk $m_b$, $\alpha$ and the computed $\dEc$; nothing adjusted \lab{derived}. FACT-027.}
+      \src{DFT columns \sixteenSrcLab{computed}; Kane columns from bulk $m_b$, $\alpha$ and the computed $\dEc$,
+        nothing adjusted \sixteenSrcLab{derived}. FACT-027.}
       \vspace{0.4mm}
       \begin{itemize}
         \item Inputs: $m_b = 0.1541\,m_0$, $\alpha = 0.58$\,eV$^{-1}$ (0.55--0.63), fitted up to 0.45\,eV
           \lab{computed}.
-        \item The two-band $\alpha$ with the PBE gap would be 0.81\,eV$^{-1}$, so $\alpha$ is taken from the fit;
-          $E_P$ is not invariant between functionals.
+        \item The two-band $\alpha$ with the PBE gap would be 0.81\,eV$^{-1}$; $\alpha$ is taken from the fit.
+        \item $E_P$ depends on the functional: masses are computed, not scaled from gaps \lab{derived}.
         \item $(E_2 - E_1)/E_1$ = 2.56 at 2\,nm and 1.77 at 1\,nm, below the parabolic 3 \lab{computed}.
       \end{itemize}
     \end{column}
@@ -67,7 +74,7 @@
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
-\begin{frame}{Hydrogenic donor: 25\,meV in bulk, four times more in 2-D}
+\begin{frame}{Hydrogenic donor: 25\,meV in bulk, four times that in strict 2-D}
   \sixteenTop\sixteendense\sixteenEq
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.52\textwidth}
@@ -77,7 +84,9 @@
          n_c^{1/3}a_B^* \approx 0.26 \]
       \textbf{Strict 2-D}; the surroundings screen beyond $r_0$\srefs{Bastard1981b,Cudazzo2011}:
       \[ E_D^{\mathrm{2D}} = 4E_D,\quad a_{\mathrm{2D}} = a_B^*/2;\qquad
-         E^{\mathrm{2D}} \le 4\,\mathrm{Ry}\,(m^*/m_0)/\bar\varepsilon^{\,2} \]
+         E_D^{\mathrm{2D}} \le 4\,\mathrm{Ry}\,(m^*/m_0)/\bar\varepsilon^{\,2} \]
+      {\scriptsize where $r_0 = \varepsilon_s t/(\varepsilon_1+\varepsilon_2)$; $\varepsilon_1$, $\varepsilon_2$:
+        permittivities below and above the film; $\bar\varepsilon$ their mean.\par}
       \vspace{0.6mm}
       \begingroup\scriptsize
       \setlength{\tabcolsep}{3.2pt}
@@ -90,19 +99,19 @@
         PBE band edge & 0.154 & 18.8 & 3.62 & $3.7\times10^{17}$ & 75.3 & 1.81 \\
         \bottomrule
       \end{tabular}\par\endgroup
-      \src{Ry = 13.606\,eV, $a_0 = 0.0529$\,nm; $\varepsilon_1$, $\varepsilon_2$: permittivities below and above the film,
-        $\bar\varepsilon$ their mean. $\varepsilon_s = 10.55$, $m^* = 0.208\,m_0$\sref[p.~225102-1]{Stokey2021}. FACT-080
-        \lab{derived}.}
+      \src{Ry = 13.606\,eV, $a_0 = 0.0529$\,nm; $\varepsilon_s = 10.55$,
+        $m^* = 0.208\,m_0$\sref[p.~225102-1]{Stokey2021}. FACT-080 \sixteenSrcLab{derived}.}
     \end{column}
     \begin{column}{0.44\textwidth}
       \begin{itemize}
-        \item Crystalline W cells: 1.4--3.0$\times10^{21}$\cmcu, 1500--3300 times $n_c$: no bound hydrogenic state;
-          they test extended against strongly localised states only \lab{derived}.
+        \item Crystalline W cells (1.4--3.0$\times10^{21}$\cmcu, 1500--3300 times $n_c$) have no bound hydrogenic
+          state \lab{derived}.
         \item $t = 2$\,nm $\approx 0.75\,a_B^*$: confinement roughly doubles $E_D$. \AlO{}/air ($\bar\varepsilon = 5$):
-          up to 0.45\,eV; \HfO{}/air ($\bar\varepsilon = 10.3$): 0.11\,eV. The device stack, with
-          $r_0 = \varepsilon_s t/(\varepsilon_1+\varepsilon_2) \approx 2.1$\,nm, is nearer the second (V6) \lab{theory}.
-        \item Above the LO-phonon energy, static $\varepsilon_s$ and a parabolic $m^*$ both understate the binding.
-          Dielectric deactivation is known in Si nanowires\srefs{Diarra2007,Bjork2009}.
+          up to 0.45\,eV; \HfO{}/air ($\bar\varepsilon = 10.3$): 0.11\,eV \lab{theory}.
+        \item The 2\,nm \AlO{} layer is about as thick as $r_0 \approx 2.1$\,nm and $a_{\mathrm{2D}} \approx 1.3$\,nm:
+          the device lies between the two cases, closer to \HfO{}/air at large distances (V6) \lab{theory}.
+        \item Above the LO-phonon energy, static $\varepsilon_s$ and parabolic $m^*$ understate the binding.
+          Dielectric deactivation: predicted and observed in Si nanowires\srefs{Diarra2007,Bjork2009}.
       \end{itemize}
     \end{column}
   \end{columns}
@@ -110,17 +119,17 @@
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
-\begin{frame}{Cold smearing trades an $O(\sigma^3)$ error for negative weights}
-  \sixteendense\sixteenEq
+\begin{frame}{Cold smearing trades an $O(\sigma^3)$ error for weights above one}
+  \sixteenTop\sixteendense\sixteenEq
   \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.5\textwidth}
+    \begin{column}{0.48\textwidth}
       \footnotesize
       Weights $f = \tilde f(x)$, $x = (\varepsilon-\mu)/\sigma$; $F = E - \sigma S$ is variational, so forces
-      are derivatives of $F$\sref{Mermin1965}. Marzari--Vanderbilt (MV)\sref{Marzari1999}:
+      are derivatives of $F$\sref{Mermin1965}. Marzari--Vanderbilt (MV)\sref{Marzari1999}, as in Quantum ESPRESSO:
       \begin{align*}
-        \tilde\delta(x) &= \pi^{-1/2}\,e^{-(x-a)^2}\,\big(2-\sqrt2\,x\big),\qquad a = 1/\sqrt2,\\
-        \tilde f(x) &= \int_x^\infty\!\tilde\delta\,dx' = \tfrac12\,\mathrm{erfc}(y) - \frac{e^{-y^2}}{\sqrt{2\pi}},
-          \qquad y = x-a .
+        \tilde\delta(x) &= \pi^{-1/2}\,e^{-(x+a)^2}\,\big(2+\sqrt2\,x\big),\quad a = 1/\sqrt2,\\
+        \tilde f(x) &= \int_x^\infty\!\tilde\delta\,dx' = \tfrac12\,\mathrm{erfc}(y) + \frac{e^{-y^2}}{\sqrt{2\pi}},
+          \quad y = x+a .
       \end{align*}
       \vspace{0.6mm}
       \begingroup\scriptsize
@@ -137,16 +146,16 @@
         \bottomrule
       \end{tabular}\par\endgroup
     \end{column}
-    \begin{column}{0.46\textwidth}
+    \begin{column}{0.49\textwidth}
       \begin{itemize}
-        \item MV weight: 0.60 at $x = 0$, zero at $x \approx 0.92$, minimum $-0.083$ at $x = \sqrt2$: negative up to
-          about $2\sigma$ above $\mu$ \lab{derived}.
-        \item Widths: MV 0.01\,Ry (136\,meV, crystalline W cells); Gaussian 0.005 to 0.001\,Ry (68 to 13.6\,meV);
-          $\kT = 25.85$\,meV at 300\,K.
-        \item W-5d counts of 0.09--0.43\,e are projections of MV-weighted states, not a W charge (X11)
+        \item MV weight 0.40 at $x = 0$, never negative; above one below $\mu$, maximum 1.083 at $x = -\sqrt2$
+          \lab{derived}. Printed 8b W-cell occupations reach 1.074 (V12) \lab{computed}.
+        \item Widths: MV 0.01\,Ry = 136\,meV (crystalline W cells, amorphous W relaxations); Gaussian
+          0.005--0.001\,Ry (68--13.6\,meV); $\kT = 25.85$\,meV.
+        \item W-5d counts (0.09--0.43\,e) are projections of MV-weighted states, not a W charge (X11)
           \lab{computed}.
-        \item MV to Gaussian 0.005\,Ry at one relaxed 1.0\,nm W geometry: no force component moves by more than
-          $2.4\times10^{-4}$\,Ry/bohr (C034) \lab{computed}.
+        \item MV to Gaussian 0.005\,Ry at one relaxed amorphous 1.0\,nm W cell (force-only screen): no force
+          component changes by more than $2.4\times10^{-4}$\,Ry/bohr (C034) \lab{computed}.
       \end{itemize}
     \end{column}
   \end{columns}
@@ -163,19 +172,20 @@
         % bulk cell
         \draw[line width=0.5pt,dashed] (0,8) -- (14,8);
         \draw[line width=0.7pt] (0,26) -- (14,26);
-        \node[anchor=south west,inner sep=1pt] at (0,26) {$E_c^{\mathrm{bulk}}$};
+        \node[anchor=south west,inner sep=1pt] at (0,26) {$\Ec^{\mathrm{bulk}}$};
         \node[anchor=north west,inner sep=1pt] at (0,7) {$\sixteenVV^{\,\mathrm{bulk}}$};
         \draw[<->,line width=0.5pt] (10,8.6) -- (10,25.4) node[midway,right=0.2mm] {(b)};
         % slab: planar average (grey) and macroscopic average (dashed)
-        \draw[inkgrey,line width=0.4pt,domain=22:42,samples=121,smooth] plot (\x,{8-5*cos(360*(\x-22)/4)});
+        % the oscillation starts at x = 25 (on its average) so that the grey (b) arrow at x = 23.5 stays clear of it
+        \draw[inkgrey,line width=0.4pt,domain=25:42,samples=103,smooth] plot (\x,{8-5*cos(360*(\x-22)/4)});
         \draw[inkgrey,line width=0.4pt] (42,3) .. controls (45.5,3) and (46,50) .. (50,50);
         \draw[line width=0.5pt,dashed] (22,8) -- (42,8);
         \draw[line width=0.7pt] (50,50) -- (66,50);
         \node[anchor=south,inner sep=1pt] at (60,50) {$E_{\mathrm{vac}}$};
         % bulk-like edge placed on the slab interior average
         \draw[inkgrey,line width=0.5pt,dashed] (22,26) -- (42,26);
-        \draw[<->,inkgrey,line width=0.5pt] (24,8.6) -- (24,25.4) node[midway,right=0.2mm] {(b)};
-        \node[anchor=north,inner sep=1pt,text=inkgrey] at (33,25.4) {bulk-like $E_c$};
+        \draw[<->,inkgrey,line width=0.5pt] (23.5,8.6) -- (23.5,25.4) node[midway,right=0.2mm] {(b)};
+        \node[anchor=north,inner sep=1pt,text=inkgrey] at (33,25.4) {bulk-like $\Ec$};
         % slab CBM
         \draw[ntumaroon,line width=0.8pt] (22,35) -- (42,35);
         \node[anchor=south,inner sep=1pt,text=ntumaroon] at (31,35) {$E_{\mathrm{CBM}}^{\mathrm{slab}}$};
@@ -197,9 +207,9 @@
     \end{column}
     \begin{column}{0.52\textwidth}
       \footnotesize
-      \[ \dEc(t) = \underbrace{\big[E_{\mathrm{CBM}}^{\mathrm{slab}} - E_{\mathrm{vac}}\big]}_{(a)}
-         - \underbrace{\big[E_c^{\mathrm{bulk}} - \sixteenVV^{\,\mathrm{bulk}}\big]}_{(b)}
-         - \underbrace{\big[\sixteenVV^{\,\mathrm{slab}}_{\mathrm{int}} - E_{\mathrm{vac}}\big]}_{(c)} \]
+      \[ \dEc(t) = \underbrace{\big[E_{\mathrm{CBM}}^{\mathrm{slab}} - E_{\mathrm{vac}}\big]}_{\text{(a)}}
+         - \underbrace{\big[\Ec^{\mathrm{bulk}} - \sixteenVV^{\,\mathrm{bulk}}\big]}_{\text{(b)}}
+         - \underbrace{\big[\sixteenVV^{\,\mathrm{slab}}_{\mathrm{int}} - E_{\mathrm{vac}}\big]}_{\text{(c)}} \]
       {\scriptsize Two-step method\srefs{VandeWalle1987,Baldereschi1988}; likewise $\dEv$ (signed, negative =
         downwards), and $\dEg = \dEc - \dEv$.\par}
       \vspace{-0.3mm}
@@ -216,33 +226,34 @@
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
-\begin{frame}{Device decks: PBE increments on literature bulk anchors}
-  \sixteendense
+\begin{frame}{Device decks add PBE increments to literature bulk anchors}
+  \sixteenTop\sixteendense
   \begingroup\scriptsize
   \setlength{\tabcolsep}{5pt}
-  \renewcommand{\arraystretch}{1.05}
+  \renewcommand{\arraystretch}{1.0}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l l c c c l@{}}
     \toprule
-    Quantity & Rule ($t$ = H--H thickness in nm) & 2.0\,nm & 6.3\,nm & 13.2\,nm & Label \\
+    Quantity & Rule ($t$ = H--H thickness in nm; fitted at 0.695--1.962\,nm) & 2.0\,nm & 6.3\,nm & 13.2\,nm & Label \\
     \midrule
     $\dEg$ (eV) & $0.8147\,t^{-1.3155}$ & 0.327 & 0.072 & 0.027 & fitted \\
     $\dEc$ (eV) & $0.7018\,t^{-1.3176}$ (fit3, frozen C10 law) & 0.282 & 0.062 & 0.023 & fitted \\
     $\Delta m$ ($m_0$) & $0.1114\,t^{-1.2611}$ (deck basis) & 0.046 & 0.011 & 0.004 & fitted \\
     \midrule
-    $\Eg$ (eV) & $3.05 + \dEg$ & 3.377 & 3.122 & 3.077 & \\
-    Affinity $\chi$ (eV) & $4.3 - \dEc$ & 4.019 & 4.238 & 4.277 & \\
-    $m^*$ ($m_0$) & $0.208 + \Delta m$ & 0.255 & 0.219 & 0.212 & \\
-    $\sixteenNc$ (cm$^{-3}$) & quasi-2-D $N_{2D}/t$ at 2.0\,nm; 3-D otherwise & $1.373\times10^{19}$ & $2.57\times10^{18}$
-      & $2.46\times10^{18}$ & \\
+    $\Eg$ (eV) & $3.05 + \dEg$ & 3.377 & 3.122 & 3.077 & calculated \\
+    Affinity $\chi$ (eV) & $4.3 - \dEc$ & 4.019 & 4.238 & 4.277 & calculated \\
+    $m^*$ ($m_0$) & $0.208 + \Delta m$ & 0.255 & 0.219 & 0.212 & calculated \\
+    $\sixteenNc$ (cm$^{-3}$) & quasi-2-D $N_{\mathrm{2D}}/t$ at 2.0\,nm; 3-D otherwise & $1.373\times10^{19}$
+      & $2.57\times10^{18}$ & $2.46\times10^{18}$ & calculated \\
     $\sixteenNv$ (cm$^{-3}$) & fixed; holes are not solved & $10^{19}$ & $10^{19}$ & $10^{19}$ & assumed \\
     \bottomrule
   \end{tabular*}\par\endgroup
-  \src{Monograph M09; b04\_tcad.json. Anchors: 3.05\,eV, optical gap of another sputtered IWO device; 0.208\,$m_0$;
-    4.3\,eV, literature affinity\srefs{Fan2021,Stokey2021}. 6.3 and 13.2\,nm extrapolate laws fitted at 0.695--1.962\,nm.}
-  \vspace{0.4mm}
+  \src{Monograph M09; b04\_tcad.json. Calculated: literature anchor plus fitted increment. Anchors: 3.05\,eV optical gap
+    and 4.3\,eV affinity (a composition-mixing estimate) of a different sputtered IWO\sref{Fan2021};
+    0.208\,$m_0$, measured band-edge mass of \InO{}\sref[p.~225102-1]{Stokey2021}.}
   \begin{itemize}
-    \item C10 decks match to 0.11\,meV ($\Eg$, $\chi$), $0.0002\,m_0$, 0.1\,\% ($\sixteenNc$). Fit options:
-      $\dEc(6.3\,\mathrm{nm})$ = 0.050--0.075\,eV.
+    \item 6.3 and 13.2\,nm extrapolate the laws; over the fit options $\dEc(6.3\,\mathrm{nm})$ = 0.050--0.075\,eV
+      \lab{fitted}.
+    \item C10 decks match to 0.11\,meV ($\Eg$, $\chi$), $0.0002\,m_0$ and 0.1\,\% ($\sixteenNc$) \lab{computed}.
     \item Not in the decks: Kane factor of $\sixteenNc$ ($+5.7$\,\%), HSE ratio ($+6$ to $+11$\,\% in $\dEg$), computed
       $\sixteenNv \approx 2\times10^{21}$\cmcu.
   \end{itemize}
@@ -250,46 +261,50 @@
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
-\begin{frame}{Of fourteen registered tests, only H-L is scored: unresolved}
+\begin{frame}{No registered test passed: H-L is unresolved, S1-05 failed}
+  \sixteenTop
   \begingroup\scriptsize
   \setlength{\tabcolsep}{2.6pt}
-  \renewcommand{\arraystretch}{1.07}
-  \begin{tabularx}{\textwidth}{@{}l>{\raggedright\arraybackslash}p{4.5cm}>{\raggedright\arraybackslash}X
-      >{\raggedright\arraybackslash}p{3.05cm}@{}}
+  \renewcommand{\arraystretch}{1.0}
+  \begin{tabularx}{\textwidth}{@{}l>{\raggedright\arraybackslash}p{4.3cm}>{\raggedright\arraybackslash}X
+      >{\raggedright\arraybackslash}p{3.4cm}@{}}
     \toprule
     ID & Hypothesis & Registered prediction (abridged) & Status \\
     \midrule
-    H-A & 2.0\,nm floor: extrinsic or instrumental & intrinsic $\ge 1$\,dec below $4.6\times10^{-15}$\,\sixteenAum
-      & sealed \\
+    H-A & 2.0\,nm floor: extrinsic or instrumental & intrinsic $\ge 1$\,dec below the 2.0\,nm floor
+      & sealed; decisive part expected unresolved \\
     H-B & an ungated strip sets the floors & $I_{0.7\,\mathrm{V}}/I_{0.1\,\mathrm{V}} = 7.0\pm0.5$; floors within 0.5\,dec
       & sealed \\
     H-C & leakage, generation do not set the floor & leakage $\le 10^{-2}\times$ floor; generation
       $\le 10^{-20}$\,\sixteenAum & sealed \\
-    H-D & band mobility needs $1/t$ scattering & 2.0/13.2\,nm ratio 0.20--0.35, $\ell = 4$--12\,nm & sealed \\
-    H-E & confinement sets part of the threshold & inputs off: $\Delta\Vthcc = -0.13\pm0.03$\,V at 2.0\,nm
+    H-D & band mobility needs $1/t$ scattering & 2.0/13.2\,nm ratio 0.20--0.35, $\ell = 4$--12\,nm
+      & sealed; mass-only part unresolved \\
+    H-E & confinement shifts the threshold & inputs off: $\Delta\Vthcc = -0.13\pm0.03$\,V at 2.0\,nm$^{*}$
       & S1-05 failed; rest sealed \\
     H-F & 6.3\,nm shape residual is unexplained & rigid shift $+0.28\pm0.08$\,V; current scale 0.15--0.35 & sealed \\
     H-G & W donates into host states (2.0\,nm) & W-5d $> 0.3$\,eV above edge; $\ge 80$\,\% extended & sealed \\
-    H-H & OH termination: dipoles, not the edge & 2.0 and 0.7\,nm against bare controls & sealed; 2.0\,nm unresolved \\
+    H-H & OH termination: dipoles, not the edge & 2.0 and 0.7\,nm against bare controls & sealed; 2.0\,nm part
+      unresolved \\
     H-I & \AlO{} shifts alignment, no edge traps & interface cells & expected unresolved \\
-    H-J & one shared model transfers across films & acceptance for every film in every fold & sealed \\
-    H-K & amorphous films follow the crystal laws & $\Eg(0.7\,\mathrm{nm}) - \Eg(2.0\,\mathrm{nm}) = 0.6$--1.3\,eV
+    H-J & shared model transfers across films & acceptance for every film in every fold & sealed \\
+    H-K & amorphous films follow crystal laws & $\Eg(0.7\,\mathrm{nm}) - \Eg(2.0\,\mathrm{nm}) = 0.6$--1.3\,eV
       & sealed \\
-    H-L & W raises the neutral O-vacancy energy & $\Delta E_{\mathrm{local}} \ge +0.3$\,eV;
+    H-L & W raises neutral O-vacancy energy & $\Delta E_{\mathrm{local}} \ge +0.3$\,eV;
       $\Delta E_{\mathrm{dop}} > +0.05$\,eV & scored: \textbf{unresolved} \\
     H-M & \HfO{} interface control at 2.0\,nm & alternative-interface control only & sealed \\
     H-N & W extended-carrier efficacy against $t$ & exploratory; frozen per-cell read-out rules &
       \textbf{unresolved} by rule (A37) \\
     \bottomrule
   \end{tabularx}\par\endgroup
-  \src{Register rev.\ 2, frozen 2026-10-10T18:33:13Z (D-17); H-L (A17), H-M (A18), H-N (A27) added later, before any
-    relevant result. H-A to H-F, H-J: device campaign C10; H-L: crystalline cells; others: amorphous cells. S1-05 was seen
-    before the freeze. H-N: one 2.0\,nm seed can never meet the polish control.}
+  \src{Register rev.\ 2, frozen 10 Oct 2026 (D-17); H-L, H-M, H-N added later, before any relevant result.
+    H-A--H-F, H-J: C10 model; H-L: crystalline; others: amorphous cells. S1-05: seen before the freeze.
+    $^{*}$Re-registered after S1; revision-1 value $-0.23\pm0.04$\,V also scored. Unresolved parts: H-A, no instrument
+    records; H-D, A22; H-H, bare control parked (D-35).}
   \takeaway{No sealed outcome is shown; the register fixes when each may be opened.}
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
-\begin{frame}{Corrections X1--X13 and V1--V11 keep every original statement}
+\begin{frame}{Corrections X1--X13 and V1--V12 in force; old wording on record}
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.495\textwidth}
       \begingroup\scriptsize
@@ -300,7 +315,7 @@
       \begin{tabularx}{\linewidth}{@{}l>{\raggedright\arraybackslash}X@{}}
         \toprule
         X1 & W level resonant, 1.2--1.8\,eV above $\Ec$ (band count) \\
-        X2 & 1\,nm $\dEv = -0.052$\,eV, not $-0.056$\,eV (sign) \\
+        X2 & 1\,nm $\dEv = -0.052$, not $-0.056$\,eV (IP-difference sign) \\
         X3 & 2\,nm IWO final SCF: job 12835211, not 12835131 \\
         X4 & 0.51\,nm film relaxes to In$_8$(OH)$_{24}$; 0.695\,nm polar \\
         X5 & V1 device model: calibration, not validation \\
@@ -334,31 +349,35 @@
         V9 & conclusions re-sorted to their weakest class \\
         V10 & one subband at 2\,nm; one or two at 6.3\,nm \\
         V11 & smaller items (HSE ratio model 0.98--1.16, \ldots) \\
+        V12 & MV weights: 0.40 at $\mu$, never negative, at most 1.083 \\
         \bottomrule
       \end{tabularx}\par\endgroup
     \end{column}
   \end{columns}
-  \src{Appendix MG of the monograph; superseded lines stay unchanged in the dated logs and in git history. The same
-    appendix lists device and data entries (T1--T5, P1, P2), wording errata (E3--E5) and disclosures (D1, D2). R1: a
-    proposed sign correction was re-checked and rejected (convention mix, not a sign error).}
+  \src{Appendix MG of the monograph lists each superseded statement next to its correction; X lines also stay
+    unchanged in the dated logs, and all lines in git history. The same appendix lists device and data entries (T1--T5,
+    P1, P2), wording errata (E3--E5) and disclosures (D1, D2). R1: a proposed sign correction was re-checked and rejected
+    (convention mix, not a sign error).}
   \takeaway{A correction is accepted only if it names the error and its evidence.}
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
 \begin{frame}{The quasi-2-D $N_{\mathrm{C}}$ convention outweighs the Kane factor}
-  \sixteendense\sixteenEq
+  \sixteenTop\sixteendense\sixteenEq
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.5\textwidth}
       \footnotesize
       \textbf{Three dimensions}, parabolic, 300\,K:
       \[ \sixteenNc = 2\Big(\frac{2\pi m_b\kT}{h^2}\Big)^{3/2} = 2.509\times10^{19}\,(m_b/m_0)^{3/2}\ \mathrm{cm^{-3}} \]
-      \textbf{Kane band}: $g(E) \propto [E(1+\alpha E)]^{1/2}(1+2\alpha E) \approx E^{1/2}(1+\tfrac52\alpha E)$;
-      Boltzmann average $\langle E\rangle = \tfrac32\kT$:
-      \[ \sixteenNc^{\mathrm{Kane}} \approx \sixteenNc\Big(1+\tfrac{15}{4}\,\alpha\kT\Big) = 1.056\,\sixteenNc
-         \quad(\alpha = 0.58\,\mathrm{eV^{-1}}) \]
+      \textbf{Kane band}, to first order in $\alpha E$, with the Boltzmann average $\langle E\rangle = \tfrac32\kT$:
+      \begin{align*}
+        g(E) &\propto [E(1+\alpha E)]^{1/2}(1+2\alpha E) \approx E^{1/2}\big(1+\tfrac52\alpha E\big),\\
+        \sixteenNc^{\mathrm{Kane}} &\approx \sixteenNc\big(1+\tfrac{15}{4}\,\alpha\kT\big) = 1.056\,\sixteenNc
+          \quad(\alpha = 0.58\,\mathrm{eV^{-1}})
+      \end{align*}
       \textbf{Quasi two dimensions}, one subband:
-      \[ N_{2D} = \frac{m_\parallel\kT}{\pi\hbar^2},\qquad \sixteenNc^{\mathrm{q2D}} = N_{2D}/t \]
-      {\scriptsize $N_{2D} = 1.66\times10^{12}$\cmsq{} ($0.154\,m_0$), $2.19\times10^{12}$\cmsq{} ($0.203\,m_0$, 2\,nm);
+      \[ N_{\mathrm{2D}} = \frac{m_\parallel\kT}{\pi\hbar^2},\qquad \sixteenNc^{\mathrm{q2D}} = N_{\mathrm{2D}}/t \]
+      {\scriptsize $N_{\mathrm{2D}} = 1.66\times10^{12}$\cmsq{} ($0.154\,m_0$), $2.19\times10^{12}$\cmsq{} ($0.203\,m_0$, 2\,nm);
         in-plane non-parabolicity adds $2\alpha_\parallel\kT$ = 2.4\,\% at 2\,nm \lab{derived}.\par}
     \end{column}
     \begin{column}{0.46\textwidth}
@@ -369,8 +388,8 @@
         \item One subband ($E_2-E_1 = 0.72$\,eV at 1.962\,nm) \lab{computed}; a DOS substitution, not 2-D statistics.
         \item S1-05, seen before the freeze: 3-D at 2.0\,nm moved $\Vthcc$ by $+142$\,mV; registered $+40$ to
           $+70$\,mV: \textbf{failed} \lab{computed}.
-        \item Audit: $+37.5$\,mV statistics, $+89.5$\,mV tail charge; slope factor about 3.5, not 1.47
-          \lab{computed}.
+        \item Audit (A13): $+37.5$\,mV statistics, $+89.5$\,mV tail charge, the rest band bending, free carriers and
+          the lateral channel; slope factor about 3.5, not 1.47 \lab{computed}.
       \end{itemize}
     \end{column}
   \end{columns}

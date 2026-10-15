@@ -1,12 +1,15 @@
 % 10_multiscale.tex -- Part 10, from first principles to the device. Sources: research_monograph/chapters/
 % M12_multiscale.tex (fig:mono-ms-chain, tab:mono-ms-transfer, tab:mono-ms-budget, sec:mono-ms-explain, keyresult),
-% M08_c10_campaign.tex (shared parameters, tab:mono-c10-models, S1-05 and audit A13), M05_confinement_theory.tex
-% (quasi-2-D N_c), M09_masses_parameters.tex (tab:mono-mass-tcad deck gaps), M15_conclusions.tex (tab:concl-plausible
-% C2-C4, required measurements), 09_mechanisms_rev.tex (C-V flat-band scaling, optical-gap falsifier);
-% evidence/derived/multiscale_budget.json; evidence/CLAIM_SOURCE_MAP.tsv (M007, C014, C018);
-% evidence/FACT_REGISTRY.tsv (FACT-027, 030, 060, 101-103). Figure 10_rigid.pdf: tools/fig_10_multiscale.py
-% (presentation redraw of research_monograph/figures/mono_threshold_vs_dft; data: b03_gaps_laws.json,
-% evidence/derived/device_facts.json, multiscale_budget.json). No amorphous quantity and no ATLAS result from S2 on.
+% M08_c10_campaign.tex (shared parameters, tab:mono-c10-models, tab:mono-c10-hyp H-E/H-J, S1-05 and audit A13),
+% M05_confinement_theory.tex (quasi-2-D N_c, Kane dispersion), M09_masses_parameters.tex (tab:mono-mass-tcad deck gaps;
+% Kane factor 5.7 % 3-D / 2.5 % quasi-2-D), M15_conclusions.tex (inferred item 3: 44 / 50 / 18 %; tab:concl-plausible
+% C2-C4, required measurements), 09_mechanisms_rev.tex (C-V flat-band scaling, optical-gap falsifier, V1 law 0.353 eV),
+% appendices/MG_corrections.tex (X4, X5, X12); report_latex_full/chapters/04_derivations_electrostatics.tex and
+% 02d_provenance.tex (chi = 4.30 eV from Fan2021, composition-mixing estimate); evidence/derived/multiscale_budget.json;
+% evidence/CLAIM_SOURCE_MAP.tsv (M007, C014, C018); evidence/FACT_REGISTRY.tsv (FACT-027, 030, 060, 101-103).
+% Figure 10_rigid.pdf: tools/fig_10_multiscale.py (presentation redraw of research_monograph/figures/
+% mono_threshold_vs_dft; data: b03_gaps_laws.json, evidence/derived/device_facts.json, multiscale_budget.json).
+% No amorphous quantity and no ATLAS result from S2 on.
 % Note: frame bodies start with a command, never with a brace group (beamer would read a subtitle).
 \partslide{Part 10}{From first principles to the device}
 
@@ -15,26 +18,30 @@
   \setbeamerfont{itemize/enumerate subbody}{size=\footnotesize}}
 \providecommand{\tenTop}{\vspace{-4mm}}
 \providecommand{\tenNc}{N_{\mathrm{c}}}
+\providecommand{\tenNv}{N_{\mathrm{v}}}
+\providecommand{\tenQf}{Q_{\mathrm{f}}}
 \providecommand{\tenC}[1]{{\tiny\color{inkgrey}\,#1}}
+% evidence label inside \src lines (same vocabulary as \lab, at the size of the source text)
+\providecommand{\tenL}[1]{{\color{inkgrey}[\textsc{\MakeLowercase{#1}}]}}
 \providecommand{\tenData}{Data: Prof.\ M.-H.\ Lee's group, NTU; one device per thickness}
 % budget chart (slide 2): centre of row #1; \dy is set inside the picture
 \providecommand{\tenyc}[1]{{0.2-(#1-0.5)*\dy}}
 % TikZ styles of this section (defined outside the frames: beamer frames do not accept # in their body)
-\tikzset{tenbox/.style={draw, line width=0.4pt, align=center, font=\scriptsize, inner sep=2.2pt, minimum height=13mm,
-    text width=#1}, tenbox/.default=2.5cm,
-  tenlow/.style={draw, line width=0.4pt, align=left, font=\scriptsize, inner sep=2.2pt, minimum height=10.5mm,
+\tikzset{tenbox/.style={draw, line width=0.4pt, align=flush center, font=\scriptsize, inner sep=2.2pt,
+    minimum height=13mm, text width=#1}, tenbox/.default=2.5cm,
+  tenlow/.style={draw, line width=0.4pt, align=flush left, font=\scriptsize, inner sep=2.2pt, minimum height=10.5mm,
     text width=#1},
   tenarr/.style={-{Stealth[length=1.6mm]}, line width=0.5pt}}
 
 % ---------------------------------------------------------------------------------------------------------------------
 \begin{frame}[t]{Only band-edge increments reach the device model}
   \tenTop\tendense
-  \begin{center}
-  \begin{tikzpicture}[node distance=3.5mm and 5mm]
+  \par{\centering
+  \begin{tikzpicture}[node distance=3mm and 5mm]
     % main chain
     \node[tenbox] (dft) {\textbf{First principles}\\PBE, crystalline (001)\\films 0.46--1.96\,nm\\\lab{computed}};
     \node[tenbox=2.3cm, right=of dft] (law) {\textbf{Thickness laws}\\$\dEc$, $\dEg$, $\Delta m^{*}$\\
-      fit to 0.70--1.96\,nm\\\lab{fitted}};
+      fit3 to 0.70--1.96\,nm\\\lab{fitted}};
     \node[tenbox=3.2cm, right=of law] (deck) {\textbf{Device inputs}\\$\chi = 4.3\,\mathrm{eV} - \dEc(t)$\\
       $\Eg = 3.05\,\mathrm{eV} + \dEg(t)$\\$\tenNc$, $\mu$: $m^{*} = 0.208\,\mzero + \Delta m^{*}$};
     \node[tenbox=3.85cm, right=of deck] (atlas) {\textbf{ATLAS drift--diffusion}\\electrons only, Fermi--Dirac\\
@@ -43,36 +50,39 @@
     \draw[tenarr, ntumaroon, line width=0.9pt] (law) -- (deck);
     \draw[tenarr] (deck) -- (atlas);
     % lower row
-    \node[tenlow=5.25cm, dashed, below=3.5mm of dft.south west, anchor=north west] (notx)
+    \node[tenlow=5.25cm, dashed, below=3mm of dft.south west, anchor=north west] (notx)
       {\textbf{Computed, not transferred}\\absolute PBE gaps; HSE06 ratio $r = 1.06$--1.11\\
        W donated density $2.7\times10^{21}$\cmcu{} (bulk cells)\\
-       $N_V = 1.6$--$2.7\times10^{21}$\cmcu; Kane factor in $\tenNc$};
-    \node[tenlow=3.2cm, below=3.5mm of deck] (lit)
-      {\textbf{Bulk anchors} (literature)\\$\chi = 4.3$\,eV, $\Eg = 3.05$\,eV\\(optical), $m^{*} = 0.208\,\mzero$};
-    \node[tenlow=3.85cm, below=3.5mm of atlas] (fit)
-      {\textbf{Not from first principles}\\fitted: $\Delta V_0$ ($Q_f$), $\mu_\infty$, $\ell$, $N_s$, $W_T$\\
-       fixed: donors $2.5\times10^{17}$\cmcu{} (V1)\\assumed: $N_V = 10^{19}$\cmcu};
+       $\tenNv = 1.6$--$2.7\times10^{21}$\cmcu; Kane factor in $\tenNc$};
+    \node[tenlow=2.75cm, below=3mm of deck] (lit)
+      {\textbf{Bulk anchors} (literature)\\$\chi = 4.3$\,eV, $m^{*} = 0.208\,\mzero$\\optical $\Eg = 3.05$\,eV};
+    \node[tenlow=4.3cm, below=3mm of atlas.south east, anchor=north east] (fit)
+      {\textbf{Not from first principles}\\fitted: $\Delta V_0$ ($\tenQf$), $\mu_\infty$, $\ell$, $N_{\mathrm{s}}$,
+       $W_{\mathrm{T}}$\\fixed: donors $2.5\times10^{17}$\cmcu{} (V1 fit);\\
+       assumed: $\tenNv$, deep and interface traps};
     \draw[tenarr, dashed] (dft.south) -- (dft.south |- notx.north);
     \draw[tenarr] (lit) -- (deck);
-    \draw[tenarr] (fit) -- (atlas);
-  \end{tikzpicture}
-  \end{center}
-  \vspace{-3mm}
-  \src{Campaign C10 decks (fit3 laws; quasi-2-D $\tenNc$ at 2.0\,nm); fitted parameters shared by all films. 3.05\,eV:
-    optical gap of another sputtered IWO device\sref{Fan2021}; $0.208\,\mzero$ measured\sref[p.~225102-1]{Stokey2021}.
-    W fully ionised \lab{inferred}. Assumed: $\tHH$ = device thickness; crystalline films stand for the device films.}
+    \draw[tenarr] (atlas.south |- fit.north) -- (atlas.south);
+  \end{tikzpicture}\par}
+  \src{C10 decks: fit3 laws incl.\ the polar 0.695\,nm film (caveat; excluded from the primary $\dEc$ fit); quasi-2-D
+    $\tenNc$ at 2.0\,nm (one subband, $E_2 - E_1 = 0.72$\,eV \tenL{computed}); shared fits ($\tenQf$: front charge;
+    $\mu_\infty$, $\ell$: mobility law; $N_{\mathrm{s}}$, $W_{\mathrm{T}}$: tail density, width). 3.05, 4.3\,eV: optical
+    gap and composition-mixing affinity estimate of another sputtered IWO device\sref{Fan2021}; $0.208\,\mzero$
+    measured\sref[p.~225102-1]{Stokey2021}. W fully ionised \tenL{inferred}. Assumed: $\tHH$ = device thickness;
+    OH-terminated crystalline films stand for the device films; traps shift rigidly with $\Ec$.}
   \vspace{-0.5mm}
   \begin{itemize}
-    \item One independent law passes: the mass increase follows from $\dEc$ by the Kane relation within 1\,\% at
-      1.962\,nm (10\,\% at 0.930\,nm) \lab{derived}; $\dEg$ enters only $n_i$; 6.3 and 13.2\,nm are extrapolated.
+    \item Effectively one independent law is transferred: the mass increase follows from $\dEc$ by the Kane
+      relation\sref{Kane1957} within 1\,\% at 1.962\,nm (10\,\% at 0.930\,nm) \lab{derived}; $\dEg$ enters only $n_i$;
+      6.3 and 13.2\,nm are extrapolated.
   \end{itemize}
-  \takeaway{One computed law, $\dEc(t)$, and an $\tenNc$ convention carry thickness into the device model.}
+  \takeaway{Effectively one first-principles law, $\dEc(t)$ (fitted), and an $\tenNc$ convention carry thickness.}
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
-\begin{frame}[t]{The largest sensitivity is a convention, not the crystal}
+\begin{frame}[t]{A convention, not the crystal, leads the DFT-related budget}
   \tenTop\tendense
-  \begin{center}
+  \par{\centering
   \begin{tikzpicture}[x=1cm,y=1cm,font=\scriptsize]
     % columns: source (0 .. 5.6 cm), value (5.7 .. 8.4 cm), log axis 1 .. 1000 mV (8.6 .. 13.55 cm, 1.65 cm/decade)
     \def\ax{8.6}\def\dec{1.65}\def\dy{0.4}\def\nr{6}%
@@ -82,8 +92,13 @@
     \fill[black!10] ({\ax+\dec*log10(230)},0.2) rectangle ({\ax+\dec*log10(370)},\yb);
     \draw[dashed, line width=0.5pt] ({\ax+\dec*log10(579)},0.2) -- ({\ax+\dec*log10(579)},\yb);
     % header
-    \node[anchor=west, font=\scriptsize\bfseries] at (0,0.42) {Input choice at 2.0\,nm};
-    \node[anchor=west, font=\scriptsize\bfseries] at (5.7,0.42) {$|\Delta\Vthcc|$ (mV)};
+    \node[anchor=west, font=\scriptsize\bfseries] at (0,0.42) {Input choice (2.0\,nm unless stated)};
+    \node[anchor=west, font=\scriptsize\bfseries] at (5.7,0.42) {Effect on $\Vthcc$ (mV)};
+    % key to the two reference marks, right-aligned above the axis area
+    \node[anchor=east, inner sep=1pt] (tenk2) at ({\ax+3*\dec},0.42) {measured step};
+    \draw[dashed, line width=0.5pt] ([xshift=-1.2mm]tenk2.west) -- ++(-4.5mm,0);
+    \node[anchor=east, inner sep=1pt] (tenk1) at ([xshift=-7.2mm]tenk2.west) {6.3\,nm misses};
+    \fill[black!10] ([xshift=-1.2mm, yshift=-1mm]tenk1.west) rectangle ++(-3.2mm,2mm);
     \draw[line width=0.6pt] (0,0.2) -- ({\ax+3*\dec},0.2);
     % rows
     \foreach \i/\lbl/\val in {
@@ -91,8 +106,8 @@
         2/{Thickness definition, $\pm0.2$\,nm}/{$\approx\pm40$},
         3/{HSE06 ratio on $\dEc$, $r = 1.06$--1.11}/{$+16$ to $+29$},
         4/{$\dEc$ fit options, 0.273--0.289\,eV}/{$\pm8$},
-        5/{Kane factor in $\tenNc$ ($+5.7$\,\%)}/{1.4 free; 5 with tail},
-        6/{Mass fit basis ($\pm3$\,\% in $m^{*}$)}/{1 free; 4 with tail}} {
+        5/{Kane factor in 3-D $\tenNc$ ($+5.7$\,\%)}/{1.4 free; 5 with tail},
+        6/{Mass fit basis ($\pm3$\,\% in $m^{*}$, 3-D $\tenNc$)}/{1 free; 4 with tail}} {
       \node[anchor=west] at (0,\tenyc{\i}) {\lbl};
       \node[anchor=west] at (5.7,\tenyc{\i}) {\val};
       \draw[rulegrey, line width=0.3pt] (0,{0.2-\i*\dy}) -- (\ax,{0.2-\i*\dy});
@@ -118,36 +133,34 @@
     \foreach \e in {0,1,2} {\foreach \m in {2,3,4,5,6,7,8,9} {
       \draw ({\ax+\e*\dec+\dec*log10(\m)},\yb) -- ({\ax+\e*\dec+\dec*log10(\m)},{0.2-\nr*\dy+0.04});}}
     \node[anchor=north] at ({\ax+1.5*\dec},{0.2-\nr*\dy-0.28}) {$|\Delta\Vthcc|$ (mV, log scale)};
-  \end{tikzpicture}
-  \end{center}
-  \vspace{-3.5mm}
-  \src{Row 1: ATLAS run S1-05, seen before register revision 2 \lab{computed}; rows 2--6 \lab{derived} (laws, audit
-    A13); open: free carriers, filled: with tail filling. Grey band: the three 6.3\,nm misses, 0.23--0.37\,V; dashed:
-    measured 2.0--13.2\,nm step, 0.579\,V. Crystalline vs amorphous: unknown, H-K sealed (Part 11).
-    \tenData\sref{Januar2026}.}
+  \end{tikzpicture}\par}
+  \src{Row 1: ATLAS run S1-05, seen before register revision 2 \tenL{computed}; rows 2--6 \tenL{derived} (laws, audit
+    A13); rows 5--6 in the 3-D $\tenNc$ form; open: free carriers, filled: with tail filling. Band: 0.23--0.37\,V;
+    dashed: 0.579\,V. Crystalline vs amorphous: unknown, H-K sealed (Part 11). \tenData\sref{Januar2026}.}
   \vspace{-0.5mm}
   \begin{itemize}
-    \item $\dEc$ shifts $\Vthcc$ one-to-one; mass and $\tenNc$ act through the statistics, amplified about 3.5 times by
-      the 40\,meV tail. The convention alone is a third to two thirds of a 6.3\,nm miss \lab{derived}.
+    \item In the model, $\dEc$ shifts $\Vthcc$ one-to-one by construction (traps move with $\Ec$; test H-E sealed); mass
+      and $\tenNc$ act through the statistics, amplified about 3.5 times by the 40\,meV tail (A13, Part 4).
   \end{itemize}
   \takeaway{Ranking: $\tenNc$ convention, thickness definition, functional; the rest is minor.}
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
-\begin{frame}[t]{Confinement gives 44\,\% of the step but misplaces 6.3\,nm}
+\begin{frame}[t]{Rigid transfer of $\dEc$: 44\,\% of the step, 0.2\,V off at 6.3\,nm}
   \tenTop\tendense
   \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.46\textwidth}
+    \begin{column}{0.43\textwidth}
       \centering
       \includegraphics[width=\linewidth]{10_rigid}
+      \raggedright
       \src{Measured $\Vthcc$ (circles) against $\Vthcc(2.0) + [\dEc(t) - \dEc(2.0)]/q$ (band: four fit options; line:
-        two-point fit). Crosses: failed 6.3\,nm predictions (C014). Rigid 1:1 transfer, not a model run \lab{derived}.
+        two-point fit). Crosses: failed 6.3\,nm predictions (C014). Rigid 1:1 transfer, not a model run \tenL{derived}.
         \tenData\sref{Januar2026}.}
     \end{column}
-    \begin{column}{0.51\textwidth}
+    \begin{column}{0.54\textwidth}
       \begingroup\scriptsize
       \setlength{\tabcolsep}{6pt}
-      \renewcommand{\arraystretch}{1.12}
+      \renewcommand{\arraystretch}{1.05}
       \begin{tabular}{@{}l c c@{}}
         \toprule
         $\Delta\Vthcc$ (V) & rigid $\dEc$ & measured \\
@@ -158,26 +171,28 @@
         6.3\,nm misses & \multicolumn{2}{c}{$-0.29$, $-0.37$, $-0.23$ \lab{falsified}} \\
         \bottomrule
       \end{tabular}\par\endgroup
-      \src{Rigid: spread over the four fit options below 2\,meV for 2.0--13.2\,nm. Misses: V1 run 0014, V2 variants P
-        and E (Part 4). Claim M007 \lab{derived}, uses measured data.}
+      \src{Rigid: spread over the four fit options below 2\,meV (2.0--13.2\,nm). Misses: V1 run 0014, V2 variants P,
+        E (Part 4). Claim M007 \tenL{derived}; candidate causes: Part 12.}
       \begin{itemize}
-        \item 2.0 to 13.2\,nm: the computed shift is 44\,\% of the measured step; fitted charges and traps carry the
-          rest.
-        \item 2.0 to 6.3\,nm: about 0.2\,V too low, the direction and size of all three misses.
-        \item No cause is assigned: the 6.3\,nm device acts as if much thinner, or as if it held $+0.2$\,V of extra
-          charge (candidates: Part 12).
+        \item 2.0 to 13.2\,nm: the rigid shift is 44\,\% of the measured step \lab{derived}; in the full model other
+          inputs partly cancel it (A13 forecast: about 18\,\%; earlier calibration: about 50\,\%).
+        \item 2.0 to 6.3\,nm: the rigid shift places 6.3\,nm about 0.2\,V too low, the direction and size of all three
+          misses.
+        \item No cause is assigned: the 6.3\,nm device acts as if much thinner, or as if charge raised its
+          $\Vthcc$ by 0.2\,V.
       \end{itemize}
     \end{column}
   \end{columns}
-  \takeaway{Computed confinement is a large part of the trend, not all of it, and it misses 6.3\,nm.}
+  \takeaway{Confinement alone does not carry the step \lab{inferred}; transfer curves cannot isolate it\tenC{C018}.}
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
-\begin{frame}[t]{Four measurements can separate what transfer curves cannot}
+\begin{frame}[t]{Three probes and device statistics can separate the inputs}
   \tenTop\tendense
   \begin{itemize}
     \item In transfer curves, gate work function, bulk affinity, a uniform fixed charge and $\dEc$ act as one number
-      per film \lab{derived}\tenC{C018}; only one $\Delta V_0$ shared by three films (C10) lets the computed inputs fail.
+      per film \lab{derived}\tenC{C018}; one shared $\Delta V_0$ for three films (C10) is the first test the computed
+      inputs can fail (sealed).
   \end{itemize}
   \vspace{0.5mm}
   \begingroup\scriptsize
@@ -188,20 +203,24 @@
     \toprule
     Measurement against $t$ & What it separates & Value or falsifier at stake \\
     \midrule
-    C--V flat band $V_{FB}(t)$ & charges by their scaling: front sheet $t^0$, volume $t$ and $t^2$, back sheet
+    C--V flat band $V_{\mathrm{FB}}(t)$ & charges by their scaling: front sheet $t^0$, volume $t$ and $t^2$, back sheet
       $t/\varepsilon_s$ &
-      donor or positive-charge step at 13.2\,nm (C2): falsified if $V_{FB}(t)$ is flat within 50\,mV \\ \addlinespace[3pt]
+      donor or positive-charge step at 13.2\,nm (C2): falsified if $V_{\mathrm{FB}}(t)$ is flat within 50\,mV \\
+      \addlinespace[3pt]
     Optical gap & confinement, a band-edge property, from charge &
       deck gaps 3.38, 3.12, 3.08\,eV at 2.0, 6.3, 13.2\,nm; confinement (C3) falsified if the 2.0--13.2\,nm shift is
       below 0.1\,eV \\ \addlinespace[3pt]
-    Photoemission offsets (UPS, IPES), Kelvin probe & $\chi(t)$ and work function directly: $\dEc$ apart from $Q_f$ &
-      computed $\dEc(2.0) = 0.273$--0.289\,eV over fit options; $\times1.06$--1.11 with HSE06 \\ \addlinespace[3pt]
+    Photoemission offsets (UPS, IPES), Kelvin probe & $\chi(t)$ and work function directly: $\dEc$ apart from
+      $\tenQf$ &
+      computed $\dEc(2.0) = 0.273$--0.289\,eV over fit options (fit3, C10 decks; V1 law: 0.353\,eV); $\times1.06$--1.11
+      with HSE06 \\ \addlinespace[3pt]
     $\ge 10$ devices per thickness, one run, dual sweeps & device spread from a film property &
       device-specific 6.3\,nm offset (C4): falsified if the mean is $\ge 0.2$\,V off a smooth law with
       $\sigma(\Vth) < 0.1$\,V \\
     \bottomrule
   \end{tabularx}\par\endgroup
   \src{C2--C4: plausible, unverified hypotheses of the monograph with their falsifiers. Deck gaps: PBE increments on the
-    3.05\,eV anchor\sref{Fan2021} \lab{derived}. None of these measurements exists yet for the present films.}
-  \takeaway{Only probes of band edges or charge, not more transfer curves, can test the shift.}
+    3.05\,eV anchor\sref{Fan2021} \tenL{derived}. $\tenQf$: front fixed charge; $\varepsilon_s$: channel permittivity.
+    None of these measurements exists yet for the present films.}
+  \takeaway{Band-edge and charge probes can isolate the shift; replicates test the 6.3\,nm offset.}
 \end{frame}

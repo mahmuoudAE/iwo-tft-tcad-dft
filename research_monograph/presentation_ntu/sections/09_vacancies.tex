@@ -153,8 +153,8 @@
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.34\textwidth}
       \centering
-      \begin{tikzpicture}[x=1mm,y=1mm,font=\scriptsize]
-        % (left) W cell as computed: host band filled to 1.7-1.8 eV above its bottom (schematic; 8 mm per eV)
+      \begin{tikzpicture}[x=1mm,y=0.82mm,font=\scriptsize]
+        % (left) W cell as computed: host band filled to 1.7-1.8 eV above its bottom (schematic; 8 units per eV)
         \fill[rulegrey!60] plot[domain=-4.76:4.76,samples=40] (\x,{0.6*\x*\x}) -- cycle;
         \draw[line width=0.6pt] plot[domain=-5.8:5.8,samples=50] (\x,{0.6*\x*\x});
         \draw[line width=0.4pt] (-7.5,0) -- (7.5,0) node[right,inner sep=0.5mm]{$\Ec$};
@@ -176,17 +176,16 @@
       \src{Schematic; only the 1.7--1.8\,eV filling of the W cell is computed. At device densities $\EF$ lies below
         $\Ec$ \ninesrclab{inferred}.}
     \end{column}
-    \begin{column}{0.63\textwidth}
+    \begin{column}{0.635\textwidth}
       \begin{itemize}
         \item Band filling: the vacancy electrons enter a band already filled to 1.7--1.8\,eV, so $\nineDdop$ mixes
           filling with chemistry, strain and image terms. At device densities this term would be much smaller
           \lab{inferred}; its sign and size there are not computed.
-        \item Cell-limited: the far site is only 6--8\,\AA{} from W and its images, so $\nineDloc$ is a cell-limited
-          estimate.
+        \item $\nineDloc$ is cell-limited: the far site is 6--8\,\AA{} from W and its images.
         \item No charged state, $E_{\mathrm{corr}}$ or hybrid functional: no charge-transition level; how deep
           \nineVO{} lies is debated\srefs{Agoston2009,Buckeridge2018,Chatratin2019}.
-        \item Crystalline cells; the films are amorphous or nanocrystalline. $\nineDdop$ has the sign that vacancy
-          passivation by W\sref[p.~4]{Januar2026} implies, but neither supports nor tests it for the films.
+        \item Crystalline cells only: $\nineDdop$ has the sign that vacancy passivation by W\sref[p.~4]{Januar2026}
+          implies, but neither supports nor tests it for the films.
       \end{itemize}
     \end{column}
   \end{columns}

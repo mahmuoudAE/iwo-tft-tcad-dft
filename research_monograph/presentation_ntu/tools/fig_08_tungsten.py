@@ -87,7 +87,7 @@ def panel_label(ax, s):
 def fig_bonds():
     rows = [("bulk, 24d", f09["24d"]["W_O_A"]["value"]), ("bulk, 8b", f09["8b"]["W_O_A"]["value"]),
             ("1 nm, 24d", f10["1 nm"]["W_O_A"]["value"]), ("2 nm, 24d", f10["2 nm"]["W_O_A"]["value"])]
-    fig, ax = plt.subplots(figsize=(68 * MM, 45 * MM))
+    fig, ax = plt.subplots(figsize=(60 * MM, 46 * MM))
     for x, _, _ in SHANNON:
         ax.axvline(x, color=GREY, ls=":", lw=0.8, zorder=1)
     for i, (lab, bonds) in enumerate(rows):

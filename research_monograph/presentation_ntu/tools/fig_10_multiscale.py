@@ -82,18 +82,18 @@ def main():
     meas_v = [films[k]["vth_cc_V"] for k in ("2.0", "6.3", "13.2")]
 
     fig, ax = plt.subplots(figsize=(64 * MM, 43 * MM))
-    ax.fill_between(t, lo, hi, color=LGREY, lw=0, label=r"rigid $\Delta E_\mathrm{c}$ transfer")
-    ax.plot(t, curves["fit2_1and2nm"], "-", color=GREY, lw=1.0)
+    ax.fill_between(t, lo, hi, color=LGREY, lw=0, label=r"rigid $\Delta E_\mathrm{c}$, four fits")
+    ax.plot(t, curves["fit2_1and2nm"], "-", color=GREY, lw=0.8, label=r"rigid $\Delta E_\mathrm{c}$, two-point fit")
     ax.plot([6.3] * len(miss), [meas_v[1] + m for m in miss], "x", color=MAROON, ms=5, mew=1.2,
             label="6.3 nm predictions")
     ax.plot(meas_t, meas_v, "o", mfc="white", mec="black", mew=1.0, ms=5, label="measured")
     ax.set_xlabel("channel thickness (nm)")
     ax.set_ylabel(r"$V_\mathrm{th,cc}$ (V)")
     ax.set_xlim(1.0, 14.2)
-    ax.set_ylim(0.0, 0.75)
+    ax.set_ylim(0.0, 0.82)
     ax.set_xticks([2, 4, 6, 8, 10, 12, 14])
     ax.minorticks_on()
-    ax.legend(loc="lower right", bbox_to_anchor=(1.0, 0.19), handlelength=1.6, borderaxespad=0.3)
+    ax.legend(loc="upper right", handlelength=1.4, borderaxespad=0.3, labelspacing=0.35)
     fig.subplots_adjust(left=0.15, right=0.97, bottom=0.21, top=0.97)
     fig.savefig(OUT / "10_rigid.pdf")
     print("saved", OUT / "10_rigid.pdf")

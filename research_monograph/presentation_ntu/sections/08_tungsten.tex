@@ -41,8 +41,8 @@
         \item Hydrogenic donor, $m^* = 0.208\,m_0$, $\varepsilon_s = 10.55$\sref[p.~225102-1]{Stokey2021}:
           $E_D = 25$\,meV, $a_B^* = 2.7$\,nm; $n_c^{1/3}a_B^* \approx 0.26$ gives $n_c \approx
           9\times10^{17}$\cmcu{} \lab{derived}.
-        \item Device model (open circles): donors below $n_c$ \lab{fitted}; on-state channel degenerate
-          \lab{derived}.
+        \item Device model (Part~4, open circles): donors below $n_c$ \lab{fitted}; on-state channel (2\,nm film, 2\,V
+          overdrive) degenerate \lab{derived}.
       \end{itemize}
     \end{column}
     \begin{column}{0.44\textwidth}
@@ -56,14 +56,14 @@
         }
         \node[anchor=north] at (27.5,-4.0) {electron density (cm$^{-3}$)};
         % Mott density 9.1e17: log10 = 17.96 -> 10.54 mm
-        \draw (10.54,0) -- (10.54,11.5);
-        \node[anchor=south,align=center] at (10.54,11.5) {Mott density $n_c$\\[-0.3mm]$9\times10^{17}$};
+        \draw (10.54,0) -- (10.54,10.5);
+        \node[anchor=south,align=center] at (10.54,10.5) {Mott density $n_c$\\[-0.3mm]$9\times10^{17}$};
         % W cells 1.4e21 .. 3.0e21: log10 = 21.146 .. 21.477 -> 45.6 .. 49.2 mm
         \draw[line width=2.4pt] (45.6,3.2) -- (49.2,3.2);
         \draw (45.6,0) -- (45.6,3.2);
         \draw (49.2,0) -- (49.2,3.2);
-        \draw[rulegrey] (47.4,4.4) -- (47.4,11.5);
-        \node[anchor=south,align=center] at (47.4,11.5) {W cells\\[-0.3mm]1.4--3.0$\times10^{21}$};
+        \draw[rulegrey] (47.4,4.4) -- (47.4,10.5);
+        \node[anchor=south,align=center] at (47.4,10.5) {W cells\\[-0.3mm]1.4--3.0$\times10^{21}$};
         \draw[{Stealth[length=1.6mm]}-{Stealth[length=1.6mm]},ntumaroon,line width=0.7pt] (11.3,6.6) -- (44.8,6.6);
         \node[anchor=south,ntumaroon] at (28,6.9) {1500--3300 times};
         % device model (M08): donors 2.5e17 -> 17.398 -> 4.38 mm; on-state 5.6e19 -> 19.748 -> 30.23 mm
@@ -72,9 +72,8 @@
         \draw[fill=white] (30.23,0) circle (0.75mm);
         \node[anchor=south,inner sep=1pt] at (30.23,1.0) {on-state $5.6\times10^{19}$};
       \end{tikzpicture}
-      \src{W cells: three electrons per W (formal count) per cell volume (films: H--H thickness); $n_c$: left
-        \lab{derived}. Device model (Part~4): background donors \lab{fitted}; on-state channel at 2\,nm, 2\,V
-        overdrive \lab{derived}.}
+      \src{W cells: 3\,e per W (formal count) per cell volume (films: H--H thickness) \lab{derived}.
+        Device model: donors \lab{fitted}; on-state \lab{derived}.}
     \end{column}
   \end{columns}
   \takeaway{The cells hold no bound hydrogenic state; they locate the W-5d level in the band.}
@@ -84,13 +83,13 @@
 \begin{frame}{W prefers 24d by 0.258\,eV; W--O bonds consistent with W$^{6+}$}
   \eightdense\eightTop
   \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.45\textwidth}
+    \begin{column}{0.42\textwidth}
       \includegraphics[width=\linewidth]{08_bonds}
       \src{W--O bonds of the relaxed cells (circles; each value occurs twice on 24d, six times on 8b); bars: mean
         bond; dotted: Shannon radius sums for six-fold cations with O$^{2-}$ (1.38\,\AA)\sref{Shannon1976}. This
         work, PAW-PBE \lab{computed}.}
     \end{column}
-    \begin{column}{0.52\textwidth}
+    \begin{column}{0.55\textwidth}
       \begin{itemize}
         \item $\Delta E = E(\mathrm{8b}) - E(\mathrm{24d}) = 0.2579$\,eV (3$\times$3$\times$3 relaxation),
           0.2577\,eV (4$\times$4$\times$4) \lab{computed}.
@@ -98,7 +97,7 @@
           600\,K; 8b is practically empty at any processing temperature \lab{derived}.
         \item Mean W--O bond: bulk 1.982 (24d), 1.972\,\AA{} (8b); films 2.000 (1\,nm), 1.977\,\AA{} (2\,nm)
           \lab{computed}. Shannon sums: 1.98 (W$^{6+}$), 2.00 (W$^{5+}$), 2.04\,\AA{} (W$^{4+}$).
-        \item Bulk and 2\,nm means fit W$^{6+}$; the 1\,nm mean sits at the W$^{5+}$ sum. An ionic-radius argument,
+        \item Bulk and 2\,nm means are consistent with W$^{6+}$; the 1\,nm mean sits at the W$^{5+}$ sum. An ionic-radius argument,
           not a charge measurement (correction X11).
         \item The L\"owdin W-5d counts (0.09--0.43\,e) are not a W charge either: they project the
           smearing-weighted occupied states.
@@ -109,12 +108,12 @@
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
-\begin{frame}{The W-5d-rich state is a resonance 1.2--1.8\,eV above $\Ec$ at this filling}
+\begin{frame}{At 3\,e per cell the W-5d-rich state lies 1.2--1.8\,eV above $\Ec$}
   \eightdense\eightTop
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.42\textwidth}
       \includegraphics[width=\linewidth]{08_levels}
-      \src{W-5d weight of each state at $\Gamma$ against its energy above the host conduction-band bottom $\Ec$; grey
+      \src{W-5d weight of each state at $\Gamma$ against its energy relative to the host conduction-band bottom $\Ec$; grey
         ticks: all states; dashed: $\EF$; maroon: $E_{\mathrm{W}}$, the first state above the host-band bottom with
         W 5d $\ge 0.3$ at $\Gamma$; in bulk 8b a state 0.10\,eV higher has 58\,\%. PBE, MV 0.01\,Ry. This work
         \lab{computed}.}
@@ -151,19 +150,19 @@
 \begin{frame}{Most donated electrons fill the host band, not the W level}
   \eightdense\eightTop
   \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.41\textwidth}
+    \begin{column}{0.40\textwidth}
       \includegraphics[width=\linewidth]{08_bands}
       \src{Bulk W cells, (a) 24d, (b) 8b. Black: valence bands (circle: top, band 351); maroon: host conduction band
         (352); grey: W-5d-rich and folded host bands; dashed: pure-bulk band shifted to the host minimum (nearly on
         the maroon curve: masses differ by 5\,\%); dotted: $\EF$. This work \lab{computed}.}
     \end{column}
-    \begin{column}{0.56\textwidth}
+    \begin{column}{0.57\textwidth}
       \begin{itemize}
         \item Of three electrons, the lowest host band holds 1.79 (24d), 1.93 (8b), 2.00 (1\,nm); the W-5d-rich band
           (half W 5d at $\Gamma$) 1.13, 0.95, 0.99 \lab{computed}.
         \item Kane band\sref{Kane1957} filled to the computed $\EF$:\vspace{-1.5mm}
           \[ N = \frac{\Omega\,k_F^3}{3\pi^2}, \quad \frac{\hbar^2k_F^2}{2m_b} = E(1+\alpha E), \quad E = \EF-\Ec \]
-          \vspace{-3mm}\par
+          \vspace{-3.8mm}\par
           $N$: electrons per cell, $k_F$: Fermi wave vector, $\Omega = 1094.6$\,\AA$^3$, $m_b = 0.162\,m_0$,
           $\alpha = 0.58$\,eV$^{-1}$: 2.17 (24d), 2.04\,e (8b), above the computed 1.79, 1.93; parabolic band only
           0.76, 0.73\,e \lab{derived}.
@@ -211,7 +210,7 @@
         \draw[line width=1pt] (41,0.185) -- (51,0.185);
         \node[anchor=west] at (52,0.30) {314: host CB};
         \draw[{Stealth[length=1.6mm]}-{Stealth[length=1.6mm]},ntumaroon,line width=0.7pt] (46,-1.17) -- (46,-0.07);
-        \node[anchor=east,ntumaroon] at (45.6,-0.62) {1.22\,eV};
+        \node[anchor=west,ntumaroon] at (46.5,-0.71) {1.22\,eV};
         \draw[{Stealth[length=1.6mm]}-{Stealth[length=1.6mm]},line width=0.5pt] (39.5,-2.89) -- (39.5,-1.29);
         \node[anchor=east,align=right] at (39,-2.09) {gap\\[-0.4mm]1.72\,eV};
       \end{tikzpicture}

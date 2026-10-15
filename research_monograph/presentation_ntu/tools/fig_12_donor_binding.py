@@ -33,7 +33,7 @@ OUT = PRES / "figures"
 SRC = ROOT / "research_monograph" / "evidence" / "derived" / "defect_estimates.json"
 
 MM = 1 / 25.4
-BLACK, GREY, LGREY, MAROON = "#000000", "#7a7a7a", "#e3e3e3", "#801924"
+BLACK, GREY, MAROON = "#000000", "#7a7a7a", "#801924"
 
 plt.rcParams.update({
     "font.family": "Liberation Sans",
@@ -41,10 +41,10 @@ plt.rcParams.update({
     "mathtext.rm": "Liberation Sans",
     "mathtext.it": "Liberation Sans:italic",
     "mathtext.bf": "Liberation Sans:bold",
-    "font.size": 7.6,
-    "axes.labelsize": 7.6,
-    "xtick.labelsize": 6.9,
-    "ytick.labelsize": 6.9,
+    "font.size": 8.4,
+    "axes.labelsize": 8.4,
+    "xtick.labelsize": 7.9,
+    "ytick.labelsize": 7.9,
     "axes.linewidth": 0.6,
     "xtick.major.width": 0.6,
     "ytick.major.width": 0.6,
@@ -93,36 +93,38 @@ def main():
     assert abs(float(e2d(eps_alair)) - env["E_2D_upper_bound_eV"]) < 0.006
     assert abs(round(eps_hfair, 1) - 10.3) < 1e-9 and abs(round(float(e2d(eps_hfair)), 2) - 0.11) < 1e-9
 
-    fig, ax = plt.subplots(figsize=(54 * MM, 41 * MM))
-    x = np.geomspace(3.0, 24.0, 200)
-    # device stack: between the Al2O3/air and HfO2/air cases (M06 lines 46-48), shown as a grey band
-    ax.axvspan(eps_alair, eps_hfair, color=LGREY, lw=0, zorder=0)
+    fig, ax = plt.subplots(figsize=(48 * MM, 35 * MM))
+    # x range stops at 13: beyond eps_bar ~ 21 the strict 2-D bound would fall below the bulk 3-D binding, where the
+    # strict 2-D limit has no meaning. No band for the device stack: it lies between the two limiting environments,
+    # closer to HfO2/air at large distances (M06 lines 46-48; correction V6), so the accent marks the HfO2/air point and
+    # the Al2O3/air upper bound is drawn as an open marker.
+    x = np.geomspace(3.0, 13.0, 200)
     ax.plot(x, e2d(x), color=BLACK, lw=1.0, zorder=2)
     ax.axhline(e_bulk, color=BLACK, ls="--", lw=0.8, zorder=1)
     ax.axvline(EPS_S, color=GREY, ls=":", lw=0.8, zorder=1)
-    ax.plot([eps_alair], [e2d(eps_alair)], "o", ms=4.6, mfc=MAROON, mec=MAROON, zorder=3)
-    ax.plot([eps_hfair], [e2d(eps_hfair)], "o", ms=4.6, mfc=BLACK, mec=BLACK, zorder=3)
+    ax.plot([eps_alair], [e2d(eps_alair)], "o", ms=4.6, mfc="white", mec=BLACK, mew=0.9, zorder=3)
+    ax.plot([eps_hfair], [e2d(eps_hfair)], "o", ms=4.6, mfc=MAROON, mec=MAROON, zorder=3)
     # point labels (plain text next to the markers; no boxes)
     ax.annotate("Al$_2$O$_3$/air\n0.45 eV", (eps_alair, float(e2d(eps_alair))), xytext=(5, 2),
-                textcoords="offset points", ha="left", va="bottom", fontsize=6.7, color=MAROON)
-    ax.annotate("HfO$_2$/air\n0.11 eV", (eps_hfair, float(e2d(eps_hfair))), xytext=(-5, -3),
-                textcoords="offset points", ha="right", va="top", fontsize=6.7)
-    ax.text(3.15, e_bulk * 1.12, "bulk (3-D), 25.4 meV", ha="left", va="bottom", fontsize=6.7)
-    ax.text(EPS_S * 1.04, 1.25, r"$\varepsilon_s$", ha="left", va="top", fontsize=7.0, color=GREY)
+                textcoords="offset points", ha="left", va="bottom", fontsize=7.6)
+    ax.annotate("HfO$_2$/air 0.11 eV", (eps_hfair, float(e2d(eps_hfair))), xytext=(-6, -3),
+                textcoords="offset points", ha="right", va="top", fontsize=7.6, color=MAROON)
+    ax.text(3.1, e_bulk * 1.12, "bulk (3-D), 25.4 meV", ha="left", va="bottom", fontsize=7.6)
+    ax.text(EPS_S * 1.03, 1.25, r"$\varepsilon_s$", ha="left", va="top", fontsize=8.0, color=GREY)
 
     ax.set_xscale("log")
     ax.set_yscale("log")
-    ax.set_xlim(3.0, 24.0)
+    ax.set_xlim(3.0, 13.0)
     ax.set_ylim(0.015, 1.5)
-    ax.xaxis.set_major_locator(FixedLocator([3, 5, 10, 20]))
-    ax.xaxis.set_minor_locator(FixedLocator([4, 6, 7, 8, 9, 15]))
+    ax.xaxis.set_major_locator(FixedLocator([3, 5, 10]))
+    ax.xaxis.set_minor_locator(FixedLocator([4, 6, 7, 8, 9, 12]))
     ax.xaxis.set_major_formatter(matplotlib.ticker.FormatStrFormatter("%g"))
     ax.xaxis.set_minor_formatter(NullFormatter())
     ax.yaxis.set_major_locator(FixedLocator([0.02, 0.05, 0.1, 0.2, 0.5, 1.0]))
     ax.yaxis.set_major_formatter(matplotlib.ticker.FormatStrFormatter("%g"))
     ax.yaxis.set_minor_locator(NullLocator())
-    ax.set_xlabel(r"mean permittivity around the film, $\bar\varepsilon$")
-    ax.set_ylabel("2-D donor binding (eV)")
+    ax.set_xlabel(r"surrounding permittivity $\bar\varepsilon$")
+    ax.set_ylabel("2-D binding (eV)")
     fig.tight_layout(pad=0.3)
     OUT.mkdir(exist_ok=True)
     fig.savefig(OUT / "12_binding.pdf")

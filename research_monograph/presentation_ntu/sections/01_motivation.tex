@@ -37,14 +37,14 @@
         \draw (0,0) rectangle (36,6);   \node at (18,3) {Si substrate};
         \draw (0,6) rectangle (36,13);  \node at (18,9.5) {Si CMOS logic};
         \draw (0,13) rectangle (36,29);
-        \foreach \y in {16.5,21,25.5} {\draw[inkgrey] (3,\y) -- (11,\y); \draw[inkgrey] (25,\y) -- (33,\y);}
+        \foreach \y in {16.5,21,25.5} {\draw[inkgrey] (3,\y) -- (10,\y); \draw[inkgrey] (26,\y) -- (33,\y);}
         \foreach \x in {6,30} {\draw[inkgrey] (\x,13) -- (\x,29);}
         \node[align=center] at (18,21) {Cu\\interconnect};
         \draw[ntumaroon,line width=0.8pt] (0,29) rectangle (36,37);
         \node[align=center] at (18,33) {oxide-channel\\transistor tier};
-        \draw[inkgrey] (0,37) rectangle (36,41); \node[inkgrey] at (18,39) {upper interconnect};
-        \draw (37,41) -- (38.5,41) -- (38.5,29) -- (37,29);
-        \node[anchor=west,align=left] at (39,35) {below\\400\,\textdegree C};
+        \draw[inkgrey] (0,37) rectangle (36,42); \node[inkgrey] at (18,39.5) {upper interconnect};
+        \draw (37,42) -- (38.5,42) -- (38.5,29) -- (37,29);
+        \node[anchor=west,align=left] at (39,35.5) {below\\400\,\textdegree C};
       \end{tikzpicture}
       \src{Schematic of a monolithic 3-D stack, not to scale.}
     \end{column}
@@ -81,10 +81,10 @@
 % ---------------------------------------------------------------------------------------------------------------------
 \begin{frame}[t]{W keeps \InO{} mobile; its role in nanometre-thin films is open}
   \oneTop
-  {\footnotesize
+  {\scriptsize\renewcommand{\arraystretch}{1.08}%
   % plain tabular (not tabularx): tabularx typesets its body several times and would repeat the footnote citations
-  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{3.15cm}>{\raggedright\arraybackslash}p{2.6cm}%
-      >{\raggedright\arraybackslash}p{\dimexpr\textwidth-5.75cm-4\tabcolsep\relax}@{}}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.95cm}>{\raggedright\arraybackslash}p{2.45cm}%
+      >{\raggedright\arraybackslash}p{\dimexpr\textwidth-5.4cm-4\tabcolsep\relax}@{}}
     \toprule
     Work & System & Finding used here \\\midrule
     Newhouse et al.\ 2005\sref{Newhouse2005} & W:\InO{} (IWO) films & high Hall mobility at substantial carrier density \\
@@ -108,7 +108,7 @@
 \begin{frame}[t]{The 0.56\,V threshold step is fitted per device, not explained}
   \oneTop
   \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.33\textwidth}
+    \begin{column}{0.32\textwidth}
       \vspace{1mm}
       {\small
       \begin{tabular}{@{}r r r@{}}
@@ -125,7 +125,7 @@
         not part of the published 2.0--13.2\,nm series, never falls below $10^{-9}$\,A/\textmu m.
         Data: Prof.\ M.-H.\ Lee's group, NTU\oneTinyMark\sref{Januar2026}.}
     \end{column}
-    \begin{column}{0.63\textwidth}
+    \begin{column}{0.66\textwidth}
       \begin{itemize}
         \item The constant-current threshold is 0.58\,V higher at 2.0 than at 13.2\,nm; 0.56\,V of it lies between
           13.2 and 6.3\,nm \lab{derived}.
@@ -149,10 +149,10 @@
   \begin{tikzpicture}[x=1mm,y=1mm,font=\scriptsize,line width=0.5pt,
       box/.style={draw,align=center,inner sep=1.2mm,minimum height=8mm},
       arr/.style={-{Stealth[length=2mm]},line width=0.6pt}]
-    \node[box,text width=44mm] (meas) at (23,26) {\textbf{Measured transfer curves}\\4 films, 2.0--31.8\,nm};
+    \node[box,text width=44mm] (meas) at (23.2,26) {\textbf{Measured transfer curves}\\4 films, 2.0--31.8\,nm};
     \node[box,text width=40mm] (extr) at (75,26) {\textbf{Registered extraction}\\$\Vthcc$, swing, mobility, floor};
     \node[box,text width=33mm] (cmp) at (122,26) {\textbf{Comparison}\\against registered criteria};
-    \node[box,text width=44mm,align=left] (dft) at (23,5) {\textbf{First principles} (PBE; HSE06 checks)\\
+    \node[box,text width=44mm,align=left] (dft) at (23.2,5) {\textbf{First principles} (PBE; HSE06 checks)\\
       crystalline films 0.46--1.96\,nm\\ W and O vacancies in crystalline cells\\
       amorphous films 0.7--2.0\,nm (sealed)};
     \node[box,text width=40mm] (inp) at (75,5) {\textbf{Device inputs}\\$\dEc(t)$, $\dEg(t)$, $\Delta m^{*}(t)$:
