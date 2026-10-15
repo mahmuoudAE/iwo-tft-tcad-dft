@@ -1,0 +1,204 @@
+% 14_conclusions.tex -- Part 14, conclusions and next steps. Sources: research_monograph/chapters/M15_conclusions.tex
+% (sec:concl-demonstrated, sec:concl-supported, sec:concl-inferred as re-sorted in Gate 6 (V9), tab:mono-concl-claims,
+% sec:mono-concl-validation, outlook, keyresult); M01_introduction.tex (contributions paragraph, lines 94-104);
+% M12_multiscale.tex (sec:mono-ms-explain, sec:mono-ms-reco, tab:mono-ms-budget); M14_audit.tex (findings and
+% recommendations); M13_alternatives_uncertainty.tex (tab:mono-alt-floor: x7 / x1.02); M10_w_and_vacancies.tex
+% (tab:mono-w-open); M11_amorphous_protocol.tex (prop:mono-hn, D-43); evidence/FACT_REGISTRY.tsv (FACT-004, 010d, 011d,
+% 016, 017, 026c, 026d, 027, 030, 043, 050, 051, 101-103); evidence/CLAIM_SOURCE_MAP.tsv (C002, C003, C005, C007,
+% C014, C018-C022, C024, C026, C029-C031, C037-C040, M001, M004, M007). No figure.
+% No amorphous electronic quantity; no ATLAS result from stage S2 on. No e-mail address (none in the README).
+% Note: frame bodies start with a command, never with a brace group (beamer would read a subtitle).
+% Note: a p-cell that starts with \lab (a \color whatsit) needs \leavevmode, or it is set one line too low.
+\partslide{Part 14}{Conclusions and next steps}
+
+% local helpers of this section
+\providecommand{\fourteenTop}{\vspace{-4mm}}
+\providecommand{\fourteenC}[1]{{\tiny\color{inkgrey}#1}}
+\providecommand{\fourteenData}{Data: Prof.\ M.-H.\ Lee's group, NTU; one device per thickness}
+% group heading spanning a two-column table
+\providecommand{\fourteenGroup}[1]{\multicolumn{2}{@{}l}{\footnotesize\textbf{#1}}\\[0.2mm]}
+
+% ---------------------------------------------------------------------------------------------------------------------
+\begin{frame}[t]{Seven results are demonstrated or computed within scope}
+  \fourteenTop
+  % plain tabular (not tabularx): tabularx typesets its body several times and would duplicate the footnotes
+  \begingroup\scriptsize
+  \setlength{\tabcolsep}{4pt}
+  \renewcommand{\arraystretch}{1.08}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{1.75cm}>{\raggedright\arraybackslash}p{11.9cm}@{}}
+    \toprule
+    \fourteenGroup{Demonstrated, or computed within a stated scope (crystalline cells, PBE, stated settings)}
+    Devices
+      & $\Vthcc = 0.662$, 0.644, 0.083\,V at 2.0, 6.3, 13.2\,nm, floors and on-currents: registered protocol, reproduced
+        independently within rounding; non-uniform in thickness; 31.8\,nm does not switch off \lab{derived} \\
+    Device models
+      & Calibrations: each per-film model reproduces its own curve by construction; every out-of-sample threshold
+        prediction for 6.3\,nm failed ($-0.29$, $-0.37$, $-0.23$\,V) \lab{falsified} \\
+    Confinement
+      & PBE gap opening $+2.25$, $+1.31$, $+0.90$, $+0.335$\,eV at $\tHH = 0.461$ (In$_8$(OH)$_{24}$), 0.695 (polar),
+        0.930, 1.962\,nm; within 0.04 and 0.005\,eV of an independent calculation at 1 and
+        2\,nm\sref[p.~21542]{Lin2022}; 84\,\% of the opening in the conduction band at 2\,nm; HSE06/PBE ratio
+        1.06--1.11 at 1\,nm \lab{computed} \\
+    Masses
+      & Electron band-edge mass 0.154\,$\mzero$ in bulk, 0.203 and 0.279\,$\mzero$ at 1.96 and 0.93\,nm; no meaningful
+        single hole mass \lab{computed}. Bulk Kane relation, no fit: 2\,nm mass within 1\,\%, 1\,nm mass 10\,\% too
+        high \lab{derived} \\
+    W, crystalline
+      & On the 24d site; the W-5d-rich level is a resonance 1.2--1.8\,eV above the host band bottom, near $\EF$, at the
+        computed filling; the earlier deep-donor reading was a band-count artefact (X1) \lab{computed} \\
+    ML structures
+      & The machine-learned amorphous structures failed their registered force check in the W first shell
+        \lab{computed} \\
+    H-N verdict
+      & The registered H-N outcome cannot be a crossover verdict; this follows from the frozen rules (A37)
+        \lab{derived} \\
+    \bottomrule
+  \end{tabular}\par\endgroup
+  \src{A conclusion is listed under the weakest class of any of its parts; PBE results are not measurements of the
+    device films. Ledger, by row: C002/C003/C026/C029; C014; C020/C021/C039; C039/C040/M004; C022; C037; M001.
+    \fourteenData\sref{Januar2026}.}
+  \takeaway{Firm results concern the devices and the rules; PBE results hold for crystalline cells.}
+\end{frame}
+
+% ---------------------------------------------------------------------------------------------------------------------
+\begin{frame}[t]{Three results are strongly supported; five are conditional}
+  \fourteenTop
+  \begingroup\scriptsize
+  \setlength{\tabcolsep}{4pt}
+  \renewcommand{\arraystretch}{1.04}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{1.75cm}>{\raggedright\arraybackslash}p{11.9cm}@{}}
+    \toprule
+    \fourteenGroup{Strongly supported}
+    Contacts
+      & A thickness-independent series resistance cannot create the trend: it would need 83\,\% of $\Vd$ at 2\,nm
+        \lab{derived} \\
+    Swing
+      & The local swing of the three thinner films collapses against $\Id/I_{\mathrm{on}}$, in data and in simulation
+        \lab{observed} \\
+    Mobility
+      & The saturation-formula peak reproduces the published mobilities with no free factor (5.09, 3.86, 27.40 against
+        5.1, 3.73, 27.4\cmVs); the formula does not describe these curves as a mobility \lab{derived} \\
+    \midrule
+    \fourteenGroup{Inferred, derived under stated conditions, or computed but unresolved}
+    Floor
+      & Unlikely to be gate leakage: flat in $\Vg$, but no gate current recorded and the registered tests sealed
+        \lab{inferred} \\
+    Definition
+      & The saturation formula is the leading candidate for the paper's mobility definition \lab{inferred}; the
+        published values stay \textsc{unresolved} until the group confirms its recipe \\
+    Threshold step
+      & Of the measured 2.0--13.2\,nm step ($-0.579$\,V): 44\,\% by rigid transfer of the PBE $\dEc$ law ($-0.257$\,V),
+        about 50\,\% in the earlier calibrated model, about 18\,\% as the audit's all-inputs-off counterfactual (A13).
+        Not identifiable from transfer curves (C018): confinement alone does not account for the step \lab{inferred} \\
+    6.3\,nm misses
+      & The threshold stays flat from 2.0 to 6.3\,nm ($-0.018$\,V) where the computed shift implies about 0.2\,V, the
+        direction and size of every miss; no cause is assigned \lab{derived} \\
+    Vacancies
+      & Crystalline, degenerately doped: a vacancy far from W costs 0.73\,eV more than in pure \InO{} (passes its
+        threshold), next to W a further 0.53--0.56\,eV (significance unresolved); spin unassessed; not formation energies
+        at device conditions; H-L is \textsc{unresolved} overall \lab{computed} \\
+    \bottomrule
+  \end{tabular}\par\endgroup
+  \src{Ledger, by row: C019; C007; C030; C005; C031/C024; M007/C018; M007/C014; C038. Sealed, not shown: amorphous W
+    and confinement (H-G, H-K, H-N per cell; D-43); shared-model transfer and floor tests (campaign completion).
+    \fourteenData\sref{Januar2026}.}
+\end{frame}
+
+% ---------------------------------------------------------------------------------------------------------------------
+\begin{frame}[t]{Seven contributions stand on the present evidence}
+  \fourteenTop
+  \begingroup\scriptsize
+  \setlength{\tabcolsep}{4pt}
+  \renewcommand{\arraystretch}{1.08}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.25cm}>{\raggedright\arraybackslash}p{7.85cm}>{\raggedright\arraybackslash}p{1.6cm}>{\raggedright\arraybackslash}p{2.45cm}>{\centering\arraybackslash}p{0.65cm}@{}}
+    \toprule
+    & Contribution & Label & Condition & Part \\
+    \midrule
+    1 & A confinement series of crystalline \InO{} films (0.46--1.96\,nm): masses on a stated basis, band-edge
+        partition, HSE06 check, laws with uncertainties
+      & \leavevmode\lab{computed}\newline\lab{fitted} & crystalline (001), PBE, OH-terminated & 6, 7 \\
+    2 & The mass increase is consistent with the bulk non-parabolicity, with no fit (1\,\% at 2\,nm, 10\,\% at
+        1\,nm): one independent law, $\dEc(t)$, not two
+      & \leavevmode\lab{derived} & crystalline & 7, 10 \\
+    3 & W in crystalline \InO{} is a resonant donor at high filling; the earlier deep-donor reading is withdrawn
+      & \leavevmode\lab{computed} & crystalline, PBE, one filling & 8 \\
+    4 & A registered crystalline vacancy test (H-L), scored under frozen rules
+      & \leavevmode\lab{computed} & unresolved overall & 9 \\
+    5 & A fully specified blind protocol for amorphous films, and the finding that its central test, H-N, cannot
+        return a crossover verdict
+      & \leavevmode\lab{derived} & frozen rules; outcomes sealed & 11 \\
+    6 & A quantitative account of how every failed 6.3\,nm prediction relates to the computed shift, all in the same
+        direction, without assigning a cause
+      & \leavevmode\lab{derived} & uses the device data & 10 \\
+    7 & A reconciliation of the published\sref{Januar2026} and the derived device metrics
+      & \leavevmode\lab{derived} & uses the device data & 2 \\
+    \bottomrule
+  \end{tabular}\par\endgroup
+  \src{Labels and conditions as in the monograph's claim-status table. No claim is approved for publication: results
+    that use the device curves need the fabrication group's agreement on permission, attribution, AI processing and
+    authorship (meeting pending); the frozen registrations still need an external timestamp (DOI).}
+  \takeaway{The strongest original result is computational and crystalline: the confinement series.}
+\end{frame}
+
+% ---------------------------------------------------------------------------------------------------------------------
+\begin{frame}[t]{The decisive next steps are measurements}
+  \fourteenTop
+  \begingroup\scriptsize
+  \setlength{\tabcolsep}{4pt}
+  \renewcommand{\arraystretch}{1.12}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{5.9cm}>{\raggedright\arraybackslash}p{7.75cm}@{}}
+    \toprule
+    \fourteenGroup{Measurements (by information per cost)}
+    Floor against $\Vd$ from 0.1 to 0.7\,V on the existing chips, with the gate current recorded
+      & ungated strip (floor $\times7$) or diffusion ($\times1.02$); gate leakage (C005) \\
+    $\ge10$ devices per thickness from one run, dual sweeps
+      & device spread against a film property; is 6.3\,nm on a smooth law? \\
+    A dense series in about 1\,nm steps from 3 to 15\,nm, at 0, 2, 4\,\% W, capped and uncapped
+      & a transition between 6.3 and 13.2\,nm against a smooth law; back-surface depletion \\
+    Thickness metrology of the same films (XRR, TEM) and the stack order
+      & the abscissa of every law: $\pm0.2$\,nm $\approx\pm40$\,mV in $\Vthcc$ at 2\,nm \\
+    C--V flat band, optical gap, Hall density and photoemission band offsets against thickness
+      & work function, affinity, fixed charge and $\dEc$, which act as one number in transfer curves (C018) \\
+    \midrule
+    \fourteenGroup{Calculations and registered work}
+    W cells with a hybrid functional (HSE06) or PBE+$U$
+      & does the W-5d level stay above the host edge? can W trap an electron? \\
+    A density series of W cells (lower density)
+      & does the filling pin $\EF$? is W ionised at device densities? \\
+    Release of the sealed amorphous results under D-43
+      & amorphous confinement (H-K) and W (H-G, H-N per cell) \\
+    Completion of the registered device campaign (C10)
+      & can one shared parameter set with computed inputs describe all films? \\
+    \bottomrule
+  \end{tabular}\par\endgroup
+  \src{Also: a dipole-corrected SCF of the 0.695\,nm film; charged vacancy cells; for H-N, a re-registered series with
+    $\ge2$ seeds per endpoint. Device model: carry one law, $\dEc(t)$, with its fit-option band, and state the
+    $N_{\mathrm{c}}$ convention with every fitted charge. None of the measurements exists yet for these films.}
+  \takeaway{First the floor against drain bias, device statistics and thickness metrology.}
+\end{frame}
+
+% ---------------------------------------------------------------------------------------------------------------------
+{\setbeamertemplate{footline}{}
+\begin{frame}[plain,noframenumbering]
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=west,inner sep=0,text width=120mm,align=left] at ($(current page.west)+(10mm,6mm)$) {%
+      {\LARGE\bfseries Thank you\par}
+      \vspace{3mm}
+      {\color{ntumaroon}\rule{30mm}{0.6pt}\par}
+      \vspace{4mm}
+      {\small\textbf{Mahmoud Elrasheedy}\par}
+      \vspace{1mm}
+      {\footnotesize National Taiwan University\par}
+      \vspace{0.6mm}
+      {\footnotesize Advisor: Prof.\ Chao-Hsin Wu \quad\textperiodcentered\quad Mentor: Mukul Kumar\par}
+      \vspace{5mm}
+      {\footnotesize Questions and comments are welcome.\par}
+    };
+    \node[anchor=south east,inner sep=0] at ($(current page.south east)+(-10mm,21mm)$) {\ntuemblem{16mm}};
+    \draw[rulegrey,line width=0.4pt] ($(current page.south west)+(10mm,17mm)$) -- ($(current page.south east)+(-10mm,17mm)$);
+    \node[anchor=north west,inner sep=0,text width=140mm,align=left] at ($(current page.south west)+(10mm,15mm)$) {%
+      {\scriptsize\color{inkgrey} Device data: Prof.\ Min-Hung Lee's group, NTU (M.~Januar, Z.-F.~Luo; with
+        K.-C.~Liu, Chang Gung University)\par}
+    };
+  \end{tikzpicture}
+\end{frame}}
