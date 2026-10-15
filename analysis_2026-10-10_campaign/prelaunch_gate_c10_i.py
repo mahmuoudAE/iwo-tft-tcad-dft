@@ -11,6 +11,8 @@ as modules for constants and helpers only (Gate, process functions, amendment_lo
 run() is NOT used (its generator pin and its RUN_INDEX label set predate A53). It loads the S5 driver s5_loo_driver.py (pinned) for its pin check,
 its constants and seal check, and the plan generator make_campaign_configs.py (pinned) for the S5 plan form.
 
+A54 (2026-10-15): run_0160 (S4D-2p0) is the registered interrupted launch (main-session workflow stop); --s4d prints `--retry S4D-2p0`
+while no c10_s4d_2p0_2p0 row above run_0160 exists; S5 is offered only after S4d is complete.
 --s4d: offer config/campaign_C10_S4d.json instead (A52 (g); held for the user's own go): the H-gate S4d checks (record, plan pin, dry builds,
 STARTED order) with this gate's RUN_INDEX accounting. Default: the next S5 invocation.
 
@@ -83,6 +85,10 @@ CONFIRM_REL = 'analysis_2026-10-10_campaign/profile/s4c_confirm_A52.json'
 A53_HEADING = ['S5', 'leave-one-film-out', 's5_loo_driver.py', 'prelaunch_gate_c10_i.py']
 A53_ROW = ['A53', 'S5', 's5_loo_driver.py', 'prelaunch_gate_c10_i.py']
 LAST_S4C = 'run_0159'      # last S4c run; every S5 run id is above it
+INTERRUPTED_D = 'run_0160'  # A54: the interrupted S4D-2p0 launch (main-session workflow stop 2026-10-15T19:06:07Z; STARTED row only)
+RETRY_D = 'S4D-2p0'         # A54: the one admitted infrastructure retry (--retry S4D-2p0 iff no c10_s4d_2p0_2p0 row above run_0160)
+A54_HEADING = ['interrupted launch', 'run_0160', 'S4D-2p0', '--retry S4D-2p0', 'prelaunch_gate_c10_i.py']
+A54_ROW = ['A54', 'run_0160', '--retry S4D-2p0', 'prelaunch_gate_c10_i.py']
 NEED_AFTER_S5 = 6 + 17 + 3 + 12 + 2 + 6   # A41(d) + 3-D NC + l = 0 triple + S6 core + S7 + repairs = 46 (S4b 18 returned, PA-19 v3 4 item 5)
 S5_TOTAL = 30
 
@@ -206,7 +212,7 @@ def run(H, G2, G, FG, DE, C, g, argv):
         files_ok &= g.check(False, 'driver not loaded (sha256 differs)')
 
     for words, row, what in ((G.A49_HEADING, G.A49_ROW, 'A49'), (G.A50_HEADING, G.A50_ROW, 'A50'), (G2.A51_HEADING, G2.A51_ROW, 'A51'),
-                             (H.A52_HEADING, H.A52_ROW, 'A52'), (A53_HEADING, A53_ROW, 'A53')):
+                             (H.A52_HEADING, H.A52_ROW, 'A52'), (A53_HEADING, A53_ROW, 'A53'), (A54_HEADING, A54_ROW, 'A54')):
         h, d = C.amendment_logged(words, row)
         g.check(h, f'{what} logged: register heading "### A<n>: ..." naming {", ".join(words)} (not draft)')
         g.check(d, f'{what} logged: decision-log row naming {", ".join(row)}, IN FORCE')
@@ -266,7 +272,16 @@ def run(H, G2, G, FG, DE, C, g, argv):
             if k not in st: st[k] = rid; ids.append((k, rid))
             fin[k] = any(x['exit_code'] != '' and not x['started'] for x in rows[rid][1:])
         return st, fin, ids
-    st_h, fin_h, seq_h = started_of(rows_h, h_of)
+    # A54: run_0160 (S4D-2p0) is the registered interrupted launch (main-session workflow stop, 2026-10-15T19:06:07Z): kept, never opened, it
+    # counts as a launch; S4D-2p0 may hold run_0160 plus ONE retry above it; every other S4c/S4d label holds one run id
+    intr_rows = rows_h.get(INTERRUPTED_D)
+    i_ok = bool(intr_rows) and intr_rows[0]['label'] == H.LABEL[RETRY_D] and intr_rows[0]['started'] and intr_rows[0]['model_note']         and intr_rows[0]['deck_sha256'] == H.DECK[RETRY_D] and intr_rows[0]['model_sha256'] == H.MATERIAL[RETRY_D]         and not any(x['exit_code'] != '' and not x['started'] for x in intr_rows[1:])
+    g.check(i_ok, f'A54: {INTERRUPTED_D} is the interrupted launch of {RETRY_D} ({H.LABEL[RETRY_D]}): STARTED-row inputs as pinned, NO finish row')
+    rows_h_eff = {rid: v for rid, v in rows_h.items() if rid != INTERRUPTED_D}
+    g.check(all(C.rid_n(r) > C.rid_n(INTERRUPTED_D) for r in rows_h_eff if h_of[rows_h_eff[r][0]['label']] in H.ORDER[3:]),
+            f'A54: every other S4d run id is above {INTERRUPTED_D} (the retry and the later S4d entries follow the interrupted launch)')
+    st_h, fin_h, seq_h = started_of(rows_h_eff, h_of)
+    retry_pending = RETRY_D not in st_h
     for k in H.ORDER[:3]:
         ok = k in st_h and fin_h.get(k)
         if ok:
@@ -280,10 +295,13 @@ def run(H, G2, G, FG, DE, C, g, argv):
         g.check(f0['started'] and f0['model_note'] and f0['deck_sha256'] == H.DECK[k] and f0['model_sha256'] == H.MATERIAL[k],
                 f'{st_h[k]} ({k}): STARTED-row input columns as pinned (deck_sha256, model_sha256, model note)')
     unfinished = [f'{st_h[k]} ({k})' for k in st_h if not fin_h[k]]
+    s4d_done = all(k in st_h and fin_h[k] for k in H.ORDER[3:])
 
     # ---------------------------------------------------------------- S5 state
     st_5, fin_5, seq_5 = started_of(rows_5, id5)
     g.check(all(C.rid_n(r) > C.rid_n(LAST_S4C) for _, r in seq_5), f'every S5 run id is above {LAST_S4C} (S4c complete first)', str([r for _, r in seq_5]))
+    last_d = max([C.rid_n(r) for r in st_h.values() if r and h_of.get(rows_h_eff[r][0]['label']) in H.ORDER[3:]] or [C.rid_n(INTERRUPTED_D)])
+    g.check(all(C.rid_n(r) > last_d for _, r in seq_5), f'A54: every S5 run id is above every S4d run id (S4d before S5)', str([r for _, r in seq_5]))
     stopped, stopped_started = [], {}
     for h in S.FOLDS:
         sp = S.path(h, 'stop')
@@ -329,6 +347,8 @@ def run(H, G2, G, FG, DE, C, g, argv):
             bad_d = [e['id'] for e in pd['runs'] if C.tsha(rc.current_deck_text(e, e['overrides'])) != H.DECK[e['id']]
                      or C.tsha(rc.current_material_text(e['overrides'])) != H.MATERIAL[e['id']]]
             g.check(not bad_d, 'dry-built S4d deck / material text sha256 == the A52 pins', f'differ: {bad_d}' if bad_d else '')
+    elif not s4d_done:
+        msg4 = 'S4d is not complete (A54: S4d before S5): run this gate with --s4d'
     elif nx is None:
         msg4 = 'S5: every registered entry has started and finished (stopped folds excluded); run s5_loo_driver.py score / report'
     else:
@@ -382,7 +402,7 @@ def run(H, G2, G, FG, DE, C, g, argv):
     n = len(k_next)
     g.check(cap > 0 and len(all_ids) + n <= cap, f'global budget: {len(all_ids)} used + {n} <= max_launches {cap}')
     g.check(c10 + n <= 200, f'C10 cap: {c10} used + {n} <= 200')
-    g.check(c10 + len(todo5) + len(todo_d) + NEED_AFTER_S5 <= 200, f'A53 fit: c10 {c10} + unlaunched S5 {len(todo5)} + unlaunched S4d {len(todo_d)} + never-cut '
+    g.check(c10 + len(todo5) + len(todo_d) + NEED_AFTER_S5 <= 200, f'A53/A54 fit: c10 {c10} + unlaunched S5 {len(todo5)} + unlaunched S4d {len(todo_d)} + never-cut '
             f'need after S5 {NEED_AFTER_S5} = {c10 + len(todo5) + len(todo_d) + NEED_AFTER_S5} <= 200 (six repairs reserved)')
     print(f'[INFO] RUN_INDEX: {len(all_ids)} distinct run ids (max {all_ids[-1]}), c10 {c10}/200; S4d started {len([k for k in st_h if k in H.ORDER[3:]])}/3; '
           f'S5 started {len(st_5)}/{S5_TOTAL} (stopped folds: {[S.FID[h] for h in stopped] or "none"}); next free id {nxt}', flush=True)
@@ -394,7 +414,7 @@ def run(H, G2, G, FG, DE, C, g, argv):
         print(f'GATE STOP ({len(g.stops)}): a main-session decision is needed; nothing may be invoked.', flush=True); return 3
     if msg4:
         print(f'NOTHING TO LAUNCH: {msg4}. (Exit 4 is not a pass.)', flush=True); return 4
-    cmd = f'& "{C.VENV_PY}" scripts/run_campaign.py {plan_rel}'
+    cmd = f'& "{C.VENV_PY}" scripts/run_campaign.py {plan_rel}' + (f' --retry {RETRY_D}' if s4d_mode and retry_pending else '')
     print(f'GATE PASSED. Next plan {plan_rel}: {k_next[0]["id"]} ({k_next[0]["label"]}) ... {k_next[-1]["id"]}, first run id {nxt}; the invocation runs these '
           f'{n} entr{"y" if n == 1 else "ies"} in order and stops. Only with the user\'s own go for THIS launch in the conversation (the hook also asks). '
           + ('Would-be command (check mode, not an instruction)' if check_mode else 'Command (same PowerShell session, package root, IWO_MODEL_FILE as set)')

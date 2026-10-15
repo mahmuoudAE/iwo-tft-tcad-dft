@@ -49,25 +49,27 @@ def seal(d):
     d = json.loads(S._canon({k: v for k, v in d.items() if k != 'sha256'})); d['sha256'] = S.tsha(S._canon(d)); return d
 
 
-def logs(tag, a53=True, draft=False):
+def logs(tag, a53=True, draft=False, a54=True):
     TMP.mkdir(exist_ok=True); reg, dec = TMP / f'reg_{tag}.md', TMP / f'dec_{tag}.md'; s = H0.RECORD_SEAL[:16]
     h = ['### A49: stage G1 prerequisites: 0-launch S3 decision before S4a ... (PA-8 adoption ...); S4a forms N/T/I/TI ... (PA-12); PA-16 ...; PA-20 ...',
          '### A50: S4a execution entries of form N: S4A-02 .. S4A-15, route plans, prelaunch_gate_c10_g.py',
          '### A51: S4a resume after the interrupted launch run_0150: one infrastructure retry of S4A-14-2p0 (--retry S4A-14-2p0), prelaunch_gate_c10_g2.py',
          f'### A52: PA-18 S4c confirmation wrapper s4c_confirm_wrapper.py, record {s}..., S4c and S4d execution entries, prelaunch_gate_c10_h.py']
     if a53: h.append('### A53: S5 leave-one-film-out execution: s5_loo_driver.py, route plans, prelaunch_gate_c10_i.py' + (' (draft)' if draft else ''))
+    if a54: h.append('### A54: S4d resume after the interrupted launch run_0160: one --retry S4D-2p0, prelaunch_gate_c10_i.py v2')
     r = ['| D-69 | x | Register A49: s3_decision_a49.py, PA-8 | x | x | IN FORCE |',
          '| D-70 | x | Register A50: form N, campaign_C10_S4a_b1, prelaunch_gate_c10_g.py | x | x | IN FORCE |',
          '| D-71 | x | Register A51: run_0150 interrupted; --retry S4A-14-2p0; prelaunch_gate_c10_g2.py | x | x | IN FORCE |',
          f'| D-75 | x | Register A52: PA-18 s4c_confirm_wrapper.py record {s}; prelaunch_gate_c10_h.py | x | x | IN FORCE |']
     if a53: r.append('| D-76 | x | Register A53: S5 s5_loo_driver.py; prelaunch_gate_c10_i.py | x | x | IN FORCE |')
+    if a54: r.append('| D-77 | x | Register A54: run_0160 interrupted; --retry S4D-2p0; prelaunch_gate_c10_i.py | x | x | IN FORCE |')
     reg.write_text('\n'.join(h) + '\n'); dec.write_text('\n'.join(r) + '\n'); return reg, dec
 
 
 def fin(rid, lab): return {'run_id': rid, 'label': lab, 'exit_code': '0', 'notes': 'synthetic finish'}
 
 
-def prev_rows(s4c=True):
+def prev_rows(s4c=True, s4d='done'):
     rows = []
     for k, e in enumerate(C0.LAUNCH_ORDER):
         rid = f'run_{78 + k:04d}'; rows += [{'run_id': rid, 'label': C0.LABEL[e], 'notes': 'STARTED synthetic'}, fin(rid, C0.LABEL[e])]
@@ -82,6 +84,9 @@ def prev_rows(s4c=True):
         if rid != 'run_0150': rows.append(fin(rid, lab))
     if s4c:
         for i, k in enumerate(H0.ORDER[:3]): rows += h_row(f'run_{157 + i:04d}', k)
+    if s4d is not None: rows += h_row('run_0160', 'S4D-2p0', finish=(s4d == 'intr_finished'))   # A54: the interrupted launch
+    if s4d == 'done':
+        for i, k in enumerate(H0.ORDER[3:]): rows += h_row(f'run_{161 + i:04d}', k)
     return rows
 
 
@@ -90,7 +95,7 @@ def h_row(rid, k, finish=True):
     return [s] + ([fin(rid, lab)] if finish else [])
 
 
-def index(tag, extra, s4c=True):
+def index(tag, extra, s4c=True, s4d='done'):
     TMP.mkdir(exist_ok=True); p = TMP / f'idx_{tag}.csv'
     real = [(r['run_id'], r['label']) for r in csv.DictReader((PKG / 'results' / 'RUN_INDEX.csv').open(newline='')) if int(r['run_id'][4:]) <= 77]
     reuse = {rid: (lab, dk, mk) for rid, lab, dk, mk in G0.REUSE.values()}
@@ -101,14 +106,14 @@ def index(tag, extra, s4c=True):
                 _, dk, mk = reuse[rid]; done.add(rid)
                 w.writerow({'run_id': rid, 'label': lab, 'deck_sha256': dk, 'model_sha256': mk, 'notes': f'STARTED model={MODEL}'})
             else: w.writerow({'run_id': rid, 'label': lab, 'notes': 'SYNTHETIC'})
-        for row in prev_rows(s4c) + extra: w.writerow({k: row.get(k, '') for k in FIELDS})
+        for row in prev_rows(s4c, s4d) + extra: w.writerow({k: row.get(k, '') for k in FIELDS})
     return p
 
 
 # ------------------------------------------------------------------------------------------------ synthetic S5 records (fold H6p3)
 XDECK = {1: (5.0e12, 0.0451), 2: (5.5e12, 0.0466), 3: (6.0e12, 0.0472), 4: (6.5e12, 0.0489)}
-RID = {('t1', 0): 160, ('t1', 1): 161, ('t2', 0): 162, ('t2', 1): 163, ('t3', 0): 164, ('t3', 1): 165, ('t4', 0): 166, ('t4', 1): 167,
-       ('pred', 0): 168, ('pred', 1): 169}
+RID = {('t1', 0): 164, ('t1', 1): 165, ('t2', 0): 166, ('t2', 1): 167, ('t3', 0): 168, ('t3', 1): 169, ('t4', 0): 170, ('t4', 1): 171,
+       ('pred', 0): 172, ('pred', 1): 173}   # after the A54 S4d rows run_0160 (interrupted) .. run_0163
 DEC = None
 
 
@@ -202,12 +207,15 @@ def main():
         out = case('decision, no t1 record -> 4 (next --held 6.3)', 4, index('n1', []), L)
         expect('  names next --held 6.3', 'next --held 6.3' in out, True)
         train_record(1); plan_for('t1')
-        out = case('t1 record + plan -> 0, campaign_C10_S5_h6p3_t1, 2 entries from run_0160', 0, index('t1', []), L)
-        expect('  command: config/campaign_C10_S5_h6p3_t1.json, run_0160, 2 entries',
-               out.rstrip().endswith('scripts/run_campaign.py config/campaign_C10_S5_h6p3_t1.json') and 'first run id run_0160' in out and 'these 2 entries' in out, True)
+        out = case('t1 record + plan -> 0, campaign_C10_S5_h6p3_t1, 2 entries from run_0164', 0, index('t1', []), L)
+        expect('  command: config/campaign_C10_S5_h6p3_t1.json, run_0164, 2 entries, no --retry',
+               out.rstrip().endswith('scripts/run_campaign.py config/campaign_C10_S5_h6p3_t1.json') and 'first run id run_0164' in out and 'these 2 entries' in out, True)
+        out = case('S4d incomplete (retry pending) -> 4 for S5 (S4d before S5)', 4, index('s4dp', [], s4d='intr'), L)
+        expect('  names --s4d', '--s4d' in out, True)
+        case('A54 not logged -> 1', 1, index('n54', []), logs('n54', a54=False))
         case('t1 record not committed in git HEAD -> 1', 1, index('git', []), L, git=(False, 'not in HEAD'))
-        case('A53 fit violated (need 69: 99 + 30 + 3 + 69 = 201 > 200) -> 1', 1, index('fit', []), L, patch=lambda m: setattr(m, 'NEED_AFTER_S5', 69))
-        case('A53 fit at the limit (need 68: 99 + 30 + 3 + 68 = 200) -> 0', 0, index('fit2', []), L, patch=lambda m: setattr(m, 'NEED_AFTER_S5', 68))
+        case('fit violated (need 68: 103 + 30 + 0 + 68 = 201 > 200) -> 1', 1, index('fit', []), L, patch=lambda m: setattr(m, 'NEED_AFTER_S5', 68))
+        case('fit at the limit (need 67: 103 + 30 + 0 + 67 = 200) -> 0', 0, index('fit2', []), L, patch=lambda m: setattr(m, 'NEED_AFTER_S5', 67))
         case('A53 not logged -> 1', 1, index('n53', []), logs('n53', a53=False))
         case('A53 heading draft -> 1', 1, index('d53', []), logs('d53', draft=True))
         plan_for('t1', lambda p: p['runs'][0].update(timeout=1700))
@@ -221,19 +229,19 @@ def main():
         case('t1 record dry build differs from the generator -> 1', 1, index('db', []), L)
         S.path(6.3, 't1').write_text(good); plan_for('t1')
         case('S5-H6p3-1-2p0 started, no finish row -> 3', 3, index('u1', s5_rows(['t1'], order=[('t1', 0)], finish_last=False)), L)
-        out = case('S5-H6p3-1-2p0 done -> 0, same plan, 1 entry left from run_0161', 0, index('h1', s5_rows(['t1'], order=[('t1', 0)])), L)
-        expect('  next S5-H6p3-1-13p2, run_0161', 'S5-H6p3-1-13p2' in out and 'run_0161' in out and 'these 1 entry' in out and 'campaign_C10_S5_h6p3_t1.json' in out.splitlines()[-1], True)
+        out = case('S5-H6p3-1-2p0 done -> 0, same plan, 1 entry left from run_0165', 0, index('h1', s5_rows(['t1'], order=[('t1', 0)])), L)
+        expect('  next S5-H6p3-1-13p2, run_0165', 'S5-H6p3-1-13p2' in out and 'run_0165' in out and 'these 1 entry' in out and 'campaign_C10_S5_h6p3_t1.json' in out.splitlines()[-1], True)
         case('S5-H6p3-1-13p2 started before -2p0 (order) -> 1', 1, index('or', s5_rows(['t1'], order=[('t1', 1)])), L)
         case('S5 STARTED deck differs from the record -> 1', 1, index('dk', s5_rows(['t1'], order=[('t1', 0)], deck='3' * 64)), L)
-        case('unknown label above run_0077 -> 1', 1, index('unk', [{'run_id': 'run_0160', 'label': 'c10_s5_hx_1_2p0_2p0', 'notes': 'STARTED'}]), L)
+        case('unknown label above run_0077 -> 1', 1, index('unk', [{'run_id': 'run_0164', 'label': 'c10_s5_hx_1_2p0_2p0', 'notes': 'STARTED'}]), L)
         t1rows = s5_rows(['t1']); full_state('t2')
         out = case('t1 complete, no t2 record -> 4 (next --held 6.3)', 4, index('n2', t1rows), L)
         expect('  names next --held 6.3 (t2)', 'next --held 6.3' in out and 't2' in out, True)
         train_record(2, cands=[]); plan_for('t2')
         case('t2 record built on the wrong fold inventory -> 1', 1, index('wi', t1rows), L)
         S.path(6.3, 't2').unlink(); train_record(2); plan_for('t2')
-        out = case('t1 complete, t2 record + plan -> 0, campaign_C10_S5_h6p3_t2 from run_0162', 0, index('t2', t1rows), L)
-        expect('  command names the t2 plan and run_0162', out.rstrip().endswith('config/campaign_C10_S5_h6p3_t2.json') and 'run_0162' in out, True)
+        out = case('t1 complete, t2 record + plan -> 0, campaign_C10_S5_h6p3_t2 from run_0166', 0, index('t2', t1rows), L)
+        expect('  command names the t2 plan and run_0166', out.rstrip().endswith('config/campaign_C10_S5_h6p3_t2.json') and 'run_0166' in out, True)
         for k in (3, 4): full_state(f't{k}'); train_record(k); plan_for(f't{k}')
         full_state('pred')
         out = case('t1..t4 complete, no held-out record -> 4 (freeze --held 6.3)', 4, index('n5', s5_rows(['t1', 't2', 't3', 't4'])), L)
@@ -241,8 +249,8 @@ def main():
         pred_record(bad_bind=True); plan_for('pred')
         case('held-out record bound to another frozen record -> 1', 1, index('pb', s5_rows(['t1', 't2', 't3', 't4'])), L)
         pred_record(); plan_for('pred')
-        out = case('t1..t4 complete, held-out record + frozen records + plan -> 0, pred plan from run_0168', 0, index('pr', s5_rows(['t1', 't2', 't3', 't4'])), L)
-        expect('  command names the pred plan and run_0168', out.rstrip().endswith('config/campaign_C10_S5_h6p3_pred.json') and 'run_0168' in out, True)
+        out = case('t1..t4 complete, held-out record + frozen records + plan -> 0, pred plan from run_0172', 0, index('pr', s5_rows(['t1', 't2', 't3', 't4'])), L)
+        expect('  command names the pred plan and run_0172', out.rstrip().endswith('config/campaign_C10_S5_h6p3_pred.json') and 'run_0172' in out, True)
         out = case('fold H6p3 complete -> 4 (next fold: branch --held 2.0)', 4, index('h6', s5_rows(['t1', 't2', 't3', 't4', 'pred'])), L)
         expect('  names branch --held 2.0', 'branch --held 2.0' in out, True)
         stop = seal({'record': 'synthetic stop', 'fold': 'H6p3', 'started_entries': {'S5-H6p3-1-2p0': {}, 'S5-H6p3-1-13p2': {}}, 'driver_sha256': I0.DRIVER_SHA})
@@ -251,9 +259,17 @@ def main():
         expect('  names branch --held 2.0', 'branch --held 2.0' in out, True)
         case('a t2 run after the H6p3 stop -> 1 (not in the registered sequence)', 1, index('st2', s5_rows(['t1', 't2'])), L)
         S.path(6.3, 'stop').unlink()
-        out = case('S4d mode, no S4d run -> 0, campaign_C10_S4d, 3 entries from run_0160', 0, index('s4d', []), L, argv=('--check', '--s4d'))
-        expect('  command names the S4d plan', out.rstrip().endswith('scripts/run_campaign.py config/campaign_C10_S4d.json') and 'these 3 entries' in out, True)
-        case('S4D-2p0 started, no finish row -> 3', 3, index('s4du', h_row('run_0160', 'S4D-2p0', finish=False)), L, argv=('--check', '--s4d'))
+        out = case('S4d mode, run_0160 interrupted -> 0, campaign_C10_S4d --retry S4D-2p0, 3 entries from run_0161', 0, index('s4d', [], s4d='intr'), L, argv=('--check', '--s4d'))
+        expect('  command: S4d plan with --retry S4D-2p0, first run id run_0161, 3 entries',
+               out.rstrip().endswith('scripts/run_campaign.py config/campaign_C10_S4d.json --retry S4D-2p0') and 'run_0161' in out and 'these 3 entries' in out, True)
+        case('S4d mode, retry run_0161 started, no finish row -> 3', 3, index('s4du', h_row('run_0161', 'S4D-2p0', finish=False), s4d='intr'), L, argv=('--check', '--s4d'))
+        out = case('S4d mode, retry finished -> 0, S4d plan, 2 entries from run_0162, no --retry', 0, index('s4dr', h_row('run_0161', 'S4D-2p0'), s4d='intr'), L, argv=('--check', '--s4d'))
+        expect('  command: S4d plan without --retry, S4D-6p3, run_0162, 2 entries',
+               out.rstrip().endswith('scripts/run_campaign.py config/campaign_C10_S4d.json') and 'S4D-6p3' in out and 'run_0162' in out and 'these 2 entries' in out, True)
+        case('S4d mode, run_0160 has a finish row (not the registered interruption) -> 1', 1, index('s4df', [], s4d='intr_finished'), L, argv=('--check', '--s4d'))
+        case('S4d mode, a third S4D-2p0 run -> 1', 1, index('s4d3', h_row('run_0161', 'S4D-2p0') + h_row('run_0162', 'S4D-2p0'), s4d='intr'), L, argv=('--check', '--s4d'))
+        case('S4d mode, run_0160 missing -> 1', 1, index('s4dm', [], s4d=None), L, argv=('--check', '--s4d'))
+        case('S4d mode, S4d complete -> 4', 4, index('s4dc', []), L, argv=('--check', '--s4d'))
         case('S4c incomplete (no S4c rows) -> 1', 1, index('nc', [], s4c=False), L)
         case('Silvaco process running -> 1', 1, index('proc', []), L, procs=[(4242, 'deckbuild.exe', 'deckbuild.exe -run x')])
         case('runner python running -> 1', 1, index('rpy', []), L, procs=[(4243, 'python.exe', 'python scripts/run_campaign.py config/x.json')])
@@ -261,7 +277,7 @@ def main():
         case('H gate pin differs -> 1', 1, index('pin', []), L, patch=lambda m: setattr(m, 'H_GATE_SHA', '0' * 64))
         case('driver pin differs -> 1', 1, index('dpin', []), L, patch=lambda m: setattr(m, 'DRIVER_SHA', '0' * 64))
         case('generator pin differs -> 1', 1, index('gpin', []), L, patch=lambda m: setattr(m, 'GENERATOR_SHA', '0' * 64))
-        expect('unit: constants', (I0.NEED_AFTER_S5, I0.LAST_S4C, I0.S5_TOTAL, I0.H_GATE_SHA[:8]), (46, 'run_0159', 30, '3e96b825'))
+        expect('unit: constants', (I0.NEED_AFTER_S5, I0.LAST_S4C, I0.S5_TOTAL, I0.H_GATE_SHA[:8], I0.INTERRUPTED_D, I0.RETRY_D), (46, 'run_0159', 30, '3e96b825', 'run_0160', 'S4D-2p0'))
         expect('unit: next_invocation with nothing started -> H6p3 t1', I0.next_invocation(S, set(), [])[:2], (6.3, 't1'))
         expect('unit: next_invocation with H6p3 stopped -> H2p0 t1', I0.next_invocation(S, set(), [6.3])[:2], (2.0, 't1'))
         expect('unit: expected sequence length 30; stopped fold keeps its pre-stop entries', (len(I0.expected_sequence(S, {})),
