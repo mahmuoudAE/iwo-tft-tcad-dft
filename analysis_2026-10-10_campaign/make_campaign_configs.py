@@ -28,6 +28,9 @@ campaign_C10_DIAGa_S2-11.json is now written with runnable=false (HOLD: supersed
 rerun, and its non-state-only summary would copy that run's metrics into results/campaigns). Every other plan file is unchanged, except the
 order wording in the HOLD text of the held campaign_C10_S2r_resolution.json (A41 revision 3); --check verifies DIAGb (ids in launch order,
 verbatim entries, runnable, no gates, state_only, stop rules, launch command).
+2026-10-15 (register A48, no Codex review, D-63): stage F route plans campaign_C10_S3a_act (S3-12), campaign_C10_S3b_igzo (S3-27, S3-11, S3-13,
+S3-15, S3-14, S3-16) and campaign_C10_S3c_tails (S3-10, S3-05, S3-06, S3-08, S3-09): state-only, no gates, A48 launch order; the DIAG_HF hold text
+names them. --check verifies them (ids, verbatim entries, runnable, no gates, state_only, equality with this generator).
 """
 import json
 import sys
@@ -55,9 +58,12 @@ HOLD = {   # 2026-10-11 review: plan files written with runnable=false (scripts/
                                 'from campaign_C10_DIAG / campaign_C10_DIAG_HF. Anything else needs a logged register amendment or the frozen trigger, in its own plan.',
     'campaign_C10_MIN10': f'Superseded by the frozen register order ({REG_TAG}, section 3: S2-11 first): MIN10 would launch S2-01, S2-08, S2-14, S2-15 '
                           'before S2-11. Its launched entries (S0-01, S0-02, S1-01, S1-02, S1-07) are done; the rest run from campaign_C10_DIAG(_HF).',
-    'campaign_C10_DIAG_HF': f'H-F entries of the register diagnostic set ({REG_TAG}): no frozen code scores the H-F predictions yet (two-film reference '
-                            'shift/scale, baseline shape RMSE, IGZO gain and gamma targets, contact trigger). Implement and freeze that scoring (logged), then '
-                            'set runnable to true. Order: after campaign_C10_DIAG (register section 3, steps 3-4).',
+    # 2026-10-15 register A48 (no Codex review, D-63): the H-F scoring is frozen (v4); the route plans below run the five entries activation first
+    'campaign_C10_DIAG_HF': f'Superseded by register amendment A48 (2026-10-15): the H-F scoring is frozen (H-F v4, tag s4s5-hf-v4-429b3a3f-frozen-20261013: '
+                            f'hf_score_draft.py 96a2147e, profile_s4s5.py 429b3a3f), and the five H-F entries of the register diagnostic set ({REG_TAG}) run '
+                            'activation first from campaign_C10_S3a_act (S3-12), campaign_C10_S3b_igzo (S3-27, S3-11, S3-13, then S3-15, S3-14, S3-16) and '
+                            'campaign_C10_S3c_tails (S3-10, then the tail runs), each invoked immediately after analysis_2026-10-10_campaign/prelaunch_gate_c10_f.py '
+                            'has exited 0 naming it. This plan is in matrix order (S3-11 before the activation launch S3-12).',
     'campaign_C10_S2r_resolution': f'Register amendment A41 (2026-10-13; added to {REG_TAG} after the freeze, not part of the frozen 26-launch diagnostic set): '
                                    'S0-02-DOS2 runs only from campaign_C10_DIAGb (the S2-11 rerun, then S0-02-DOS2), after A41 and the resolution-method '
                                    'sign-off are logged and Codex has reviewed A41. Matched oxide-mesh refinements under the frozen A41 trigger get their own '
@@ -307,6 +313,39 @@ DE_PLANS = (
         'J.TUN in the log; current booked to the gate only (NEARFLG not set); KCL.',
         'S2-12-TSP24 (E3) is not in this plan: it needs S2-12 ACTIVE and resolved, and S2-12 (run_0085) is invalid (timeout).'] + DE_COMMON))
 
+# 2026-10-15 register A48 (no Codex review, D-63; Claude go under D-59): route plans of stage F = register section 3 steps 3-5 (IGZO with S3-27,
+# S3-10, tail runs), activation first (plan PA-0 / F5); state-only (sealed sidecar), no gates; each invocation follows
+# analysis_2026-10-10_campaign/prelaunch_gate_c10_f.py exiting 0 in the same PowerShell session (package root).
+F_AMENDMENT = ('A48 (2026-10-15; stage F = S3 steps 3-5: PA-8 activation rule and fallback form, S3-14..16 ruling and order, tail plan, route plans, '
+               'F gate; no Codex review, D-63): invoke only after A48 and its decision row are logged, with the go for THIS launch (Claude under D-59), '
+               'immediately after prelaunch_gate_c10_f.py has exited 0 naming this plan')
+F_LAUNCH = ('$env:IWO_MODEL_FILE = "config/iwo_material_model_v3.yaml"; <project venv python> scripts/run_campaign.py config/{stem}.json   (PowerShell, '
+            'package root, immediately after prelaunch_gate_c10_f.py exited 0 naming this plan; no --retry; IWO_ATLAS_VIEWERS unset)')
+F_COMMON = ['State-only (A41 (e) inventory rule): each run is appended to config/sealed_runs.json as soon as its RUN_INDEX STARTED row exists; console '
+            'and results/campaigns/<plan>.json carry state only; the full record is sealed under results/sealed/campaigns. No current, metric or '
+            'deckbuild.out line of these runs is read before the register-order scoring (frozen H-F v4 for S3-10..13 and S3-27), except the A48 (b) '
+            'activation read of S3-12 by the F gate (REGIONAL MOBILITY MODEL SUMMARY block only).',
+            'Every launch counts; a failed or timed-out launch is recorded invalid and kept; no repeat, no --retry, no repair in this stage (the PA-19 v3 '
+            'pool of 6 stays reserved); the affected verdicts are UNRESOLVED / UNKNOWN as frozen in H-F v4.',
+            'No S3 branch is adopted from these plans: the adoption decision (profile_shared.py adopt, CAMPAIGN_DESIGN S3 rule) is a 0-launch step after '
+            'the register-order scoring; contacts S3-17..S3-23 only if D4 fires, at register step 10; BQP/Boltzmann S3-24..26 after S5 (PA-10, cut list K2-K4).']
+F_PLANS = (
+    ('campaign_C10_S3a_act', ['S3-12'], [
+        'Register step 3, activation launch (A48 (b), PA-8): S3-12 c10_s3_12_6p3 (IGZO.TOKYO GAMMA0 -0.31, 6.3 nm, 2000 s) alone. After its finish row '
+        'the F gate reads its REGIONAL MOBILITY MODEL SUMMARY (regions 1 and 2, electrons): ACTIVE only if both name the IGZO.TOKYO model.',
+        'NOT ACTIVE or UNVERIFIED: campaign_C10_S3b_igzo is not launched in this stage (IGZO not testable here; the pre-registered fallback mobility '
+        'region=1 / region=2 needs a builder option and a role rule for the frozen H-F v4 labels: a main-session item), and campaign_C10_S3c_tails follows.'] + F_COMMON),
+    ('campaign_C10_S3b_igzo', ['S3-27', 'S3-11', 'S3-13', 'S3-15', 'S3-14', 'S3-16'], [
+        'Register step 3, only after S3-12 showed IGZO.TOKYO ACTIVE in regions 1 and 2 (F gate): S3-27 c10_s3_27_6p3 (native profiling check of S3-12: '
+        'Q_f +1e12, MUN x0.6; 2000 s; missing, timed out or unevaluable -> H-F D3/D4/D5 UNKNOWN), S3-11 c10_s3_11_2p0 (1600 s), S3-13 c10_s3_13_13p2 '
+        '(3100 s); then the GAMMA0 +0.30 entries (A48 (c): registered later-order entries of step 3, no registered prediction, not H-F inputs) in the '
+        'order of the -0.31 triple: S3-15 c10_s3_15_6p3 (2000 s), S3-14 c10_s3_14_2p0 (1600 s), S3-16 c10_s3_16_13p2 (3100 s).'] + F_COMMON),
+    ('campaign_C10_S3c_tails', ['S3-10', 'S3-05', 'S3-06', 'S3-08', 'S3-09'], [
+        'Register step 4: S3-10 c10_s3_10_6p3 (no tail, NTA 0 in regions 1 and 2; H-F set and D4 input; 1500 s). Register step 5, tail placement '
+        '(thickness laws of a spatially uniform tail, not spatial placements): bulk S3-05 c10_s3_05_6p3 (1500 s), S3-06 c10_s3_06_13p2 (2400 s), 50:50 '
+        'S3-08 c10_s3_08_6p3 (1500 s), S3-09 c10_s3_09_13p2 (2400 s). S3-04 / S3-07 (2.0 nm) are statement-identical to S0-01 and not launched (A45 (k)).'] + F_COMMON))
+F_STATE_ONLY = {'sealed_dir': 'results/sealed/campaigns'}
+
 _DUP = None
 
 
@@ -356,6 +395,11 @@ def plan(mx, stem, sel, rules, runnable):
     elif stem in [s for s, _, _ in DE_PLANS]:   # 2026-10-15 A47: route plans of branches D and E (no gates, not state-only)
         p = {**{k: v for k, v in p.items() if k != 'runs'}, 'register_amendment': DE_AMENDMENT, 'launch_command': DE_LAUNCH.format(stem=stem),
              **({'label': 'exploratory (A45 (d) / PA-5)'} if stem == 'campaign_C10_Efnord' else {}), 'runs': p['runs']}
+    elif stem in [s for s, _, _ in F_PLANS]:   # 2026-10-15 A48: stage F route plans (state-only, no gates)
+        gr = [STATE_ONLY_GLOBAL_RULE if r.startswith('run_campaign.py records a failed launch and CONTINUES') else r for r in p['global_rules']]
+        p = {**{k: v for k, v in p.items() if k != 'runs'}, 'purpose': p['purpose'].replace('(entries verbatim, matrix order)', '(entries verbatim, A48 launch order)'),
+             'global_rules': gr, 'stop_rules_enforced_by': STATE_ONLY_ENFORCED_BY, 'register_amendment': F_AMENDMENT,
+             'launch_command': F_LAUNCH.format(stem=stem), 'state_only': F_STATE_ONLY, 'runs': p['runs']}
     elif stem in STATE_ONLY:   # 2026-10-13 A41: state-only surface WITHOUT gates (campaign_C10_DIAGb); the DIAG branch above is unchanged
         gr = [STATE_ONLY_GLOBAL_RULE if r.startswith('run_campaign.py records a failed launch and CONTINUES') else r for r in p['global_rules']]
         p = {**{k: v for k, v in p.items() if k != 'runs'}, 'purpose': p['purpose'].replace('(entries verbatim, matrix order)', '(entries verbatim, A41 launch order)'),
@@ -404,6 +448,18 @@ def verify(mx):
             ref = next(r for r in mx['runs'] if r['id'] == e['id'])['campaign_entry']
             if any(e.get(k) != ref.get(k) for k in KEEP): bad += 1; print('MISMATCH', stem, e['id'])
         if pd != plan(mx, stem, ids, rules, True): bad += 1; print(stem, 'differs from make_campaign_configs (DE_PLANS)')
+    for stem, ids, rules in F_PLANS:   # 2026-10-15 A48: stage F route plans (ids in launch order, verbatim entries, runnable, no gates, state-only)
+        if not (CFG / f'{stem}.json').is_file(): bad += 1; print(stem, 'missing'); continue
+        pf = json.loads((CFG / f'{stem}.json').read_text())
+        if [e['id'] for e in pf['runs']] != ids: bad += 1; print(stem, 'ids differ')
+        for e in pf['runs']:
+            ref = next(r for r in mx['runs'] if r['id'] == e['id'])['campaign_entry']
+            if any(e.get(k) != ref.get(k) for k in KEEP): bad += 1; print('MISMATCH', stem, e['id'])
+        if pf != plan(mx, stem, ids, rules, True) or 'gates' in pf or pf.get('state_only') != F_STATE_ONLY or pf.get('runnable') is not True:
+            bad += 1; print(stem, 'differs from make_campaign_configs (F_PLANS)')
+        import campaign_sealed as cs
+        se = cs.validate(pf)
+        if se: bad += 1; print('STATE_ONLY INVALID', stem, se)
     held = []   # 2026-10-11 review: runnable flag = not HOLD for every non-template plan
     for stem in [s for s, _, _ in PLANS] + ['campaign_C10_MIN10'] + [s for s, _ in DIAG_PLANS] + [DIAGB[0]] + [s for s, _, _ in DE_PLANS]:
         if not (CFG / f'{stem}.json').is_file(): continue
@@ -424,7 +480,8 @@ def verify(mx):
     print(f'plans verified: {len(seen)} matrix entries in {len(PLANS)} stage plans ({len(PLANS) - sum(s in HOLD for s, _, _ in PLANS)} runnable, {runnable} entries) + '
           f'{len(TEMPLATES)} templates; verbatim and in matrix order: {"YES" if not bad else "NO"}; MIN10 plan: {m10}; held (runnable=false): {held}; '
           f'register route: ' + ', '.join(f'{s} ({len(i)}{", HELD" if s in HOLD else ""})' for s, i in DIAG_PLANS)
-          + f'; A41 plan: {DIAGB[0]} ({" then ".join(DIAGB[1])}, state-only, A41 pre-launch gate before every invocation, --retry S2-11 by the STARTED-row rule)')
+          + f'; A41 plan: {DIAGB[0]} ({" then ".join(DIAGB[1])}, state-only, A41 pre-launch gate before every invocation, --retry S2-11 by the STARTED-row rule)'
+          + '; A48 stage F plans: ' + ', '.join(f'{s} ({", ".join(i)})' for s, i, _ in F_PLANS))
     return bad
 
 
@@ -468,6 +525,7 @@ def main(argv):
             (CFG / f'{stem}.json').write_text(json.dumps(plan(mx, stem, ids, rules, True), indent=1))
         (CFG / f'{DIAGB[0]}.json').write_text(json.dumps(plan(mx, DIAGB[0], DIAGB[1], DIAGB_RULES, True), indent=1))   # 2026-10-13 A41
         for stem, ids, rules in DE_PLANS: (CFG / f'{stem}.json').write_text(json.dumps(plan(mx, stem, ids, rules, True), indent=1))   # 2026-10-15 A47
+        for stem, ids, rules in F_PLANS: (CFG / f'{stem}.json').write_text(json.dumps(plan(mx, stem, ids, rules, True), indent=1))   # 2026-10-15 A48
     return 1 if verify(mx) else 0
 
 
