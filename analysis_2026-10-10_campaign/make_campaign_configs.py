@@ -42,6 +42,11 @@ the matrix S4C-*/S4D-* id, label and timeout; the S4A-04-* overrides with only Q
 S4d adds the S3-11/12/13 IGZO.TOKYO GAMMA0 -0.31 overrides. Runnable, no gates, NOT state-only (the sealed-aware regression checks inventoried
 runs against their matrix entries, and the matrix S4C-*/S4D-* entries stay templates). --check verifies the record seal and that each plan equals
 this generator. campaign_matrix.json and the template campaign_C10_S4cd_confirm.template.json are unchanged.
+2026-10-16 (register A53, no Codex review, D-63): S5 route plans campaign_C10_S5_<fold>_<t1..t4|pred> (fold h6p3, h2p0, h13p2), one per
+invocation, written ONLY for the sealed records that exist in profile/s5_A53/ (s5_loo_driver.py next / freeze): the matrix S5-* id, label and
+timeout; the registered template overrides (S4A-01-<t>, or the fold branch's S3 entries in the A7 mode) with only the launched coordinates and
+the frozen launch values replaced. Runnable, no gates, NOT state-only (as A52 (f)). --check verifies each record seal and that each plan equals
+this generator. Every earlier plan file is byte-identical; campaign_matrix.json and campaign_C10_S5_loo.template.json are unchanged.
 """
 import hashlib
 import json
@@ -444,6 +449,61 @@ def h_plan(stem, prefix, rules):
             'variable_reference': {'record': H_RECORD_REL, 'sha256': rec['sha256']}, 'runs': [rec['entries'][i] for i in ids]}
 
 
+# 2026-10-16 register A53 (no Codex review, D-63; Claude under D-59 for the registration): S5 route plans, one per invocation (4 training
+# invocations of 2 entries and 1 held-out invocation of 2 entries per fold), resolved from the sealed records of s5_loo_driver.py. Not state-only;
+# no gates; each invocation follows analysis_2026-10-10_campaign/prelaunch_gate_c10_i.py exiting 0 in the same PowerShell session (package root).
+I_AMENDMENT = ('A53 (2026-10-16; S5 leave-one-film-out execution, s5_loo_driver.py, I gate; no Codex review, D-63): invoke only after A53 and its '
+               'decision row are logged and the sealed record of this plan is committed in git HEAD, with the user\'s own go for THIS launch in the '
+               'conversation (the hook also asks), immediately after prelaunch_gate_c10_i.py has exited 0 naming this plan')
+I_LAUNCH = ('$env:IWO_MODEL_FILE = "config/iwo_material_model_v3.yaml"; <project venv python> scripts/run_campaign.py config/{stem}.json *> '
+            'results/{stem}_console.log   (PowerShell, package root, immediately after prelaunch_gate_c10_i.py exited 0 naming this plan; no '
+            '--retry; IWO_ATLAS_VIEWERS unset; console redirected to a gitignored log that is read for state lines only)')
+I_GLOBAL_RULE = ('run_campaign.py records a failed launch and CONTINUES (this plan declares no gates); it stops automatically only at the launch budget / '
+                 'C10 cap. Stop rules are applied manually from the RUN_INDEX state columns (run_id, label, exit_code) and the sealed driver records; '
+                 'results/campaigns/<plan>.json carries the runner fit metrics and is not opened (A53 (g)).')
+I_COMMON = ['Not state-only (A53 (g)): the outputs are read ONLY through the frozen code via analysis_2026-10-10_campaign/s5_loo_driver.py (training '
+            'runs: frozen loo_select profiles on the training films; held-out runs: frozen loo_score after both frozen records are committed in git '
+            'HEAD); the console goes to a gitignored log and only its state lines (id, run id, status, error) are read; no curve, metric, finish-row note '
+            'or deckbuild.out line is read by hand.',
+            'Every launch counts; a failed or timed-out launch is recorded invalid and kept, never deleted; no repeat, no --retry, no repair without a '
+            'logged decision (the six PA-19 v3 repairs stay reserved); a failed launch stops its fold (A53 (h)).',
+            'The held-out film is never tuned; the frozen best record is the primary held-out prediction, the runner-up measures optimiser uncertainty '
+            'only; a held-out film that fails CAMPAIGN_DESIGN 5.3 falsifies transferability of this model form (reported, not repaired); retrospective '
+            'transferability within already-seen devices, never validation (PA-13).']
+
+
+def i_records():
+    """(held, step, record path) of every S5 driver record present (training t1..t4 and pred), in the registered invocation order"""
+    import s5_loo_driver as s5
+    return [(h, st, s5.path(h, st)) for h, st in s5.invocation_order() if s5.path(h, st).is_file()]
+
+
+def i_stem(held, step):
+    import s5_loo_driver as s5
+    return f'campaign_C10_S5_{s5.FID[held].lower()}_{step}'
+
+
+def i_plan(held, step, rp):
+    import s5_loo_driver as s5
+    rec = json.loads(Path(rp).read_text())
+    if not s5.seal_ok(rec): raise SystemExit(f'{rp.name} does not match its seal')
+    ids = s5.entry_ids(held, step); stem = i_stem(held, step); relp = s5.rel(rp)
+    what = (f'training candidate {rec["k"]}/4 of fold {s5.FID[held]} at the training films {rec["training_films"]} nm (frozen loo_select proposal, '
+            f'{rec["mode"]})' if step != 'pred' else
+            f'held-out predictions of fold {s5.FID[held]} at {held} nm: frozen best and runner-up records (sha256 '
+            + ', '.join(f'{k} {v["sha256"][:12]}' for k, v in rec['frozen'].items()) + ')')
+    rules = [f'Register A53: S5 fold {s5.FID[held]}, invocation {step}: {what}; ' + ', '.join(f'{i} ({rec["entries"][i]["timeout"]} s)' for i in ids) + '.'] + I_COMMON + [
+        'Variable reference: ' + relp + ' (sealed; committed in git HEAD before the launch).']
+    gr = [I_GLOBAL_RULE if r.startswith('run_campaign.py records a failed launch and CONTINUES') else r for r in GLOBAL_RULES]
+    return {'campaign': stem, 'runnable': True,
+            'purpose': ('2026-10-10 DFT-informed campaign, ' + ', '.join(ids) + '. Generated by analysis_2026-10-10_campaign/make_campaign_configs.py; entries '
+                        f'resolved from the sealed record {relp} (register A53, S5 leave-one-film-out). Design: analysis_2026-10-10_campaign/CAMPAIGN_DESIGN.md.'),
+            'model_file_env': 'IWO_MODEL_FILE=config/iwo_material_model_v3.yaml', 'global_rules': gr, 'stop_rules': rules,
+            'stop_rules_enforced_by': 'main session (manual); run_campaign.py enforces the launch budget and C10 cap and refuses runnable=false plans; no gates',
+            'register_amendment': I_AMENDMENT, 'launch_command': I_LAUNCH.format(stem=stem),
+            'variable_reference': {'record': relp, 'sha256': rec['sha256']}, 'runs': [rec['entries'][i] for i in ids]}
+
+
 _DUP = None
 
 
@@ -589,6 +649,17 @@ def verify(mx):
             if any('{' in o or '=' not in o for o in e['overrides']): bad += 1; print('UNRESOLVED TOKEN in S4c/S4d route plan', stem, e['id'])
             mxe = next(r for r in mx['runs'] if r['id'] == e['id'])['campaign_entry']
             if any(e.get(k) != mxe.get(k) for k in ('id', 'thickness', 'label', 'timeout')): bad += 1; print('id/label/timeout differ from the matrix', stem, e['id'])
+    for held_nm, step, rp in i_records():   # 2026-10-16 A53: S5 route plans (resolved from the sealed driver records, runnable, no gates, not state-only)
+        stem = i_stem(held_nm, step)
+        if not (CFG / f'{stem}.json').is_file(): bad += 1; print(stem, 'missing'); continue
+        pi = json.loads((CFG / f'{stem}.json').read_text())
+        try: want = i_plan(held_nm, step, rp)
+        except SystemExit as e: bad += 1; print(stem, e); continue
+        if pi != want or 'gates' in pi or 'state_only' in pi or pi.get('runnable') is not True: bad += 1; print(stem, 'differs from make_campaign_configs (S5 plans)')
+        for e in pi['runs']:
+            if any('{' in o or '=' not in o for o in e['overrides']): bad += 1; print('UNRESOLVED TOKEN in S5 route plan', stem, e['id'])
+            mxe = next(r for r in mx['runs'] if r['id'] == e['id'])['campaign_entry']
+            if any(e.get(k) != mxe.get(k) for k in ('id', 'thickness', 'label', 'timeout')): bad += 1; print('id/label/timeout differ from the matrix', stem, e['id'])
     held = []   # 2026-10-11 review: runnable flag = not HOLD for every non-template plan
     for stem in [s for s, _, _ in PLANS] + ['campaign_C10_MIN10'] + [s for s, _ in DIAG_PLANS] + [DIAGB[0]] + [s for s, _, _ in DE_PLANS]:
         if not (CFG / f'{stem}.json').is_file(): continue
@@ -612,7 +683,8 @@ def verify(mx):
           + f'; A41 plan: {DIAGB[0]} ({" then ".join(DIAGB[1])}, state-only, A41 pre-launch gate before every invocation, --retry S2-11 by the STARTED-row rule)'
           + '; A48 stage F plans: ' + ', '.join(f'{s} ({", ".join(i)})' for s, i, _ in F_PLANS)
           + '; A50 S4a route plans: ' + ', '.join(f'{s} ({i[0][:6]}..{i[-1][:6]}, {len(i)})' for s, i, _ in G_PLANS)
-          + '; A52 S4c/S4d route plans (resolved from the sealed record): ' + ', '.join(s for s, _, _ in H_PLANS))
+          + '; A52 S4c/S4d route plans (resolved from the sealed record): ' + ', '.join(s for s, _, _ in H_PLANS)
+          + '; A53 S5 route plans (resolved from the sealed driver records): ' + (', '.join(i_stem(h, st) for h, st, _ in i_records()) or 'none yet'))
     return bad
 
 
@@ -659,6 +731,8 @@ def main(argv):
         for stem, ids, rules in F_PLANS: (CFG / f'{stem}.json').write_text(json.dumps(plan(mx, stem, ids, rules, True), indent=1))   # 2026-10-15 A48
         for stem, ids, rules in G_PLANS: (CFG / f'{stem}.json').write_text(json.dumps(plan(mx, stem, ids, rules, True), indent=1))   # 2026-10-15 A50
         for stem, prefix, rules in H_PLANS: (CFG / f'{stem}.json').write_text(json.dumps(h_plan(stem, prefix, rules), indent=1))   # 2026-10-15 A52
+        for held_nm, step, rp in i_records():   # 2026-10-16 A53: one S5 route plan per sealed driver record
+            (CFG / f'{i_stem(held_nm, step)}.json').write_text(json.dumps(i_plan(held_nm, step, rp), indent=1))
     return 1 if verify(mx) else 0
 
 
