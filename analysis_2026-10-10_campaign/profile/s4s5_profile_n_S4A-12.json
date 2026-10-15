@@ -1,0 +1,99 @@
+{
+ "tag": "S4A-12",
+ "films": [
+  2.0,
+  6.3,
+  13.2
+ ],
+ "runs": [
+  "run_0144",
+  "run_0145",
+  "run_0146"
+ ],
+ "run_digests": [
+  "7f68d31a5a846c586a2c8a3455905348bf990b868c87c6540b0b0ea06124f2c7",
+  "10f8ac30b91ebdd8f97328106e816ecde611efc0d1949883810b9a7ed27b9682",
+  "4c875b11daae7d0734d58d513a2bcbc457cdfe4b7c1da06f198c6962b8699098"
+ ],
+ "warnings": [
+  "profiled value at a range bound: ['ell']"
+ ],
+ "start": {
+  "sqrtJ_dec": 0.9991809816501738,
+  "per_film": {
+   "2.0": {
+    "rmse_sub": 0.7768753585944961,
+    "rmse_on": 0.24325362864854763,
+    "J_term": 0.33135382532100616
+   },
+   "6.3": {
+    "rmse_sub": 2.1100971975766045,
+    "rmse_on": 0.9314773093853098,
+    "J_term": 2.660080080560168
+   },
+   "13.2": {
+    "rmse_sub": 0.04970051797800718,
+    "rmse_on": 0.06955466410528387,
+    "J_term": 0.0036539963930405394
+   }
+  }
+ },
+ "profiled": {
+  "sqrtJ_dec": 0.7155335103669087,
+  "J": 0.5119882044579911,
+  "Qf_cm2": 1400715103806.0706,
+  "dQf_cm2": 17265103806.070618,
+  "dV0_V": -0.003088844623411225,
+  "qf_anchor_cm2": 1383450000000.0,
+  "dV0_from_anchor_V": -0.0030888446234112145,
+  "mu_inf_cm2Vs": 84.90029453849702,
+  "ell_nm": 49.999999999901036,
+  "at_bound": {
+   "dV0": 0.0,
+   "mu_inf": false,
+   "ell": true
+  },
+  "per_film": {
+   "2.0": {
+    "rmse_sub_dec": 0.08790671786599316,
+    "rmse_on_dec": 0.6081119807286173,
+    "coverage_sub": 1.0,
+    "coverage_on": 0.975609756097561,
+    "mun_scale": 0.15099052439271873,
+    "J_term": 0.18876388607582675,
+    "mean_signed_on_dec": -0.5981352498439199
+   },
+   "6.3": {
+    "rmse_sub_dec": 1.4504944302946592,
+    "rmse_on_dec": 0.28228052465385417,
+    "coverage_sub": 1.0,
+    "coverage_on": 0.975609756097561,
+    "mun_scale": 0.20429907158473828,
+    "J_term": 1.0918081934573416,
+    "mean_signed_on_dec": 0.23583732952424158
+   },
+   "13.2": {
+    "rmse_sub_dec": 0.5185431575536976,
+    "rmse_on_dec": 0.49183133433713927,
+    "coverage_sub": 1.0,
+    "coverage_on": 0.975609756097561,
+    "mun_scale": 0.2746809194020989,
+    "J_term": 0.2553925338408049,
+    "mean_signed_on_dec": -0.4915412239401295
+   }
+  },
+  "coverage_ok_95pct": true,
+  "optimizer": {
+   "fun": 0.5119882044579911,
+   "nit": 261,
+   "success": true
+  }
+ },
+ "labels": "Q_f, mu_inf, ell: FITTED (shared, exact-transformation profiling of launched curves); calibration, not validation. dV0 range +-0.5 V anchored to one baseline Q_f.",
+ "valid": true,
+ "verdict": "OK",
+ "qualification": [
+  "profiled value at a range bound: ell"
+ ],
+ "qualified": false
+}
