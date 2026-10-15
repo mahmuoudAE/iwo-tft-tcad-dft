@@ -1,0 +1,63 @@
+{
+ "deckfix:01": {
+  "applied": [
+   "Step terminology, finding 'The step means two different quantities' plus G4 (01_motivation l.108, 130): the problem-slide title is now 'The 2.0-13.2 nm threshold step (-0.58 V) is fitted, not explained'. Bullet 1 defines both terms once, signed: 'The 2.0-13.2 nm step is dVth,cc = -0.58 V. Of it, -0.56 V lies between 6.3 and 13.2 nm (the 6.3-13.2 nm drop); from 2.0 to 6.3 nm the threshold changes by only -0.018 V [derived]'. The table gained a '2.0 -> 13.2 nm: -0.579' row (multicolumn, so the column does not widen). Checked against FACT-101..103 (0.6618 / 0.6440 / 0.0825 V), C002 and M007 (-0.579 V, -0.018 V).",
+   "Terms used before definition, finding for p8: the approach slide now has a one-line legend, 'Device campaign C10 runs in stages S0 to S7 (Part 4); results from stage S2 on are sealed.' The diagram box reads 'Shared-parameter model / campaign C10, drift-diffusion'. The old bullet 3 about sealed stages is folded into the legend; the amorphous results are still marked '(sealed)' in the first-principles box. Stage list checked against M08 tab:mono-c10-stages.",
+   "Footnote density, finding for p5/p6 plus G6, also applied to p4: every slide now has at most 3 footnote lines (slide 1: 3, slide 2: 3, slide 3: 3, slide 4: 1, slide 5: 0). There is one representative work per statement. Works for consecutive statements share one footnote: Theis2017 + Si2022 p.164; Datta2019 + Belmonte2020; Nomura2004 + Medvedeva2017; Si2021 p.500 + Lin2022 p.21536. In the W table, Newhouse2005, Kizu2014 and Kim2024 share footnote [1] (rows 1-3 reuse it with \\footnotemark[1]). Dropped as redundant: Salahuddin2018, Kamiya2010, Fortunato2012.",
+   "G3: there is no \\sref inside \\src any more. The problem slide's \\src now ends 'Data: Prof. M.-H. Lee's group, NTU (device paper, footnote 1)', and \\sref{Januar2026} sits in the bullet 'The device paper[1] fits eight parameters per device'. This keeps evidence rule 5. The \\oneTinyMark macro is deleted.",
+   "G7: added one-line take-aways to slide 1 (oxide semiconductors are the leading candidates), slide 2 (thin In2O3 switches off; confinement, surfaces and few donors then shape the device), slide 3 (whether W passivates vacancies is open; Parts 8 and 9 add crystalline tests) and slide 5 (first principles supplies the confinement laws, not the donor density or traps). The take-away on slide 4 is kept.",
+   "G8 / alignment finding: removed the per-frame [t] options, since the class option t is now global. Kept the -3 mm pull-up (\\oneTop), which causes no collision under top alignment (checked at 150 dpi).",
+   "G9 duplicate: 'eight parameters fitted per device' now appears only on the problem slide; the W-table row reads 'analytic model fitted per device'. The donor-density line is removed from the diagram box because the take-away now says it. Pointers added: Part 3 for registration, Part 4 for stages.",
+   "G1/G2: stages are always called 'stage S0/S1/S2'. No model V or correction V labels, no ledger IDs, hashes or file names in titles, bullets or take-aways. 'C10' appears only as the campaign name the task asked for.",
+   "Layout: the 2.0-13.2 nm table row overflowed its column by 13.6 pt, fixed with \\multicolumn. Frame overflows on slides 3 and 5 were fixed by shortening the take-aways to one line and tightening the diagram (rows at y = 20/4). The final build log has no Overfull boxes at all."
+  ],
+  "rejected": [
+   {
+    "finding": "Citation-mark finding (fix option 'reuse the Part 1 \\oneTinyMark approach')",
+    "reason": "G3 in the updated guide forbids \\sref inside \\src outright, so I took the other option the finding offers: the citation moved to bullet text and \\oneTinyMark was removed, not reused."
+   },
+   {
+    "finding": "Reviewer's suggested legend text 'stages S0 smoke ... S7 31.8 nm' on p8",
+    "reason": "Not rejected in substance, only shortened. Listing all eight stage names does not fit one line, and Part 4 already carries the full stage table (04_tcad.tex l.323-331), so the legend says 'stages S0 to S7 (Part 4)' and states that results from stage S2 on are sealed."
+   }
+  ],
+  "slides": 6,
+  "build_clean": true,
+  "remaining_concerns": "Section 01 is 6 PDF pages: the Part 1 divider plus 5 numbered frames (all with \\takeaway); no figures beyond the inline TikZ, no changes outside sections/01_motivation.tex. 'bash tools/build_section.sh 01' gives 0 errors, 0 undefined citations, 0 Overfull vbox, 0 Overfull hbox (none of any size) and 0 missing characters. I opened every PNG in build/sec_01/png (p-1 to p-8) and also checked slides at 150 dpi in /tmp/claude-0/-home-user-iwo-tft-tcad-dft/766c6a12-f4a6-5e51-9cad-484b1261a35f/scratchpad/s01/n4-*.png, n5-*.png and n7-2.png. There are no collisions with footnotes or the footer and nothing is clipped. Citation keys used: Theis2017, Si2022 (p.164), Januar2026 (p.1 and article level), Datta2019, Belmonte2020, Nomura2004, Medvedeva2017, Si2021 (p.500), Lin2022 (p.21536), Newhouse2005, Kizu2014, Kim2024, Swallow2020. Numbers and their sources: Vth,cc 0.662/0.644/0.083 V and the deltas -0.018/-0.561/-0.579 V (FACT-101..103, C002, M007); misses -0.29/-0.37/-0.23 V (C014, M15 l.24); 500 donors per um^2 at 2.5e17 cm^-3 (C016, M01 l.48); 27.4 -> 5.1 cm2/Vs and the fourfold trap density, paper pp.3, 4, 7 (03_device_data_rev l.243-244, M03 l.67); five shared parameters, a sixth only for the percolation branch, stages S0-S7, freeze 10 Oct 2026 after S0/S1 (M08 l.22-24, 84-112); films 0.46-1.96 nm and amorphous 0.7-2.0 nm (M01 l.75-78); 31.8 nm never below 1e-9 A/um (FACT-104, C029). Cross-section items for the orchestrator: (1) 02_device_data.tex l.147, title 'Threshold is flat to 6.3 nm, then drops by 0.56 V', should use 'the 6.3-13.2 nm drop (-0.56 V)' to match the G4 definition now on the Part 1 problem slide. (2) The Part 1 slides point forward to Part 3 (registration), Part 4 (stage list), Part 6 (confinement) and Parts 8-9 (W, vacancies); if parts are renumbered or the stage table moves to backup, these pointers need updating. (3) The legend uses the campaign name 'C10' as the task asked; it is a campaign label, not a ledger ID, so it does not conflict with G2."
+ },
+ "deckfix:02": {
+  "applied": [
+   "NEW SLIDE (task 3; review finding 'swing collapse has no slide'): 'Against I_D/I_on the three swings fall on one curve', placed after the 60-70 mV/dec slide. New figure figures/02_ss_collapse.pdf comes from a new fig_ss_collapse() in tools/fig_02_device.py. It uses the same selection and normalisation as analysis_2026-10-06_extraction/paper_figures.py panel (c) (FIGURE_INDEX 'reuse'; caption read in M07_provenance.tex fig:mono-prov-ss and PAPER_FIGURES.md), redrawn in the section's black/grey/maroon style. Measured points are shown where I_D >= 10 x floor (device_facts.json floors), I_on = I_D(+3 V). Model V1 lines are ATLAS runs 0038/0039/0040 with the RUNS scale factors of run_extraction.py; the script asserts that the scaled I_on matches results_a1.json ion_tcad to 1e-4. The grey band is window A1 (r_main from results_a1.json).",
+   "New-slide statements and sources: the measured swings collapse, three devices only [observed] (C007, M07 l.86); window A1 gives 115-124 mV/dec (C008: 123.6/122.7/115.3); 2.0-13.2 nm step dVth,cc = -0.58 V (CLAIM_SOURCE_MAP M007: -0.579); model V1 collapses too [observed] (C007), with only its 2.0 nm tail fitted (C015; run_extraction STATUS; C009); at 13.2 nm it is 16+-3 mV/dec too high [computed] (C010); the H7 surface-dominated tail-state reading [hypothesis] and its falsifier are from M13 l.94-96. Data attribution in src, \\sref{Januar2026} in a bullet, take-away added. Model V1 is defined at first use as 'model V1 (Part 4)'.",
+   "G2 / review finding 'ledger IDs in bullets': removed the \\twoC macro and every ledger ID from bullets. The IDs now sit in \\src lines only (C001, C026, C029; C002-C005, C026, C029, M007, FACT-101-104; C008, C025, C032; C007-C010, C015; FACT-111-113, C030, C031; M008, C011, C012, C031). On the protocol slide, the commit hashes 7a61687/7ce7116 and decision D-05 moved from the timeline text into a new \\src line.",
+   "G3 / review finding '\\sref inside \\src': removed all four (slides 1, 4, 6, 7). Slide 1 now has a caption line 'Process as in the device paper[1]; eps_r(HfO2) from its SI, Fig. S1'. Slide 4 cites in its first bullet, slide 6 in its first bullet, slide 7 in its first bullet ('measured peaks[1]'). A script check confirms no \\sref is left in any \\src block.",
+   "G4 / review finding 'the step': the threshold slide title is now 'Threshold is flat to 6.3 nm; the 6.3-13.2 nm drop is -0.56 V'. The bullet now gives the 2.0-13.2 nm step dVth,cc = -0.579 V (M007), the 6.3-13.2 nm drop -0.561 V (C026) and 2.0->6.3 nm -0.018 V. The new slide uses 'the 2.0-13.2 nm step (dVth,cc = -0.58 V)'.",
+   "G1 / review finding 'S1 window vs stage': 'the S1 data-simulation comparison' became 'the window-S1 data-simulation comparison'. All swing windows now read 'window S1' or 'window A1' (table, src lines, bullets). The bare 'A1' in the protocol take-away became 'amendment A1'. The simulation is always 'model V1'.",
+   "Rule 3: added the missing evidence label [derived] to the mu_eff/Y-function bullet (C031 caveat).",
+   "G6/G7: every slide has at most one footnote line and ends with a one-sentence-style take-away.",
+   "G8 / layout: rebuilt under top alignment. To remove frame overflows and footnote/footer collisions caused by the new text: tightened the protocol table (arraystretch 1.12->1.05) and timeline spacing; shortened the src lines on the SS, mobility and linear-regime slides; shortened the protocol and new-slide take-aways. The ad-hoc \\twoTop pull-up was kept because it causes no collision.",
+   "Final build: 0 errors, 0 undefined citations, 0 Overfull vbox, 0 overfull hboxes of any size, 0 missing characters. I opened all 10 PNGs in build/sec_02/png plus 110-dpi renders: nothing overlaps or is clipped, footnotes sit clear of the footer, and figures are legible."
+  ],
+  "rejected": [
+   {
+    "finding": "Device-paper footnote prints 'e202500807 (1 (2026)' (blocker, ntutalk.sty)",
+    "reason": "Not in my file; it is the orchestrator's theme fix. It is already resolved in the current build: the section footnotes print 'Januar et al., Small Struct. 7, e202500807 (2026)'."
+   },
+   {
+    "finding": "Labels finding citing 02_device_data.tex l.117 and l.200 as ambiguous 'S1'",
+    "reason": "Partly wrong: both lines already said 'primary window S1'. The real ambiguity was the timeline's bare 'S1 data-simulation comparison', which is now fixed. No change was needed at l.117/l.200 beyond keeping 'window S1'."
+   },
+   {
+    "finding": "Remove the per-frame [t] now that the class option t is global",
+    "reason": "Kept. It is redundant but harmless, and the neighbouring sections (01, 03, 04) still use it, so the source stays consistent. The rendering is identical."
+   },
+   {
+    "finding": "Cut the talk to 35-45 frames (move slides to backup)",
+    "reason": "Not applied in Part 2. No Part 2 slide was named for moving, G9 asks to keep full detail and remove only duplicates, and task 3 explicitly asks for one added slide. The new slide points to Part 4 for the model-versus-data window table instead of repeating it (G9)."
+   }
+  ],
+  "slides": 8,
+  "build_clean": true,
+  "remaining_concerns": "The file has 8 frames plus the Part 2 divider, including the new swing-collapse slide. I did not put the window-S1 measured swing values (166/178/106 mV/dec) on the collapse slide: they appear only in analysis_2026-10-06_extraction/RESULTS.md and results.json, which are not in the guide's list of number sources. If wanted, they need a registry or monograph entry first. The collapse slide refers forward to 'Part 4' (model V1) and 'Part 3' (hypothesis H7), because Part 2 comes before both. Several slides now have only 1-3 mm of vertical margin above the footnote (protocol, collapse, linear-regime slides), so any later text added to them will overflow. A mid-task checkpoint commit (687cae9) by the orchestrator captured part of my edits. sections/01_motivation.tex shows as modified in git, but that was not me; I did not touch it. Files: /home/user/iwo-tft-tcad-dft/research_monograph/presentation_ntu/sections/02_device_data.tex, /home/user/iwo-tft-tcad-dft/research_monograph/presentation_ntu/tools/fig_02_device.py, /home/user/iwo-tft-tcad-dft/research_monograph/presentation_ntu/figures/02_ss_collapse.pdf (new). Figures used: 02_transfer, 02_local_ss, 02_ss_collapse (new), 02_mobility. Citation key used: Januar2026 only."
+ }
+}

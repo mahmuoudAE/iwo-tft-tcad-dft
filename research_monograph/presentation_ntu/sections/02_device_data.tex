@@ -1,17 +1,20 @@
 % 02_device_data.tex -- Part 2: devices and measured data. Sources: research_monograph/chapters/03_device_data_rev.tex,
-% chapters/M07_provenance.tex, evidence/derived/device_facts.json, evidence/derived/musat_ratio.json,
-% evidence/FACT_REGISTRY.tsv (FACT-100..104, FACT-111..113), evidence/CLAIM_SOURCE_MAP.tsv (M008),
-% research_record/03_CLAIMS_LEDGER.yaml (C001-C005, C008, C011, C012, C024-C033), research_record/05_DECISION_LOG.md
-% (D-05), analysis_2026-10-06_extraction/PROTOCOL.md (incl. amendment A1 and its disclosure) and results_a1.json.
-% Figures 02_*.pdf are drawn by tools/fig_02_device.py from data/experimental_clean.csv.
-% Ledger IDs: shown (small, grey) after bullet-level results only; IDs of table rows are given in the \src lines.
+% chapters/M07_provenance.tex (incl. fig:mono-prov-ss), M13_alternatives_uncertainty.tex (swing collapse, H7),
+% evidence/derived/device_facts.json, evidence/derived/musat_ratio.json,
+% evidence/FACT_REGISTRY.tsv (FACT-100..104, FACT-111..113), evidence/CLAIM_SOURCE_MAP.tsv (M007, M008),
+% research_record/03_CLAIMS_LEDGER.yaml (C001-C005, C007-C012, C015, C024-C033), research_record/05_DECISION_LOG.md
+% (D-05), analysis_2026-10-06_extraction/PROTOCOL.md (incl. amendment A1 and its disclosure), results_a1.json and
+% PAPER_FIGURES.md panel (c).
+% Figures 02_*.pdf are drawn by tools/fig_02_device.py from data/experimental_clean.csv; 02_ss_collapse.pdf also
+% uses the model V1 simulated curves (ATLAS runs 0038-0040) exactly as the extraction analysis does.
+% Deck rules: ledger IDs, commit hashes and run numbers appear only in \src lines; no \sref inside \src.
 % Slide 1 table: C-V (paper SI) = FACT-100 / tab:inp-stack; T = 300 K and the A/um unit: tab:inp-stack, C033.
-\providecommand{\twoC}[1]{{\tiny\color{inkgrey}\,#1}}
 \providecommand{\twoAum}{\si{A/\micro\metre}}
 \providecommand{\twoData}{Data: Prof.\ M.-H.\ Lee's group, NTU; one device per thickness, one sweep (no~reverse~sweep)}
 \providecommand{\twoTop}{\vspace{-3mm}}
 \providecommand{\twoDataShort}{Data: Prof.\ M.-H.\ Lee's group, NTU}
 \providecommand{\twoMusat}{\texorpdfstring{$\mu_\mathrm{sat}$}{mu-sat}}
+\providecommand{\twoIDIon}{\texorpdfstring{$\Id/I_\mathrm{on}$}{ID/Ion}}
 
 \partslide{Part 2}{Devices and measured data}
 
@@ -73,9 +76,11 @@
         Current unit & \twoAum & \lab{inferred} & schematic axis \\
         \bottomrule
       \end{tabular}\par}
-      \src{Schematic and workbook supplied with the data. Process: device paper\sref[pp.~2--3]{Januar2026};
-        $\varepsilon_r$(\HfO{}) from its SI, Fig.~S1. The stack order is not stated by the fabrication group; the
-        paper's interface calculations use IWO/\HfO{}.}
+      \vspace{1mm}
+      {\scriptsize Process as in the device paper\sref[pp.~2--3]{Januar2026}; $\varepsilon_r$(\HfO{}) from its SI,
+        Fig.~S1.\par}
+      \src{Schematic and workbook supplied with the data by Prof.\ M.-H.\ Lee's group, NTU. The stack order is not
+        stated by the fabrication group; the paper's interface calculations use IWO/\HfO{}.}
     \end{column}
   \end{columns}
   \takeaway{Assumed: $\varepsilon_r$(\AlO{}), stack order, 300\,K. Thicknesses nominal; unit \twoAum{} unconfirmed.}
@@ -88,17 +93,17 @@
     \begin{column}{0.58\textwidth}
       \includegraphics[width=\linewidth]{02_transfer}
       \src{(a) Log scale, line styles as in (b); thick segments: off-state floor (median, $-2 \le \Vg \le -0.5$\,V);
-        dotted: $10^{-9}$\,\twoAum. (b) Linear scale. \twoData.}
+        dotted: $10^{-9}$\,\twoAum. (b) Linear scale. \twoData; ledger C001, C026, C029.}
     \end{column}
     \begin{column}{0.39\textwidth}
       \begin{itemize}\footnotesize
-        \item $\Vg$: $-3$ to $+3$\,V, 50\,mV steps, $\Vd = 0.7$\,V; drain current only \lab{measured}\twoC{C001}
+        \item $\Vg$: $-3$ to $+3$\,V, 50\,mV steps, $\Vd = 0.7$\,V; drain current only \lab{measured}
         \item 2.0 and 6.3\,nm nearly coincide; 13.2\,nm is shifted to lower $\Vg$, with about six times the
-          2.0\,nm on-current \lab{observed}\twoC{C026}
+          2.0\,nm on-current \lab{observed}
         \item Floors are flat in $\Vg$ and rise steeply with thickness; their origin is open without a gate
           current \lab{observed}
         \item 31.8\,nm never switches off: $\Id(-3\,\mathrm{V}) = 3.0\times10^{-7}$\,\twoAum, on/off about 12
-          \lab{derived}\twoC{C029}; outside the published 2--13\,nm series\sref[p.~2]{Januar2026}
+          \lab{derived}; outside the published 2--13\,nm series\sref[p.~2]{Januar2026}
       \end{itemize}
     \end{column}
   \end{columns}
@@ -109,7 +114,7 @@
 \begin{frame}[t]{Registered extraction protocol; one disclosed amendment}
   \twoTop
   {\footnotesize
-  \renewcommand{\arraystretch}{1.12}
+  \renewcommand{\arraystretch}{1.05}
   \begin{tabularx}{\linewidth}{@{}l>{\raggedright\arraybackslash}X@{}}
     \toprule
     Threshold $\Vthcc$ & $\Vg$ at $\Id = 10^{-9}$\,\twoAum{} (290\,nA in total), log-linear interpolation \\
@@ -123,28 +128,29 @@
       ($\varepsilon_r$ 19.57) in series with 2\,nm \AlO{} ($\varepsilon_r$ 9.0, assumed) \lab{derived} \\
     \bottomrule
   \end{tabularx}\par}
-  \vspace{2mm}
+  \vspace{1mm}
   % timeline: nodes anchored at the baseline of their first line; each dot sits on that first line
   \begin{tikzpicture}[x=1mm,y=1mm,font=\scriptsize,
       tl/.style={anchor=base west,text width=134mm,align=left,inner sep=0pt}]
-    \draw[line width=0.5pt] (1,0.75) -- (1,-12.45);
+    \draw[line width=0.5pt] (1,0.75) -- (1,-11.25);
     \fill[ntumaroon] (1,0.75) circle (0.9);
-    \fill (1,-4.45) circle (0.7);
-    \fill (1,-12.45) circle (0.7);
-    \node[tl] at (3.6,0) {6 Oct 2026, decision D-05: protocol committed
-      (\texttt{7a61687}), before any data-versus-simulation number of this analysis.};
-    \node[tl] at (3.6,-5.2) {After the first results, including the S1
-      data--simulation comparison: amendment A1 (\texttt{7ce7116}), as the films' current scales differ.
-      Written after its measured values (disclosed), before any simulated value under it.};
-    \node[tl] at (3.6,-13.2) {Later (monograph): independent re-implementation
-      reproduces thresholds, floors, end-point currents within rounding.};
+    \fill (1,-3.85) circle (0.7);
+    \fill (1,-11.25) circle (0.7);
+    \node[tl] at (3.6,0) {6 Oct 2026: protocol committed and logged as a decision, before any data-versus-simulation
+      number of this analysis.};
+    \node[tl] at (3.6,-4.6) {After the first results, including the window-S1 data--simulation comparison:
+      amendment A1, as the films' current scales differ. Written after its measured values (disclosed), before any
+      simulated value under it.};
+    \node[tl] at (3.6,-12.0) {Later (monograph): independent re-implementation reproduces thresholds, floors,
+      end-point currents within rounding.};
   \end{tikzpicture}
-  \takeaway{Definitions preceded the data--simulation comparison, and A1 preceded any simulated value under it.
+  \src{Protocol: commit 7a61687, decision D-05; amendment A1: commit 7ce7116; re-implementation: FACT-101--104.}
+  \takeaway{Definitions preceded the data--simulation comparison; amendment A1 preceded its simulated values.
     The simulations are calibrated to $\Vthcc$ and $I_\mathrm{on}$: agreement there is not a test.}
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
-\begin{frame}[t]{Threshold is flat to 6.3\,nm, then drops by 0.56\,V}
+\begin{frame}[t]{Threshold is flat to 6.3\,nm; the 6.3--13.2\,nm drop is $-0.56$\,V}
   \twoTop
   {\centering\footnotesize
   \renewcommand{\arraystretch}{1.0}
@@ -160,16 +166,17 @@
       & \lab{derived} \\
     \bottomrule
   \end{tabular}\par}
-  \src{$^{\dagger}$ The 2.0\,nm sweep starts below its floor: not a channel on/off ratio.
-    \twoDataShort\sref{Januar2026}; ledger C002, C003, C029; recomputed independently (FACT-101--104).}
+  \src{$^{\dagger}$ The 2.0\,nm sweep starts below its floor: not a channel on/off ratio. \twoDataShort; ledger
+    C002, C003, C005, C026, C029, M007; recomputed independently (FACT-101--104).}
   \vspace{-1mm}
   \begin{itemize}\footnotesize
-    \item Non-uniform: 2.0\,$\to$\,6.3\,nm changes $\Vthcc$ by $-0.018$\,V and $\Id(+3\,\mathrm{V})$ by $\times0.79$;
-      6.3\,$\to$\,13.2\,nm by $-0.561$\,V and $\times7.6$ \lab{observed}\twoC{C026}
+    \item Non-uniform in thickness\sref{Januar2026}: the 2.0--13.2\,nm step, $\Delta\Vthcc = -0.579$\,V, is almost
+      all the 6.3--13.2\,nm drop ($-0.561$\,V; $\Id(+3\,\mathrm{V})$ $\times7.6$); 2.0\,$\to$\,6.3\,nm changes
+      $\Vthcc$ by $-0.018$\,V and $\Id(+3\,\mathrm{V})$ by $\times0.79$ \lab{observed}
     \item The 13.2\,nm floor is 1432 times the 2.0\,nm floor and flat in $\Vg$ within 3\,\%: gate leakage unlikely
-      \lab{inferred}\twoC{C005}, but no gate current was recorded
-    \item The 2.0\,nm floor, 1.3\,pA in total, is at a measurement-setup level \lab{inferred}\twoC{C003}; no
-      instrument floor recorded
+      \lab{inferred}, but no gate current was recorded
+    \item The 2.0\,nm floor, 1.3\,pA in total, is at a measurement-setup level \lab{inferred}; no instrument floor
+      recorded
   \end{itemize}
   \takeaway{Small change to 6.3\,nm, large to 13.2\,nm: one device per film cannot fix a thickness law.}
 \end{frame}
@@ -196,13 +203,13 @@
         Window A1 & \num{123.6(10)} & \num{122.7(93)} & \num{115.3(24)} \\
         \bottomrule
       \end{tabular}\par}
-      \src{Paper values digitised. A1 values derived; A1 is the protocol's secondary window. The registered primary
-        window S1 deviates from the paper by up to $+168$\,\% (ledger C008, C032).}
+      \src{Paper values digitised; window-A1 values derived (secondary window). The registered primary window S1
+        deviates from the paper by up to $+168$\,\%. Ledger C008, C025, C032.}
       \begin{itemize}\footnotesize
         \item By its own Fig.~1b, the paper's ``60--70\,mV/dec''\sref[p.~3]{Januar2026} holds at 2.0\,nm only;
-          A1 gives twice that \lab{unresolved}\twoC{C025}
+          window A1 gives twice that \lab{unresolved}
         \item Of 31 scored estimator variants, 14 match the paper within 15\,\% if started within 1--12 times the
-          floor; the best is an outcome selection, not adopted \lab{derived}\twoC{C032}
+          floor; the best is an outcome selection, not adopted \lab{derived}
         \item A floor $F$ gives $\mathrm{SS}_\mathrm{raw} = \mathrm{SS}_\mathrm{ch}(1 + F/I_\mathrm{ch})$,
           $I_\mathrm{ch}$: channel current. Subtracting $F$ steepens SS by construction; some estimators then fall
           below $\kT\ln10 = 59.5$\,mV/dec at 300\,K \lab{derived}
@@ -210,6 +217,32 @@
     \end{column}
   \end{columns}
   \takeaway{Near-thermal switching and a low trap density are not established by these curves.}
+\end{frame}
+
+% ---------------------------------------------------------------------------------------------------------------------
+\begin{frame}[t]{Against \twoIDIon{} the three swings fall on one curve}
+  \twoTop
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.47\textwidth}
+      \includegraphics[width=\linewidth]{02_ss_collapse}
+      \src{Local SS $= d\Vg/d\log_{10}\Id$ (central differences); $I_\mathrm{on} = \Id(+3\,\mathrm{V})$ of each
+        device. Symbols: measured, where $\Id \ge 10\times$ the off-state floor. Lines: model V1 simulation (ATLAS
+        runs 0038--0040), same extraction code. Grey band: window A1. \twoDataShort; ledger C007--C010, C015.}
+    \end{column}
+    \begin{column}{0.50\textwidth}
+      \begin{itemize}\footnotesize
+        \item Normalised by its own on-current, the measured swing of the 2.0, 6.3 and 13.2\,nm
+          devices\sref{Januar2026} nearly coincides \lab{observed}; three devices only
+        \item Window A1: 115--124\,mV/dec in all three (previous slide), across the 2.0--13.2\,nm step
+          ($\Delta\Vthcc = -0.58$\,V) \lab{derived}
+        \item Model V1 (Part~4) collapses too \lab{observed}: only its 2.0\,nm tail is fitted, the thicker films
+          follow its thickness law. At 13.2\,nm it is $16\pm3$\,mV/dec too high in window A1 \lab{computed}
+        \item Consistent with surface-dominated tail states whose areal density hardly depends on thickness
+          (hypothesis H7, Part~3) \lab{hypothesis}; more devices of one composition can falsify it
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  \takeaway{At equal $\Id/I_\mathrm{on}$ the swing hardly depends on thickness, in data and in model V1.}
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
@@ -222,7 +255,7 @@
         $\Vd = 0.7$\,V. Circle: $\mu_\mathrm{sat}$ peak; dotted: paper value. $\mu_\mathrm{sat}$ is one of six
         definitions tested; derivative-estimator spread of its peak 5.04--5.11 / 3.78--3.90 / 25.9--27.5\,\cmVs;
         the $C_\mathrm{ox}$ uncertainty (scales all values) is not included. $\mu_\mathrm{FE}$ peaks at
-        $\Vg$ = 3.0 / 2.85 / 2.8\,V. \twoData.}
+        $\Vg$ = 3.0 / 2.85 / 2.8\,V. \twoData; FACT-111--113.}
     \end{column}
     \begin{column}{0.46\textwidth}
       \vspace{-3mm}
@@ -239,12 +272,12 @@
         $\mu_\mathrm{FE}$ peak & 12.1 & 10.9 & 50.2 \\
         \bottomrule
       \end{tabular}\par}
-      \src{Paper values\sref[pp.~3, 7]{Januar2026}; $^{*}$ digitised from its Fig.~1b. Both lower rows derived.}
+      \src{Paper: as published, $^{*}$ digitised (Fig.~1b); lower rows derived. Ledger C030, C031.}
       \begin{itemize}\footnotesize
-        \item No adjustable factor is needed \lab{derived}\twoC{C030}, so this peak is the leading candidate for
-          the paper's definition \lab{inferred}\twoC{C031}
+        \item No adjustable factor is needed\sref[pp.~3, 7]{Januar2026} \lab{derived}: this peak is the leading
+          candidate for the paper's definition \lab{inferred}
         \item Not an identification: the peaks fix only $C_\mathrm{ox}\,W/L\times$(current unit); $\mu_\mathrm{eff}$
-          with power-law threshold and the Y-function also fit, with one common factor (0.68, 0.66)
+          with power-law threshold and the Y-function also fit, with one common factor (0.68, 0.66) \lab{derived}
       \end{itemize}
     \end{column}
   \end{columns}
@@ -279,14 +312,14 @@
         $\mu_\mathrm{sat}/\mu_\mathrm{FE}$, observed & 0.72 & 0.41 & 1.02 \\
         \bottomrule
       \end{tabular}\par}
-      \src{\twoDataShort\sref{Januar2026}. Ratios derived from the same curves (constant-$\mu$ identity,
-        $\Vthcc$); overdrives under all three threshold definitions: ledger C031.}
+      \src{\twoDataShort. Ratios derived (constant-$\mu$ identity, $\Vthcc$). Ledger M008, C011, C012; overdrives
+        under all three thresholds: C031.}
       \begin{itemize}\footnotesize
-        \item With $\Vthcc$ all three peaks lie at $V_\mathrm{ov} > \Vd = 0.7$\,V; with the two other thresholds
-          tested, 2.0 and 13.2\,nm can lie inside the range, 6.3\,nm never \lab{derived}
-        \item Observed ratios exceed the prediction by 1.5--1.8 \lab{derived}\twoC{M008}, as expected if $\mu$ rises
-          with $\Vg$: power-law fits $\mu \propto (\Vg - \Vth)^{\gamma}$ give $\gamma = 0.27\pm0.08$ (13.2\,nm)
-          and 1.13 (6.3\,nm) \lab{fitted}\twoC{C011, C012}
+        \item With $\Vthcc$ all three measured peaks\sref{Januar2026} lie at $V_\mathrm{ov} > \Vd = 0.7$\,V; with
+          the other two thresholds, 2.0 and 13.2\,nm can lie inside, 6.3\,nm never \lab{derived}
+        \item Observed ratios exceed the prediction by 1.5--1.8 \lab{derived}, as expected if $\mu$ rises with
+          $\Vg$: power-law fits $\mu \propto (\Vg - \Vth)^{\gamma}$ give $\gamma = 0.27\pm0.08$ (13.2\,nm) and 1.13
+          (6.3\,nm) \lab{fitted}
       \end{itemize}
     \end{column}
   \end{columns}

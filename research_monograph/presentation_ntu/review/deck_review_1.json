@@ -1,0 +1,222 @@
+{
+ "findings": [
+  {
+   "severity": "blocker",
+   "page": "6, 7, 13, 16, 20, 27, 28, 29, 71, 72, 84, 85, 93, 94, 95, 98 (PDF pages)",
+   "file": "research_monograph/presentation_ntu/ntutalk.sty (line 124); bib: report_latex_full/references.bib (Januar2026)",
+   "issue": "The footnote for the device paper is broken on 16 slides. Every \\sref{Januar2026} without a page postnote prints 'Januar et al., Small Struct. 7, e202500807 (1 (2026)'. The new first-page rule compares the raw field with the literal 'e202500807 (1--12)', but the bibtex backend writes it as 'e202500807 (1\\bibrangedash 12)' (build/main.bbl:1591). The comparison therefore fails and \\mkfirstpage cuts at the dash. This is the most-cited reference in the talk, and the slides will be shown to its own authors.",
+   "fix": "Orchestrator only, since section authors may not edit the theme. In ntutalk.sty line 124, replace the literal test with \\ifentrykeyequal{Januar2026}{e202500807}{...}, or compare against 'e202500807 (1\\bibrangedash 12)'. Check the '850451 (1--7)' entry the same way. Rebuild and grep the PDF text for '(1 (2026)'."
+  },
+  {
+   "severity": "blocker",
+   "page": "99, 101, 102 (References I, III, IV)",
+   "file": "research_monograph/presentation_ntu/sections/15_references.tex",
+   "issue": "Internal bib 'note' fields are printed in the reference list. Fan 2021 shows 'Source of the Eg 3.05 / chi 4.30 eV priors (read by Astra). METADATA_REQUIRES_VERIFICATION.', which names an internal agent and a verification flag. Hamberg 1986 shows 'METADATA_REQUIRES_VERIFICATION'. The ATLAS manual shows 'installed copy, installed copy atlas_users1.pdf of the local Silvaco installation; not redistributed'. Anyone who receives the PDF sees these.",
+   "fix": "In 15_references.tex, put \\AtNextBibliography{\\clearfield{note}\\clearfield{addendum}} before \\printbibliography (\\AtEveryBibitem also works). Better still, cut the 10-page list, since every slide already carries footnote references, or move it after the backup."
+  },
+  {
+   "severity": "blocker",
+   "page": "98 (Acknowledgements, 82/100)",
+   "file": "research_monograph/presentation_ntu/sections/15_references.tex (lines 9-11)",
+   "issue": "'Analysis workflow: all hypotheses and read-out rules were registered before the outcomes were known' contradicts the deck's own disclosures. Register revision 2 was frozen after stages S0/S1 had been seen (p8, p21, p23, p33). Amendment A1 was written after its measured values (p12). A38, A42 and A43 were informed by results (p23). There are no holdout devices (p8, p23). This overstates the registration, against evidence rule 3.",
+   "fix": "Reword: 'hypotheses and read-out rules were registered before the outcomes they test where possible; exceptions (stages S0/S1 before the freeze, amendment A1, A38/A42/A43) are disclosed and logged'."
+  },
+  {
+   "severity": "major",
+   "page": "98",
+   "file": "research_monograph/presentation_ntu/sections/15_references.tex (line 8)",
+   "issue": "The Silvaco ATLAS footnote prints as an empty '[3] ()'. The @manual AtlasManual entry has no author, journal or year for \\refcite. Parts 4 and 13 avoid this with 'Silvaco, \\citetitle{AtlasManual}' (p25, p89).",
+   "fix": "Replace \\sref{AtlasManual} with \\footnote[frame]{Silvaco, \\citetitle{AtlasManual}}, as in 04_tcad.tex line 17."
+  },
+  {
+   "severity": "major",
+   "page": "2-96 (81 numbered talk frames + 14 part dividers); 99-108 references",
+   "file": "research_monograph/presentation_ntu/main.tex and all sections",
+   "issue": "The talk is far too long for a seminar or conference slot: 81 content frames plus the outline, about 2 h at roughly 1.5 min per slide. The parts are uneven. Part 4 has 10 frames and Part 11 has 8 frames of protocol with no released result, while the synthesis in Part 10 has only 4. Part 13 (computational cost, 3 frames) and the 10-page reference list sit in the main sequence, so the footer reads 82/100 at the end of the talk.",
+   "fix": "Cut to roughly 35-45 talk frames. Move to backup: Part 13; the detailed register tables p20-p22 (p115 already summarises them); p37, p38 and p42 from Part 5; p77-p80 from Part 11; p67 from Part 9; p86-p87 from Part 12; p95 from Part 14. Put \\appendix (with appendixnumberbeamer) before the references and backup so the footer total counts only the talk."
+  },
+  {
+   "severity": "major",
+   "page": "25-29, 42, 55, 86, 111, 116 (V1/V2); 73, 81, 82 (C2-C4); 12, 14 vs 21, 32, 33 (S1); 29 vs 116 (T2/T3)",
+   "file": "04_tcad.tex, 05_dft_methods.tex, 07_masses.tex, 10_multiscale.tex (l. 208-222), 11_amorphous.tex, 02_device_data.tex (l. 117, 200), 12_alternatives.tex, 16_backup.tex",
+   "issue": "Several labels mean different things on different slides. 'V1'/'V2' are the device-model versions (Part 4) and also corrections V1/V2 (p42: 'correction V1', 'correction V2'). Bare '(V5)' on p55 and '(V6)' on p86/p111 cannot be told apart. On p116, X5 'V1 device model' sits next to correction 'V1 SCF force noise'. 'C2-C4' are monograph hypotheses on p73 but H-N controls C1-C6 on p81-p82, alongside campaign C10 and claim IDs C0xx. 'S1' is the registered SS window (p12, p14) and also stage S1 of C10. 'T2'/'T3' on p29 are undefined and clash with the 'T1-T5' device entries on p116.",
+   "fix": "Always qualify the labels: 'model V1/V2' against 'correction V1...V12'. Rename the p73 conjectures (e.g. 'monograph conjectures K2-K4'). Call the SS windows 'window S1/A1' against 'stage S1'. Replace T2/T3 on p29 with plain words ('registered anchor check', 'registered held-out threshold test')."
+  },
+  {
+   "severity": "major",
+   "page": "30 (25/100) vs 41, 47, 71, 73, 113",
+   "file": "research_monograph/presentation_ntu/sections/04_tcad.tex (line 229)",
+   "issue": "p30 states '\u0394Ec(2 nm) = 0.353 eV \u2261 1.97e12 cm^-2 [computed]' with no qualifier. Part 6 gives \u0394Ec = +0.281 eV at 1.962 nm, and Part 10 gives 0.273-0.289 eV. Only p47 and p73 explain that 0.353 eV is the V1 (published-slab) law. A listener comparing slides sees a contradiction.",
+   "fix": "On p30, write '\u0394Ec(2 nm) = 0.353 eV (model V1 law, fitted to published slab DFT; this work's DFT: 0.28 eV, Part 6)'."
+  },
+  {
+   "severity": "major",
+   "page": "7, 13 vs 71, 72, 94",
+   "file": "01_motivation.tex (l. 108, 130), 02_device_data.tex (l. 147), 10_multiscale.tex, 14_conclusions.tex",
+   "issue": "'The step' means two different quantities. In Parts 1-2 it is 0.56 V, between 6.3 and 13.2 nm (titles p7, p13). In Parts 10 and 14 it is 0.579 V (\u22120.579 V), between 2.0 and 13.2 nm: p72 '44 % of the step', p71 'measured step 0.579 V', p94. The sign also flips between the magnitude in titles and the signed \u0394Vth,cc.",
+   "fix": "Define both once, on p7: 'the 2.0\u219213.2 nm step, \u22120.58 V, of which \u22120.56 V lies between 6.3 and 13.2 nm'. Use 'the 2.0-13.2 nm step' or 'the 6.3-13.2 nm drop' explicitly everywhere, signed as \u0394Vth,cc."
+  },
+  {
+   "severity": "major",
+   "page": "94 (79/100); 19",
+   "file": "research_monograph/presentation_ntu/sections/14_conclusions.tex (line 78)",
+   "issue": "The conclusions list 'Swing: the local swing of the three thinner films collapses against ID/Ion, in data and in simulation [observed]' as strongly supported. No slide in the talk or backup shows this result. It appears only as row H7 of the hypothesis table on p19, whose Part column points to Part 14 itself.",
+   "fix": "Add one figure slide (local SS against ID/Ion for 2.0/6.3/13.2 nm, data and V1 simulation) to Part 2 or Part 4, or to backup with a pointer. Otherwise drop the row from 'Strongly supported'."
+  },
+  {
+   "severity": "major",
+   "page": "8, 20, 25, 29",
+   "file": "01_motivation.tex, 03_questions_registration.tex, 04_tcad.tex (l. 166, 185, 188)",
+   "issue": "Terms are used before they are defined. Stages 'S0 and S1' and 'from S2 on' appear on p8 and in the p20 title, but the stage list (S0-S7) first appears on p32. 'V1 and V2' are used on p25 and defined on p27. 'V0 fit' (p29) is never defined. 'Registered T3 thresholds' and 'T2 anchor check' (p29) are never defined. Amendment numbers (A13, A22, A37) are used on p21-p22 before p23 explains amendments.",
+   "fix": "Add a one-line legend on p8: 'device campaign C10, stages S0 smoke ... S7 31.8 nm (Part 4)'. On p25, define model V1/V2 at first use. On p29, replace V0/T2/T3 with plain descriptions. On p21, add 'A-numbers: logged amendments (p23)'."
+  },
+  {
+   "severity": "major",
+   "page": "25-34 vs 36-56; 18-23",
+   "file": "04_tcad.tex, 03_questions_registration.tex, 10_multiscale.tex",
+   "issue": "The order forces forward references. Part 4 (device simulation) uses the DFT laws (model V2 'laws fitted to this work's DFT'; p29 'DFT laws shrink the miss by only about 0.04 V' and 'the computed \u0394Ec law, applied rigidly, gives \u22120.21 to \u22120.22 V') before Parts 5-7 introduce them. p72 then repeats the same rigid-shift result. Part 3 also presents four dense register tables (H-A to H-N, amorphous criteria, PR rules) before the audience has seen the models or the amorphous protocol.",
+   "fix": "Keep Part 4 to calibration and non-identifiability. Move the DFT-law bullets of p29 into Part 10, where p72 already carries them. Shrink Part 3 to the central question plus one register overview and the timeline (p18, p19, p23), and send p20-p22 to backup next to p115. Alternatively, place Part 4 after Part 7."
+  },
+  {
+   "severity": "major",
+   "page": "86 (73/100) vs 111 (94/100) vs 58",
+   "file": "research_monograph/presentation_ntu/sections/12_alternatives.tex (line 146); 16_backup.tex; 08_tungsten.tex",
+   "issue": "The hydrogenic-donor derivation appears three times. p58 gives E_D = 25 meV, a_B* = 2.7 nm, n_c = 9e17. p86 (main talk) and p111 (backup) are nearly the same slide: same equations, same 0.45/0.11 eV bounds, same V6 note, same Si-nanowire references. The p86 caption still ends 'FACT-080; backup slide.', a leftover that marks it as a backup slide inside the main talk.",
+   "fix": "Keep one version. Shrink p86 to the figure plus two bullets that point to backup p111 for the derivation, and delete 'backup slide' from the caption. On p58, quote E_D and n_c and point forward to Part 12."
+  },
+  {
+   "severity": "major",
+   "page": "18, 44-50, 52-56, 58-63, 65-68, 75-82, 110-117 (centred) vs all other parts ([t])",
+   "file": "06_confinement.tex, 07_masses.tex, 08_tungsten.tex, 09_vacancies.tex, 11_amorphous.tex, 16_backup.tex, 03_questions_registration.tex (l. 22)",
+   "issue": "The vertical alignment is inconsistent. Parts 1-5, 10 and 12-14 use \\begin{frame}[t]. Parts 6, 7, 8, 9, 11, the backup and p18 use default centred frames. Content therefore jumps vertically between parts; this is most visible on sparse slides such as p65, p80 and p18.",
+   "fix": "Use [t] on every content frame. Simpler: the orchestrator adds the 't' class option once in main.tex (\\documentclass[aspectratio=169,10pt,t]{beamer}) and the per-frame [t] are removed."
+  },
+  {
+   "severity": "major",
+   "page": "93, 94, 96 (conclusions); 19, 21, 22, 115 (register tables)",
+   "file": "14_conclusions.tex, 03_questions_registration.tex, 16_backup.tex",
+   "issue": "These are walls of text: tables of full sentences at scriptsize, three to five lines of ledger IDs, and small grey caption paragraphs. The three conclusion slides, the ones the audience reads most closely, have no visual hierarchy and cannot be read from the back of a room.",
+   "fix": "Reduce p93/p94 to 4-6 one-line findings, each with its label, at \\small. Move the ledger IDs to a single \\src line. Merge p95 into these (see the duplication finding). Shorten the register tables to ID / one-line question / status, and keep the criteria in backup."
+  },
+  {
+   "severity": "minor",
+   "page": "38 vs 91; 39 vs 62; 93-94 vs 95; 29 vs 72",
+   "file": "05_dft_methods.tex, 13_resources.tex, 08_tungsten.tex, 14_conclusions.tex",
+   "issue": "Content is repeated across parts beyond a recap. p38 and p91 give the same memory argument (bands 328\u2192680, Npw +29 %, work \u00d75.5, 680 \u00d7 327 585 \u00d7 16 B = 3.6 GB, 82 GB) and the same take-away ('large-memory GPU or a distributed CPU run'). p39 and p62 both explain the X1 band-count cause. p95 repeats almost every row of p93/p94 (confinement series, Kane 1 %/10 %, W resonant donor, H-L, H-N, 6.3 nm, mobility).",
+   "fix": "Make p38 the volume-law slide only and keep the memory numbers on p91. On p62, replace the 'Cause' bullet with 'band-count rule: Part 5'. Turn p95 into a 3-line contributions statement, or drop it."
+  },
+  {
+   "severity": "minor",
+   "page": "21 vs 115",
+   "file": "03_questions_registration.tex; 16_backup.tex",
+   "issue": "The status of H-E differs. On p21 H-E is 'sealed (stage S3)' and S1-05 is a separate row. On p115, H-E is 'S1-05 failed; rest sealed', matching monograph M02 l. 59.",
+   "fix": "On p21, give H-E the status 'S1-05 expectation failed (row below); rest sealed (S3)'."
+  },
+  {
+   "severity": "minor",
+   "page": "63 vs 116",
+   "file": "08_tungsten.tex; 16_backup.tex",
+   "issue": "The spin moments are 0.62 \u00b5B (24d) and 0.74 \u00b5B (8b) on p63, but the X7 row on p116 says 'bulk W moments 0.6-0.7 \u00b5B'.",
+   "fix": "Write 'about 0.6-0.75 \u00b5B' on p116, or quote both values."
+  },
+  {
+   "severity": "minor",
+   "page": "42 vs 77/78; 90 vs 91",
+   "file": "05_dft_methods.tex; 13_resources.tex",
+   "issue": "Two statements look like contradictions. p42 says 'Amorphous 1.0 nm cell, 134 atoms (C035)', while p77 lists the 1.0 nm W cell with 138 atoms; C035 is the undoped aIO_1p0_s1, but p42 does not say so. p91 says 'The same 96-atom SCF: 1 h 16 min on 16 CPU cores', while p90 lists the '1 nm W film (96 atoms), SCF' at 2 h 55 min on 16 cores; they are different runs.",
+   "fix": "On p42, write 'undoped amorphous 1.0 nm cell (aIO_1p0_s1, 134 atoms)'. On p91, write 'a pure 1 nm film SCF benchmark (96 atoms)'."
+  },
+  {
+   "severity": "minor",
+   "page": "52 vs 53, 114",
+   "file": "07_masses.tex",
+   "issue": "Two \u0394m laws appear on consecutive slides: 0.1114 t^-1.2611 (deck basis, p52 take-away, p114) and 0.1145 t^-1.2755 (Kane band-edge basis, p53, exponent 1.28 on p55). p53 does not say which one the decks use.",
+   "fix": "On p53, add 'decks use the deck-basis law 0.1114 t^-1.2611 (p52); both give 0.011/0.004 m0 at 6.3/13.2 nm'."
+  },
+  {
+   "severity": "minor",
+   "page": "56, 70, 79, 114, 117; 25-32 vs 70",
+   "file": "07_masses.tex, 10_multiscale.tex, 11_amorphous.tex, 16_backup.tex",
+   "issue": "Notation drifts. Nc (main) against N_C (p114, p117). N_V (p56, p114) against N_v (p70). N_v on p79 means the number of occupied valence bands, which p39 calls N_VB. The tail width is W_TA on p25-p32 and W_T on p70.",
+   "fix": "Use Nc/Nv (or NC/NV) everywhere for the effective densities, N_VB for the band count on p79, and W_TA on p70."
+  },
+  {
+   "severity": "minor",
+   "page": "114 (97/100); 26; 2; 23 vs 94/95",
+   "file": "16_backup.tex (l. 238-247), 04_tcad.tex, 00_title.tex",
+   "issue": "The evidence labels are inconsistent. The p114 label column uses plain words ('fitted', 'calculated', 'assumed') instead of \\lab, and 'calculated' is not one of the registered labels. On p26, 'Confinement law, V1' is labelled [assumed] although p25 and p27 describe it as fitted to published slab DFT. The outline (p2) lists only 7 labels, but the deck also uses assumed, observed, hypothesis and theory. p23 says 'one evidence label per statement', yet p94 and p95 carry double labels.",
+   "fix": "On p114, use \\lab{fitted} and \\lab{derived} (anchor + fitted increment) and \\lab{assumed}. Align p26 with the monograph M09 status. Complete the label list on p2. Change p23 to 'at least one evidence label per statement'."
+  },
+  {
+   "severity": "minor",
+   "page": "31, 33",
+   "file": "research_monograph/presentation_ntu/sections/04_tcad.tex",
+   "issue": "Two slides use device-data-derived numbers without the data attribution required by rule 5. p31 gives \u03b8net per film and the 83 % contact share of the 2.0 nm deficit. p33 gives RMSE and ID(3 V) \u00d74.87 relative to the measured curves. Neither carries 'Data: Prof. M.-H. Lee's group, NTU' or \\sref{Januar2026}.",
+   "fix": "Add the standard \\src data line and \\sref{Januar2026} to both slides."
+  },
+  {
+   "severity": "minor",
+   "page": "80 (68/100)",
+   "file": "research_monograph/presentation_ntu/sections/11_amorphous.tex (line 304)",
+   "issue": "There is a blind-analysis wording risk. 'An even W + 6 O state (M = 7) is localised at 0.7, 0.8 and 2.0 nm, but intermediate in bulk and at 1.0 nm' is derived from atom counts only, but spoken aloud it sounds like a per-cell result for the sealed amorphous cells. Separately, p76 cites 'a 3 % W-5d share' as a crystal value without saying what it is.",
+   "fix": "Reword p80: 'A hypothetical state spread evenly over W + 6 O (M = 7) would count as localised in the 0.7, 0.8 and 2.0 nm cells and as intermediate in the bulk and 1.0 nm cells (rule and atom counts only)'. Define the 3 % share on p76."
+  },
+  {
+   "severity": "minor",
+   "page": "11, 13, 16, 26, 27, 29, 67, 71-73, 89, 91, 93-95, 114",
+   "file": "02_device_data.tex (\\twoC), 04_tcad.tex (\\fourC), 10_multiscale.tex (\\tenC), 14_conclusions.tex (\\fourteenC), others",
+   "issue": "The slides look like a lab record rather than a talk. Ledger IDs (C001, C026, M007, FACT-027), commit hashes (7a61687, 7b75ee6, 3fe6627) and file names (b04_tcad.json, f11_hl_vacancy.json, results/RUN_INDEX.csv, resources.json) sit inside bullets and take-aways (e.g. p72: 'transfer curves cannot isolate it C018').",
+   "fix": "Keep the IDs in the \\src lines only, or in a provenance table in backup, and remove them from bullets, titles and take-aways."
+  },
+  {
+   "severity": "minor",
+   "page": "26, 29 and other slides with \\sref inside \\src (02, 03, 04, 06, 08, 10, 12, 16 sections)",
+   "file": "04_tcad.tex (l. 52, 85, 98, 146, 166), 02_device_data.tex, 06_confinement.tex, 10_multiscale.tex, 16_backup.tex",
+   "issue": "Citation marks inside the tiny grey \\src lines are set at the theme's larger footnote-mark size (e.g. 'device paper [1]', 'Si et al.[2]' on p26). Part 1 avoids this with \\oneTinyMark, and Part 14 keeps citations out of \\src, so the sections disagree.",
+   "fix": "Move the citations out of the \\src lines, or reuse the Part 1 \\oneTinyMark approach in each section that cites inside \\src."
+  },
+  {
+   "severity": "minor",
+   "page": "99-108",
+   "file": "research_monograph/presentation_ntu/sections/15_references.tex",
+   "issue": "The reference list has several presentation faults. It shows the default beamer bibliography icons. The 10 allowframebreaks pages have large gaps, and the last page has a single entry (Walsh 2008). Journal styles are mixed ('Phys. Rev. B' against 'Physical Review B 84.8', 'Journal of Applied Physics', 'Nano Letters 21.1'). DOIs break with spaces ('10.52202/ 068431- 0830', '0953- 8984').",
+   "fix": "Add \\setbeamertemplate{bibliography item}{} and \\scriptsize, and clear the doi/note/url fields so the list fits 4-5 pages. Better still, drop the list or move it after the backup."
+  },
+  {
+   "severity": "minor",
+   "page": "97, 98, 1",
+   "file": "14_conclusions.tex; 15_references.tex; 00_title.tex (line 24)",
+   "issue": "The Acknowledgements slide comes after 'Thank you', so it will not be shown during Q&A. The title slide footer says 'Working draft for internal presentation', which looks unfinished on the day of the talk.",
+   "fix": "Put Acknowledgements before 'Thank you'. Reword the title note: 'Unpublished results; device data courtesy of Prof. M.-H. Lee's group, NTU'."
+  },
+  {
+   "severity": "minor",
+   "page": "37, 18, 65, 75-79",
+   "file": "05_dft_methods.tex, 03_questions_registration.tex, 09_vacancies.tex, 11_amorphous.tex",
+   "issue": "Take-aways are missing. Part 11 has a take-away on only 3 of its 8 frames, and p37, p18 and p65 have none, while almost every other result slide does.",
+   "fix": "Add a one-sentence \\takeaway to p37 (cutoff choice), p65 (H-L registered before any cell was built), p77 and p78 (the ML potential fails at W, so structures are only DFT seeds)."
+  },
+  {
+   "severity": "minor",
+   "page": "36, 5, 6, 75, 86",
+   "file": "05_dft_methods.tex, 01_motivation.tex, 11_amorphous.tex, 12_alternatives.tex",
+   "issue": "Footnotes are dense. p36 has 5 footnote lines citing 11 works, taking about a quarter of the slide height. p5, p6, p75 and p86 each carry 5 entries.",
+   "fix": "Cite one representative work per statement, e.g. Hohenberg-Kohn plus Perdew-Levy on p36, and move the rest to the reference list."
+  },
+  {
+   "severity": "minor",
+   "page": "24, 43 (part dividers)",
+   "file": "ntutalk.sty (\\partslide) or 04_tcad.tex / 06_confinement.tex",
+   "issue": "Two-line part titles are justified, which leaves stretched word spaces on p24 ('Device simulation:  what calibration can').",
+   "fix": "Shorten the part titles (e.g. 'Device simulation and calibration'), or have the orchestrator add \\raggedright in \\partslide."
+  },
+  {
+   "severity": "minor",
+   "page": "25, 33, 70, 87, 90; PDF metadata",
+   "file": "04_tcad.tex (l. 60, 395), 10_multiscale.tex (l. 80), 12_alternatives.tex (l. 185), 13_resources.tex (l. 121), main.tex (l. 18)",
+   "issue": "Build results: 0 errors, 0 undefined citations, 0 frame overflows, 0 overfull hboxes > 5 pt, 0 missing characters. There are five overfull hboxes below the threshold (0.71-2.90 pt). Hyperref warns 'Token not allowed in a PDF string' six times for the math in the title (main.tex l. 18), and there is a font-size substitution warning.",
+   "fix": "Optional: tighten the five paragraphs. Use \\texorpdfstring{\\InO{}}{In2O3} in the title, or set \\hypersetup{pdftitle=...}."
+  }
+ ],
+ "summary": "The full build ran (bash tools/build.sh, about 43 s) and produced build/main.pdf with 117 pages. The footer counts 100 numbered frames: 81 talk frames from the outline to the next-steps slide, the Acknowledgements, 10 reference pages and 8 backup slides. The title, 14 part dividers, 'Thank you' and the backup divider are unnumbered. The build checks are clean: 0 errors, 0 undefined citations, 0 frame overflows, 0 overfull hboxes above 5 pt, 0 missing characters. Five small overfull boxes (0.7-2.9 pt) remain on PDF pages 25, 33, 70, 87 and 90, and hyperref warns about the math in the title. I rendered all pages to build/deck_png at 55 dpi and opened every one; I also opened selected pages at 110 dpi in /tmp/claude-0/-home-user-iwo-tft-tcad-dft/766c6a12-f4a6-5e51-9cad-484b1261a35f/scratchpad/hi. Page numbers in the findings are PDF pages.\n\nThree problems should be fixed before presenting:\n1. The device-paper footnote prints as 'Januar et al., Small Struct. 7, e202500807 (1 (2026)' on 16 slides. The theme's literal comparison does not match the bibtex '\\bibrangedash' form. This needs an orchestrator fix in ntutalk.sty.\n2. Internal bib notes are printed in the reference list, including 'read by Astra', 'METADATA_REQUIRES_VERIFICATION' and the 'installed copy' note on the ATLAS manual.\n3. The Acknowledgements slide claims that all hypotheses and read-out rules were registered before the outcomes were known. The deck itself contradicts this (S0/S1 seen before the freeze, A1 written after its measured values, A38/A42/A43). The same slide also prints an empty Silvaco footnote, '[3] ()'.\n\nMost numbers agree across sections:\n- Thresholds 0.662/0.644/0.083 V and the misses \u22120.29/\u22120.37/\u22120.23 V.\n- The SS windows, \u0394Eg 0.335/0.900 eV, \u0394Ec +0.281/+0.848 eV and \u0394Ev \u22120.054/\u22120.052 eV.\n- Mass 0.1541 m0, the Kane check (1 % / 10 %) and the W level 1.22-1.80 eV.\n- Donated densities 1.4-3.0e21 (bulk 2.7e21), the H-L numbers and the S1-05 result (+142 mV) with audit A13.\n- The launch counts (14 seen, 17 of 200 used) and the dates (freeze 2026-10-10T18:33:13Z, A37, D-43).\n\nThe main inconsistencies are:\n- \u0394Ec(2 nm) = 0.353 eV (the model V1 law) is shown on p30 without saying so, against 0.28 eV in Part 6.\n- 'The step' means 0.56 V in Parts 1-2 and 0.579 V in Parts 10 and 14.\n- Labels clash: V1/V2 are both model versions and corrections; C2-C4, C1-C6, C10 and C0xx overlap; S1 is both a window and a stage; T2/T3 are undefined.\n- The H-E status differs between p21 and p115, and the spin-moment range differs between p63 and p116.\n- Notation drifts (Nc/NC, NV/Nv/N_VB, W_TA/W_T), and p114 uses a non-standard 'calculated' label.\n\nOn flow, the story runs coherently from motivation to conclusions, but the talk is about twice too long and needs cutting to roughly 35-45 frames. Part 4 uses the DFT laws before Parts 5-7 introduce them. Part 3 front-loads four dense register tables. S0-S2, V0, T2/T3 and the amendment numbers are used before they are defined. The 'strongly supported' swing-collapse result in the conclusions has no slide anywhere in the deck. Several slides duplicate each other: p86 is nearly identical to backup p111 and still says 'backup slide'; p38 and p91; p39 and p62; p93/p94 and p95.\n\nVisually, about 45 slides use centred frames while the rest use [t]. The conclusion and register slides are walls of scriptsize text. Ledger IDs, commit hashes and file names inside bullets look machine-made. Citation marks in \\src lines are set too large, the reference list keeps the default beamer icons and spills onto a 10th page with one entry, and several result slides have no take-away.\n\nNo blind-analysis violations were found. There are no amorphous electronic values and no ATLAS results from S2 on. The only risk is the p80 wording about a 'W + 6 O state localised at 0.7, 0.8 and 2.0 nm', which should be reworded as hypothetical. There are no superseded statements: V12 is stated correctly on p40, p112 and p116, H-L is unresolved, the 6.3 nm predictions are falsified, \u00b5sat is inferred as the leading candidate, the 2.7e21 donated density and \u22120.052 eV valence shift are correct, and W is described as a resonant donor everywhere except where old wording is quoted as a correction."
+}

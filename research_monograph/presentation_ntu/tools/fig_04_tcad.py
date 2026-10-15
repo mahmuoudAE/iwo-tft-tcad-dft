@@ -159,9 +159,9 @@ def fig_holdout(meas):
     v14, i14 = atlas("0014")
     v60, i60 = atlas("0060")
     curves = [
-        (v14, i14, dict(color=GREY, ls="--", lw=1.0), "V1, shared laws"),
-        (v60, i60, dict(color=MAROON, ls="--", lw=1.0), r"V2-P, predicted $\mu$"),
-        (v60, i60 * k_e, dict(color=MAROON, ls="-", lw=1.1), r"V2-E, $\mu$ to $I_\mathrm{on}$"),
+        (v14, i14, dict(color=GREY, ls="--", lw=1.0), "model V1"),
+        (v60, i60, dict(color=MAROON, ls="--", lw=1.0), r"model V2-P"),
+        (v60, i60 * k_e, dict(color=MAROON, ls="-", lw=1.1), r"model V2-E"),
     ]
     fig, (a, b) = plt.subplots(1, 2, figsize=(70 * MM, 43 * MM))
     a.semilogy(vm, im, ls="none", marker="o", ms=2.3, mfc="white", mec="black", mew=0.5, label="measured")

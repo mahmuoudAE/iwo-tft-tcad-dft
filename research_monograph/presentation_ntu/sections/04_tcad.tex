@@ -1,15 +1,16 @@
 % 04_tcad.tex -- Part 4: device simulation, what calibration can and cannot show. Sources: research_monograph/chapters/
-% 14_model_v2_rev.tex (V2 laws, anchors, T2 failure, held-out T3 test), 09_mechanisms_rev.tex (threshold budget, swing
-% windows, one-at-a-time leverages, identifiability, contacts), 11_validation_rev.tex (calibration vs validation status),
-% M07_provenance.tex (normalised-window swing), M08_c10_campaign.tex (campaign C10 design, stages, S0/S1 results seen
-% before register revision 2, budget), M12_multiscale.tex (chain, 2.0 to 6.3 nm arithmetic, one offset vs three films),
-% 13_dft_rev.tex (V1 law fitted to published slab DFT), M09_masses_parameters.tex (bulk anchors);
-% appendices/MG_corrections.tex (X5, T3); research_record/03_CLAIMS_LEDGER.yaml (C008, C010, C013-C016, C018, C019);
-% evidence/FACT_REGISTRY.tsv (FACT-101..103); evidence/derived/multiscale_budget.json. Figures 04_*.pdf:
+% 14_model_v2_rev.tex (model V2 laws, anchors and their registered check, held-out 6.3 nm test), 09_mechanisms_rev.tex
+% (threshold budget, swing windows, one-at-a-time leverages, identifiability, contacts), 11_validation_rev.tex
+% (calibration vs validation status), M07_provenance.tex (normalised-window swing), M08_c10_campaign.tex (campaign C10
+% design, stages, S0/S1 results seen before register revision 2, budget), 13_dft_rev.tex (model V1 law fitted to
+% published slab DFT), M09_masses_parameters.tex (laws fitted to computed points; bulk anchors);
+% research_record/03_CLAIMS_LEDGER.yaml (C008, C010, C013-C016, C018, C019); evidence/FACT_REGISTRY.tsv (FACT-101..103);
+% analysis_2026-10-06_V2/t2_t3_results.json (final model-V2 anchor thresholds). Figures 04_*.pdf:
 % tools/fig_04_tcad.py (ATLAS runs 0001-0004, 0014, 0038, 0040, 0060 and data/experimental_clean.csv).
+% Deck rules: model V1/V2 defined on the first slide; ledger IDs, commit hashes and run numbers only in \src lines;
+% no \sref inside \src; the analysis of the first-principles laws is in Part 10 (pointer only here).
 % Blind rules: no ATLAS result from stage S2 on; S0/S1 only as "seen before revision 2" (M08 tab:mono-c10-s1).
 \providecommand{\fourTop}{\vspace{-2.5mm}}
-\providecommand{\fourC}[1]{{\tiny\color{inkgrey}\,#1}}
 \providecommand{\fourAum}{\si{A/\micro\metre}}
 \providecommand{\fourNc}{N_{\mathrm{c}}}
 \providecommand{\fourEqSkip}{\setlength{\abovedisplayskip}{2pt}\setlength{\belowdisplayskip}{2pt}%
@@ -20,6 +21,8 @@
 \providecommand{\fourSrcLab}[1]{{\color{inkgrey}[\textsc{\MakeLowercase{#1}}]}}
 % two works, each with its page, in one slide footnote
 \providecommand{\fourTwoRefs}[4]{\footnote[frame]{\refcite[#1]{#2}; \refcite[#3]{#4}}}
+% caption text that carries a citation (citations are not allowed inside \src)
+\providecommand{\fourCap}[1]{\par\vspace{0.5mm}{\scriptsize #1\par}}
 
 \partslide{Part 4}{Device simulation: what calibration can and cannot show}
 
@@ -42,17 +45,18 @@
         $g_\mathrm{deep}$.\par}
     \end{column}
     \begin{column}{0.42\textwidth}
-      {\small\fourEqSkip\textbf{Thickness laws} ($t$ in nm)
+      {\small\fourEqSkip\textbf{Thickness laws} ($t$ in nm; models V1, V2)
       \begin{gather*}
         \chi = 4.3\,\mathrm{eV} - \dEc(t), \quad \Eg = 3.05\,\mathrm{eV} + \dEg(t)\\
         \fourNc \propto \big[0.208\,\mzero + \Delta m^{*}(t)\big]^{3/2}\\
         N_t = 2\times10^{19}\,(2/t)^{0.75}\,\mathrm{cm^{-3}}\\
         N_{D,\mathrm{eff}} = 2.5\times10^{17}\,\big[1 + (t/20)^{4}\big]\,\mathrm{cm^{-3}}
       \end{gather*}\par}
-      \src{Bulk anchors: 4.3\,eV and 3.05\,eV; 0.208\,$\mzero$\fourTwoRefs{}{Fan2021}{p.~225102-12}{Stokey2021}. The
-        first-principles laws supply only the increments. $N_t$ exponent from the paper's trap-density
-        ratio\sref[p.~7]{Januar2026}. $N_t$ and $N_{D,\mathrm{eff}}$ laws: V1 and V2; C10 uses $N_t = N_s/t$ and fixed
-        donors.}
+      {\footnotesize\textbf{Model V1}: increment laws fitted to published slab DFT. \textbf{Model V2}: model V1 with laws
+        fitted to this work's DFT (Part~6), recalibrated. \textbf{Campaign C10}: one parameter set for all films;
+        $N_t = N_s/t$, fixed donors.\par}
+      \fourCap{Bulk anchors: IWO (4.3, 3.05\,eV), \InO{} ($0.208\,\mzero$)\fourTwoRefs{}{Fan2021}{p.~225102-12}{Stokey2021};
+        the first-principles laws give only the increments.}
     \end{column}
   \end{columns}
   \takeaway{No Schr\"odinger solution: confinement acts only via $\chi$, $\Eg$, $\fourNc$ (in C10 also $\mu$, via
@@ -64,28 +68,30 @@
   \fourTop
   {\footnotesize
   \setlength{\tabcolsep}{4pt}
-  \renewcommand{\arraystretch}{1.04}
-  \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{6.6cm}>{\raggedright\arraybackslash}X l@{}}
+  \renewcommand{\arraystretch}{1.0}
+  \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{6.5cm}>{\raggedright\arraybackslash}X l@{}}
     \toprule
     Input & What it does & Status \\
     \midrule
-    $Q_f$ (front sheet): shared; own value at 6.3\,nm in the tuned fit & rigid $\Vg$ shift & \lab{fitted} \\
-    $\mu_\mathrm{band}$: one value per film (V1, V2); shared law in C10 & current scale,
+    $Q_f$ (front sheet), shared; tuned fit: own 6.3\,nm value & rigid $\Vg$ shift & \lab{fitted} \\
+    $\mu_\mathrm{band}$ per film (models V1, V2); shared law in C10 & current scale,
       $\times(1-0.287\,\mathrm{nm}/t)^2$ & \lab{fitted} \\
-    $N_t$ anchor; tail width $W_\mathrm{TA} = 40$\,meV & swing and turn-on delay\fourC{C015} & \lab{fitted} \\
-    $N_{D,\mathrm{eff}}$, compensated & $\le 0.07$\,V of $\Vthcc$\fourC{C016} & \lab{fitted} \\
+    $N_t$ anchor; tail width $W_\mathrm{TA} = 40$\,meV & swing and turn-on delay & \lab{fitted} \\
+    $N_{D,\mathrm{eff}}$, compensated & $\le 0.07$\,V of $\Vthcc$ & \lab{fitted} \\
     $\mathrm{WF}-\chi_\mathrm{bulk} = 0.40$\,eV & rigid offset & \lab{assumed} \\
     Interface traps $D_\mathrm{it}$; deep Gaussian & 0.012\,V; $\le 0.003$\,V of $\Vthcc$ & \lab{assumed} \\
-    Confinement law, V1 & fitted to published slab DFT (below) & \lab{assumed} \\
-    Confinement laws, V2 and C10 & fitted to this work's DFT points & \lab{fitted} \\
+    Confinement law, model V1: $\chi$, $\Eg$, $\fourNc$ against $t$ & fitted to published slab DFT; $\dEc = \dEg$
+      & \lab{fitted} \\
+    Confinement laws, model V2 and C10 & fitted to this work's DFT points (Part~6) & \lab{fitted} \\
     $\fourNc$ convention (C10, 2.0\,nm: quasi-2-D $N_\mathrm{2D}/t$) & 3-D; C10, 2.0\,nm:
       $1.373\times10^{19}$\cmcu & \lab{assumed} \\
     \bottomrule
   \end{tabularx}\par}
-  \src{V1 values unless stated. $\Vthcc$ shares from a 1-D surrogate within 3\,mV of ATLAS. Fitted in V1: the shared
-    $Q_f$, the 6.3\,nm $Q_f$, three band mobilities, the tail anchor and width, the donor-law constants. Roughness factor
-    $(1-0.287\,\mathrm{nm}/t)^2$ with the roughness length of the device paper\sref[p.~8]{Januar2026}; V1 confinement law fitted to the slab DFT of
-    Lin et al.\ and Si et al.\fourTwoRefs{p.~21542}{Lin2022}{p.~504}{Si2021}}
+  \fourCap{$N_t$ exponent and roughness length: device paper\sref[pp.~7, 8]{Januar2026}. Model V1 confinement law: slab
+    DFT of Lin et al.\ and Si et al.\fourTwoRefs{p.~21542}{Lin2022}{p.~504}{Si2021}.}
+  \src{Model V1 values unless stated. $\Vthcc$ shares from a 1-D surrogate within 3\,mV of ATLAS. Fitted to the
+    measured curves in model V1 (\fourData): the shared $Q_f$, the 6.3\,nm $Q_f$, three band mobilities, the tail anchor
+    and width, the donor-law constants. Ledger C015 (tail law), C016 (donor law).}
   \takeaway{One film's offset absorbs any confinement law; only shared parameters can be tested.}
 \end{frame}
 
@@ -95,9 +101,9 @@
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.50\textwidth}
       \includegraphics[width=\linewidth]{04_calibration}
-      \src{V1 chain at drain bias 0.7\,V: laws only (runs 0001, 0002); + shared $Q_f$ (0003, 0004); final (0038,
-        0040: tail-DOS quadrature 384/192, physical deck, band mobility scaled exactly to the measured on-current).
-        \fourData\sref{Januar2026}.}
+      \src{Model V1 chain at drain bias 0.7\,V: laws only (runs 0001, 0002); + shared $Q_f$ (0003, 0004); final
+        (0038, 0040: tail-DOS quadrature 384/192, physical deck, band mobility scaled exactly to the measured
+        on-current). \fourData.}
     \end{column}
     \begin{column}{0.47\textwidth}
       {\scriptsize
@@ -105,21 +111,22 @@
       \renewcommand{\arraystretch}{1.1}
       \begin{tabular}{@{}lcc@{}}
         \toprule
-        2.0 / 13.2\,nm & V1 & V2 \\
+        2.0 / 13.2\,nm & model V1 & model V2 \\
         \midrule
         Shared $Q_f$ ($10^{12}$\cmsq) & 1.73 & 1.38 \\
         $\mu_\mathrm{band}$ (\cmVs) & 17.69 / 61.60 & 17.54 / 63.21 \\
-        $\Delta\Vthcc$ vs measured (mV) & $+19$ / $-29$ & $+6$ / $+21$ \\
+        $\Delta\Vthcc$ vs measured (mV) & $+19$ / $-29$ & $+7$ / $+21$ \\
         Active RMSE (dec) & 0.043 / 0.081 & 0.065 / 0.097 \\
         \bottomrule
       \end{tabular}\par}
-      \src{V1: confinement law fitted to published slab DFT; V2: laws fitted to this work's DFT. On-current exact in
-        both; measured $\Vthcc$ 0.662 / 0.083\,V. All rows \fourSrcLab{fitted} (C013).}
+      \src{Final curves, on-current exact; measured $\Vthcc$ 0.662 / 0.083\,V. All rows \fourSrcLab{fitted} (C013).
+        Registered model-V2 anchor check (ATLAS against the exact transformation of the model-V1 runs): passed at
+        13.2\,nm, failed at 2.0\,nm on RMSE by 0.001\,dec.}
       \begin{itemize}\footnotesize
-        \item $Q_f$ shifts the curve rigidly (verified to 1\,mV) and $\Id \propto \mu_\mathrm{band}$: one shared
-          $Q_f$ sets the threshold pair, $\mu_\mathrm{band}$ each on-current \lab{computed}
+        \item $Q_f$ shifts the curve rigidly (to 1\,mV), $\Id \propto \mu_\mathrm{band}$: one shared $Q_f$ sets the
+          measured threshold pair\sref{Januar2026}, $\mu_\mathrm{band}$ each on-current \lab{computed}
         \item 6.3\,nm needs its own $Q_f = 8.7\times10^{10}$\cmsq{} and its own $\mu_\mathrm{band}$ \lab{fitted};
-          even then its late, steep turn-on is not reproduced \lab{computed}
+          even then its on-state is not reproduced \lab{computed}
       \end{itemize}
     \end{column}
   \end{columns}
@@ -138,23 +145,24 @@
     \midrule
     $10^{-11}$--$10^{-10}$\,\fourAum, meas.\ / sim. & 121.2 / 123.5 & 124.5 / 124.5 & 91.8$^{\ast}$ / 90.9 &
       \lab{fitted} \\
-    $(2.15$--$21.5)\times10^{-5}\,I_\mathrm{on}$, meas.\ / sim. & $123.6\pm1.0$ / 126.4 & $122.7\pm9.3$ / 121.3 &
-      $115.3\pm2.4$ / 131.3 & \lab{computed}\fourC{C008} \\
+    Window A1, meas.\ / sim. & $123.6\pm1.0$ / 126.4 & $122.7\pm9.3$ / 121.3 & $115.3\pm2.4$ / 131.3 &
+      \lab{computed} \\
     $10^{-10}$--$10^{-9}$\,\fourAum, sim.\ $-$ meas. & $+20$ & $+6$ & $+25$ & \lab{computed} \\
     \bottomrule
   \end{tabular*}\par}
-  \src{Swing in mV/dec. V1 calibrated model; the 6.3\,nm curve with its own $Q_f$ and band mobility. $^{\ast}$After
-    subtracting the off-state floor (two points); raw 136.1\,mV/dec. Middle row: the normalised window (amendment A1 of
-    the extraction protocol). \fourData\sref{Januar2026}.}
+  \src{Swing in mV/dec. Model V1, calibrated; the 6.3\,nm curve with its own $Q_f$ and band mobility. $^{\ast}$After
+    subtracting the off-state floor (two points); raw 136.1\,mV/dec. Window A1: $(2.15$--$21.5)\times10^{-5}\,I_\mathrm{on}$,
+    the normalised window of the extraction protocol (Part~2). \fourData; ledger C008, C010.}
   \begin{itemize}\small
-    \item One shared $W_\mathrm{TA} = 40$\,meV matches the deepest window within 2.3\,mV/dec at 2.0 and 6.3\,nm
-      \lab{fitted}; at 13.2\,nm only after floor subtraction, so it is not claimed there
-    \item In the normalised window the 13.2\,nm simulation is $16\pm3$\,mV/dec too high: reported as a finding, not
-      tuned away \lab{computed}\fourC{C010}
-    \item Above $10^{-10}$\,\fourAum{} the model is too soft in every film: tail filling holds, the V1 tail shape
-      does not \lab{inferred}
+    \item One shared $W_\mathrm{TA} = 40$\,meV matches the measured deepest window\sref{Januar2026} within
+      2.3\,mV/dec at 2.0 and 6.3\,nm \lab{fitted}; at 13.2\,nm only after floor subtraction, so it is not claimed
+      there
+    \item In window A1 the 13.2\,nm simulation is $16\pm3$\,mV/dec too high: reported as a finding, not tuned away
+      \lab{computed}
+    \item Above $10^{-10}$\,\fourAum{} the model is too soft in every film: tail filling holds, the model-V1 tail
+      shape does not \lab{inferred}
   \end{itemize}
-  \takeaway{Tail filling sets the swing in all films; the V1 tail shape is too soft above $10^{-10}$\,\fourAum.}
+  \takeaway{Tail filling sets the swing in all films; the model-V1 tail is too soft above $10^{-10}$\,\fourAum.}
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
@@ -163,33 +171,33 @@
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.50\textwidth}
       \includegraphics[width=\linewidth]{04_holdout}
-      \src{6.3\,nm threshold held out (no $Q_f$ fitted to it). V1 (run 0014) uses the band mobility of the V0 fit of
-        this curve, 12.4\cmVs: threshold-only test. V2 (run 0060): P from the registered rule $\propto t^{0.675}$,
-        38.39\cmVs; E scaled by 0.2579 to the measured on-current. \fourData\sref{Januar2026}.}
+      \src{6.3\,nm threshold held out (no $Q_f$ fitted to it). Model V1 (run 0014) uses the band mobility fitted
+        earlier to this curve alone, 12.4\cmVs: a test of the threshold only. Model V2 (run 0060): P, mobility from the
+        registered rule $\propto t^{0.675}$, 38.39\cmVs; E, the same run scaled by 0.2579 to the measured on-current.
+        \fourData.}
     \end{column}
     \begin{column}{0.47\textwidth}
-      \vspace{-1mm}
       {\scriptsize
       \setlength{\tabcolsep}{4pt}
       \renewcommand{\arraystretch}{1.05}
       \begin{tabular}{@{}lcc@{}}
         \toprule
-        Prediction (run) & $\Vthcc$ (V) & Miss (V) \\
+        Prediction & $\Vthcc$ (V) & Miss (V) \\
         \midrule
-        V1, shared laws (0014) & 0.350 & \textbf{\textminus0.29} \\
-        V2-P, predicted $\mu$ (0060) & 0.270 & \textbf{\textminus0.37} \\
-        V2-E, $\mu$ scaled to $I_\mathrm{on}$ (0060) & 0.417 & \textbf{\textminus0.23} \\
+        Model V1, shared laws & 0.350 & \textbf{\textminus0.29} \\
+        Model V2-P, predicted $\mu$ & 0.270 & \textbf{\textminus0.37} \\
+        Model V2-E, $\mu$ scaled to $I_\mathrm{on}$ & 0.417 & \textbf{\textminus0.23} \\
         \bottomrule
       \end{tabular}\par}
-      \src{Measured 0.644\,V; pass required $|\Delta\Vthcc| \le 0.10$\,V: all three \fourSrcLab{falsified} (C014). V2 registered in commit
-        7b75ee6, on-state correction a914165 before the result. The registered T2 anchor check failed at 2.0\,nm (RMSE,
-        by 0.001\,dec).}
+      \src{Miss: predicted minus measured; runs 0014, 0060. Model V2 registered in commit 7b75ee6, on-state
+        correction a914165, both before the result. Ledger C014.}
       \begin{itemize}\footnotesize\setlength{\itemsep}{1pt}
-        \item ATLAS matched the registered T3 thresholds within 0.3\,mV \lab{computed}
-        \item DFT laws shrink the miss by only about 0.04\,V; the linear threshold is 0.58\,V too low; rule P gives
-          four times $I_\mathrm{on}$ \lab{computed}
-        \item The computed $\dEc$ law, applied rigidly, gives $-0.21$ to $-0.22$\,V from 2.0 to 6.3\,nm; measured
-          $-0.018$\,V \lab{derived}
+        \item Measured $\Vthcc = 0.644$\,V\sref{Januar2026}: all three miss by more than the registered 0.10\,V
+          \lab{falsified}
+        \item ATLAS matched the registered model-V2 thresholds within 0.3\,mV \lab{computed}
+        \item Model V2 puts the linear threshold 0.58\,V too low; rule P gives $4\times$ the measured
+          $I_\mathrm{on}$ \lab{computed}
+        \item First-principles laws and these misses: Part~10
       \end{itemize}
     \end{column}
   \end{columns}
@@ -200,13 +208,13 @@
 \begin{frame}[t]{One transfer curve fixes combinations, not parameters}
   \fourTop
   \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.53\textwidth}
+    \begin{column}{0.47\textwidth}
       {\scriptsize
-      \setlength{\tabcolsep}{4pt}
-      \renewcommand{\arraystretch}{1.2}
+      \setlength{\tabcolsep}{3pt}
+      \renewcommand{\arraystretch}{1.07}
       \begin{tabular}{@{}lrrl@{}}
         \toprule
-        Change at 2.0\,nm & $\Delta\Vthcc$ (V) & $\Delta$SS (mV/dec) & Action \\
+        Change at 2.0\,nm & $\Delta\Vthcc$ (V) & $\Delta$SS & Action \\
         \midrule
         Gate WF $+0.1$\,eV & $+0.100$ & 0 & rigid \\
         $\chi$ $-0.1$ / $+0.1$\,eV & $+0.100$ / $-0.100$ & 0 & rigid \\
@@ -219,19 +227,20 @@
         $\varepsilon_\mathrm{IWO} = 10.55$ & $-0.001$ & -- & negligible \\
         \bottomrule
       \end{tabular}\par}
-      \src{One-at-a-time ATLAS pairs \fourSrcLab{computed} (runs 0048, 0020/0021, 0016, 0023, 0050, 0024, 0025, 0022,
-        0026); SS over $10^{-10}$--$10^{-9}$\,A/\textmu m. On-current change: $-25.1$\,\% for $N_t\times1.5$,
-        $+21.4$\,\% for confinement off. No Jacobian or profile analysis was made.}
+      \src{One-at-a-time ATLAS pairs on model V1 \fourSrcLab{computed} (runs 0048, 0020/0021, 0016, 0023, 0050,
+        0024, 0025, 0022, 0026); $\Delta$SS in mV/dec over $10^{-10}$--$10^{-9}$\,A/\textmu m. On-current change:
+        $-25.1$\,\% for $N_t\times1.5$, $+21.4$\,\% for confinement off. No Jacobian or profile analysis was made.
+        Right column: equivalences, ledger C018; measured thresholds, \fourData.}
     \end{column}
-    \begin{column}{0.44\textwidth}
+    \begin{column}{0.50\textwidth}
       \begin{itemize}\footnotesize
         \item Work function, affinity, uniform fixed charge and confinement shift act as one number per film:
-          $\dEc(2\,\mathrm{nm}) = 0.353$\,eV $\equiv 1.97\times10^{12}$\cmsq{} of fixed charge
-          \lab{computed}\fourC{C018}
+          $\dEc(2\,\mathrm{nm}) = 0.353$\,eV of the model V1 law (fitted to published slab DFT) $\equiv
+          1.97\times10^{12}$\cmsq{} of fixed charge \lab{computed}; this work's DFT: 0.28\,eV (Part~6)
         \item $\mu_\mathrm{band}$ trades with $N_t$: on $I_\mathrm{on}$, $N_t\times1.5 \equiv \mu\times1.33$; series
-          resistance trades with the tail exponent \lab{derived}\fourC{C018}
-        \item One shared offset fits the three thresholds equally well with and without confinement: rms 0.136 vs
-          0.133\,V \lab{computed}
+          resistance trades with the tail exponent \lab{derived}
+        \item One shared offset fits the three measured thresholds\sref{Januar2026} equally well with and without
+          confinement: rms 0.136 vs 0.133\,V \lab{computed}
         \item Separating them needs C--V flat band against $t$, the optical gap, gated Hall and a transfer-length
           series
       \end{itemize}
@@ -268,7 +277,8 @@
         \node[below,align=center,text width=44mm,font=\scriptsize] at (27,-0.8) {required at 2.0\,nm: 83\,\% of
           $\Vd$ across the contacts (grey), 17\,\% across the channel};
       \end{tikzpicture}
-      \src{Schematic; the split is the hypothetical needed for contacts alone to cause the 2.0\,nm deficit.}
+      \src{Schematic; the split is the hypothetical needed for contacts alone to cause the 2.0\,nm deficit. The
+        83\,\% share and $\theta_\mathrm{net}$ follow from the measured curves (\fourData). Ledger C019.}
     \end{column}
     \begin{column}{0.59\textwidth}
       \begin{itemize}\footnotesize
@@ -276,10 +286,10 @@
           2.0\,nm: $\rho_c \approx 0.26\,\Omega\,\mathrm{cm^2}$, $L_T \approx 45\,\si{\micro\metre}$ \lab{derived}
         \item That drops 83\,\% of $\Vd$ in the contacts; per contact (about 570\,$\Omega$\,mm) it is about 5700
           times the contact resistance of related metal/\InO{} contacts, below 0.1\,$\Omega$\,mm\sref[p.~167]{Si2022}
-        \item Wrong sign: $\theta_\mathrm{net} = -0.10$ / $-0.12$ / $-0.046$\,V$^{-1}$ (2.0 / 6.3 / 13.2\,nm);
-          series resistance needs the opposite sign \lab{derived}
+        \item Wrong sign: the measured curves\sref{Januar2026} give $\theta_\mathrm{net} = -0.10/{-0.12}/{-0.046}$\,V$^{-1}$
+          (2.0 / 6.3 / 13.2\,nm); series resistance needs the opposite sign \lab{derived}
         \item Wrong direction: at fixed $\rho_c$ the contact share scales as $R_\mathrm{sh}^{-1/2}$, so a common
-          contact penalises the thick film \lab{derived}\fourC{C019}
+          contact penalises the thick film \lab{derived}
         \item Inside the calibrated trap model: $R_\mathrm{sd}W \lesssim 5\times10^{4}\,\Omega\,\si{\micro\metre}$
           ($\le 4$\,\%) at 2.0\,nm, $\lesssim$ 1--2$\times10^{4}\,\Omega\,\si{\micro\metre}$ (4--9\,\%) at
           13.2\,nm \lab{fitted}
@@ -302,11 +312,11 @@
       {\footnotesize\fourEqSkip
       \[ \mu_\mathrm{band}(t) = \mu_\infty\,\frac{0.208\,\mzero}{m^{*}(t)}\,\frac{1}{1+\ell/t}
          \Big(1-\frac{0.287\,\mathrm{nm}}{t}\Big)^{2} \]
-      where $m^{*}(t) = 0.208\,\mzero + \Delta m^{*}(t)$ (DFT increment) and the last factor is the existing roughness
-      term.\par}
+      where $m^{*}(t) = 0.208\,\mzero + \Delta m^{*}(t)$ ($\Delta m^{*}$: this work's DFT) and the last factor is the
+      existing roughness term.\par}
       \begin{itemize}\footnotesize
-        \item The mass ratio gives only $\times0.83$ from 13.2 to 2.0\,nm, about 14\,\% of the logarithmic drop the
-          calibrated models need \lab{derived}; by design $\ell$ carries the rest (H-D, sealed)
+        \item The mass ratio gives only $\times0.83$ from 13.2 to 2.0\,nm, about 14\,\% of the logarithmic mobility
+          drop the calibrated models need \lab{derived}; $\ell$ carries the rest (H-D, sealed)
         \item $\Delta V_0$, $\mu_\infty$, $\ell$ are profiled offline by exact transformations; three degrees of
           freedom remain
         \item Acceptance, stop rules and the expected 6.3\,nm failure were fixed before any launch
@@ -334,8 +344,8 @@
         \bottomrule
       \end{tabularx}\par}
       \src{Planned launches, approved 10 Oct 2026 (D-13); regenerated matrix: 184 + 16 reserve (recorded
-        inconsistency). S0/S1 used 14 launches (S0-02 needed six), seen before the register freeze; 17 of 200 used by
-        14 Oct.}
+        inconsistency). Stages S0/S1 used 14 launches (S0-02 needed six), seen before the register freeze; 17 of 200
+        used by 14 Oct.}
     \end{column}
   \end{columns}
   \takeaway{With one offset for all three films, the first-principles inputs can fail for the first time.}
@@ -348,7 +358,7 @@
     \begin{column}{0.57\textwidth}
       {\scriptsize
       \setlength{\tabcolsep}{3pt}
-      \renewcommand{\arraystretch}{1.05}
+      \renewcommand{\arraystretch}{1.0}
       \begin{tabularx}{\linewidth}{@{}l>{\raggedright\arraybackslash}p{3.05cm}>{\raggedright\arraybackslash}X@{}}
         \toprule
         Run & Test & Result \\
@@ -361,9 +371,10 @@
           $+70$\,mV: \textbf{failed}; $\Delta$SS $+49$\,mV/dec; RMSE $0.367\to0.053$\,dec \\
         \bottomrule
       \end{tabularx}\par}
-      \src{Stage S1 (runs 0061--0074 with S0), seen before register revision 2; model-internal, at the shared start
-        parameters \fourSrcLab{computed}. $\Id(3\,\mathrm{V})$ relative to the measured value. S1-06 (13.2\,nm, two carriers) timed out: unresolved. S1-07 (ATLAS check of the
-        offline profiling) passed, $\le 2.05\times10^{-4}$\,dec.}
+      \fourCap{RMSE and $\Id(3\,\mathrm{V})$ against the measured curves\sref{Januar2026}.}
+      \src{Stage S1 (runs 0061--0074 with stage S0), seen before register revision 2; model-internal, shared start
+        parameters \fourSrcLab{computed}. \fourData. S1-06 (13.2\,nm, two carriers): timed out, unresolved; S1-07
+        (ATLAS check of the offline profiling): passed, $\le 2.05\times10^{-4}$\,dec.}
       \begin{itemize}\footnotesize
         \item Quasi-2-D $\fourNc$ at 2.0\,nm: within 0.86\,mV of true 2-D statistics at threshold, $I_\mathrm{on}$
           about 7--8\,\% high \lab{inferred}
@@ -373,7 +384,7 @@
     \end{column}
     \begin{column}{0.40\textwidth}
       \centering
-      \begin{tikzpicture}[x=0.32mm,y=1mm,font=\scriptsize]
+      \begin{tikzpicture}[x=0.32mm,y=0.85mm,font=\scriptsize]
         \fill[black!15] (40,0) rectangle (70,4);
         \draw[line width=0.5pt] (0,0) -- (160,0);
         \foreach \x in {0,40,80,120,160} {\draw (\x,0) -- (\x,-1.2); \node[below] at (\x,-1.2) {\x};}
@@ -384,8 +395,8 @@
       \end{tikzpicture}
       \src{Registered expectation (register revision 1) and run S1-05.}
       \begin{itemize}\footnotesize
-        \item Audit A13: no implementation error; of the $+142$\,mV, $+37.5$\,mV from the statistics and
-          $+89.5$\,mV from extra charge in the 40\,meV tail (127\,mV itemised) \lab{computed}
+        \item Audit A13: no implementation error; $+37.5$\,mV from the statistics, $+89.5$\,mV from extra charge in
+          the 40\,meV tail (127 of the 142\,mV itemised) \lab{computed}
         \item The effective slope factor at $10^{-9}$\,\fourAum{} is about 3.5, not the 1.47 assumed in the
           registration \lab{computed}
       \end{itemize}
@@ -402,7 +413,7 @@
       \sealed{Outcomes of stages S2--S7 of campaign C10 (every launch after the register freeze of 10 Oct 2026)}
     \end{minipage}
   \end{center}
-  \vspace{4mm}
+  \vspace{2.5mm}
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.56\textwidth}
       {\scriptsize
@@ -428,7 +439,7 @@
       \begin{itemize}\small
         \item The device physics: four single-device curves, one $\Vd$ and no gate current leave several mechanisms
           indistinguishable
-        \item Confinement: not identifiable from transfer curves\fourC{C018}
+        \item Confinement: not identifiable from transfer curves alone
         \item Success on all three films would still be a calibration
       \end{itemize}
     \end{column}

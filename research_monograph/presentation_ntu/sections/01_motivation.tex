@@ -1,33 +1,30 @@
 % 01_motivation.tex -- Part 1, motivation. Sources: research_monograph/chapters/M01_introduction.tex (scaling, BEOL, In2O3
 % at the thickness limit, research problem, approach), M03_literature_materials.tex (W and amorphous-oxide literature),
 % M10_w_and_vacancies.tex (C023: the paper's crystalline DFT did not test vacancy passivation), M14_audit.tex (published
-% crystalline PBE of In2O3 and W:In2O3), M02_questions.tex and M08_c10_campaign.tex (register, shared model, S0/S1),
-% M04_dft_theory.tex (HSE06 checks), M12_multiscale.tex (transfer table: W treated as fully ionised, no donor density
-% transferred), M15_conclusions.tex (6.3 nm out-of-sample misses), 03_device_data_rev.tex and 11_validation_rev.tex
-% (published mobilities, step-like thresholds, 31.8 nm outside the published series, per-film misses),
-% evidence/FACT_REGISTRY.tsv (FACT-101..104), CLAIM_SOURCE_MAP.tsv (C002, C010, C012-C014, C016, C023, M007).
+% crystalline PBE of In2O3 and W:In2O3), M02_questions.tex and M08_c10_campaign.tex (register, shared model, stages
+% S0-S7, S0/S1 seen before the freeze, donor density fixed at the model V1 value), M04_dft_theory.tex (HSE06 checks),
+% M12_multiscale.tex (transfer table: W treated as fully ionised, no donor density transferred), M15_conclusions.tex
+% (6.3 nm out-of-sample misses), 03_device_data_rev.tex and M07_provenance.tex (published mobilities, pp. 3, 7),
+% 11_validation_rev.tex (per-film misses), evidence/FACT_REGISTRY.tsv (FACT-101..104), CLAIM_SOURCE_MAP.tsv (C002, C010,
+% C012-C014, C016, C023, C029, M007: 2.0-13.2 nm step -0.579 V, 2.0 -> 6.3 nm -0.018 V).
+% Deck rules (AUTHORING_GUIDE section 8): step terminology G4 is defined on the problem slide; at most three footnote
+% lines per slide (G6), so works cited for consecutive statements share one footnote; no \sref inside \src (G3).
 \providecommand{\oneTop}{\vspace{-3mm}}
-% \oneTinyMark: inside a \src line (\tiny text) set the following citation mark at \tiny instead of the theme's
-% \scriptsize; local to the enclosing group, the footnote text itself is unchanged.
-\makeatletter
-\providecommand{\oneTinyMark}{\def\@makefnmark{\hbox{\,{\usebeamercolor[fg]{footnote mark}\tiny[\@thefnmark]}}}}
-\makeatother
 
 \partslide{Part 1}{Motivation: ultrathin oxide channels}
 
 % ---------------------------------------------------------------------------------------------------------------------
-\begin{frame}[t]{Upper transistor tiers must be processed below about 400\,\textdegree C}
+\begin{frame}{Upper transistor tiers must be processed below about 400\,\textdegree C}
   \oneTop
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.60\textwidth}
       \begin{itemize}
-        \item Geometric scaling has slowed since the end of Dennard scaling\sref{Theis2017}.
-        \item Thinned channels lose performance: Si below about 3\,nm, InGaAs below about 10\,nm\sref[p.~164]{Si2022}.
+        \item Geometric scaling has slowed since the end of Dennard scaling, and thinned channels lose performance:
+          Si below about 3\,nm, InGaAs below about 10\,nm\footnote[frame]{\refcite{Theis2017}; \refcite[p.~164]{Si2022}}.
         \item Monolithic 3-D integration stacks back-end-of-line (BEOL) transistor tiers above the Cu interconnect,
           which limits their processing to below about 400\,\textdegree C\sref[p.~1]{Januar2026}.
-        \item This excludes crystalline Si; oxide semiconductors are the leading
-          candidates\srefs{Datta2019,Salahuddin2018}. Their low off-current enables capacitor-less DRAM with
-          retention beyond 400\,s\sref{Belmonte2020}.
+        \item This excludes crystalline Si; oxide semiconductors are the leading candidates. Their low off-current
+          enables capacitor-less DRAM with retention beyond 400\,s\srefs{Datta2019,Belmonte2020}.
       \end{itemize}
     \end{column}
     \begin{column}{0.36\textwidth}
@@ -49,20 +46,21 @@
       \src{Schematic of a monolithic 3-D stack, not to scale.}
     \end{column}
   \end{columns}
+  \takeaway{Oxide semiconductors are the leading channel candidates for the upper tiers.}
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
-\begin{frame}[t]{Indium oxide switches off only as a film a few nanometres thick}
+\begin{frame}{Indium oxide switches off only as a film a few nanometres thick}
   \oneTop
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.46\textwidth}
       {\small\textbf{Why oxide and \InO{} channels}\par}
       \begin{itemize}
-        \item Amorphous oxides were developed for display transistors\srefs{Nomura2004,Kamiya2010,Fortunato2012}; their
-          s-like conduction band survives disorder\sref{Medvedeva2017}.
+        \item Amorphous oxides were developed for display transistors; their s-like conduction band survives
+          disorder\srefs{Nomura2004,Medvedeva2017}.
         \item \InO{} switches off only when very thin: atomic-layer-deposited 0.7\,nm channels work in enhancement mode,
-          with a threshold tuned by thickness and attributed to confinement\sref[p.~500]{Si2021}.
-        \item Nanometre-thick \InO{}: drain currents above 10\,A/mm\sref[p.~21536]{Lin2022}.
+          with a threshold tuned by thickness and attributed to confinement. Nanometre-thick \InO{} carries drain
+          currents above 10\,A/mm\footnote[frame]{\refcite[p.~500]{Si2021}; \refcite[p.~21536]{Lin2022}}.
       \end{itemize}
     \end{column}
     \begin{column}{0.50\textwidth}
@@ -76,36 +74,42 @@
       \end{itemize}
     \end{column}
   \end{columns}
+  \takeaway{Thin \InO{} switches off; confinement, surfaces and few donors then shape the device.}
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
-\begin{frame}[t]{W keeps \InO{} mobile; its role in nanometre-thin films is open}
+\begin{frame}{W keeps \InO{} mobile; its role in nanometre-thin films is open}
   \oneTop
-  {\scriptsize\renewcommand{\arraystretch}{1.08}%
-  % plain tabular (not tabularx): tabularx typesets its body several times and would repeat the footnote citations
+  {\scriptsize\renewcommand{\arraystretch}{1.0}%
+  % plain tabular (not tabularx): tabularx typesets its body several times and would repeat the footnote citations.
+  % Footnote [1] holds the three W:In2O3 film and transistor studies (rows 1-3), [2] Swallow, [3] the device paper.
   \begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.95cm}>{\raggedright\arraybackslash}p{2.45cm}%
       >{\raggedright\arraybackslash}p{\dimexpr\textwidth-5.4cm-4\tabcolsep\relax}@{}}
     \toprule
     Work & System & Finding used here \\\midrule
-    Newhouse et al.\ 2005\sref{Newhouse2005} & W:\InO{} (IWO) films & high Hall mobility at substantial carrier density \\
-    Kizu et al.\ 2014\sref{Kizu2014} & a-In--W--O TFTs & a few \% W: high mobility and stability at low process temperature \\
-    Kim et al.\ 2024\sref{Kim2024} & IWO TFTs & stability depends on channel thickness \\
+    Newhouse et al.\ 2005\srefs{Newhouse2005,Kizu2014,Kim2024} & W:\InO{} (IWO) films & high Hall mobility at
+      substantial carrier density \\
+    Kizu et al.\ 2014\footnotemark[1] & a-In--W--O TFTs & a few \% W: high mobility and stability at low process
+      temperature \\
+    Kim et al.\ 2024\footnotemark[1] & IWO TFTs & stability depends on channel thickness \\
     Swallow et al.\ 2020\sref{Swallow2020} & Mo:\InO{} & Mo 4d states high in the conduction band (resonant doping) \\
-    Januar et al.\ 2026\sref{Januar2026} & IWO, about 2\,\% W & 2.0--13.2\,nm device series; analytic model, eight
-      parameters fitted per device; crystalline PBE cells of \InO{} and W:\InO{} \\
+    Januar et al.\ 2026\sref{Januar2026} & IWO, about 2\,\% W & 2.0--13.2\,nm devices; analytic model fitted per
+      device; crystalline PBE cells of \InO{} and W:\InO{} \\
     \bottomrule
   \end{tabular}\par}
-  \vspace{1mm}
+  \vspace{0.5mm}
   \begin{itemize}
-    \item The device paper\footnotemark[5] (pp.~3, 4, 7) reports that W passivates oxygen vacancies, and relates the fall of the peak
-      mobility from about 27.4 to 5.1\cmVs{} (13.2 to 2.0\,nm) to a roughly fourfold rise of the trap density.
+    \item The device paper\footnotemark[3] (pp.~3, 4, 7) reports that W passivates oxygen vacancies, and relates the
+      fall of the peak mobility from about 27.4 to 5.1\cmVs{} (13.2 to 2.0\,nm) to a roughly fourfold rise of the trap
+      density.
     \item Apart from that paper's crystalline cells, the project's literature search found no peer-reviewed DFT study
       of W in \InO{}; those cells did not test the vacancy-passivation statement.
   \end{itemize}
+  \takeaway{Whether W passivates vacancies in \InO{} is open; Parts~8 and 9 add crystalline tests.}
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
-\begin{frame}[t]{The 0.56\,V threshold step is fitted per device, not explained}
+\begin{frame}{The 2.0--13.2\,nm threshold step ($-0.58$\,V) is fitted, not explained}
   \oneTop
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.32\textwidth}
@@ -116,25 +120,27 @@
         $t$ (nm) & $\Vthcc$ (V) & $\Delta\Vthcc$ (V) \\\midrule
         2.0  & 0.662 &  \\
         6.3  & 0.644 & \num{-0.018} \\
-        13.2 & 0.083 & {\color{ntumaroon}\num{-0.561}} \\
+        13.2 & 0.083 & {\color{ntumaroon}\num{-0.561}} \\\midrule
+        \multicolumn{2}{@{}l}{2.0\,$\to$\,13.2\,nm} & \num{-0.579} \\
         \bottomrule
       \end{tabular}\par}
       \vspace{0.5mm}\lab{derived}
       \src{Constant-current threshold at $\Id = 10^{-9}$\,A/\textmu m, $\Vd = 0.7$\,V (registered extraction);
-        $\Delta$: change from the next thinner film; one device per film. A 31.8\,nm curve, supplied with the data but
-        not part of the published 2.0--13.2\,nm series, never falls below $10^{-9}$\,A/\textmu m.
-        Data: Prof.\ M.-H.\ Lee's group, NTU\oneTinyMark\sref{Januar2026}.}
+        $\Delta$: change from the next thinner film; last row: the 2.0--13.2\,nm step. One device per film. A 31.8\,nm
+        curve, supplied with the data but not part of the published 2.0--13.2\,nm series, never falls below
+        $10^{-9}$\,A/\textmu m. Data: Prof.\ M.-H.\ Lee's group, NTU (device paper, footnote~1).}
     \end{column}
     \begin{column}{0.66\textwidth}
       \begin{itemize}
-        \item The constant-current threshold is 0.58\,V higher at 2.0 than at 13.2\,nm; 0.56\,V of it lies between
-          13.2 and 6.3\,nm \lab{derived}.
-        \item The paper fits eight parameters per device. This project's per-film models match each threshold and
-          on-current by construction \lab{fitted}, yet miss the 6.3\,nm on-state shape and the 13.2\,nm swing
-          \lab{computed}.
-        \item All three out-of-sample predictions of the 6.3\,nm threshold failed ($-0.29$, $-0.37$, $-0.23$\,V)
-          \lab{falsified}.
-        \item A shared model needs material inputs instead, chiefly $\dEc(t)$ (affinity, hence $\Vth$), $m^{*}(t)$
+        \item \textbf{The 2.0--13.2\,nm step} is $\Delta\Vthcc = -0.58$\,V. Of it, $-0.56$\,V lies between 6.3 and
+          13.2\,nm (\textbf{the 6.3--13.2\,nm drop}); from 2.0 to 6.3\,nm the threshold changes by only $-0.018$\,V
+          \lab{derived}.
+        \item The device paper\sref{Januar2026} fits eight parameters per device. This project's per-film models match
+          each threshold and on-current by construction \lab{fitted}, yet miss the 6.3\,nm on-state shape and the
+          13.2\,nm swing \lab{computed}.
+        \item All three out-of-sample predictions of the 6.3\,nm threshold failed, missing by $-0.29$, $-0.37$ and
+          $-0.23$\,V \lab{falsified}.
+        \item A shared model needs material inputs instead: chiefly $\dEc(t)$ (affinity, hence $\Vth$), $m^{*}(t)$
           (density of states, band mobility) and whether W is ionised (its share of the carriers).
       \end{itemize}
     \end{column}
@@ -143,36 +149,37 @@
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
-\begin{frame}[t]{This work: computed inputs, a shared model, registered tests}
+\begin{frame}{This work: computed inputs, a shared model, registered tests}
   \oneTop
-  \centering
+  {\centering
   \begin{tikzpicture}[x=1mm,y=1mm,font=\scriptsize,line width=0.5pt,
       box/.style={draw,align=center,inner sep=1.2mm,minimum height=8mm},
       arr/.style={-{Stealth[length=2mm]},line width=0.6pt}]
-    \node[box,text width=44mm] (meas) at (23.2,26) {\textbf{Measured transfer curves}\\4 films, 2.0--31.8\,nm};
-    \node[box,text width=40mm] (extr) at (75,26) {\textbf{Registered extraction}\\$\Vthcc$, swing, mobility, floor};
-    \node[box,text width=33mm] (cmp) at (122,26) {\textbf{Comparison}\\against registered criteria};
-    \node[box,text width=44mm,align=left] (dft) at (23.2,5) {\textbf{First principles} (PBE; HSE06 checks)\\
+    \node[box,text width=44mm] (meas) at (23.2,20) {\textbf{Measured transfer curves}\\4 films, 2.0--31.8\,nm};
+    \node[box,text width=40mm] (extr) at (75,20) {\textbf{Registered extraction}\\$\Vthcc$, swing, mobility, floor};
+    \node[box,text width=33mm] (cmp) at (122,20) {\textbf{Comparison}\\against registered criteria};
+    \node[box,text width=44mm,align=left] (dft) at (23.2,4) {\textbf{First principles} (PBE; HSE06 checks)\\
       crystalline films 0.46--1.96\,nm\\ W and O vacancies in crystalline cells\\
       amorphous films 0.7--2.0\,nm (sealed)};
-    \node[box,text width=40mm] (inp) at (75,5) {\textbf{Device inputs}\\$\dEc(t)$, $\dEg(t)$, $\Delta m^{*}(t)$:
-      laws fitted to computed points;\\W taken as fully ionised \lab{inferred};\\donor density not computed};
-    \node[box,text width=33mm] (tcad) at (122,5) {\textbf{Shared-parameter model}\\drift--diffusion; one set for
-      2.0, 6.3, 13.2\,nm};
+    \node[box,text width=40mm] (inp) at (75,4) {\textbf{Device inputs}\\$\dEc(t)$, $\dEg(t)$, $\Delta m^{*}(t)$:
+      laws fitted to computed points;\\W taken as fully ionised \lab{inferred}};
+    \node[box,text width=33mm] (tcad) at (122,4) {\textbf{Shared-parameter model}\\campaign C10, drift--diffusion;\\
+      one set for 2.0, 6.3, 13.2\,nm};
     \draw[arr] (meas) -- (extr);
     \draw[arr] (extr) -- (cmp);
     \draw[arr] (dft) -- (inp);
     \draw[arr,ntumaroon] (inp) -- (tcad);
     \draw[arr] (tcad) -- (cmp);
-  \end{tikzpicture}
+  \end{tikzpicture}\par}
   \src{Project workflow. Maroon arrow: quantities transferred from first principles to the device model.}
+  {\footnotesize\textbf{Legend.} Device campaign C10 runs in stages S0 to S7 (Part~4); results from stage S2 on are
+    sealed.\par}
   \begin{itemize}\footnotesize
     \item Five fitted parameters are shared by the 2.0, 6.3 and 13.2\,nm films (a sixth only in the percolation-mobility
-      branch); no film-specific charge or mobility. The donor density is fixed from an earlier fit; deep and interface
-      traps are assumed.
-    \item Tests were registered before their outcomes where possible: register revision 2 was frozen on 10 October 2026,
-      after stages S0 and S1 had been seen; later amendments are logged. No holdout device exists, so all device
-      comparisons are retrospective.
-    \item Amorphous electronic results and device-simulation stages from S2 on are sealed.
+      branch); no film-specific charge or mobility.
+    \item Tests were registered before their outcomes where possible (Part~3): register revision~2 was frozen on
+      10 October 2026, after stages S0 and S1 had been seen. No holdout device exists, so all comparisons are
+      retrospective.
   \end{itemize}
+  \takeaway{First principles supplies the confinement laws, not the donor density or traps.}
 \end{frame}

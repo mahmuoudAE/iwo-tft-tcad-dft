@@ -7,7 +7,10 @@ Reads only repository data:
 Paper values drawn as reference lines are quoted in the ledger (C025/C032: Fig. 1b SS 61.8/87.4/119.3 mV/dec,
 digitised; C030: mu_max 5.1/3.73/27.4 cm2/Vs).
 
-Writes presentation_ntu/figures/02_transfer.pdf, 02_local_ss.pdf, 02_mobility.pdf.
+  results/runs/run_0038_*, run_0039_*, run_0040_*     model V1 simulated transfer curves (ATLAS), as used in
+                                                      analysis_2026-10-06_extraction/paper_figures.py panel (c) (C007)
+
+Writes presentation_ntu/figures/02_transfer.pdf, 02_local_ss.pdf, 02_mobility.pdf, 02_ss_collapse.pdf.
 Run from anywhere:  python3 -I research_monograph/presentation_ntu/tools/fig_02_device.py
 """
 import csv
