@@ -124,17 +124,19 @@
     \bottomrule
   \end{tabularx}\par}
   \vspace{2mm}
-  \begin{tikzpicture}[x=1mm,y=1mm,font=\scriptsize]
-    \draw[line width=0.5pt] (1,0) -- (1,-11.6);
-    \fill[ntumaroon] (1,0) circle (0.9);
-    \fill (1,-5.8) circle (0.7);
-    \fill (1,-11.6) circle (0.7);
-    \node[anchor=west,text width=134mm,align=left] at (3,0) {6 Oct 2026, decision D-05: protocol committed
+  % timeline: nodes anchored at the baseline of their first line; each dot sits on that first line
+  \begin{tikzpicture}[x=1mm,y=1mm,font=\scriptsize,
+      tl/.style={anchor=base west,text width=134mm,align=left,inner sep=0pt}]
+    \draw[line width=0.5pt] (1,0.75) -- (1,-12.45);
+    \fill[ntumaroon] (1,0.75) circle (0.9);
+    \fill (1,-4.45) circle (0.7);
+    \fill (1,-12.45) circle (0.7);
+    \node[tl] at (3.6,0) {6 Oct 2026, decision D-05: protocol committed
       (\texttt{7a61687}), before any data-versus-simulation number of this analysis.};
-    \node[anchor=west,text width=134mm,align=left] at (3,-5.8) {After the first results, including the S1
+    \node[tl] at (3.6,-5.2) {After the first results, including the S1
       data--simulation comparison: amendment A1 (\texttt{7ce7116}), as the films' current scales differ.
       Written after its measured values (disclosed), before any simulated value under it.};
-    \node[anchor=west,text width=134mm,align=left] at (3,-11.6) {Later (monograph): independent re-implementation
+    \node[tl] at (3.6,-13.2) {Later (monograph): independent re-implementation
       reproduces thresholds, floors, end-point currents within rounding.};
   \end{tikzpicture}
   \takeaway{Definitions preceded the data--simulation comparison, and A1 preceded any simulated value under it.
@@ -145,7 +147,7 @@
 \begin{frame}[t]{Threshold is flat to 6.3\,nm, then drops by 0.56\,V}
   \twoTop
   {\centering\footnotesize
-  \renewcommand{\arraystretch}{1.05}
+  \renewcommand{\arraystretch}{1.0}
   \begin{tabular}{@{}lccccl@{}}
     \toprule
     & 2.0\,nm & 6.3\,nm & 13.2\,nm & 31.8\,nm & \\
@@ -160,6 +162,7 @@
   \end{tabular}\par}
   \src{$^{\dagger}$ First points of the 2.0\,nm sweep lie below its floor: not a channel on/off ratio.
     \twoDataShort\sref{Januar2026}; ledger C002, C003, C029; recomputed independently (FACT-101 to 104).}
+  \vspace{-1mm}
   \begin{itemize}\footnotesize
     \item Non-uniform: 2.0\,$\to$\,6.3\,nm changes $\Vthcc$ by $-0.018$\,V and $\Id(+3\,\mathrm{V})$ by $\times0.79$;
       6.3\,$\to$\,13.2\,nm by $-0.561$\,V and $\times7.6$ \lab{observed}\twoC{C026}

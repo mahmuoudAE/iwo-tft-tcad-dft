@@ -106,12 +106,12 @@
       \begin{itemize}
         \item Crystalline W cells (1.4--3.0$\times10^{21}$\cmcu, 1500--3300 times $n_c$) have no bound hydrogenic
           state \lab{derived}.
-        \item $t = 2$\,nm $\approx 0.75\,a_B^*$: confinement roughly doubles $E_D$. \AlO{}/air ($\bar\varepsilon = 5$):
+        \item Confinement roughly doubles $E_D$ at $t = 2$\,nm ($0.75\,a_B^*$). \AlO{}/air ($\bar\varepsilon = 5$):
           up to 0.45\,eV; \HfO{}/air ($\bar\varepsilon = 10.3$): 0.11\,eV \lab{theory}.
         \item The 2\,nm \AlO{} layer is about as thick as $r_0 \approx 2.1$\,nm and $a_{\mathrm{2D}} \approx 1.3$\,nm:
           the device lies between the two cases, closer to \HfO{}/air at large distances (V6) \lab{theory}.
         \item Above the LO-phonon energy, static $\varepsilon_s$ and parabolic $m^*$ understate the binding.
-          Dielectric deactivation: predicted and observed in Si nanowires\srefs{Diarra2007,Bjork2009}.
+          Deactivation was predicted and observed in Si nanowires\srefs{Diarra2007,Bjork2009}.
       \end{itemize}
     \end{column}
   \end{columns}
@@ -122,7 +122,7 @@
 \begin{frame}{Cold smearing trades an $O(\sigma^3)$ error for weights above one}
   \sixteenTop\sixteendense\sixteenEq
   \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.48\textwidth}
+    \begin{column}{0.5\textwidth}
       \footnotesize
       Weights $f = \tilde f(x)$, $x = (\varepsilon-\mu)/\sigma$; $F = E - \sigma S$ is variational, so forces
       are derivatives of $F$\sref{Mermin1965}. Marzari--Vanderbilt (MV)\sref{Marzari1999}, as in Quantum ESPRESSO:
@@ -146,12 +146,12 @@
         \bottomrule
       \end{tabular}\par\endgroup
     \end{column}
-    \begin{column}{0.49\textwidth}
+    \begin{column}{0.47\textwidth}
       \begin{itemize}
         \item MV weight 0.40 at $x = 0$, never negative; above one below $\mu$, maximum 1.083 at $x = -\sqrt2$
           \lab{derived}. Printed 8b W-cell occupations reach 1.074 (V12) \lab{computed}.
         \item Widths: MV 0.01\,Ry = 136\,meV (crystalline W cells, amorphous W relaxations); Gaussian
-          0.005--0.001\,Ry (68--13.6\,meV); $\kT = 25.85$\,meV.
+          0.005--0.001\,Ry; $\kT = 25.85$\,meV.
         \item W-5d counts (0.09--0.43\,e) are projections of MV-weighted states, not a W charge (X11)
           \lab{computed}.
         \item MV to Gaussian 0.005\,Ry at one relaxed amorphous 1.0\,nm W cell (force-only screen): no force
@@ -168,7 +168,7 @@
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.44\textwidth}
       \centering
-      \begin{tikzpicture}[x=0.95mm,y=0.7mm,font=\scriptsize,>={Stealth[length=1.5mm]}]
+      \begin{tikzpicture}[x=0.93mm,y=0.7mm,font=\scriptsize,>={Stealth[length=1.5mm]}]
         % bulk cell
         \draw[line width=0.5pt,dashed] (0,8) -- (14,8);
         \draw[line width=0.7pt] (0,26) -- (14,26);
@@ -229,7 +229,7 @@
 \begin{frame}{Device decks add PBE increments to literature bulk anchors}
   \sixteenTop\sixteendense
   \begingroup\scriptsize
-  \setlength{\tabcolsep}{5pt}
+  \setlength{\tabcolsep}{4pt}
   \renewcommand{\arraystretch}{1.0}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l l c c c l@{}}
     \toprule
@@ -304,7 +304,7 @@
 \end{frame}
 
 % ---------------------------------------------------------------------------------------------------------------------
-\begin{frame}{Corrections X1--X13 and V1--V12 in force; old wording on record}
+\begin{frame}{Corrections X1--X13, V1--V12 in force; old wording on record}
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.495\textwidth}
       \begingroup\scriptsize
