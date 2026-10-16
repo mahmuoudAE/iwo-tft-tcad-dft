@@ -1,0 +1,1086 @@
+{
+ "record": "S6 / S7 execution entries (register A58): resolved at the S4c frozen model; sealed; committed before the first S6 launch",
+ "generator_sha256": "2d01d9e4ca6935855078a27033df56096621ba9fc2faa4e6782e2fedac3d21e4",
+ "pins": {
+  "analysis_2026-10-10_campaign/campaign_matrix.json": "f06e8d7721f75aec3f78da06de1c1686c59307c33725bd8822c3ec3e0f0a443c",
+  "analysis_2026-10-10_campaign/profile/s4c_record_A52.json": "821867bcd6751da22dfc1be3501f119338ed50ed85119b745c8709370284255a",
+  "analysis_2026-10-10_campaign/profile/s4c_confirm_A52.json": "91d0f3cb18307d313b994220de57a4bd46d07410c29912807f1354aa09140b3f",
+  "analysis_2026-10-10_campaign/profile_shared.py": "958c3605a316393184f022a80c421505e8b9f99a1d214423ec79b83286209d17",
+  "config/campaign_C10_S4c.json": "0809527954bc97be56667c8a151837ae4f61c474a9307599962f55eb049dc0e4",
+  "config/campaign_C10_S6_sensitivity.template.json": "02f2096ad1106479916cf502681b40340a5341da1303a80dfe33091c6542abcb",
+  "config/campaign_C10_S7_31p8.template.json": "e1e33f221ab7db7757ab73319acaa757d78bd34997bdcabfaf580e3937af6ef1",
+  "config/iwo_material_model_v3.yaml": "51b184e8728c4e4ce5ed4110c56d4b1083b5d12f1d4d6b45aef52816ba63961c",
+  "config/solver.yaml": "d5a9101219d1238923da096766443fd021751fad1a9f55770b3851301481d583",
+  "scripts/build_iwo_decks.py": "734125a8915e2a7790b2794db0c7bf429c477a83238b638a200af2b5fbeeca3c",
+  "scripts/run_atlas.py": "b7927ac5b9747d5531ac827d220da6004e4a144d672ae16ab9bca2a28f46e6ae",
+  "scripts/run_campaign.py": "fb6e802f8c1cb71b56e153ed99504cc8e7e83d4c8eb7af8f13dc421d0fd125ac"
+ },
+ "s4c_record_seal": "d49ab722714eb294d46fc9458e2b781e353487e7853f9e6359873b4bfecac1fd",
+ "frozen_model": {
+  "candidate": "S4A-04",
+  "Qf_cm2": 1611685896152.6836,
+  "mu_inf_cm2Vs": 248.36040866387245,
+  "ell_nm": 49.99999999983471,
+  "base_overrides": {
+   "2.0": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=7.81346",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0",
+    "solver.physics_options.nc300_override_cm3[2.0]=1.373e+19"
+   ],
+   "6.3": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[6.3]=26.4131",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0"
+   ],
+   "13.2": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[13.2]=50.831",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0"
+   ]
+  },
+  "qualification": [
+   "profiled value at a range bound: ell"
+  ]
+ },
+ "batches": [
+  [
+   "campaign_C10_S6_b1",
+   [
+    "S6-01",
+    "S6-02",
+    "S6-03"
+   ]
+  ],
+  [
+   "campaign_C10_S6_b2",
+   [
+    "S6-04",
+    "S6-05",
+    "S6-06"
+   ]
+  ],
+  [
+   "campaign_C10_S6_b3",
+   [
+    "S6-13",
+    "S6-15",
+    "S6-23"
+   ]
+  ],
+  [
+   "campaign_C10_S6_b4",
+   [
+    "S6-24",
+    "S6-25",
+    "S6-26"
+   ]
+  ],
+  [
+   "campaign_C10_S6_b5",
+   [
+    "S6-07",
+    "S6-09",
+    "S6-08"
+   ]
+  ],
+  [
+   "campaign_C10_S6_b6",
+   [
+    "S6-10",
+    "S6-12",
+    "S6-22"
+   ]
+  ],
+  [
+   "campaign_C10_S6_b7",
+   [
+    "S6-20",
+    "S6-21",
+    "S6-14"
+   ]
+  ],
+  [
+   "campaign_C10_S6_b8",
+   [
+    "S6-11"
+   ]
+  ],
+  [
+   "campaign_C10_S7",
+   [
+    "S7-01",
+    "S7-02"
+   ]
+  ]
+ ],
+ "kept_out": [
+  "S6-16",
+  "S6-17",
+  "S6-18",
+  "S6-19",
+  "S6-27"
+ ],
+ "core": [
+  "S6-01",
+  "S6-02",
+  "S6-03",
+  "S6-04",
+  "S6-05",
+  "S6-06",
+  "S6-13",
+  "S6-15",
+  "S6-23",
+  "S6-24",
+  "S6-25",
+  "S6-26"
+ ],
+ "entries": {
+  "S6-01": {
+   "depends_on": [
+    "S4c"
+   ],
+   "id": "S6-01",
+   "label": "c10_s6_01_2p0",
+   "matrix_status": "planned_after_calibration",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=7.81346",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0",
+    "solver.physics_options.nc300_override_cm3[2.0]=1.373e+19",
+    "thickness_laws.dEc_eV.points[2.0]=0.2344"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s6s7_record_A58.json (register A58): S6 confinement low: dEc point (box MODEL) appended",
+   "purpose": "Confinement low end at 2.0 nm: dEc from the subband box MODEL (also below Codex (2/t)^2 at 2 nm). Register A58: frozen model = S4c-confirmed S4A-04 (Q_f 1.61169e12 cm^-2, mu_inf 248.36 cm2/Vs, ell 50 nm).",
+   "thickness": 2.0,
+   "timeout": 1600
+  },
+  "S6-02": {
+   "depends_on": [
+    "S4c"
+   ],
+   "id": "S6-02",
+   "label": "c10_s6_02_6p3",
+   "matrix_status": "planned_after_calibration",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[6.3]=26.4131",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0",
+    "thickness_laws.dEc_eV.points[6.3]=0.0456"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s6s7_record_A58.json (register A58): S6 confinement low: dEc point (box MODEL) appended",
+   "purpose": "Confinement low end at 6.3 nm: dEc from the subband box MODEL (also below Codex (2/t)^2 at 2 nm). Register A58: frozen model = S4c-confirmed S4A-04 (Q_f 1.61169e12 cm^-2, mu_inf 248.36 cm2/Vs, ell 50 nm).",
+   "thickness": 6.3,
+   "timeout": 2000
+  },
+  "S6-03": {
+   "depends_on": [
+    "S4c"
+   ],
+   "id": "S6-03",
+   "label": "c10_s6_03_13p2",
+   "matrix_status": "planned_after_calibration",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[13.2]=50.831",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0",
+    "thickness_laws.dEc_eV.points[13.2]=0.0127"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s6s7_record_A58.json (register A58): S6 confinement low: dEc point (box MODEL) appended",
+   "purpose": "Confinement low end at 13.2 nm: dEc from the subband box MODEL (also below Codex (2/t)^2 at 2 nm). Register A58: frozen model = S4c-confirmed S4A-04 (Q_f 1.61169e12 cm^-2, mu_inf 248.36 cm2/Vs, ell 50 nm).",
+   "thickness": 13.2,
+   "timeout": 3100
+  },
+  "S6-04": {
+   "depends_on": [
+    "S4c"
+   ],
+   "id": "S6-04",
+   "label": "c10_s6_04_2p0",
+   "matrix_status": "planned_after_calibration",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.77660",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.90152",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=7.81346",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0",
+    "solver.physics_options.nc300_override_cm3[2.0]=1.373e+19"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s6s7_record_A58.json (register A58): S6 confinement high: dEc / dEg law amplitudes x1.107 (template values)",
+   "purpose": "Confinement high end at 2.0 nm: dEc and dEg x1.107 (HSE06 worst-case ratio at 1 nm). Register A58: frozen model = S4c-confirmed S4A-04 (Q_f 1.61169e12 cm^-2, mu_inf 248.36 cm2/Vs, ell 50 nm).",
+   "thickness": 2.0,
+   "timeout": 1600
+  },
+  "S6-05": {
+   "depends_on": [
+    "S4c"
+   ],
+   "id": "S6-05",
+   "label": "c10_s6_05_6p3",
+   "matrix_status": "planned_after_calibration",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.77660",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.90152",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[6.3]=26.4131",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s6s7_record_A58.json (register A58): S6 confinement high: dEc / dEg law amplitudes x1.107 (template values)",
+   "purpose": "Confinement high end at 6.3 nm: dEc and dEg x1.107 (HSE06 worst-case ratio at 1 nm). Register A58: frozen model = S4c-confirmed S4A-04 (Q_f 1.61169e12 cm^-2, mu_inf 248.36 cm2/Vs, ell 50 nm).",
+   "thickness": 6.3,
+   "timeout": 2000
+  },
+  "S6-06": {
+   "depends_on": [
+    "S4c"
+   ],
+   "id": "S6-06",
+   "label": "c10_s6_06_13p2",
+   "matrix_status": "planned_after_calibration",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.77660",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.90152",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[13.2]=50.831",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s6s7_record_A58.json (register A58): S6 confinement high: dEc / dEg law amplitudes x1.107 (template values)",
+   "purpose": "Confinement high end at 13.2 nm: dEc and dEg x1.107 (HSE06 worst-case ratio at 1 nm). Register A58: frozen model = S4c-confirmed S4A-04 (Q_f 1.61169e12 cm^-2, mu_inf 248.36 cm2/Vs, ell 50 nm).",
+   "thickness": 13.2,
+   "timeout": 3100
+  },
+  "S6-13": {
+   "depends_on": [
+    "S4c"
+   ],
+   "id": "S6-13",
+   "label": "c10_s6_13_2p0",
+   "matrix_status": "planned_after_calibration",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+18",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=7.81346",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0",
+    "solver.physics_options.nc300_override_cm3[2.0]=1.373e+19"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s6s7_record_A58.json (register A58): S6 N_D: Nd0 replaced",
+   "purpose": "Donor density x10 at 2.0 nm (W is a fully ionised donor in DFT but the active fraction is unknown). Register A58: frozen model = S4c-confirmed S4A-04 (Q_f 1.61169e12 cm^-2, mu_inf 248.36 cm2/Vs, ell 50 nm).",
+   "thickness": 2.0,
+   "timeout": 1600
+  },
+  "S6-15": {
+   "depends_on": [
+    "S4c"
+   ],
+   "id": "S6-15",
+   "label": "c10_s6_15_13p2",
+   "matrix_status": "planned_after_calibration",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+18",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[13.2]=50.831",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s6s7_record_A58.json (register A58): S6 N_D: Nd0 replaced",
+   "purpose": "Donor density x10 at 13.2 nm (W is a fully ionised donor in DFT but the active fraction is unknown). Register A58: frozen model = S4c-confirmed S4A-04 (Q_f 1.61169e12 cm^-2, mu_inf 248.36 cm2/Vs, ell 50 nm).",
+   "thickness": 13.2,
+   "timeout": 3100
+  },
+  "S6-23": {
+   "depends_on": [
+    "S4c"
+   ],
+   "id": "S6-23",
+   "label": "c10_s6_23_6p3",
+   "matrix_status": "planned_after_calibration",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[6.3]=26.4131",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0",
+    "solver.physics_options.nc300_override_cm3[6.3]=3.769e+18"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s6s7_record_A58.json (register A58): S6 NC 6.3 nm box MODEL x1.467",
+   "purpose": "Quasi-2D crossover at 6.3 nm: NC300 x1.467 from the box MODEL (-10 meV equivalent). Register A58: frozen model = S4c-confirmed S4A-04 (Q_f 1.61169e12 cm^-2, mu_inf 248.36 cm2/Vs, ell 50 nm).",
+   "thickness": 6.3,
+   "timeout": 2000
+  },
+  "S6-24": {
+   "depends_on": [
+    "S4c"
+   ],
+   "id": "S6-24",
+   "label": "c10_s6_24_2p0",
+   "matrix_status": "planned_after_calibration",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=7.81346",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0",
+    "solver.physics_options.nc300_override_cm3[2.0]=1.373e+19",
+    "solver.physics_options.strip.L_p_um=20"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s6s7_record_A58.json (register A58): S6 frozen ungated strip deck (L_p 20 um)",
+   "purpose": "Frozen ungated-strip deck at 2.0 nm with the calibrated shared parameters: G_strip(t), I(0.7)/I(0.1). (W/L)_par FITTED on one film, LOO over films offline (no launch). Register A58: frozen model = S4c-confirmed S4A-04 (Q_f 1.61169e12 cm^-2, mu_inf 248.36 cm2/Vs, ell 50 nm).",
+   "thickness": 2.0,
+   "timeout": 900,
+   "mode": "strip"
+  },
+  "S6-25": {
+   "depends_on": [
+    "S4c"
+   ],
+   "id": "S6-25",
+   "label": "c10_s6_25_6p3",
+   "matrix_status": "planned_after_calibration",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[6.3]=26.4131",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0",
+    "solver.physics_options.strip.L_p_um=20"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s6s7_record_A58.json (register A58): S6 frozen ungated strip deck (L_p 20 um)",
+   "purpose": "Frozen ungated-strip deck at 6.3 nm with the calibrated shared parameters: G_strip(t), I(0.7)/I(0.1). (W/L)_par FITTED on one film, LOO over films offline (no launch). Register A58: frozen model = S4c-confirmed S4A-04 (Q_f 1.61169e12 cm^-2, mu_inf 248.36 cm2/Vs, ell 50 nm).",
+   "thickness": 6.3,
+   "timeout": 900,
+   "mode": "strip"
+  },
+  "S6-26": {
+   "depends_on": [
+    "S4c"
+   ],
+   "id": "S6-26",
+   "label": "c10_s6_26_13p2",
+   "matrix_status": "planned_after_calibration",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[13.2]=50.831",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0",
+    "solver.physics_options.strip.L_p_um=20"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s6s7_record_A58.json (register A58): S6 frozen ungated strip deck (L_p 20 um)",
+   "purpose": "Frozen ungated-strip deck at 13.2 nm with the calibrated shared parameters: G_strip(t), I(0.7)/I(0.1). (W/L)_par FITTED on one film, LOO over films offline (no launch). Register A58: frozen model = S4c-confirmed S4A-04 (Q_f 1.61169e12 cm^-2, mu_inf 248.36 cm2/Vs, ell 50 nm).",
+   "thickness": 13.2,
+   "timeout": 900,
+   "mode": "strip"
+  },
+  "S6-07": {
+   "depends_on": [
+    "S4c"
+   ],
+   "id": "S6-07",
+   "label": "c10_s6_07_2p0",
+   "matrix_status": "planned_after_calibration",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=7.39841",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0",
+    "solver.physics_options.nc300_override_cm3[2.0]=1.108e+19",
+    "bulk_reference.mstar_bulk_m0.value=0.159"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s6s7_record_A58.json (register A58): S6 bulk mass 0.159: m_bulk replaced; mu_band (law with m_ref = m_bulk) and the 2.0 nm quasi-2D NC300 recomputed",
+   "purpose": "Bulk-mass choice at 2.0 nm: m* = 0.159 (PBE) + dm(t) (Codex convention) instead of 0.208 + dm(t); NC300 and the mobility mass factor follow. Register A58: frozen model = S4c-confirmed S4A-04 (Q_f 1.61169e12 cm^-2, mu_inf 248.36 cm2/Vs, ell 50 nm).",
+   "thickness": 2.0,
+   "timeout": 1600
+  },
+  "S6-09": {
+   "depends_on": [
+    "S4c"
+   ],
+   "id": "S6-09",
+   "label": "c10_s6_09_13p2",
+   "matrix_status": "planned_after_calibration",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[13.2]=50.5184",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0",
+    "bulk_reference.mstar_bulk_m0.value=0.159"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s6s7_record_A58.json (register A58): S6 bulk mass 0.159: m_bulk replaced; mu_band (law with m_ref = m_bulk) and the 2.0 nm quasi-2D NC300 recomputed",
+   "purpose": "Bulk-mass choice at 13.2 nm: m* = 0.159 (PBE) + dm(t) (Codex convention) instead of 0.208 + dm(t); NC300 and the mobility mass factor follow. Register A58: frozen model = S4c-confirmed S4A-04 (Q_f 1.61169e12 cm^-2, mu_inf 248.36 cm2/Vs, ell 50 nm).",
+   "thickness": 13.2,
+   "timeout": 3100
+  },
+  "S6-08": {
+   "depends_on": [
+    "S4c"
+   ],
+   "id": "S6-08",
+   "label": "c10_s6_08_6p3",
+   "matrix_status": "planned_after_calibration",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[6.3]=26.0154",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0",
+    "bulk_reference.mstar_bulk_m0.value=0.159"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s6s7_record_A58.json (register A58): S6 bulk mass 0.159: m_bulk replaced; mu_band (law with m_ref = m_bulk) and the 2.0 nm quasi-2D NC300 recomputed",
+   "purpose": "Bulk-mass choice at 6.3 nm: m* = 0.159 (PBE) + dm(t) (Codex convention) instead of 0.208 + dm(t); NC300 and the mobility mass factor follow. Register A58: frozen model = S4c-confirmed S4A-04 (Q_f 1.61169e12 cm^-2, mu_inf 248.36 cm2/Vs, ell 50 nm).",
+   "thickness": 6.3,
+   "timeout": 2000
+  },
+  "S6-10": {
+   "depends_on": [
+    "S4c"
+   ],
+   "id": "S6-10",
+   "label": "c10_s6_10_2p0",
+   "matrix_status": "planned_after_calibration",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+16",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=7.81346",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0",
+    "solver.physics_options.nc300_override_cm3[2.0]=1.373e+19"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s6s7_record_A58.json (register A58): S6 N_D: Nd0 replaced",
+   "purpose": "Donor density x0.1 at 2.0 nm (W is a fully ionised donor in DFT but the active fraction is unknown). Register A58: frozen model = S4c-confirmed S4A-04 (Q_f 1.61169e12 cm^-2, mu_inf 248.36 cm2/Vs, ell 50 nm).",
+   "thickness": 2.0,
+   "timeout": 1600
+  },
+  "S6-12": {
+   "depends_on": [
+    "S4c"
+   ],
+   "id": "S6-12",
+   "label": "c10_s6_12_13p2",
+   "matrix_status": "planned_after_calibration",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+16",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[13.2]=50.831",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s6s7_record_A58.json (register A58): S6 N_D: Nd0 replaced",
+   "purpose": "Donor density x0.1 at 13.2 nm (W is a fully ionised donor in DFT but the active fraction is unknown). Register A58: frozen model = S4c-confirmed S4A-04 (Q_f 1.61169e12 cm^-2, mu_inf 248.36 cm2/Vs, ell 50 nm).",
+   "thickness": 13.2,
+   "timeout": 3100
+  },
+  "S6-22": {
+   "depends_on": [
+    "S4c"
+   ],
+   "id": "S6-22",
+   "label": "c10_s6_22_13p2",
+   "matrix_status": "planned_after_calibration",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[13.2]=50.831",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0",
+    "traps.bulk_deep_acceptor_gaussian.NGA_cm3_eV=0",
+    "traps.interface_acceptor_sheet.peak_cm2_eV=0"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s6s7_record_A58.json (register A58): S6 trap set removed: deep Gaussian and interface acceptor sheet zero",
+   "purpose": "Deep Gaussian and interface acceptor sheet removed at 13.2 nm (Codex primary model has them at zero). Register A58: frozen model = S4c-confirmed S4A-04 (Q_f 1.61169e12 cm^-2, mu_inf 248.36 cm2/Vs, ell 50 nm).",
+   "thickness": 13.2,
+   "timeout": 3100
+  },
+  "S6-20": {
+   "depends_on": [
+    "S4c"
+   ],
+   "id": "S6-20",
+   "label": "c10_s6_20_2p0",
+   "matrix_status": "planned_after_calibration",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[2.0]=7.81346",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0",
+    "solver.physics_options.nc300_override_cm3[2.0]=1.373e+19",
+    "traps.bulk_deep_acceptor_gaussian.NGA_cm3_eV=0",
+    "traps.interface_acceptor_sheet.peak_cm2_eV=0"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s6s7_record_A58.json (register A58): S6 trap set removed: deep Gaussian and interface acceptor sheet zero",
+   "purpose": "Deep Gaussian and interface acceptor sheet removed at 2.0 nm (Codex primary model has them at zero). Register A58: frozen model = S4c-confirmed S4A-04 (Q_f 1.61169e12 cm^-2, mu_inf 248.36 cm2/Vs, ell 50 nm).",
+   "thickness": 2.0,
+   "timeout": 1600
+  },
+  "S6-21": {
+   "depends_on": [
+    "S4c"
+   ],
+   "id": "S6-21",
+   "label": "c10_s6_21_6p3",
+   "matrix_status": "planned_after_calibration",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[6.3]=26.4131",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0",
+    "traps.bulk_deep_acceptor_gaussian.NGA_cm3_eV=0",
+    "traps.interface_acceptor_sheet.peak_cm2_eV=0"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s6s7_record_A58.json (register A58): S6 trap set removed: deep Gaussian and interface acceptor sheet zero",
+   "purpose": "Deep Gaussian and interface acceptor sheet removed at 6.3 nm (Codex primary model has them at zero). Register A58: frozen model = S4c-confirmed S4A-04 (Q_f 1.61169e12 cm^-2, mu_inf 248.36 cm2/Vs, ell 50 nm).",
+   "thickness": 6.3,
+   "timeout": 2000
+  },
+  "S6-14": {
+   "depends_on": [
+    "S4c"
+   ],
+   "id": "S6-14",
+   "label": "c10_s6_14_6p3",
+   "matrix_status": "planned_after_calibration",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+18",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[6.3]=26.4131",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s6s7_record_A58.json (register A58): S6 N_D: Nd0 replaced",
+   "purpose": "Donor density x10 at 6.3 nm (W is a fully ionised donor in DFT but the active fraction is unknown). Register A58: frozen model = S4c-confirmed S4A-04 (Q_f 1.61169e12 cm^-2, mu_inf 248.36 cm2/Vs, ell 50 nm).",
+   "thickness": 6.3,
+   "timeout": 2000
+  },
+  "S6-11": {
+   "depends_on": [
+    "S4c"
+   ],
+   "id": "S6-11",
+   "label": "c10_s6_11_6p3",
+   "matrix_status": "planned_after_calibration",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+16",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[6.3]=26.4131",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s6s7_record_A58.json (register A58): S6 N_D: Nd0 replaced",
+   "purpose": "Donor density x0.1 at 6.3 nm (W is a fully ionised donor in DFT but the active fraction is unknown). Register A58: frozen model = S4c-confirmed S4A-04 (Q_f 1.61169e12 cm^-2, mu_inf 248.36 cm2/Vs, ell 50 nm).",
+   "thickness": 6.3,
+   "timeout": 2000
+  },
+  "S7-01": {
+   "depends_on": [
+    "S4c"
+   ],
+   "id": "S7-01",
+   "label": "c10_s7_01_31p8",
+   "matrix_status": "planned_after_calibration",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0",
+    "thickness_laws.mu0_cm2Vs.shared_law.mu_inf_cm2Vs=248.36",
+    "thickness_laws.mu0_cm2Vs.shared_law.ell_nm=50",
+    "contacts.series_resistance_ohm_um[31.8]=0"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s6s7_record_A58.json (register A58): S7: frozen model (film-independent S4c overrides), shared law at the S4c mu_inf / ell, R_sd 0, N_D as the matrix entry",
+   "purpose": "31.8 nm stress check with the frozen shared model; no fitted thick-film charge, resistance or back sheet. Whole-curve log-RMSE, I(-3 V), I(+3 V). Failure is documented, nothing is fitted. Register A58: frozen model = S4c-confirmed S4A-04 (Q_f 1.61169e12 cm^-2, mu_inf 248.36 cm2/Vs, ell 50 nm).",
+   "thickness": 31.8,
+   "timeout": 3000
+  },
+  "S7-02": {
+   "depends_on": [
+    "S4c"
+   ],
+   "id": "S7-02",
+   "label": "c10_s7_02_31p8",
+   "matrix_status": "planned_after_calibration",
+   "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+18",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0",
+    "thickness_laws.mu0_cm2Vs.shared_law.mu_inf_cm2Vs=248.36",
+    "thickness_laws.mu0_cm2Vs.shared_law.ell_nm=50",
+    "contacts.series_resistance_ohm_um[31.8]=0"
+   ],
+   "params_rule": "resolved from the sealed record analysis_2026-10-10_campaign/profile/s6s7_record_A58.json (register A58): S7: frozen model (film-independent S4c overrides), shared law at the S4c mu_inf / ell, R_sd 0, N_D as the matrix entry",
+   "purpose": "31.8 nm stress check with the frozen shared model and Nd x10 (ASSUMED); no fitted thick-film charge, resistance or back sheet. Whole-curve log-RMSE, I(-3 V), I(+3 V). Failure is documented, nothing is fitted. Register A58: frozen model = S4c-confirmed S4A-04 (Q_f 1.61169e12 cm^-2, mu_inf 248.36 cm2/Vs, ell 50 nm).",
+   "thickness": 31.8,
+   "timeout": 3000
+  }
+ },
+ "derived": {
+  "S6-01": {},
+  "S6-02": {},
+  "S6-03": {},
+  "S6-04": {
+   "dEc_eV": 0.3117699125966015,
+   "dEg_eV": 0.36229866703344893
+  },
+  "S6-05": {
+   "dEc_eV": 0.06881984309953204,
+   "dEg_eV": 0.08011220069721817
+  },
+  "S6-06": {
+   "dEc_eV": 0.02598656620163828,
+   "dEg_eV": 0.03028439785744598
+  },
+  "S6-13": {},
+  "S6-15": {},
+  "S6-23": {},
+  "S6-24": {},
+  "S6-25": {},
+  "S6-26": {},
+  "S6-07": {
+   "mstar_old_m0": 0.25428984829573625,
+   "mstar_new_m0": 0.20528984829573627,
+   "mu_band_old_cm2Vs": 7.81345886449455,
+   "mu_band_new_cm2Vs": 7.398414655314712,
+   "nc300_q2d_cm3": 1.108431829265329e+19
+  },
+  "S6-09": {
+   "mstar_old_m0": 0.21226273920903818,
+   "mstar_new_m0": 0.1632627392090382,
+   "mu_band_old_cm2Vs": 50.83101586847576,
+   "mu_band_new_cm2Vs": 50.51836242285993
+  },
+  "S6-08": {
+   "mstar_old_m0": 0.21885640403722081,
+   "mstar_new_m0": 0.16985640403722083,
+   "mu_band_old_cm2Vs": 26.413052595649862,
+   "mu_band_new_cm2Vs": 26.015352758154293
+  },
+  "S6-10": {},
+  "S6-12": {},
+  "S6-22": {},
+  "S6-20": {},
+  "S6-21": {},
+  "S6-14": {},
+  "S6-11": {},
+  "S7-01": {
+   "mstar_m0": 0.20940305912939297,
+   "mu_band_cm2Vs_shared_law": 95.90379226147462
+  },
+  "S7-02": {
+   "mstar_m0": 0.20940305912939297,
+   "mu_band_cm2Vs_shared_law": 95.90379226147462
+  }
+ },
+ "dry_build": {
+  "S6-01": {
+   "deck_sha256": "7747d1ae1605b3369b9f9e74bf7b2c8987ccf936ed05c8eeaf17f95e4af69046",
+   "model_sha256": "c2adbfb9e87a5fd6a23ef41add33e2cd36bf0b365c4fd9ce0d4e102cebee45e7"
+  },
+  "S6-02": {
+   "deck_sha256": "33496bf2bd3684fe78c5629cc1398a9c08a724bfaaaa20d32416ed98d12b0ebb",
+   "model_sha256": "f4bf0df7e9460dd30c43078d2076d788cfb3f3420111c8a02a2f49e1ce07466e"
+  },
+  "S6-03": {
+   "deck_sha256": "63727818669a98f1a92b0dc6f0822196572da4a3c12fa07a2a078211a0fcd10e",
+   "model_sha256": "60d13d3340f0c0d3bec0acad83be52775c17b003993641b92cb5e2039b83e9e8"
+  },
+  "S6-04": {
+   "deck_sha256": "eebfb9c3c9c286ab5d7f6e690d901be4529b9cab40d7b0bc7a40385577508451",
+   "model_sha256": "df073ec38254fdb5f0366a0baa476e0f546ec11a455e095ee6cbe144a7a6223c"
+  },
+  "S6-05": {
+   "deck_sha256": "713ac3f93bf75bac6870e834e30a8279589838463d4afe6067034d4f702c7771",
+   "model_sha256": "47b6624f699b0d7ac76acff38716ea98e633fc15716482e7e392482623927206"
+  },
+  "S6-06": {
+   "deck_sha256": "03378ff0b492b135630820fbe45ab787e271e62227e7d7d1850e590211391985",
+   "model_sha256": "0a53967d4e3615d0f142dc20f2d4ee62ab115ca3cf1b02a60845884d38440624"
+  },
+  "S6-13": {
+   "deck_sha256": "ed49ffc07d3149464a119e97ef38042d11c31b66659be3864609f0e9bdd2977a",
+   "model_sha256": "7586b1cd883b35e6d241869a8c22714b2fd89975a2b94a089fda8c2927deba54"
+  },
+  "S6-15": {
+   "deck_sha256": "b3808b1264fc1673cbd97089aaf2956b05cac3905b1dfb0f7b8da7ba5a467797",
+   "model_sha256": "1dac454b0f14792941e49129264640fe20bedc282eaa761171537bb31cdccb51"
+  },
+  "S6-23": {
+   "deck_sha256": "d77226c3f154198cae7e964668c47dee2e37f9f985fd55b7946fd95b256fddef",
+   "model_sha256": "5f8b2373766cd1fc14757c2e35609f89a44d6967c0f7d8b2ec4acf05909724b3"
+  },
+  "S6-24": {
+   "deck_sha256": "01f262e011d7b1d5837249af460e5c21b632936ffba5fa766ca32772125921f4",
+   "model_sha256": "b948563e0fe80479c5fde41cd6c243820b1fbfec0c0bbaae1e49be24379c73b2"
+  },
+  "S6-25": {
+   "deck_sha256": "a4fd7b4415e29b84cbd32ac83b301ee11f8cefdb3572c4852af0436230277c6b",
+   "model_sha256": "5f8b2373766cd1fc14757c2e35609f89a44d6967c0f7d8b2ec4acf05909724b3"
+  },
+  "S6-26": {
+   "deck_sha256": "502a50fe3d132c291747d96af7b12e32ea6a9d8b3aa11b94759a444057e5f6f6",
+   "model_sha256": "e8ff9b2d1912a711ba9e7e03d995ceba14fb520db9864224cc981f4bf23132f1"
+  },
+  "S6-07": {
+   "deck_sha256": "16e9af21df51b9ef4418538e6e6ad29205cdc521ea4ca41b7db2a8f4a5d29676",
+   "model_sha256": "87b09ba7ff9da50e79151d15d2b867cc49218175fbba4263f033c05731716237"
+  },
+  "S6-09": {
+   "deck_sha256": "5569309e6326c6aaa2dbf2ddd7da61395cb425967e30a8892f5ee5ea79d0b89a",
+   "model_sha256": "d2ef513461db029e9cbdcb13d35e5447067ba0f97ba5343e989e3a00f9a3017c"
+  },
+  "S6-08": {
+   "deck_sha256": "f55b2b393189525348c77850f77046e3897596ea6c784299858db8dcc6dae898",
+   "model_sha256": "fe673cf28b53cfa100f17c1506f9361bf24d768ec455f374ad80ad7aab770c23"
+  },
+  "S6-10": {
+   "deck_sha256": "438b13a6414d95227c63bc256338ae6037afa9e0fccdfcaec2bfba31705f6a2d",
+   "model_sha256": "384348e48a2c4d9aa19b0d7309e478bcf23c63150eca6d829a5b1b6fc7b4c313"
+  },
+  "S6-12": {
+   "deck_sha256": "66880663c55c1ee5a0986868adea3c676dd1f57aef3832c6685a6def3bb5c46f",
+   "model_sha256": "7e8f6b65e9c0342d583015bb8c62c56824c0006f82aa357e3089236ce9dbad83"
+  },
+  "S6-22": {
+   "deck_sha256": "938cdb7532d3ce16e96ecda61e73783078514c14b57f0d7fffe373d251c57128",
+   "model_sha256": "e23acacdd84a2c00d29044ec8ec13183a972442bfb0a3a4cba579cac54ee1225"
+  },
+  "S6-20": {
+   "deck_sha256": "636057c5e6c4f537f643c7182172be775f9c3f61578e3cc173d7cfee0150aa7d",
+   "model_sha256": "7e22dd6cf12b15c1c5e926a7054b8edab43a50f1b364ae9a8af1a08db4130ee5"
+  },
+  "S6-21": {
+   "deck_sha256": "bbb08589513595fa6f2e9ad32283f16c9d105b7d90844fccc9a42c0b3464db9c",
+   "model_sha256": "657ea934ace6242a352d5277588d7c95a0777c9e5365b519ff12656dc96ed477"
+  },
+  "S6-14": {
+   "deck_sha256": "fd0dd10c0e9a7ee4489b8b70afccb3abd509d66839bc0e5888ab0dc4ca63fa31",
+   "model_sha256": "f1b5e981f03b1fdc1b4afe3eeffda327cc28e7eede19e189b284cf16255e32be"
+  },
+  "S6-11": {
+   "deck_sha256": "1e00904ae17b644d61eb3542a0c474bdfcbb72f9fc1784ab5c09b3aa88fd2437",
+   "model_sha256": "9288f34ca346dc267e7695eb35d37817cc400836252aa88ad4ed9a04ab47dfdd"
+  },
+  "S7-01": {
+   "deck_sha256": "9933c6368c200e4a59df223798c216d716afc9035fb6decf0221bf6e1289a4b0",
+   "model_sha256": "91e4c1e007c8b76299160520f4bde645f41ea8fca7b061361b0fbb9bca880409"
+  },
+  "S7-02": {
+   "deck_sha256": "469d0a693b8b3ea4e551f4ee348001d56e42b765a9ba4c660ee4aa5fa91ce134",
+   "model_sha256": "d3983eb7948af2dbdd8dbbeac32447a4e4a612f11a89188d3b034fbfb59193cf"
+  }
+ },
+ "labels": "decks COMPUTED by the pinned builder (dry build); perturbation values from the matrix entries (MODEL / COMPUTED / ASSUMED as labelled there); mu_band and NC300 for S6-07..09 CALCULATED by the stated exact rules; frozen model FITTED (S4c, calibration-conditional; ell at the 50 nm range bound); sensitivity runs, never calibration or validation",
+ "sha256": "fa438fc319e8abe1a0c6738e762791f478c3474c851b33c95b209c4e76076ab6"
+}
