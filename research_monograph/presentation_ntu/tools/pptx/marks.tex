@@ -1,0 +1,18 @@
+% marks.tex -- loaded only by the marked build (tools/pptx/build_marked.sh), never by main.tex.
+% It tags text classes with reserved near-black colours so that tools/pptx/pdf2pptx.py can find them in the PDF:
+%   RGB(1,0,1)  display math (turned into pictures)
+%   RGB(0,1,2)  small capitals (set as small caps in PowerPoint)
+% Colour whatsits do not change the layout; pdf2pptx.py checks that every character sits where it does in main.pdf.
+\makeatletter
+\newif\ifpptx@inams
+% plain display math (\[ \], equation*): colour at the start of the display
+\everydisplay\expandafter{\the\everydisplay\ifpptx@inams\else\color[RGB]{1,0,1}\fi}
+% alignments (align*, gather*, ...): an \halign must follow $$ directly, so colour each cell instead
+\def\pptx@amsmark{\pptx@inamstrue\everymath\expandafter{\the\everymath\color[RGB]{1,0,1}}}
+\AtBeginEnvironment{align*}{\pptx@amsmark}\AtBeginEnvironment{align}{\pptx@amsmark}
+\AtBeginEnvironment{gather*}{\pptx@amsmark}\AtBeginEnvironment{gather}{\pptx@amsmark}
+\AtBeginEnvironment{multline*}{\pptx@amsmark}\AtBeginEnvironment{alignat*}{\pptx@amsmark}
+% \textsc is robust: copy its inner macro, or the new definition would call itself
+\expandafter\let\expandafter\pptx@origtextsc\csname textsc \endcsname
+\DeclareRobustCommand\textsc[1]{{\color[RGB]{0,1,2}\pptx@origtextsc{#1}}}
+\makeatother
