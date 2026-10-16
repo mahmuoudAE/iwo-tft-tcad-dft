@@ -1,9 +1,9 @@
-"""S6 / S7 execution entries (register A58, 2026-10-16; no Codex review, D-63). NO launch; nothing sealed is opened.
+"""S6 / S7 execution entries (register A59, 2026-10-16; no Codex review, D-63). NO launch; nothing sealed is opened.
 
 Resolves the matrix S6 / S7 template entries (campaign_matrix.json, stages S6_sensitivity_frozen and S7_31p8_stress) at the
 FROZEN MODEL = the S4c-confirmed point (register A52: S4A-04 at the profiled Q_f, mu_inf, ell; S4c PASS, s4c_confirm_A52.json):
 the per-film S4c launch overrides of config/campaign_C10_S4c.json are the base; each entry changes only the registered keys
-(rules below). Writes the sealed record profile/s6s7_record_A58.json (entries, derived values, dry-built deck / material text
+(rules below). Writes the sealed record profile/s6s7_record_A59.json (entries, derived values, dry-built deck / material text
 sha256) and the route plans config/campaign_C10_S6_b1..b8.json and config/campaign_C10_S7.json (registered batch order).
 
     python -I -B analysis_2026-10-10_campaign/s6s7_plans.py build    # writes record + plans (refuses to change an existing file)
@@ -11,7 +11,7 @@ sha256) and the route plans config/campaign_C10_S6_b1..b8.json and config/campai
 
 Run with IWO_MODEL_FILE=config/iwo_material_model_v3.yaml from the package root (the dry build imports scripts/run_campaign.py).
 
-Resolution rules (A58 (b)); film keys '2.0', '6.3', '13.2'; every value from the matrix entry params unless stated:
+Resolution rules (A59 (b)); film keys '2.0', '6.3', '13.2'; every value from the matrix entry params unless stated:
   S6-01..03  confinement low: append thickness_laws.dEc_eV.points[t] = params dEc_eV (box MODEL); dEg unchanged (matrix).
   S6-04..06  confinement high (HSE x1.107): replace thickness_laws.dEc_eV.a and dEg_QC_eV.a by the template values; the law at t
              must equal params dEc_eV / dEg_eV to 1e-4 eV.
@@ -41,7 +41,7 @@ sys.dont_write_bytecode = True
 PKG = Path(r"C:\Users\moham\Downloads\IWO_Local_Codex_Handoff (1)\IWO_PHYSICS_CONSTRAINED_MODEL_V1")
 HERE = PKG / 'analysis_2026-10-10_campaign'
 CFG = PKG / 'config'
-RECORD_REL = 'analysis_2026-10-10_campaign/profile/s6s7_record_A58.json'
+RECORD_REL = 'analysis_2026-10-10_campaign/profile/s6s7_record_A59.json'
 MODEL_ENV = 'config/iwo_material_model_v3.yaml'
 S4C_SEAL = 'd49ab722714eb294d46fc9458e2b781e353487e7853f9e6359873b4bfecac1fd'   # A52 variable reference (record seal)
 PINS = {'analysis_2026-10-10_campaign/campaign_matrix.json': 'f06e8d7721f75aec3f78da06de1c1686c59307c33725bd8822c3ec3e0f0a443c',
@@ -70,13 +70,13 @@ KEPT_OUT = ['S6-16', 'S6-17', 'S6-18', 'S6-19', 'S6-27']
 CORE = ['S6-01', 'S6-02', 'S6-03', 'S6-04', 'S6-05', 'S6-06', 'S6-13', 'S6-15', 'S6-23', 'S6-24', 'S6-25', 'S6-26']
 M_BULK, M_BULK_S6, NC_Q2D_2P0 = 0.208, 0.159, 1.373e19
 TEMPLATES = {'S6': 'config/campaign_C10_S6_sensitivity.template.json', 'S7': 'config/campaign_C10_S7_31p8.template.json'}
-AMENDMENT = ('A58 (2026-10-16; S6 / S7 execution entries resolved at the S4c frozen model, PA-19 v3 section 4 allocation at the S5 -> S6 '
-             'point, J gate; no Codex review, D-63): invoke only after A58 and its decision row are logged and the sealed record is committed, '
+AMENDMENT = ('A59 (2026-10-16; S6 / S7 execution entries resolved at the S4c frozen model, PA-19 v3 section 4 allocation at the S5 -> S6 '
+             'point, J gate; no Codex review, D-63): invoke only after A59 and its decision row are logged and the sealed record is committed, '
              'with the go for THIS launch (the hook asks the user), immediately after prelaunch_gate_c10_j.py has exited 0 naming this plan')
 ENFORCED = 'main session (manual); run_campaign.py enforces the launch budget and C10 cap and refuses runnable=false plans; no gates'
 LAST_RULE = ('run_campaign.py records a failed launch and CONTINUES (this plan declares no gates); it stops automatically only at the launch '
              'budget / C10 cap. S6 / S7 have no stop rule (CAMPAIGN_DESIGN l.334-336): every result is reported; a failed launch is kept, '
-             'never retried automatically (a repair only from the reserved six by a logged decision). Until the A58 read-out, the console '
+             'never retried automatically (a repair only from the reserved six by a logged decision). Until the A59 read-out, the console '
              'and RUN_INDEX are read for state fields only (id, run_id, status, error; exit_code, converged, elapsed_s).')
 
 
@@ -218,10 +218,10 @@ def resolve(i, rec, base, mx, tpl):
         elif 24 <= n <= 26:
             ov = append(ov, 'solver.physics_options.strip.L_p_um', '20'); mode = 'strip'; rule = 'S6 frozen ungated strip deck (L_p 20 um)'
         else:
-            raise SystemExit(f'{i}: not a registered A58 entry')
+            raise SystemExit(f'{i}: not a registered A59 entry')
     ent = {'depends_on': ['S4c'], 'id': i, 'label': e['label'], 'matrix_status': m.get('status'), 'overrides': ov,
-           'params_rule': f'resolved from the sealed record {RECORD_REL} (register A58): {rule}',
-           'purpose': f'{e["purpose"]} Register A58: frozen model = S4c-confirmed S4A-04 (Q_f 1.61169e12 cm^-2, mu_inf {g6(mu_inf)} cm2/Vs, ell {g6(ell)} nm).',
+           'params_rule': f'resolved from the sealed record {RECORD_REL} (register A59): {rule}',
+           'purpose': f'{e["purpose"]} Register A59: frozen model = S4c-confirmed S4A-04 (Q_f 1.61169e12 cm^-2, mu_inf {g6(mu_inf)} cm2/Vs, ell {g6(ell)} nm).',
            'thickness': t, 'timeout': int(e['timeout'])}
     if mode: ent['mode'] = mode
     return ent, derived
@@ -251,7 +251,7 @@ def build_record():
     finally:
         os.chdir(cwd)
     nlv = rec['native_launch_values']
-    out = {'record': 'S6 / S7 execution entries (register A58): resolved at the S4c frozen model; sealed; committed before the first S6 launch',
+    out = {'record': 'S6 / S7 execution entries (register A59): resolved at the S4c frozen model; sealed; committed before the first S6 launch',
            'generator_sha256': fsha(Path(__file__)), 'pins': PINS, 's4c_record_seal': S4C_SEAL,
            'frozen_model': {'candidate': rec['candidate'], 'Qf_cm2': nlv['Qf_cm2'], 'mu_inf_cm2Vs': nlv['mu_inf_cm2Vs'], 'ell_nm': nlv['ell_nm'],
                             'base_overrides': {fkey(t): v for t, v in base.items()}, 'qualification': rec.get('qualification')},
@@ -268,10 +268,10 @@ def plan_of(stem, ids, record):
     rules = [r for r in tpl['global_rules'] if not r.startswith('run_campaign.py records a failed launch')] + [LAST_RULE]
     return {'campaign': stem, 'runnable': True,
             'purpose': (f'2026-10-10 DFT-informed campaign, {", ".join(ids)}. Generated by analysis_2026-10-10_campaign/s6s7_plans.py; entries resolved '
-                        f'from the sealed record {RECORD_REL} (register A58).'),
+                        f'from the sealed record {RECORD_REL} (register A59).'),
             'model_file_env': f'IWO_MODEL_FILE={MODEL_ENV}', 'global_rules': rules,
-            'stop_rules': [f'Register A58: {stem} runs {", ".join(ids)} in this order and stops; no stop rule (CAMPAIGN_DESIGN l.334-336). '
-                           'Next batch only after prelaunch_gate_c10_j.py exits 0 naming it; no launch whose start could fall after 2026-10-16T10:00Z (A58 (f)).'],
+            'stop_rules': [f'Register A59: {stem} runs {", ".join(ids)} in this order and stops; no stop rule (CAMPAIGN_DESIGN l.334-336). '
+                           'Next batch only after prelaunch_gate_c10_j.py exits 0 naming it; no launch whose start could fall after 2026-10-16T10:00Z (A59 (f)).'],
             'stop_rules_enforced_by': ENFORCED, 'register_amendment': AMENDMENT,
             'launch_command': (f'$env:IWO_MODEL_FILE = "{MODEL_ENV}"; <project venv python> scripts/run_campaign.py config/{stem}.json *> results/{stem}_console.log   '
                                '(PowerShell, package root, immediately after prelaunch_gate_c10_j.py exited 0 naming this plan; no --retry; console read for state lines only)'),

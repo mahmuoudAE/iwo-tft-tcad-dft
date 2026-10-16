@@ -1,4 +1,4 @@
-"""Tests for s6s7_plans.py (register A58). Reads the pinned inputs only (matrix, S4c record / plan, templates, configs); builds
+"""Tests for s6s7_plans.py (register A59). Reads the pinned inputs only (matrix, S4c record / plan, templates, configs); builds
 decks in memory (no ATLAS, no run directory, no sealed file opened, nothing written).
 
     $env:IWO_MODEL_FILE = "config/iwo_material_model_v3.yaml"; python -I -B analysis_2026-10-10_campaign/test_s6s7_plans.py

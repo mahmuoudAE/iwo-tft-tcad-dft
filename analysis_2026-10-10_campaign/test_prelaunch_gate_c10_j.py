@@ -1,7 +1,7 @@
-"""Tests of prelaunch_gate_c10_j.py (register A58; NO launch; no repo file written except the temporary ./test_tmp_c10_j, removed at the end).
+"""Tests of prelaunch_gate_c10_j.py (register A59; NO launch; no repo file written except the temporary ./test_tmp_c10_j, removed at the end).
 
     $env:IWO_MODEL_FILE = "config/iwo_material_model_v3.yaml"; & <venv python> -I -B analysis_2026-10-10_campaign/test_prelaunch_gate_c10_j.py
-In-process cases load the gate chain (pinned) and patch: a synthetic register / decision log (the real files' lines plus, per case, synthetic A58
+In-process cases load the gate chain (pinned) and patch: a synthetic register / decision log (the real files' lines plus, per case, synthetic A59
 lines), a synthetic RUN_INDEX (the state columns run_id, label, exit_code, deck_sha256, model_sha256 of the real rows, notes reduced to
 "STARTED model=..." or "synthetic finish"; plus the cases' synthetic S6 / S7 rows), a fake process list, a stubbed git check and a fixed clock.
 """
@@ -35,10 +35,10 @@ def logs(tag, a58=True, draft=False):
     TMP.mkdir(exist_ok=True); reg, dec = TMP / f'reg_{tag}.md', TMP / f'dec_{tag}.md'
     C = J0.chain()[0][-1]
     r = C.REGISTER.read_text(encoding='utf-8').splitlines(); d = C.DECISIONS.read_text(encoding='utf-8').splitlines()
-    r = [l for l in r if not l.startswith('### A58')]; d = [l for l in d if 'A58' not in l]
+    r = [l for l in r if not l.startswith('### A59')]; d = [l for l in d if 'A59' not in l]
     if a58:
-        r.append('### A58: S6 / S7 execution entries (s6s7_plans.py), PA-19 v3 allocation, prelaunch_gate_c10_j.py' + (' (draft)' if draft else ''))
-        d.append('| D-85 | x | Register A58: S6, S7, s6s7_plans.py, prelaunch_gate_c10_j.py | x | x | IN FORCE |')
+        r.append('### A59: S6 / S7 execution entries (s6s7_plans.py), PA-19 v3 allocation, prelaunch_gate_c10_j.py' + (' (draft)' if draft else ''))
+        d.append('| D-86 | x | Register A59: S6, S7, s6s7_plans.py, prelaunch_gate_c10_j.py | x | x | IN FORCE |')
     reg.write_text('\n'.join(r) + '\n', encoding='utf-8'); dec.write_text('\n'.join(d) + '\n', encoding='utf-8'); return reg, dec
 
 
@@ -84,11 +84,11 @@ def main():
     cwd = os.getcwd()
     try:
         L = logs('ok')
-        out = case('real state, A58 logged -> 0, campaign_C10_S6_b1, 3 entries from run_0182', 0, index('ok', []), L)
+        out = case('real state, A59 logged -> 0, campaign_C10_S6_b1, 3 entries from run_0182', 0, index('ok', []), L)
         expect('  command names b1, first run id run_0182, 3 entries',
                out.rstrip().endswith('scripts/run_campaign.py config/campaign_C10_S6_b1.json') and 'first run id run_0182' in out and 'these 3 entries' in out, True)
-        case('A58 not logged -> 1', 1, index('n58', []), logs('n58', a58=False))
-        case('A58 heading draft -> 1', 1, index('d58', []), logs('d58', draft=True))
+        case('A59 not logged -> 1', 1, index('n58', []), logs('n58', a58=False))
+        case('A59 heading draft -> 1', 1, index('d58', []), logs('d58', draft=True))
         case('S6-01 started, no finish row -> 3', 3, index('u', a58_rows([('S6-01', False, True)])), L)
         out = case('S6-01, S6-02 done -> 0, b1, 1 entry (S6-03) from run_0184', 0, index('p', a58_rows([('S6-01', True, True), ('S6-02', True, True)])), L)
         expect('  S6-03 next', 'S6-03' in out and 'run_0184' in out and 'these 1 entry' in out, True)
@@ -99,8 +99,8 @@ def main():
         case('unknown label above run_0181 -> 1', 1, index('unk', [{'run_id': 'run_0182', 'label': 'c10_s6_16_2p0', 'notes': f'STARTED model={MODEL}'}]), L)
         case('a second run id for one label -> 1', 1, index('two', a58_rows([('S6-01', True, True)]) +
                                                             [dict(r, run_id='run_0183') for r in a58_rows([('S6-01', True, True)])]), L)
-        out = case('all A58 done -> 4', 4, index('all', a58_rows([(i, True, True) for i in ORDER])), L)
-        expect('  names the read-out', 'A58 read-out' in out, True)
+        out = case('all A59 done -> 4', 4, index('all', a58_rows([(i, True, True) for i in ORDER])), L)
+        expect('  names the read-out', 'A59 read-out' in out, True)
         out = case('cutoff: 09:00Z, b1 (1600 + 2000 + 360 s) -> 4', 4, index('c1', []), L, clock=datetime(2026, 10, 16, 9, 0, tzinfo=timezone.utc))
         expect('  names the cutoff', 'cutoff' in out, True)
         case('cutoff: 08:50Z, b1 latest start 09:56Z -> 0', 0, index('c2', []), L, clock=datetime(2026, 10, 16, 8, 50, tzinfo=timezone.utc))

@@ -1,4 +1,4 @@
-"""C10 pre-launch gate J, S6 / S7 (register A58, 2026-10-16; no Codex review, D-63; Claude go under D-59). NO launch, NO file written,
+"""C10 pre-launch gate J, S6 / S7 (register A59, 2026-10-16; no Codex review, D-63; Claude go under D-59). NO launch, NO file written,
 nothing sealed opened. Run it immediately before EVERY invocation of an S6 / S7 route plan (config/campaign_C10_S6_b1..b8.json,
 config/campaign_C10_S7.json), in the same PowerShell session and working directory (the package root):
 
@@ -10,26 +10,26 @@ as modules for constants and helpers only (their run() functions are not used).
 
 Exit codes (ONLY 0 is a pass): 0 the next batch is launchable (prints the ONE command); 1 a check failed or an input is unreadable (fail closed);
 3 STOP: a started run without a finish row (other than the registered interruptions run_0150 and run_0160); 4 nothing to launch (S6 / S7
-complete, or the A58 (f) cutoff: a launch of the next batch could start at or after 2026-10-16T10:00Z); not a pass.
+complete, or the A59 (f) cutoff: a launch of the next batch could start at or after 2026-10-16T10:00Z); not a pass.
 
 Checks
   interpreter/cwd/env  -I, project venv, package root, IWO_MODEL_FILE V3, IWO_ATLAS_VIEWERS / IWO_ATLAS_JOB unset
   files        the I gate (pinned) and its chain; scripts/ file set and sha256; the C10 gate's OTHER files and the I gate's FILES; the S5 driver
-               and the A53 generator unchanged; the A58 generator s6s7_plans.py and its tests (pinned); the sealed A58 record (file sha256, seal,
+               and the A53 generator unchanged; the A59 generator s6s7_plans.py and its tests (pinned); the sealed A59 record (file sha256, seal,
                committed in git HEAD); every route plan == the generator's plan of the record and committed in git HEAD; the generator's
                own pin check (inputs as pinned); the S5 terminal records (H6p3 score, H2p0 / H13p2 stop records, S5 report: sha256 pinned,
                sealed, committed) and the S4c PASS record
-  amendments   A49..A54 as the I gate, and A58 (register heading naming S6, S7, s6s7_plans.py, prelaunch_gate_c10_j.py and PA-19, not draft;
-               IN FORCE decision row naming A58, S6, S7 and prelaunch_gate_c10_j.py)
+  amendments   A49..A54 as the I gate, and A59 (register heading naming S6, S7, s6s7_plans.py, prelaunch_gate_c10_j.py and PA-19, not draft;
+               IN FORCE decision row naming A59, S6, S7 and prelaunch_gate_c10_j.py)
   processes    no Silvaco process, no runner python, every python command line readable
   RUN_INDEX    run_0181 is the last S5 run (label c10_s5_h13p2_2_6p3_6p3); every started run above run_0077 (the C10 gates' scope) and up to run_0181 has a finish row
-               except run_0150 and run_0160; every run above run_0181 carries an A58 label, one run id per label, STARTED sequence == a prefix of the registered
-               batch order, STARTED-row deck / model sha256 == the record dry build and the model note present; a started A58 run without a
+               except run_0150 and run_0160; every run above run_0181 carries an A59 label, one run id per label, STARTED sequence == a prefix of the registered
+               batch order, STARTED-row deck / model sha256 == the record dry build and the model note present; a started A59 run without a
                finish row: STOP (exit 3)
   budget       max_launches 260 and C10 cap 200 unchanged; distinct run ids + k <= 260 and c10 run ids + k <= 200 (k = unlaunched entries of
-               the next batch); fit (PA-19 v3 section 4): c10 used + unlaunched A58 entries + the other never-cut need 32 (A41(d) 6, 3-D NC 17,
+               the next batch); fit (PA-19 v3 section 4): c10 used + unlaunched A59 entries + the other never-cut need 32 (A41(d) 6, 3-D NC 17,
                l = 0 triple 3, six repairs) <= 200
-  cutoff       A58 (f): now + the timeouts of every unlaunched entry of the batch but its last + 120 s per launch < 2026-10-16T10:00Z
+  cutoff       A59 (f): now + the timeouts of every unlaunched entry of the batch but its last + 120 s per launch < 2026-10-16T10:00Z
 """
 import csv
 import hashlib
@@ -49,12 +49,12 @@ CFG = PKG / 'config'
 I_GATE = HERE / 'prelaunch_gate_c10_i.py'
 I_GATE_SHA = '2f4d74d869186911fe506a1c39bace33279ac0f748f97c1d360ab7189dae4f16'   # A54 / D-77
 GEN = HERE / 's6s7_plans.py'
-GEN_SHA = '2d01d9e4ca6935855078a27033df56096621ba9fc2faa4e6782e2fedac3d21e4'
+GEN_SHA = 'f0c6ecd545d525c38cede1843de243b2757b8503c1c1a8d4bfca4bb934f12e83'
 TESTS = HERE / 'test_s6s7_plans.py'
-TESTS_SHA = '998461a62b154c9674cb39e189350a7068484d2dd43467d6086cdd435a09ccf2'
-RECORD_REL = 'analysis_2026-10-10_campaign/profile/s6s7_record_A58.json'
-RECORD_SHA = '56dfd239422c031ec39fa416d83cf466a4488b8a034ba2cfac7dc76357a9284f'
-RECORD_SEAL = 'fa438fc319e8abe1a0c6738e762791f478c3474c851b33c95b209c4e76076ab6'
+TESTS_SHA = 'da6293af6d7f63cd915ae2e52e2259d8777b7b10a183d5cb9ea1d7153a960fc5'
+RECORD_REL = 'analysis_2026-10-10_campaign/profile/s6s7_record_A59.json'
+RECORD_SHA = '57e4bd3097a4b1faccdf240217c0e67fdccee0ead731f7c236d7bcc92333310d'
+RECORD_SEAL = 'a2f6759245f8b13dbb04fa270b9e530f4b909f6813addfaedebbc7ef75a84fd6'
 S5_FILES = {'analysis_2026-10-10_campaign/profile/s5_A53/H6p3_score.json': '3f7a61d979404385b9f5086b163756f0370ee5ef39b8674a41f9a27cc3f0ea41',
             'analysis_2026-10-10_campaign/profile/s5_A53/H2p0_stop.json': '3bcd9539cdec876811194cd1b5f04684b99e8fb8c885ae619fa206eb67c71e61',
             'analysis_2026-10-10_campaign/profile/s5_A53/H13p2_stop.json': '8c107e61d0b26fddba31c4ca628f56cce9e55122559546652ed35d978540fbf7',
@@ -62,8 +62,8 @@ S5_FILES = {'analysis_2026-10-10_campaign/profile/s5_A53/H6p3_score.json': '3f7a
 LAST_S5 = 'run_0181'
 LAST_S5_LABEL = 'c10_s5_h13p2_2_6p3_6p3'
 INTERRUPTED = ('run_0150', 'run_0160')   # A51, A54: STARTED rows only, kept, never opened
-A58_HEADING = ['S6', 'S7', 's6s7_plans.py', 'prelaunch_gate_c10_j.py', 'PA-19']
-A58_ROW = ['A58', 'S6', 'S7', 'prelaunch_gate_c10_j.py']
+A59_HEADING = ['S6', 'S7', 's6s7_plans.py', 'prelaunch_gate_c10_j.py', 'PA-19']
+A59_ROW = ['A59', 'S6', 'S7', 'prelaunch_gate_c10_j.py']
 OTHER_NEVER_CUT = 6 + 17 + 3 + 6   # A41(d) + 3-D NC + l = 0 triple + six repairs (PA-19 v3; S6 / S7 counted from the record)
 CUTOFF = datetime(2026, 10, 16, 10, 0, 0, tzinfo=timezone.utc)
 PER_LAUNCH_S = 120
@@ -120,7 +120,7 @@ def main(argv=None):
 
 def run(I, H, G2, G, FG, DE, C, g, argv):
     check_mode = '--check' in argv
-    print('C10 pre-launch gate J, S6 / S7 (register A58; route plans campaign_C10_S6_b1..b8, campaign_C10_S7; no launch, nothing written)'
+    print('C10 pre-launch gate J, S6 / S7 (register A59; route plans campaign_C10_S6_b1..b8, campaign_C10_S7; no launch, nothing written)'
           + ('  [CHECK MODE: no invocation follows from this output]' if check_mode else ''), flush=True)
     g.check(True, f'prelaunch_gate_c10_i.py sha256 == {I_GATE_SHA[:8]}... (loaded with the H, G2, G, F, D/E and C10 gates for pins and helpers; run() unused)')
     g.check(sys.flags.isolated == 1, 'interpreter in isolated mode (python -I)')
@@ -139,8 +139,8 @@ def run(I, H, G2, G, FG, DE, C, g, argv):
     for f, h in {**C.OTHER, **I.FILES, **S5_FILES}.items(): files_ok &= g.check((PKG / f).is_file() and fsha(PKG / f) == h, f'{f} sha256 == {h[:8]}...')
     files_ok &= g.check(fsha(I.DRIVER) == I.DRIVER_SHA, f's5_loo_driver.py sha256 == {I.DRIVER_SHA[:8]}... (A53 driver, unchanged)')
     files_ok &= g.check(fsha(I.GENERATOR) == I.GENERATOR_SHA, f'make_campaign_configs.py sha256 == {I.GENERATOR_SHA[:8]}... (A53 generator, unchanged)')
-    files_ok &= g.check(GEN.is_file() and fsha(GEN) == GEN_SHA, f's6s7_plans.py sha256 == {GEN_SHA[:8]}... (A58 generator)')
-    files_ok &= g.check(TESTS.is_file() and fsha(TESTS) == TESTS_SHA, f'test_s6s7_plans.py sha256 == {TESTS_SHA[:8]}... (A58 tests)')
+    files_ok &= g.check(GEN.is_file() and fsha(GEN) == GEN_SHA, f's6s7_plans.py sha256 == {GEN_SHA[:8]}... (A59 generator)')
+    files_ok &= g.check(TESTS.is_file() and fsha(TESTS) == TESTS_SHA, f'test_s6s7_plans.py sha256 == {TESTS_SHA[:8]}... (A59 tests)')
     conf = json.loads((PKG / I.CONFIRM_REL).read_text()) if (PKG / I.CONFIRM_REL).is_file() else {}
     files_ok &= g.check(str(conf.get('verdict', '')).startswith('PASS'), 'S4c verdict PASS (sealed wrapper record, A52 (e))', str(conf.get('verdict'))[:60])
     S = I.driver_module() if fsha(I.DRIVER) == I.DRIVER_SHA else None
@@ -161,7 +161,7 @@ def run(I, H, G2, G, FG, DE, C, g, argv):
         files_ok &= g.check(not pb, 'generator pin check: matrix, S4c record / confirm / plan, templates, model, solver, builder, runner as pinned', '; '.join(pb))
     for words, row, what in ((G.A49_HEADING, G.A49_ROW, 'A49'), (G.A50_HEADING, G.A50_ROW, 'A50'), (G2.A51_HEADING, G2.A51_ROW, 'A51'),
                              (H.A52_HEADING, H.A52_ROW, 'A52'), (I.A53_HEADING, I.A53_ROW, 'A53'), (I.A54_HEADING, I.A54_ROW, 'A54'),
-                             (A58_HEADING, A58_ROW, 'A58')):
+                             (A59_HEADING, A59_ROW, 'A59')):
         h, d = C.amendment_logged(words, row)
         g.check(h, f'{what} logged: register heading "### A<n>: ..." naming {", ".join(words)} (not draft)')
         g.check(d, f'{what} logged: decision-log row naming {", ".join(row)}, IN FORCE')
@@ -194,8 +194,8 @@ def run(I, H, G2, G, FG, DE, C, g, argv):
     import run_campaign as rc
     bad_d = [i for i in order if C.tsha(rc.current_deck_text(rec['entries'][i], rec['entries'][i]['overrides'])) != rec['dry_build'][i]['deck_sha256']]
     bad_m = [i for i in order if C.tsha(rc.current_material_text(rec['entries'][i]['overrides'])) != rec['dry_build'][i]['model_sha256']]
-    g.check(not bad_d, 'dry-built deck text sha256 == the record dry build (all A58 entries)', f'differ: {bad_d}' if bad_d else '')
-    g.check(not bad_m, 'dry-built material text sha256 == the record dry build (all A58 entries)', f'differ: {bad_m}' if bad_m else '')
+    g.check(not bad_d, 'dry-built deck text sha256 == the record dry build (all A59 entries)', f'differ: {bad_d}' if bad_d else '')
+    g.check(not bad_m, 'dry-built material text sha256 == the record dry build (all A59 entries)', f'differ: {bad_m}' if bad_m else '')
 
     # ---------------------------------------------------------------- RUN_INDEX (state columns only)
     lab_of_id = {rec['entries'][i]['label']: i for i in order}
@@ -218,32 +218,32 @@ def run(I, H, G2, G, FG, DE, C, g, argv):
         g.check(rid in rows and not fin[rid], f'{rid}: the registered interrupted launch, STARTED row only (A51 / A54)')
     after = [rid for rid in all_ids if C.rid_n(rid) > C.rid_n(LAST_S5)]
     other = [f'{rid} {rows[rid][0]["label"]}' for rid in after if rows[rid][0]['label'] not in lab_of_id]
-    g.check(not other, f'RUN_INDEX: every run above {LAST_S5} carries an A58 label', ', '.join(other))
+    g.check(not other, f'RUN_INDEX: every run above {LAST_S5} carries an A59 label', ', '.join(other))
     st, seq = {}, []
     for rid in after:
         i = lab_of_id.get(rows[rid][0]['label'])
         if i is None: continue
-        g.check(i not in st, f'RUN_INDEX: one run id per A58 label ({rows[rid][0]["label"]})', f'{st.get(i)} and {rid}' if i in st else '')
+        g.check(i not in st, f'RUN_INDEX: one run id per A59 label ({rows[rid][0]["label"]})', f'{st.get(i)} and {rid}' if i in st else '')
         if i not in st: st[i] = rid; seq.append(i)
         f0 = rows[rid][0]; pin = rec['dry_build'][i]
         g.check(f0['started'] and f0['model_note'] and f0['deck_sha256'] == pin['deck_sha256'] and f0['model_sha256'] == pin['model_sha256'],
-                f'{rid} ({i}): STARTED-row inputs == the A58 record dry build (deck, material, model note)')
-    g.check(seq == order[:len(seq)], 'order: STARTED A58 runs == a prefix of the registered batch order', ' -> '.join(f'{i} {st[i]}' for i in seq) or 'none')
+                f'{rid} ({i}): STARTED-row inputs == the A59 record dry build (deck, material, model note)')
+    g.check(seq == order[:len(seq)], 'order: STARTED A59 runs == a prefix of the registered batch order', ' -> '.join(f'{i} {st[i]}' for i in seq) or 'none')
     unfinished = [f'{st[i]} ({i})' for i in seq if not fin[st[i]]]
     if unfinished: g.stop(f'started S6 / S7 run(s) without a finish row: {unfinished} (a launch in progress, or a runner crash): nothing is invoked; decide by hand')
 
     # ---------------------------------------------------------------- the next batch
     todo = [i for i in order if i not in st]; nb = next(((s, ids) for s, ids in rec['batches'] if any(i in todo for i in ids)), None)
     msg4, k_next, plan_rel = None, [], None
-    if nb is None: msg4 = 'S6 / S7: every A58 entry has started and finished; next: the A58 read-out (0 launches)'
+    if nb is None: msg4 = 'S6 / S7: every A59 entry has started and finished; next: the A59 read-out (0 launches)'
     else:
         stem, ids = nb; plan_rel = f'config/{stem}.json'; k_next = [rec['entries'][i] for i in ids if i in todo]
         earlier = [i for s, ids_ in rec['batches'][:[s for s, _ in rec['batches']].index(stem)] for i in ids_]
         g.check(all(i in st for i in earlier), f'{stem}: every earlier batch has started (register order)')
         t_now = now(); latest = t_now + timedelta(seconds=sum(int(e['timeout']) for e in k_next[:-1]) + PER_LAUNCH_S * len(k_next))
-        print(f'[INFO] cutoff (A58 (f)): now {t_now:%Y-%m-%dT%H:%M:%SZ}; latest possible start of the last launch of {stem} {latest:%H:%M:%SZ} '
+        print(f'[INFO] cutoff (A59 (f)): now {t_now:%Y-%m-%dT%H:%M:%SZ}; latest possible start of the last launch of {stem} {latest:%H:%M:%SZ} '
               f'(timeouts of the unlaunched entries but the last + {PER_LAUNCH_S} s each); cutoff {CUTOFF:%Y-%m-%dT%H:%M:%SZ}', flush=True)
-        if latest >= CUTOFF: msg4 = f'A58 (f) cutoff: a launch of {stem} could start at or after {CUTOFF:%Y-%m-%dT%H:%M}Z; record where S6 / S7 stopped and commit'
+        if latest >= CUTOFF: msg4 = f'A59 (f) cutoff: a launch of {stem} could start at or after {CUTOFF:%Y-%m-%dT%H:%M}Z; record where S6 / S7 stopped and commit'
 
     ms = re.findall(r'^\s*max_launches:\s*(\d+)', C.SOLVER.read_text(), re.M); cap = int(ms[0]) if len(ms) == 1 else -1
     g.check(cap == C.MAX_LAUNCHES == 260, 'config/solver.yaml: exactly one max_launches and it == 260 (not raised)', f'found {ms}')
@@ -252,9 +252,9 @@ def run(I, H, G2, G, FG, DE, C, g, argv):
     n = len(k_next) if msg4 is None else 0
     g.check(cap > 0 and len(all_ids) + n <= cap, f'global budget: {len(all_ids)} used + {n} <= max_launches {cap}')
     g.check(c10 + n <= 200, f'C10 cap: {c10} used + {n} <= 200')
-    g.check(c10 + len(todo) + OTHER_NEVER_CUT <= 200, f'A58 fit: c10 {c10} + unlaunched S6 / S7 {len(todo)} + other never-cut need {OTHER_NEVER_CUT} '
+    g.check(c10 + len(todo) + OTHER_NEVER_CUT <= 200, f'A59 fit: c10 {c10} + unlaunched S6 / S7 {len(todo)} + other never-cut need {OTHER_NEVER_CUT} '
             f'= {c10 + len(todo) + OTHER_NEVER_CUT} <= 200 (six repairs reserved)')
-    print(f'[INFO] RUN_INDEX: {len(all_ids)} distinct run ids (max {all_ids[-1] if all_ids else "none"}), c10 {c10}/200; A58 started {len(seq)}/{len(order)}; '
+    print(f'[INFO] RUN_INDEX: {len(all_ids)} distinct run ids (max {all_ids[-1] if all_ids else "none"}), c10 {c10}/200; A59 started {len(seq)}/{len(order)}; '
           f'next free id {nxt}', flush=True)
 
     if g.fails:
