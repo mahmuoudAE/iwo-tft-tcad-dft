@@ -1,0 +1,173 @@
+% 03_questions_registration.tex -- Part 3: research questions and registered tests. Sources: research_monograph/chapters/
+% M02_questions.tex (questions, prerequisites, tab:mono-q-map H1-H8 with priors and the H-E status "S1-05 expectation
+% failed; rest sealed", governance incl. censoring rule, "exactly one label" rule, A38/A42/A43, A36 erratum, roles),
+% M08_c10_campaign.tex (H-A..H-F, H-J, tab:mono-c10-stages S0-S7, S1-05, A13, A22), M11_amorphous_protocol.tex
+% (tab:mono-am-tests H-G, H-H, H-I, H-K, H-M, H-N; A27, A37, prop:mono-hn, D-43 release conditions; no electronic
+% quantity), M10_w_and_vacancies.tex (H-L registration A17, 80-atom cells, verdict), M14_audit.tex (timestamps, P27);
+% appendices/MG_corrections.tex (A36 erratum: disclosed exposure, no value reproduced); evidence/CLAIM_SOURCE_MAP.tsv
+% (C006, C007, C010, C014, C019, C027, C028, C038); research_record/05_DECISION_LOG.md (D-11, D-17, D-20/A18 time, D-42,
+% D-43); results/RUN_INDEX.csv (stage S0/S1 runs 0061-0074 on 2026-10-10 before 18:33Z).
+% The full registered criteria (H-A..H-N, the DONOR class rule) are in sections/16b_backup_register.tex (backup).
+% The thickness-step alternatives (M13 tab:mono-alt-tc) are shown once, in Part 12; the swing collapse (H7) in Part 2.
+% Blind rules: no sealed outcome, no amorphous electronic quantity, no ATLAS result from stage S2 on.
+% Note: every frame body starts with a command (\threeTop), never a brace group (beamer would read a subtitle).
+\providecommand{\threeAum}{\si{A/\micro\metre}}
+\providecommand{\threeData}{Data: Prof.\ M.-H.\ Lee's group, NTU}
+\providecommand{\threeTop}{\vspace{-4mm}}
+% evidence label at the start of a table cell (\leavevmode keeps it on the first line of the cell)
+\providecommand{\threeLab}[1]{\leavevmode\lab{#1}}
+% italic group heading inside a three-column table
+\providecommand{\threeGroup}[1]{\multicolumn{3}{@{}l}{\textit{#1}}}
+
+\partslide{Part 3}{Research questions and registered tests}
+
+% ---------------------------------------------------------------------------------------------------------------------
+\begin{frame}{One central question, four separate evidence chains}
+  \threeTop
+  \begingroup\small\textbf{Central question.} \emph{What sets the thickness dependence of ultrathin W-doped \InO{}
+    transistors, and can one shared-parameter device model with first-principles inputs account for it?}\par\endgroup
+  \vspace{1mm}
+  \begingroup\footnotesize
+  \renewcommand{\arraystretch}{1.0}
+  \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.8cm}>{\raggedright\arraybackslash}X r@{}}
+    \toprule
+    Evidence chain & Question & Part \\
+    \midrule
+    1\ \ Electronic structure & How do gap, band edges and electron mass change from bulk to below 1\,nm, and how much
+      of the shift is in the conduction band? & 6, 7 \\\addlinespace[0.3mm]
+    2\ \ Tungsten & Does W donate into extended host states (crystalline, amorphous), does this change with
+      thickness, and does W suppress O vacancies? & 8, 9, 11 \\\addlinespace[0.3mm]
+    3\ \ Device physics & Which mechanisms set the threshold, swing, on-current and off-state floor of each film, and
+      which of them can a shared model reproduce? & 4, 10 \\\addlinespace[0.3mm]
+    4\ \ Provenance & How do our metrics relate to the published ones? What do the data permit? & 2 \\
+    \bottomrule
+  \end{tabularx}\par\endgroup
+  \vspace{1.6mm}
+  \begingroup\footnotesize\textbf{Prerequisites that the data cannot settle} (no new measurements are available)\par
+  \vspace{0.6mm}
+  \begin{tabularx}{\textwidth}{@{}l>{\raggedright\arraybackslash}X@{}}
+    Definitions & Same definitions of mobility, swing, $C_\mathrm{ox}$ and $\Vd$ as the paper? Partly answered (Part 2). \\
+    Spread & How large is the device-to-device spread? This needs at least ten devices per thickness. \\
+    Fabrication & How were thicknesses measured; do the four devices share a run and a sweep history? \\
+  \end{tabularx}\par\endgroup
+  \takeaway{Each chain is tested separately; the prerequisites need new devices.}
+\end{frame}
+
+% ---------------------------------------------------------------------------------------------------------------------
+\begin{frame}{No first-pass hypothesis is settled by the evidence so far}
+  \threeTop
+  \begingroup\scriptsize
+  \setlength{\tabcolsep}{3pt}
+  \renewcommand{\arraystretch}{1.0}
+  \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{4.95cm}>{\raggedright\arraybackslash}p{1.49cm}%
+      >{\raggedright\arraybackslash}p{1.7cm}>{\raggedright\arraybackslash}X r@{}}
+    \toprule
+    First-pass hypothesis (7 Oct 2026) & Prior & Registered as & Status at the present evidence state & Part \\
+    \midrule
+    H1\ \ a critical thickness separates two regimes; W shifts it & medium (sharp $t_c$) & -- &
+      \threeLab{hypothesis}; one device per film & 12 \\\addlinespace[0.3mm]
+    H2\ \ W keeps conduction-edge states delocalised & low--medium & H-G, H-N &
+      sealed; H-N cannot return a crossover verdict, by rule & 8, 11 \\\addlinespace[0.3mm]
+    H3\ \ the 6.3\,nm anomaly is real physics & low & H-F (shape) &
+      \threeLab{hypothesis}; out-of-sample 6.3\,nm threshold predictions failed \lab{falsified} & 4, 12 \\\addlinespace[0.3mm]
+    H4\ \ W suppresses O vacancies, depending on thickness & medium & H-L (crystal only) &
+      H-L \lab{unresolved}; thickness part not computed & 9 \\\addlinespace[0.3mm]
+    H5\ \ contacts become part of the channel at 1--2\,nm & low--medium & Schottky branch (C10) &
+      a constant series resistance cannot make the trend \lab{derived}; branch sealed & 4 \\\addlinespace[0.3mm]
+    H6\ \ the off-state floor is an ohmic parallel path & medium--high & H-B &
+      \threeLab{hypothesis}; H-B sealed & 4 \\\addlinespace[0.3mm]
+    H7\ \ subthreshold behaviour is universal in $\Id/I_{\mathrm{on}}$ & medium & -- &
+      \threeLab{observed}; three devices & 2 \\\addlinespace[0.3mm]
+    H8\ \ too many near-edge tail states (model side) & -- & tail branches (C10) &
+      13.2\,nm model SS $16\pm3$\,mV/dec too high, a finding \lab{computed} & 4 \\
+    \bottomrule
+  \end{tabularx}\par\endgroup
+  \src{Priors: subjective, first pass. C10: the shared-parameter device campaign (Part 4); its branches are sealed.
+    H-x: registered tests (next slide). Sources: research questions (7 Oct 2026); register rev.\ 2 and amendments;
+    claims ledger C027 (H1), C028, C014 (H3), C038 (H4), C019 (H5), C006 (H6), C007 (H7), C010 (H8).}
+  \takeaway{None of H1--H8 is settled; H1 and H7 have no registered test.}
+\end{frame}
+
+% ---------------------------------------------------------------------------------------------------------------------
+\begin{frame}{Fourteen registered tests; none is scored as a pass}
+  \threeTop
+  \begingroup\scriptsize
+  \setlength{\tabcolsep}{4pt}
+  \renewcommand{\arraystretch}{1.0}
+  \begin{tabularx}{\textwidth}{@{}l>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{5.5cm}@{}}
+    \toprule
+    \multicolumn{2}{@{}l}{\textbf{Device model}: one parameter set for 2.0, 6.3 and 13.2\,nm (campaign C10)} &
+      \textbf{Status} (full criteria: backup) \\
+    \midrule
+    H-A & Is the 2.0\,nm off-state floor extrinsic or instrument-limited? & sealed; decisive part expected unresolved \\
+    H-B & Does an ungated parallel strip set the off-state floors? & sealed \\
+    H-C & Are gate leakage and generation too small to set the floor? & sealed \\
+    H-D & Does the band mobility need a $1/t$ scattering term? & sealed; mass-only part unresolved \\
+    H-E & How much of the threshold do the confinement inputs carry? & S1-05 expectation failed; rest sealed (stage S3) \\
+    H-F & Does a 6.3\,nm shape residual survive a rigid shift and scale? & sealed \\
+    H-J & Does one shared parameter set transfer across the three films? & sealed \\
+    \midrule
+    \multicolumn{3}{@{}l}{\textbf{First-principles cells}: H-L crystalline; all others amorphous films} \\
+    \addlinespace[0.4mm]
+    H-L & Does W raise the neutral O-vacancy energy? & scored \lab{unresolved} (Part 9) \\
+    H-G & Does W donate into host states (2.0\,nm) with no pinning state? & sealed \\
+    H-H & Does OH termination move dipoles, not the interior host edge? & sealed; 2.0\,nm part unresolved \\
+    H-I & Does \AlO{} change the alignment without channel-edge traps? & expected unresolved: no feasible route \\
+    H-K & Does amorphous confinement follow the crystalline laws? & sealed \\
+    H-M & Control for the stack order: a 2.0\,nm film on \HfO{} & sealed \\
+    H-N & Does W's extended-carrier efficacy change from bulk to 0.7\,nm? & \threeLab{unresolved} in every
+      branch, by rule alone \\
+    \bottomrule
+  \end{tabularx}\par\endgroup
+  \vspace{0.3mm}
+  \begingroup\scriptsize \textbf{Stages of campaign C10} (Part 4): S0, S1 seen before the freeze; S2--S7 sealed;
+    S3: model form. S1-05: run 5 of S1.\par\endgroup
+  \takeaway{None is scored a pass: H-L and H-N unresolved, S1-05 failed, rest sealed.}
+\end{frame}
+
+% ---------------------------------------------------------------------------------------------------------------------
+\begin{frame}{Registrations are timed; sealed results await a release}
+  \threeTop
+  \begingroup\centering
+  \begin{tikzpicture}[x=1mm,y=1mm,font=\scriptsize]
+    \draw[line width=0.5pt] (0.2,0) -- (139.8,0);
+    \foreach \x/\d/\t in {
+        12.3/{7 Oct}/{hypotheses \mbox{H1--H8}, first pass},
+        35.4/{10 Oct}/{device stages S0 and S1:\\14 launches seen},
+        81.6/{10--11 Oct}/{H-L (A17), H-M (A18), H-N (A27) added before any relevant result},
+        104.7/{13 Oct}/{H-L scored:\\unresolved; A37:\\H-N unresolved\\by rule},
+        127.8/{14 Oct, 10:35Z}/{conditional\\release decision}} {
+      \fill (\x,0) circle (0.75);
+      \node[anchor=base,text=inkgrey] at (\x,2.0) {\d};
+      \node[anchor=north,align=center,text width=22mm] at (\x,-1.4) {\t};
+    }
+    \fill[ntumaroon] (58.5,0) circle (1.0);
+    \node[anchor=base,text=ntumaroon] at (58.5,2.0) {2026-10-10, 18:33:13Z};
+    \node[anchor=north,align=center,text width=22mm,text=ntumaroon] at (58.5,-1.4) {\textbf{register rev.\,2
+      frozen}};
+  \end{tikzpicture}\par\endgroup
+  \vspace{-2mm}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.49\textwidth}
+      \begin{itemize}\scriptsize\setlength{\itemsep}{0.5mm}
+        \item Amendments (A-numbers) log the time, what had been seen, the verdict of the independent AI reviewer (Codex) and the
+          owner's approval; A38, A42, A43 were informed by results and say so.
+        \item Predictions are scored, forecasts are not. Below the demonstrated resolution, a value meets an upper
+          bound only if the resolution is below it; otherwise it is unresolved.
+        \item At least one evidence label per statement; agreement between AI agents is not evidence.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{itemize}\scriptsize\setlength{\itemsep}{0.5mm}
+        \item Sealed: device stages from S2 on; amorphous electronic results until four release conditions hold (manifest, lineage audit, certificate check, clearance).
+        \item Disclosed exposures: SCF output of two 2.0\,nm W cells read before a rule allowed it (A36 erratum), and
+          one log entry under ruling; no value is reproduced.
+        \item No holdout device, no new measurements: every device comparison is retrospective.
+        \item Timestamps: commits and pushed tags; the charter's external DOI has not been obtained.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  \src{Sources: hypothesis register (git tag register-rev2-frozen-20261010T1833Z); decision log D-11, D-17, D-42, D-43;
+    project charter. Time axis not to scale.}
+  \takeaway{Every result carries an evidence label; every registered test, its registration time.}
+\end{frame}

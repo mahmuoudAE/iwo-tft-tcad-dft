@@ -1,0 +1,171 @@
+% 13_resources.tex -- Part 13, computational cost. Sources: research_monograph/appendices/MH_resources.tex
+% (tab:mono-res-atlas, launch budgets, recorded totals, tab:mono-res-dft, memory, infrastructure, energy estimate);
+% evidence/derived/atlas_usage.json (launches, wall time, non-zero exits, longest launch);
+% research_record/05_DECISION_LOG.md (D-02 budget 52; D-03 budget 57 -> 71; D-13 200 more; D-58 C10 17/200, cap not
+% raised); appendices/MG_corrections.tex T1 (C10 runs from 0061, 17 of 200 by 2026-10-14);
+% chapters/13_dft_rev.tex sec:dft-resources (totals, laptop, 30-100 GB) and sec:dft-gpu line 1421 (GPU benchmark:
+% the same 96-atom SCF, 9 min 16 s on one H100 NVL against 1 h 16 min on 16 CPU cores, factor 8.2; NOTE: the row
+% pairing in tab:dft-timing, 1 h 48 min vs 9 min, mixes the 35 A and 15 A vacuum cells and is not used here);
+% chapters/M04b_dft_numerics.tex sec:mono-dft-cost (N^3 scaling, 328 -> 680 bands, 3.6 GB, 82 GB for the
+% single-process GPU relaxation); qe_workflow/cern_htcondor/results/resources.json (pool snapshot 2026-10-06) and the
+% PWSCF WALL lines and GPU model lines of the scf/relax/bands outputs in qe_workflow/cern_htcondor/results/ (wall
+% times and hardware re-checked 2026-10-15; every GPU row ran on an H100 NVL).
+% Energy: ESTIMATE with assumed power figures (MH), not an audit. No sealed run (0075-0077) and no amorphous
+% electronic quantity appears. Tables and one TikZ diagram only; no figure files.
+% Note: frame bodies start with a command, never with a brace group (beamer would read a subtitle).
+\providecommand{\thirteendense}{\setbeamerfont{itemize/enumerate body}{size=\footnotesize}%
+  \setbeamerfont{itemize/enumerate subbody}{size=\footnotesize}}
+\providecommand{\thirteenTop}{\vspace{-4mm}}
+\providecommand{\thirteenAtlas}{\footnote[frame]{Silvaco, \citetitle{AtlasManual}}}
+\providecommand{\thirteenNpw}{N_{\mathrm{pw}}}
+\providecommand{\thirteenNb}{N_{\mathrm{b}}}
+\providecommand{\thirteenNk}{N_{k}}
+\providecommand{\thirteenHead}[1]{{\footnotesize\bfseries #1\par}\vspace{0.8mm}}
+\providecommand{\thirteenX}{\,$\times$\,}
+\providecommand{\thirteenx}{$\times$}
+
+\partslide{Part 13}{Computational cost}
+
+% ---------------------------------------------------------------------------------------------------------------------
+\begin{frame}[t]{Device simulation is cheap; launch budgets limit it}
+  \thirteenTop\thirteendense
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.58\textwidth}
+      \thirteenHead{ATLAS launches in the public record\thirteenAtlas}
+      {\footnotesize\setlength{\tabcolsep}{4.5pt}
+      \begin{tabular}{@{}lrrr@{}}
+        \toprule
+        Study & Launches & \shortstack[r]{Wall\\time (h)} & \shortstack[r]{Exit\\$\neq 0$} \\
+        \midrule
+        Model V1 study      & 57 & 7.8 & 2 \\
+        Model V2            &  3 & 0.5 & 0 \\
+        Campaign C10        & 14 & 2.9 & 1 \\
+        \midrule
+        All public          & 74 & 11.1 & 3 \\
+        \bottomrule
+      \end{tabular}\par}
+      \src{Silvaco ATLAS 5.28, 32-bit, local licence. Runs 0001--0057, 0058--0060, 0061--0074; wall times from
+        \texttt{results/RUN\_INDEX.csv}; exit $\neq 0$: non-zero exit code; sealed runs 0075--0077 not included.
+        Budgets: decision log D-02, D-03, D-13, D-58.}
+    \end{column}
+    \begin{column}{0.39\textwidth}
+      \vspace{4.2mm}
+      \begin{itemize}
+        \item Launches run one at a time; the longest took 1.0\,h \lab{measured}. Each is a separately reviewed
+          decision.
+        \item Campaign C10 had used 17 launches by 14 October: the 14 in the table and the 3 sealed runs.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  \thirteenHead{ATLAS launch budget in the decision log (in order of date, not to scale)}
+  \begin{tikzpicture}[x=1cm,y=1cm,font=\footnotesize]
+    \foreach \a/\b in {0.25/3.15, 3.15/6.05, 6.05/10.0}
+      \draw[rulegrey, line width=0.8pt, -{Stealth[length=1.6mm]}] (\a+0.15,0) -- (\b-0.17,0);
+    \foreach \x/\d/\txt in {0.25/25 Sep/{budget: 52 launches},
+        3.15/5 Oct/{budget 57 $\to$ 71},
+        6.05/10 Oct/{200 more launches for C10}} {
+      \fill (\x,0) circle (0.065);
+      \node[anchor=south west, inner sep=0] at (\x-0.1,0.2) {\textbf{\d\ 2026}};
+      \node[anchor=north west, inner sep=0] at (\x-0.1,-0.22) {\txt};
+    }
+    \fill[ntumaroon] (10.0,0) circle (0.085);
+    \node[anchor=south west, inner sep=0] at (9.9,0.2) {\textbf{14 Oct 2026}};
+    \node[anchor=north west, inner sep=0] at (9.9,-0.22)
+      {\textcolor{ntumaroon}{17 of 200 used}; cap not raised};
+  \end{tikzpicture}
+  \takeaway{Device simulation costs hours; the scarce resource is the reviewed launch.}
+\end{frame}
+
+% ---------------------------------------------------------------------------------------------------------------------
+\begin{frame}[t]{DFT to 4 October: about 8\,300 core-hours, 85--90 GPU-hours}
+  \thirteenTop\thirteendense
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.545\textwidth}
+      \thirteenHead{Quantum ESPRESSO\srefs{Giannozzi2009,Giannozzi2017} runs: measured wall times}
+      {\scriptsize\setlength{\tabcolsep}{3pt}
+      \begin{tabular}{@{}llr@{}}
+        \toprule
+        Step & Resources & Wall time \\
+        \midrule
+        80-atom W cell, relaxation                 & 32 CPU cores   & 23\,h 48\,min \\
+        80-atom W cell, SCF, 4\thirteenx4\thirteenx4 $k$ & 32 CPU cores & 3\,h 03\,min \\
+        1\,nm W film (96 atoms), SCF               & 16 CPU cores   &  2\,h 55\,min \\
+        1\,nm film, bands                          & 16 CPU cores   &  4\,h 38\,min \\
+        2\,nm W film (176 atoms), relax, 28 BFGS   & one H100 NVL   & 16\,h 49\,min \\
+        2\,nm W film, final SCF                    & 33 CPU cores   &  8\,h 05\,min \\
+        2\,nm film, bands                          & one H100 NVL   &  8\,h 22\,min \\
+        0.695\,nm film, relaxation                 & one H100 NVL   &  9\,h 58\,min \\
+        HSE06, 1\,nm film, SCF, 4 $k$ points       & one H100 NVL   &  4\,h 00\,min \\
+        HSE06, bulk, SCF, 3\thirteenx3\thirteenx3 $q$ mesh & one H100 NVL & 4\,h 15\,min \\
+        \bottomrule
+      \end{tabular}\par}
+      \src{Representative steps; PWSCF wall times in the output files. The 2\,nm W film and the 0.695\,nm film belong to the later
+        jobs and are not in the totals.}
+    \end{column}
+    \begin{column}{0.425\textwidth}
+      \thirteenHead{Recorded usage up to 4 October 2026}
+      \begin{itemize}
+        \item CERN: about 8\,300 weighted CPU core-hours and 85--90 GPU-hours; laptop: about 190 core-hours
+          \lab{derived}.
+        \item About 3\,000 of the core-hours and 50 GPU-hours were lost to failures, since fixed \lab{derived}.
+        \item A laptop would need about six weeks for the useful work \lab{inferred} and could not run the 2\,nm
+          and hybrid films (30--100\,GB).
+        \item Energy estimate (not an audit) at 10\,W per core and 0.4\,kW per GPU \lab{assumed}:
+      \end{itemize}
+      \vspace{0.3mm}
+      {\footnotesize\centering 8\,300\,h\thirteenX10\,W + 90\,h\thirteenX0.4\,kW $\approx$ 120\,kWh\par}
+    \end{column}
+  \end{columns}
+  \takeaway{Estimated energy to 4 October: about 120\,kWh; later jobs are not yet totalled.}
+\end{frame}
+
+% ---------------------------------------------------------------------------------------------------------------------
+\begin{frame}[t]{At 66--82\,GB, memory decided where the 176-atom film ran}
+  \thirteenTop\thirteendense
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.53\textwidth}
+      \thirteenHead{Plane-wave cost for a cell of $N$ atoms}
+      {\centering$t_{\mathrm{it}} \propto \thirteenNb^{2}\,\thirteenNpw \propto N^{3}, \qquad
+         M_{\psi} \propto \thirteenNb\,\thirteenNpw\,\thirteenNk \propto N^{2}\thirteenNk$\par}
+      \vspace{0.8mm}
+      {\scriptsize\color{inkgrey} $t_{\mathrm{it}}$: time per SCF iteration; $M_{\psi}$: wave-function memory;
+        $\thirteenNb$, $\thirteenNpw$, $\thirteenNk$: bands, plane waves, $k$ points. Linear-scaling
+        methods\sref{Goedecker1999} not used.\par}
+      \vspace{1mm}
+      \begin{itemize}
+        \item 1\,nm $\to$ 2\,nm film: bands 328 $\to$ 680, plane waves +29\,\%; wave functions \thirteenx2.7,
+          $\thirteenNb^{2}\thirteenNpw$ work \thirteenx5.5 \lab{derived}.
+        \item 2\,nm film: 680\thirteenX327\,585\thirteenX16\,B = 3.6\,GB per $k$ point \lab{derived};
+          \texttt{pw.x} estimates 82\,GB for the single-process GPU relaxation \lab{computed}; the final SCF needed
+          66\,GB \lab{measured}. Hence a large-memory GPU or a distributed CPU run.
+        \item HSE06, 1\,nm film: the default exact-exchange cutoff ran out of memory; 160\,Ry was used
+          \lab{observed}.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.44\textwidth}
+      \thirteenHead{CERN GPU pool, 6 Oct 2026 \lab{observed}}
+      {\footnotesize
+      \begin{tabular}{@{}lr@{}}
+        \toprule
+        GPU model & GPUs \\
+        \midrule
+        H100 NVL & 144 \\
+        H200 & 96 \\
+        A100-PCIE-40GB & 72 \\
+        Older (V100, V100S, T4) & 93 \\
+        \midrule
+        Total, on 79 nodes & 405 \\
+        \bottomrule
+      \end{tabular}\par}
+      \src{HTCondor snapshot (\texttt{resources.json}); jobs from lxplus, data on EOS.}
+      \vspace{1mm}
+      \begin{itemize}
+        \item A pure 1\,nm film SCF benchmark (96 atoms): 1\,h 16\,min on 16 CPU cores, 9\,min on one H100 NVL (\thirteenx8.2)
+          \lab{measured}.
+        \item About 0.8 GPU starts per hour \lab{observed}; two-GPU requests of the amorphous campaign matched no
+          slot.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  \takeaway{For the large cells, memory and access to large GPUs, not core-hours, were the limits.}
+\end{frame}

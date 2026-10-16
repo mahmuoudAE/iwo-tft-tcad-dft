@@ -1,0 +1,74 @@
+% MH_resources.tex -- computational resources and cost. Sources: results/RUN_INDEX.csv (evidence/derived/atlas_usage.json),
+% baseline sec:dft-resources (to 4 Oct 2026), qe_workflow/analysis_2026-10-13_full/bands_masses/BANDS_MASSES.md section 6
+% (measured wall times), cern_htcondor/results/resources.json (pool snapshot), register (deadlines, GPU memory),
+% decision log (launch budgets). Energy figures are ESTIMATES with stated assumptions.
+\chapter{Computational resources and cost}
+\label{app:mono-resources}
+
+\section{Device simulation}
+\label{sec:mono-res-atlas}
+
+Silvaco ATLAS 5.28 (32-bit, local licence) ran every launch sequentially. Wall times from the run index
+(\file{results/RUN_INDEX.csv}, one entry per run, the longer of duplicate rows):
+
+\begin{table}[htbp]\centering\small
+\caption{ATLAS launches in the public record (runs 0075--0077 are sealed and not included).}
+\label{tab:mono-res-atlas}
+\begin{tabular}{lccc}\toprule
+Group & Launches & Total wall time (h) & Non-zero exit \\\midrule
+V1 study, runs 0001--0057 & 57 & 7.8 & 2 \\
+V2, runs 0058--0060 & 3 & 0.5 & 0 \\
+Campaign C10, runs 0061--0074 & 14 & 2.9 & 1 \\
+All public & 74 & 11.1 & 3 \\\bottomrule
+\end{tabular}
+\end{table}
+
+The cost of device simulation in this project is set by launch budgets, not by machine time: each launch is a separately
+reviewed decision (budgets: 52, then 71 by \dlog{D-03}, then 200 more for campaign C10 by \dlog{D-13}; 17 of the 200 used
+by 14 October, \dlog{D-58}), and the longest single launch took one hour.
+
+\section{First-principles calculations}
+\label{sec:mono-res-dft}
+
+\paragraph{Recorded totals.} Up to 4 October 2026: about 8\,300 weighted CPU core-hours and 85--90 GPU-hours at CERN, of
+which about 3\,000 core-hours and 50 GPU-hours were lost to failures, and about 190 core-hours on a laptop
+(\cref{sec:dft-resources}). The jobs after that date (the 2~nm W film, the sub-nanometre films, the hybrid checks, the
+vacancy cells and the amorphous campaign) are not totalled in the public record; the amorphous total is a pending item
+of the campaign (\pendingph{CPU and GPU hours after 4 October}).
+
+\begin{table}[htbp]\centering\small
+\caption{Measured wall times of representative steps (\file{BANDS_MASSES.md} section~6 and the dated log).}
+\label{tab:mono-res-dft}
+\begin{tabular}{llr}\toprule
+Step & Resources & Wall time \\\midrule
+80-atom W cell, relaxation & 32 CPUs & 23~h 48~min \\
+80-atom W cell, SCF & 32 CPUs & 3~h \\
+1~nm film (96 atoms), SCF & 16 CPUs & 2~h 55~min \\
+1~nm film, bands & 16 CPUs or one A100 & 4~h 38~min \\
+2~nm W film (176 atoms), relaxation, 28 BFGS steps & one H100 NVL & 16~h 49~min \\
+2~nm W film, final SCF & 33 CPUs & 8~h 05~min \\
+2~nm film, bands & one H100 & 8~h 22~min \\
+0.695~nm film, relaxation & one H100 NVL & 9~h 58~min \\
+HSE06, 1~nm film, SCF (4 $k$) & one H100 & 4~h \\
+HSE06, bulk, $q3$ SCF & one H100 & 4~h 15~min \\\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Memory.} The 176-atom 2~nm film needs about 66--82~GB for its SCF (\cref{sec:mono-dft-cost}); the 2.0~nm
+amorphous chains used 85.6--90.2~GB of the 95.8~GB of one GPU on the single-GPU route, which required split species
+labels. The default exact-exchange cutoff ran out of memory for the hybrid 1~nm film, which is why 160~Ry was used.
+
+\paragraph{Infrastructure.} CERN HTCondor, submitted from lxplus, data on EOS. A snapshot of the pool on 6 October
+2026 listed 405 GPUs on 79 nodes (144 H100 NVL, 96 H200, 72 A100-40GB and older cards); in the amorphous campaign the
+H100/H200 pool was saturated and two-GPU requests matched no slot. Observed throughput was about 0.8 GPU starts per hour.
+Kerberos tickets of running jobs are not renewed, so long jobs needed separate credential handling.
+
+\section{Energy (estimate)}
+\label{sec:mono-res-energy}
+
+Assuming 0.4~kW per GPU (the H100 NVL power limit) and 10~W per CPU core including node overheads (\prov{assumed}
+round numbers, not measurements), the recorded first-principles usage up to 4 October corresponds to about
+$8\,300\times0.010 + 90\times0.4 \approx 120$~kWh, of the order of a week of a household's electricity use; the device
+simulations are negligible by comparison. The amorphous campaign, with relaxations of 250--300-atom cells running for days
+on single GPUs, is likely larger, but its usage is not recorded publicly. These numbers are given to make the
+computational cost of the study concrete, not as an energy audit.

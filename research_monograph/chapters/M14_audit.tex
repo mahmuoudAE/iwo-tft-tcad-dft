@@ -1,0 +1,126 @@
+% M14_audit.tex -- publication, data-ownership and data-protection audit (state: repository commit 3fe6627 + this
+% monograph's commits; checked 2026-10-14). Sources: research_record/00_PROJECT_CHARTER.md (sections 8, 9),
+% 01_CURRENT_STATE.md (B, H.6), PUBLIC_EXCLUSIONS.md, 04_TASK_QUEUE.yaml (HUM items), data/provenance_*.json,
+% git ls-files of the public checkout. Nothing was deleted, pushed or published by this audit.
+\chapter{Publication, data-ownership and data-protection audit}
+\label{ch:mono-audit}
+
+Before any result of this project is published, three questions must be answered for every item it uses: who owns it,
+whether it may be reproduced and redistributed, and whether it was already published by someone else. This chapter
+records the state of these questions as found in the repository on 14 October 2026. It reports findings and
+recommendations; the decisions belong to the humans named in the charter (section~9), and nothing was changed, deleted,
+pushed or published in the course of the audit.
+
+% =====================================================================================================================
+\section{People, roles and authority}
+\label{sec:mono-audit-people}
+
+\begin{itemize}
+\item \emph{Research owner:} Mahmoud Elrasheedy (TCAD and DFT; owner of the record). Mentor: Mukul Kumar; principal
+investigator: Prof.\ Chao-Hsin Wu.
+\item \emph{Fabrication group and data owner:} Prof.\ Min-Hung Lee's group, National Taiwan University (Dr.\ Mochamad
+Januar, Zhao-Feng Luo); co-author of the published paper: Prof.\ Kou-Chen Liu (Chang Gung University).
+\item \emph{AI agents:} Claude Code (computational execution, evidence engineering, record keeping) and Codex
+(independent review). Under the charter, AI agents may not put claims into a manuscript, release data or push to a new
+remote without explicit human approval; agreement between AI systems is not evidence. The charter itself is marked
+\emph{proposed}; its adoption (\dlog{D-10}) is pending.
+\end{itemize}
+
+\section{Inventory by origin and status}
+\label{sec:mono-audit-inventory}
+
+\begin{table}[htbp]\centering\footnotesize
+\caption{Items used by the project, their origin and their status. ``Public'': tracked in the public repository at the
+audited commit.}
+\label{tab:mono-audit-inventory}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}p{2.5cm}>{\raggedright\arraybackslash}p{1.2cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Item & Origin, owner & Public & Status and constraint \\\midrule
+Four measured transfer curves (workbook and CSV; a second workbook copy under \file{inputs/astra_.../audit/sources/}) &
+fabrication group & yes & devices of a published series (2--13~nm; the 31.8~nm curve was supplied with the data); the paper makes data available on reasonable request \citep[p.~10]{Januar2026}; permission for
+public hosting, reuse in publications and AI processing \textbf{not recorded} (charter section~8; task HUM-001) \\
+Published values and figures of \citet{Januar2026} & fabrication group; CC~BY article \citep[p.~1]{Januar2026} & yes (article) & may be cited
+and, with attribution, reproduced; digitised values are our derived data \\
+Supporting information of the paper & fabrication group & no & not in the project files \\
+Unpublished fab data (stress, temperature, annealing, \InO{} devices, C--V) & fabrication group & no & not
+available (\dlog{D-11}); would need consent before entering any AI tool \\
+Crystalline DFT inputs, outputs and analyses & author (CERN and local compute) & yes & author-generated; releasable \\
+Amorphous DFT inputs, specs, scripts & author & yes & releasable \\
+Amorphous DFT outputs & author & no & blind; release blocked (\dlog{D-43}); excluded from the public repository \\
+ATLAS decks and outputs, runs 0001--0074 & author & yes & author-generated; releasable \\
+ATLAS runs 0075--0077, campaign C10\_DIAGb & author & no & sealed (state-only rule) \\
+Full texts of 11 cited papers (\file{report_latex_full/digest/papers/}) & publishers and authors & \textbf{yes} &
+copyright; several are not open access; tracked since 5 October 2026 although the \file{.gitignore} excludes the
+equivalent \file{inputs/papers_text/} \\
+ATLAS manual text (\file{report_latex_full/tools/atlas_manual_fulltext.json}, \file{atlas_manual_pages.txt}, about
+3.5~MB each; page extracts in \file{digest/atlas_manual_pages.md}) & Silvaco (licensed software documentation) &
+\textbf{yes} & copyright; \file{PUBLIC_EXCLUSIONS.md} excludes a 740-page manual text but not these files (contents not
+opened by this audit) \\
+Codex reviews, work chat, register & author and AI agents & partly & the work chat mixes reviews with sealed-adjacent
+content; the register and decision log are public \\\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Findings}
+\label{sec:mono-audit-findings}
+
+\begin{enumerate}
+\item \textbf{Collaborator data in a public repository without recorded permission.} The four measured curves are the
+fabrication group's data. They are in the public repository in two places. The paper makes data available on reasonable
+request, which is not a licence to redistribute. The charter records this as a known issue awaiting the meeting with the
+fabrication group (task HUM-001).
+\item \textbf{Copyrighted full texts in the public repository.} The digest of eleven papers and the ATLAS manual text
+files are publicly tracked. Removing them from the current tree would not remove them from the git history.
+\item \textbf{Publication overlap.} The device data, an analytic model of them, and crystalline DFT of \InO{}
+and W:\InO{} (PBE) with interface slabs are already published \citep{Januar2026}. Any paper of
+this project that shows the curves or re-analyses the paper's metrics overlaps with that publication and needs the
+fabrication group's agreement; a paper built on the author-generated calculations (the confinement series and its
+analysis, the vacancy test, the amorphous protocol) overlaps less but still relies on the devices for motivation and
+comparison.
+\item \textbf{Original against re-analysed results.} Original to this project: the crystalline confinement series and
+its laws, masses and alignment; the W-cell analysis and its correction; the vacancy test H-L; the amorphous protocol and
+its numerical qualification; the TCAD models and campaign; the registered extraction and its reconciliation with the
+published metrics. Re-analysed: every device metric (derived from the group's curves).
+\item \textbf{AI-tool processing.} The charter requires the fabrication group's consent before unpublished fab data are
+given to AI services. The four curves have been processed by AI agents throughout the project, including this
+monograph; three of them belong to published devices, and all four were obtained as data, and the consent question for them is part of the
+pending meeting.
+\item \textbf{Timestamps of registrations.} Registrations are timestamped by commits and pushed tags in the repositories;
+the charter's preferred external timestamp (a DOI from Zenodo or OSF) has not been obtained (paper-draft item P27).
+\item \textbf{Sealed and blind material.} The audit found the blind guard of the \file{.gitignore} and
+\file{PUBLIC_EXCLUSIONS.md} consistent with the absence of sealed runs and amorphous outputs in this checkout. One public
+commit message contains sealed-adjacent information; the monograph does not use it.
+\end{enumerate}
+
+\section{Recommendations for the humans}
+\label{sec:mono-audit-reco}
+
+These are recommendations, not decisions; each needs the approval named in the charter.
+\begin{enumerate}
+\item Hold the meeting with the fabrication group (HUM-001) with a written agenda: permission for the curves already
+public (keep, restrict or remove), permission and attribution for their use in publications, consent for AI processing,
+data custody for future holdout data, and authorship and contribution roles for any paper.
+\item Decide whether the copyrighted full texts and manual extracts should leave the public repository; if so, decide
+whether the history should be rewritten (a destructive operation on a public repository that affects every clone).
+\item Obtain an external timestamp (DOI) for the frozen register and the read-out freezes before any registered result is
+reported outside the group.
+\item Adopt or amend the charter (\dlog{D-10}), because the publication rules of this audit depend on it.
+\item Keep the monograph and the manuscript scaffold internal until items 1 and 3 are settled.
+\end{enumerate}
+
+\section{Data and code availability, as they could be stated today}
+\label{sec:mono-audit-availability}
+
+\emph{Data.} The measured transfer curves belong to the fabrication group and are available from them on reasonable
+request \citep[p.~10]{Januar2026}. All first-principles inputs and outputs and all device-simulation decks and outputs generated
+in this work are available in the project repository, except calculations whose results are under a registered
+blind-analysis protocol, which will be released when the protocol's release conditions are met. \emph{Code.} Structure
+generators, workflow scripts, the extraction code, the frozen scorer and read-out package (with their freeze tags), and
+the analysis scripts of this monograph are in the repository. Both statements are drafts for the humans to approve.
+
+\begin{keyresult}
+The project's own calculations are releasable, except the sealed and blind ones. The measured curves are a
+collaborator's data, already public without recorded permission; copyrighted full texts of papers and of the ATLAS
+manual are also public. Publication of any result that uses the curves needs the fabrication group's agreement on
+permission, attribution, AI processing and authorship, which the pending meeting is meant to settle.
+\end{keyresult}

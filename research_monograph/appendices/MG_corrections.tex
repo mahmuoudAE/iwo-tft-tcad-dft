@@ -1,0 +1,227 @@
+% MG_corrections.tex -- corrections and supersession register of the monograph.
+% Sources: RESULTS_LOG.md (2026-10-05 CORRECTION; 2026-10-14 errata), 03_CLAIMS_LEDGER.yaml histories,
+% analysis_2026-09-25/SYNTHESIS.md section K, research_monograph/evidence/audits/*.md,
+% research_record/claude/paper_draft_2026-10-13/TODO.md ("Inconsistencies found in the sources").
+\chapter{Corrections and supersession register}
+\label{app:mono-corrections}
+
+A result that was once reported and later corrected is kept, together with its correction, so that a reader of an
+older document can tell what changed and why. This register lists every correction that bears on the monograph. The
+identifiers X1--X8 are cited in the text as \corr{X1} etc. A correction never deletes the original statement: the
+original lines remain in the dated logs and in git history (\file{RESULTS_LOG.md} keeps every superseded line
+unchanged and adds dated errata).
+
+\section{Rules applied}
+\begin{enumerate}
+\item A later source does not win because it is later. A correction is accepted only when it names the error and the
+evidence for the new statement (a raw-output line, a recomputation, or a protocol). Every entry below has one.
+\item Corrections of numbers are checked against the raw outputs where the monograph has them
+(\cref{app:mono-registers}); corrections of wording are checked against the label of the claim in the ledger.
+\item Where the monograph re-checked a proposed correction and found it wrong, the rejection is recorded too
+(entry R1).
+\end{enumerate}
+
+\section{First-principles calculations (crystalline)}
+
+{\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.9cm}>{\raggedright\arraybackslash}p{4.3cm}>{\raggedright\arraybackslash}p{5.1cm}>{\raggedright\arraybackslash}p{3.6cm}@{}}
+\caption{Corrections of first-principles statements. Dates are those of the log entries (local time of the record).}
+\label{tab:mono-corr-dft}\\
+\toprule
+ID & Superseded statement & Current statement & Basis \\\midrule\endfirsthead
+\toprule ID & Superseded statement & Current statement & Basis \\\midrule\endhead
+\bottomrule\endfoot
+X1 & 2026-09-30: W forms a 5d-derived state about 0.19~eV \emph{below} the host conduction band; $E_F$ is pinned in it;
+W acts as a localised or deep donor in the 1~nm film; an unexplained 1.1--1.65~eV shift of all levels on the vacuum
+scale. &
+Band-count error. The In PAW set has 4d$^{10}$ in the valence (5 bands per In) and the W set 5s$^2$5p$^6$ (4 bands), so a
+W-doped cell has one fewer occupied band below the gap than the pure cell; the valence-band top of the W cell is band
+$n_{\mathrm{pure}}-1$. Corrected: the W-5d-rich level is resonant in the conduction band, 1.22 (1~nm), 1.34 (2~nm),
+1.76 (bulk 24d) and 1.80~eV (bulk 8b) above the host band bottom at $\Gamma$, at the computed filling of three donated
+electrons per cell; $E_F$ lies 1.2--1.8~eV inside the host band. The near-$E_F$ placement is computed; ``pinning'' by
+the filling is an interpretation; that W stays ionised at device densities is inferred, not computed. &
+RESULTS\_LOG 2026-10-05 CORRECTION and 2026-10-14 C022 caveat; ledger \claim{C022}; \cref{ch:mono-w-vac}. \\
+X2 & 1~nm valence-band shift $\Delta E_{\mathrm{v}} = -0.056$~eV (EA/IP route); $\Delta E_{\mathrm{v}}(1)-\Delta E_{\mathrm{v}}(2)
+= -0.002$~eV in the signed convention. &
+With the same termination a lower VBM raises the IP, so $\Delta E_{\mathrm{v}}(1)-\Delta E_{\mathrm{v}}(2) =
+\mathrm{IP}(2)-\mathrm{IP}(1) = +0.0019$~eV and $\Delta E_{\mathrm{v}}(1~\mathrm{nm}) = -0.0521$~eV. Now
+$\dEc - \Delta E_{\mathrm{v}} = 0.8477 + 0.0521 = 0.8998$~eV $= \Delta\Eg(1~\mathrm{nm})$ exactly. No deck used the old value. &
+RESULTS\_LOG 2026-10-14 errata 1; \file{bulk_alignment.py} line 105 fixed; \fact{013}, \fact{015}. \\
+X3 & 2~nm IWO final SCF and projections attributed to cluster 12835131. &
+12835131 stopped after 60~s (33 MPI ranks cannot form 2 pools); the outputs used come from cluster 12835211 (\texttt{-nk 1}). &
+errata 2. \\
+X4 & 0.75 and 0.51~nm films ``preliminary, not in RESULTS\_LOG''; entered as tabulated points of the V2/V3 laws. &
+Logged 2026-10-14. The nominal 0.51~nm film relaxes to In$_8$(OH)$_{24}$ (outside every law); the nominal 0.75~nm film
+(H--H 0.695~nm) is polar without a dipole correction and is excluded from new primary $\dEc$ fits; the frozen V3/C10
+laws that include it are kept with a caveat. & \claim{C021}; \cref{sec:mono-dft-thin}. \\
+X5 & (device model, see \cref{tab:mono-corr-tcad}) & & \\
+X6 & ``The'' in-plane mass of the 2~nm film is $0.206\,m_0$; bulk $0.159\,m_0$. &
+Masses depend on the fit basis. Band-edge (10-point Kane): bulk $0.1541\,m_0$, 2-D DOS masses $0.443/0.337/0.279/0.203\,m_0$
+at H--H 0.461/0.695/0.930/1.962~nm. Four-point ``deck'' basis: bulk $0.1588\,m_0$, 2~nm $0.206\,m_0$. Every mass in the
+monograph names its basis. & \claim{C039}; \cref{ch:mono-masses}. \\
+X7 & Weak moments of 0.6--0.7~$\mu_{\mathrm{B}}$ in the bulk W cells. &
+Preliminary; coarse $k$ sampling of a degenerate electron gas can produce spurious Stoner moments. Not claimed. &
+RESULTS\_LOG 2026-09-29. \\
+X9 & Bulk W cell donates $5.5\times10^{21}$~cm$^{-3}$ (baseline ch.~13, two places). &
+$2.7\times10^{21}$~cm$^{-3}$ (3~e per 80-atom cell, $a^3 = 1094.6$~\AA$^3$); slabs $3.0\times10^{21}$ (1~nm) and
+$1.4\times10^{21}$~cm$^{-3}$ (2~nm). The old value used the 40-atom primitive volume. &
+recomputed from \file{f09_iwo_bulk.json}, \file{f10_iwo_slabs.json}; patch P3. \\
+X10 & Slabs ``have equivalent surfaces and no dipole''; ``the band edges are bulk-like, not surface states'' (general). &
+True for the 1 and 2~nm films; the 0.695~nm film is polar; at 0.461 and 0.695~nm the VB top lies on OH oxygens (98, 75\,\%). &
+\claim{C021}; patches P7, P8. \\
+X11 & W--O bond lengths ``identify W$^{6+}$''. &
+Consistent with W$^{6+}$ by an ionic-radius argument; L\"owdin W-5d counts (0.09--0.43~e) are not the W charge. &
+\fact{041}, \fact{045}; patch P6. \\
+X12 & Confinement laws at the Lin-label thicknesses 0.95/1.98~nm (V2, two points). &
+Laws on the relaxed H--H thickness (0.930/1.962~nm, plus 0.695~nm in fit3); $\dEc$ primary fit without the polar point. &
+\claim{C039}; \cref{ch:mono-masses}. \\
+E3--E5 & 2~nm IWO final SCF ``on the GPU''; slab2r\_final\_cpu on 16 CPUs; W force 1.05~eV/\AA{} in the 0.7~nm MACE frame. &
+QE 7.5 CPU build, 33 ranks; 24 CPUs allocated (16 requested); the 1.05 is the largest Cartesian component, the vector
+norm is 1.084~eV/\AA{} (MACE 0.003). Wording only. & errata 3--5. \\
+R1 & (proposed by the audit of ch.~13) ``Sign error'' at baseline lines 549, 1325, 1328. &
+\textbf{Rejected as stated.} In the baseline's own convention ($\Delta E_{\mathrm{v}}$ a positive lowering, $\Delta\Eg =
+\dEc + \Delta E_{\mathrm{v}}$) those lines are consistent; the error was the mixture of that convention with the signed
+table. The revision uses the signed convention throughout. & \file{evidence/audits/13_dft_patch_plan.md} P1. \\
+\end{longtable}
+}
+
+\section{Amorphous calculations and machine-learned structures}
+
+{\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.9cm}>{\raggedright\arraybackslash}p{4.3cm}>{\raggedright\arraybackslash}p{5.1cm}>{\raggedright\arraybackslash}p{3.6cm}@{}}
+\caption{Corrections and disclosures for the amorphous campaign (no electronic quantity of an amorphous cell is given).}
+\label{tab:mono-corr-amorph}\\
+\toprule
+ID & Superseded statement or event & Current statement & Basis \\\midrule\endfirsthead
+\toprule ID & Superseded statement or event & Current statement & Basis \\\midrule\endhead
+\bottomrule\endfoot
+X8 & Machine-learned (MACE-MPA-0) melt-quench structures as amorphous models. &
+The registered force check failed overall (W first shell). The structures are DFT-relaxed starting points, not
+validated amorphous models; ML-stage structural statistics are not reported as results. & \claim{C037}; \cref{ch:mono-amorph}. \\
+X13 & Restarting a relaxation from the same geometry reproduces the continued SCF. &
+Not for aIWO\_0p8\_s2 at production tolerance (max $|\Delta F| = 4.99\times10^{-3}$~Ry/bohr with identical settings); cause open. &
+\claim{C036}. \\
+D1 & Sight event: relaxation-SCF Fermi energies and Kohn--Sham eigenvalues of two 2.0~nm W cells were parsed on
+2026-10-12 (about 12:49Z), before any read-out rule allowed it. &
+Disclosed as the A36 erratum; it is one reason the 2.0~nm H-N endpoint can never be scored (A37). The values are not
+reproduced anywhere in the monograph. & register \amend{A36}, \amend{A37}. \\
+D2 & A Fermi energy of one 1.0~nm undoped cell at a non-final geometry appears in a log entry of 2026-10-11. &
+Not in the register's sight history at the time; raised for a ruling (paper draft placeholder P28). Not reproduced here. &
+paper\_draft TODO P28. \\
+\end{longtable}
+}
+
+\section{Device model and data analysis}
+
+{\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.9cm}>{\raggedright\arraybackslash}p{4.3cm}>{\raggedright\arraybackslash}p{5.1cm}>{\raggedright\arraybackslash}p{3.6cm}@{}}
+\caption{Corrections of device-model and data-analysis statements.}
+\label{tab:mono-corr-tcad}\\
+\toprule
+ID & Superseded statement & Current statement & Basis \\\midrule\endfirsthead
+\toprule ID & Superseded statement & Current statement & Basis \\\midrule\endhead
+\bottomrule\endfoot
+X5 & V1 (\file{FINAL_STATUS.md}, 2026-09-21): ``publication-ready as a calibrated thickness-resolved TCAD parameter
+extraction''; run\_0014 a ``validation''; confinement ``accounts for'' the 0.58~V threshold step; ``one fitted
+electrostatic value''. &
+A calibrated, explicitly non-unique description of three single devices; not validated. run\_0014 is a shared-parameter
+out-of-sample threshold test that failed ($-0.294$~V); every later held-out 6.3~nm test failed too (\claim{C014},
+\textsc{falsified}). Confinement is physically expected but not identifiable from $\Id$--$\Vg$ (\claim{C018}). Fitted:
+shared $\Qf$, the 6.3~nm $\Qf$, three band mobilities, the tail anchor and width, the donor-law constants. &
+SYNTHESIS sec.~K; baseline ch.~11--12. \\
+T1 & ``15 real ATLAS launches''; ``the final set is four runs''. &
+52 launches by 2026-09-25 (run\_0010 aborted, run\_0011 stopped, run\_0018 timed out, run\_0027 malformed and
+retracted); final calibrated set runs 0038--0040. Later: V2 runs 0058--0060, campaign C10 runs from 0061 (17 of 200 by
+2026-10-14, \dlog{D-58}). & SYNTHESIS K; RUN\_INDEX.csv. \\
+T2 & $\SSmin$ used as a metric. & Not robust on a stepped grid (window-phase sensitive by about $\pm10$\mVdec); fixed-current
+SS and the registered normalised window are used. & SYNTHESIS K; protocol (\dlog{D-05}). \\
+T3 & 13.2~nm SS ``agrees within 2.3~mV/dec''. & Agreement appears only after an additive floor is subtracted (two points);
+not claimed. In the registered normalised window the simulation is $16\pm3$\mVdec{} too high; reported as a finding
+(\dlog{D-06}). & \claim{C010}. \\
+T4 & Temperature predictions at 338/358~K as simulated. & ATLAS applied a $(T/300)^{-1.5}$ factor to the constant
+mobility (\texttt{tmun}); both variants are stated. & SYNTHESIS K; baseline ch.~10. \\
+T5 & ``From 2 to 13.2~nm the floors grow as $t^{3.85}$''; gate leakage ``excluded''. &
+$t^{3.85}$ is a fit through three single-device points with local exponents 3.1 and 5.1 (\claim{C004}, fitted); gate
+leakage is unlikely by inference (flat floors), no gate current was recorded (\claim{C005}). & patches to ch.~14. \\
+P1 & The paper's mobility ``is'' the saturation-formula peak; the workbook ``is therefore'' the paper's series. &
+The saturation-formula peak reproduces the published values with no free factor (\claim{C030}, derived) and is the
+leading candidate for the paper's definition (\claim{C031}, inferred); recipe and same-device provenance unconfirmed
+(\claim{C033}). & ledger history R-RQ-001; patches to ch.~3, 9, 11. \\
+P2 & ``The paper reports SS of 60--70~mV/dec''. & This holds at 2~nm only; the paper's own Fig.~1b gives 61.8 / 87.4 /
+119.3~mV/dec for 2.0 / 6.3 / 13.2~nm (digitised); the published values are reproduced by several near-floor
+estimators, so the method is not identified (\claim{C025}, \claim{C032}). & \cref{ch:mono-provenance}. \\
+\end{longtable}
+}
+
+\section{Corrections made in the monograph's own review (Gate 6)}
+\label{sec:mono-corr-review}
+
+Two independent reviews of the draft (a referee-style check of the theory chapters and a numbers, labels and blindness
+audit) found the following errors in the monograph's own text; each was verified before it was corrected, and the
+superseded wording does not survive elsewhere in the monograph or the manuscript framework.
+
+{\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.9cm}>{\raggedright\arraybackslash}p{4.3cm}>{\raggedright\arraybackslash}p{5.1cm}>{\raggedright\arraybackslash}p{3.6cm}@{}}
+\toprule
+ID & Superseded statement & Current statement & Verified by \\\midrule\endhead
+V1 & SCF force noise ``of the same size as the relaxation threshold'' ($10^{-3}$~Ry/bohr). & The SCF correction is a
+norm over all $3N$ components: about $6\times10^{-5}$~Ry/bohr per component, some fifteen times below the threshold; the
+non-reproducible restart (C036) exceeds this noise. & RESULTS\_LOG 2026-10-11 (``norm over all atoms''). \\
+V2 & Variable-cell relaxations by Wentzcovitch dynamics. & BFGS on the cell (\texttt{cell\_dynamics = 'bfgs'}); bulk
+criteria $10^{-4}$/$10^{-5}$, pressure 0.2~kbar. & The input files. \\
+V3 & The 40~meV excess of the 2~nm valence shift over single-band EMA ``within the spread of alignment routes''. &
+Kane-consistent EMA agrees at 1~nm; at 2~nm the 38~meV excess exceeds the route spread (5~meV) and plateau flatness
+(8~meV) and is unexplained. & \file{confinement_analysis.json}; \cref{tab:dft-partition}. \\
+V4 & A finite barrier ``does not rescue'' the envelope model (decay length 0.1~nm). & With continuity of $F'/m$ and
+$m_0$ outside, a 4~eV barrier gives 0.25~eV at 1.962~nm (computed 0.281); the model is not predictive, not refuted. &
+Recomputed. \\
+V5 & The Kane mass relation holds ``within 2\,\% at three of four thicknesses''; the mass increase is ``a bulk
+band-structure effect, not a surface effect''. & Within 1\,\% at 1.962~nm, 10\,\% at 0.930~nm; the two thinner films do
+not test it. Claims M004, MS-04 revised. & FACT-027; fit window. \\
+V6 & Dielectric enhancement of donor binding up to 0.45~eV for the device films. & The device stack is \AlO{} (2~nm) on
+\HfO{} with air above; the \HfO{}-backed side gives essentially no enhancement; 0.45~eV holds only for an
+\AlO{}/air environment. & Device stack (\cref{ch:device}). \\
+V7 & W cells ``at the doping limit, where the resonance is being filled''. & At the forced filling $E_F$ has reached
+the resonance; not independent evidence of pinning. & MV width 0.136~eV. \\
+V8 & Full activation of 2\,\% W ``$6\times10^{20}$\cmcu''; compensation ``must'' explain the gap. & $6\times10^{20}$
+(one electron per W) to $1.8\times10^{21}$\cmcu{} (three per W); the fitted donor density is not identifiable (C016), so
+the argument is one of scale (\prov{inferred}). & Cation density from the PBE lattice. \\
+V9 & Conclusions: H-L, the floor, the mobility definition and the confinement share under ``strongly supported'' or
+``demonstrated''. & Re-sorted under the weakest class of any part (\cref{sec:concl-inferred}). & Ledger labels C005,
+C031, C038, C018. \\
+V10 & Single-subband limit ``up to about 6~nm''. & One subband at 2~nm, one or two at 6.3~nm (the law is extrapolated
+3--7 times beyond its data). & Kane box recomputed. \\
+V11 & Smaller items: HSE ratio model now uses the norm-conserving PBE gap (0.98--1.16); W preference ratio 440 (not
+430); swing deviations quoted per film; deck-basis mass differences ($-3.0$ to $+0.5$\,\%); site energy 0.2579~eV in
+the registry; ``5.3\,\% W'' of the device paper's DFT removed (no source); the 31.8~nm curve is not from the published
+series. & Respective sources. \\
+V12 & Marzari--Vanderbilt occupation $\tfrac12\mathrm{erfc}(x-a) - (2\pi)^{-1/2}e^{-(x-a)^2}$: 0.60 at $\mu$, negative
+weights above $\mu$ (minimum $-0.083$); the theory review's numbers for item 13 used this form. & This was the mirror
+image $1-\tilde f(-x)$ of the weight Quantum ESPRESSO applies. Correct form $\tfrac12\mathrm{erfc}(x+a) +
+(2\pi)^{-1/2}e^{-(x+a)^2}$: 0.40 at $\mu$, never negative, above one below $\mu$ (maximum 1.083 at $x=-\sqrt2$). &
+QE \texttt{wgauss}; printed occupations of the 8b W cell reach 1.074, none negative (found by a presentation reviewer). \\\bottomrule
+\end{longtable}
+}
+
+\section{Inconsistencies found in the record (not corrected here)}
+The following inconsistencies were found in frozen or private record files. The monograph does not edit those files;
+it states which reading it uses. They are listed for the record keepers.
+
+\begin{enumerate}
+\item The register header lists the post-freeze amendments as ``A17 to A31, A34 and A35'' in one place, while A36--A44
+exist. The monograph uses the amendment texts themselves.
+\item A36 time: 2026-10-12T13:21Z in the register (commit b164faa) against 13:25Z in the decision log (D-40). The
+monograph uses the register time.
+\item The register still marks A15 as ``proposed'' in one passage, although D-16 and D-26 approved it.
+\item Time zones: decision-log dates are local (UTC+8), register times are UTC; a freeze at 2026-10-10T18:33Z appears
+as a decision of 2026-10-11.
+\item The SRH bound is stated as ``$\geq10^{14}$ below the currents'' and as $10^{-28}$ against $\geq10^{-15}$~A/\textmu m
+(a factor $10^{13}$) in two places of the campaign design. The monograph quotes the numbers, not the factor.
+\item The bulk amorphous references are said to have ``125 atoms each''; by the composition rules aIWO\_bulk\_s1
+(In$_{49}$W$_1$O$_{76}$) has 126.
+\item One plan names MACE-MP-0, while the validation protocol, the register and the ledger use MACE-MPA-0. The
+monograph follows the validation protocol.
+\item Stage counts of the campaign: 181 + 19 reserve (design table) against 184 entries + 16 reserve (regenerated matrix).
+\item \file{01_CURRENT_STATE.md} (2026-10-07) is stale for DFT, the campaign and the budget; it is used only for device and
+data facts.
+\end{enumerate}

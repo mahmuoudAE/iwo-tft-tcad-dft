@@ -1,0 +1,178 @@
+% 12_alternatives.tex -- Part 12, alternative explanations and uncertainty. Sources: research_monograph/chapters/
+% M13_alternatives_uncertainty.tex (tab:mono-alt-tc, sec:mono-alt-6p3, tab:mono-alt-budget, keyresult),
+% M06_defect_theory.tex (sec:mono-defect-hydrogenic, sec:mono-defect-compensation, keyresult), 09_mechanisms_rev.tex
+% (6.3 nm hypothesis study A1-A6, rigid/shape decomposition), report_latex_full/chapters/08_six_nm.tex (A6 = run 0034,
+% post hoc; the same statements are in 09_mechanisms_rev.tex), M12_multiscale.tex (tab:mono-ms-budget,
+% recommendations), M05_confinement_theory.tex (extrapolation of the laws), M04_dft_theory.tex (PBE gap),
+% M07_provenance.tex and 03_device_data_rev.tex (stack order assumed; 31.8 nm curve outside the published series),
+% M15_conclusions.tex (required measurements and calculations); appendices/MG_corrections.tex (V1 SCF noise, V6
+% dielectric bound, V8 compensation, V10 extrapolation, V11 31.8 nm curve); evidence/FACT_REGISTRY.tsv (FACT-002, 025,
+% 030, 080, 101, 102); evidence/CLAIM_SOURCE_MAP.tsv (M006, C014, C016, C018, C026, C028, C029, C032, C033, C037);
+% evidence/derived/defect_estimates.json, multiscale_budget.json.
+% Figure 12_binding.pdf: tools/fig_12_donor_binding.py (hydrogenic formulas of M06; checked against FACT-080).
+% No amorphous electronic quantity; no ATLAS result from stage S2 on (S1-05 is quoted as in M08/M12).
+% Note: frame bodies start with a command, never with a brace group (beamer would read a subtitle).
+\partslide{Part 12}{Alternative explanations and uncertainty}
+
+% denser slides: footnotesize bullets, local to the frame in which it is called
+\providecommand{\twelvedense}{\setbeamerfont{itemize/enumerate body}{size=\footnotesize}%
+  \setbeamerfont{itemize/enumerate subbody}{size=\footnotesize}}
+\providecommand{\twelveTop}{\vspace{-4mm}}
+\providecommand{\twelveData}{Data: Prof.\ M.-H.\ Lee's group, NTU; one device per thickness}
+% re-use the mark of a footnote already placed on the same slide (same work cited twice; the mark number is recorded
+% globally right after the first citation, so it follows the footnote order)
+\providecommand{\twelveSee}[1]{\hbox{\,{\usebeamercolor[fg]{footnote mark}\scriptsize[#1]}}}
+% numbers in text digits (siunitx detect-all), keeping an explicit plus sign
+\providecommand{\twelveN}[1]{\num[retain-explicit-plus]{#1}}
+% evidence label inside a \src line: same as \lab, but at the size of the surrounding source text
+\providecommand{\twelveLab}[1]{{\color{inkgrey}[\textsc{\MakeLowercase{#1}}]}}
+
+% ---------------------------------------------------------------------------------------------------------------------
+\begin{frame}[t]{Five explanations of the thickness trend need no W physics}
+  \twelveTop\twelvedense
+  \footnotesize
+  Observed, one device per film. From 2.0 to 6.3\,nm: $\Delta\Vthcc =$ \twelveN{-0.018}\,V, peak $\mu_{\mathrm{FE}}$
+  $\times$0.9, $I_{\mathrm{on}}$ $\times$0.79. From 6.3 to 13.2\,nm: \twelveN{-0.561}\,V, $\times$4.6, $\times$7.6. The
+  31.8\,nm device does not switch off \lab{observed}.\par
+  \vspace{0.3mm}
+  % plain tabular (not tabularx): tabularx typesets its body several times and would duplicate the footnote
+  \begingroup\scriptsize
+  \setlength{\tabcolsep}{4.5pt}
+  \renewcommand{\arraystretch}{1.08}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.7cm}>{\raggedright\arraybackslash}p{7.55cm}>{\raggedright\arraybackslash}p{3.05cm}@{}}
+    \toprule
+    Explanation & For and against & Discriminating test \\
+    \midrule
+    Back-surface depletion, $W_{\mathrm{dep}} = N_s/N_D$
+      & air-side $N_s$ = \num{e11}--\num{e12}\cmsq,
+        $N_D$ = \numrange[range-exponents=combine-bracket]{0.25e18}{2.7e18}\cmcu:
+        $W_{\mathrm{dep}}$~=~0.4--40\,nm \lab{derived} allows a 6--13\,nm crossover without W
+      & capping, or vacuum against air, moves the crossover \\
+    Donor density rising with thickness
+      & the device fit needs exactly this, $N_{D,\mathrm{eff}} \propto 1 + (t/20\,\mathrm{nm})^4$, but it is
+        not identifiable \lab{fitted}
+      & depth-resolved composition \\
+    Structural change (grains, crystallinity)
+      & smaller grains for IWO than for \InO{} at comparable
+        thickness\sref{Januar2026}; not quantified for these devices
+      & GIXRD and TEM on the same films \\
+    Donor deactivation by confinement
+      & for $t < a_B^*$ = 2.7\,nm, binding above the bulk 25\,meV: about $2\times$ at 2\,nm, $4\times$ in strict 2-D;
+        W-independent; not computed \lab{theory}
+      & Hall density against thickness, \InO{} and IWO \\
+    Smooth law plus device spread
+      & with one device per film, indistinguishable from the rows above
+      & $\ge$10 devices per thickness; kink against smooth fit \\
+    \bottomrule
+  \end{tabular}\par\endgroup
+  \src{Depletion: ordinary values of $N_s$ and $N_D$, not the fitted donor law; Debye length 2.4--7.8\,nm; model V1
+    back-charge runs 0030, 0035 did not settle depletion. W-specific loss of extended carriers (H-N):
+    \textsc{unresolved} by construction (Part 11). Proposed: about 1\,nm steps from 3 to 15\,nm at 0, 2 and 4\,at.\,\%
+    W, several devices each. \twelveData: 2.0--13.2\,nm from the published series, 31.8\,nm
+    supplied with the data; C016, C026, C029.}
+  \takeaway{A dense thickness series, capped and uncapped, would decide between them.}
+\end{frame}
+
+% ---------------------------------------------------------------------------------------------------------------------
+\begin{frame}[t]{No tested mechanism explains 6.3\,nm; spread is untested}
+  \twelveTop\twelvedense
+  \begingroup\scriptsize
+  \setlength{\tabcolsep}{4.5pt}
+  \renewcommand{\arraystretch}{1.05}
+  \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.95cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{2.75cm}@{}}
+    \toprule
+    Candidate (model V1, post hoc) & Result (calibrated run: $\Vthcc$ missed by \twelveN{-0.294}\,V) & Verdict \\
+    \midrule
+    Thickness error, $t =$ 5.3\,nm & \twelveN{+0.036}\,V (12\,\%); via $\dEc$ alone needs $t \approx$ 2.1\,nm
+      (67\,\% error) & rejected \\
+    Fewer donors & \twelveN{+0.030}\,V, a factor of ten short & rejected \\
+    Back-surface charge & matches $\Vthcc$, but the swing is off by \twelveN{-64.1}\,mV/dec & rejected as sole
+      cause \\
+    Front $D_{\mathrm{it}}$\,$\times$5 & \twelveN{+0.051}\,V; the full miss needs $\times$23--24, at 6.3\,nm
+      only & rejected at plausible $D_{\mathrm{it}}$ \\
+    Combination & 0.215 of 0.294\,V (73\,\%); swing off by \twelveN{-45.9}\,mV/dec & rejected \\
+    No confinement law & misses by only \twelveN{-0.057}\,V; the on-state fails as in every run & not an
+      explanation \\
+    Film-specific front charge & $Q_f =$ \num{8.7e10} instead of \num{1.73e12}\cmsq{} fits & a calibration
+      \lab{fitted} \\
+    \midrule
+    Uniform donors (6.3--13.2\,nm fit)$^{\ast}$ & \num{2.2e18}\cmcu: \twelveN{-0.25}\,V for 2.0--6.3\,nm (measured
+      \twelveN{-0.018}\,V) & rejected \\
+    \bottomrule
+  \end{tabularx}\par\endgroup
+  \src{Rejections are model-conditional (model V1 calibration) \twelveLab{computed}; $^{\ast}$1-D surrogate, not ATLAS.
+    Run 0014; C028. Data: Prof.\ M.-H.\ Lee's group, NTU.}
+  \vspace{-0.6mm}
+  \begin{itemize}\setlength{\itemsep}{0pt}
+    \item The miss: a rigid 0.294\,V (flat within 3\,mV, \num{e-11}--\num{e-9}\,A/\textmu m; 0.057\,V without the
+      $\dEc$ law) plus a shape part, \twelveN{+0.16}/\twelveN{+0.19}\,V at \num{e-7}/\num{2e-7}\,A/\textmu m, the
+      only part independent of the $\dEc$ law and $Q_f$ \lab{computed}.
+    \item Untested: device spread\sref{Januar2026}, batch, sweep history, real non-monotonic electrostatics (prior
+      low). Decisive: $\ge$10 devices at 2, 4, 6.3, 9, 13\,nm from one run; the last is falsified by a smooth trend.
+  \end{itemize}
+  \takeaway{For now, spread or a fabrication difference explains 6.3\,nm most economically.}
+\end{frame}
+
+% ---------------------------------------------------------------------------------------------------------------------
+\begin{frame}[t]{Confinement can deactivate shallow donors, independent of W}
+  \twelvedense
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.60\textwidth}
+      \begin{itemize}
+        \item Bulk hydrogenic donor, $m^*$ = 0.208\,$m_0$, $\varepsilon_s$ = 10.55\sref[p.~225102-1]{Stokey2021}:
+          $E_D$ = 25.4\,meV, $a_B^*$ = 2.68\,nm, Mott density $n_c$ = \num{9.1e17}\cmcu{} \lab{derived}; derivation: backup.
+        \item At $t$ = 2\,nm $\approx$ 0.75\,$a_B^*$ confinement roughly doubles $E_D$; the strict 2-D limit is four
+          times, 0.10\,eV. Weak screening by the surroundings raises the 2-D bound to 0.45\,eV (\AlO/air) or
+          0.11\,eV (\HfO/air, nearer the stack)\srefs{Bastard1981b,Cudazzo2011} \lab{theory}.
+        \item 2\,\% W fully active gives \num{6e20}--\num{1.8e21}\cmcu; the device fit needs
+          \num{2.5e17}--\num{1.8e18}\cmcu: compensation or inactive donors\sref{Lany2007}, an argument of scale
+          \lab{inferred}.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.37\textwidth}
+      \centering
+      \includegraphics[width=0.9\linewidth]{12_binding}\par
+      \raggedright
+      \src{Strict 2-D bound $4\,\mathrm{Ry}\,(m^*/m_0)/\bar\varepsilon^{\,2}$, $\bar\varepsilon = (\varepsilon_1 +
+        \varepsilon_2)/2$ (\AlO{} $\approx$ 9, \HfO{} 19.57, air 1); the device stack lies between the points, nearer
+        \HfO/air at large distances (review correction V6). Dotted: $\varepsilon_s$; dashed: bulk $E_D$.
+        \twelveLab{theory}; FACT-080; fit: C016.}
+    \end{column}
+  \end{columns}
+  \takeaway{A W-independent route to fewer active donors; order-of-magnitude, not computed here.}
+\end{frame}
+
+% ---------------------------------------------------------------------------------------------------------------------
+\begin{frame}[t]{The largest uncertainties are not numerical}
+  \twelveTop\vspace{-1mm}
+  % plain tabular (not tabularx): tabularx typesets its body several times and would duplicate the footnote
+  \begingroup\scriptsize
+  \setlength{\tabcolsep}{4.2pt}
+  \renewcommand{\arraystretch}{1.0}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{5.9cm}>{\raggedright\arraybackslash}p{1.25cm}>{\raggedright\arraybackslash}p{3.4cm}@{}}
+    \toprule
+    Source & Size or effect & Quantified & How it would be reduced \\
+    \midrule
+    One device per thickness & spread unknown; it enters every film-to-film difference & no &
+      $\ge$10 devices per thickness, one run, dual sweeps \\
+    Thickness values and definition & nominal, method unknown; definition ($\tHH$ or nominal): $\approx$
+      \twelveN{+-40}\,mV in $\Vthcc$ per \twelveN{+-0.2}\,nm at 2\,nm & partly & XRR and TEM on the same films; state the definition \\
+    Stack order, $\varepsilon$(\AlO) & assumed: \AlO{} against the channel, $\varepsilon \approx$ 9; registered
+      sensitivity to $\varepsilon$ = 7--11 sealed & sealed & stack order from the fabrication group \\
+    Non-identifiable threshold parameters & work function, $\chi$, $Q_f$ and $\dEc$ act as one number per film
+      (structural) & yes & C--V flat band against thickness; KPFM or UPS \\
+    Crystalline PBE inputs for amorphous films & (001) slabs, OH termination; amorphous shift sealed (H-K); ML force
+      check failed & partly & release of H-K; re-registered series, $\ge$2 seeds per endpoint \\
+    Density-of-states convention at 2\,nm & quasi-2-D against 3-D $N_{\mathrm{c}}$: 142\,mV in $\Vthcc$ (stage S1),
+      the largest model-side input & yes & state it with every fitted charge \\
+    PBE gap and functional & 0.89 against 2.7--2.9\,eV\srefs{Walsh2008,Irmscher2014}, differences only; HSE ratio
+      1.06--1.11 (1\,nm), at 2\,nm \lab{assumed}: \twelveN{+16} to \twelveN{+29}\,mV
+      & partly & optical gap against thickness; hybrid-functional W cell \\
+    \bottomrule
+  \end{tabular}\par\endgroup
+  \src{Effects on $\Vthcc$ \twelveLab{derived} (audit A13); S1-05 \twelveLab{computed} (ATLAS, seen before revision
+    2). Laws used 3--7 times beyond 1.96\,nm: $\dEc$(6.3\,nm) = 0.050--0.075\,eV over fits. Also: current
+    normalisation; SS estimators, up to 168\,\%; C018, C026, C037. Not limiting: DFT convergence, SCF force noise
+    $\approx$\,\num{6e-5}\,Ry/bohr per component, TCAD numerics $\approx$\,0.7\,\%.}
+  \takeaway{Device statistics, thickness metrology, stack order and non-identifiability dominate.}
+\end{frame}

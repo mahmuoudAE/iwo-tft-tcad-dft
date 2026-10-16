@@ -1,0 +1,144 @@
+% 14_conclusions.tex -- Part 14, conclusions and next steps. Sources: research_monograph/chapters/M15_conclusions.tex
+% (sec:concl-demonstrated, sec:concl-supported, sec:concl-inferred as re-sorted in Gate 6 (V9), tab:mono-concl-claims,
+% sec:mono-concl-validation, outlook, keyresult); M01_introduction.tex (contributions paragraph, lines 94-104);
+% M12_multiscale.tex (sec:mono-ms-explain, sec:mono-ms-reco, tab:mono-ms-budget, identifiability paragraph);
+% M14_audit.tex (findings and recommendations); M13_alternatives_uncertainty.tex (tab:mono-alt-floor: x7 / x1.02);
+% M10_w_and_vacancies.tex (tab:mono-w-open); M11_amorphous_protocol.tex (prop:mono-hn, D-43); M07_provenance.tex
+% (mobility reconciliation, tab:mono-prov-open, D-11); evidence/FACT_REGISTRY.tsv (FACT-004, 010d, 011d, 016, 017,
+% 026c, 026d, 027, 030, 043, 050, 051, 101-103); evidence/CLAIM_SOURCE_MAP.tsv (C002, C003, C005, C007, C014,
+% C018-C022, C024, C026, C029-C031, C037-C040, M001, M004, M007). No figure.
+% No amorphous electronic quantity; no ATLAS result from stage S2 on. No e-mail address (none in the README).
+% Note: frame bodies start with a command, never with a brace group (beamer would read a subtitle).
+% Note: a p-cell that starts with \lab (a \color whatsit) needs \leavevmode, or it is set one line too low.
+% Note: \sref marks are \scriptsize; they are kept out of the \tiny \src lines.
+\partslide{Part 14}{Conclusions and next steps}
+
+% local helpers of this section
+\providecommand{\fourteenTop}{\vspace{-4mm}}
+\providecommand{\fourteenData}{Data: Prof.\ M.-H.\ Lee's group, NTU; one device per thickness}
+% one finding per row: short heading, then one or two lines of text at \small
+\newenvironment{fourteenFindings}{\par\small\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.08}%
+  \begin{tabular}{@{}>{\raggedright\arraybackslash\bfseries}p{2.3cm}>{\raggedright\arraybackslash}p{11.45cm}@{}}}%
+  {\end{tabular}\par}
+
+% ---------------------------------------------------------------------------------------------------------------------
+\begin{frame}{Six results are demonstrated or computed within their scope}
+  \fourteenTop
+  % plain tabular (not tabularx): tabularx typesets its body several times and would duplicate the footnotes
+  \begin{fourteenFindings}
+    \toprule
+    Devices & $\Vthcc = 0.662$, 0.644, 0.083\,V at 2.0, 6.3, 13.2\,nm\sref{Januar2026}; 31.8\,nm stays on
+      \lab{derived} \\
+    Device models & Calibrations fit their own curves \lab{fitted}; every 6.3\,nm prediction failed \lab{falsified} \\
+    Confinement & PBE gap opening $+0.900$ / $+0.335$\,eV at 0.93 / 1.96\,nm, within 0.04\,eV of an independent
+      calculation\sref[p.~21542]{Lin2022}; 84\,\% in the conduction band at 2\,nm \lab{computed} \\
+    Masses & Electron mass 0.154, 0.203, 0.279\,$\mzero$ (bulk, 2, 1\,nm) \lab{computed}; bulk Kane relation, no fit:
+      within 1\,\% at 2\,nm, 10\,\% at 1\,nm \lab{derived} \\
+    W, crystalline & Resonant donor 1.2--1.8\,eV above the host band bottom, not deep \lab{computed} \\
+    Amorphous & ML structures failed the W force check \lab{computed}; H-N \textsc{unresolved} by rule \lab{derived} \\
+    \bottomrule
+  \end{fourteenFindings}
+  \src{Scope: crystalline cells, PBE, stated settings; each conclusion under the weakest class of its parts. Thresholds
+    reproduced independently; Parts 2, 6--8, 10, 11. Ledger by
+    row: C002/C003/C026/C029; C014; C020/C021/C039; C039/C040; C022, correction X1; C037, amendment A37. \fourteenData.}
+  \takeaway{Firm results concern the devices and the rules; PBE results hold for crystalline cells.}
+\end{frame}
+
+% ---------------------------------------------------------------------------------------------------------------------
+\begin{frame}{Three device results are strongly supported; two are inferred}
+  \fourteenTop
+  \begin{fourteenFindings}
+    \toprule
+    \multicolumn{2}{@{}l}{\footnotesize\textbf{Strongly supported}}\\
+    Contacts & A thickness-independent series resistance would need 83\,\% of $\Vd$ at 2\,nm \lab{derived} \\
+    Swing & Against $\Id/I_{\mathrm{on}}$ the three local swings collapse, in data and model V1 (Part 2)
+      \lab{observed} \\
+    Mobility & The saturation-formula peak gives the published\sref{Januar2026} mobilities, no free factor; not a
+      mobility of these curves \lab{derived} \\
+    \midrule
+    \multicolumn{2}{@{}l}{\footnotesize\textbf{Inferred}}\\
+    Floor & Unlikely to be gate leakage: flat in $\Vg$, but no gate current was recorded \lab{inferred} \\
+    Definition & Saturation formula: leading candidate for the paper's definition \lab{inferred}; values
+      \textsc{unresolved} \\
+    \bottomrule
+  \end{fourteenFindings}
+  \src{Mobility: 5.09, 3.86, 27.40 against 5.1, 3.73 (digitised), 27.4\cmVs{} (Part 2). Registered floor tests sealed.
+    Ledger by row: C019; C007; C030; C005; C031/C024. \fourteenData.}
+  \takeaway{Open on the device side: the origin of the floor and the paper's mobility recipe.}
+\end{frame}
+
+% ---------------------------------------------------------------------------------------------------------------------
+\begin{frame}{Confinement's share of the 2.0--13.2\,nm step and H-L remain open}
+  \fourteenTop
+  \begin{fourteenFindings}
+    \toprule
+    2.0--13.2\,nm step & Of $\Delta\Vthcc = -0.579$\,V: 44\,\% by rigid transfer of the PBE $\dEc$ law
+      \lab{derived}; about 50\,\% in the earlier report's calibrated model; about 18\,\% in the audit's all-inputs-off
+      forecast (a model counterfactual, not a physical share) \\
+    & Transfer curves cannot isolate confinement: with crystalline inputs it does not account for the 2.0--13.2\,nm step alone
+      \lab{inferred} \\
+    6.3\,nm misses & The threshold is flat from 2.0 to 6.3\,nm ($-0.018$\,V) where the computed shift implies about
+      0.2\,V: the direction and size of every miss; no cause assigned \lab{derived} \\
+    Vacancies & Crystalline, degenerately doped: far from W, $+0.73$\,eV against pure \InO{} (passes); next to W, a
+      further 0.53--0.56\,eV (significance unresolved); H-L is \textsc{unresolved} overall
+      \lab{computed}\,\lab{unresolved} \\
+    \bottomrule
+  \end{fourteenFindings}
+  \src{Vacancy energies: neutral O vacancy, spin unassessed, not formation energies at device conditions (Part 9).
+    Step shares: Part 10; audit forecast from register amendment A13. Ledger by row: M007/C018; M007/C014; C038.
+    \fourteenData.}
+  \takeaway{Open on the physics side: confinement's share of the 2.0--13.2\,nm step, and H-L.}
+\end{frame}
+
+% ---------------------------------------------------------------------------------------------------------------------
+\begin{frame}{Three contributions stand on the present evidence}
+  \fourteenTop
+  \begin{enumerate}\small
+    \setlength{\itemsep}{2.5mm}
+    \item A computed confinement series of crystalline (001) \InO{} films, 0.46--1.96\,nm, with masses, band-edge
+      partition and HSE06 check; the mass rise follows bulk non-parabolicity, so one law, $\dEc(t)$, carries both
+      \lab{computed}\,\lab{derived}
+    \item Tungsten in crystalline \InO{} is a resonant donor at high filling (deep-donor reading withdrawn), and a
+      registered crystalline vacancy test, H-L, scored \textsc{unresolved} \lab{computed}
+    \item A blind, registered protocol for devices and amorphous films, with a reconciliation of the published and
+      derived device metrics and of every failed 6.3\,nm prediction \lab{derived}\,\lab{inferred}
+  \end{enumerate}
+  \vspace{3mm}
+  {\footnotesize Status: no claim is approved for publication. Results that use the device curves need the fabrication
+    group's agreement (permission, attribution, AI processing, authorship; meeting pending); the frozen registrations
+    need an external timestamp (DOI).\par}
+  \src{Conditions: rows 1--2 crystalline, PBE (row 2 at one filling); row 3 uses the device data, the mobility recipe is
+    unconfirmed, and the amorphous outcomes are sealed. Ledger: monograph claim-status table; M001; M007;
+    C030/C031/C024.}
+  \takeaway{The strongest original result is computational and crystalline: the confinement series.}
+\end{frame}
+
+% ---------------------------------------------------------------------------------------------------------------------
+\begin{frame}{The decisive next steps are measurements}
+  \fourteenTop
+  \begingroup\footnotesize
+  \setlength{\tabcolsep}{3pt}
+  \renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{6.9cm}>{\raggedright\arraybackslash}p{6.88cm}@{}}
+    \toprule
+    \textbf{Measurements (by information per cost)} & \textbf{What it decides} \\
+    \midrule
+    Floor against $\Vd$ = 0.1--0.7\,V, gate current recorded & ohmic strip: floor $\times7$; diffusion: $\times1.02$ \\
+    Ten or more devices per thickness, dual sweeps & is 6.3\,nm on a smooth law? \\
+    XRR and TEM thickness of the same films & $\pm0.2$\,nm $\approx\pm40$\,mV in model $\Vthcc$ at 2\,nm \\
+    C--V flat band, optical gap, Hall density, photoemission & separates work function, affinity, charge and $\dEc$ \\
+    Dense 3--15\,nm series; 0, 2, 4\,\% W; capped or not & transition or smooth law; back-surface depletion \\
+    \midrule
+    \textbf{Calculations and registered work} & \\
+    \midrule
+    W cells with HSE06 or PBE+$U$, and at lower density & is the W-5d level above the edge at device density? \\
+    Release of the sealed amorphous results & amorphous confinement (H-K); W (H-G, H-N per cell) \\
+    Completion of the registered device campaign & one shared parameter set for all films? \\
+    \bottomrule
+  \end{tabular}\par\endgroup
+  \src{Floor ratios: ledger C005. Device statistics from one run; metrology with stack order; dense series in about 1\,nm steps. Also: dipole-corrected SCF of the 0.695\,nm film; charged vacancy cells; for H-N a
+    re-registered series with two seeds per endpoint; one device law, $\dEc(t)$, with its fit-option band and the
+    $N_{\mathrm{c}}$ convention stated. Release rule D-43; campaign C10; no measurement is available to this work (D-11).}
+  \takeaway{First the floor against drain bias, device statistics and thickness metrology.}
+\end{frame}
+% (The 'Thank you' slide moved to sections/15_closing.tex, after the acknowledgements.)

@@ -1,0 +1,59 @@
+% 00_title.tex -- title slide and outline (written by hand; not generated).
+{\setbeamertemplate{footline}{}
+\begin{frame}[plain,noframenumbering]
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=north west,inner sep=0] at ($(current page.north west)+(10mm,-8mm)$) {\ntuheader{11mm}};
+    \draw[ntumaroon,line width=0.6pt] ($(current page.north west)+(10mm,-23mm)$) -- ($(current page.north east)+(-10mm,-23mm)$);
+    \node[anchor=north west,inner sep=0,text width=140mm,align=left] at ($(current page.north west)+(10mm,-31mm)$) {%
+      {\Large\bfseries Thickness-Dependent Electronic Structure and Transport\\[1mm]
+       in Ultrathin W-Doped \InO{} Thin-Film Transistors\par}
+      \vspace{3mm}
+      {\normalsize\color{inkgrey} First-principles inputs, device simulation and registered tests\par}
+      \vspace{9mm}
+      {\small\textbf{Mahmoud Elrasheedy}\par}
+      \vspace{1.2mm}
+      {\footnotesize Advisor: Prof.\ Chao-Hsin Wu \quad\textperiodcentered\quad Mentor: Mukul Kumar\par}
+      \vspace{0.6mm}
+      {\footnotesize National Taiwan University\par}
+    };
+    \draw[rulegrey,line width=0.4pt] ($(current page.south west)+(10mm,17mm)$) -- ($(current page.south east)+(-10mm,17mm)$);
+    \node[anchor=north west,inner sep=0,text width=140mm,align=left] at ($(current page.south west)+(10mm,15mm)$) {%
+      {\scriptsize\color{inkgrey} Device data: Prof.\ Min-Hung Lee's group, National Taiwan University
+        (M.~Januar, Z.-F.~Luo; with K.-C.~Liu, Chang Gung University)\par}
+      \vspace{0.8mm}
+      {\scriptsize\color{inkgrey} October 2026 \quad\textperiodcentered\quad Unpublished results\par}
+    };
+  \end{tikzpicture}
+\end{frame}}
+
+\begin{frame}{Outline}
+  \begin{columns}[T]
+    \begin{column}{0.48\linewidth}
+      \begin{enumerate}\small
+        \item Motivation: ultrathin oxide channels
+        \item Devices and measured data
+        \item Research questions and registered tests
+        \item Device simulation: what calibration can and cannot show
+        \item First-principles methods
+        \item Quantum confinement of crystalline \InO{} films
+        \item Electron and hole masses
+      \end{enumerate}
+    \end{column}
+    \begin{column}{0.48\linewidth}
+      \begin{enumerate}\small\setcounter{enumi}{7}
+        \item Tungsten as a donor
+        \item Oxygen vacancies near W
+        \item From first principles to the device
+        \item Amorphous films: the registered protocol
+        \item Alternative explanations and uncertainty
+        \item Computational cost
+        \item Conclusions and next steps
+      \end{enumerate}
+    \end{column}
+  \end{columns}
+  \vfill
+  {\scriptsize\color{inkgrey} Evidence labels used throughout: \textsc{measured}, \textsc{derived}, \textsc{fitted},
+  \textsc{computed}, \textsc{observed}, \textsc{assumed}, \textsc{inferred}, \textsc{hypothesis}, \textsc{theory},
+  \textsc{unresolved}, \textsc{falsified}. Results that are sealed under the
+  registered release protocol are shown as placeholders only.\par}
+\end{frame}

@@ -1,0 +1,158 @@
+% M13_alternatives_uncertainty.tex -- competing explanations for each observation, and the uncertainty budget.
+% Sources: research_record/02_RESEARCH_QUESTIONS.md (H1-H8 and priors), ledger C004-C029, register H-A..H-N,
+% analysis_2026-09-25/SYNTHESIS.md, chapters M05-M12 of this monograph. Estimates: inline (Debye length, depletion width).
+\chapter{Alternative explanations and the uncertainty budget}
+\label{ch:mono-alternatives}
+
+A single explanation that fits the data is not evidence that it is the right one when several others fit equally well.
+This chapter lists, for every observation the project relies on, the explanations that remain open, the evidence for
+and against each, and the measurement or calculation that would separate them. It then collects the sources of
+uncertainty in one budget. The priors quoted are the subjective first-pass priors of the research-question file
+(\file{research_record/02_RESEARCH_QUESTIONS.md}); they are stated so that they can be argued with, not as evidence.
+
+% =====================================================================================================================
+\section{The non-uniform thickness dependence}
+\label{sec:mono-alt-tc}
+
+\paragraph{Observation.} From 2.0 to 6.3~nm the threshold moves by $-0.018$~V, the peak $\muFE$ by a factor 0.9 and the
+on-current by 0.79; from 6.3 to 13.2~nm by $-0.561$~V, 4.6 and 7.6; the 31.8~nm device does not switch off
+(\claim{C026}, \claim{C029}; one device per film). The research-question file states this as hypothesis H1: a critical
+thickness separates two regimes, and W shifts it (\claim{C027}, \prov{hypothesis}).
+
+\begin{table}[htbp]\centering\small
+\caption{Competing explanations of the non-uniform thickness dependence.}
+\label{tab:mono-alt-tc}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{3.8cm}@{}}
+\toprule
+Explanation & For / against & Discriminating test \\\midrule
+(a) Back-surface depletion: an acceptor-like charge $N_s$ at the air side depletes a layer $W_{\mathrm{dep}} = N_s/N_D$ &
+With $N_D = 2.5\times10^{17}$--$2.7\times10^{18}$\cmcu{} and $N_s = 10^{11}$--$10^{12}$~cm$^{-2}$, $W_{\mathrm{dep}}$ = 0.4--40~nm,
+so a crossover between 6 and 13~nm is reachable with ordinary values (Debye length 2.4--7.8~nm). Classical; needs no W
+physics. V1 back-charge runs (0030, 0035) exercised it without settling it & capping or vacuum vs air moves $t_c$;
+cheap TCAD electrostatics gives the predicted $t_c$ \\
+(b) Donor density growing with thickness (growth gradient of oxygen vacancies) & The V1 fit needs exactly this
+($N_{\mathrm{d,eff}} \propto 1+(t/20)^4$, \claim{C016}), but the fit is not identifiable & depth-resolved composition; thickness series on one run \\
+(c) Structural change with thickness (grain growth, onset of crystallinity) & the paper reports smaller grains for IWO than for \InO{} at comparable thickness \citep[p.~2]{Januar2026}; a
+thickness dependence is shown only in its SI (2 and 10~nm), not available to this project; not quantified for these
+devices & GIXRD, TEM on the same films \\
+(d) Shallow-donor deactivation by quantum and dielectric confinement & Binding several times the bulk 25~meV for
+$t < a_B^* = 2.7$~nm (\cref{sec:mono-defect-hydrogenic}); W-independent; not computed & carrier density (Hall) against thickness for \InO{} and IWO \\
+(e) W-specific loss of extended-carrier efficacy in thin films (H-N) & Unresolved by construction (\cref{prop:mono-hn}) & a re-registered amorphous series with two seeds per endpoint \\
+(f) No real crossover: a smooth law plus device-to-device spread & With one device per film, indistinguishable from
+(a)--(e) (\claim{C026}) & $\ge5$--10 devices per thickness; information-criterion comparison of kink and smooth fits \\\bottomrule
+\end{tabularx}
+\end{table}
+
+Priors (first pass): high that the dependence is non-uniform; medium that a sharp $t_c$ exists; mechanism unknown. The
+cheapest decisive step is not computational: a dense thickness series (about 1~nm steps from 3 to 15~nm, for 0, 2 and
+4~at.\,\% W, several devices each) with structural characterisation of the same films, capped against uncapped.
+
+\section{The 6.3~nm anomaly}
+\label{sec:mono-alt-6p3}
+
+\paragraph{Observation.} Every out-of-sample threshold prediction for 6.3~nm failed, by $-0.29$, $-0.37$ and
+$-0.23$~V (\claim{C014}); a monotonic confinement law implies a threshold 0.2~V below the measured one
+(\cref{sec:mono-ms-explain}); the 6.3~nm film has the lowest peak mobility and a much stronger gate dependence of the
+mobility than the 13.2~nm film ($\gamma = 1.13$ against 0.27; \claim{C011}, \claim{C012}).
+
+\paragraph{Explanations.} A priori more likely: device-to-device spread, a thickness error, a different fabrication
+batch, or sweep history. Less likely: real non-monotonic electrostatics (H3, prior low, \claim{C028}). The V1
+hypothesis study tested six mechanisms at 6.3~nm and none explained the miss; it decomposed the miss into a rigid
+0.294~V shift and a 0.16--0.19~V shape part (\cref{ch:6p3}). A thickness error would need the ``6.3~nm'' film to be
+electrostatically much thinner; with $d\dEc/dt = -0.012$~eV/nm at 6.3~nm, no plausible thickness error explains 0.2~V
+through confinement alone, so a thickness error would have to act through the donor or trap distribution. The
+registered campaign treats the 6.3~nm residual as unexplained (H-F) and reports its shift/shape decomposition rather
+than fitting it. \textbf{Decisive:} at least ten devices at 2, 4, 6.3, 9 and 13~nm from one run; H3 is falsified if
+6.3~nm lies on a smooth trend within the spread.
+
+\section{The off-state floors}
+\label{sec:mono-alt-floor}
+
+\paragraph{Observation.} Floors of $4.6\times10^{-15}$, $1.5\times10^{-13}$ and $6.6\times10^{-12}$~A/\textmu m that
+are flat in $\Vg$ (within 3\,\% at 13.2~nm) and rise steeply with thickness (local exponents 3.1 and 5.1); the 2~nm floor
+is at the level of the measurement setup.
+
+\begin{table}[htbp]\centering\small
+\caption{Explanations of the off-state floors.}
+\label{tab:mono-alt-floor}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{3.8cm}@{}}
+\toprule
+Explanation & Status & Discriminating test \\\midrule
+Ungated IWO strip in parallel (ohmic) & \prov{hypothesis}; with one constant fitted on 13.2~nm it under-predicts
+2.0 and 6.3~nm by factors 0.46 and 0.64 (V2 T1) \claim{C006}; registered as H-B & floor $\propto\Vd$ ($\times7$ from 0.1 to
+0.7~V); vanishes with mesa isolation \\
+Diffusion current of the paper's Eq.~1f & saturates for $\Vd\gg\kT/q$ ($\times1.02$ from 0.1 to 0.7~V) & same $\Vd$ series \\
+Gate leakage & unlikely: floors flat in $\Vg$ (\claim{C005}, \prov{inferred}); registered as H-C & gate current \\
+Generation (SRH, TAT) & calculated bound far below; registered as H-C (two-carrier tests) & -- \\
+Instrument floor (2.0~nm) & 1.3~pA total; H-A expects the decisive part to stay unresolved & instrument records \\\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Swing, mobility and contacts}
+\label{sec:mono-alt-transport}
+
+\paragraph{Swing collapse.} The collapse of the local swing against $\Id/\Ion$ (\claim{C007}) is consistent with
+surface-dominated tail states whose areal density hardly depends on thickness (H7, prior medium); it is falsified if
+the collapse fails within one composition when more devices are measured.
+
+\paragraph{Mobility.} The computed mass increase alone gives a band-mobility ratio of about 0.83 between 2.0 and 13.2~nm,
+about 14\,\% of the logarithmic drop that the calibrated models need (H-D forecast; \cref{sec:mono-c10-design}); interface scattering $\propto1/t$ (H-D), percolation in disordered films
+(IGZO.TOKYO branch) and contact effects are the candidates. A thickness-independent series resistance cannot create the
+trend (it would need 83\,\% of $\Vd$ at 2~nm, \claim{C019}); a thickness-dependent barrier is not excluded (H5). The
+definitional differences of \cref{ch:mono-provenance} must be removed before any mobility comparison with the paper.
+
+\section{First-principles alternatives}
+\label{sec:mono-alt-dft}
+
+\begin{itemize}
+\item \emph{W as a donor.} Computed: resonant level near $E_F$ at very high filling. Alternatives at device density: a
+hybrid functional lowers the level below the host edge; a polaronic W state; compensation by W-related acceptors. Tests:
+\cref{tab:mono-w-open}.
+\item \emph{Vacancies.} The neutral-cell energy differences mix band filling with chemistry; charged-cell formation
+energies with corrections could reverse the conclusion at device Fermi levels (\cref{sec:mono-defect-formation}).
+\item \emph{Confinement.} Crystalline OH-terminated (001) slabs against amorphous films with other terminations and
+interfaces; the polar 0.695~nm point; the thickness definition. H-K and H-H test part of this (sealed).
+\end{itemize}
+
+% =====================================================================================================================
+\section{The uncertainty budget}
+\label{sec:mono-alt-budget}
+
+\begin{table}[htbp]\centering\small
+\caption{Sources of uncertainty, their type and whether they are quantified.}
+\label{tab:mono-alt-budget}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{2.6cm}@{}}
+\toprule
+Source & Size or effect & Quantified? \\\midrule
+Device-to-device variation & unknown; one device per film & no \\
+Thickness values & nominal; measurement method unknown & no \\
+Current unit and normalisation & A/\textmu m inferred from the schematic & partly (\claim{C033}) \\
+Stack order, $\varepsilon$(\AlO) & assumed; $\varepsilon$ 7--11 in a registered sensitivity & sealed \\
+Extraction estimators & registered protocol; alternatives differ by up to 168\,\% in SS & yes (\claim{C032}) \\
+TCAD numerics & about 0.7\,\%; DOS offset $+2.5/+1.0/+0.5$\,\% in $\Ion$ & yes \\
+Parameter non-identifiability & work function, $\chi$, $\Qf$, $\dEc$ act as one number & yes, structurally (\claim{C018}) \\
+$\Nc$ convention at 2~nm & 142~mV in $\Vthcc$ & yes (S1-05) \\
+DFT functional & HSE/PBE ratio 1.06--1.11 for the gap opening; masses $+3$ to $+25$\,\% (estimated) & partly \\
+DFT structure model & crystalline (001), OH termination, polar 0.695~nm point & partly \\
+DFT numerics & $k$, cutoff, vacuum converged by registered criteria; SCF force noise $10^{-3}$~Ry/bohr & yes \\
+Thickness definition in DFT & H--H vs mass-equivalent vs nominal; 0.20~eV/nm in $\dEc$ at 2~nm & yes \\
+Amorphous structure & one quench per cell; ML potential failed its force check & partly (\claim{C037}) \\\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Forking paths.} Several choices were made after seeing data: the swing agreement windows (post hoc, one rule
+for all films), the amendment A1 window, branch adoption in the campaign (data-selected by a rule fixed in advance),
+and several register amendments labelled result-informed. The record discloses each of them, and decision D-06 forbids
+choosing windows or floor treatments to manufacture agreement. A reader should nevertheless treat every agreement
+between model and data in this project as calibration or as a post hoc description unless it was registered before the
+outcome and passed; at the evidence state of this monograph no such test of a device-level prediction has passed.
+
+\begin{keyresult}
+For every main observation more than one explanation remains open. The non-uniform thickness dependence can be produced
+by classical back-surface depletion with ordinary parameters, by a donor gradient, by structural change, by
+confinement-induced donor deactivation, or by device spread, and the W-specific mechanism H-N cannot be decided by the
+current campaign. The 6.3~nm anomaly is most economically explained by device spread or a fabrication difference until
+device statistics exist. The off-state floor is decided by its drain-bias dependence. The largest uncertainties are not
+numerical: one device per film, unknown thickness metrology, unknown stack order and the non-identifiability of the
+threshold-setting quantities.
+\end{keyresult}

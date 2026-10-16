@@ -1,0 +1,155 @@
+% M12_multiscale.tex -- multiscale integration: what passes from first principles to the device model, with which
+% label and uncertainty, and what it can and cannot explain. Numbers: evidence/derived/multiscale_budget.json
+% (computed 2026-10-14 from the b03 laws), FACT registry, register H-E/A13, ledger C014/C018.
+\chapter{Multiscale integration: from first-principles quantities to device parameters}
+\label{ch:mono-multiscale}
+
+The project links two levels of description: Kohn--Sham calculations of crystalline films a few unit cells thick, and
+drift--diffusion simulations of transistors 20~\textmu m long. This chapter states what passes between them, with which
+provenance label, which assumptions the passage introduces, and how much each assumption matters for the quantity the
+device data constrain most directly, the threshold voltage. It ends with what the transfer can and cannot explain.
+
+% =====================================================================================================================
+\section{The chain}
+\label{sec:mono-ms-chain}
+
+\begin{figure}[htbp]\centering
+\begin{tikzpicture}[node distance=5mm and 7mm, box/.style={draw, rounded corners=2pt, align=center, font=\footnotesize,
+  minimum height=9mm, text width=3.1cm}, arr/.style={-{Stealth[length=2mm]}}]
+\node[box] (dft) {Crystalline PBE slabs\\0.46--1.96~nm\\\prov{computed}};
+\node[box, right=of dft] (law) {Power laws in $t_{\mathrm{HH}}$\\$\Delta\Eg$, $\dEc$, $\Delta m$\\\prov{fitted} to computed points};
+\node[box, right=of law] (deck) {Deck values\\$3.05+\Delta\Eg$, $4.3-\dEc$,\\$0.208+\Delta m$, $\Nc$ \prov{calculated}};
+\node[box, below=of deck] (atlas) {ATLAS drift--diffusion\\shared fitted: $\Delta V_0$, $\mu_\infty$, $\ell$, $N_s$, $W_T$};
+\node[box, left=of atlas] (metric) {Registered extraction\\$\Vthcc$, SS, $\Ion$, $\muFE$};
+\node[box, left=of metric] (data) {Measured curves\\one device per film\\\prov{measured}};
+\node[box, above=of law, yshift=-1mm] (lit) {Bulk anchors 3.05~eV, 4.3~eV, $0.208\,m_0$ \prov{literature}};
+\draw[arr] (dft) -- (law); \draw[arr] (law) -- (deck); \draw[arr] (lit) -| (deck); \draw[arr] (deck) -- (atlas);
+\draw[arr] (atlas) -- (metric); \draw[arr] (data) -- (metric);
+\end{tikzpicture}
+\caption{The first-principles-to-device chain of the shared-model campaign. Only increments relative to bulk are taken
+from PBE; absolute values come from literature anchors. Fitted device parameters are shared by all films.}
+\label{fig:mono-ms-chain}
+\end{figure}
+
+\begin{table}[htbp]\centering\small
+\caption{Quantities passed from first principles to the device decks (campaign C10), their labels and the assumptions
+of the passage.}
+\label{tab:mono-ms-transfer}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Device input & First-principles source & Assumptions of the transfer \\\midrule
+Affinity $4.3 - \dEc(t)$ & fit3 law of $\dEc$ (with the polar 0.695~nm point) & crystalline (001), OH termination; PBE increment (HSE ratio not applied); H--H thickness equals device thickness; rigid shift of all traps with $\Ec$ \\
+Gap $3.05 + \Delta\Eg(t)$ & fit3 law of $\Delta\Eg$ & enters only $n_i$ in electron-only runs; anchor is an optical gap of another IWO device \\
+$\Nc$ from $0.208 + \Delta m(t)$ & fit3 law of $\Delta m$ (deck basis) & parabolic band (Kane factor 1.057 omitted); 3-D form at 6.3 and 13.2~nm \\
+Quasi-2-D $\Nc$ at 2.0~nm & $N_{2D}/t$ with the same mass & single subband ($E_2-E_1 = 0.72$~eV computed); DOS substitution in the 3-D Fermi--Dirac form \\
+Mass factor in the mobility law & $0.208/m^*(t)$ & band mobility scales with the inverse mass (Matthiessen) \\
+W donor & resonant level 1.2--1.8~eV above $\Ec$ & treated as fully ionised (inferred); donor density not transferred (compensation not computed) \\
+$N_V$ & not transferred (deck $10^{19}$\cmcu, assumed) & computed $\approx2\times10^{21}$\cmcu; negligible for electrons \\\bottomrule
+\end{tabularx}
+\end{table}
+
+Three features of the chain deserve emphasis. First, only differences between films and bulk are taken from PBE; the
+absolute gap, affinity and mass come from literature measurements, so the PBE gap error does not enter directly.
+Second, the laws are fitted to crystalline points and evaluated at the nominal device thicknesses; the 6.3 and 13.2~nm
+values are extrapolations. Third, the masses and the conduction-band shift are not independent inputs: within 2--10\,\%
+the mass increase follows from $\dEc$ and the bulk non-parabolicity (\cref{sec:mono-conf-test}), so the chain carries
+effectively one first-principles thickness law, $\dEc(t)$, plus the convention for $\Nc$.
+
+% =====================================================================================================================
+\section{How much each assumption matters for the threshold}
+\label{sec:mono-ms-budget}
+
+The affinity shift moves the threshold rigidly and one-to-one in the model; the registered affinity-only runs test
+exactly this (\cref{tab:mono-c10-hyp}). The other inputs act through the electron statistics, whose effect on the
+threshold is amplified by the filling of the acceptor tail (a slope factor of about 3.5 at $10^{-9}$~A/\textmu m,
+\amend{A13}). \Cref{tab:mono-ms-budget} lists the resulting sensitivities.
+
+\begin{table}[htbp]\centering\small
+\caption{Sensitivity of the model threshold to the first-principles inputs (\prov{derived} from the laws and the
+register's NC audit; \file{evidence/derived/multiscale_budget.json}). ``Free'': free-carrier statistics only; ``with
+tail'': times the slope factor of 3.5.}
+\label{tab:mono-ms-budget}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{5.6cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Source & Effect on the threshold \\\midrule
+Choice of $\Nc$ convention at 2.0~nm (quasi-2-D vs 3-D) & $+142$~mV (measured in the model, S1-05) \\
+Thickness definition at 2.0~nm ($d\dEc/dt = -0.20$~eV/nm) & $\approx\pm40$~mV per $\pm0.2$~nm \\
+HSE ratio applied to $\dEc$ at 2.0~nm ($r = 1.06$--1.11) & $+16$ to $+29$~mV \\
+$\dEc$ fit options at 2.0 / 6.3 / 13.2~nm & 0.273--0.289 / 0.050--0.075 / 0.017--0.031~eV, i.e.\ $\pm8$ / $\pm12$ / $\pm7$~mV \\
+Thickness definition at 6.3~nm ($d\dEc/dt = -0.012$~eV/nm) & $\approx\pm2$~mV per $\pm0.2$~nm \\
+Mass fit basis ($\pm3$\,\% in $m^*$) & 1~mV free; 4~mV with tail \\
+Kane non-parabolicity in $\Nc$ ($+5.7$\,\%) & 1.4~mV free; 5~mV with tail \\
+Crystalline vs amorphous confinement & unknown (H-K sealed) \\\bottomrule
+\end{tabularx}
+\end{table}
+
+The ranking is clear: the largest first-principles-related effect on the model threshold is not a property of the
+crystal at all but the statistical convention used to turn a mass into a density of states at 2~nm; next come the
+thickness definition and the functional; the fit options and mass details are minor. Every one of these is small
+compared with the quantities the model must explain (\cref{sec:mono-ms-explain}), but the convention effect
+amounts to a third to two thirds of the 6.3~nm misses (0.23--0.37~V).
+
+% =====================================================================================================================
+\section{What the first-principles inputs can and cannot explain}
+\label{sec:mono-ms-explain}
+
+\paragraph{Between 2.0 and 13.2~nm.} The computed conduction-band shift differs by $-0.257$~eV between 2.0 and 13.2~nm,
+with a spread below 2~meV over all fit options. Transferred rigidly, it would account for 44\,\% of the measured
+threshold difference of $-0.579$~V. In the full model the other inputs partly cancel it: the register's audit forecasts
+a net all-inputs-off counterfactual share of about 18\,\% (\amend{A13}; a model counterfactual, not an identified
+physical contribution). Either way, confinement as computed is a substantial part of, but not the whole, threshold step,
+and the rest is carried by fitted charges and traps.
+
+\paragraph{Between 2.0 and 6.3~nm.} Here the computed shift implies a threshold change of $-0.21$ to $-0.22$~V, whereas
+the measured change is $-0.018$~V. A model with a monotonic confinement law therefore places the 6.3~nm threshold about
+0.2~V too low, unless something else at 6.3~nm compensates. The three failed out-of-sample predictions at 6.3~nm all
+missed in this direction and by a similar amount ($-0.29$, $-0.37$ and $-0.23$~V, \claim{C014}). The arithmetic does not
+identify a cause; it shows that the 6.3~nm anomaly is equivalent to the 6.3~nm device behaving, electrostatically, as if
+it were much thinner, or as if an additional $+0.2$~V of threshold-setting charge were present only in that device. The
+candidates (device-to-device spread, a thickness error, a different fabrication batch or sweep history, a non-monotonic
+property of the films) are weighed in \cref{ch:mono-alternatives}. \Cref{fig:mono-threshold-vs-dft} shows the
+comparison.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.62\linewidth]{mono_threshold_vs_dft}
+\caption{Measured constant-current threshold voltages (circles; \fact{101}--\fact{103}) against the threshold trend
+implied by the computed conduction-band shift alone, anchored at the 2.0~nm device,
+$V_{\rm th}(2.0)+\Delta E_{\rm c}(t)-\Delta E_{\rm c}(2.0)$ (band: the four fit options of the confinement law; line: the
+two-parameter fit). Crosses: the three failed out-of-sample predictions at 6.3~nm (\claim{C014}). A rigid 1:1 transfer
+of the affinity shift, as in the registered affinity-only runs; \prov{derived} illustration, not a model run
+(\file{research_monograph/tools/fig_threshold_vs_dft.py}). The measured points are the collaborators' device data;
+publication needs their permission.}
+\label{fig:mono-threshold-vs-dft}
+\end{figure}
+
+\paragraph{Identifiability.} From transfer curves alone the gate work function, the bulk affinity, a uniform fixed
+charge and the confinement shift act as one number per film (\claim{C018}). The model can absorb any confinement law
+into $\Delta V_0$ for one film; it cannot do so with one shared value for three films, which is why the shared campaign
+is the first test in which the first-principles inputs can fail. Measurements that would separate them are a flat-band
+voltage against thickness from capacitance--voltage curves, the optical gap against thickness, and photoemission band
+offsets (\cref{ch:mono-conclusions}).
+
+\section{Recommendations for the transfer}
+\label{sec:mono-ms-reco}
+
+From the analysis above (monograph recommendations, not decisions):
+\begin{enumerate}
+\item Transfer one thickness law, $\dEc(t)$, with its fit-option band as a stated sensitivity, and derive the in-plane
+mass from it through the Kane relation rather than fitting a second law.
+\item State the $\Nc$ convention with every fitted charge and trap density, as the register requires, and report the
+threshold sensitivity to it; at 2~nm it is the largest model-side input effect.
+\item Do not transfer absolute gaps, a donor density, or hole parameters from the present calculations.
+\item Treat the crystalline laws as a reference until H-K (amorphous confinement) is released; if the amorphous shift
+differs by more than 0.05~eV, the registered affinity-only interventions give the mapping to the threshold.
+\item Carry the thickness definition explicitly (H--H, mass-equivalent, nominal) and obtain the measurement method of the
+device thicknesses before any thickness law is compared with device data.
+\end{enumerate}
+
+\begin{keyresult}
+Only increments relative to bulk pass from first principles to the device model, anchored to literature bulk values,
+and effectively only one of them is independent: the conduction-band shift, from which the mass increase follows. Its
+difference between 2.0 and 13.2~nm is robust ($-0.257$~eV) and equals 44\,\% of the measured threshold step if
+transferred rigidly. Between 2.0 and 6.3~nm the same law implies a 0.2~V threshold change that the measurement does not
+show, matching the direction and size of every failed 6.3~nm prediction. The largest model-side sensitivity at 2~nm is the
+density-of-states convention (142~mV), not a property of the crystal.
+\end{keyresult}

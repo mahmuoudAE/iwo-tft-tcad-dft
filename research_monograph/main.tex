@@ -1,0 +1,141 @@
+% ===================================================================
+% main.tex -- Research monograph: thickness-dependent ultrathin W-doped In2O3 (IWO) thin-film transistors,
+% from first-principles electronic structure to device simulation, under registered evidence control.
+%
+% Versioned derivative of report_latex_full (baseline commit 3fe6627). Baseline chapters that are still correct are
+% reused by reference and pinned by sha256 in baseline_manifest.tsv (tools/check_baseline.py fails the build if any
+% changed). Chapters with superseded content are replaced by revised copies in chapters/ with a change note.
+% New chapters cover the evidence of 2026-09-26 .. 2026-10-14.
+% Build: tools/build.sh   (pdflatex + bibtex + pdflatex x2 into build/; nothing is written into report_latex_full/)
+% ===================================================================
+\documentclass[11pt,oneside,openany]{report}
+\input{monograph_preamble}
+
+\newcommand{\reporttitle}{Thickness-Dependent Electronic Structure and Transport in Ultrathin W-Doped \InO{} Thin-Film Transistors}
+\newcommand{\reportsubtitle}{A Research Monograph from First-Principles Calculations to Device Simulation, under Registered Evidence Control}
+\newcommand{\reportauthor}{Mahmoud Elrasheedy}
+\newcommand{\reportsupervisor}{Chao-Hsin Wu}
+\newcommand{\reportdate}{Working version of 14 October 2026 (evidence state: repository commit 3fe6627)}
+
+\hypersetup{pdftitle={Ultrathin IWO TFTs: research monograph},pdfauthor={\reportauthor}}
+
+\begin{document}
+
+\begin{titlepage}
+  \centering
+  \vspace*{2.0cm}
+  \rule{\linewidth}{0.6pt}\\[0.8cm]
+  {\LARGE\bfseries \reporttitle\par}
+  \vspace{0.5cm}
+  {\large \reportsubtitle\par}
+  \vspace{0.6cm}
+  \rule{\linewidth}{0.6pt}\\[1.4cm]
+  {\large \reportauthor\par}
+  \vspace{0.3cm}
+  {\normalsize Principal Investigator: \reportsupervisor\par}
+  \vspace{0.2cm}
+  {\normalsize Mentor: Mukul Kumar\par}
+  \vfill
+  {\small Status: internal working document for the research group. It is not a manuscript and contains no claim
+  approved for publication (charter section 9). Sealed and blind results appear only as placeholders.
+  The measured transfer curves belong to the fabrication group; their publication requires the group's permission
+  (\cref{ch:mono-audit}).\par}
+  \vspace{0.6cm}
+  {\normalsize \reportdate\par}
+\end{titlepage}
+
+\pagenumbering{roman}
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+\input{chapters/M00_abstract}
+
+\input{chapters/M00_readers_guide}
+
+\tableofcontents
+\listoffigures
+\listoftables
+\input{../report_latex_full/chapters/00_nomenclature}
+\input{chapters/M00_nomenclature_addendum}
+
+\cleardoublepage
+\pagenumbering{arabic}
+
+% =================================================================== Part I
+\part{Problem, Context and Questions}
+\input{chapters/M01_introduction}
+\input{chapters/M02_questions}
+\clearpage
+\input{../report_latex_full/chapters/02a_literature_target}
+\input{../report_latex_full/chapters/02b_literature_in2o3}
+\input{../report_latex_full/chapters/02c_literature_methods}
+\input{../report_latex_full/chapters/02d_provenance}
+\input{chapters/M03_literature_materials}
+
+% =================================================================== Part II
+\part{Theory}
+\input{chapters/M04_dft_theory}
+\input{chapters/M05_confinement_theory}
+\input{chapters/M06_defect_theory}
+\clearpage
+\input{../report_latex_full/chapters/04_derivations_electrostatics}
+\clearpage
+\input{../report_latex_full/chapters/05_derivations_transport}
+
+% =================================================================== Part III
+\part{Device Data and Device Simulation}
+\clearpage
+\input{chapters/03_device_data_rev}
+\input{chapters/M07_provenance}
+\clearpage
+\input{../report_latex_full/chapters/06_numerics}
+\clearpage
+\input{../report_latex_full/chapters/07_calibration}
+\clearpage
+\input{../report_latex_full/chapters/08_six_nm}
+\clearpage
+\input{chapters/09_mechanisms_rev}
+\clearpage
+\input{../report_latex_full/chapters/10_predictions}
+\clearpage
+\input{chapters/11_validation_rev}
+\clearpage
+\input{chapters/14_model_v2_rev}
+\input{chapters/M08_c10_campaign}
+
+% =================================================================== Part IV
+\part{First-Principles Results}
+\clearpage
+\input{chapters/13_dft_rev}
+\input{chapters/M09_masses_parameters}
+\input{chapters/M10_w_and_vacancies}
+\input{chapters/M11_amorphous_protocol}
+
+% =================================================================== Part V
+\part{Synthesis}
+\input{chapters/M12_multiscale}
+\input{chapters/M13_alternatives_uncertainty}
+\input{chapters/M14_audit}
+\input{chapters/M15_conclusions}
+
+\appendix
+\clearpage
+\input{../report_latex_full/appendices/A_runs}
+\clearpage
+\input{../report_latex_full/appendices/B_code}
+\clearpage
+\input{../report_latex_full/appendices/C_decks}
+\clearpage
+\input{../report_latex_full/appendices/D_register}
+\clearpage
+\input{../report_latex_full/appendices/E_reproducibility}
+\input{appendices/MF_evidence_registers}
+\input{appendices/MG_corrections}
+\input{appendices/MH_resources}
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{Bibliography}
+\bibliographystyle{unsrtnat}
+\bibliography{../report_latex_full/references,../report_latex_full/bib/extra_DFT,bib/monograph}
+
+\end{document}

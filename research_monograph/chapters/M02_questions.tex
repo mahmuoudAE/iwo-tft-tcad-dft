@@ -1,0 +1,115 @@
+% M02_questions.tex -- research questions, competing hypotheses and the evidence governance of the project.
+% Sources: research_record/00_PROJECT_CHARTER.md, 02_RESEARCH_QUESTIONS.md, 05_DECISION_LOG.md,
+% codex/work_chat/HYPOTHESIS_REGISTER.md (sections 0-2), 03_CLAIMS_LEDGER.yaml.
+\chapter{Research questions, competing hypotheses and evidence governance}
+\label{ch:mono-questions}
+
+This chapter states what the project asks, which answers compete, and the rules under which evidence for or against
+them is produced and labelled. The rules are part of the results: a number in this monograph means what it means only
+together with its label, the time at which its test was registered, and what was known when it was registered.
+
+% =====================================================================================================================
+\section{The central question and its parts}
+\label{sec:mono-q-central}
+
+\emph{What sets the thickness dependence of ultrathin W-doped \InO{} transistors, and can a device model with one shared
+parameter set and inputs computed from first principles account for it?} The question has four parts, each with its own
+evidence chain:
+\begin{enumerate}
+\item \emph{Electronic structure against thickness.} How do the gap, the band edges and the electron mass of an \InO{}
+film change from bulk to below 1~nm, and how much of the change is in the conduction band?
+(\cref{ch:dft,ch:mono-confinement-theory,ch:mono-masses})
+\item \emph{The role of tungsten.} Does W give its electrons to extended host states, in the crystal and in amorphous
+films, and does that change with thickness? Does it suppress oxygen vacancies? (\cref{ch:mono-w-vac,ch:mono-amorph})
+\item \emph{Device electrostatics and transport.} Which mechanisms set the threshold, the swing, the on-current and the
+off-state floor of each film, and which of them can a shared model reproduce?
+(\cref{ch:calibration,ch:6p3,ch:mechanisms,ch:v2,ch:mono-c10})
+\item \emph{Provenance.} How do the metrics derived here relate to the published ones, and what do the data permit?
+(\cref{ch:mono-provenance,ch:mono-audit})
+\end{enumerate}
+
+\paragraph{Prerequisites.} Three questions precede every hypothesis and none is answered by the available data
+(\dlog{D-11}: no new measurements): whether the project and the paper define mobility, swing, $\Cox$ and $\Vd$ the same
+way (partly answered, \cref{ch:mono-provenance}); how large the device-to-device spread is (needs at least ten devices
+per thickness); and how the thicknesses were measured and whether the four devices share a fabrication run and sweep
+history.
+
+\section{Competing hypotheses}
+\label{sec:mono-q-hyp}
+
+The project's first-pass hypothesis list (\file{02_RESEARCH_QUESTIONS.md}, 7 October 2026) and the frozen register
+(revision 2, 10 October; amendments to 14 October) overlap; \cref{tab:mono-q-map} maps them onto each other and onto the
+chapters where their evidence is reported.
+
+\begin{table}[htbp]\centering\footnotesize
+\caption{Research hypotheses (H1--H8, first pass, subjective priors), registered tests (H-A..H-N) and their status at
+the evidence state of this monograph.}
+\label{tab:mono-q-map}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{4.0cm}>{\raggedright\arraybackslash}p{1.7cm}>{\raggedright\arraybackslash}p{1.6cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Hypothesis & Registered as & Prior & Status \\\midrule
+H1 a critical thickness separates two regimes; W shifts it & -- & medium (sharp $t_c$) & \prov{hypothesis} \claim{C027}; alternatives in \cref{tab:mono-alt-tc} \\
+H2 W keeps conduction-edge states delocalised & H-G, H-N & low--medium & sealed; H-N cannot return a crossover verdict (\cref{prop:mono-hn}) \\
+H3 the 6.3~nm anomaly is real physics & H-F (shape) & low & \prov{hypothesis} \claim{C028}; out-of-sample tests failed \claim{C014} \\
+H4 W suppresses oxygen vacancies, thickness-dependent & H-L (crystal only) & medium & H-L \textsc{unresolved} \claim{C038}; thickness part not computed \\
+H5 contacts become part of the channel at 1--2~nm & S3 Schottky branch & low--medium & thickness-independent $R_{sd}$ excluded \claim{C019}; branch sealed \\
+H6 the floor is an ohmic parallel path & H-B & medium--high & \prov{hypothesis} \claim{C006}; sealed \\
+H7 subthreshold behaviour is universal in $\Id/\Ion$ & -- & medium & \prov{observed} \claim{C007} \\
+H8 too many near-edge tail states (model side) & S3 tail branches & -- & 13.2~nm SS mismatch is a finding \claim{C010} \\
+(model) confinement and threshold & H-E & -- & S1-05 expectation failed; rest sealed \\
+(model) mobility scattering & H-D & -- & sealed; mass-only part unresolved (not computed) \\
+(model) one shared model transfers & H-J & -- & sealed; registered forecast (unscored): fails \\
+(model) floor not leakage or generation & H-A, H-C & -- & sealed \\
+(DFT) termination, \AlO{}, \HfO{}, amorphous confinement & H-H, H-I, H-M, H-K & -- & sealed or expected unresolved \\\bottomrule
+\end{tabularx}
+\end{table}
+
+% =====================================================================================================================
+\section{Evidence governance}
+\label{sec:mono-q-gov}
+
+\paragraph{Status labels.} Every scientific statement carries exactly one label: \prov{measured} (raw instrument data),
+\prov{derived} (extracted from data by a written protocol), \prov{fitted} (adjusted to data), \prov{computed} (output of a
+simulation with stated inputs), \prov{observed} (a pattern not yet quantified by a protocol),
+\prov{literature-supported}, \prov{inferred}, \prov{hypothesis}, \prov{unresolved} or \prov{falsified}. A label is never
+promoted without new evidence, and every change is recorded in the claims ledger (\file{03_CLAIMS_LEDGER.yaml}, claims
+C001--C040). The monograph adds the labels \prov{assumed}, \prov{estimated}, \prov{calculated} and \prov{theory} where the
+sources use them, and labels its own analyses \prov{derived}.
+
+\paragraph{Fitting and prediction rules.} No target-device-specific post hoc fitting: global parameters may be calibrated
+on a declared set, after which the model is frozen and predictions for new thicknesses or devices are registered before
+the data are seen; anything tuned after a holdout is revealed is calibration. A prediction is registered with numerical
+values, uncertainties and pass/fail criteria, and timestamped outside the repository before a custodian releases the
+holdout. At present no holdout data exist (\dlog{D-11}), so every device-level comparison in this project is
+retrospective, and the register says so.
+
+\paragraph{The register.} The hypothesis register was frozen on 2026-10-10T18:33:13Z (\dlog{D-17}, git tag
+\file{register-rev2-frozen-20261010T1833Z}). Every later change is an amendment logged with its time, with what had been
+seen at that time, with the independent reviewer's verdict and with the user's approval; amendments that were informed by
+results say so (A38, A42, A43). The register distinguishes registered predictions (scored) from forecasts (recorded, not
+scored), and applies a censoring rule: a quantity below the demonstrated numerical resolution counts as consistent with an
+upper bound only if that resolution is below the bound; otherwise it is unresolved, never a pass.
+
+\paragraph{Blindness and sealing.} Outcomes of tests registered before they were known are kept out of sight until their
+release conditions are met: amorphous electronic quantities until the conditional release decision \dlog{D-43} is
+cleared; device-simulation stages from S2 on under a state-only reporting rule for sealed runs. Disclosed exposures are
+recorded where they happened (the A36 erratum, \cref{tab:mono-corr-amorph}).
+
+\paragraph{Roles and independence.} Claude Code executes computations, keeps the evidence and the ledger; Codex reviews
+independently, first from the evidence part of a handoff and only then from its interpretation; the humans decide. The
+charter states explicitly that agreement between AI systems is not evidence; experiments, registered predictions and the
+judgement of human experts are. AI agents may not start expensive calculations, commit to fabrication campaigns, release
+data, push to a new remote or put claims into a manuscript without explicit approval. The charter is itself proposed and
+awaits adoption (\dlog{D-10}).
+
+\paragraph{Mismatches as findings.} Decision \dlog{D-06} fixes that a mismatch between model and data is reported as a
+finding, and that no window, device or floor treatment is chosen to manufacture agreement. The 13.2~nm swing mismatch is
+the standing example (\claim{C010}).
+
+\begin{keyresult}
+The project asks what sets the thickness dependence of ultrathin IWO transistors and whether one shared model with
+computed inputs accounts for it, through four evidence chains (electronic structure, tungsten, device physics,
+provenance). Its competing hypotheses are registered with frozen criteria and labelled by status; most registered
+outcomes are sealed at the evidence state of this monograph, every device comparison is retrospective, and agreement
+between AI agents is explicitly not counted as evidence.
+\end{keyresult}

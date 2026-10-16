@@ -1,0 +1,211 @@
+% M04b_dft_numerics.tex -- part 2 of ch:mono-dft-theory: basis, PAW and band counting, SCF and force errors, forces
+% and relaxation, slabs and dipoles, band alignment, computational cost. Numerical checks use raw outputs:
+% plane-wave counts and RAM estimates from cern_htcondor/results/{slab2_relax_c2,slab1r_final_cpu,iwo_W24d}/scf*.out and
+% bulk_In2O3_protocol/{vcrelax_ecut71_k3,bands_path}.out (read 2026-10-14); force-error figures from ledger C034/C035.
+
+% =====================================================================================================================
+\section{Plane waves and the cutoff}
+\label{sec:mono-dft-pw}
+
+Because $u_{n\vk}$ is lattice-periodic it is a Fourier series over reciprocal-lattice vectors $\vG$,
+$\psi_{n\vk}(\vr) = \Omega^{-1/2}\sum_{\vG} c_{n,\vk+\vG}\,e^{i(\vk+\vG)\cdot\vr}$. The series is truncated at a kinetic
+cutoff, $\tfrac12|\vk+\vG|^2 \le \Ecut$ (in Rydberg units, $|\vk+\vG|^2 \le \Ecut$). The number of plane waves is the
+number of reciprocal-lattice points in a sphere of radius $k_c = \Ecut^{1/2}$ (bohr$^{-1}$, $\Ecut$ in Ry), each
+occupying a volume $(2\pi)^3/\Omega$:
+\begin{equation}
+N_{\mathrm{pw}} \approx \frac{4\pi k_c^3/3}{(2\pi)^3/\Omega} = \frac{\Omega\,\Ecut^{3/2}}{6\pi^2} .
+\label{eq:mono-dft-npw}
+\end{equation}
+\Cref{tab:mono-dft-npw} checks \cref{eq:mono-dft-npw} against the plane-wave counts printed by \texttt{pw.x} at
+$\Gamma$ for $\Ecut = 71$~Ry: the agreement is better than 0.15\,\%, so the cost model below rests on the actual basis
+sizes. The density and potential need components up to $2k_c$, i.e.\ a density cutoff of $4\Ecut$ for norm-conserving
+pseudopotentials; PAW augmentation charges are harder, and the project uses $8\Ecut$ (568~Ry), which multiplies the
+number of density components by $8^{3/2} \approx 22.6$ relative to the wave-function sphere ($2^{3/2} \approx 2.8$
+relative to the $4\Ecut$ default).
+
+\begin{table}[htbp]\centering\small
+\caption{Plane-wave basis at 71~Ry: \cref{eq:mono-dft-npw} against the count printed at $\Gamma$ (raw outputs).}
+\label{tab:mono-dft-npw}
+\begin{tabular}{lrrrr}\toprule
+Cell & $\Omega$ (bohr$^3$) & \cref{eq:mono-dft-npw} & printed & bands \\\midrule
+bulk \InO{}, 40-atom primitive (vc-relaxed) & 3\,693.6 & 37\,315 & 37\,359 & -- \\
+bulk In$_{31}$WO$_{48}$, 80 atoms & 7\,387.2 & 74\,630 & 74\,653 & 424 \\
+1~nm slab In$_{24}$O$_{48}$H$_{24}$, 96 atoms & 25\,140.0 & 253\,982 & 253\,973 & 328 \\
+2~nm slab In$_{56}$O$_{96}$H$_{24}$, 176 atoms & 32\,429.2 & 327\,622 & 327\,585 & 680 \\\bottomrule
+\end{tabular}
+\end{table}
+
+The cutoff of 71~Ry met the pre-registered criteria for the primitive bulk cell (\cref{sec:dft-calc-conv}); the
+amorphous relaxations use 60~Ry for cost and the amorphous final SCFs return to 71~Ry, so electronic read-outs share the
+crystalline basis quality. Because plane waves do not depend on atomic positions, the Hellmann--Feynman forces need no
+Pulay correction; the stress does, through the change of $N_{\mathrm{pw}}$ with the cell, which is why variable-cell
+relaxations need either a modified kinetic functional or a higher cutoff. The bulk relaxation of this project used
+neither (71~Ry, no modified functional); its Pulay stress is bounded only by the pressure criterion of 0.2~kbar.
+
+% =====================================================================================================================
+\section{Pseudopotentials, PAW and the counting of bands}
+\label{sec:mono-dft-paw}
+
+Core electrons are frozen. The projector augmented-wave method \citep{Bloechl1994,Kresse1999} maps smooth
+pseudo-orbitals $|\tilde\psi\rangle$ onto all-electron orbitals with a linear transformation,
+\begin{equation}
+|\psi\rangle = |\tilde\psi\rangle + \sum_i \big(|\phi_i\rangle - |\tilde\phi_i\rangle\big)\langle\tilde p_i|\tilde\psi\rangle ,
+\label{eq:mono-dft-paw}
+\end{equation}
+where $\phi_i$ and $\tilde\phi_i$ are all-electron and pseudo partial waves inside spheres around the atoms and
+$\tilde p_i$ dual projectors. The data sets of this project (pslibrary 1.0.0, \citealp{DalCorso2014}) put the In 4d
+shell and the W 5s5p shells into the valence. This choice has a consequence that caused the most important correction
+of the project \corr{X1}: the number of bands below the gap is not the same in a pure and a W-doped cell.
+
+\paragraph{Band counting.} With valence charges $Z_{\mathrm{In}} = 13$ (4d$^{10}$5s$^2$5p$^1$), $Z_{\mathrm{W}} = 14$
+(5s$^2$5p$^6$5d$^4$6s$^2$), $Z_{\mathrm{O}} = 6$ and $Z_{\mathrm{H}} = 1$, the occupied manifold below the gap of an
+In--W--O--H cell consists of five In 4d bands per In, four W semicore bands (5s, 5p) per W, and four O 2s/2p bands per
+O (the O--H bonds lie inside the O manifold). Hence
+\begin{equation}
+N_{\mathrm{VB}} = 5n_{\mathrm{In}} + 4n_{\mathrm{W}} + 4n_{\mathrm{O}}, \qquad
+N_{\mathrm{el}} = 13n_{\mathrm{In}} + 14n_{\mathrm{W}} + 6n_{\mathrm{O}} + n_{\mathrm{H}},\qquad
+N_{\mathrm{ex}} = N_{\mathrm{el}} - 2N_{\mathrm{VB}} .
+\label{eq:mono-dft-bands}
+\end{equation}
+For the cells of this project: In$_{32}$O$_{48}$: $N_{\mathrm{el}} = 704$, $N_{\mathrm{VB}} = 352$, $N_{\mathrm{ex}} = 0$;
+In$_{31}$WO$_{48}$: $705$, $351$, $3$; In$_{24}$O$_{48}$H$_{24}$: $624$, $312$, $0$; In$_{23}$WO$_{48}$H$_{24}$: $625$,
+$311$, $3$. The electron counts are those printed by \texttt{pw.x}. Substituting one W for one In removes one band from
+the occupied manifold and adds three electrons above it: the valence-band top of a W cell is band $n_{\mathrm{pure}}-1$,
+and the three electrons that W donates occupy bands $n_{\mathrm{pure}}$ and above. Reading band $n_{\mathrm{pure}}$ as the
+valence-band top, as the analysis of 30 September did, places a conduction-band state at the valence-band top and
+produces exactly the spurious ``W level below the conduction band'' that was corrected on 5 October. The amorphous
+read-out avoids the problem by construction: it defines $N_v = (N_{\mathrm{el}} - N_{\mathrm{ex}})/2$ from the nominal
+excess count and checks the occupation above $N_v$ (\cref{sec:mono-am-defs}).
+
+% =====================================================================================================================
+\section{The self-consistent field and the size of force errors}
+\label{sec:mono-dft-scf}
+
+\Cref{eq:mono-dft-KS} is a fixed-point problem $n = \mathcal{F}[n]$, solved by density mixing. Linear mixing,
+$n_{i+1} = n_i + \beta(\mathcal{F}[n_i]-n_i)$, converges only if $\beta$ is smaller than about the inverse of the
+largest eigenvalue of the dielectric response; in metallic or large cells long-wavelength charge oscillations
+(``charge sloshing'') make that eigenvalue scale with the square of the cell length. Broyden-type mixing
+\citep{Johnson1988} with Kerker \citep{Kerker1981} or local Thomas--Fermi preconditioning damps these modes. This is why
+the metallic 2~nm films needed $\beta = 0.1$ (they ran with \texttt{conv\_thr} $10^{-8}$, looser than the $10^{-9}$ of
+other runs, which is a relaxation of the target rather than a remedy), and why the amorphous rescues
+(\amend{A15}) added smaller $\beta$, more mixing vectors and local-TF mixing.
+
+\paragraph{Energy and force errors.} The Kohn--Sham energy is variational in the density: an SCF error $\delta n$
+changes $E$ only to second order, $\delta E \propto \|\delta n\|^2$. The Hellmann--Feynman force is not variational, so
+its error is first order, $\delta F \propto \|\delta n\|$. Quantum ESPRESSO's \texttt{conv\_thr} bounds the estimated
+energy error, so the force error scales as
+\begin{equation}
+\delta F \propto \sqrt{\texttt{conv\_thr}} .
+\label{eq:mono-dft-forceerr}
+\end{equation}
+The logged amorphous checks are consistent with this. For the same 1.0~nm amorphous cell (\file{aIO_1p0_s1}, 134
+atoms) the printed ``total SCF correction'' to the forces is $1.3\times10^{-3}$~Ry/bohr at the production threshold
+$10^{-7}$ and $3.3$--$3.7\times10^{-7}$~Ry/bohr (recomputed; the output prints zero) at the check threshold $10^{-14}$
+(\claim{C035}); the ratio, about 3700, is close to $\sqrt{10^{7}} \approx 3200$. The prefactor depends on the system
+and the smearing: one relaxed W cell gives $1.3\times10^{-3}$ with Marzari--Vanderbilt and $5.6\times10^{-4}$~Ry/bohr
+with Gaussian smearing at the same threshold (\claim{C034}). The SCF correction is a norm over all $3N$ force
+components, so $1.3\times10^{-3}$~Ry/bohr corresponds to about $1.3\times10^{-3}/\sqrt{3\times134} \approx
+6\times10^{-5}$~Ry/bohr per component, some fifteen times below the per-component relaxation threshold. Force
+differences below about $10^{-4}$~Ry/bohr per component are therefore compared at tightened thresholds. The
+non-reproducible restart of \claim{C036} (largest component difference $5\times10^{-3}$~Ry/bohr) exceeds this noise
+by far; its cause is open.
+
+\section{Forces and relaxation}
+\label{sec:mono-dft-forces}
+
+For an exact eigenstate, $\partial E/\partial\vR_I = \langle\Psi|\partial\Hop/\partial\vR_I|\Psi\rangle$ because the
+terms containing $\partial\Psi/\partial\vR_I$ vanish by normalisation (Hellmann--Feynman theorem, \citealp{Feynman1939}).
+In DFT with a position-independent basis this gives $\vec F_I = -\int n(\vr)\,\partial\vext/\partial\vR_I\,d\vr -
+\partial E_{II}/\partial\vR_I$, plus PAW and smearing terms that \texttt{pw.x} includes. Relaxations use BFGS
+\citep{Billeter2003} and stop when every force component is below \texttt{forc\_conv\_thr} ($10^{-3}$~Ry/bohr for
+the slabs and supercells, $10^{-4}$ for the bulk cell) and the energy change below \texttt{etot\_conv\_thr}
+($10^{-4}$~Ry; bulk $10^{-5}$). The criterion is per component: the relaxed pure 1~nm slab
+satisfies it while its total force, the norm over all 288 components, is $6.1\times10^{-3}$~Ry/bohr, which corresponds
+to a typical component of $6.1\times10^{-3}/\sqrt{288} \approx 3.6\times10^{-4}$~Ry/bohr. Quantum ESPRESSO prints final
+coordinates also after a failed BFGS run, which is why the amorphous chains count a relaxation as converged only after
+the ``bfgs converged'' line (\amend{A19}). Variable-cell relaxations (BFGS on the cell as well, \texttt{cell\_dynamics = 'bfgs'}, the default; the damped
+dynamics of \citealp{Wentzcovitch1991} was not used) relax the bulk lattice and, for slabs, only the in-plane cell
+(\texttt{cell\_dofree = '2Dxy'}, pressure criterion 0.5~kbar).
+
+% =====================================================================================================================
+\section{Slabs: vacuum, planar averages and dipoles}
+\label{sec:mono-dft-slab}
+
+A film is modelled as a slab repeated along $z$ with vacuum in between. The planar average of the electrostatic
+potential, $\bar V(z) = A^{-1}\int_A V(x,y,z)\,dx\,dy$, approaches a constant in the vacuum, the vacuum level
+$\Evac$; the electron affinity and ionisation potential follow as $\mathrm{EA} = \Evac - E_{\mathrm{CBM}}$ and
+$\mathrm{IP} = \Evac - E_{\mathrm{VBM}}$ (\cref{eq:dft-eaip}). Inside the slab $\bar V$ oscillates with the atomic layers;
+the macroscopic average $\bar{\bar V}(z) = l^{-1}\int_{z-l/2}^{z+l/2}\bar V(z')\,dz'$ over one period $l$ removes the
+oscillation and leaves the slowly varying part \citep{Baldereschi1988}.
+
+\paragraph{Polar slabs and the dipole correction.} If the two faces of a slab differ, the slab carries a dipole moment
+per area $p$. Its potential jumps by $\Delta\phi = p/\varepsilon_0$ across the slab. Periodicity along $z$ forces the
+average field over the cell to vanish, so the calculation adds a uniform compensating field $\mathcal{E} =
+\Delta\phi/c$ over the whole cell of height $c$; in the vacuum this appears as a linear ramp of $\bar V$ instead of a
+plateau, and the field also acts on the slab. A dipole correction \citep{Neugebauer1992,Bengtsson1999} adds a sawtooth
+potential that cancels the field and places the discontinuity in the vacuum. The amorphous slabs use it; the
+crystalline slabs do not, because the 1 and 2~nm films contain an operation that maps one face onto the other.
+
+The 0.695~nm crystalline film is polar (\cref{sec:mono-dft-thin}). Inverting the relation above with its logged ramp
+$-13.6$~meV/\AA{} and its cell height $c = 32.48$~\AA{} gives a potential step $\Delta\phi = 0.44$~V and a dipole of
+about $0.26\,e$\,\AA{} per $107$~\AA$^2$ cell ($1.3$~D) \fact{019}, if the uniform field extends through the whole cell;
+taking the ramp only over the vacuum, $(c-t)$ times the slope, gives 0.35--0.37~V. The unscreened field would drop
+0.095~eV across the 0.695~nm film; inside the film it is screened ($\varepsilon_\infty \approx 4$ gives 0.02--0.03~eV),
+so 0.095~eV is an upper bound. That is the scale of the (untested) effect of the artificial field on the gap: of order 0.1~eV
+against a gap of 2.2~eV, and of the same order as the reference-choice sensitivity of $\pm0.17$~eV on $\dEc$
+\fact{018}. A dipole-corrected SCF would replace this estimate.
+
+\section{Band alignment between slab and bulk}
+\label{sec:mono-dft-align}
+
+A bulk calculation has no vacuum, so its band edges are known only relative to its own average potential. The two-step
+method \citep{VandeWalle1987,Baldereschi1988} combines (i) the bulk band edges relative to the bulk macroscopic average,
+$E_{c}^{\mathrm{bulk}} - \bar{\bar V}^{\mathrm{bulk}}$, with (ii) the slab interior macroscopic average relative to the
+vacuum, $\bar{\bar V}^{\mathrm{slab}}_{\mathrm{int}} - \Evac$, to place bulk-like edges on the vacuum scale:
+\begin{equation}
+\dEc(t) = \big[E_{\mathrm{CBM}}^{\mathrm{slab}} - \Evac\big] - \big[E_{c}^{\mathrm{bulk}} - \bar{\bar V}^{\mathrm{bulk}}\big]
+ - \big[\bar{\bar V}^{\mathrm{slab}}_{\mathrm{int}} - \Evac\big],
+\label{eq:mono-dft-twostep}
+\end{equation}
+and likewise for $\Delta E_{\mathrm{v}}$ (signed; negative means downwards), with $\Delta\Eg = \dEc - \Delta E_{\mathrm{v}}$.
+The method needs an interior region in which $\bar{\bar V}$ is flat. In the 2~nm film the averaging window of half the
+lattice constant, the period of bixbyite along [001], gives $\dEc = +0.281$~eV and $\Delta E_{\mathrm{v}} = -0.054$~eV
+(share of the opening in the conduction band 0.84) \fact{014}. A 1~nm film has no such interior; its values follow from
+the 2~nm result plus the differences of EA and IP between the two films, which share the same termination, giving
+$+0.848$ and $-0.052$~eV (share 0.94) \fact{015}. The amorphous read-out applies the same rule: alignment is valid only
+with an interior plateau with a standard deviation of at most 0.05~eV (\cref{sec:mono-am-defs}).
+
+% =====================================================================================================================
+\section{Computational cost}
+\label{sec:mono-dft-cost}
+
+For a cell of $N$ atoms, $N_{\mathrm{pw}} \propto \Omega \propto N$ and the number of bands $N_b \propto N$. The
+dominant operations of an iterative plane-wave solver are the application of $\Hop$ by fast Fourier transforms,
+$O(N_bN_{\mathrm{pw}}\log N_{\mathrm{pw}})$, and orthonormalisation and subspace rotation, $O(N_b^2N_{\mathrm{pw}})$; the
+latter dominates for large cells, so the cost per SCF iteration grows as $N^3$ and the memory for the wave functions as
+$N_bN_{\mathrm{pw}}N_k \propto N^2N_k$. Linear-scaling methods exist \citep{Goedecker1999} but were not used. The
+numbers of this project illustrate the scaling. Going from the 1~nm to the 2~nm slab doubles the bands (328 to 680) and
+increases the plane waves by 29\,\% (\cref{tab:mono-dft-npw}): the wave functions grow by a factor of 2.7 and the
+$N_b^2N_{\mathrm{pw}}$ work by 5.5. One set of wave functions of the 2~nm slab at one $k$ point occupies
+$680\times327\,585\times16$~bytes $=3.6$~GB, and the four irreducible $k$ points with the Davidson workspace and the
+density grids bring the run to the 82~GB per process that \texttt{pw.x} estimates for the single-process GPU relaxation;
+this is why the 176-atom film needed a large-memory GPU or a distributed CPU run, and why the 250--300-atom amorphous
+cells fitted on one 96~GB GPU only with split species labels and reduced cutoffs during relaxation
+(\cref{sec:mono-am-relax}). A hybrid functional adds an exact-exchange term that couples all pairs of occupied orbitals
+at $k$ and $k+q$, multiplying the cost by roughly $N_q N_{\mathrm{occ}}$ FFT pairs per orbital; this is why hybrid calculations were
+limited to fixed-geometry checks of the bulk and the 1~nm film on CPUs (\cref{sec:dft-hse}).
+
+\begin{keyresult}
+The first-principles numbers of this monograph rest on approximations of two kinds. Five can be sized here: the
+adiabatic separation (static nuclei; zero-point renormalisation of gaps and masses not computed); the PBE functional (gaps too small by a factor of about three, which is
+why only confinement shifts are transferred and checked with HSE06, ratio 1.06--1.11); finite bases and $k$ grids
+(converged by registered criteria for the crystalline cells; the amorphous geometries were relaxed at 60~Ry, below the
+converged cutoff, and their geometric error is not estimated); smearing
+(physical occupations only for Gaussian smearing well below the energy scales of interest; Marzari--Vanderbilt weights
+exceed one below the Fermi level); and SCF tolerance (an SCF correction of about $10^{-3}$~Ry/bohr as a norm, about $6\times10^{-5}$ per
+component, consistent with square-root scaling with the energy threshold). Others are not sized: frozen cores and
+pseudopotentials (PAW and norm-conserving PBE gaps differ by 32~meV), scalar-relativistic treatment without spin--orbit
+coupling (relevant for W 5d levels), spin polarisation (the registered spin sensitivity of H-L is unassessed), and the W
+concentration and supercell size. The counting of semicore bands explains the project's main correction \corr{X1}
+exactly.
+\end{keyresult}

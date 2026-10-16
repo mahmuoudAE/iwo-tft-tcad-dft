@@ -1,0 +1,238 @@
+% M09_masses_parameters.tex -- electron and hole masses, gap/edge laws and device-ready parameters (claims C039, C040).
+% Source: qe_workflow/analysis_2026-10-13_full/bands_masses/BANDS_MASSES.md (sections 1-8), out/b01-b05 JSON, figures
+% BM1, BM6-BM9; RESULTS_LOG 2026-10-14 entry; Codex reviews 2026-10-14T07:57Z and 08:48Z (CONCERN, corrections applied).
+\chapter{Electron and hole masses and device-ready parameters}
+\label{ch:mono-masses}
+
+This chapter collects the band-structure quantities that the device model needs, as re-derived on 13--14 October 2026
+from the raw outputs of every crystalline calculation, without new runs (claims \claim{C039} and \claim{C040}): the
+electron masses of bulk and films on a stated fit basis, the absence of a meaningful single hole mass, the thickness
+laws of the gap and band edges, and the parameters that the device decks would take at 2.0, 6.3 and 13.2~nm. Every
+number is crystalline and PBE unless stated; the device films are amorphous or nanocrystalline. The theory behind the
+fits is in \cref{ch:mono-confinement-theory}.
+
+% =====================================================================================================================
+\section{The bulk band structure}
+\label{sec:mono-mass-bulk}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{BM1_bulk_bands}
+\caption{Bulk bixbyite \InO{} (PAW-PBE, 71~Ry, PBE lattice $a = 10.306$~\AA). (a) Bands along
+$\Gamma$--H--N--$\Gamma$--P--H$|$P--N relative to the valence-band maximum; open circle: VBM at 0.2\,$\Gamma$H
+($|k| = 0.1219$~\AA$^{-1}$); filled circle: CBM at $\Gamma$; arrow: fundamental gap 0.8887~eV (direct gap at $\Gamma$
+0.8931~eV). (b) Conduction band near $\Gamma$ along [100], [110] and [111] with the Kane fit ($m = 0.1539\,m_0$,
+$\alpha = 0.63$~eV$^{-1}$ along [100]) and the four-point parabola (dashed). (c) The three valence bands degenerate at
+$\Gamma$; band 176 rises along [100] to the VBM 4.4~meV above $\Gamma$ (camel back). Source:
+\file{qe_workflow/analysis_2026-10-13_full/bands_masses/b02_band_figures.py}.}
+\label{fig:mono-mass-bm1}
+\end{figure}
+
+The conduction band is a single s-like (In 5s--O 2s antibonding) band with its minimum at $\Gamma$; the valence band is
+a manifold of very flat O 2p bands whose top is three-fold degenerate at $\Gamma$ (\cref{fig:mono-mass-bm1}). The
+fundamental PBE gap is 0.8887~eV, indirect by 4.4~meV \fact{002}; the 0.893~eV direct gap at $\Gamma$ is not the optical
+gap, because transitions from the valence-band top to the conduction band are dipole-forbidden or weak in bixbyite
+\citep{Walsh2008}. The measured fundamental gap is $2.93\pm0.15$~eV \citep{King2009}; the absorption onset of melt-grown
+crystals is about 2.7~eV at room temperature \citep{Irmscher2014}.
+
+\section{Electron masses}
+\label{sec:mono-mass-electrons}
+
+\paragraph{The basis of a mass.} A conduction-band mass depends on how it is extracted. In this project three bases
+occur: the band-edge mass of a 10-point Kane fit, $E(1+\alpha E) = \hbar^2k^2/2m$; a four-point parabola with free
+intercept over $|k|\lesssim0.05$~\AA$^{-1}$ (0.045--0.046~\AA$^{-1}$ in the logs; the ``deck basis'' of the device laws); and anchored parabolas over growing
+energy windows. For bulk they give $0.1541\,m_0$ (Kane; isotropic within 0.2\,\%, $\alpha = 0.58$~eV$^{-1}$ with a range
+0.55--0.63), $0.1588\,m_0$ (deck basis), and $0.156$ to $0.189\,m_0$ for windows of 25 to 450~meV \fact{004}
+\fact{005} \fact{006}. Every mass in this monograph names its basis \corr{X6}.
+
+\paragraph{Films.} The in-plane band-edge 2-D DOS masses are 0.443, 0.337, 0.279 and $0.203\,m_0$ at H--H thicknesses
+of 0.461, 0.695, 0.930 and 1.962~nm, with in-plane non-parabolicities of 0.24, 0.31, 0.36 and 0.47~eV$^{-1}$
+\claim{C039}. On the deck basis the 2~nm mass is $0.206\,m_0$; the two bases differ by $-3.0$\,\% (bulk) to $+0.5$\,\%
+(0.695~nm) for the films within the laws, and by $+3.4$\,\% for the 0.461~nm In$_8$(OH)$_{24}$ layer. Checks: GPU and CPU builds agree within $0.0006\,m_0$; 15, 25 and 35~\AA{} of vacuum within $0.0002\,m_0$;
+relaxation raises the 1~nm mass by 18\,\%. The law fitted to the 0.695, 0.930 and 1.962~nm points is $\Delta m =
+0.1145\,t^{-1.2755}$ (band-edge basis; $t$ the H--H thickness in nm; one residual degree of freedom). As shown in
+\cref{sec:mono-conf-test}, these masses follow from the computed $\dEc$ and the bulk Kane band within 2--10\,\%
+\fact{027}.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{BM6_masses_thickness}
+\caption{Masses against H--H thickness (PBE). (a) Electron mass: band-edge 2-D DOS mass (filled; open: 0.461~nm,
+In$_8$(OH)$_{24}$, outside every law), four-point parabola (squares), W-slab grid estimates (diamonds; bars: variant
+range), HSE06 1~nm estimate (triangle), \citet{Lin2022} PBE values at their labels 0.95/1.98~nm (crosses); dashed: bulk
+band-edge mass; dotted: W-bulk mean. (b) $\Delta m_e = m(t)-m_{\mathrm{bulk}}$ with the band-edge fit3 law (solid) and
+the V3 law on the deck basis (dashed). (c) Hole DOS-equivalent mass from the Boltzmann $N_V$ (circles; dashed: bulk) and
+the 0.695~nm single-band hole masses along [100] and [110] (triangles). Source: \file{bands_masses/b02_band_figures.py}.}
+\label{fig:mono-mass-bm6}
+\end{figure}
+
+\paragraph{Tungsten.} At 3.1\,\% W in bulk, the host conduction band keeps its shape and becomes 5\,\% heavier
+($0.161$--$0.163\,m_0$ over directions; $\alpha$ unchanged within the direction spread) \fact{047}. In the W slabs no band
+run exists; a calibrated estimate from the SCF $k$ grid gives $+6.5$\,\% (1~nm) and $+7.5$\,\% (2~nm), labelled
+\prov{estimated}. A band-filling check shows what the W cells represent: with the pure-bulk Kane band, the electron
+density of the cells (about $2.4$--$2.7\times10^{21}$\cmcu{} in the host band) would put $E_F$ 2.0--2.1~eV above the band
+minimum, against the computed 1.71--1.76~eV; a parabolic band would put it at 4.3--4.6~eV. The Kane form removes most of
+the parabolic error and still overestimates $E_F$ by 13--22\,\%, consistent with part of the donated charge sitting in
+the W-5d-rich band (\cref{ch:mono-w-vac}).
+
+\paragraph{Hybrid functional.} No HSE06 band run exists. A three-point Kane fit to the HSE06 SCF-grid energies,
+calibrated on the PAW-PBE grid of the same cell, suggests a bulk band-edge mass of $0.159$--$0.193\,m_0$ and a 1~nm mass
+of $0.283$--$0.293\,m_0$; the range is a model sensitivity, not an uncertainty bound, and the HSE06 confinement increment
+of the mass is unresolved (\prov{estimated}, \claim{C039}).
+
+\paragraph{Comparison with experiment.} The measured band-edge mass is $0.208\pm0.006\,m_0$ at low density
+\citep[p.~225102-1]{Stokey2021} and $0.18\,m_0$ extrapolated to zero density from plasma frequencies \citep{Feneberg2016};
+PBE gives $0.154\,m_0$, consistent with the general underestimate of masses by semi-local functionals. At degenerate
+filling the relevant mass is the conductivity (optical) mass $m(1+2\alpha E_F)$ of the Kane band, $0.39\,m_0$ at
+$10^{21}$\cmcu{} with the PBE parameters, close to the $0.4\,m_0$ reported at that density \citep{Feneberg2016}.
+
+\section{Holes: no single band-edge mass}
+\label{sec:mono-mass-holes}
+
+In PBE the valence-band top of \InO{} is three-fold degenerate at $\Gamma$ with a camel back: the global VBM lies
+4.44~meV above $\Gamma$ at 0.122~\AA$^{-1}$ along $\langle100\rangle$ (longitudinal mass $4.03\pm0.14\,m_0$), and a second
+maximum lies 1.62~meV above $\Gamma$ at 0.175~\AA$^{-1}$ along $\langle110\rangle$ ($17.8\,m_0$); both are far below
+$\kT$ \fact{062}. Directional curvature masses near $\Gamma$ are 3.2--3.3 ([100]), 4.3--4.6 ([110]) and 7.2--7.9~$m_0$
+([111]) for band 174 and 6.9--19.8~$m_0$ for band 175, while band 176 rises along [100] and [110]. No single band-edge
+hole mass is therefore meaningful \claim{C040}.
+
+The quantity a device model can use is the valence effective density of states. The Boltzmann integral of the computed
+valence density of states (saturated in the energy window; $k$-mesh convergence not established) gives
+$N_V(300~\mathrm{K}) = 1.6$--$2.7\times10^{21}$\cmcu{} over four grids and two VBM references, i.e.\ a DOS-equivalent mass
+$m_{h,\mathrm{DOS}} = (N_V/2.509\times10^{19})^{2/3} = 16$--$22\,m_0$ \fact{060} \fact{061}; HSE06 on the same grid gives
+0.71--0.93 times the PBE value. The device decks use $N_V = 10^{19}$\cmcu{} (\prov{assumed}), which corresponds to
+$0.54\,m_0$, 30--40 times lighter than the computed DOS mass (a factor of about 200 in $N_V$). Because the decks solve for electrons only, $N_V$ enters
+through the intrinsic density: at 2~nm $n_i$ rises from $5.0\times10^{-10}$ to $6.7\times10^{-9}$\cmcu{}, and the
+equilibrium SRH generation bound is $3.4\times10^{-3}$~cm$^{-3}$s$^{-1}$, negligible against any measured current.
+Two caveats limit the use of $N_V$. Hybrid-functional work predicts that holes self-trap in \InO{} \citep{Varley2012},
+so a free-hole band integral does not describe hole transport or equilibrium hole populations; and only the 0.695~nm
+film gives a resolved local hole curvature (5.9~[100] and 3.3~$m_0$~[110]), on an OH-derived band of a polar film with the
+next band 29~meV lower.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{BM9_hole_masses}
+\caption{Holes in bulk \InO{} (PBE). (a) Bands 174 (blue), 175 (orange) and 176 (green) near $\Gamma$ along [100]
+($\Gamma$H, solid), [110] ($\Gamma$N, dashed) and [111] ($\Gamma$P, dotted); open markers: the off-$\Gamma$ maxima
+([100] circle: global VBM). (b) Directional curvature masses against the fit window (circle [100], square [110],
+triangle [111]; filled: falling band, open: rising band, absolute value). (c) $m_{h,\mathrm{DOS}}$ from the
+Boltzmann-integrated valence DOS for four grids (filled: own grid maximum; open squares: off-$\Gamma$ VBM reference;
+triangles: HSE06 on the $k3$ grid); dashed: the value implied by the deck $N_V = 10^{19}$\cmcu. Source:
+\file{bands_masses/b05_holes.py}.}
+\label{fig:mono-mass-bm9}
+\end{figure}
+
+% =====================================================================================================================
+\section{Gaps, band edges and their thickness laws}
+\label{sec:mono-mass-laws}
+
+\begin{table}[htbp]\centering\small
+\caption{Thickness laws $y = a\,t^{-p}$ (\prov{fitted} to computed points; $t$ = H--H thickness in nm). $\sigma$:
+residual scatter only (one residual degree of freedom for three points); it excludes functional, termination,
+thickness-definition and polar-field errors. Values at 2.0, 6.3 and 13.2~nm; 6.3 and 13.2~nm are extrapolations.
+Source: \file{bands_masses/out/b03_gaps_laws.json}.}
+\label{tab:mono-mass-laws}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{llccccc}\toprule
+Quantity & Fit (points) & $a$ & $p$ & $\sigma_p$ & LOO range of $p$ & at 2.0 / 6.3 / 13.2~nm \\\midrule
+$\Delta\Eg$ (eV) & fit3 (0.695, 0.930, 1.962) & 0.8147 & 1.3155 & 0.0073 & 1.290--1.323 & 0.327 / 0.072 / 0.027 \\
+$\Delta\Eg$ (eV) & fit2 (0.930, 1.962) & 0.8178 & 1.323 & -- & -- & 0.327 / 0.072 / 0.027 \\
+$\dEc$ (eV) & fit3 (frozen V3/C10 law) & 0.7018 & 1.3176 & 0.1565 & 0.764--1.478 & 0.282 / 0.062 / 0.023 \\
+$\dEc$ (eV) & fit2 (primary, no polar point) & 0.7618 & 1.4784 & -- & -- & 0.273 / 0.050 / 0.017 \\
+$\dEc$ (eV) & fit3, 0.695~nm at $-0.17$ / $+0.17$~eV & 0.654 / 0.745 & 1.179 / 1.435 & -- & -- & 6.3~nm: 0.075 / 0.053 \\
+$\Delta m_e$ ($m_0$) & fit3, band edge & 0.1145 & 1.2755 & 0.0048 & 1.271--1.292 & 0.047 / 0.011 / 0.004 \\
+$\Delta m_e$ ($m_0$) & fit3, deck basis & 0.1114 & 1.2611 & 0.0031 & 1.250--1.264 & 0.046 / 0.011 / 0.004 \\
+$-\Delta E_{\mathrm{v}}$ (eV) & -- & \multicolumn{5}{l}{no power law: 0.052 (0.930~nm), 0.054 (1.962~nm); see \cref{sec:mono-conf-partition}} \\\bottomrule
+\end{tabular}}
+\end{table}
+
+\Cref{tab:mono-mass-laws} gives the laws. Three points matter for their use. (i) The gap law is well determined: its
+three points lie within 0.5\,\% of the law, and adding the 0.461~nm point changes the prediction at 2~nm by less than
+1~meV. (ii) The conduction-band law is not: with the polar 0.695~nm point the exponent is 1.32 with a leave-one-out range
+of 0.76--1.48; without it, 1.48. At 6.3~nm, the thickness of the held-out device, the options give
+$\dEc = 0.050$--$0.075$~eV \fact{025}, partly outside the band 0.046--0.062~eV configured for the campaign's sensitivity
+stage (\cref{ch:mono-c10}). (iii) All laws are crystalline (001) PBE with one OH termination; their extrapolation to 6.3
+and 13.2~nm assumes that the power law holds beyond the computed range.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{BM7_gaps_edges_laws}
+\caption{Gaps and band edges against H--H thickness. (a) Gap: PBE (circles; open: 0.461~nm), PBE direct at $\Gamma$
+(bars), HSE-corrected $\Eg^{\mathrm{HSE,bulk}} + r\,\Delta\Eg^{\mathrm{PBE}}$ (diamonds), computed HSE06 at 1~nm
+(square); dashed: bulk PBE and bulk HSE06; grey band: experimental fundamental gap $2.93\pm0.15$~eV \citep{King2009}.
+(b) $\Delta\Eg$, $\dEc$ and $-\Delta E_{\mathrm{v}}$ (log--log) with the fit3 (solid) and fit2 (dashed) laws; bar at
+0.695~nm: $\pm0.17$~eV vacuum-reference sensitivity. (c) EA and IP of the pure slabs and the W slabs (diamonds); bars:
+0.695~nm sensitivity; dashed: bulk-equivalent values. (d) Conduction levels at $\Gamma$ relative to the bulk CBM. Source:
+\file{bands_masses/b03_gaps_laws.py}.}
+\label{fig:mono-mass-bm7}
+\end{figure}
+
+\paragraph{Absolute gaps.} PBE gaps are not used as absolute values. Three anchored estimates are available
+(\prov{calculated} under the \prov{assumed} rule that the HSE/PBE ratio $r = 1.06$--$1.11$ of the 1~nm film holds at
+every thickness): HSE-corrected ($\Eg^{\mathrm{HSE,bulk}} + r\Delta\Eg^{\mathrm{PBE}}$), 2.44--2.46~eV at 2~nm and 3.06~eV
+at 1~nm; experiment-anchored ($2.93 + r\Delta\Eg^{\mathrm{PBE}}$), 3.28--3.30~eV at 2~nm; and the deck basis
+($3.05 + \Delta\Eg$, with the 3.05~eV optical gap of a different sputtered IWO device, \citealp{Fan2021}), 3.38~eV at 2~nm.
+The deck anchor is an IWO optical gap, the experimental anchor an \InO{} fundamental gap; they differ by 0.12~eV, which
+is a statement about two different measured quantities, not an uncertainty of either.
+
+\section{Parameters for the device model}
+\label{sec:mono-mass-tcad}
+
+\begin{table}[htbp]\centering\footnotesize
+\caption{Device-ready parameters (PBE-derived increments on literature bulk anchors). Deck basis: $\Eg = 3.05 +
+\Delta\Eg$, $\chi = 4.3 - \dEc$ (fit3), $m^* = 0.208 + \Delta m$ (deck basis); $\Nc$ at 300~K. Rows at 0.695--1.962~nm
+are computed films; rows at 2.0--13.2~nm use the fitted laws. Source: \file{bands_masses/out/b04_tcad.json}.}
+\label{tab:mono-mass-tcad}
+\begin{tabular}{lcccccccc}\toprule
+$t$ (nm) & $\Eg$ PBE & $\Eg$ HSE-corr. & $\Eg$ deck & $\chi$ deck & $m^*$ PBE & $m^*$ deck & $\Nc$ 3-D (Kane) & $\Nc$ quasi-2-D \\
+ & (eV) & (eV) & (eV) & (eV) & ($m_0$) & ($m_0$) & (cm$^{-3}$) & (cm$^{-3}$) \\\midrule
+0.695 & 2.199 & 3.50--3.52 & 4.360 & 3.241 & 0.337 & 0.384 & $5.97\ (6.31)\times10^{18}$ & $5.96\times10^{19}$ \\
+0.930 & 1.789 & 3.06 & 3.950 & 3.452 & 0.279 & 0.330 & $4.76\ (5.04)\times10^{18}$ & $3.83\times10^{19}$ \\
+1.962 & 1.224 & 2.44--2.46 & 3.385 & 4.019 & 0.203 & 0.256 & $3.24\ (3.43)\times10^{18}$ & $1.41\times10^{19}$ \\
+2.0 (law) & 1.216 & 2.43--2.45 & 3.377 & 4.019 & 0.201 & 0.255 & $3.22\ (3.41)\times10^{18}$ & $1.37\times10^{19}$ \\
+6.3 (law) & 0.961 & 2.15--2.18 & 3.122 & 4.238 & 0.165 & 0.219 & $2.57\ (2.72)\times10^{18}$ & -- \\
+13.2 (law) & 0.916 & 2.10--2.14 & 3.077 & 4.277 & 0.158 & 0.212 & $2.46\ (2.60)\times10^{18}$ & -- \\\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Reproduction of the decks.} The campaign decks (C10, runs 0061, 0068 and 0069) are reproduced to at most
+0.11~meV in $\Eg$ and affinity, $0.0002\,m_0$ in $m^*$ and 0.1\,\% in $\Nc$ (quasi-2-D at 2.0~nm: deck
+$1.373\times10^{19}$ against $1.374\times10^{19}$\cmcu{}). The V2 deck differs by 3--5~meV because V2 used two-point laws
+at the Lin-label thicknesses \corr{X12}.
+
+\paragraph{Not in the decks.} (i) The conduction-band non-parabolicity, which raises $\Nc$ by 5.7\,\% (3-D) or 2.5\,\%
+(quasi-2-D) and the conductivity mass at degenerate filling (\cref{eq:mono-conf-nc3d}). (ii) The HSE ratio $r$ in
+$\Delta\Eg$ ($+6$ to $+11$\,\%). (iii) The basis difference of $m^*$ ($-3$\,\% in bulk to $+0.5$\,\% at 0.695~nm).
+(iv) The computed $N_V$ ($\approx2\times10^{21}$ against the assumed $10^{19}$\cmcu). (v) The mass for tunnelling through
+the gate oxide or into the contacts, which is not computed: the slab conduction band is quantised along $z$, and the
+evanescent mass in the gap needs a complex-band calculation; any use is \prov{assumed}. (vi) The W donor, which the decks
+treat as fully ionised; this holds only if its resonant level stays far above $\Ec$ at device densities
+(\prov{inferred}, \cref{ch:mono-w-vac}). The OH-terminated films have no state in the gap, so ideal termination adds no
+interface trap; the real interfaces are not modelled by these cells.
+
+\section{What the existing data cannot give: proposed runs}
+\label{sec:mono-mass-runs}
+
+\begin{table}[htbp]\centering\footnotesize
+\caption{Quantities that need new calculations (none submitted). Costs are scaled from measured wall times of the same
+cells (\file{BANDS_MASSES.md} section~6). Priority set by the independent review: the dipole-corrected 0.695~nm SCF first;
+dense-$k$ $N_V$ only if a claim depends on it.}
+\label{tab:mono-mass-runs}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{4.6cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{3.3cm}@{}}
+\toprule
+Missing quantity & Run & Estimate \\\midrule
+Dipole-corrected 0.695~nm edges & SCF with dipole correction, planar average, bands, forces & about 3~h (+10~h if re-relaxed) \\
+W-slab band-edge masses (1, 2~nm) & SCF + bands with conjugate-gradient diagonalisation & 12--15~h; 16--21~h on one H100 \\
+W level against density, spin & 160-atom cell with one W (1.6\,\%), relax + SCF + projections, spin check & about 1~GPU-day \\
+HSE06 masses and EA/IP split & HSE06 on full grids with Wannier interpolation; planar average & 1--3~GPU-days per cell \\
+$r$ at other thicknesses & HSE06 SCF of the 0.695 and 2~nm films & 3~h; 15--25~h \\
+Converged $N_V$ & non-SCF $6\times6\times6$ with tetrahedra & about 5~h \\
+Evanescent (tunnelling) mass & complex band structure of bulk \InO{} & hours (uncertain) \\\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{keyresult}
+PBE gives a bulk electron band-edge mass of $0.154\,m_0$ (Kane, $\alpha = 0.58$~eV$^{-1}$), 26\,\% below the measured
+$0.208\,m_0$; film masses rise to $0.203\,m_0$ at 1.96~nm and $0.279\,m_0$ at 0.93~nm, a rise consistent with the bulk
+non-parabolicity within 1\,\% at 2~nm and 10\,\% at 1~nm. W at 3.1\,\% makes the host band 5\,\% heavier. There is no meaningful single hole mass: the valence-band
+top is degenerate with a camel back, and the computed $N_V \approx 2\times10^{21}$\cmcu{} is about 200 times the deck
+value, with negligible effect on the electron-only device simulations. The gap law is well determined
+($0.815\,t^{-1.316}$~eV); the conduction-band law is not ($p = 1.32$--1.48, $\dEc(6.3~\mathrm{nm}) = 0.050$--0.075~eV). The
+campaign decks reproduce the laws exactly; non-parabolicity, the HSE ratio and the computed $N_V$ are not in them.
+\end{keyresult}

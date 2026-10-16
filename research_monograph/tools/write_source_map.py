@@ -1,0 +1,59 @@
+"""Write evidence/SOURCE_MAP.tsv: one row per source used by the monograph.
+authority: 1 charter/frozen protocol/blind decision; 2 raw data or raw computational output; 3 reproducible
+extraction script or registered analysis; 4 corrected dated log or accepted control record; 5 current synthesis or
+verified report; 6 historical report/README/exploratory note; 7 unsupported comment or working hypothesis.
+status: current | historical | superseded-in-part | sealed | excluded | stale."""
+import csv, pathlib, sys
+ROOT = pathlib.Path(__file__).resolve().parents[2]
+rows = [
+# id, path, kind, topic, authority, date, status, note
+("S001","research_record/00_PROJECT_CHARTER.md","charter","governance, labels, fitting/prediction/data rules",1,"2026-10-07","current","Status PROPOSED; adoption D-10 pending. Sec. 9: AI may not put claims in a manuscript without approval."),
+("S002","research_record/05_DECISION_LOG.md","decision log","human decisions D-01..D-58",1,"2026-10-14","current","D-28 (H-N), D-42 (A37-A39), D-43 (release blocked), D-58 (C10 plan)."),
+("S003","research_record/codex/work_chat/HYPOTHESIS_REGISTER.md","frozen register","H-A..H-N, definitions, amendments A1-A44",1,"2026-10-14","current","Rev. 2 frozen 2026-10-10T18:33:13Z (tag register-rev2-frozen-20261010T1833Z). Pre-registration text only is read; no outcome data."),
+("S004","research_record/PUBLIC_EXCLUSIONS.md","exclusion list","sealed/amorph/copyright exclusions",1,"2026-10-15","current","Defines what is absent from this checkout."),
+("S005","research_record/03_CLAIMS_LEDGER.yaml","claims ledger","C001-C040 with labels and caveats",4,"2026-10-14","current","Authoritative claim status; FACT_REGISTRY points here."),
+("S006","research_record/01_CURRENT_STATE.md","state summary","device, data, V1/V2, pre-campaign DFT",5,"2026-10-07","stale","Device/data facts valid; DFT, budget and amorphous status outdated."),
+("S007","research_record/02_RESEARCH_QUESTIONS.md","hypotheses","Q0.x, H1-H8 competing explanations",7,"2026-10-07","current","Claude first pass; priors subjective."),
+("S008","research_record/04_TASK_QUEUE.yaml","task queue","open tasks, HUM items",6,"2026-10-14","current",""),
+("S009","research_record/claude/paper_draft_2026-10-13/","manuscript draft","skeleton, methods (TCAD, DFT, registration), limitations, TODO P01-P40",5,"2026-10-13","superseded-in-part","P02, P16 resolved by 2026-10-13/14 log entries; not approved (charter sec. 9)."),
+("S010","research_record/claude/NATURE_PLAN.md","plan","proposed research strategy",7,"2026-10-07","current","PROPOSED, not approved (D-09)."),
+("S011","qe_workflow/cern_htcondor/results/RESULTS_LOG.md","dated result log","all crystalline DFT, H-L, MACE check, amorphous force checks",4,"2026-10-14","current","Read newest entries first; 2026-10-14 errata supersede earlier lines; 2026-10-05 CORRECTION supersedes 2026-09-30 W interpretation."),
+("S012","qe_workflow/analysis_2026-10-13_full/","re-derivation","crystalline DFT figures f01-f13, out/*.json",3,"2026-10-13","current","f14 amorph force checks excluded (blind guard)."),
+("S013","qe_workflow/analysis_2026-10-13_full/bands_masses/","re-derivation","bands, electron/hole masses, gap laws, TCAD parameters (C039, C040)",3,"2026-10-14","current","BANDS_MASSES.md, b01-b05, out/*.json."),
+("S014","qe_workflow/analysis_2026-10-13_full/raw_cern/hl/","raw output","H-L crystalline vacancy cells",2,"2026-10-13","current",""),
+("S015","qe_workflow/bulk_In2O3_protocol/","protocol + raw","bulk In2O3 convergence, bands, alignment",2,"2026-10-14","current","bulk_alignment.py sign fixed 2026-10-14."),
+("S016","qe_workflow/cern_htcondor/PROTOCOL_CERN.md","protocol","CERN slab/W workflow",1,"2026-09","current",""),
+("S017","research_record/compute/amorph/","protocols, specs, scripts","amorphous slab protocol, MACE, read-out code (rc7), F9 checkers",1,"2026-10-14","current","Inputs, specs, scripts and protocols only; logs/outputs excluded. Do not open outputs."),
+("S018","research_record/claude/plans/ML_VALIDATION.md","frozen protocol","MACE force-check rules",1,"2026-10-10","current",""),
+("S019","data/experimental_clean.csv","measured data","four transfer curves, V_D 0.7 V",2,"2026-09","current","Collaborator-owned (NTU fab); permission to republish pending (P-1)."),
+("S020","data/experimental_raw_preserved_IWO-TFT.xlsx","measured data","raw workbook",2,"2026-09","current","sha256 in data/provenance_from_claude_package.json (source workbook ce97eccd...)."),
+("S021","analysis_2026-10-06_extraction/","registered analysis","extraction protocol, results, agreement windows, paper figures",3,"2026-10-07","current","Protocol 7a61687; A1 7ce7116; D-06 (13.2 nm SS mismatch as finding)."),
+("S022","analysis_2026-09-25/","mechanism study","S1-S6, SYNTHESIS, PREDICTIONS_REGISTER",3,"2026-09-25","current","SYNTHESIS sec. K corrections apply."),
+("S023","analysis_2026-10-06_V2/","registered test","V2 T0-T3; T3 6.3 nm FALSIFIED",3,"2026-10-06","current","Registration 7b75ee6, correction a914165, outcomes 852dc8a."),
+("S024","analysis_2026-10-06_traps/","analysis","trap laws, surface+bulk split",3,"2026-10-06","current",""),
+("S025","analysis_2026-10-10_campaign/","campaign design","C10 shared-model campaign, DFT_TO_TCAD, scorer, S0/S1 post-run",3,"2026-10-14","current","S2+ blind/sealed; only S0/S1 outcomes are seen."),
+("S026","results/RUN_INDEX.csv; results/runs/run_0001..0074","raw TCAD output","ATLAS launches",2,"2026-10-10","current","run_0075..0077 sealed, absent."),
+("S027","config/iwo_material_model.yaml; _v2.yaml","model config","V1/V2 parameters",3,"2026-10","current",""),
+("S028","report_latex_full/","baseline thesis","TCAD V1 report + ch. 13 DFT + ch. 14 V2",5,"2026-10-05","superseded-in-part","417 pp. builds here; ch. 13 lacks 2026-10-11..14 results; dEv -0.056 stale; ch. 12 dated 25 Sept."),
+("S029","report_latex_full/digest/","digest","page-split paper texts, numbers, runs.csv, used_items.csv",3,"2026-09-25","current","papers/*.md = full text (copyright concern P-2); used locally for page verification only."),
+("S030","latex_report/","historical report","V1 report",6,"2026-09-21","historical","Do not cite as current."),
+("S031","FINAL_STATUS.md","historical status","V1 publication-readiness claim",6,"2026-09-21","superseded-in-part","Overclaims corrected (report ch. 11-12; ledger C014)."),
+("S032","00_README.md; README.md","overview","V1 description; repo overview",6,"2026-09/10","historical",""),
+("S033","docs/","package docs","physics model, provenance, limitations (V1 era)",6,"2026-09","historical","Check each statement against S005/S011 before reuse."),
+("S034","tables/","tables","parameter provenance, thickness laws, exp vs sim (V1)",5,"2026-09","historical",""),
+("S035","references/REFERENCES_MASTER.bib","bibliography","21 core keys",5,"2026-09","current","Superset in report_latex_full/references.bib + bib/extra_DFT.bib (70 keys)."),
+("S036","research_record/claude/responses_to_codex/RQ-001_response.md","owner response","mobility/SS reconciliation",4,"2026-10-09","current","C030-C033."),
+("S037","research_record/claude/atlas_campaign_plan_2026-10-14/","plan","C10 S2-S5 plan, parameter provenance, literature citations",5,"2026-10-14","current","PLAN_SHORT accepted (D-58), conditional on Codex."),
+("S038","research_record/codex/work_chat/CODEX_WORK_CHAT.md","work chat","mixed: reviews, decisions, some sealed-adjacent content",7,"2026-10-14","excluded","Do not read broadly (blindness). Narrow non-numeric grep only."),
+("S039","results/sealed/; results/runs/run_0075..0077; campaign_C10_DIAGb","sealed","ATLAS S2 runs",1,"2026-10-13","sealed","Absent from checkout; never seek."),
+("S040","amorphous DFT outputs (aIO_*, aIWO_*)","blind","H-G, H-H, H-I, H-K, H-M, H-N electronic quantities",1,"2026-10-14","sealed","Release blocked (D-43)."),
+]
+out = ROOT/"research_monograph/evidence/SOURCE_MAP.tsv"
+with open(out,"w",newline="") as f:
+    w = csv.writer(f, delimiter="\t", lineterminator="\n")
+    w.writerow(["source_id","path","kind","topic","authority","date","status","in_checkout","note"])
+    for r in rows:
+        p = r[1].split(";")[0].strip()
+        present = "yes" if (ROOT/p).exists() else ("n/a" if r[6] in ("sealed",) else "no")
+        w.writerow([*r[:7], present, r[7]])
+print(out, len(rows), "rows")

@@ -1,0 +1,162 @@
+{
+ "inputs": {
+  "m_b": 0.1541,
+  "alpha": 0.58,
+  "alpha_range": [
+   0.55,
+   0.63
+  ],
+  "kane_10pt_[100]": {
+   "m_edge": 0.1539,
+   "alpha_per_eV": 0.63,
+   "Emax_meV": 450.3,
+   "rms_resid_meV_equiv": 0.072
+  }
+ },
+ "slabs": {
+  "0.461": {
+   "computed": {
+    "dEc": 1.585,
+    "dEv": -0.667,
+    "dEg": 2.2514,
+    "m": 0.443,
+    "a": 0.24,
+    "note": "In8(OH)24, outside laws"
+   },
+   "m_par_pred": 0.4374,
+   "m_par_pred_range": [
+    0.4228,
+    0.4619
+   ],
+   "m_par_rel_err": -0.0126,
+   "alpha_par_pred": 0.204,
+   "alpha_par_rel_err": -0.149,
+   "t_eff_nm": 0.896,
+   "t_eff_over_tHH": 1.942,
+   "E_infinite_parabolic_eV": 11.472,
+   "E_infinite_kane_eV": 3.668,
+   "p_local_kane": 1.352
+  },
+  "0.695": {
+   "computed": {
+    "dEc": 1.059,
+    "dEv": -0.251,
+    "dEg": 1.3099,
+    "m": 0.337,
+    "a": 0.31,
+    "note": "polar, dEc +-0.17 eV (assumed)"
+   },
+   "m_par_pred": 0.3434,
+   "m_par_pred_range": [
+    0.3336,
+    0.3597
+   ],
+   "m_par_rel_err": 0.019,
+   "alpha_par_pred": 0.26,
+   "alpha_par_rel_err": -0.16,
+   "t_eff_nm": 1.195,
+   "t_eff_over_tHH": 1.718,
+   "E_infinite_parabolic_eV": 5.047,
+   "E_infinite_kane_eV": 2.211,
+   "p_local_kane": 1.449
+  },
+  "0.930": {
+   "computed": {
+    "dEc": 0.8477,
+    "dEv": -0.0521,
+    "dEg": 0.8998,
+    "m": 0.279,
+    "a": 0.36,
+    "note": ""
+   },
+   "m_par_pred": 0.3056,
+   "m_par_pred_range": [
+    0.2978,
+    0.3187
+   ],
+   "m_par_rel_err": 0.0955,
+   "alpha_par_pred": 0.292,
+   "alpha_par_rel_err": -0.188,
+   "t_eff_nm": 1.389,
+   "t_eff_over_tHH": 1.493,
+   "E_infinite_parabolic_eV": 2.82,
+   "E_infinite_kane_eV": 1.505,
+   "p_local_kane": 1.504
+  },
+  "1.962": {
+   "computed": {
+    "dEc": 0.2812,
+    "dEv": -0.054,
+    "dEg": 0.3352,
+    "m": 0.203,
+    "a": 0.47,
+    "note": ""
+   },
+   "m_par_pred": 0.2044,
+   "m_par_pred_range": [
+    0.2018,
+    0.2087
+   ],
+   "m_par_rel_err": 0.0067,
+   "alpha_par_pred": 0.437,
+   "alpha_par_rel_err": -0.069,
+   "t_eff_nm": 2.731,
+   "t_eff_over_tHH": 1.392,
+   "E_infinite_parabolic_eV": 0.634,
+   "E_infinite_kane_eV": 0.493,
+   "p_local_kane": 1.754
+  }
+ },
+ "exponents_1_2nm": {
+  "p_dEc_computed": 1.4784,
+  "p_dEg_computed": 1.323,
+  "dEc_1nm_kane_pred_from_2nm": 0.9413,
+  "p_dEc_kane_pred": 1.6188,
+  "dEv_mean": -0.053
+ },
+ "partition": {
+  "cb_share_ema": {
+   "3.2": 0.9541,
+   "4.4": 0.9662,
+   "7.9": 0.9809,
+   "18.1": 0.9916
+  },
+  "cb_share_computed": {
+   "1.962": 0.84,
+   "0.930": 0.94
+  },
+  "dEv_ema_pred_mh3p2": {
+   "0.930": -0.0408,
+   "1.962": -0.0135
+  },
+  "dEv_ema_kane_mh3p2": {
+   "0.930": -0.0609,
+   "1.962": -0.0158
+  },
+  "cb_share_ema_kane_mh3p2": {
+   "0.930": 0.933,
+   "1.962": 0.947
+  }
+ },
+ "nc_factors": {
+  "nc3d_first_order": 1.0562,
+  "n2d_first_order_2nm_slab_alpha": 1.0243
+ },
+ "hse_ratio_model": {
+  "alpha_hse_assumed": 0.253,
+  "r_by_hse_mass": {
+   "0.159": 1.158,
+   "0.17": 1.095,
+   "0.193": 0.983
+  },
+  "r_computed": [
+   1.06,
+   1.107
+  ]
+ },
+ "two_band_kane": {
+  "E_P_from_PBE_eV": 5.05,
+  "m_pred_at_HSE_gap": 0.294,
+  "E_P_implied_by_exp_m0p208_Eg2p8": 10.7
+ }
+}

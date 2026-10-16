@@ -1,0 +1,480 @@
+% M11_amorphous_protocol.tex -- Amorphous films: motivation, structure generation, numerical qualification, the
+% registered tests (H-G .. H-N), the A37 consequence and the D-43 release protocol.
+% SIGHT RULE: no electronic quantity of any amorphous cell (class, PR_n, gap, edge, Fermi level, projection, eigenvalue)
+% appears in this chapter. Sources: HYPOTHESIS_REGISTER.md (sections 0-2, H-G, H-K, H-N, A15-A44), 05_DECISION_LOG.md,
+% 03_CLAIMS_LEDGER.yaml (C034-C037), research_record/compute/amorph/SLAB_PROTOCOL.md, claude/plans/ML_VALIDATION.md,
+% compute/amorph/f9_checker/Release_decision.md (structure only), and the methods draft
+% research_record/claude/paper_draft_2026-10-13/methods_dft.tex (adapted; its source comments give file:line).
+\chapter{Amorphous films: structure generation, numerical qualification and the registered tests}
+\label{ch:mono-amorph}
+
+The device channels are sputtered, largely amorphous or nanocrystalline films (HRTEM shows no long-range crystallinity, \citealp[p.~2]{Januar2026}), while every
+first-principles number in the preceding chapters belongs to a crystal. This chapter describes the calculations
+designed to close that gap: machine-learned melt--quench structures of amorphous \InO{} (\aIO) and amorphous IWO
+(\aIWO) films from 0.7 to 2.0~nm and in bulk, relaxed by density-functional theory, and a set of hypotheses about them
+that were registered before any electronic quantity was read. The central one, H-N, asks whether the ability of a W
+atom to place its electron in an extended host state depends on film thickness.
+
+The chapter reports the method, the numerical qualification of the calculations (all of it computed and logged) and
+the frozen rules by which the electronic results will be read. It reports no electronic result of any amorphous cell:
+their release is blocked by a logged human decision (\dlog{D-43}), and the monograph respects that block. One
+consequence of the frozen rules can, however, be stated now, because it does not depend on any sealed value: the
+registered H-N outcome will be \prov{UNRESOLVED} whatever the calculations show (\cref{sec:mono-am-a37}).
+
+% =====================================================================================================================
+\section{Why thickness could change what a W atom does}
+\label{sec:mono-am-why}
+
+Tungsten is used in \InO{} because it donates electrons while scattering them weakly: in crystalline films W-doped
+\InO{} reaches high Hall mobilities \citep{Newhouse2005}, and in amorphous In--W--O transistors a few per cent of W
+suppresses excess carriers and improves stability \citep{Kizu2014}. A resonant donor whose d level lies inside the
+host conduction band, as computed for W in crystalline \InO{} (\cref{ch:mono-w-vac}) and argued for Mo
+\citep{Swallow2020}, gives its electron to the extended host band and leaves an ionised impurity behind. Whether a
+W atom behaves in this way in a sub-nanometre amorphous film is not obvious, for at least four reasons, each of which
+can be stated before any calculation (\prov{theory}; the quantitative versions are in \cref{ch:mono-defect-theory}).
+
+\begin{enumerate}
+\item \emph{Confinement moves the host edge more than a localised level.} The host conduction-band edge of a thin film
+rises roughly as a power of $1/t$ (\cref{ch:mono-confinement-theory}); a d level whose energy is fixed mainly by the
+local W--O bonding rises less. If the two cross, the electron is no longer released. In the crystalline cells the
+computed W-level separation from the host band bottom falls from 1.76--1.80~eV (bulk) to 1.34~eV (2~nm) and 1.22~eV
+(1~nm) \fact{042}; the three cells differ in donated density ($2.7$, $1.4$ and $3.0\times10^{21}$\cmcu{}), so this
+trend cannot be extrapolated, but its direction is the one this mechanism expects.
+\item \emph{Weaker dielectric screening.} A film thinner than the extent of a donor's bound state, bounded by vacuum or
+a low-permittivity oxide, screens the donor's Coulomb potential less than bulk does; donor binding energies then rise,
+as observed for donor deactivation in silicon nanowires \citep{Diarra2007,Bjork2009}.
+\item \emph{Surfaces everywhere.} In a 0.7~nm film every atom is within about 0.35~nm of a surface. Under-coordinated
+cations, surface OH and H, and surface dipoles can supply states that capture the donated electron.
+\item \emph{Disorder and dimensionality.} Amorphous oxides have band tails of localised states below a mobility edge
+\citep{Mott1969,Medvedeva2017}. In the scaling theory of localisation, disorder localises states more readily in two
+dimensions than in three \citep{Abrahams1979,Anderson1958}. A thinner film is ``more two-dimensional'', so the share of
+localised states near the host edge may grow.
+\end{enumerate}
+
+\paragraph{Why this matters for the devices.} The calibrated device models need an effective donor density that grows
+steeply with thickness (V1: $N_{\mathrm{d,eff}} = 2.5\times10^{17}[1+(t/20)^4]$\cmcu{}, fitted and not identifiable,
+\claim{C016}). A loss of W donor efficiency in the thinnest films would be one microscopic candidate for such a law.
+It is not the only one: back-surface depletion, a growth gradient of oxygen vacancies, and structural change with
+thickness predict the same sign (\cref{ch:mono-questions,ch:mono-alternatives}). Moreover, at about 2\,\% W, full
+activation would give $6\times10^{20}$ to $1.8\times10^{21}$\cmcu{} (one to three electrons per W), between two and four
+orders of magnitude above the fitted effective densities, so compensation would have to dominate in the devices whatever H-N shows, if the fitted density were physical
+(\prov{inferred}; the fitted density is not identifiable, \claim{C016}). H-N can therefore at most identify a
+mechanism that acts in the right direction; it cannot by itself explain the device data.
+
+% =====================================================================================================================
+\section{What neutral PBE cells can and cannot show}
+\label{sec:mono-am-scope}
+
+All amorphous cells are neutral, spin-unpolarised PBE calculations without a Hubbard correction; hybrid-functional and
+spin-polarised calculations enter only as pre-declared checks \amend{A23} \amend{A27}. Such cells can show that the
+electron added by W ends up in extended or in localised states at the geometry and filling of the cell. They cannot
+establish full ionisation in the device, a thermodynamic charge-transition level, or equilibrium self-trapping: those
+need charged cells with finite-size corrections \citep{Freysoldt2014,Lany2008}, a hybrid functional for the
+localisation, and structural relaxation in each charge state (\cref{ch:mono-defect-theory}). PBE also tends to
+delocalise electrons through its self-interaction error, so a PBE ``extended'' result is weaker evidence than a PBE
+``localised'' one. The register states these limits in the scope of H-G and H-N; the monograph keeps them.
+
+% =====================================================================================================================
+\section{Structure generation: machine-learned melt--quench}
+\label{sec:mono-am-mace}
+
+Amorphous structures were generated with the MACE-MPA-0 ``medium'' foundation potential \citep{Batatia2022,Batatia2023}
+using Langevin dynamics with a 1~fs time step and a friction of 0.01~fs$^{-1}$, single precision for the dynamics and
+double precision for relaxations. For a film, a periodic box of height $t$ at the target density is pre-relaxed, held at
+3000~K for 6~ps, quenched linearly to 300~K over 9~ps and held at 300~K for 2~ps; a vacuum gap is then opened along
+$z$, the free slab is annealed at 800~K for 3~ps and cooled to 300~K over 3~ps, relaxed to 0.05~eV/\AA, passivated and
+relaxed again. Bulk cells skip the cleave and the passivation. For an interface cell the oxide is melt--quenched first
+(3000~K for 4~ps, quench over 6~ps) and then held fixed while the film is melted and quenched on it. The seed fixes
+the random packing and initial velocities, but the Langevin noise comes from an unseeded generator, so a re-run of the
+same specification gives a different structure. A structure enters DFT only after a quality-control gate on density,
+bond lengths and coordination (\file{research_record/compute/amorph/mace_amorph.py}, \file{SLAB_PROTOCOL.md}).
+
+\begin{caveat}
+A 23~ps quench corresponds to a cooling rate of about $10^{14}$~K/s, many orders of magnitude faster than sputter
+deposition. Melt--quench structures are therefore models of a disordered network of the right composition and density,
+not reconstructions of the deposited films; one sample per name is computed (two at 2.0~nm), so sample-to-sample
+spread is known only where two seeds exist.
+\end{caveat}
+
+% =====================================================================================================================
+\section{Slab construction (protocol revision 2)}
+\label{sec:mono-am-slabs}
+
+The slab rules were registered before any machine-learned or DFT result (\dlog{D-14}) and are applied in code.
+\begin{itemize}
+\item \emph{Doping.} W/(In+W) is exactly 2.0\,\% in every IWO cell. Each W carries one extra O, which leaves one
+excess electron per W by formal counting (W$^{6+}$ replacing In$^{3+}$ gives three, the extra O$^{2-}$ takes two):
+In$_{49n}$W$_n$O$_{76n}$ against the undoped twin In$_{50n}$O$_{75n}$. W atoms start at least 6~\AA{} apart. One
+electron per W corresponds to about $6\times10^{20}$\cmcu{}.
+\item \emph{Lateral size.} The number of W per cell is the smallest that gives an in-plane edge of at least 12.5~\AA{}
+at 7.0~g/cm$^3$, so the W volume density is the same at every thickness; all cells use a $2\times2\times1$ $k$ grid.
+\item \emph{Thickness.} The label is the mass-equivalent thickness $t_{\mathrm{eq}}$ (film mass divided by
+7.0~g/cm$^3$ and by the area); the outer-atom span, the cation span and an electronic thickness are also reported. This
+differs from the H--H thickness of the crystalline slabs, so thicknesses of the two series are not interchangeable.
+\item \emph{Termination.} Dissociated water (OH on an under-coordinated cation, H on an under-coordinated O, in pairs,
+so the electron count is unchanged), with bare-surface controls at 2.0 and 0.7~nm.
+\item \emph{Vacuum.} 18~\AA{} and a dipole correction along $z$ \citep{Bengtsson1999} for every slab.
+\item \emph{Rejection.} A structure that fails quality control is replaced by the same recipe with the next seed;
+thresholds are never changed after a result. Three structures were replaced.
+\item \emph{Doping-regime control.} A fully compensated 2.0~nm cell with zero excess electrons (\dlog{D-15}).
+\item \emph{Interfaces.} About 1~nm of amorphous \AlO{} (3.0~g/cm$^3$) melt--quenched first; an \HfO{} control at
+9.6~g/cm$^3$ (\prov{assumed}) as an alternative-interface control only (\dlog{D-20}); atoms within 3~\AA{} of the lowest
+substrate cation excluded from every interface weight (\amend{A24}).
+\end{itemize}
+
+\begin{table}[htbp]\centering\footnotesize
+\caption{Registered amorphous cells (one melt--quench sample per name). Compositions and atom counts are structural
+facts from the register and the ledger; no electronic quantity is given. Status at the relaxation cutoff of
+17 October 2026, 10:00~UTC: \pendingph{cutoff status, after the cutoff}.}
+\label{tab:mono-am-cells}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{3.7cm}>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Cell & Composition / atoms & Role and route \\\midrule
+\file{aIWO_bulk_s1}, \file{aIO_bulk_s1} & 50 cations, no surface & H-N bulk point; gap-anchoring references (A23) \\
+\file{aIWO_2p0_s1} & In$_{98}$W$_2$ film; 270 atoms & H-G, H-N 2.0~nm seed 1, A15 audit, H-M reference \\
+\file{aIWO_2p0_s2} & In$_{98}$W$_2$O$_{156}$H$_8$; 264 & H-G, H-N seed 2; Gaussian rescue (A36) \\
+\file{aIO_2p0_s1}, \file{aIO_2p0_s2} & In$_{100}$O$_{156}$H$_{12}$; 268 (s1) & undoped partners; A15 audit (s1) \\
+\file{aIWO_2p0_comp_s1} & In$_{98}$W$_2$O$_{160}$H$_{14}$; 274; $N_{\mathrm{ex}}=0$ & H-G compensated cell; not an H-N cell \\
+\file{aIWO_2p0_s1_bare} & bare surfaces & H-H control; parked (H-H at 2.0~nm unresolved) \\
+\file{aIWO_1p5_s1}, \file{aIO_1p5_s1} & -- & cut first under the budget rule \\
+\file{aIWO_1p0_s1} & In$_{49}$W$_1$O$_{80}$H$_8$; 138 & H-N intermediate point \\
+\file{aIO_1p0_s1} & In$_{50}$O$_{78}$H$_6$; 134 & undoped partner; split-label check cell \claim{C035} \\
+\file{aIWO_0p8_s2} & In$_{49}$W$_1$O$_{76}$ film; 147 & H-N; Gaussian rescue (A35) \claim{C036} \\
+\file{aIO_0p8_s1} & In$_{50}$O$_{75}$ film & undoped partner; A15 rescue pilot \\
+\file{aIWO_0p7_s1}, \file{aIO_0p7_s1} & In$_{49}$W$_1$O$_{83}$H$_{14}$ (W cell) & H-N thin decisive endpoint; H-H \\
+\file{aIWO_0p7_s1_bare} & bare surfaces & H-H control \\
+\file{aIWO_2p0_Al2O3_s2} & 414 atoms & H-I; no feasible GPU route, stopped \\
+\file{aIWO_1p0_Al2O3_s2} & 300 atoms & H-I; parked after an SCF failure (\dlog{D-42}) \\
+\file{aIWO_2p0_HfO2_s1} & film on Hf$_{46}$O$_{92}$ & H-M alternative-interface control \\\bottomrule
+\end{tabularx}
+\end{table}
+
+% =====================================================================================================================
+\section{Validation of the machine-learned structures}
+\label{sec:mono-am-mlval}
+
+The criteria were fixed before any result (\file{research_record/claude/plans/ML_VALIDATION.md}): MACE forces on
+selected snapshots are compared with DFT single-point forces (PBE, 60/480~Ry, Marzari--Vanderbilt 0.01~Ry, dipole
+correction for slabs) on identical geometries, with limits of 0.15~eV/\AA{} for the force RMSE, 0.10~eV/\AA{} for the
+MAE and 0.25~eV/\AA{} for the RMSE on W and its first-shell O; melt frames are reported, not scored. The comparator was
+frozen in a commit before any output was read.
+
+\begin{table}[htbp]\centering\small
+\caption{Pre-registered MACE-MPA-0 force check (\claim{C037}, \prov{computed}; QE 7.5 CPU, PBE, MV 0.01~Ry). Values in
+eV/\AA. RMSE$_{W1}$: RMSE over W and its first-shell O. Limits 0.15 / 0.10 / 0.25.}
+\label{tab:mono-am-mace}
+\begin{tabular}{llccc}\toprule
+Structure & Frame & RMSE & MAE & RMSE$_{W1}$ \\\midrule
+\aIO{} bulk & quenched / final & 0.068 / 0.065 & 0.052 / 0.049 & -- \\
+\aIWO{} bulk & quenched / final & 0.121 / 0.122 & 0.068 / 0.068 & \textbf{0.434} / \textbf{0.449} \\
+\aIWO{} 0.7~nm & final & \textbf{0.206} & \textbf{0.110} & \textbf{0.815} \\
+melt frame & (reported only) & 0.311 & 0.171 & 1.108 \\\bottomrule
+\end{tabular}
+\end{table}
+
+The check is \textbf{failed overall}: the undoped bulk passes; the W-doped bulk fails on the W first shell only; the
+0.7~nm W slab fails all three limits (\cref{tab:mono-am-mace}). Between 71 and 75\,\% of the squared error sits in the
+W first shell, which contains one W environment (7 atoms, 21 components) per frame; outside it the RMSE is
+0.063--0.066 (bulk) and 0.107~eV/\AA{} (0.7~nm). The final frames are MACE-relaxed (MACE force RMS
+0.005--0.013~eV/\AA), so their RMSE essentially measures the DFT residual force at the MACE minimum and tests how well
+MACE equilibrium geometries transfer to DFT; the quenched and melt frames test force agreement over a wide range
+($r = 0.98$--0.99). The two 2.0~nm frames were pending at the time of logging and cannot change the overall verdict.
+
+Under the pre-registered consequence, the machine-learned structures are DFT-relaxed starting points, not validated
+amorphous models, and no structural statistic from the machine-learning stage alone is reported \corr{X8}. A possible
+contributor is that the potential's training data treat W oxides with PBE+U while the reference here is plain PBE
+(\prov{assumed}, not tested). The practical consequence is that every structural statement about the W environment
+must come from the DFT-relaxed geometry, and the W first shell is exactly where the starting geometry is least
+trustworthy.
+
+% =====================================================================================================================
+\section{DFT relaxation and continuation rules}
+\label{sec:mono-am-relax}
+
+Relaxations use 60/480~Ry, BFGS with $10^{-3}$~Ry/bohr and $10^{-4}$~Ry, at most 400 ionic steps, a
+$2\times2\times1$ (slabs) or $2\times2\times2$ (bulk) grid, a dipole correction for slabs, \texttt{conv\_thr}
+$10^{-7}$, $\beta = 0.2$, local-TF mixing and at most 200 SCF iterations, on GPUs with the 7.3.1 build. Each relaxation
+runs as a chain of segments (an HTCondor DAG) of at most 79\,200~s (165\,600~s for one cell, \dlog{D-41}). The
+continuation rules (\dlog{D-24} and amendments) are:
+\begin{itemize}
+\item a segment restarts only from a \emph{validated} geometry (converged SCF, accepted ionic step), the lowest-energy
+one, with only the atomic positions replaced in the input;
+\item a relaxation counts as converged only if Quantum ESPRESSO prints ``bfgs converged'', because it also prints final
+coordinates after a failed BFGS run (\amend{A19}, \dlog{D-22});
+\item every segment ends in one of the classes converged, continue, or failed with a category; a hard failure is not
+replayed, and a stopped segment is held for review (\dlog{D-27});
+\item a fatal GPU error after a new validated geometry is an infrastructure failure with the geometry archived.
+\end{itemize}
+To fit 250--300-atom cells on one 96~GB GPU, the In and O species labels are split into two labels each with identical
+data sets (\amend{A25}, \amend{A30}, \amend{A34}). At a fixed geometry the split changed the energy by
+$10^{-8}$~Ry and no force component by more than $3\times10^{-8}$~Ry/bohr, against tolerances of $10^{-5}$
+(\claim{C035}; check-only \texttt{conv\_thr} $10^{-14}$). Every final SCF restores the original labels.
+
+\section{Smearing families}
+\label{sec:mono-am-smearing}
+
+The W-doped slabs were registered to relax with Marzari--Vanderbilt (MV) smearing of 0.01~Ry \citep{Marzari1999};
+the undoped slabs and bulk references relax with Gaussian smearing of 0.005~Ry after SCF failures of undoped slabs.
+Smearing is a numerical device to integrate the partly filled bands of a metal-like cell; its theory, and why the
+family and width can matter for a classification of shallow states, is given in \cref{sec:mono-dft-smearing}. The
+amendments, each logged before the result it governs, are:
+\begin{itemize}
+\item \amend{A15} (rescue and audit): Gaussian 0.005~Ry with $\beta = 0.1$, 12 mixing vectors and at most 300
+iterations; the final smearing is selected by an audit at fixed geometry (0.005, 0.002, 0.001~Ry on the 2.0~nm cells:
+edges within 0.05~eV, trap classes unchanged, donated charge within five percentage points).
+\item Screen at 1.0~nm: on the relaxed \file{aIWO_1p0_s1}, switching the family changed no force component by more than
+$2.4\times10^{-4}$~Ry/bohr (RMS $6.7\times10^{-5}$), below the $10^{-3}$ threshold (\claim{C034}); this screen does not
+replace the required Gaussian polish.
+\item \amend{A26}: Gaussian 0.001~Ry reference final SCFs before the audit; self-comparison is not an audit pass.
+\item \amend{A31}: the audit runs as CPU finals; because the frozen reader does not compute the electron affinity, the
+audit is partial by construction and every dependent result carries ``A15 width provisional (EA not evaluated)''.
+\item \amend{A35}, \amend{A36}: one-attempt rescues after SCF failures: Gaussian 0.005~Ry for the 0.8~nm chain and
+\file{aIWO_2p0_s2}, Marzari--Vanderbilt 0.01~Ry with convergence aids for \file{aIWO_2p0_comp_s1} (registered family
+kept), and a pre-declared conditional Gaussian route for \file{aIWO_2p0_s1} (\dlog{D-40}).
+\end{itemize}
+The W series therefore uses mixed relaxation smearing, and every result table gives each cell's family and lineage.
+
+\section{Restart reproducibility and qualification}
+\label{sec:mono-am-restart}
+
+For \file{aIWO_0p8_s2} a fresh SCF at a fixed geometry with identical settings did not reproduce the continued SCF at
+production tolerance: the energy differed by $1.18\times10^{-5}$~Ry and a force component by $4.99\times10^{-3}$~Ry/bohr
+(\claim{C036}). Whether this is an incomplete-SCF force error or two converged electronic branches is open.
+Numerical-path invariance is therefore not assumed. For every cell on a rescue route two gates follow: a restart gate
+(the first fresh SCF of a new segment must reproduce the previous value within $10^{-5}$~Ry and $10^{-3}$~Ry/bohr) and
+a qualification SCF at the final geometry with the same tolerances. A failed or missing qualification makes the
+relaxation \emph{exploratory}: the frozen reader excludes it from primary scoring, and the flag is inherited by every
+geometry derived from it. Any relaxation not converged at the cutoff is exploratory, and a primary test without a
+converged geometry is unresolved.
+
+\section{Final SCF, export and certification}
+\label{sec:mono-am-final}
+
+Final SCFs run on CPUs (QE 7.5) at 71/568~Ry, the cutoff of the crystalline study, with $1.3\times$ the occupied band
+count, followed by the planar-averaged potential and \texttt{projwfc.x} projections. Exported before scratch space is
+lost: per-state projections with atom and orbital maps and completeness values, projected densities of states,
+occupations and $k$ weights, planar averages, final geometries with lineage, eigenvalues, every segment's inputs and
+logs. The read-out is a frozen Python package (version 1.0.0-rc7; code sha256 \texttt{fff642a1}\ldots\texttt{e4f01158};
+221 tests), frozen before any slab read-out existed (\dlog{D-32}). Before use on amorphous cells it must reproduce two
+crystalline numbers, a 3\,\% W-5d share and $\dEc = 0.281$~eV at 2~nm. For each final a certificate binds by sha256
+every file the read-out consumes, the geometry and pseudopotential hashes, and one block per qualification; an
+automated checker (F9) recomputes every hash. Without a valid certificate every primary score is unresolved.
+
+% =====================================================================================================================
+\section{Read-out definitions}
+\label{sec:mono-am-defs}
+
+The definitions were frozen with the register (section 1, amended by A16 and A24 before any electronic result). Their
+theoretical basis is in \cref{sec:mono-defect-pr,sec:mono-defect-lowdin}. For a state $(n,\vk)$ with L\"owdin
+projections $\tilde p_{i}$ summed over the orbitals of atom $i$, the atom weights are $p_i = \tilde p_i/\sum_j\tilde
+p_j$, and the completeness $\sum_j \tilde p_j = 1 - s_{n\vk}$ (with $s$ the spilling) is reported; a state with
+completeness below 0.90 is flagged, and a test resting on flagged states is unresolved. The normalised participation
+ratio over all $N$ atoms of the cell is
+\begin{equation}
+\PRn = \frac{1}{N\sum_{i=1}^{N} p_i^2}, \qquad \frac{1}{N} \le \PRn \le 1 ,
+\label{eq:mono-am-pr}
+\end{equation}
+with extended states $\PRn \ge 0.20$ and localised states $\PRn \le 0.05$ (absolute thresholds; the relative rule of
+revision 1 could call a fully localised spectrum extended). $N_{\mathrm{eff}} = N\,\PRn$ is reported alongside, since
+$\PRn$ scales as $1/N$ for an unchanged localised support. Occupations use the final SCF's own smearing function and
+normalised $k$ weights including the spin factor.
+
+\paragraph{Host edge.} The lowest eigenvalue over all $k$ of any state above band $N_v$ with $\PRn\ge0.20$ and an
+interior weight of at least 0.8 times the interior atom fraction; unresolved if no state qualifies within 1.0~eV of the
+lowest state above $N_v$ or if the interior is empty. A host valence edge is defined in the same way at or below
+$N_v$. The rule does not use the W-5d weight, so the W tests are not circular.
+
+\paragraph{Electron accounting.} $N_v = (N_{\mathrm{el}} - N_{\mathrm{ex}})/2$ with $N_{\mathrm{ex}} = n_W$ in W-doped
+cells and 0 in undoped and compensated cells. The occupation of all bands above $N_v$ must equal $N_{\mathrm{ex}}$ within
+0.02~e (otherwise unresolved), and every fraction uses the nominal denominator $N_{\mathrm{ex}}$.
+
+\paragraph{Alignment.} Valid only with an interior plateau of the planar-averaged potential with a standard deviation
+of at most 0.05~eV; without it no edge shift is claimed.
+
+% =====================================================================================================================
+\section{The registered amorphous tests}
+\label{sec:mono-am-tests}
+
+\begin{table}[htbp]\centering\small
+\caption{Registered tests on amorphous cells (register revision 2, frozen 2026-10-10T18:33:13Z, \dlog{D-17}; H-M and
+H-N added before any relevant result, \amend{A18}, \amend{A27}). Outcomes: \sealedph{all; release blocked by D-43}.}
+\label{tab:mono-am-tests}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{1.0cm}>{\raggedright\arraybackslash}p{4.4cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+ID & Hypothesis & Registered prediction (abridged) \\\midrule
+H-G & W behaves as a donor into host states, with no pinning state (2.0~nm) &
+lowest state with $\ge30$\,\% W-5d weight $>0.3$~eV above the host edge; $\ge80$\,\% of the nominal excess electrons in
+extended host states; compensated cell: no occupied localised W state in the gap; host-edge state $\le10$\,\% W-5d \\
+H-H & OH termination moves dipoles, not the interior host edge & 2.0 and 0.7~nm against bare controls (2.0~nm part
+unresolved: bare control parked, \dlog{D-35}) \\
+H-I & \AlO{} changes the alignment without channel-edge traps & interface cells (expected unresolved: no feasible route) \\
+H-K & amorphous confinement agrees with the crystalline laws & $\Eg(0.7)-\Eg(2.0) = 0.6$--1.3~eV; aligned host edge
+rises 0.2--1.0~eV from 2.0 to 1.0~nm where alignment is valid \\
+H-M & \HfO{} interface control at 2.0~nm & alternative-interface control only \\
+H-N & extended-carrier efficacy of W against thickness & \textsc{exploratory} with frozen read-out rules (\cref{sec:mono-am-hn}) \\\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{H-N: extended-carrier efficacy of W against thickness}
+\label{sec:mono-am-hn}
+
+H-N was added after the register freeze by \amend{A27} (2026-10-11T09:09Z), before any slab electronic result was read,
+after an independent review, and approved by the user (\dlog{D-28}). It is exploratory: its forecasts are not scored,
+but its read-out rules are frozen.
+
+\paragraph{Cells.} Bulk (\file{aIWO_bulk_s1} / \file{aIO_bulk_s1}); 2.0~nm (two W seeds and two undoped partners);
+1.5~nm (optional; cut); 1.0~nm; 0.8~nm; 0.7~nm (one W cell and one undoped partner each).
+
+\paragraph{Observables} (W-doped cells, final SCF, bands $n>N_v$, nominal denominator $N_{\mathrm{ex}} = n_W$):
+\begin{align}
+f_{\mathrm{ext}} &= \frac{1}{N_{\mathrm{ex}}}\sum_{n>N_v,\vk}\, f_{n\vk}w_{\vk}\;
+  \mathbf{1}\!\left[\PRn \ge 0.20,\; \varepsilon_{n\vk} \ge E_{\mathrm{host}}\right], \label{eq:mono-am-fext}\\
+f_{\mathrm{locW}} &= \frac{1}{N_{\mathrm{ex}}}\sum_{n>N_v,\vk}\, f_{n\vk}w_{\vk}\;
+  \mathbf{1}\!\left[\PRn \le 0.05,\; p_{\mathrm{W5d}} \ge 0.30\right], \label{eq:mono-am-flocw}\\
+\Delta_W &= \min\{\varepsilon_{n\vk} : p_{\mathrm{W5d}} \ge 0.30,\ \varepsilon_{n\vk} > E_{\mathrm{host,v}}\} -
+E_{\mathrm{host}}, \label{eq:mono-am-dw}
+\end{align}
+and $f_{\mathrm{W5d}}$, the W-5d share of the excess electrons. The final band count must reach at least 1.0~eV above
+the host edge at every $k$; if no qualifying W state lies within the computed bands, $\Delta_W$ is a lower bound, and it
+counts as $>0.3$~eV only if that bound exceeds 0.3~eV.
+
+\paragraph{Per-cell classes} (operational screens, not universal donor criteria):
+DONOR if $f_{\mathrm{ext}}\ge0.80$, $\Delta_W>0.3$~eV and $f_{\mathrm{locW}}<0.10$; ECB (extended-carrier efficacy
+breakdown) if $f_{\mathrm{ext}}<0.50$ or $f_{\mathrm{locW}}\ge0.50$; PARTIAL otherwise; UNRESOLVED on any unresolved
+section-1 condition, a failed band-coverage rule or a pending smearing qualification. A low $f_{\mathrm{ext}}$ can also
+mean that an ionised donor's electron sits in a host or surface trap; ECB therefore does not by itself mean that W
+stopped donating. A W-centred attribution of an ECB needs the trapping states to carry $\ge30$\,\% of their weight on W
+and its first-shell O, and the paired undoped parent to have no localised state within $\pm0.10$~eV on the same non-W
+atoms; otherwise the ECB is host-trap-mediated or unattributed.
+
+\paragraph{Outcome rules (frozen).} The thick endpoint is 2.0~nm, and both 2.0~nm seeds must be DONOR; the thin
+decisive endpoint is 0.7~nm. CROSSOVER requires bulk and both 2.0~nm cells DONOR, 0.7~nm ECB, and the required controls
+passing at both endpoints. NO CROSSOVER requires DONOR at bulk, 2.0, 1.0, 0.8 and 0.7~nm, all resolved, with the
+required controls passing at 0.7~nm. Otherwise the trend is PARTIAL, sample-dependent or UNRESOLVED.
+
+\begin{table}[htbp]\centering\small
+\caption{H-N controls as registered (\amend{A27}) and as amended (\amend{A37}: C2 and C5 cut).}
+\label{tab:mono-am-hn-controls}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Control & 2.0~nm & 0.7~nm & What it tests \\\midrule
+C1 paired substitution & not run & required & W plus one added O in the W first shell of the relaxed undoped parent
+(three sites, seed 2711); separates W chemistry from network differences \\
+C2 directional dilution & not run & cut (A37) & halving W along one axis in a $2\times1$ supercell \\
+C3 occupation width & required & required & 0.001~Ry reference vs the audit width (or 0.002/0.005~Ry): class unchanged,
+edges $\le0.05$~eV, fractions $\le5$ points \\
+C4 Gaussian polish & required & required & relaxation-smearing family; a crossover must hold on polished geometries \\
+C5 hybrid functional & not run & cut (A37) & PAW-PBE $\rightarrow$ NC-PBE $\rightarrow$ HSE06 at fixed geometry \\
+C6 spin & required & required & nspin = 2 from a localised and a delocalised start \\\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Forecast} (Claude, recorded before any result, not scored): DONOR at bulk, 2.0 and 1.0~nm; PARTIAL at
+0.7~nm.
+
+% =====================================================================================================================
+\section{What H-N can conclude: the consequence of A37}
+\label{sec:mono-am-a37}
+
+\amend{A37} (2026-10-13T00:10Z, before any H-N class of any cell had been computed; \dlog{D-42}) records the following
+chain. The 2.0~nm seed \file{aIWO_2p0_s2} never converged in its only Marzari--Vanderbilt segment and continues on the
+one-attempt Gaussian route of \amend{A36}. It therefore never has an MV-converged parent, and control C4 (``polished by a
+Gaussian 0.005~Ry relax, starting from its MV geometry'') cannot be satisfied for it. No other 2.0~nm W seed exists. A
+native-Gaussian eligibility amendment was declined because the relaxation-SCF Fermi energies of two 2.0~nm W cells had
+been parsed before any rule allowed it (the A36 erratum, \cref{tab:mono-corr-amorph}), so restoring a scorable endpoint
+would be result-exposed.
+
+\begin{proposition}[H-N cannot return a crossover verdict]
+\label{prop:mono-hn}
+Under the frozen rules and \amend{A37}, the registered H-N outcome is \textsc{unresolved} in every branch.
+\end{proposition}
+\begin{proof}
+CROSSOVER requires both 2.0~nm seeds DONOR with C4 at 2.0~nm; NO CROSSOVER requires DONOR at 2.0~nm for both seeds with
+C4. C4 is unsatisfiable for one of the two registered seeds in every branch (whatever happens to the other seed, to
+the audit, or to an extension of computer access), so neither outcome is reachable. The remaining outcomes (PARTIAL,
+sample-dependent, UNRESOLVED) carry no crossover claim, and A37 replaces any reader output by UNRESOLVED with the reason
+``2.0~nm thick endpoint UNRESOLVED (A36 C4 point; A37 override)''. The override acts on the outcome string only, never
+upgrades, and leaves per-cell classes, controls and notes intact. \qedhere
+\end{proof}
+
+The proposition follows from the rules alone and uses no sealed value. Its consequences for the research programme are
+direct:
+\begin{enumerate}
+\item The central original question of the amorphous campaign, as registered, cannot be answered by this campaign.
+Neither ``W stops donating below a critical thickness'' nor ``W keeps donating down to 0.7~nm'' will be a registered
+result.
+\item What can be reported after release are per-cell exploratory descriptions: the class of each resolved cell with
+its controls (C1 and C6 at 0.7~nm are kept, because they qualify the 0.7~nm class and the W-centred attribution), its
+smearing family, lineage and certificate.
+\item A future test of H-N needs at least two independently quenched 2.0~nm W seeds that relax in one smearing family,
+a registered endpoint rule that does not depend on a polish route, and the C2/C5 controls restored. The present
+campaign supplies the protocol, the reader and the qualification machinery for it.
+\end{enumerate}
+
+\paragraph{Reading guide for the exploratory per-cell results (monograph, not a registered rule).} Written on
+2026-10-14 without sight of any amorphous electronic quantity, to fix in advance how the monograph will describe the
+released per-cell results:
+\begin{itemize}
+\item DONOR at 0.7~nm with C3, C4 and C6 passing: consistent with W placing its electron in extended states of the
+computed 0.7~nm network; it does not establish that W remains a donor in the devices (neutral PBE, one network).
+\item ECB at 0.7~nm with a W-centred attribution confirmed by C1: a candidate for a W-specific loss of
+extended-carrier efficacy at 0.7~nm in the computed networks; without C2 and C5 it can be a dilution or a functional
+artefact, and without independent quenches it is restricted to the parent networks.
+\item ECB, host-trap-mediated or unattributed: points to host or surface trapping, not to W chemistry.
+\item PARTIAL or UNRESOLVED: no statement about W.
+\end{itemize}
+Whatever the classes, the comparison across thicknesses is a description of single networks with different
+terminations and densities, not a trend; a sequence of classes is not a dependence on thickness without device-to-network
+statistics.
+
+% =====================================================================================================================
+\section{The release protocol and the present blind state}
+\label{sec:mono-am-release}
+
+The read-out release decision \dlog{D-43} (logged 2026-10-14T10:35Z with \amend{A40}) is \emph{conditional}: no read-out
+command runs on a cell until (i) the read-out manifest (F10) is complete through logged addenda (companion slots, run
+names and log paths frozen before any companion is submitted; commands, series specifications, membership, claim roles
+and missing-control handling frozen before the first read-out); (ii) a lineage and qualification audit of the real
+records is done; (iii) the certificate checker (F9) returns CLAIMS\_OK for every certificate with its intended claims,
+bound to the register hash; and (iv) a release clearance is logged. The frozen decision text lists thirteen items
+(F1--F13): the amendments it relies on, the polish and bare routes, the CPU priority order, a frozen claims table, the
+certificate assertions, the read-out manifest, a pinned reader environment, register housekeeping and export integrity.
+A logged scope exception (\amend{A44}, \dlog{D-48}) allowed the certificate and checker programs to bind provenance of
+seven reference finals without printing or viewing any electronic field.
+
+At the evidence state of this monograph (repository commit 3fe6627) no release clearance is logged. Every amorphous
+electronic output is excluded from the public repository (\file{research_record/PUBLIC_EXCLUSIONS.md}), and the
+monograph has opened none. The following therefore appear only as placeholders: per-cell classes and the H-N outcome
+string; H-G, H-H, H-I, H-K and H-M scores; the A15 audit and the provisional width; the qualification and restart-gate
+outcomes; the A23 hybrid checks; the relaxation status at the cutoff.
+
+\section{Gap anchoring and hybrid checks}
+\label{sec:mono-am-gap}
+
+Absolute gaps are not taken from PBE. The scheme $\Eg(t) = E_{\mathrm{g,anchor}} + r\,\dEgPBE(t)$ uses a measured
+anchor (3.05~eV, \prov{literature}, a different sputtered IWO device \citep{Fan2021}), the host-edge gap of each slab
+minus that of the matching amorphous bulk, and the HSE06/PBE ratio $r = 1.06$--1.11 with its spread as an uncertainty
+(\amend{A23}, \fact{030}). Two hybrid checks were registered with read-out rules: a crystalline W cell (is the W-5d state
+still above the host edge in HSE06?) and an amorphous bulk (does its HSE06--PBE gap offset differ from the crystalline
+value by more than 0.10~eV?). Outcomes: \pendingph{A23 hybrid checks}.
+
+\section{Resources and deadlines}
+\label{sec:mono-am-resources}
+
+The amorphous and vacancy calculations ran on CERN's HTCondor system \citep{Thain2005} on single H100 NVL GPUs (A100
+allowed for the vacancy cells); the H100/H200 pool was saturated, and two-GPU requests matched no slot. The 2.0~nm
+chains used 85.6--90.2~GB of the 95.8~GB of GPU memory on the one-GPU route. Registered deadlines: relaxations by
+17 October 10:00~UTC, single-point controls by 20 October 12:00~UTC, access ending 21 October 2026; the observed
+throughput was about 0.8 GPU starts per hour, an observation rather than a capacity. Totals: \pendingph{CPU and GPU
+hours of the amorphous campaign; \cref{app:mono-resources}}.
+
+\begin{keyresult}
+Amorphous \InO{} and IWO films from 0.7 to 2.0~nm were generated by machine-learned melt--quench and relaxed by DFT
+under rules registered before any electronic result. The machine-learned potential failed its registered force check
+in the W first shell (\claim{C037}), so its structures are only starting points. The numerical qualification is
+documented: smearing-family forces agree at 1.0~nm (\claim{C034}), split species labels are exact (\claim{C035}), and a
+restart at 0.8~nm was not reproducible at production tolerance (\claim{C036}). The central exploratory hypothesis H-N
+has a frozen read-out; by its own rules and amendment A37 its registered outcome is unresolved in every branch, so the
+campaign cannot claim a dimensional crossover of W activity or its absence. Per-cell results are sealed until the
+release conditions of D-43 are met.
+\end{keyresult}

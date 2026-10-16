@@ -1,0 +1,259 @@
+% M05_confinement_theory.tex -- quantum confinement, effective masses, non-parabolicity and band alignment in thin
+% slabs, tested against the computed crystalline series. Analysis: tools/confinement_analysis.py ->
+% evidence/derived/confinement_analysis.json (FACT-027..029a); figure tools/fig_confinement_models.py.
+\chapter{Quantum confinement, effective masses and band alignment in thin slabs}
+\label{ch:mono-confinement-theory}
+
+The device model needs three thickness laws from first principles: how far the conduction-band edge rises ($\dEc$),
+how heavy the electrons become ($\mstar$), and how the effective density of states changes ($\Nc$). This chapter
+derives what simple band-structure models predict for these quantities and tests the predictions against the computed
+crystalline slab series of \cref{ch:dft} and \cref{sec:mono-dft-thin}. The tests use only computed numbers and contain
+no fit to device data. They show which parts of the computed thickness dependence follow from bulk band structure
+alone and which do not, and that distinction decides how much of the first-principles input the device model can
+trust (\cref{ch:mono-multiscale}).
+
+% =====================================================================================================================
+\section{The envelope-function picture}
+\label{sec:mono-conf-ema}
+
+Near a band minimum at $\Gamma$ with energy $E_c$ and an isotropic mass $m_b$, a state of a slowly varying confining
+potential $U(z)$ can be written as $\psi = F(z)e^{i\vk_\parallel\cdot\vr_\parallel}u_{c,0}(\vr)$, where $u_{c,0}$ is the
+lattice-periodic band-edge function and $F$ the envelope. To lowest order in $k\cdot p$ the envelope obeys
+\begin{equation}
+\Big[-\frac{\hbar^2}{2m_b}\frac{d^2}{dz^2} + U(z)\Big]F_n = \Big(E - E_c - \frac{\hbar^2k_\parallel^2}{2m_b}\Big)F_n ,
+\label{eq:mono-conf-envelope}
+\end{equation}
+with continuity of $F$ and of $F'/m$ at interfaces \citep{Bastard1981}. For a well of width $t$ with infinite barriers,
+$F_n = \sin(n\pi z/t)$ and
+\begin{equation}
+E_n - E_c = \frac{\hbar^2\pi^2n^2}{2m_bt^2} = \frac{0.376\,\mathrm{eV\,nm^2}}{(m_b/m_0)\,t^2}\,n^2 .
+\label{eq:mono-conf-inf}
+\end{equation}
+This predicts $\dEc \propto t^{-2}$. With the computed bulk band-edge mass $m_b = 0.1541\,m_0$ \fact{004} and $t$ equal
+to the H--H thickness, it gives 0.634~eV at 1.962~nm, 2.3 times the computed $\dEc = 0.281$~eV.
+
+\paragraph{Validity.} \Cref{eq:mono-conf-envelope} assumes that $F$ varies slowly on the scale of the unit cell. The
+bixbyite lattice constant is 1.03~nm; the 1~nm film is thinner than one cell and the 2~nm film spans two. The envelope
+picture is therefore not justified a priori for any film of this study, and it should be read as a parametrisation to
+be tested, not as a derivation. Its prediction also depends on the boundary condition at the OH-terminated surface,
+which the envelope theory does not fix. With continuity of $F'/m$, the bulk mass inside, the free-electron mass outside
+and a 4~eV barrier (about the electron affinity), the even-state condition $\tan(kt/2) = (m_b/m_0)(\kappa/k)$ lets the
+envelope penetrate about $(m_0/m_b)/\kappa \approx 0.6$~nm per side, although the free-electron decay length is only
+0.1~nm; the lowest level then drops to 0.25~eV at 1.962~nm and 0.63~eV at 0.930~nm, against the computed 0.281 and
+0.848~eV. The parabolic envelope model is therefore not refuted by the factor of 2.3 of the infinite well; it is not
+predictive, because the outcome hinges on a boundary condition that is undetermined at an atomic surface.
+
+\section{Non-parabolicity}
+\label{sec:mono-conf-kane}
+
+In a two-band $k\cdot p$ model of a direct-gap semiconductor with gap $\Eg$ and interband matrix element expressed by
+the energy $E_P$, the conduction band obeys, to leading order, the Kane dispersion \citep{Kane1957}
+\begin{equation}
+E(1+\alpha E) = \frac{\hbar^2k^2}{2m_b}, \qquad \frac{m_0}{m_b} = 1 + \frac{E_P}{\Eg},\qquad
+\alpha = \frac{1}{\Eg}\Big(1-\frac{m_b}{m_0}\Big)^2 ,
+\label{eq:mono-conf-kane}
+\end{equation}
+with $E$ measured from the band minimum. The computed bulk band of \InO{} along [100], [110] and [111] follows the
+first relation with $m_b = 0.1541\,m_0$ and $\alpha = 0.58$~eV$^{-1}$ (0.55--0.63 over directions and windows;
+isotropic within 0.2\,\%) up to 0.45~eV above the minimum \fact{004} \fact{005}. The two-band expression for $\alpha$
+with the PBE gap would give 0.81~eV$^{-1}$; $\alpha$ is therefore taken from the fit, not from
+\cref{eq:mono-conf-kane}. The two-band reading of this difference is uncertain: the valence-band top of \InO{} is
+dipole-forbidden at $\Gamma$ (\cref{sec:mono-lit-gap}), so the relevant gap of a two-band model is to the dipole-allowed
+valence states, not the fundamental gap.
+
+\paragraph{The gap does not set the mass.} The second relation of \cref{eq:mono-conf-kane} with the PBE gap and mass
+gives $E_P = 4.9$~eV. Kept fixed, this $E_P$ would make the mass $0.30\,m_0$ at the HSE06 gap of 2.1~eV, whereas the
+HSE06 estimates are $0.159$--$0.193\,m_0$ \claim{C039}; and the measured band-edge mass of $0.208\pm0.006\,m_0$
+\citep[p.~225102-1]{Stokey2021} together with a fundamental gap near 2.8~eV would require $E_P \approx 11$~eV (the
+literature values of the mass span 0.13--0.55~$m_0$, \citealp[p.~225102-2]{Stokey2021}). $E_P$ is thus not invariant between functionals, and masses cannot be scaled from gaps at fixed $E_P$; they have to be
+computed. Two caveats apply to the comparison with experiment: the two-band gap is not the fundamental gap (see above),
+and the measured mass may include polaron renormalisation, which for a Fr\"ohlich coupling constant near one would make
+it about 15\,\% heavier than the band mass and could account for about half of the 26\,\% by which PBE lies below it.
+
+\section{Confined subbands in a non-parabolic band}
+\label{sec:mono-conf-subband}
+
+Quantising the out-of-plane wave vector, $k_z = n\pi/t$, in the Kane dispersion and keeping the in-plane part gives,
+for the subband $n$,
+\begin{equation}
+E(1+\alpha E) = \varepsilon_n + \frac{\hbar^2k_\parallel^2}{2m_b},\qquad \varepsilon_n = \frac{\hbar^2\pi^2n^2}{2m_bt^2} .
+\label{eq:mono-conf-sub}
+\end{equation}
+Three consequences follow, each without free parameters.
+
+\paragraph{(i) Subband energy and its exponent.} At $k_\parallel = 0$, $E_n = [-1+(1+4\alpha\varepsilon_n)^{1/2}]/(2\alpha)$.
+Since $\varepsilon_n \propto t^{-2}$, differentiating $E_n(1+\alpha E_n)$ gives the local power-law exponent
+\begin{equation}
+p(E) \equiv -\frac{d\ln E}{d\ln t} = 2\,\frac{1+\alpha E}{1+2\alpha E} ,
+\label{eq:mono-conf-p}
+\end{equation}
+which falls from 2 (parabolic, $\alpha E \ll 1$) towards 1 (strongly non-parabolic). At the computed shifts it is 1.75
+at 2~nm and 1.50 at 1~nm.
+
+\paragraph{(ii) In-plane mass of the confined subband.} Differentiating \cref{eq:mono-conf-sub} with respect to
+$k_\parallel$ at $k_\parallel = 0$ gives $(1+2\alpha E_n)\,dE = \hbar^2k_\parallel\,dk_\parallel/m_b$, so the in-plane
+band-edge mass of the subband is
+\begin{equation}
+m_\parallel = m_b\,(1 + 2\alpha E_n) ,
+\label{eq:mono-conf-mpar}
+\end{equation}
+and expanding to the next order gives an in-plane non-parabolicity $\alpha_\parallel = \alpha/(1+2\alpha E_n)$. The
+mass increase of a confined film is, in this picture, the bulk band's non-parabolicity probed at the energy $E_n$.
+
+\paragraph{(iii) Subband spacing.} $E_2-E_1$ is smaller than the parabolic $3E_1$; the ratio falls as the confinement
+grows (computed at $\Gamma$: 2.56 at 2~nm and 1.77 at 1~nm, from the logged second levels 0.72 and 1.50~eV above the
+minimum).
+
+\section{Test against the computed films}
+\label{sec:mono-conf-test}
+
+\Cref{eq:mono-conf-mpar} can be tested directly: with the computed $\dEc$ of each film in place of $E_1$ and the bulk
+$m_b$ and $\alpha$, it predicts the in-plane mass with no adjustable quantity. \Cref{tab:mono-conf-test} and
+\cref{fig:mono-conf-models} compare the predictions with the computed band-edge masses.
+
+\begin{table}[htbp]\centering\small
+\caption{Kane predictions against the computed crystalline films (PBE). $m_\parallel$: in-plane band-edge mass
+(computed: 2-D DOS mass, 10-point Kane basis); predicted from \cref{eq:mono-conf-mpar} with $m_b = 0.1541\,m_0$,
+$\alpha = 0.58$~eV$^{-1}$ and the computed $\dEc$ (range for $\alpha = 0.55$--0.63 in brackets). $t_{\mathrm{eff}}$:
+box width for which the bulk Kane band gives the computed $\dEc$. \fact{027}}
+\label{tab:mono-conf-test}
+\begin{tabular}{lcccccc}\toprule
+$\tHH$ (nm) & $\dEc$ (eV) & $m_\parallel$ computed & $m_\parallel$ predicted & $\alpha_\parallel$ computed / predicted & $t_{\mathrm{eff}}/\tHH$ & $p(E)$ \\\midrule
+0.461$^a$ & 1.585 & 0.443 & 0.437 [0.423--0.462] & 0.24 / 0.20 & 1.94 & 1.35 \\
+0.695$^b$ & 1.059 & 0.337 & 0.343 [0.334--0.360] & 0.31 / 0.26 & 1.72 & 1.45 \\
+0.930 & 0.848 & 0.279 & 0.306 [0.298--0.319] & 0.36 / 0.29 & 1.49 & 1.50 \\
+1.962 & 0.281 & 0.203 & 0.204 [0.202--0.208] & 0.47 / 0.44 & 1.39 & 1.75 \\\bottomrule
+\multicolumn{7}{l}{\footnotesize $^a$ In$_8$(OH)$_{24}$, outside the termination model. $^b$ Polar; $\dEc$ carries a
+reference-choice sensitivity of $\pm0.17$~eV.}
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{mono_confinement_models}
+\caption{Computed crystalline \InO{}(001) films (PBE) against confinement models. (a) Conduction-band shift $\dEc$ against
+the H--H thickness: computed points (circles; crosses for the 0.461~nm In$_8$(OH)$_{24}$ and the polar 0.695~nm film);
+an infinite parabolic well with the bulk mass and $t = \tHH$ (dotted); the same with the bulk Kane non-parabolicity
+(dashed); a Kane band with a box width $1.39\,\tHH$, the factor that reproduces the 2~nm point (solid). (b) In-plane
+band-edge mass: computed (circles) against $m_b(1+2\alpha\dEc)$ evaluated with the computed $\dEc$, with no fitted
+quantity (squares); dotted: bulk $m_b$. Source: \file{research_monograph/tools/fig_confinement_models.py}.}
+\label{fig:mono-conf-models}
+\end{figure}
+
+\paragraph{What the test shows.}
+\begin{enumerate}
+\item \emph{The mass increase is consistent with the bulk non-parabolicity.} The no-fit Kane relation reproduces the
+computed in-plane mass of the 1.962~nm film within 1\,\% and overestimates the 0.930~nm mass by 10\,\% \fact{027}.
+(The 1~nm deviation remains even with the two-step value of $\dEc$, 0.819~eV, which gives 0.300~$m_0$.) The agreement
+within 2\,\% at 0.461 and 0.695~nm does not test the relation: the 0.461~nm film is In$_8$(OH)$_{24}$ with $\dEc$ far
+beyond the 0.45~eV window of the Kane fit, and the $\pm0.17$~eV uncertainty of the polar 0.695~nm film moves the
+prediction by $\pm9$\,\%. To this accuracy the mass increase at 2~nm is the bulk non-parabolicity probed at the subband
+energy; at 1~nm it is 10\,\% smaller than that. The predicted in-plane non-parabolicities are 7--19\,\% below the
+computed ones, with the right trend.
+\item \emph{The shift itself is not a box with a fixed width.} No single box width reproduces $\dEc$ at all
+thicknesses: the effective width that the bulk Kane band needs grows from $1.39\,\tHH$ at 2~nm to $1.49\,\tHH$ at 1~nm
+(and $1.72$--$1.94\,\tHH$ for the two sub-nanometre films). Equivalently, with a box width proportional to $t$ fixed at
+2~nm, the Kane band predicts $\dEc(1~\mathrm{nm}) = 0.94$~eV against the computed 0.848~eV, and an exponent of 1.62
+between 1 and 2~nm against the computed 1.48 \fact{028}. Whether the effective box width or the band shape beyond the
+0.45~eV window of the Kane fit causes this, the data cannot separate; a band that flattened more than the Kane band at
+large $k_z$ would make the 1~nm mass heavier than predicted, whereas it is lighter.
+\item \emph{Consequence for the device model.} The fitted mass law $\Delta m = 0.1145\,t^{-1.2755}$ and the fitted
+$\dEc$ law are not independent: within 10\,\% the total in-plane mass follows from $\dEc$ through
+\cref{eq:mono-conf-mpar} (the increase $\Delta m$ itself within about 20\,\%, and the two fitted exponents, 1.28 and 1.48,
+diverge when extrapolated). A
+device model that uses both laws carries one independent first-principles input, not two (\cref{ch:mono-multiscale}).
+\end{enumerate}
+
+\section{The valence band and the partition of the gap opening}
+\label{sec:mono-conf-partition}
+
+In the envelope picture both bands see the same confining wave vector, so the hole confinement energy is the electron's
+kinetic term scaled by the mass ratio. For parabolic bands this gives $\dEc/\Delta\Eg = m_h/(m_e+m_h)$; with the
+non-parabolic conduction band the hole energy is $\varepsilon_1 m_b/m_h$ with $\varepsilon_1 = \dEc(1+\alpha\dEc)$. The
+\InO{} valence-band top is a heavy, three-fold degenerate manifold with directional masses near $\Gamma$ of
+3.2--7.9~$m_0$ (band 174) and heavier \claim{C040}. For the lightest of these, $m_h = 3.2\,m_0$, the Kane-consistent
+estimate is $\Delta E_{\mathrm{v}} = -0.061$~eV and a conduction-band share of 0.93 at 1~nm, and $-0.016$~eV and 0.95 at
+2~nm (the parabolic form gives $-0.041$ and $-0.014$~eV) \fact{029}; heavier hole masses give smaller shifts. The
+computed shifts are $-0.052$~eV (share 0.94) at 1~nm and $-0.054$~eV (share 0.84) at 2~nm.
+
+At 1~nm the computed partition is thus what single-band EMA with the lightest hole mass predicts. At 2~nm the computed
+valence shift exceeds the estimate by about 38~meV. This excess is larger than the spread between the two alignment
+routes at 2~nm ($-0.054$ and $-0.049$~eV, \cref{tab:dft-partition}) and than the flatness of the interior plateau
+(8~meV), so it is not alignment noise; only a systematic error common to both routes (the bulk reference, a
+termination dipole) could remove it. (At 1~nm the two-step route is not usable, because the film has no bulk-like
+interior.) The 2~nm excess is therefore computed but unexplained (\prov{unresolved}). Possible origins, none tested, are a termination-induced potential
+offset inside the film that the macroscopic average does not remove, the coupling of the three degenerate valence bands
+under confinement, and the small in-plane strain of the films. For the device model the consequence is limited: the
+model uses only $\dEc$ (through the electron affinity) and the gap; a constant $\Delta E_{\mathrm{v}}\approx-0.05$~eV
+changes the gap but not the electron barrier.
+
+\paragraph{Why the gap law has a smaller exponent than the conduction-band law.} Between 1 and 2~nm, $\dEc$ scales
+with an exponent of 1.48 and $\Delta\Eg$ with 1.32 \fact{028}. Since $\Delta\Eg = \dEc - \Delta E_{\mathrm{v}}$ and
+$\Delta E_{\mathrm{v}}$ is nearly constant ($-0.053$~eV), the gap carries a thickness-independent offset that lowers its
+log-slope; $\ln(0.8998/0.3352)/\ln(1.962/0.930) = 1.32$ follows from the two $\dEc$ values plus 0.053~eV. Laws fitted
+to $\Delta\Eg$ and to $\dEc$ therefore must not be used interchangeably.
+
+\section{Why the hybrid-functional ratio is close to one}
+\label{sec:mono-conf-hse}
+
+HSE06 opens the bulk gap by a factor of 2.3, yet changes the confinement shift of the 1~nm film by only 6--11\,\%
+\fact{030}. Two effects compete. HSE06 makes the band heavier (estimates $0.159$--$0.193\,m_0$), which lowers
+$\varepsilon_1 \propto 1/m_b$; and a larger gap makes the band less non-parabolic, which raises $E_1$ for a given
+$\varepsilon_1$. Scaling $\alpha$ with the inverse gap, as the two-band model suggests ($\alpha_{\mathrm{HSE}} \approx
+0.58\times0.920/2.108 = 0.253$~eV$^{-1}$, with the norm-conserving PBE and HSE06 gaps of the same pseudopotentials; an
+assumption), the Kane band gives $r = E_1^{\mathrm{HSE}}/E_1^{\mathrm{PBE}} = 0.98$--1.16 over the HSE06 mass range,
+which brackets the computed 1.06--1.11 \fact{029a}. (The model ratio refers to the conduction-band level; the computed
+$r$ is a ratio of gap openings, which equals it only if the valence shift scales in the same way.) The near-cancellation is
+therefore expected; it is a plausibility argument, not a derivation of $r$, and it does not justify transferring $r$
+from 1~nm to other thicknesses, which the gap-anchoring scheme does as an assumption (\amend{A23}).
+
+\section{Effective densities of states}
+\label{sec:mono-conf-dos}
+
+\paragraph{Three dimensions.} For a parabolic band, $\Nc = 2(2\pi m_b\kT/h^2)^{3/2} = 2.509\times10^{19}(m_b/m_0)^{3/2}$\cmcu{}
+at 300~K. For the Kane band the density of states is $g(E) \propto [E(1+\alpha E)]^{1/2}(1+2\alpha E)$; to first order in
+$\alpha E$ this is $E^{1/2}(1+\tfrac52\alpha E)$, and averaging $E$ over a Boltzmann distribution weighted with $E^{1/2}$
+($\langle E\rangle = \tfrac32\kT$) gives
+\begin{equation}
+\Nc^{\mathrm{Kane}} \approx \Nc\Big(1+\tfrac{15}{4}\alpha\kT\Big) ,
+\label{eq:mono-conf-nc3d}
+\end{equation}
+a factor of 1.056 for $\alpha = 0.58$~eV$^{-1}$, in agreement with the $+5.7$\,\% logged for the full integral
+\claim{C039}. The device decks do not include it.
+
+\paragraph{Quasi two dimensions.} A single subband contributes $N_{2D} = m_\parallel\kT/(\pi\hbar^2)$ per unit area,
+i.e.\ $1.66\times10^{12}$~cm$^{-2}$ for $m_\parallel = 0.154\,m_0$ and $2.19\times10^{12}$~cm$^{-2}$ for the computed
+2~nm mass of $0.203\,m_0$; its in-plane non-parabolicity raises this by about $1+2\alpha_\parallel\kT$ (2.4\,\% at 2~nm,
+logged $+2.5$\,\%). The registered device convention divides $N_{2D}$ by the thickness: with the deck mass at 2.0~nm
+($0.208 + 0.046 = 0.254\,m_0$, the measured band-edge mass plus the fitted increase on the deck basis,
+$0.1114\,t^{-1.2611}$, \cref{tab:mono-mass-laws}) this gives $1.373\times10^{19}$\cmcu{}, against $3.218\times10^{18}$\cmcu{} for the 3-D
+formula with the same mass, the two values named in the register's NC convention (\amend{A13}). For free carriers alone the
+choice moves the band position needed for a given density by $\kT\ln(4.27) = 38$~meV at 2~nm. In the device model the
+threshold moved by much more: replacing the quasi-2-D by the 3-D value shifted $\Vthcc$ by $+142$~mV, against a
+registered expectation of $+40$ to $+70$~mV, because the extra band bending fills the 40~meV acceptor tail (an audit
+attributes $+37.5$~mV to the statistics, $+89.5$~mV to tail charge, and the rest to band bending, free carriers and the
+lateral channel; the effective slope factor at $10^{-9}$~A/\textmu m is about 3.5, not the assumed 1.47) (\amend{A13};
+\cref{ch:mono-c10}). This is why the register requires every fitted trap density or fixed charge to name its convention.
+
+\paragraph{When is a film two-dimensional?} The quasi-2-D form is appropriate when only one subband is occupied, i.e.\
+$E_2-E_1 \gg \kT$. With the fitted $\dEc$ law ($0.762\,t^{-1.478}$, H--H thickness) and the Kane band, the estimated
+spacings are 0.59~eV (23~$\kT$) at 2~nm, 0.14~eV (5~$\kT$) at 6.3~nm and 0.05~eV (2~$\kT$) at 13.2~nm; the Kane estimate
+is 9--18\,\% below the computed spacing at 1 and 2~nm. The 6.3 and 13.2~nm values extrapolate a two-point law three to
+seven times beyond its data, and its exponent (1.48) is below the value of 2 that a Kane band approaches for thick
+films: a Kane box of fixed width $1.39\,t$ gives 0.088~eV (3.4~$\kT$) at 6.3~nm and 0.021~eV (0.8~$\kT$) at 13.2~nm. The
+criterion also ignores degenerate filling, which populates higher subbands once $E_F - E_1$ approaches the spacing. For
+a crystalline film, therefore, electrons would occupy essentially one subband at 2~nm, one or two at 6.3~nm and several
+at 13~nm (\prov{derived}, crystalline, PBE). The device films are
+amorphous or nanocrystalline, where disorder broadens the subbands; whether this estimate transfers is the subject of
+H-K (\cref{tab:mono-am-tests}).
+
+\begin{keyresult}
+Simple band-structure models explain part of the computed thickness dependence and fail on the rest. The in-plane mass of
+the 2~nm film is, within 1\,\%, the bulk Kane non-parabolicity probed at the computed subband energy, and the 1~nm mass
+is 10\,\% lighter than that prediction (the two thinnest films do not test it); the mass law and the conduction-band law
+are therefore, to about 10\,\%, one input, not two. The conduction-band shift itself is not a box of fixed width: it scales with an exponent of 1.48 between 1 and
+2~nm against 1.62 for the bulk Kane band. The partition of the opening agrees with Kane-consistent single-band effective-mass theory at 1~nm; at 2~nm the
+computed valence shift exceeds it by about 38~meV, more than the alignment uncertainty, and is unexplained. A finite
+barrier with a mass jump brings the parabolic envelope model close to the computed shift, so that model is not
+predictive rather than refuted. The near-unity HSE06/PBE ratio of the confinement shift is plausible from
+competing mass and non-parabolicity changes. A crystalline film would be in the single-subband limit at 2~nm, but not reliably at 6.3~nm.
+\end{keyresult}

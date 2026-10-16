@@ -1,0 +1,198 @@
+% ntutalk.sty -- an original, plain academic Beamer theme for the NTU presentation of the IWO TFT project.
+% White background, black text, one restrained accent (NTU maroon, used only for rules and part numbers),
+% TeX Gyre Heros text, footnote citations (biblatex, bibtex backend). No navigation symbols, no shaded boxes.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{ntutalk}[2026/10/15 plain academic theme]
+
+% ---------------- fonts ----------------
+\RequirePackage[T1]{fontenc}
+\RequirePackage{tgheros}
+\renewcommand{\sfdefault}{qhv}
+\RequirePackage[scaled=0.95]{newtxsf}   % sans-serif math matching the text
+\usefonttheme{professionalfonts}
+
+% ---------------- packages ----------------
+\RequirePackage{graphicx,booktabs,array,tabularx,multirow,xcolor,tikz,amsmath}
+\RequirePackage[detect-all]{siunitx}
+\sisetup{range-phrase={--},range-units=single,separate-uncertainty=true}
+\RequirePackage[export]{adjustbox}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,shapes.geometric}
+
+% ---------------- colours ----------------
+\definecolor{ntumaroon}{HTML}{801924}
+\definecolor{inkgrey}{HTML}{4D4D4D}
+\definecolor{rulegrey}{HTML}{BFBFBF}
+\setbeamercolor{normal text}{fg=black,bg=white}
+\setbeamercolor{background canvas}{bg=white}
+\setbeamercolor{structure}{fg=black}
+\setbeamercolor{frametitle}{fg=black}
+\setbeamercolor{title}{fg=black}
+\setbeamercolor{subtitle}{fg=inkgrey}
+\setbeamercolor{item}{fg=black}
+\setbeamercolor{footnote}{fg=inkgrey}
+\setbeamercolor{footnote mark}{fg=inkgrey}
+\setbeamercolor{caption name}{fg=black}
+\setbeamercolor{bibliography entry author}{fg=black}
+\setbeamercolor{bibliography entry title}{fg=black}
+\setbeamercolor{bibliography entry location}{fg=inkgrey}
+\setbeamercolor{bibliography entry note}{fg=inkgrey}
+
+% ---------------- general ----------------
+\setbeamertemplate{navigation symbols}{}
+\setbeamersize{text margin left=10mm,text margin right=10mm}
+\setbeamertemplate{itemize item}{\raisebox{0.18ex}{\rule{0.9ex}{0.9ex}}}
+\setbeamertemplate{itemize subitem}{\textendash}
+\setbeamertemplate{itemize subsubitem}{\textperiodcentered}
+\setbeamertemplate{enumerate item}{\insertenumlabel.}
+\setbeamertemplate{caption}{\raggedright\scriptsize\insertcaption\par}
+\setbeamerfont{itemize/enumerate body}{size=\small}
+\setbeamerfont{itemize/enumerate subbody}{size=\footnotesize}
+\setbeamerfont{footnote}{size=\tiny}
+\setlength{\parskip}{3pt}
+
+% ---------------- logo (emblem cropped from the official NTU header logo) ----------------
+\newcommand{\ntuemblem}[1]{\includegraphics[height=#1,trim=0 0 279.9pt 0,clip]{assets/ntu_logo_header.pdf}}
+\newcommand{\ntuheader}[1]{\includegraphics[height=#1]{assets/ntu_logo_header.pdf}}
+
+% ---------------- frame title ----------------
+\setbeamertemplate{frametitle}{%
+  \nointerlineskip
+  \begin{beamercolorbox}[wd=\textwidth,ht=11mm,dp=0mm]{frametitle}
+    \vbox to 11mm{\vfill\hsize=\dimexpr\textwidth-14mm\relax
+      \usebeamerfont{frametitle}\bfseries\large\raggedright\insertframetitle\par
+      \ifx\beamer@framesubtitle\@empty\else\vspace{0.4mm}{\normalfont\footnotesize\color{inkgrey}\insertframesubtitle\par}\fi
+      \vspace{1.6mm}}
+  \end{beamercolorbox}%
+  \begin{tikzpicture}[remember picture,overlay]
+    \draw[ntumaroon,line width=0.6pt] ($(current page.north west)+(10mm,-12.6mm)$) -- ($(current page.north east)+(-10mm,-12.6mm)$);
+    \node[anchor=north east,inner sep=0] at ($(current page.north east)+(-10mm,-2.6mm)$) {\ntuemblem{8.6mm}};
+  \end{tikzpicture}%
+  \vspace{1.5mm}%
+}
+
+% ---------------- footline ----------------
+\newcommand{\talkshortauthor}{M.~Elrasheedy}
+\newcommand{\talkshorttitle}{Ultrathin W:In$_2$O$_3$ TFTs: DFT and TCAD}
+\setbeamertemplate{footline}{%
+  \vbox{%
+    \hbox to \paperwidth{\hspace{10mm}{\color{rulegrey}\rule{\dimexpr\paperwidth-20mm\relax}{0.4pt}}\hfil}%
+    \vspace{1.3mm}%
+    \hbox to \paperwidth{\hspace{10mm}%
+      \parbox[t]{0.29\paperwidth}{\tiny\color{inkgrey}\talkshortauthor\ \textperiodcentered\ National Taiwan University}%
+      \hfill\parbox[t]{0.38\paperwidth}{\centering\tiny\color{inkgrey}\talkshorttitle}%
+      \hfill\parbox[t]{0.17\paperwidth}{\raggedleft\tiny\color{inkgrey}\insertframenumber\,/\,\inserttotalframenumber}%
+      \hspace{10mm}}%
+    \vspace{2.4mm}}%
+}
+
+% ---------------- footnotes: compact, numbered per frame, no rule ----------------
+% citation marks: inline "[n]" (not superscript, so they cannot be mistaken for exponents)
+\def\@makefnmark{\hbox{\,{\usebeamercolor[fg]{footnote mark}\scriptsize[\@thefnmark]}}}
+\renewcommand{\footnoterule}{\vspace{0.6mm}{\color{rulegrey}\hrule width 40mm height 0.3pt}\vspace{0.4mm}}
+\setbeamertemplate{footnote}{\parindent 0em\noindent\raggedright\hbox to 1.6em{\hfil{\tiny[\@thefnmark]}\,}\insertfootnotetext\par}
+\AtBeginEnvironment{frame}{\setcounter{footnote}{0}}
+
+% ---------------- citations (biblatex, bibtex backend; biber is not installed) ----------------
+\RequirePackage[backend=bibtex,style=authoryear,maxcitenames=2,mincitenames=1,maxbibnames=6,minbibnames=3,
+  uniquename=false,uniquelist=false,giveninits=true,doi=true,url=false,isbn=false,eprint=true,sorting=nyt,
+  dashed=false]{biblatex}
+\renewcommand*{\bibfont}{\tiny}
+\setlength{\bibitemsep}{0.5ex}
+\setbeamertemplate{bibliography item}{}
+% internal bookkeeping fields of the project .bib files are not part of a reference
+\AtEveryBibitem{\clearfield{note}\clearfield{addendum}\clearfield{howpublished}\clearfield{issn}\clearlist{language}}
+% \refcite{key}: "Author et al., Journal vol, pages (year)" -- used inside slide footnotes.
+% journal abbreviations for the slide footnotes (the reference list keeps the names as given in the .bib files)
+\newcommand{\ntujabbr}[2]{\expandafter\def\csname ntujabbr@#1\endcsname{#2}}
+\ntujabbr{Physical Review B}{Phys. Rev. B}
+\ntujabbr{Physical Review Letters}{Phys. Rev. Lett.}
+\ntujabbr{Physical Review Materials}{Phys. Rev. Mater.}
+\ntujabbr{Nano Letters}{Nano Lett.}
+\ntujabbr{Journal of Applied Physics}{J. Appl. Phys.}
+\ntujabbr{Applied Physics Letters}{Appl. Phys. Lett.}
+\ntujabbr{IEEE Transactions on Electron Devices}{IEEE Trans. Electron Devices}
+\ntujabbr{Small Structures}{Small Struct.}
+\ntujabbr{Scientific Reports}{Sci. Rep.}
+\ntujabbr{Reviews of Modern Physics}{Rev. Mod. Phys.}
+\ntujabbr{Proceedings of the National Academy of Sciences}{Proc. Natl. Acad. Sci. USA}
+\ntujabbr{Nature Electronics}{Nat. Electron.}
+\ntujabbr{Measurement: Sensors}{Meas. Sens.}
+\ntujabbr{Journal of Physics: Condensed Matter}{J. Phys.: Condens. Matter}
+\ntujabbr{International Journal of Quantum Chemistry}{Int. J. Quantum Chem.}
+\ntujabbr{Frontiers in Materials}{Front. Mater.}
+\ntujabbr{2020 IEEE International Electron Devices Meeting (IEDM)}{IEDM}
+\DeclareFieldFormat{shortjournal}{\ifcsdef{ntujabbr@#1}{\emph{\csuse{ntujabbr@#1}}}{\emph{#1}}}
+% article-number page fields that \mkfirstpage cannot shorten, matched by entry key (the bibtex backend rewrites
+% the range dash as \bibrangedash, so the raw page string cannot be compared literally)
+\DeclareFieldFormat{firstpage}{%
+  \iffieldequalstr{entrykey}{Januar2026}{e202500807}{%
+  \iffieldequalstr{entrykey}{Wang2022}{850451}{%
+  \iffieldequalstr{entrykey}{Stokey2021}{225102}{%
+  \iffieldequalstr{entrykey}{Kim2024}{173507}{\mkfirstpage{#1}}}}}}
+% \refcite{key}: "Author et al., Journal vol, first page (year)"; with a postnote, the cited page replaces the range.
+\DeclareCiteCommand{\refcite}
+  {}
+  {\printnames{labelname}%
+   \setunit{\addcomma\space}\printfield[shortjournal]{journaltitle}%
+   \iffieldundef{journaltitle}{\setunit{\addcomma\space}\printfield[shortjournal]{booktitle}}{}%
+   \setunit{\addspace}\printfield{volume}%
+   \iffieldundef{postnote}{\setunit{\addcomma\space}\printfield[firstpage]{pages}}{}%
+   \setunit{\addspace}\printtext[parens]{\printfield{year}}%
+   \iffieldundef{postnote}{}{\setunit{\addcomma\space}\printfield{postnote}}}
+  {\multicitedelim}
+  {}
+\DeclareFieldFormat[article,inproceedings,book,misc,online,report,thesis,incollection]{postnote}{#1}
+\DeclareFieldFormat{emph}{\emph{#1}}
+% \sref{key} or \sref[p.~4]{key}: footnote citation at the bottom of the slide (works inside columns).
+\newcommand{\sref}[2][]{\footnote[frame]{\refcite[#1]{#2}}}
+% \srefs{key1,key2}: several works in one footnote.
+\newcommand{\srefs}[1]{\footnote[frame]{\refcite{#1}}}
+
+% ---------------- small helpers ----------------
+% evidence label in charter vocabulary, e.g. \lab{computed}
+\newcommand{\lab}[1]{{\scriptsize\color{inkgrey}[\textsc{\MakeLowercase{#1}}]}}
+% source line under a figure or table
+\newcommand{\src}[1]{\par\vspace{0.5mm}{\tiny\color{inkgrey}\renewcommand{\lab}[1]{[\textsc{\MakeLowercase{##1}}]}#1\par}}
+% a result that is sealed under the release protocol (never filled by inference)
+\newcommand{\sealed}[1]{\fbox{\parbox{0.92\linewidth}{\centering\footnotesize\textbf{Sealed} \textendash\ #1\\
+  \tiny\color{inkgrey}released only under the registered release protocol (decision D-43)}}}
+% take-away line at the bottom of a slide
+\newcommand{\takeaway}[1]{\par\vfill{\color{rulegrey}\rule{\linewidth}{0.4pt}}\par\vspace{-0.6mm}{\small\textbf{Take-away.} #1\par}}
+% part divider frame
+\newcommand{\partslide}[2]{%
+  {\setbeamertemplate{footline}{}\setbeamertemplate{frametitle}{}
+   \begin{frame}[c,noframenumbering]
+   \vfill\begin{minipage}{0.85\linewidth}\raggedright
+   {\color{ntumaroon}\Large\textbf{#1}}\par\vspace{2mm}
+   {\color{rulegrey}\rule{0.6\linewidth}{0.4pt}}\par\vspace{2mm}
+   {\LARGE\bfseries #2\par}
+   \end{minipage}\vfill
+   \begin{tikzpicture}[remember picture,overlay]
+     \node[anchor=south east,inner sep=0] at ($(current page.south east)+(-10mm,8mm)$) {\ntuemblem{12mm}};
+   \end{tikzpicture}
+   \end{frame}}}
+% notation
+\newcommand{\InO}{In$_2$O$_3$}
+\newcommand{\IWO}{IWO}
+\newcommand{\HfO}{HfO$_2$}
+\newcommand{\AlO}{Al$_2$O$_3$}
+\newcommand{\Vth}{V_{\mathrm{th}}}
+\newcommand{\Vthcc}{V_{\mathrm{th,cc}}}
+\newcommand{\Vg}{V_{\mathrm{G}}}
+\newcommand{\Vd}{V_{\mathrm{D}}}
+\newcommand{\Id}{I_{\mathrm{D}}}
+\newcommand{\Ec}{E_{\mathrm{c}}}
+\newcommand{\EF}{E_{\mathrm{F}}}
+\newcommand{\Eg}{E_{\mathrm{g}}}
+\newcommand{\dEc}{\Delta E_{\mathrm{c}}}
+\newcommand{\dEv}{\Delta E_{\mathrm{v}}}
+\newcommand{\dEg}{\Delta E_{\mathrm{g}}}
+\newcommand{\tHH}{t_{\mathrm{HH}}}
+\newcommand{\mzero}{m_0}
+\newcommand{\PRn}{\mathrm{PR}_n}
+\newcommand{\kT}{k_{\mathrm{B}}T}
+\newcommand{\cmcu}{\ensuremath{\,\mathrm{cm}^{-3}}}
+\newcommand{\cmsq}{\ensuremath{\,\mathrm{cm}^{-2}}}
+\newcommand{\cmVs}{\ensuremath{\,\mathrm{cm^2\,V^{-1}\,s^{-1}}}}
+\DeclareRobustCommand{\cell}[1]{\texttt{\detokenize{#1}}}
+\endinput
