@@ -29,7 +29,10 @@ Checks
   budget       max_launches 260 and C10 cap 200 unchanged; distinct run ids + k <= 260 and c10 run ids + k <= 200 (k = unlaunched entries of
                the next batch); fit (PA-19 v3 section 4): c10 used + unlaunched A59 entries + the other never-cut need 32 (A41(d) 6, 3-D NC 17,
                l = 0 triple 3, six repairs) <= 200
-  cutoff       A59 (f): now + the timeouts of every unlaunched entry of the batch but its last + 120 s per launch < 2026-10-16T10:00Z
+  cutoff       A59 (f): now + the timeouts of every unlaunched entry of the batch but its last + 120 s per launch < 2026-10-16T10:00Z;
+               v2 (A61, 2026-10-17): replaced by the window rule: now + 1.2 x the longest completed run of each entry's film + 120 s per launch
+               <= 2026-10-17T01:00Z (films without a completed run are not launchable); run_0201 (S6-21) is the registered interrupted launch
+               (user-requested shutdown): kept, never opened; ONE retry through config/campaign_C10_S6_b7r.json with --retry S6-21, first
 """
 import csv
 import hashlib
@@ -61,7 +64,14 @@ S5_FILES = {'analysis_2026-10-10_campaign/profile/s5_A53/H6p3_score.json': '3f7a
             'analysis_2026-10-10_campaign/profile/s5_A53/s5_report_A53.json': '2ffabb454ccd236d0bb2bde2effcf165733c254b8156c04c6e9c2a197cc73d80'}
 LAST_S5 = 'run_0181'
 LAST_S5_LABEL = 'c10_s5_h13p2_2_6p3_6p3'
-INTERRUPTED = ('run_0150', 'run_0160')   # A51, A54: STARTED rows only, kept, never opened
+INTERRUPTED = ('run_0150', 'run_0160', 'run_0201')   # A51, A54, A61: STARTED rows only, kept, never opened
+INTERRUPTED_J = 'run_0201'   # A61: S6-21 (c10_s6_21_6p3) cut off by the user-requested laptop shutdown at ~2026-10-16T04:07Z
+RETRY_J = 'S6-21'            # A61: the one registered infrastructure retry (--retry S6-21 iff no c10_s6_21_6p3 row above run_0201)
+RETRY_STEM = 'campaign_C10_S6_b7r'   # A61: retry-only plan == s6s7_plans.plan_of(RETRY_STEM, ['S6-21'], record)
+A61_HEADING = ['interrupted launch', 'run_0201', 'S6-21', '--retry S6-21', 'prelaunch_gate_c10_j.py']
+A61_ROW = ['A61', 'run_0201', '--retry S6-21', 'prelaunch_gate_c10_j.py']
+WINDOW_END = datetime(2026, 10, 17, 1, 0, 0, tzinfo=timezone.utc)   # A61 window rule (main session 2026-10-17T00:12Z)
+EXPECTED_S = {2.0: 510, 6.3: 900, 13.2: 1290}   # A61: 1.2 x the longest completed run of the film (8.5 / 15 / 21.5 min); other films not launchable
 A59_HEADING = ['S6', 'S7', 's6s7_plans.py', 'prelaunch_gate_c10_j.py', 'PA-19']
 A59_ROW = ['A59', 'S6', 'S7', 'prelaunch_gate_c10_j.py']
 OTHER_NEVER_CUT = 6 + 17 + 3 + 6   # A41(d) + 3-D NC + l = 0 triple + six repairs (PA-19 v3; S6 / S7 counted from the record)
@@ -161,7 +171,7 @@ def run(I, H, G2, G, FG, DE, C, g, argv):
         files_ok &= g.check(not pb, 'generator pin check: matrix, S4c record / confirm / plan, templates, model, solver, builder, runner as pinned', '; '.join(pb))
     for words, row, what in ((G.A49_HEADING, G.A49_ROW, 'A49'), (G.A50_HEADING, G.A50_ROW, 'A50'), (G2.A51_HEADING, G2.A51_ROW, 'A51'),
                              (H.A52_HEADING, H.A52_ROW, 'A52'), (I.A53_HEADING, I.A53_ROW, 'A53'), (I.A54_HEADING, I.A54_ROW, 'A54'),
-                             (A59_HEADING, A59_ROW, 'A59')):
+                             (A59_HEADING, A59_ROW, 'A59'), (A61_HEADING, A61_ROW, 'A61')):
         h, d = C.amendment_logged(words, row)
         g.check(h, f'{what} logged: register heading "### A<n>: ..." naming {", ".join(words)} (not draft)')
         g.check(d, f'{what} logged: decision-log row naming {", ".join(row)}, IN FORCE')
@@ -185,6 +195,7 @@ def run(I, H, G2, G, FG, DE, C, g, argv):
 
     # route plans == the generator's plans of the record
     want = P.plans(rec); order = [i for _, ids in rec['batches'] for i in ids]
+    want[RETRY_STEM] = P.plan_of(RETRY_STEM, [RETRY_J], rec)   # A61: the retry-only plan (derived from the record, committed)
     g.check([[s, ids] for s, ids in P.BATCHES] == rec['batches'], 'record batches == the generator batch order')
     for stem, p in want.items():
         rel = f'config/{stem}.json'; have_p = json.loads((PKG / rel).read_text()) if (PKG / rel).is_file() else None
@@ -219,31 +230,42 @@ def run(I, H, G2, G, FG, DE, C, g, argv):
     after = [rid for rid in all_ids if C.rid_n(rid) > C.rid_n(LAST_S5)]
     other = [f'{rid} {rows[rid][0]["label"]}' for rid in after if rows[rid][0]['label'] not in lab_of_id]
     g.check(not other, f'RUN_INDEX: every run above {LAST_S5} carries an A59 label', ', '.join(other))
-    st, seq = {}, []
+    st, seq, retry_rid = {}, [], None
     for rid in after:
         i = lab_of_id.get(rows[rid][0]['label'])
         if i is None: continue
-        g.check(i not in st, f'RUN_INDEX: one run id per A59 label ({rows[rid][0]["label"]})', f'{st.get(i)} and {rid}' if i in st else '')
-        if i not in st: st[i] = rid; seq.append(i)
+        if i == RETRY_J and st.get(i) == INTERRUPTED_J and retry_rid is None:
+            retry_rid = rid   # A61: the one registered retry of the interrupted run_0201
+        else:
+            g.check(i not in st, f'RUN_INDEX: one run id per A59 label ({rows[rid][0]["label"]}; S6-21: run_0201 + one A61 retry)', f'{st.get(i)} and {rid}' if i in st else '')
+            if i not in st: st[i] = rid; seq.append(i)
         f0 = rows[rid][0]; pin = rec['dry_build'][i]
         g.check(f0['started'] and f0['model_note'] and f0['deck_sha256'] == pin['deck_sha256'] and f0['model_sha256'] == pin['model_sha256'],
                 f'{rid} ({i}): STARTED-row inputs == the A59 record dry build (deck, material, model note)')
     g.check(seq == order[:len(seq)], 'order: STARTED A59 runs == a prefix of the registered batch order', ' -> '.join(f'{i} {st[i]}' for i in seq) or 'none')
-    unfinished = [f'{st[i]} ({i})' for i in seq if not fin[st[i]]]
+    g.check(INTERRUPTED_J in rows and rows[INTERRUPTED_J][0]['label'] == rec['entries'][RETRY_J]['label'] and st.get(RETRY_J) == INTERRUPTED_J,
+            f'A61: {INTERRUPTED_J} is the first {RETRY_J} run ({rec["entries"][RETRY_J]["label"]}), the registered interrupted launch')
+    unfinished = [f'{st[i]} ({i})' for i in seq if not fin[st[i]] and st[i] != INTERRUPTED_J] + ([f'{retry_rid} ({RETRY_J} retry)'] if retry_rid and not fin[retry_rid] else [])
     if unfinished: g.stop(f'started S6 / S7 run(s) without a finish row: {unfinished} (a launch in progress, or a runner crash): nothing is invoked; decide by hand')
 
     # ---------------------------------------------------------------- the next batch
-    todo = [i for i in order if i not in st]; nb = next(((s, ids) for s, ids in rec['batches'] if any(i in todo for i in ids)), None)
+    retry_pending = st.get(RETRY_J) == INTERRUPTED_J and retry_rid is None
+    todo = [i for i in order if i not in st or (i == RETRY_J and retry_pending)]; nb = next(((s, ids) for s, ids in rec['batches'] if any(i in todo for i in ids)), None)
     msg4, k_next, plan_rel = None, [], None
     if nb is None: msg4 = 'S6 / S7: every A59 entry has started and finished; next: the A59 read-out (0 launches)'
     else:
-        stem, ids = nb; plan_rel = f'config/{stem}.json'; k_next = [rec['entries'][i] for i in ids if i in todo]
+        stem, ids = nb; k_next = [rec['entries'][i] for i in ids if i in todo]
         earlier = [i for s, ids_ in rec['batches'][:[s for s, _ in rec['batches']].index(stem)] for i in ids_]
         g.check(all(i in st for i in earlier), f'{stem}: every earlier batch has started (register order)')
-        t_now = now(); latest = t_now + timedelta(seconds=sum(int(e['timeout']) for e in k_next[:-1]) + PER_LAUNCH_S * len(k_next))
-        print(f'[INFO] cutoff (A59 (f)): now {t_now:%Y-%m-%dT%H:%M:%SZ}; latest possible start of the last launch of {stem} {latest:%H:%M:%SZ} '
-              f'(timeouts of the unlaunched entries but the last + {PER_LAUNCH_S} s each); cutoff {CUTOFF:%Y-%m-%dT%H:%M:%SZ}', flush=True)
-        if latest >= CUTOFF: msg4 = f'A59 (f) cutoff: a launch of {stem} could start at or after {CUTOFF:%Y-%m-%dT%H:%M}Z; record where S6 / S7 stopped and commit'
+        if retry_pending and RETRY_J in ids: stem = RETRY_STEM; k_next = [rec['entries'][RETRY_J]]   # A61: the retry alone first
+        plan_rel = f'config/{stem}.json'
+        t_now = now(); exp = [EXPECTED_S.get(float(e['thickness'])) for e in k_next]
+        if None in exp: msg4 = f'A61 window rule: no expected runtime for the film(s) of {stem} (no completed run of that film); not launched in this window; record the stop point and commit'
+        else:
+            end = t_now + timedelta(seconds=sum(exp) + PER_LAUNCH_S * len(k_next))
+            print(f'[INFO] window (A61): now {t_now:%Y-%m-%dT%H:%M:%SZ}; expected end of {stem} {end:%Y-%m-%dT%H:%M:%SZ} (1.2 x the longest completed run per film '
+                  f'+ {PER_LAUNCH_S} s per launch); window end {WINDOW_END:%Y-%m-%dT%H:%M:%SZ}', flush=True)
+            if end > WINDOW_END: msg4 = f'A61 window rule: {stem} would end after {WINDOW_END:%Y-%m-%dT%H:%M}Z; record where S6 / S7 stopped and commit'
 
     ms = re.findall(r'^\s*max_launches:\s*(\d+)', C.SOLVER.read_text(), re.M); cap = int(ms[0]) if len(ms) == 1 else -1
     g.check(cap == C.MAX_LAUNCHES == 260, 'config/solver.yaml: exactly one max_launches and it == 260 (not raised)', f'found {ms}')
@@ -264,7 +286,7 @@ def run(I, H, G2, G, FG, DE, C, g, argv):
         print(f'GATE STOP ({len(g.stops)}): a main-session decision is needed; nothing may be invoked.', flush=True); return 3
     if msg4:
         print(f'NOTHING TO LAUNCH: {msg4}. (Exit 4 is not a pass.)', flush=True); return 4
-    cmd = f'& "{C.VENV_PY}" scripts/run_campaign.py {plan_rel}'
+    cmd = f'& "{C.VENV_PY}" scripts/run_campaign.py {plan_rel}' + (f' --retry {RETRY_J}' if plan_rel == f'config/{RETRY_STEM}.json' else '')
     print(f'GATE PASSED. Next plan {plan_rel}: {k_next[0]["id"]} ({k_next[0]["label"]}) ... {k_next[-1]["id"]}, first run id {nxt}; the invocation runs these '
           f'{n} entr{"y" if n == 1 else "ies"} in order and stops. Only with the user\'s own go for THIS launch in the conversation (the hook also asks). '
           + ('Would-be command (check mode, not an instruction)' if check_mode else 'Command (same PowerShell session, package root, IWO_MODEL_FILE as set)')
