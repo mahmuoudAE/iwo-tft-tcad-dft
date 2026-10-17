@@ -32,7 +32,9 @@ Checks
   cutoff       A59 (f): now + the timeouts of every unlaunched entry of the batch but its last + 120 s per launch < 2026-10-16T10:00Z;
                v2 (A61, 2026-10-17): replaced by the window rule: now + 1.2 x the longest completed run of each entry's film + 120 s per launch
                <= 2026-10-17T01:00Z (films without a completed run are not launchable); run_0201 (S6-21) is the registered interrupted launch
-               (user-requested shutdown): kept, never opened; ONE retry through config/campaign_C10_S6_b7r.json with --retry S6-21, first
+               (user-requested shutdown): kept, never opened; ONE retry through config/campaign_C10_S6_b7r.json with --retry S6-21, first;
+               v3 (A62, 2026-10-17): no end-by window while the user is online (registered timeouts govern; the A61 window rule is retired);
+               S7 runs one entry per invocation through the derived single-entry plans config/campaign_C10_S7__S7-01.json / __S7-02.json
 """
 import csv
 import hashlib
@@ -72,6 +74,14 @@ A61_HEADING = ['interrupted launch', 'run_0201', 'S6-21', '--retry S6-21', 'prel
 A61_ROW = ['A61', 'run_0201', '--retry S6-21', 'prelaunch_gate_c10_j.py']
 WINDOW_END = datetime(2026, 10, 17, 1, 0, 0, tzinfo=timezone.utc)   # A61 window rule (main session 2026-10-17T00:12Z)
 EXPECTED_S = {2.0: 510, 6.3: 900, 13.2: 1290}   # A61: 1.2 x the longest completed run of the film (8.5 / 15 / 21.5 min); other films not launchable
+A62_HEADING = ['S7', 'F13-F15', 'P1', 'no end-by window', 'prelaunch_gate_c10_j.py', 'prelaunch_gate_c10_k.py']   # v3 (A62, 2026-10-17)
+A62_ROW = ['A62', 'S7', 'prelaunch_gate_c10_j.py', 'prelaunch_gate_c10_k.py']
+SINGLE_BATCHES = ('campaign_C10_S7',)   # A62: one entry per invocation through a derived single-entry plan '<batch>__<id>' (clean boundaries)
+
+
+def single(plan, entry_id):
+    """A62: the single-entry plan derived from a registered batch plan (same fields; campaign '<batch>__<id>'; runs = that entry only)"""
+    return {**plan, 'campaign': f"{plan['campaign']}__{entry_id}", 'runs': [r for r in plan['runs'] if r['id'] == entry_id]}
 A59_HEADING = ['S6', 'S7', 's6s7_plans.py', 'prelaunch_gate_c10_j.py', 'PA-19']
 A59_ROW = ['A59', 'S6', 'S7', 'prelaunch_gate_c10_j.py']
 OTHER_NEVER_CUT = 6 + 17 + 3 + 6   # A41(d) + 3-D NC + l = 0 triple + six repairs (PA-19 v3; S6 / S7 counted from the record)
@@ -171,7 +181,7 @@ def run(I, H, G2, G, FG, DE, C, g, argv):
         files_ok &= g.check(not pb, 'generator pin check: matrix, S4c record / confirm / plan, templates, model, solver, builder, runner as pinned', '; '.join(pb))
     for words, row, what in ((G.A49_HEADING, G.A49_ROW, 'A49'), (G.A50_HEADING, G.A50_ROW, 'A50'), (G2.A51_HEADING, G2.A51_ROW, 'A51'),
                              (H.A52_HEADING, H.A52_ROW, 'A52'), (I.A53_HEADING, I.A53_ROW, 'A53'), (I.A54_HEADING, I.A54_ROW, 'A54'),
-                             (A59_HEADING, A59_ROW, 'A59'), (A61_HEADING, A61_ROW, 'A61')):
+                             (A59_HEADING, A59_ROW, 'A59'), (A61_HEADING, A61_ROW, 'A61'), (A62_HEADING, A62_ROW, 'A62')):
         h, d = C.amendment_logged(words, row)
         g.check(h, f'{what} logged: register heading "### A<n>: ..." naming {", ".join(words)} (not draft)')
         g.check(d, f'{what} logged: decision-log row naming {", ".join(row)}, IN FORCE')
@@ -196,6 +206,8 @@ def run(I, H, G2, G, FG, DE, C, g, argv):
     # route plans == the generator's plans of the record
     want = P.plans(rec); order = [i for _, ids in rec['batches'] for i in ids]
     want[RETRY_STEM] = P.plan_of(RETRY_STEM, [RETRY_J], rec)   # A61: the retry-only plan (derived from the record, committed)
+    for b in SINGLE_BATCHES:
+        for e in list(want[b]['runs']): want[f"{b}__{e['id']}"] = single(want[b], e['id'])   # A62
     g.check([[s, ids] for s, ids in P.BATCHES] == rec['batches'], 'record batches == the generator batch order')
     for stem, p in want.items():
         rel = f'config/{stem}.json'; have_p = json.loads((PKG / rel).read_text()) if (PKG / rel).is_file() else None
@@ -258,14 +270,11 @@ def run(I, H, G2, G, FG, DE, C, g, argv):
         earlier = [i for s, ids_ in rec['batches'][:[s for s, _ in rec['batches']].index(stem)] for i in ids_]
         g.check(all(i in st for i in earlier), f'{stem}: every earlier batch has started (register order)')
         if retry_pending and RETRY_J in ids: stem = RETRY_STEM; k_next = [rec['entries'][RETRY_J]]   # A61: the retry alone first
+        elif stem in SINGLE_BATCHES: k_next = k_next[:1]; stem = f"{stem}__{k_next[0]['id']}"   # A62: one entry per invocation
         plan_rel = f'config/{stem}.json'
-        t_now = now(); exp = [EXPECTED_S.get(float(e['thickness'])) for e in k_next]
-        if None in exp: msg4 = f'A61 window rule: no expected runtime for the film(s) of {stem} (no completed run of that film); not launched in this window; record the stop point and commit'
-        else:
-            end = t_now + timedelta(seconds=sum(exp) + PER_LAUNCH_S * len(k_next))
-            print(f'[INFO] window (A61): now {t_now:%Y-%m-%dT%H:%M:%SZ}; expected end of {stem} {end:%Y-%m-%dT%H:%M:%SZ} (1.2 x the longest completed run per film '
-                  f'+ {PER_LAUNCH_S} s per launch); window end {WINDOW_END:%Y-%m-%dT%H:%M:%SZ}', flush=True)
-            if end > WINDOW_END: msg4 = f'A61 window rule: {stem} would end after {WINDOW_END:%Y-%m-%dT%H:%M}Z; record where S6 / S7 stopped and commit'
+        t_now = now(); to = sum(int(e['timeout']) for e in k_next)
+        print(f'[INFO] timing (A62): no end-by window while the user is online; registered timeouts govern (now {t_now:%Y-%m-%dT%H:%M:%SZ}, '
+              f'{stem} bounded by {to} s); stop at a clean boundary on any user shutdown message', flush=True)
 
     ms = re.findall(r'^\s*max_launches:\s*(\d+)', C.SOLVER.read_text(), re.M); cap = int(ms[0]) if len(ms) == 1 else -1
     g.check(cap == C.MAX_LAUNCHES == 260, 'config/solver.yaml: exactly one max_launches and it == 260 (not raised)', f'found {ms}')

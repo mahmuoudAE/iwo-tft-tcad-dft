@@ -9,7 +9,8 @@ It loads prelaunch_gate_c10_j.py (sha256 pinned; A59) and, through it, gate I v2
 
 Exit codes (ONLY 0 is a pass): 0 the next plan is launchable (prints the ONE command); 1 a check failed (fail closed); 3 STOP: a started run
 without a finish row (other than run_0150 / run_0160); 4 nothing to launch (S6 / S7 not complete yet, F13-F15 and P1 complete, or the cutoff:
-a launch of the next plan could start at or after 2026-10-16T10:00Z, or the plan could end after 2026-10-16T11:30Z); not a pass.
+a launch of the next plan could start at or after 2026-10-16T10:00Z, or the plan could end after 2026-10-16T11:30Z; v2 (A62, 2026-10-17): no end-by
+window while the user is online, registered timeouts govern; F13-F15 run one entry per invocation through config/campaign_C10_F13_F15__<id>.json); not a pass.
 
 Checks: as gate J for interpreter, files (gate J and its pinned A59 package unchanged, scripts/, the I gate's files, the S5 terminal records),
 amendments (A49..A54, A59) and processes; plus the pinned generator fp_plans.py, the frozen P1 floor procedure p1_floor.py and its tests, the
@@ -37,8 +38,8 @@ PKG = Path(r"C:\Users\moham\Downloads\IWO_Local_Codex_Handoff (1)\IWO_PHYSICS_CO
 PRIVATE = Path(r"C:\Users\moham\Downloads\IWO_Local_Codex_Handoff (1)\iwo-tft-research-private")
 HERE = PKG / 'analysis_2026-10-10_campaign'
 J_GATE = HERE / 'prelaunch_gate_c10_j.py'
-J_GATE_SHA = '5815b740fc4f0709286eb5c7d3c816970d90e4c68d3ae715c6fd7e8b3ebafebe'   # A59 / D-86
-J_TESTS_SHA = 'c4a0a1de7b9ac3ec1d37a9cabba1c45f84dadf7a50ca3d98fb013be8b4d728e9'
+J_GATE_SHA = '6d0b1ad6406fdadeac8637eea83e7415d4bbc35f559e9c4a6b6ba78b952f1e76'   # gate J v3 (A62; v1 5815b740 A59, v2 97e4e76e A61)
+J_TESTS_SHA = 'a217b0acfe5bf770b2aaa73bf844ddc321e5108ddf987de535264c1fee70cb22'   # gate J v3 tests (v1 c4a0a1de)
 AMEND = 'A60'
 GEN = HERE / 'fp_plans.py'
 GEN_SHA = 'deadd2cdbe7863ff3d9b2b46aee65040c7991ca3c6ce0966d9cefdc7c613343b'
@@ -52,7 +53,8 @@ TAG = 'model-c10-s4c-frozen-20261016'
 K_HEADING = ['F13-F15', 'P1', 'PA-15', 'fp_plans.py', 'prelaunch_gate_c10_k.py']
 K_ROW = [AMEND, 'F13-F15', 'P1', 'prelaunch_gate_c10_k.py']
 CUTOFF = datetime(2026, 10, 16, 10, 0, 0, tzinfo=timezone.utc)
-LID = datetime(2026, 10, 16, 11, 30, 0, tzinfo=timezone.utc)
+LID = datetime(2026, 10, 16, 11, 30, 0, tzinfo=timezone.utc)   # v1 only; v2 (A62): no end-by window
+SINGLE_BATCHES_K = ('campaign_C10_F13_F15',)   # A62: F13-F15 one entry per invocation ('<batch>__<id>' derived plans)
 PER_LAUNCH_S = 120
 
 
@@ -132,7 +134,7 @@ def run(J, I, H, G2, G, FG, DE, C, g, argv):
         files_ok &= g.check(not pb, 'generator pin check (matrix, S4c record / confirm / plan, p1_floor, model, solver, builder, runner)', '; '.join(pb))
     for words, row, what in ((G.A49_HEADING, G.A49_ROW, 'A49'), (G.A50_HEADING, G.A50_ROW, 'A50'), (G2.A51_HEADING, G2.A51_ROW, 'A51'),
                              (H.A52_HEADING, H.A52_ROW, 'A52'), (I.A53_HEADING, I.A53_ROW, 'A53'), (I.A54_HEADING, I.A54_ROW, 'A54'),
-                             (J.A59_HEADING, J.A59_ROW, 'A59'), (K_HEADING, K_ROW, AMEND)):
+                             (J.A59_HEADING, J.A59_ROW, 'A59'), (K_HEADING, K_ROW, AMEND), (J.A61_HEADING, J.A61_ROW, 'A61'), (J.A62_HEADING, J.A62_ROW, 'A62')):
         h, d = C.amendment_logged(words, row)
         g.check(h, f'{what} logged: register heading naming {", ".join(words)} (not draft)'); g.check(d, f'{what} logged: decision row naming {", ".join(row)}, IN FORCE')
     try:
@@ -153,6 +155,8 @@ def run(J, I, H, G2, G, FG, DE, C, g, argv):
         print(f'GATE FAILED ({len(g.fails) or 1}): nothing may be invoked (file / pin checks failed)', flush=True); return 1
 
     want = P.plans(rec); order = [i for _, ids in rec['batches'] for i in ids]
+    for b in SINGLE_BATCHES_K:
+        for e in list(want[b]['runs']): want[f"{b}__{e['id']}"] = J.single(want[b], e['id'])   # A62 derived single-entry plans
     g.check([[s, ids] for s, ids in P.BATCHES] == rec['batches'], 'record batches == the generator batch order')
     for stem, p in want.items():
         rel = f'config/{stem}.json'; have_p = json.loads((PKG / rel).read_text()) if (PKG / rel).is_file() else None
@@ -202,15 +206,15 @@ def run(J, I, H, G2, G, FG, DE, C, g, argv):
     if not jdone: msg4 = 'S6 / S7 (A59) not complete: F13-F15 and P1 follow S7 (register order)'
     elif nb is None: msg4 = f'F13-F15 and P1: every {AMEND} entry has started and finished; next: p1_floor.py predict and the A55 bands (0 launches)'
     else:
-        stem, ids = nb; plan_rel = f'config/{stem}.json'; k_next = [rec['entries'][i] for i in ids if i in todo]
+        stem, ids = nb; k_next = [rec['entries'][i] for i in ids if i in todo]
+        if stem in SINGLE_BATCHES_K: k_next = k_next[:1]; stem = f"{stem}__{k_next[0]['id']}"   # A62: one entry per invocation
+        plan_rel = f'config/{stem}.json'
         if stem.startswith('campaign_C10_P1'):
             rok, rdet = reg_ok(rec['sha256']); tok, tdet = tag_ok()
             g.check(rok, f'REG-001 in predictions/registered/ ({rdet})'); g.check(tok, tdet)
-        t_now = now(); latest = t_now + timedelta(seconds=sum(int(e['timeout']) for e in k_next[:-1]) + PER_LAUNCH_S * len(k_next))
-        end = t_now + timedelta(seconds=sum(int(e['timeout']) for e in k_next) + PER_LAUNCH_S * len(k_next))
-        print(f'[INFO] cutoff: now {t_now:%Y-%m-%dT%H:%M:%SZ}; latest start of the last launch of {stem} {latest:%H:%M:%SZ} (cutoff {CUTOFF:%H:%MZ}); '
-              f'latest end {end:%H:%M:%SZ} (lid {LID:%H:%MZ}); bounds from the timeouts + {PER_LAUNCH_S} s per launch', flush=True)
-        if latest >= CUTOFF or end > LID: msg4 = f'cutoff: {stem} could start at or after {CUTOFF:%H:%M}Z or end after {LID:%H:%M}Z; record where the campaign stopped and commit'
+        t_now = now(); to = sum(int(e['timeout']) for e in k_next)
+        print(f'[INFO] timing (A62): no end-by window while the user is online; registered timeouts govern (now {t_now:%Y-%m-%dT%H:%M:%SZ}, '
+              f'{stem} bounded by {to} s); stop at a clean boundary on any user shutdown message', flush=True)
 
     ms = re.findall(r'^\s*max_launches:\s*(\d+)', C.SOLVER.read_text(), re.M); cap = int(ms[0]) if len(ms) == 1 else -1
     g.check(cap == C.MAX_LAUNCHES == 260, 'config/solver.yaml: exactly one max_launches and it == 260 (not raised)', f'found {ms}')

@@ -38,6 +38,9 @@ def logs(tag, kline=True):
     if kline:
         r.append(f'### {K0.AMEND}: F13-F15 and P1 execution entries (fp_plans.py), PA-15 / REG-001, prelaunch_gate_c10_k.py')
         d.append(f'| D-99 | x | Register {K0.AMEND}: F13-F15, P1, prelaunch_gate_c10_k.py | x | x | IN FORCE |')
+    r = [l for l in r if not l.startswith('### A62')]; d = [l for l in d if 'Register A62' not in l]
+    r.append('### A62: S7, F13-F15 and P1 resume: no end-by window while the user is online; prelaunch_gate_c10_j.py v3, prelaunch_gate_c10_k.py v2')
+    d.append('| D-98 | x | Register A62: S7, F13-F15, P1; prelaunch_gate_c10_j.py v3, prelaunch_gate_c10_k.py v2 | x | x | IN FORCE |')
     reg.write_text('\n'.join(r) + '\n', encoding='utf-8'); dec.write_text('\n'.join(d) + '\n', encoding='utf-8'); return reg, dec
 
 
@@ -59,8 +62,11 @@ def index(tag, j_done=24, k_spec=(), extra=()):
             started = r['notes'].startswith('STARTED')
             w.writerow({'run_id': r['run_id'], 'label': r['label'], 'deck_sha256': r['deck_sha256'], 'model_sha256': r['model_sha256'], 'exit_code': r['exit_code'],
                         'notes': (f'STARTED model={MODEL}' if f'model={MODEL}' in r['notes'].split() else 'STARTED') if started else 'synthetic finish'})
-        jr = rows_for(JREC, [(i, True) for i in JORDER[:j_done]], 182)
-        kr = rows_for(KREC, list(k_spec), 182 + j_done)
+        jr = rows_for(JREC, [(i, True) for i in JORDER[:19]], 182)   # the real sequence: run_0182..run_0200
+        e21 = JREC['entries']['S6-21']; p21 = JREC['dry_build']['S6-21']
+        jr.append({'run_id': 'run_0201', 'label': e21['label'], 'deck_sha256': p21['deck_sha256'], 'model_sha256': p21['model_sha256'], 'notes': f'STARTED model={MODEL}'})   # interrupted (A61)
+        jr += rows_for(JREC, [(i, True) for i in JORDER[19:j_done]], 202)   # the S6-21 retry, S6-14, S6-11, S7-01, S7-02
+        kr = rows_for(KREC, list(k_spec), 183 + j_done)
         for row in jr + kr + list(extra): w.writerow({k: row.get(k, '') for k in FIELDS})
     return p
 
@@ -83,8 +89,10 @@ def main():
     cwd = os.getcwd()
     try:
         L = logs('ok'); F3 = [(i, True) for i in KORDER[:3]]
-        out = case('S6 / S7 complete -> 0, F13-F15 plan, 3 entries from run_0206', 0, index('f', 24), L)
-        expect('  command names the F plan, run_0206', out.rstrip().endswith('config/campaign_C10_F13_F15.json') and 'run_0206' in out and 'these 3 entries' in out, True)
+        out = case('S6 / S7 complete -> 0, F13-F15 single plan __S3-26 (A62), 1 entry from run_0207', 0, index('f', 24), L)
+        expect('  command names campaign_C10_F13_F15__S3-26, run_0207', out.rstrip().endswith('config/campaign_C10_F13_F15__S3-26.json') and 'run_0207' in out and 'these 1 entry' in out, True)
+        out = case('S3-26 done -> 0, __S3-24', 0, index('f2', 24, [('S3-26', True)]), L)
+        expect('  command names __S3-24', out.rstrip().endswith('config/campaign_C10_F13_F15__S3-24.json'), True)
         out = case('S6 / S7 incomplete (S7-02 missing) -> 4', 4, index('inc', 23), L)
         expect('  names register order', 'register order' in out, True)
         case('K amendment not logged -> 1', 1, index('nl', 24), logs('nl', kline=False))
@@ -99,14 +107,10 @@ def main():
         case('a K run started without a finish row -> 3', 3, index('u', 24, [('S3-26', False)]), L)
         case('out of order (S3-24 first) -> 1', 1, index('o', 24, [('S3-24', True)]), L)
         case('K run before S6 / S7 complete -> 1', 1, index('early', 23, [('S3-26', True)]), L)
-        case('STARTED-row deck differs -> 1', 1, index('dk', 24, extra=[{'run_id': 'run_0206', 'label': 'c10_s3_26_2p0', 'deck_sha256': '0' * 64,
+        case('STARTED-row deck differs -> 1', 1, index('dk', 24, extra=[{'run_id': 'run_0207', 'label': 'c10_s3_26_2p0', 'deck_sha256': '0' * 64,
                                                                           'model_sha256': KREC['dry_build']['S3-26']['model_sha256'], 'notes': f'STARTED model={MODEL}'}]), L)
-        case('unknown label above run_0181 -> 1', 1, index('unk', 24, extra=[{'run_id': 'run_0206', 'label': 'c10_s3_17_2p0', 'notes': f'STARTED model={MODEL}'}]), L)
-        out = case('cutoff: F plan at 08:40Z (1200 + 1800 + 360 s -> 09:46Z start, end 10:16Z) -> 0', 0, index('c0', 24), L, clock=datetime(2026, 10, 16, 8, 40, tzinfo=timezone.utc))
-        case('cutoff: F plan at 09:15Z (latest start 10:21Z) -> 4', 4, index('c1', 24), L, clock=datetime(2026, 10, 16, 9, 15, tzinfo=timezone.utc))
-        case('lid: P1-13p2 at 08:00Z (end 08:00 + 5400 + 120 s = 09:32Z) -> 0', 0, index('l0', 24, [(i, True) for i in KORDER[:5]]), L, clock=datetime(2026, 10, 16, 8, 0, tzinfo=timezone.utc))
-        case('lid: P1-13p2 at 10:05Z -> 4', 4, index('l1', 24, [(i, True) for i in KORDER[:5]]), L, clock=datetime(2026, 10, 16, 10, 5, tzinfo=timezone.utc))
-        case('lid: P1-13p2 at 09:58Z (end 11:30:00Z + 120 s > 11:30Z) -> 4', 4, index('l2', 24, [(i, True) for i in KORDER[:5]]), L, clock=datetime(2026, 10, 16, 9, 58, tzinfo=timezone.utc))
+        case('unknown label above run_0181 -> 1', 1, index('unk', 24, extra=[{'run_id': 'run_0207', 'label': 'c10_s3_17_2p0', 'notes': f'STARTED model={MODEL}'}]), L)
+        case('no end-by window (A62): F plan at 23:00Z -> 0', 0, index('c0', 24), L, clock=datetime(2026, 10, 17, 23, 0, tzinfo=timezone.utc))
         case('a Silvaco process -> 1', 1, index('sil', 24), L, procs=[(4242, 'deckbuild.exe', 'deckbuild')])
         case('an unreadable python command line -> 1', 1, index('unv', 24), L, procs=[(4244, 'python3.13.exe', None)])
         case('generator pin differs -> 1', 1, index('gp', 24), L, patch=lambda m: setattr(m, 'GEN_SHA', '0' * 64))
@@ -114,8 +118,8 @@ def main():
         case('not committed -> 1', 1, index('nc', 24), L, git=(False, 'not in HEAD'))
         km = load(HERE / 'prelaunch_gate_c10_k.py', 'gk_pin'); km.J_GATE_SHA = '0' * 64
         with contextlib.redirect_stdout(io.StringIO()): expect('J gate pin differs -> main exits 1', km.main(['--check']), 1)
-        expect('unit: constants', (K0.CUTOFF.isoformat(), K0.LID.isoformat(), K0.TAG, KORDER),
-               ('2026-10-16T10:00:00+00:00', '2026-10-16T11:30:00+00:00', 'model-c10-s4c-frozen-20261016', ['S3-26', 'S3-24', 'S3-25', 'P1-2p0', 'P1-6p3', 'P1-13p2']))
+        expect('unit: constants', (K0.TAG, KORDER, K0.SINGLE_BATCHES_K),
+               ('model-c10-s4c-frozen-20261016', ['S3-26', 'S3-24', 'S3-25', 'P1-2p0', 'P1-6p3', 'P1-13p2'], ('campaign_C10_F13_F15',)))
     finally:
         os.chdir(cwd); shutil.rmtree(TMP, ignore_errors=True)
     n = sum(results); print(f'{n}/{len(results)} passed'); return 0 if n == len(results) else 1
