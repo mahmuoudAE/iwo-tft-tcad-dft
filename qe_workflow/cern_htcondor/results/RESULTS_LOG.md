@@ -1,5 +1,15 @@
 # CERN results log
 
+## 2026-10-18 21:08Z: A58 ensemble (amorphous MACE-quench sensitivity), stage 1 outcomes and stage 2 submission (route change to CPU, D-96 / register A64)
+
+Line numbers: this entry adds 10 lines above the 2026-10-14 entries; their original line N is now N + 10.
+
+- **R0 CPU, crystalline 1 nm IWO slab (96 atoms, A26 FINAL template, nbnd 407, k 3x3x1), cluster 12986008.0, QE 7.5 CPU, 42 CPUs granted:** A58_STATUS CONVERGED, rc 0, pw.x 1 h 1 m wall, steps 3785 s, peak 28057 MB; D-24 export checks: electron_count_check PASS (625.000000 of 625), proj_atoms_check PASS (96/96 atoms), projection_consistency PASS (max |psi2 projwfc - atomic_proj| 0.000500); 5 export files on EOS. COMPUTED (route qualification only; no physics claim).
+- **R0 GPU, same slab, cluster 12986006.0, QE 7.3.1 GPU container pw.x:** SCF rc 0, post-processing FAILED (A58_STATUS POSTPROC: atomic_proj / proj_atoms missing, projection_consistency FAIL): the GPU save does not yet feed the QE 7.5 CPU projwfc.x through wfc2h5. GPU route withdrawn (D-96); the GPU-vs-CPU comparison is not run.
+- **MACE pilot, cluster 12986010.0 (13 samples, MACE-MPA-0, GPU):** ens_pilot_report.py PASS (13/13 built, median 478.4 s per sample). MACE QC only: 2 PASS, 10 FAIL on vacuum gap only (accepted by rule), 1 FAIL on an O-O contact; the repeated seed does not reproduce (RMS displacement 5.93 A; GPU float32 nondeterminism).
+- **Submitted 2026-10-18T21:08:23Z, idle:** production MACE tier T round 1, cluster 13015586 (36 GPU jobs, 216 samples); bridge single points on QE 7.5 CPU (registered seeds' own MACE geometries, 0.7 / 0.8 / 1.0 nm aIWO and aIO), cluster 13015587.0-.5 (42 CPUs / 126000 MB granted, MaxRuntime 43200). Outputs are sealed (blind until the D-43 release). The 180-sample ensemble DFT is not submitted: the 18 Oct 22:00Z last-submission date applies and its MACE geometries do not exist yet.
+- **Caveats for any later A58 number:** PBE PAW, spin-unpolarised, Gaussian 0.001 Ry; amorphous MACE-MPA-0 melt-quench networks at MACE geometries (not DFT-relaxed); OH/H-terminated vacuum slabs; QE 7.5 CPU throughout.
+
 ## 2026-10-14 (local): band structures, electron and hole masses, gaps vs thickness and TCAD-ready parameters of the crystalline DFT cells (read-only re-derivation, no new run; claims C039, C040)
 
 **Scope.** Re-derived from the raw pw.x / projwfc outputs (analysis files local: qe_workflow/analysis_2026-10-13_full/bands_masses, BANDS_MASSES.md with b01-b05 scripts, JSON and figures BM1-BM9; not yet in the repository). No amorphous output was opened. Codex review (work chat 2026-10-14T07:57Z and 08:48Z, both CONCERN) with its wording corrections applied. User go 2026-10-14.
