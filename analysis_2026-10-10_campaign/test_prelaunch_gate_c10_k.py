@@ -38,7 +38,9 @@ def logs(tag, kline=True):
     if kline:
         r.append(f'### {K0.AMEND}: F13-F15 and P1 execution entries (fp_plans.py), PA-15 / REG-001, prelaunch_gate_c10_k.py')
         d.append(f'| D-99 | x | Register {K0.AMEND}: F13-F15, P1, prelaunch_gate_c10_k.py | x | x | IN FORCE |')
-    r = [l for l in r if not l.startswith('### A62')]; d = [l for l in d if 'Register A62' not in l]
+    r = [l for l in r if not l.startswith('### A62') and not l.startswith('### A63')]; d = [l for l in d if 'Register A62' not in l and 'Register A63' not in l]
+    r.append('### A63: S7 resume after the interrupted launch run_0205: one --retry S7-01, prelaunch_gate_c10_j.py v4')
+    d.append('| D-97 | x | Register A63: run_0205 interrupted; --retry S7-01; prelaunch_gate_c10_j.py | x | x | IN FORCE |')
     r.append('### A62: S7, F13-F15 and P1 resume: no end-by window while the user is online; prelaunch_gate_c10_j.py v3, prelaunch_gate_c10_k.py v2')
     d.append('| D-98 | x | Register A62: S7, F13-F15, P1; prelaunch_gate_c10_j.py v3, prelaunch_gate_c10_k.py v2 | x | x | IN FORCE |')
     reg.write_text('\n'.join(r) + '\n', encoding='utf-8'); dec.write_text('\n'.join(d) + '\n', encoding='utf-8'); return reg, dec
@@ -65,8 +67,11 @@ def index(tag, j_done=24, k_spec=(), extra=()):
         jr = rows_for(JREC, [(i, True) for i in JORDER[:19]], 182)   # the real sequence: run_0182..run_0200
         e21 = JREC['entries']['S6-21']; p21 = JREC['dry_build']['S6-21']
         jr.append({'run_id': 'run_0201', 'label': e21['label'], 'deck_sha256': p21['deck_sha256'], 'model_sha256': p21['model_sha256'], 'notes': f'STARTED model={MODEL}'})   # interrupted (A61)
-        jr += rows_for(JREC, [(i, True) for i in JORDER[19:j_done]], 202)   # the S6-21 retry, S6-14, S6-11, S7-01, S7-02
-        kr = rows_for(KREC, list(k_spec), 183 + j_done)
+        jr += rows_for(JREC, [(i, True) for i in JORDER[19:22]], 202)   # the S6-21 retry, S6-14, S6-11 (run_0202..run_0204)
+        e71 = JREC['entries']['S7-01']; p71 = JREC['dry_build']['S7-01']
+        jr.append({'run_id': 'run_0205', 'label': e71['label'], 'deck_sha256': p71['deck_sha256'], 'model_sha256': p71['model_sha256'], 'notes': f'STARTED model={MODEL}'})   # interrupted (A63)
+        jr += rows_for(JREC, [(i, True) for i in JORDER[22:j_done]], 206)   # the S7-01 retry, S7-02
+        kr = rows_for(KREC, list(k_spec), 184 + j_done)
         for row in jr + kr + list(extra): w.writerow({k: row.get(k, '') for k in FIELDS})
     return p
 
@@ -89,8 +94,8 @@ def main():
     cwd = os.getcwd()
     try:
         L = logs('ok'); F3 = [(i, True) for i in KORDER[:3]]
-        out = case('S6 / S7 complete -> 0, F13-F15 single plan __S3-26 (A62), 1 entry from run_0207', 0, index('f', 24), L)
-        expect('  command names campaign_C10_F13_F15__S3-26, run_0207', out.rstrip().endswith('config/campaign_C10_F13_F15__S3-26.json') and 'run_0207' in out and 'these 1 entry' in out, True)
+        out = case('S6 / S7 complete -> 0, F13-F15 single plan __S3-26 (A62), 1 entry from run_0208', 0, index('f', 24), L)
+        expect('  command names campaign_C10_F13_F15__S3-26, run_0208', out.rstrip().endswith('config/campaign_C10_F13_F15__S3-26.json') and 'run_0208' in out and 'these 1 entry' in out, True)
         out = case('S3-26 done -> 0, __S3-24', 0, index('f2', 24, [('S3-26', True)]), L)
         expect('  command names __S3-24', out.rstrip().endswith('config/campaign_C10_F13_F15__S3-24.json'), True)
         out = case('S6 / S7 incomplete (S7-02 missing) -> 4', 4, index('inc', 23), L)
@@ -107,9 +112,9 @@ def main():
         case('a K run started without a finish row -> 3', 3, index('u', 24, [('S3-26', False)]), L)
         case('out of order (S3-24 first) -> 1', 1, index('o', 24, [('S3-24', True)]), L)
         case('K run before S6 / S7 complete -> 1', 1, index('early', 23, [('S3-26', True)]), L)
-        case('STARTED-row deck differs -> 1', 1, index('dk', 24, extra=[{'run_id': 'run_0207', 'label': 'c10_s3_26_2p0', 'deck_sha256': '0' * 64,
+        case('STARTED-row deck differs -> 1', 1, index('dk', 24, extra=[{'run_id': 'run_0208', 'label': 'c10_s3_26_2p0', 'deck_sha256': '0' * 64,
                                                                           'model_sha256': KREC['dry_build']['S3-26']['model_sha256'], 'notes': f'STARTED model={MODEL}'}]), L)
-        case('unknown label above run_0181 -> 1', 1, index('unk', 24, extra=[{'run_id': 'run_0207', 'label': 'c10_s3_17_2p0', 'notes': f'STARTED model={MODEL}'}]), L)
+        case('unknown label above run_0181 -> 1', 1, index('unk', 24, extra=[{'run_id': 'run_0208', 'label': 'c10_s3_17_2p0', 'notes': f'STARTED model={MODEL}'}]), L)
         case('no end-by window (A62): F plan at 23:00Z -> 0', 0, index('c0', 24), L, clock=datetime(2026, 10, 17, 23, 0, tzinfo=timezone.utc))
         case('a Silvaco process -> 1', 1, index('sil', 24), L, procs=[(4242, 'deckbuild.exe', 'deckbuild')])
         case('an unreadable python command line -> 1', 1, index('unv', 24), L, procs=[(4244, 'python3.13.exe', None)])

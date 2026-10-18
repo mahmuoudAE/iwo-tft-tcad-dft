@@ -31,7 +31,7 @@ ORDER = [i for _, ids in REC['batches'] for i in ids]
 REAL = [r for r in csv.DictReader((PKG / 'results' / 'RUN_INDEX.csv').open(newline=''))]
 
 
-def logs(tag, a58=True, draft=False, a61=True, a62=True):
+def logs(tag, a58=True, draft=False, a61=True, a62=True, a63=True):
     TMP.mkdir(exist_ok=True); reg, dec = TMP / f'reg_{tag}.md', TMP / f'dec_{tag}.md'
     C = J0.chain()[0][-1]
     r = C.REGISTER.read_text(encoding='utf-8').splitlines(); d = C.DECISIONS.read_text(encoding='utf-8').splitlines()
@@ -47,6 +47,10 @@ def logs(tag, a58=True, draft=False, a61=True, a62=True):
     if a62:
         r.append('### A62: S7, F13-F15 and P1 resume: no end-by window while the user is online; prelaunch_gate_c10_j.py v3, prelaunch_gate_c10_k.py v2')
         d.append('| D-99 | x | Register A62: S7, F13-F15, P1; prelaunch_gate_c10_j.py v3, prelaunch_gate_c10_k.py v2 | x | x | IN FORCE |')
+    r = [l for l in r if not l.startswith('### A63')]; d = [l for l in d if 'Register A63' not in l]
+    if a63:
+        r.append('### A63: S7 resume after the interrupted launch run_0205: one --retry S7-01, prelaunch_gate_c10_j.py v4')
+        d.append('| D-97 | x | Register A63: run_0205 interrupted; --retry S7-01; prelaunch_gate_c10_j.py | x | x | IN FORCE |')
     reg.write_text('\n'.join(r) + '\n', encoding='utf-8'); dec.write_text('\n'.join(d) + '\n', encoding='utf-8'); return reg, dec
 
 
@@ -107,17 +111,24 @@ def main():
                and 'run_0203' in out and 'these 1 entry' in out, True)
         case('a third S6-21 run -> 1', 1, index('r3', base(a58_rows([('S6-21', True, True)], start=202) + a58_rows([('S6-21', True, True)], start=203))), L, clock=T(0, 20))
         case('run_0201 gets a finish row -> 1', 1, index('f201', base([{'run_id': 'run_0201', 'label': 'c10_s6_21_6p3', 'exit_code': '0', 'notes': 'synthetic finish'}])), L, clock=T(0, 30))
-        case('run_0201 missing (S6-21 never started) -> 1', 1, index('m201', a58_rows([(i, True, True) for i in ORDER[:19]])), L, clock=T(0, 30))
+        out = case('state before run_0201 (S6-21 not started; v4 state-aware) -> 0, b7 with S6-21 and S6-14', 0, index('m201', a58_rows([(i, True, True) for i in ORDER[:19]])), L, clock=T(0, 30))
+        expect('  command: b7, 2 entries, no --retry', out.rstrip().endswith('config/campaign_C10_S6_b7.json') and 'these 2 entries' in out, True)
         case('retry deck differs from the record -> 1', 1, index('rd', base(a58_rows([('S6-21', True, False)], start=202))), L, clock=T(0, 20))
         rest = [('S6-21', True, True)] + [(i, True, True) for i in ORDER[20:22]]
         out = case('all S6 done -> 0, S7 single-entry plan S7__S7-01 (A62), 1 entry from run_0205', 0, index('s7', base(a58_rows(rest, start=202))), L, clock=T(0, 50))
         expect('  command: campaign_C10_S7__S7-01, run_0205, 1 entry', out.rstrip().endswith('scripts/run_campaign.py config/campaign_C10_S7__S7-01.json')
                and 'run_0205' in out and 'these 1 entry' in out, True)
-        out = case('S7-01 done -> 0, S7__S7-02', 0, index('s72', base(a58_rows(rest + [('S7-01', True, True)], start=202))), L, clock=T(1, 50))
-        expect('  command: campaign_C10_S7__S7-02', out.rstrip().endswith('config/campaign_C10_S7__S7-02.json'), True)
-        out = case('S7-01, S7-02 done -> 4 (read-out)', 4, index('s7d', base(a58_rows(rest + [('S7-01', True, True), ('S7-02', True, True)], start=202))), L, clock=T(2, 50))
+        cut = rest + [('S7-01', False, True)]   # run_0205 = S7-01, interrupted (A63)
+        out = case('run_0205 interrupted -> 0, S7__S7-01 --retry S7-01, run_0206', 0, index('s7r', base(a58_rows(cut, start=202))), L, clock=T(21, 0))
+        expect('  command: campaign_C10_S7__S7-01 --retry S7-01, run_0206', out.rstrip().endswith('config/campaign_C10_S7__S7-01.json --retry S7-01') and 'run_0206' in out, True)
+        case('S7-01 retry started, no finish row -> 3', 3, index('s7u', base(a58_rows(cut + [('S7-01', False, True)], start=202))), L, clock=T(21, 30))
+        out = case('S7-01 retry done -> 0, S7__S7-02 without --retry, run_0207', 0, index('s72', base(a58_rows(cut + [('S7-01', True, True)], start=202))), L, clock=T(21, 50))
+        expect('  command: campaign_C10_S7__S7-02', out.rstrip().endswith('config/campaign_C10_S7__S7-02.json') and 'run_0207' in out, True)
+        out = case('S7-01 retry, S7-02 done -> 4 (read-out)', 4, index('s7d', base(a58_rows(cut + [('S7-01', True, True), ('S7-02', True, True)], start=202))), L, clock=T(22, 50))
         expect('  names the read-out', 'A59 read-out' in out, True)
-        case('S7-01 started, no finish row -> 3', 3, index('s7u', base(a58_rows(rest + [('S7-01', False, True)], start=202))), L, clock=T(1, 0))
+        case('a third S7-01 run -> 1', 1, index('s73', base(a58_rows(cut + [('S7-01', True, True), ('S7-01', True, True)], start=202))), L, clock=T(22, 0))
+        case('run_0205 with a finish row (not the registered interruption) -> 1', 1, index('s7f', base(a58_rows(rest + [('S7-01', True, True)], start=202))), L, clock=T(22, 0))
+        case('A63 not logged -> 1', 1, index('n63', base(a58_rows(cut, start=202))), logs('n63', a63=False), clock=T(21, 0))
         case('out of order (S6-11 before S6-14 after the retry) -> 1', 1, index('o', base(a58_rows([('S6-21', True, True), ('S6-11', True, True)], start=202))), L, clock=T(0, 10))
         case('unknown label above run_0181 -> 1', 1, index('unk', base([{'run_id': 'run_0202', 'label': 'c10_s6_16_2p0', 'notes': f'STARTED model={MODEL}'}])), L, clock=T(0, 30))
         case('a Silvaco process -> 1', 1, index('sil', base()), L, procs=[(4242, 'deckbuild.exe', 'deckbuild')], clock=T(0, 30))
@@ -129,7 +140,7 @@ def main():
         jm = load(HERE / 'prelaunch_gate_c10_j.py', 'gj_pin'); jm.I_GATE_SHA = '0' * 64
         with contextlib.redirect_stdout(io.StringIO()): expect('I gate pin differs -> main exits 1', jm.main(['--check']), 1)
         expect('unit: constants', (J0.LAST_S5, J0.INTERRUPTED, J0.RETRY_J, J0.SINGLE_BATCHES, J0.I_GATE_SHA[:8]),
-               ('run_0181', ('run_0150', 'run_0160', 'run_0201'), 'S6-21', ('campaign_C10_S7',), '2f4d74d8'))
+               ('run_0181', ('run_0150', 'run_0160', 'run_0201', 'run_0205'), 'S6-21', ('campaign_C10_S7',), '2f4d74d8'))
     finally:
         os.chdir(cwd); shutil.rmtree(TMP, ignore_errors=True)
     n = sum(results); print(f'{n}/{len(results)} passed'); return 0 if n == len(results) else 1

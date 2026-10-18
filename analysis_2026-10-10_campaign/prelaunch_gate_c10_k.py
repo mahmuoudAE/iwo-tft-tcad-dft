@@ -38,8 +38,8 @@ PKG = Path(r"C:\Users\moham\Downloads\IWO_Local_Codex_Handoff (1)\IWO_PHYSICS_CO
 PRIVATE = Path(r"C:\Users\moham\Downloads\IWO_Local_Codex_Handoff (1)\iwo-tft-research-private")
 HERE = PKG / 'analysis_2026-10-10_campaign'
 J_GATE = HERE / 'prelaunch_gate_c10_j.py'
-J_GATE_SHA = '6d0b1ad6406fdadeac8637eea83e7415d4bbc35f559e9c4a6b6ba78b952f1e76'   # gate J v3 (A62; v1 5815b740 A59, v2 97e4e76e A61)
-J_TESTS_SHA = 'a217b0acfe5bf770b2aaa73bf844ddc321e5108ddf987de535264c1fee70cb22'   # gate J v3 tests (v1 c4a0a1de)
+J_GATE_SHA = '2090313aa84d0d932886992ab4a53bd722e71d814c1e3d8ff2f78783c2eccb92'   # gate J v4 (A63; v3 6d0b1ad6 A62, v2 97e4e76e A61, v1 5815b740 A59)
+J_TESTS_SHA = '34408e60151ca76649e6581fad4582dac9e2fe264af8468be5f43840f792ee4d'   # gate J v4 tests
 AMEND = 'A60'
 GEN = HERE / 'fp_plans.py'
 GEN_SHA = 'deadd2cdbe7863ff3d9b2b46aee65040c7991ca3c6ce0966d9cefdc7c613343b'
@@ -134,7 +134,7 @@ def run(J, I, H, G2, G, FG, DE, C, g, argv):
         files_ok &= g.check(not pb, 'generator pin check (matrix, S4c record / confirm / plan, p1_floor, model, solver, builder, runner)', '; '.join(pb))
     for words, row, what in ((G.A49_HEADING, G.A49_ROW, 'A49'), (G.A50_HEADING, G.A50_ROW, 'A50'), (G2.A51_HEADING, G2.A51_ROW, 'A51'),
                              (H.A52_HEADING, H.A52_ROW, 'A52'), (I.A53_HEADING, I.A53_ROW, 'A53'), (I.A54_HEADING, I.A54_ROW, 'A54'),
-                             (J.A59_HEADING, J.A59_ROW, 'A59'), (K_HEADING, K_ROW, AMEND), (J.A61_HEADING, J.A61_ROW, 'A61'), (J.A62_HEADING, J.A62_ROW, 'A62')):
+                             (J.A59_HEADING, J.A59_ROW, 'A59'), (K_HEADING, K_ROW, AMEND), (J.A61_HEADING, J.A61_ROW, 'A61'), (J.A62_HEADING, J.A62_ROW, 'A62'), (J.A63_HEADING, J.A63_ROW, 'A63')):
         h, d = C.amendment_logged(words, row)
         g.check(h, f'{what} logged: register heading naming {", ".join(words)} (not draft)'); g.check(d, f'{what} logged: decision row naming {", ".join(row)}, IN FORCE')
     try:

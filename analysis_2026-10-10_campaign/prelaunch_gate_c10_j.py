@@ -34,7 +34,9 @@ Checks
                <= 2026-10-17T01:00Z (films without a completed run are not launchable); run_0201 (S6-21) is the registered interrupted launch
                (user-requested shutdown): kept, never opened; ONE retry through config/campaign_C10_S6_b7r.json with --retry S6-21, first;
                v3 (A62, 2026-10-17): no end-by window while the user is online (registered timeouts govern; the A61 window rule is retired);
-               S7 runs one entry per invocation through the derived single-entry plans config/campaign_C10_S7__S7-01.json / __S7-02.json
+               S7 runs one entry per invocation through the derived single-entry plans config/campaign_C10_S7__S7-01.json / __S7-02.json;
+               v4 (A63, 2026-10-18): run_0205 (S7-01) is the registered interrupted launch (user's shutdown 2026-10-17 ~01:11Z): kept, never opened;
+               ONE retry through config/campaign_C10_S7__S7-01.json with --retry S7-01, first (RETRIES generalises the A61 rule)
 """
 import csv
 import hashlib
@@ -66,10 +68,15 @@ S5_FILES = {'analysis_2026-10-10_campaign/profile/s5_A53/H6p3_score.json': '3f7a
             'analysis_2026-10-10_campaign/profile/s5_A53/s5_report_A53.json': '2ffabb454ccd236d0bb2bde2effcf165733c254b8156c04c6e9c2a197cc73d80'}
 LAST_S5 = 'run_0181'
 LAST_S5_LABEL = 'c10_s5_h13p2_2_6p3_6p3'
-INTERRUPTED = ('run_0150', 'run_0160', 'run_0201')   # A51, A54, A61: STARTED rows only, kept, never opened
+INTERRUPTED = ('run_0150', 'run_0160', 'run_0201', 'run_0205')   # A51, A54, A61, A63: STARTED rows only, kept, never opened
 INTERRUPTED_J = 'run_0201'   # A61: S6-21 (c10_s6_21_6p3) cut off by the user-requested laptop shutdown at ~2026-10-16T04:07Z
 RETRY_J = 'S6-21'            # A61: the one registered infrastructure retry (--retry S6-21 iff no c10_s6_21_6p3 row above run_0201)
 RETRY_STEM = 'campaign_C10_S6_b7r'   # A61: retry-only plan == s6s7_plans.plan_of(RETRY_STEM, ['S6-21'], record)
+# v4 (A63, 2026-10-18): every registered interrupted launch with its ONE retry: entry id -> (interrupted run id, retry plan stem)
+RETRIES = {'S6-21': ('run_0201', 'campaign_C10_S6_b7r'),   # A61 (done: run_0202)
+           'S7-01': ('run_0205', 'campaign_C10_S7__S7-01')}   # A63: S7-01 cut off by the user's shutdown 2026-10-17 ~01:11Z
+A63_HEADING = ['interrupted launch', 'run_0205', 'S7-01', '--retry S7-01', 'prelaunch_gate_c10_j.py']
+A63_ROW = ['A63', 'run_0205', '--retry S7-01', 'prelaunch_gate_c10_j.py']
 A61_HEADING = ['interrupted launch', 'run_0201', 'S6-21', '--retry S6-21', 'prelaunch_gate_c10_j.py']
 A61_ROW = ['A61', 'run_0201', '--retry S6-21', 'prelaunch_gate_c10_j.py']
 WINDOW_END = datetime(2026, 10, 17, 1, 0, 0, tzinfo=timezone.utc)   # A61 window rule (main session 2026-10-17T00:12Z)
@@ -181,7 +188,7 @@ def run(I, H, G2, G, FG, DE, C, g, argv):
         files_ok &= g.check(not pb, 'generator pin check: matrix, S4c record / confirm / plan, templates, model, solver, builder, runner as pinned', '; '.join(pb))
     for words, row, what in ((G.A49_HEADING, G.A49_ROW, 'A49'), (G.A50_HEADING, G.A50_ROW, 'A50'), (G2.A51_HEADING, G2.A51_ROW, 'A51'),
                              (H.A52_HEADING, H.A52_ROW, 'A52'), (I.A53_HEADING, I.A53_ROW, 'A53'), (I.A54_HEADING, I.A54_ROW, 'A54'),
-                             (A59_HEADING, A59_ROW, 'A59'), (A61_HEADING, A61_ROW, 'A61'), (A62_HEADING, A62_ROW, 'A62')):
+                             (A59_HEADING, A59_ROW, 'A59'), (A61_HEADING, A61_ROW, 'A61'), (A62_HEADING, A62_ROW, 'A62'), (A63_HEADING, A63_ROW, 'A63')):
         h, d = C.amendment_logged(words, row)
         g.check(h, f'{what} logged: register heading "### A<n>: ..." naming {", ".join(words)} (not draft)')
         g.check(d, f'{what} logged: decision-log row naming {", ".join(row)}, IN FORCE')
@@ -237,17 +244,18 @@ def run(I, H, G2, G, FG, DE, C, g, argv):
                 and rid not in INTERRUPTED]
     g.check(not open_old, f'every started run {C.LAST_PRE}..{LAST_S5} (exclusive..inclusive) has a finish row (registered interruptions '
             f'{", ".join(INTERRUPTED)} excepted)', str(open_old))
-    for rid in INTERRUPTED:
-        g.check(rid in rows and not fin[rid], f'{rid}: the registered interrupted launch, STARTED row only (A51 / A54)')
+    for rid in INTERRUPTED:   # v4: a registered interruption later than the newest run id belongs to a later state (synthetic tests only)
+        g.check((rid in rows and not fin[rid]) or (rid not in rows and all_ids and C.rid_n(rid) > C.rid_n(all_ids[-1])),
+                f'{rid}: the registered interrupted launch, STARTED row only (A51 / A54 / A61 / A63)')
     after = [rid for rid in all_ids if C.rid_n(rid) > C.rid_n(LAST_S5)]
     other = [f'{rid} {rows[rid][0]["label"]}' for rid in after if rows[rid][0]['label'] not in lab_of_id]
     g.check(not other, f'RUN_INDEX: every run above {LAST_S5} carries an A59 label', ', '.join(other))
-    st, seq, retry_rid = {}, [], None
+    st, seq, retry_rids = {}, [], {}
     for rid in after:
         i = lab_of_id.get(rows[rid][0]['label'])
         if i is None: continue
-        if i == RETRY_J and st.get(i) == INTERRUPTED_J and retry_rid is None:
-            retry_rid = rid   # A61: the one registered retry of the interrupted run_0201
+        if i in RETRIES and st.get(i) == RETRIES[i][0] and i not in retry_rids:
+            retry_rids[i] = rid   # A61 / A63: the one registered retry of an interrupted launch
         else:
             g.check(i not in st, f'RUN_INDEX: one run id per A59 label ({rows[rid][0]["label"]}; S6-21: run_0201 + one A61 retry)', f'{st.get(i)} and {rid}' if i in st else '')
             if i not in st: st[i] = rid; seq.append(i)
@@ -255,21 +263,24 @@ def run(I, H, G2, G, FG, DE, C, g, argv):
         g.check(f0['started'] and f0['model_note'] and f0['deck_sha256'] == pin['deck_sha256'] and f0['model_sha256'] == pin['model_sha256'],
                 f'{rid} ({i}): STARTED-row inputs == the A59 record dry build (deck, material, model note)')
     g.check(seq == order[:len(seq)], 'order: STARTED A59 runs == a prefix of the registered batch order', ' -> '.join(f'{i} {st[i]}' for i in seq) or 'none')
-    g.check(INTERRUPTED_J in rows and rows[INTERRUPTED_J][0]['label'] == rec['entries'][RETRY_J]['label'] and st.get(RETRY_J) == INTERRUPTED_J,
-            f'A61: {INTERRUPTED_J} is the first {RETRY_J} run ({rec["entries"][RETRY_J]["label"]}), the registered interrupted launch')
-    unfinished = [f'{st[i]} ({i})' for i in seq if not fin[st[i]] and st[i] != INTERRUPTED_J] + ([f'{retry_rid} ({RETRY_J} retry)'] if retry_rid and not fin[retry_rid] else [])
+    for i, (rid0, _) in RETRIES.items():
+        g.check((rid0 in rows and rows[rid0][0]['label'] == rec['entries'][i]['label'] and st.get(i) == rid0) or (rid0 not in rows and i not in st),
+                f'A61 / A63: {rid0} is the first {i} run ({rec["entries"][i]["label"]}), the registered interrupted launch')
+    firsts = {v[0] for v in RETRIES.values()}
+    unfinished = [f'{st[i]} ({i})' for i in seq if not fin[st[i]] and st[i] not in firsts] + [f'{r} ({i} retry)' for i, r in retry_rids.items() if not fin[r]]
     if unfinished: g.stop(f'started S6 / S7 run(s) without a finish row: {unfinished} (a launch in progress, or a runner crash): nothing is invoked; decide by hand')
 
     # ---------------------------------------------------------------- the next batch
-    retry_pending = st.get(RETRY_J) == INTERRUPTED_J and retry_rid is None
-    todo = [i for i in order if i not in st or (i == RETRY_J and retry_pending)]; nb = next(((s, ids) for s, ids in rec['batches'] if any(i in todo for i in ids)), None)
-    msg4, k_next, plan_rel = None, [], None
+    pending = [i for i in RETRIES if st.get(i) == RETRIES[i][0] and i not in retry_rids]
+    todo = [i for i in order if i not in st or i in pending]; nb = next(((s, ids) for s, ids in rec['batches'] if any(i in todo for i in ids)), None)
+    msg4, k_next, plan_rel, retry_for = None, [], None, None
     if nb is None: msg4 = 'S6 / S7: every A59 entry has started and finished; next: the A59 read-out (0 launches)'
     else:
         stem, ids = nb; k_next = [rec['entries'][i] for i in ids if i in todo]
         earlier = [i for s, ids_ in rec['batches'][:[s for s, _ in rec['batches']].index(stem)] for i in ids_]
         g.check(all(i in st for i in earlier), f'{stem}: every earlier batch has started (register order)')
-        if retry_pending and RETRY_J in ids: stem = RETRY_STEM; k_next = [rec['entries'][RETRY_J]]   # A61: the retry alone first
+        rp = [i for i in ids if i in pending]
+        if rp: retry_for = rp[0]; stem = RETRIES[retry_for][1]; k_next = [rec['entries'][retry_for]]   # A61 / A63: the retry alone first
         elif stem in SINGLE_BATCHES: k_next = k_next[:1]; stem = f"{stem}__{k_next[0]['id']}"   # A62: one entry per invocation
         plan_rel = f'config/{stem}.json'
         t_now = now(); to = sum(int(e['timeout']) for e in k_next)
@@ -295,7 +306,7 @@ def run(I, H, G2, G, FG, DE, C, g, argv):
         print(f'GATE STOP ({len(g.stops)}): a main-session decision is needed; nothing may be invoked.', flush=True); return 3
     if msg4:
         print(f'NOTHING TO LAUNCH: {msg4}. (Exit 4 is not a pass.)', flush=True); return 4
-    cmd = f'& "{C.VENV_PY}" scripts/run_campaign.py {plan_rel}' + (f' --retry {RETRY_J}' if plan_rel == f'config/{RETRY_STEM}.json' else '')
+    cmd = f'& "{C.VENV_PY}" scripts/run_campaign.py {plan_rel}' + (f' --retry {retry_for}' if retry_for else '')
     print(f'GATE PASSED. Next plan {plan_rel}: {k_next[0]["id"]} ({k_next[0]["label"]}) ... {k_next[-1]["id"]}, first run id {nxt}; the invocation runs these '
           f'{n} entr{"y" if n == 1 else "ies"} in order and stops. Only with the user\'s own go for THIS launch in the conversation (the hook also asks). '
           + ('Would-be command (check mode, not an instruction)' if check_mode else 'Command (same PowerShell session, package root, IWO_MODEL_FILE as set)')
