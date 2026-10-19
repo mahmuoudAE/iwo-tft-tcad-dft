@@ -1,5 +1,25 @@
 # CERN results log
 
+## 2026-10-19 10:22Z: A58 R0 CPU-vs-CPU repeat (crystalline 1 nm IWO slab), cluster 13016026: the registered R0 projection check is not met by the CPU route against itself (diagnostic, D-106)
+
+Line numbers: this entry adds 20 lines above the 2026-10-19 07:41Z entry; its original line N is now N + 20.
+
+- **Run.** 13016026.0 used the CPU QE 7.5 route with the same template (283b29b7) as R0 CPU 12986008, on 24 MPI ranks instead of 42. It ran on b9p34p1014 and returned 0 with A58_STATUS CONVERGED. pw.x took 2 h 13 m wall and the steps 8109 s. All D-24 export checks pass. After normal termination the schedd put the job back to idle (LastJobStatus 2, NumJobStarts 1). The outputs were copied to r0_gpufix/cpu_rep_keep_13016026 (tarball sha256 1131bd06...) and the requeued job was removed at 10:24:21Z.
+- **Registered r0_compare.py (fce8033b), 13016026 vs 12986008: INCOMPLETE.** E 7.0e-8 Ry, F 3.3e-4 Ry/bohr, EIG 1.60 meV and OCC 5.3e-6 all PASS. All rc7 checks also PASS: class ECB = ECB, delta f_locW 3.1e-6, host edge 1.30 meV, gap 0.11 meV. The 1 meV degenerate clusters differ at 2 k-points, so PROJ/COMPL are not evaluated. This is the same verdict as GPU 13015768 vs CPU 12986008.
+- **Matched-group diagnostic (gpufix/pairdiag.py; not the registered rule).** Each cell gives groups / groups with max per-atom |dw| > 1e-3 / max |dw|:
+
+| | GPU 13015768 vs CPU 12986008 | CPU 13016026 vs CPU 12986008 | GPU 13015768 vs CPU 13016026 |
+|---|---|---|---|
+| r0_compare 1 meV cluster mismatch (k-points) | 4 | 2 | 2 |
+| EIG max abs / mean shift (meV) | 1.39 / +1.15 | 1.59 / +1.40 | 0.42 / -0.25 |
+| 1 meV groups | 1548 / 429 / 0.0426 | 1550 / 363 / 0.0356 | 1550 / 73 / 0.0107 |
+| 5 meV groups | 1259 / 200 / 0.0125 | 1259 / 145 / 0.0106 | 1260 / 7 / 0.0035 |
+| 10 meV groups | 1009 / 56 / 0.0055 | 1010 / 43 / 0.0048 | 1010 / 10 / 0.0017 |
+| 50 meV groups | 348 / 0 / 0.0007 | 348 / 0 / 0.0006 | 349 / 0 / 0.0002 |
+
+- **Reading.** The per-atom weight differences at 1 meV grouping (0.043 GPU-CPU) are of the same size between two CPU runs (0.036). They are run-to-run mixing within near-degenerate In 4d semicore manifolds, not a GPU effect. The GPU run agrees more closely with the CPU repeat (0.011) than the two CPU runs agree with each other. The frozen R0 PROJ rule (1 meV clusters, 1e-3) is not met by the registered CPU route against itself. The A58 gate is unchanged (no gate change; decision for the main session / user).
+- **Caveats.** PBE PAW, spin-unpolarised, Gaussian 0.001 Ry. Crystalline 1 nm (001) slab, OH/H-terminated; route diagnostic only, no physics claim. Two CPU runs and one fixed-route GPU run: the spread is measured from one pair per route.
+
 ## 2026-10-19 07:41Z: A58 GPU route fix, R0 re-test (crystalline 1 nm IWO slab), cluster 13015768: post-processing fixed; registered r0_compare INCOMPLETE
 
 Line numbers: this entry adds 10 lines above the 2026-10-18 21:08Z entry; its original line N is now N + 10.
