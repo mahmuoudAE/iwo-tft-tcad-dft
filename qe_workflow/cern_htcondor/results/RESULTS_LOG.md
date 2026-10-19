@@ -1,5 +1,14 @@
 # CERN results log
 
+## 2026-10-19 15:50Z: A58 force check (MACE-MPA-0 vs DFT forces, 18 thin-cell frames, cluster 13015772): aIWO thin types FAIL on the W first shell, aIO thin types INCOMPLETE (claim C043)
+
+Line numbers: this entry adds 9 lines above the earlier entries; their original line N is now N + 9.
+
+- **Jobs.** 13015772.0-.17, QE 7.5 CPU (D-96 route), unchanged val_node.sh / steps_val.sh, ML_VALIDATION settings (60/480 Ry, Marzari-Vanderbilt 0.01 Ry, k 2x2x1, conv_thr 1e-7, default nbnd), accepted ranks 1 / 11 / 21 of each type at the final MACE geometry; all return value 0, 2026-10-19 07:15-15:45Z. Frozen comparator compare_val.py 4ae21f15 (python -I), output compare_val_A58_T.json 77208b39; exit 3 (INCOMPLETE overall).
+- **aIWO_0p7 / aIWO_0p8 / aIWO_1p0: FAIL.** RMSE_W1 (W + O within 2.60 A, 6-7 atoms) 0.504-1.026, 0.589-0.645, 0.613-1.032 eV/A (limit 0.25); RMSE_all 0.137-0.255, MAE 0.075-0.130 eV/A; no frame above RMSE_all 0.30 (not DIAGNOSTIC_ONLY).
+- **aIO_0p7 / aIO_0p8 / aIO_1p0: INCOMPLETE.** Two computed frames each, all within the limits (RMSE_all 0.084-0.132, MAE 0.064-0.100 eV/A; no W). Not scored (SCF not converged at the val settings: R1 / R3 / R5): aIO_0p7_k01, aIO_0p8_k21, aIO_1p0_k01; no registered retry exists for val frames.
+- **Caveats.** Forces only; PBE PAW, spin-unpolarised; amorphous MACE-quenched OH/H-terminated slabs at MACE geometries (not DFT-relaxed, not crystalline). Same W-first-shell failure as the 2026-10-12 force check (C037).
+
 ## 2026-10-19 10:22Z: A58 R0 CPU-vs-CPU repeat (crystalline 1 nm IWO slab), cluster 13016026: the registered R0 projection check is not met by the CPU route against itself (diagnostic, D-106)
 
 Line numbers: this entry adds 20 lines above the 2026-10-19 07:41Z entry; its original line N is now N + 20.
