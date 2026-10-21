@@ -1,5 +1,12 @@
 # CERN results log
 
+## 2026-10-21 01:18Z: A58 tier-B force check (6 bulk frames, cluster 13035943): aIWO_bulk FAIL on the W first shell, aIO_bulk PASS (claim C044)
+
+Line numbers: this entry adds 6 lines above the earlier entries; their original line N is now N + 6.
+
+- **Jobs.** 13035943.0-.5, QE 7.5 CPU, unchanged val_node.sh / steps_val.sh, ML_VALIDATION settings (60/480 Ry, MV 0.01 Ry, k 2x2x2, conv_thr 1e-7), accepted ranks 1 / 11 / 21 of aIWO_bulk and aIO_bulk at the final MACE geometry; all return value 0. Frozen compare_val.py 4ae21f15; output compare_val_A58_B.json af07dfad.
+- **Result.** aIWO_bulk FAIL: RMSE_W1 0.497 / 0.590 / 0.520 eV/A (limit 0.25), RMSE_all 0.128-0.148, MAE 0.063-0.067. aIO_bulk PASS: RMSE_all 0.062-0.079, MAE 0.048-0.061 eV/A. Forces only; amorphous MACE-quenched bulk cells at MACE geometries; PBE PAW, spin-unpolarised; tier B ran after the A66 window (A69).
+
 ## 2026-10-19 15:50Z: A58 force check (MACE-MPA-0 vs DFT forces, 18 thin-cell frames, cluster 13015772): aIWO thin types FAIL on the W first shell, aIO thin types INCOMPLETE (claim C043)
 
 Line numbers: this entry adds 9 lines above the earlier entries; their original line N is now N + 9.
