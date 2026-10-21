@@ -1,5 +1,12 @@
 # CERN results log
 
+## 2026-10-21 15:23Z: A58 thin force-check retry (A68, cluster 13030670): the 3 aIO frames again unconverged; aIO thin types stay INCOMPLETE (claim C043); A58 status at access end
+
+Line numbers: this entry adds 7 lines above the earlier entries; their original line N is now N + 7.
+
+- **Retry.** aIO_0p7_k01, aIO_0p8_k21, aIO_1p0_k01 with the A15 SCF aids (mixing_beta 0.1, mixing_ndim 12, electron_maxstep 300), otherwise the ML_VALIDATION settings; 13030670.0-.2, QE 7.5 CPU, all return value 0 (finished 06:14Z, 10:43Z, 13:13Z). Frozen compare_val.py 4ae21f15 on the 15 original frames plus the 3 retry frames: compare_val_A58_T_r.json 0c120291. All 3 retries FAIL_NOT_SCORED (SCF not converged, R1/R3/R5). Per type: aIWO_0p7 / 0p8 / 1p0 FAIL (unchanged); aIO_0p7 / 0p8 / 1p0 INCOMPLETE (2 of 3 frames each within limits). One retry only (A68); forces only.
+- **A58 status at access end (sealed counts, no electronic output read).** Bridge 6/6, thin 179/180, tier B 60/60 CONVERGED. ens_aIO_1p0_k15: first attempt FAILED_SCF; its one aid retry 13030512 was still running at the access end (not returned, "not computed"). Two tier-B points ran on both routes; the first-started GPU copies are the results, the CPU copies are sealed apart and never used.
+
 ## 2026-10-21 01:18Z: A58 tier-B force check (6 bulk frames, cluster 13035943): aIWO_bulk FAIL on the W first shell, aIO_bulk PASS (claim C044)
 
 Line numbers: this entry adds 7 lines above the earlier entries; their original line N is now N + 7.
