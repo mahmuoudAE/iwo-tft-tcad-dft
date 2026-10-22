@@ -1,0 +1,260 @@
+{
+  "schema": "IWO_material_model_v3",
+  "status": "V3 (2026-10-10): DFT fit3 thickness laws, shared Qf / Ns / WT / mu_inf / ell at the S4 start values; nothing here is a calibration result yet (S4 replaces the FITTED values, S5 tests transferability retrospectively)",
+  "composition": {
+    "xW_at_percent": 2.0,
+    "definition": "NOT DETERMINED FROM AVAILABLE DATA: the target paper states \"IWO (~2% W)\" without specifying atomic %, cation %, mol% WO3 or target composition; treated as a material label, never converted to a donor density."
+  },
+  "temperature_K": {
+    "value": 300.0,
+    "label": "ASSUMED",
+    "note": "measurement temperature not recorded in workbook"
+  },
+  "bulk_reference": {
+    "Eg_bulk_eV": {
+      "value": 3.05,
+      "label": "LITERATURE",
+      "source": "Fan2021_Nanomaterials Sec.3 (different sputtered IWO device); dft_inputs.json bulk.TCAD_Eg_bulk_eV",
+      "uncertainty_eV": 0.2
+    },
+    "chi_bulk_eV": {
+      "value": 4.3,
+      "label": "LITERATURE",
+      "source": "Fan2021_Nanomaterials Sec.3 (composition-mixing estimate); degenerate with the gate work function and Qf. DFT bulk-equivalent EA 4.776 eV (PBE, H-(001), dft_inputs.json bulk.EA_bulk_equivalent_eV) is termination-specific and NOT used",
+      "uncertainty_eV": 0.3
+    },
+    "mstar_bulk_m0": {
+      "value": 0.208,
+      "label": "LITERATURE",
+      "source": "Stokey2021_JAP optical Hall (pure In2O3); PBE bulk 0.159 m0 (COMPUTED, dft_inputs.json bulk.mstar_PBE_m0) is an S6 sensitivity only (PBE gap too small -> mass too small)"
+    },
+    "eps_r": {
+      "value": 9.3,
+      "label": "MEASURED",
+      "source": "Januar2026 SI Fig.S1 (C-V, IWO 9.30+/-0.04; the fab's measurement)"
+    },
+    "Nv300_cm3": {
+      "value": 1e+19,
+      "label": "ASSUMED",
+      "note": "holes are not solved (electrons-only DD); enters only ni"
+    },
+    "hole_mobility_cm2Vs": {
+      "value": 0.01,
+      "label": "ASSUMED"
+    },
+    "srh_tau_s": {
+      "value": 1e-06,
+      "label": "ASSUMED",
+      "note": "background SRH (user requirement: SRH on); CALCULATED bound >= 1e16 below the floors (GENERATOR_AUDIT 7.1)"
+    }
+  },
+  "thickness_laws": {
+    "dEg_QC_eV": {
+      "form": "a * t_nm^(-p), t = H-H slab thickness = device thickness (ASSUMED identification)",
+      "a": 0.81431,
+      "p": 1.31518,
+      "label": "FITTED to COMPUTED DFT points (H-H 0.695/0.930/1.962 nm), no device data",
+      "source": "dft_inputs.json laws.dEg_eV (dft_to_tcad_extract.py; relative residuals 0.003/-0.004/0.001); 6.3 and 13.2 nm are extrapolations",
+      "fit_points": [
+        {
+          "t_nm": 0.695,
+          "dE_eV": 1.3099,
+          "source": "COMPUTED: qe_workflow/cern_htcondor/results/slabL2_relax_v2/scf.out minus bulk 0.8887 eV (dft_inputs.json films.0.75.dEg_PBE_eV)"
+        },
+        {
+          "t_nm": 0.93,
+          "dE_eV": 0.8998,
+          "source": "COMPUTED: qe_workflow/cern_htcondor/results/slab1r_final_cpu/scf.out (dft_inputs.json films.1.0.dEg_PBE_eV)"
+        },
+        {
+          "t_nm": 1.962,
+          "dE_eV": 0.3352,
+          "source": "COMPUTED: qe_workflow/cern_htcondor/results/slab2_relax_c2/scf.out (dft_inputs.json films.2.0.dEg_PBE_eV)"
+        }
+      ],
+      "points": {},
+      "note": "PBE; HSE06/PBE ratio 1.06-1.11 measured at 1 nm only (COMPUTED, dft_inputs.json hse_check) -> x1.107 is an S6 sensitivity; EG300 enters only n_i (holes not solved)"
+    },
+    "band_edge_partition": {
+      "dEc_over_dEg": 1.0,
+      "label": "not used (dEc_eV below has its own law)"
+    },
+    "Eg_eV": "Eg_bulk + dEg_QC(t)",
+    "chi_eV": "chi_bulk - dEc(t)",
+    "mstar_m0": {
+      "form": "mstar_bulk (LITERATURE 0.208) + b * t_nm^(-q)",
+      "b": 0.11116,
+      "q": 1.26387,
+      "label": "LITERATURE bulk 0.208 + increment law FITTED to COMPUTED DFT points (no device data)",
+      "source": "dft_inputs.json laws.dm_m0 (PBE in-plane CB-mass increments film minus bulk 0.159 at H-H 0.695/0.930/1.962 nm = 0.1758/0.1221/0.0474 m0; residuals <= 0.2 %); m*(2.0/6.3/13.2 nm) = 0.2543/0.2189/0.2123 m0",
+      "fit_points": [
+        {
+          "t_nm": 0.695,
+          "dm_m0": 0.1758
+        },
+        {
+          "t_nm": 0.93,
+          "dm_m0": 0.1221
+        },
+        {
+          "t_nm": 1.962,
+          "dm_m0": 0.0474
+        }
+      ],
+      "points": {}
+    },
+    "Nc300_cm3": {
+      "form": "2*(2*pi*m*kT/h^2)^1.5 (3-D) unless solver.physics_options.nc300_override_cm3 lists the thickness",
+      "label": "CALCULATED",
+      "quasi2d_reference_cm3": {
+        "2.0": 1.373e+19
+      },
+      "quasi2d_label": "CALCULATED N2D/t = m*(2 nm) m0 kT/(pi hbar^2 t) with m*(2 nm) = 0.2543 (LITERATURE + DFT dm law); single subband because COMPUTED E21 = 0.7191 eV >> kT (dft_inputs.json films.2.0.E2_minus_E1_Gamma_eV); NOT read by the generator - applied only through the physics option (pre-registered rule: 2.0 nm only; 6.3 nm x1.467 is an S6 sensitivity, MODEL E21 0.137 eV)"
+    },
+    "Nt_cm3": {
+      "form": "Nt2 * (2/t_nm)^alpha  (alpha = 1 -> Nt = Ns/t: integrated tail Ns spread uniformly over the film)",
+      "Nt2": 4.4285e+19,
+      "alpha": 1.0,
+      "Ns_cm2": 4000000000000.0,
+      "label": "FITTED shared (S4 launches); start Ns = 4e12 cm^-2 = V1 FITTED 2 nm anchor (Nt2 = Ns / 2 nm); surface/bulk placement is an S3 data-selected branch"
+    },
+    "WTA_eV": {
+      "value": 0.0572,
+      "label": "FITTED shared (S4 launches); start = V1 FITTED 2 nm value",
+      "Tt_K": 464.0,
+      "note": "Januar2026 reports only dTt under stress; absolute Tt NOT DETERMINED FROM AVAILABLE DATA"
+    },
+    "NTA_cm3_eV": "Nt(t)/WTA  (gTA(E)=NTA*exp((E-Ec)/WTA); integral over the gap = NTA*WTA*(1-exp(-Eg/WTA)) ~ NTA*WTA)",
+    "Nd_eff_cm3": {
+      "form": "Nd0 * (1 + (t_nm/tc)^k); tc = 1e9 nm -> constant Nd0 (the fitted (1+(t/20)^4) law of V1/V2 is retired)",
+      "Nd0": 2.5e+17,
+      "tc_nm": 1000000000.0,
+      "k": 4.0,
+      "label": "FITTED V1 donor amplitude, kept fixed; constant thickness dependence ASSUMED (effective electrically active donor density, NOT the W concentration); x0.1 / x10 in S6",
+      "provenance": "Nd0 = 2.5e17 is the amplitude of the V1 law Nd0*(1+(t/20)^4), FITTED to the V0 per-film values 2e17 / 3e17 / 3e17 / 2.65e18 cm^-3 (config/iwo_material_model.yaml \"FITTED law\"; iwo-tft-research-private/01_CURRENT_STATE.md section E; not identifiable). V3 keeps that fitted amplitude fixed (not re-fitted in the 2026-10-10 campaign) and drops the thickness term: the constant form is ASSUMED.",
+      "support": "COMPUTED: W is a fully ionised resonant donor, level +1.2..+1.8 eV above Ec (dft_inputs.json W.conclusion_for_TCAD); compensation not computed, so the value is not DFT-based"
+    },
+    "mu0_cm2Vs": {
+      "form": "mu_band(t) * (1 - Dsr/t)^2",
+      "Dsr_nm": 0.287,
+      "Dsr_label": "LITERATURE (Januar2026 Fig.5f, 2.87 A)",
+      "mu_band_fitted": {
+        "2.0": 17.6897,
+        "6.3": 26.4131,
+        "13.2": 63.2597
+      },
+      "label": "shared law mu_inf*(0.208/m*(t))/(1+ell/t) at the S4 start values (listed films; the law below for any other thickness). MUN = 12.977 / 40.261 / 60.539 cm2/Vs",
+      "gate_dependence": "NOT inserted natively: ATLAS 5.28.1.R ignores MOBILITY updates between SOLVEs (EMPIRICAL, run_0008); the free/trapped partition is produced self-consistently by the DOS occupancy; IGZO.TOKYO (physics option) is the carrier-density branch",
+      "anchor_thicknesses_nm": [
+        2.0,
+        6.3,
+        13.2
+      ],
+      "shared_law": {
+        "form": "mu_inf * (m_ref/m*(t)) / (1 + ell/t)   (Matthiessen: bulk + interface scattering ~ 1/t; constant-tau mass factor)",
+        "mu_inf_cm2Vs": 100.005,
+        "ell_nm": 7.248,
+        "m_ref_m0": 0.208,
+        "label": "FITTED shared law (mu_inf, ell profiled offline on the three thin films; start values pass through the V2 FITTED anchors); mass factor CALCULATED (LITERATURE 0.208 + DFT dm law)"
+      }
+    },
+    "dEc_eV": {
+      "form": "a * t_nm^(-p)  (fit3)",
+      "a": 0.70147,
+      "p": 1.31669,
+      "label": "FITTED to COMPUTED DFT points (H-H 0.695/0.930/1.962 nm), no device data",
+      "source": "dft_inputs.json laws.dEc_eV.fit3 (relative residuals 0.07/-0.09/0.027); 0.2816/0.0622/0.0235 eV at 2.0/6.3/13.2 nm; extrapolation spread 0.046-0.062 (6.3) and 0.013-0.024 eV (13.2) -> S6 low/high runs",
+      "fit_points": [
+        {
+          "t_nm": 0.695,
+          "dE_eV": 1.0586,
+          "source": "COMPUTED: slabL2_relax_v2 (2 nm two-step + same-termination EA difference; dft_inputs.json films.0.75.dEc_PBE_eV)"
+        },
+        {
+          "t_nm": 0.93,
+          "dE_eV": 0.8478,
+          "source": "COMPUTED: slab1r_final_cpu (dft_inputs.json films.1.0.dEc_PBE_eV)"
+        },
+        {
+          "t_nm": 1.962,
+          "dE_eV": 0.2813,
+          "source": "COMPUTED: slab2_relax_c2 two-step alignment (dft_inputs.json films.2.0.dEc_PBE_eV)"
+        }
+      ],
+      "points": {},
+      "note": "PBE; conduction-band share of the gap opening 0.81/0.94/0.84 at 0.695/0.93/1.96 nm (COMPUTED); HSE x1.107 is an S6 sensitivity"
+    }
+  },
+  "traps": {
+    "bulk_acceptor_tail": {
+      "atlas": "DEFECTS NTA WTA (cm^-3/eV, eV), acceptor-like, referenced to Ec",
+      "capture_cm2": 1e-15,
+      "capture_label": "ASSUMED"
+    },
+    "bulk_deep_acceptor_gaussian": {
+      "NGA_cm3_eV": 5e+16,
+      "EGA_from_Ec_eV": 0.6,
+      "WGA_eV": 0.15,
+      "label": "ASSUMED (V2 continuity; Fan2021 range 2.5-3.7e16 for a different device); zero in S6"
+    },
+    "bulk_donor_tail": {
+      "NTD_cm3_eV": 0,
+      "label": "ASSUMED zero (valence tail has negligible effect on n-type transfer curves; Fan2021)"
+    },
+    "shallow_donor_gaussian": {
+      "NGD_cm3_eV": 0,
+      "label": "ASSUMED zero: the donor background is the constant Nd (W fully ionised, COMPUTED)"
+    },
+    "interface_acceptor_sheet": {
+      "peak_cm2_eV": 300000000000.0,
+      "center_from_Ec_eV": 0.3,
+      "width_eV": 0.12,
+      "label": "ASSUMED, shared across thickness; LITERATURE-scale Dit(HfO2/In2O3) ~6e11 cm^-2/eV (proxy; here IWO/Al2O3); zero in S6",
+      "implementation": "regularized 0.25 nm IWO layer at the Al2O3 interface: volume amplitude = sheet peak / 0.25 nm (numerically verified: layer /2 changes Id by 0.009 dec)"
+    },
+    "fixed_interface_charge_Qf_cm2": {
+      "value": 1611690000000.0,
+      "label": "FITTED shared (one value for all films, carries the alignment offset dV0); S4 start = V2 FITTED value (least squares on the 2 and 13.2 nm anchors); profiled offline, range -1.4e12 .. 4.2e12"
+    },
+    "back_surface_donor_sheet": {
+      "peak_cm2_eV": 0.0,
+      "center_from_Ec_eV": 0.02,
+      "width_eV": 0.05,
+      "label": "OFF (HYPOTHESIS of V1 stage 6, 31.8 nm only); not used in the 2026-10-10 campaign"
+    }
+  },
+  "contacts": {
+    "gate_workfunction_eV": {
+      "value": 4.7,
+      "label": "ASSUMED (TiN 4.5-4.9 eV literature range); degenerate with Qf and chi -> held fixed"
+    },
+    "source_drain": {
+      "model": "ideal Ohmic (no workfunction)",
+      "label": "ASSUMED; underconstrained (no TLM); Schottky branch = physics option schottky_sd"
+    },
+    "series_resistance_ohm_um": {
+      "2.0": 0,
+      "6.3": 0,
+      "13.2": 0,
+      "31.8": 92000.0,
+      "label": "31.8 nm only, FITTED V1 hypothesis; the campaign S7 runs set it to 0 (contacts.series_resistance_ohm_um[31.8]=0)"
+    }
+  },
+  "geometry": {
+    "L_um": 20.0,
+    "W_um": 290.0,
+    "sim_width_um": 1.0,
+    "hfo2_nm": 15.0,
+    "al2o3_nm": 2.0,
+    "contact_overlap_um": {
+      "value": 2.0,
+      "label": "ASSUMED numerical contact geometry (not reported)"
+    },
+    "eps_hfo2": 19.57,
+    "eps_al2o3": {
+      "value": 9.0,
+      "label": "ASSUMED"
+    },
+    "top_of_channel": "AIR (no cap)"
+  }
+}

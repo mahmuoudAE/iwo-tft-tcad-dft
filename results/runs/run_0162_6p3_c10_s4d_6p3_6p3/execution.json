@@ -1,0 +1,215 @@
+{
+  "run_id": "run_0162",
+  "thickness_nm": 6.3,
+  "label": "c10_s4d_6p3_6p3",
+  "elapsed_s": 961.6885047999967,
+  "returncode": 0,
+  "timed_out": false,
+  "scan": {
+    "warnings": [
+      "Warning: Projection cannot be done with"
+    ],
+    "convergence_flags": [],
+    "errors": [],
+    "banner": true,
+    "finished": true,
+    "static_solutions": 114,
+    "banner_present": true
+  },
+  "requested_points": 76,
+  "overrides": [
+    "thickness_laws.dEc_eV.a=0.70147",
+    "thickness_laws.dEc_eV.p=1.31669",
+    "thickness_laws.dEg_QC_eV.a=0.81431",
+    "thickness_laws.dEg_QC_eV.p=1.31518",
+    "thickness_laws.mstar_m0.b=0.11116",
+    "thickness_laws.mstar_m0.q=1.26387",
+    "thickness_laws.Nt_cm3.Nt2=4.4285e+19",
+    "thickness_laws.Nt_cm3.alpha=1",
+    "thickness_laws.WTA_eV.value=0.0572",
+    "thickness_laws.Nd_eff_cm3.Nd0=2.5e+17",
+    "thickness_laws.Nd_eff_cm3.tc_nm=1e9",
+    "traps.fixed_interface_charge_Qf_cm2.value=1.61169e+12",
+    "thickness_laws.mu0_cm2Vs.mu_band_fitted[6.3]=26.4131",
+    "solver.dos_levels.numa=384",
+    "solver.dos_levels.numd=192",
+    "solver.tmun=0",
+    "solver.physics_options.mobility.model=igzo_tokyo",
+    "solver.physics_options.mobility.gamma0=-0.31",
+    "solver.physics_options.mobility.tgamma=178.4",
+    "solver.physics_options.mobility.ncrit=1e20"
+  ],
+  "process_guard": {
+    "version": "2026-10-13c",
+    "job": "assigned (JOB_OBJECT_LIMIT_BREAKAWAY_OK; no kill-on-close)",
+    "viewer_policy": "record",
+    "viewer_names": [
+      "tonyplot.exe",
+      "tonyplot3d.exe"
+    ],
+    "keep_names": [
+      "sflm_monitord.exe",
+      "rpc.sflmserverd.exe",
+      "sflm.exe",
+      "sflmserverd.exe"
+    ],
+    "launched_pid": 25836,
+    "capture": "best-effort: job assignment follows the launch and breakaway is allowed (Codex D4); parent-pid tracking otherwise",
+    "processes_seen": [
+      {
+        "pid": 32672,
+        "ppid": 25836,
+        "name": "sflm_monitord.exe",
+        "created_utc": "2026-10-15T19:47:59.435Z",
+        "first_seen_utc": "2026-10-15T19:47:59.522Z",
+        "in_job": true
+      },
+      {
+        "pid": 14440,
+        "ppid": 32672,
+        "name": "conhost.exe",
+        "created_utc": "2026-10-15T19:47:59.451Z",
+        "first_seen_utc": "2026-10-15T19:47:59.522Z",
+        "in_job": true
+      },
+      {
+        "pid": 552,
+        "ppid": 25836,
+        "name": "deckbuild.exe",
+        "created_utc": "2026-10-15T19:47:59.566Z",
+        "first_seen_utc": "2026-10-15T19:48:00.587Z",
+        "in_job": true
+      },
+      {
+        "pid": 14460,
+        "ppid": 552,
+        "name": "atlas.exe",
+        "created_utc": "2026-10-15T19:48:08.193Z",
+        "first_seen_utc": "2026-10-15T19:48:08.516Z",
+        "in_job": false
+      },
+      {
+        "pid": 1864,
+        "ppid": 14460,
+        "name": "conhost.exe",
+        "created_utc": "2026-10-15T19:48:08.282Z",
+        "first_seen_utc": "2026-10-15T19:48:08.516Z",
+        "in_job": false
+      },
+      {
+        "pid": 7476,
+        "ppid": 14460,
+        "name": "atlas.exe",
+        "created_utc": "2026-10-15T19:48:08.472Z",
+        "first_seen_utc": "2026-10-15T19:48:09.717Z",
+        "in_job": false
+      },
+      {
+        "pid": 46700,
+        "ppid": 7476,
+        "name": "atlas2.exe",
+        "created_utc": "2026-10-15T19:48:09.793Z",
+        "first_seen_utc": "2026-10-15T19:48:10.916Z",
+        "in_job": false
+      }
+    ],
+    "viewers": [],
+    "kill": null,
+    "errors": [],
+    "pipes": {
+      "stdout_eof": true,
+      "stderr_eof": true,
+      "read_errors": []
+    }
+  },
+  "validation": {
+    "kcl_abs_limit_applied_A": 1.5275900000000002e-14,
+    "kcl_floor_basis": "max(1e-17 A, 0.1 x median measured Id over Vg in [-2,-0.5] V)",
+    "measured_floor_A_per_um": 1.52759e-13,
+    "max_kcl_abs_A": 2.53010756e-17,
+    "kcl_fail_count": 0,
+    "kcl_fail_vg": [],
+    "wrong_sign_count": 0,
+    "nonpositive_count": 15
+  },
+  "fit_metrics": {
+    "regions": {
+      "all": {
+        "count": 121,
+        "rmse_log10": 14.265588999599059,
+        "max_abs_log10": 27.31211809194068,
+        "mean_log10": -8.280599565757038,
+        "rmse_linear_A_per_um": 9.783233713601113e-08,
+        "median_abs_relative": 0.9999993861957146
+      },
+      "active": {
+        "count": 56,
+        "rmse_log10": 0.3382474512023089,
+        "max_abs_log10": 1.2300658518183383,
+        "mean_log10": 0.28602283935500256,
+        "rmse_linear_A_per_um": 1.4380735553988623e-07,
+        "median_abs_relative": 0.855222235345211
+      },
+      "subthreshold": {
+        "count": 12,
+        "rmse_log10": 0.5421146066849809,
+        "max_abs_log10": 1.2300658518183383,
+        "mean_log10": 0.413678025451905,
+        "rmse_linear_A_per_um": 4.332450294683183e-10,
+        "median_abs_relative": 0.7909819647874007
+      },
+      "on": {
+        "count": 44,
+        "rmse_log10": 0.255857558931169,
+        "max_abs_log10": 0.29663132986846463,
+        "mean_log10": 0.2512077886013019,
+        "rmse_linear_A_per_um": 1.622364195183534e-07,
+        "median_abs_relative": 0.855222235345211
+      },
+      "low_current": {
+        "count": 65,
+        "rmse_log10": 19.46118169201353,
+        "max_abs_log10": 27.31211809194068,
+        "mean_log10": -15.661074253238182,
+        "rmse_linear_A_per_um": 2.8169202528609643e-12,
+        "median_abs_relative": 1.000000017992725
+      }
+    },
+    "on_error_3V_percent": 79.09272074715949,
+    "nonpositive_pred_count": 32,
+    "off_band_median_A_per_um": 1.52759e-13,
+    "max_abs_log10_active": 1.2300658518183383,
+    "log_treatment": "log10(max(pred,1e-40)) - log10(meas)"
+  },
+  "device_metrics_sim": {
+    "Vth_cc_1e-9_V": 0.5968083425818039,
+    "Vth_lin_V": 1.6608110612744147,
+    "SS_mV_dec": 147.70609542971818,
+    "SS_min_window_mV_dec": 147.70609542971818,
+    "SS_cc_1e-10_1e-8_mV_dec": 309.20903271731066,
+    "gm_max_A_V_um": 5.395399999999982e-07,
+    "mu_FE_cm2Vs": 17.213614726162568,
+    "Ion_A_per_um": 7.22546e-07,
+    "Ioff_A_per_um": 1.2367275000000252e-21,
+    "Ioff_definition": "min Id over sweep (min POSITIVE; native zeros counted)",
+    "native_zero_count": 32,
+    "Ion_over_Ioff": 584240263113729.8,
+    "off_band_median_A_per_um": null
+  },
+  "device_metrics_exp": {
+    "Vth_cc_1e-9_V": 0.6440037102307175,
+    "Vth_lin_V": 1.8199688146658495,
+    "SS_mV_dec": 114.6732332017215,
+    "SS_min_window_mV_dec": 114.6732332017215,
+    "SS_cc_1e-10_1e-8_mV_dec": 295.3670282761616,
+    "gm_max_A_V_um": 3.431099999999996e-07,
+    "mu_FE_cm2Vs": 10.946664471019112,
+    "Ion_A_per_um": 4.03448e-07,
+    "Ioff_A_per_um": 5.86207e-15,
+    "Ioff_definition": "min Id over sweep",
+    "native_zero_count": 0,
+    "Ion_over_Ioff": 68823470.2076229,
+    "off_band_median_A_per_um": 1.52759e-13
+  },
+  "status": "REAL_ATLAS_SCORED"
+}
