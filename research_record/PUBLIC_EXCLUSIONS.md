@@ -1,4 +1,4 @@
-# Public exclusions (2026-10-15; updated 2026-10-22)
+# Public exclusions (2026-10-15; updated 2026-10-23)
 
 `research_record/` is a copy of the tracked files of the private research repo
 (`iwo-tft-research-private`, commit 21895d2) made with `git archive`. Some files were left out of
@@ -49,6 +49,23 @@ Everything below stays local and untracked. The explicit patterns are in `.gitig
 | 2026-10-22 | `analysis_2026-10-10_campaign/profile/p1_floor_record_REG-001.json`, `p1_a55_manifest_REG-001.json` | REG-001 (hash-only, D-102). These two files were also removed from the unpushed local commits before the 2026-10-22 push, so they never reached the public history. The commit that added them stays in the history as an empty commit with a neutral message (no seal hash, no outcome) |
 | 2026-10-22 | `analysis_2026-10-10_campaign/profile/s5_A53/**` (21 files), `config/campaign_C10_S5_{h6p3_t1,h6p3_t2,h6p3_t3,h6p3_t4,h6p3_pred,h2p0_t1,h2p0_t2,h13p2_t1,h13p2_t2}.json`, `analysis_2026-10-10_campaign/branch_d/branch_d_T*.json` (4), `analysis_2026-10-10_campaign/fp_plans.py`, `analysis_2026-10-10_campaign/profile/fp_record_A60.json` | pending user confirmation: S5 LOO and branch-D records (the S5 leave-one-film-out records and the route plans resolved from them; the branch-D read-outs of run_0097..run_0099; the A60 generator and record, which state an S5 fold status). They were removed from the unpushed local commits before the push, and the S5 / branch-D result values in those commit messages are replaced by "[withheld pending user OK]". Section "pending user OK 2026-10-22" of `.gitignore` |
 | 2026-10-22 | `results/RUN_INDEX.csv`: the rows of every run listed above | as the run (sealed, restricted, unread or REG-001) |
+
+### Published by user decision 2026-10-22 ("Publish"; recorded 2026-10-23)
+
+The frozen-code fit / score records of the sealed S3 and S4a runs are published. They are registered read-outs made by
+frozen code under the logged frozen-code routes A49 (d), A50, A51 (d) and A52 (sealed curves are read only through
+`profile_s4s5.py`, `config/sealed_runs.json`). The rule "no output content of runs 0079-0156" is amended for these
+records only. The sealed raw run directories `results/runs/run_0102_*` .. `run_0156_*` stay excluded (row above).
+
+| Date | Path or pattern | Status |
+|---|---|---|
+| 2026-10-22 | `analysis_2026-10-10_campaign/register_scores/hf_v4_A49.json` | published (A49 (d), A50: H-F v4 score, S3-10 shape fit, IGZO triple profile, S3-27 check) |
+| 2026-10-22 | `analysis_2026-10-10_campaign/profile/s3_adoption_A49.json` | published (A49 (d), A50: S3 adoption record) |
+| 2026-10-22 | `analysis_2026-10-10_campaign/profile/s4s5_confirm_S3-27_run_0103_vs_run_0102.json` | published (A49 (d): S3-27 confirmation record; the file name carries sealed run ids) |
+| 2026-10-22 | `analysis_2026-10-10_campaign/profile/s4s5_profile_n_S4A-01.json` .. `s4s5_profile_n_S4A-15.json` (15) | published (A49 (d): S4a profiles; S4A-01 reuses public runs, S4A-02..15 read runs 0114-0156) |
+| 2026-10-22 | `analysis_2026-10-10_campaign/profile/s4a_archive_A51.json`, `s4s5_surrogate_s4a_archive_A51.json` | published (A51 (d): S4a archive, surrogate and abort verdict) |
+| 2026-10-22 | `analysis_2026-10-10_campaign/profile/s4c_record_A52.json`, `s4c_confirm_A52.json` | published (A52: S4c record from the S4A-04 profile of runs 0120-0122, and its confirmation) |
+| 2026-10-22 | Messages of commits 9b43d30, 275e3ee, 338f812, a6ff6cb, a8dca98, 5af9019 (metrics of these records) | published |
 
 How `results/RUN_INDEX.csv` is handled (2026-10-22): the committed version is a filtered copy. It holds the rows that
 were already public, unchanged, plus the rows of run_0078, run_0157..0159 and run_0161..0163, in the original order.
